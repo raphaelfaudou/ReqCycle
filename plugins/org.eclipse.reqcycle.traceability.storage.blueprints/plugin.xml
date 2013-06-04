@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.agesys.inject.binding">
+      <binding
+            impl="org.eclipse.reqcycle.traceability.storage.blueprints.storage.GraphStorageProvider"
+            interface="org.eclipse.reqcycle.traceability.storage.IStorageProvider"
+            priority="100">
+      </binding>
+      <binding
+            impl="org.eclipse.reqcycle.traceability.storage.blueprints.graph.impl.TinkerGraphProvider"
+            interface="org.eclipse.reqcycle.traceability.storage.blueprints.graph.IGraphProvider"
+            priority="10">
+      </binding>
+   </extension>
+
+</plugin>

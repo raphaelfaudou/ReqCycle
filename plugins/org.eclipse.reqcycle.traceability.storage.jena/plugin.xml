@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.agesys.inject.binding">
+      <binding
+            impl="org.eclipse.reqcycle.traceability.storage.jena.JenaTraceabilityStorageEngine"
+            interface="org.eclipse.reqcycle.traceability.storage.IStorageProvider"
+            name="Jena"
+            priority="1">
+      </binding>
+   </extension>
+
+</plugin>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.reqcycle.uri.reachableHandler">
+      <reachableHandler
+            handler="org.eclipse.reqcycle.jdt.handlers.JDTReachableHandler">
+      </reachableHandler>
+      <objectHandler
+            handler="org.eclipse.reqcycle.jdt.handlers.JDTReachableHandler"></objectHandler>
+   </extension>
+   <extension
+         point="org.eclipse.reqcycle.types.types">
+      <type
+            checker="org.eclipse.reqcycle.jdt.handlers.JDTReachableHandler"
+            icon="icons/java.gif"
+            id="org.eclipse.reqcycle.jdt.type"
+            label="Java Element">
+      </type>
+      <type
+            checker="org.eclipse.reqcycle.jdt.types.MethodChecker"
+            icon="icons/jmeth_obj.gif"
+            id="org.eclipse.reqcycle.jdt.type.method"
+            label="Java Method"
+            subTypeOf="org.eclipse.reqcycle.jdt.type">
+      </type>
+   </extension>
+
+</plugin>

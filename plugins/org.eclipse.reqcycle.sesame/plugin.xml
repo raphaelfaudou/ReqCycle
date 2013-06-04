@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.agesys.inject.binding">
+         <binding
+            impl="org.eclipse.reqcycle.sesame.graph.RDFGraphStorageProvider"
+            interface="org.eclipse.reqcycle.traceability.storage.IStorageProvider"
+            name="RDF"
+            priority="0">
+      </binding>
+      <binding
+            impl="org.eclipse.reqcycle.sesame.graph.SailGraphProvider"
+            interface="org.eclipse.reqcycle.traceability.storage.blueprints.graph.IGraphProvider"
+            name="RDF"
+            priority="0">
+      </binding>
+      <binding
+            impl="org.eclipse.reqcycle.sesame.graph.SesameBinaryGraphProvider"
+            interface="org.eclipse.reqcycle.traceability.storage.blueprints.graph.IGraphProvider"
+            priority="100">
+      </binding>
+   </extension>
+   <extension
+         point="org.eclipse.reqcycle.uri.reachableHandler">
+      <reachableHandler
+            handler="org.eclipse.reqcycle.sesame.handlers.SesameHandler">
+      </reachableHandler>
+      <objectHandler
+            handler="org.eclipse.reqcycle.sesame.handlers.SesameHandler">
+      </objectHandler>
+   </extension>
+   <extension
+         point="org.eclipse.reqcycle.traceability.builder.traceabilityAnalyser">
+      <Analyser
+            visitor="org.eclipse.reqcycle.sesame.traceability.TraceabilityVisitor">
+      </Analyser>
+   </extension>
+ 	
+</plugin>

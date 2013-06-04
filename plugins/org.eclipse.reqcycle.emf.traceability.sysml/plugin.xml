@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.reqcycle.traceability.builder.traceabilityAnalyser">
+      <Analyser
+            visitor="org.eclipse.reqcycle.emf.traceability.sysml.handler.SysMLTraceabilityVisitor">
+      </Analyser>
+   </extension>
+   <extension
+         point="org.eclipse.reqcycle.types.types">
+      <type
+            checker="org.eclipse.reqcycle.emf.traceability.sysml.types.SysMLTypeChecker"
+            icon="icons/category_sysml.gif"
+            id="org.eclipse.reqcycle.emf.traceability.sysml"
+            label="SysML Element"
+            subTypeOf="org.eclipse.reqcycle.emf.type">
+      </type>
+      <type
+            checker="org.eclipse.reqcycle.emf.traceability.sysml.types.UMLTypeChecker"
+            icon="icons/category_uml.gif"
+            id="org.eclipse.reqcycle.emf.traceability.uml"
+            label="UML Element"
+            subTypeOf="org.eclipse.reqcycle.emf.type">
+      </type>
+   </extension>
+
+</plugin>

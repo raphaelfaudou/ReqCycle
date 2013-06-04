@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Ui
+Bundle-SymbolicName: org.eclipse.reqcycle.types.ui
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.eclipse.reqcycle.types.ui.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.reqcycle.types;bundle-version="1.0.0",
+ com.google.guava;bundle-version="10.0.1",
+ org.eclipse.reqcycle.uri;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.eclipse.reqcycle.types.ui.providers

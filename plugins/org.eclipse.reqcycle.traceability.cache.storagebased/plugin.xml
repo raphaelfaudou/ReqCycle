@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.agesys.inject.binding">
+      <binding
+            impl="org.eclipse.reqcycle.traceability.cache.storagebased.engine.StorageBasedTraceabilityEngine"
+            interface="org.eclipse.reqcycle.traceability.engine.ITraceabilityEngine"
+            priority="10000">
+      </binding>
+   </extension>
+
+</plugin>

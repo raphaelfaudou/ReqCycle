@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.reqcycle.traceability.types/src" editDirectory="/org.eclipse.reqcycle.traceability.types.ui/src"
+    editorDirectory="" modelPluginID="org.eclipse.reqcycle.traceability.types" modelName="TypeConfiguration"
+    editPluginClass="org.eclipse.reqcycle.traceability.types.ui.configuration.typeconfiguration.provider.TypeConfigurationEditPlugin"
+    editorPluginClass="" testsDirectory="" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false" editPluginID="org.eclipse.reqcycle.traceability.types.ui"
+    editorPluginID="org.eclipse.reqcycle.traceability.types.editor" testsPluginID="org.eclipse.reqcycle.traceability.types.editor">
+  <foreignModel>TypeConfiguration.ecore</foreignModel>
+  <genPackages prefix="Typeconfiguration" basePackage="org.eclipse.reqcycle.traceability.types.configuration"
+      disposableProviderFactory="true" generateExampleClass="false" ecorePackage="TypeConfiguration.ecore#/">
+    <genDataTypes ecoreDataType="TypeConfiguration.ecore#//IType"/>
+    <genClasses ecoreClass="TypeConfiguration.ecore#//TypeConfigContainer">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TypeConfiguration.ecore#//TypeConfigContainer/types"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TypeConfiguration.ecore#//TypeConfigContainer/configurations"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TypeConfiguration.ecore#//TypeConfigContainer/defaultConfiguration"/>
+    </genClasses>
+    <genClasses ecoreClass="TypeConfiguration.ecore#//Type">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TypeConfiguration.ecore#//Type/typeId"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TypeConfiguration.ecore#//Type/outgoings"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TypeConfiguration.ecore#//Type/incomings"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TypeConfiguration.ecore#//Type/isExtensible"/>
+      <genOperations ecoreOperation="TypeConfiguration.ecore#//Type/getIType"/>
+    </genClasses>
+    <genClasses ecoreClass="TypeConfiguration.ecore#//Relation">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TypeConfiguration.ecore#//Relation/upstreamType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TypeConfiguration.ecore#//Relation/downstreamType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TypeConfiguration.ecore#//Relation/kind"/>
+    </genClasses>
+    <genClasses ecoreClass="TypeConfiguration.ecore#//Configuration">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TypeConfiguration.ecore#//Configuration/relations"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TypeConfiguration.ecore#//Configuration/name"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference TypeConfiguration.ecore#//Configuration/parent"/>
+    </genClasses>
+    <genClasses ecoreClass="TypeConfiguration.ecore#//CustomType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TypeConfiguration.ecore#//CustomType/superType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TypeConfiguration.ecore#//CustomType/entries"/>
+    </genClasses>
+    <genClasses ecoreClass="TypeConfiguration.ecore#//Entry">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TypeConfiguration.ecore#//Entry/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TypeConfiguration.ecore#//Entry/value"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

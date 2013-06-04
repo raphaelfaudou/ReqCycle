@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Cdt
+Bundle-SymbolicName: org.eclipse.reqcycle.jdt;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.eclipse.reqcycle.jdt.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.reqcycle.uri,
+ org.eclipse.core.resources;bundle-version="3.8.1",
+ org.eclipse.jdt.core;bundle-version="3.8.3",
+ org.agesys.inject;bundle-version="1.0.0",
+ org.eclipse.reqcycle.types;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

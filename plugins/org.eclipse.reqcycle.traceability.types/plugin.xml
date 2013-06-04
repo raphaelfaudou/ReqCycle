@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://www.org.eclipse.reqcycle/typeconfiguration/1.0"
+            class="org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeconfigurationPackage"
+            genModel="model/TypeConfiguration.genmodel"/>
+   </extension>
+   <extension
+         point="org.agesys.inject.binding">
+      <binding
+            impl="org.eclipse.reqcycle.traceability.types.engine.impl.TypedTraceabilityEngine"
+            interface="org.eclipse.reqcycle.traceability.types.engine.ITypedTraceabilityEngine"
+            priority="1">
+      </binding>
+      <binding
+            impl="org.eclipse.reqcycle.traceability.types.impl.ConfigurationProvider"
+            interface="org.eclipse.reqcycle.traceability.types.ITypesConfigurationProvider">
+      </binding>
+   </extension>
+
+</plugin>

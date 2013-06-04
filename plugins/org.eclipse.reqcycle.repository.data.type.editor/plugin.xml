@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated DataTypeModel -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="DataTypeModel.presentation.DataTypeModelModelWizardID"
+            name="%_UI_DataTypeModelModelWizard_label"
+            class="DataTypeModel.presentation.DataTypeModelModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/DataTypeModelModelFile.gif">
+         <description>%_UI_DataTypeModelModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated DataTypeModel -->
+      <editor
+            id="DataTypeModel.presentation.DataTypeModelEditorID"
+            name="%_UI_DataTypeModelEditor_label"
+            icon="icons/full/obj16/DataTypeModelModelFile.gif"
+            extensions="datatypemodel"
+            class="DataTypeModel.presentation.DataTypeModelEditor"
+            contributorClass="DataTypeModel.presentation.DataTypeModelActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

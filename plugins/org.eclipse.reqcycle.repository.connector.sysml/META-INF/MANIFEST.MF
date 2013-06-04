@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Sysml
+Bundle-SymbolicName: org.eclipse.reqcycle.repository.connector.sysml;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.eclipse.reqcycle.repository.connector.sysml.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.emf.common.ui,
+ org.eclipse.reqcycle.repository.connector,
+ org.eclipse.reqcycle.repository.connector.ui,
+ javax.inject,
+ org.eclipse.reqcycle.core
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

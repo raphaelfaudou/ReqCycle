@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated DataModel -->
+      <package
+            uri="http://www.eclipse.org/ReqCycle/DataModel"
+            class="DataModel.DataModelPackage"
+            genModel="model/DataModel.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+      <!-- @generated DataModel -->
+      <factory
+            uri="http://www.eclipse.org/ReqCycle/DataModel"
+            class="DataModel.provider.DataModelItemProviderAdapterFactory"
+            supportedTypes=
+              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+               org.eclipse.emf.edit.provider.ITreeItemContentProvider
+               org.eclipse.emf.edit.provider.IItemLabelProvider
+               org.eclipse.emf.edit.provider.IItemPropertySource"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated CustomDataModel -->
+      <package
+            uri="http://www.eclipse.org/ReqCycle/CustomDataModel"
+            class="CustomDataModel.CustomDataModelPackage"
+            genModel="model/CustomDataModel.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated ScopeModel -->
+      <package
+            uri="http://www.eclipse.org/ReqCycle/ScopeModel"
+            class="ScopeModel.ScopeModelPackage"
+            genModel="model/ScopeModel.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated RequirementSourcesConf -->
+      <package
+            uri="http://www.eclipse.org/ReqCycle/RequirementSourcesConf"
+            class="RequirementSourcesConf.RequirementSourcesConfPackage"
+            genModel="model/RequirementSourcesConf.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated RequirementSourcesConf -->
+      <parser
+            type="requirementsourcesconf"
+            class="RequirementSourcesConf.util.RequirementSourcesConfResourceFactoryImpl"/>
+   </extension>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated ScopesConf -->
+      <package
+            uri="http://www.eclipse.org/ReqCycle/ScopesConf"
+            class="ScopesConf.ScopesConfPackage"
+            genModel="model/ScopesConf.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated ScopesConf -->
+      <parser
+            type="scopesconf"
+            class="ScopesConf.util.ScopesConfResourceFactoryImpl"/>
+      <parser
+            class="org.agesys.configuration.impl.EMFConfResourceFactory"
+            type="emfconf">
+      </parser>
+   </extension>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated MappingModel -->
+      <package
+            uri="http://www.eclipse.org/ReqCycle/MappingModel"
+            class="MappingModel.MappingModelPackage"
+            genModel="model/MappingModel.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+      <!-- @generated MappingModel -->
+      <factory
+            uri="http://www.eclipse.org/ReqCycle/MappingModel"
+            class="MappingModel.provider.MappingModelItemProviderAdapterFactory"
+            supportedTypes=
+              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+               org.eclipse.emf.edit.provider.ITreeItemContentProvider
+               org.eclipse.emf.edit.provider.IItemLabelProvider
+               org.eclipse.emf.edit.provider.IItemPropertySource"/>
+   </extension>
+   <extension
+         point="org.agesys.inject.binding">
+      <binding
+            impl="org.eclipse.reqcycle.repository.requirement.data.impl.RequirementSourceManagerImpl"
+            interface="org.eclipse.reqcycle.repository.requirement.data.IRequirementSourceManager">
+      </binding>
+      <binding
+            impl="org.eclipse.reqcycle.repository.requirement.data.impl.ScopeManagerImpl"
+            interface="org.eclipse.reqcycle.repository.requirement.data.IScopeManager">
+      </binding>
+      <binding
+            impl="org.eclipse.reqcycle.repository.requirement.data.impl.RequirementCreatorImpl"
+            interface="org.eclipse.reqcycle.repository.requirement.data.IRequirementCreator">
+      </binding>
+   </extension>
+   <extension
+         point="org.eclipse.reqcycle.types.types">
+      <type
+            checker="org.eclipse.reqcycle.repository.requirement.data.types.ReqcycleTypeChecker"
+            icon="icons/CurrentRequirement.gif"
+            id="org.eclipse.reqcycle.repository.data.type1"
+            label="Requirement">
+      </type>
+   </extension>
+
+</plugin>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+      <factory
+            uri="http://www.org.eclipse.reqcycle/typeconfiguration/1.0"
+            class="org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.provider.TypeconfigurationItemProviderAdapterFactory"
+            supportedTypes=
+              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+               org.eclipse.emf.edit.provider.ITreeItemContentProvider
+               org.eclipse.emf.edit.provider.IItemLabelProvider
+               org.eclipse.emf.edit.provider.IItemPropertySource"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="org.eclipse.reqycle.core.ui.pref.reqcycle"
+            class="org.eclipse.reqcycle.traceability.types.configuration.preferences.ElementTypeConfigurationPage"
+            id="org.eclipse.reqcycle.traceability.types.ui.elementtype"
+            name="Element Types">
+      </page>
+      <page
+            category="org.eclipse.reqycle.core.ui.pref.reqcycle"
+            class="org.eclipse.reqcycle.traceability.types.configuration.preferences.TraceabilityTypePreferencePage"
+            id="org.eclipse.reqcycle.traceability.types.ui.tracatype"
+            name="Traceability Types">
+      </page>
+   </extension>
+
+</plugin>

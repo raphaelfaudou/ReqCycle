@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.reqcycle.repository.connector.connectorCore">
+      <connectorCore
+            class="org.eclipse.reqcycle.repository.connector.sysml.SysmlRepositoryConnector"
+            id="org.eclipse.reqcycle.repository.connector.sysml.connectorCore"
+            name="SysML Connector Stub">
+      </connectorCore>
+   </extension>
+   <extension
+         point="org.eclipse.reqcycle.repository.connector.ui.connectorUi">
+      <connectorUi
+            class="org.eclipse.reqcycle.repository.connector.sysml.SysmlRepositoryConnectorUi"
+            icon="icons/SysML.png"
+            id="org.eclipse.reqcycle.repository.connector.sysml.connectorCore">
+      </connectorUi>
+   </extension>
+
+</plugin>

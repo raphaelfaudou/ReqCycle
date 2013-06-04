@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="types" name="Types" schema="schema/types.exsd"/>
+   <extension
+         point="org.agesys.inject.binding">
+      <binding
+            impl="org.eclipse.reqcycle.types.impl.TypesManager"
+            interface="org.eclipse.reqcycle.types.ITypesManager"
+            priority="1">
+      </binding>
+   </extension>
+   <extension
+         point="org.eclipse.reqcycle.types.types">
+      <type
+            checker="org.eclipse.reqcycle.types.impl.AnyElementChecker"
+            icon="icons/any.gif"
+            id="org.eclipse.reqcycle.types.any"
+            label="Every Reachable element">
+      </type>
+   </extension>
+
+</plugin>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.reqcycle.repository.connector.connectorCore">
+      <connectorCore
+            class="org.eclipse.reqcycle.repository.connector.doc.DocRepositoryConnector"
+            id="org.eclipse.reqcycle.repository.connector.doc.connectorCore"
+            name="Doc Connector Stub">
+      </connectorCore>
+   </extension>
+   <extension
+         point="org.eclipse.reqcycle.repository.connector.ui.connectorUi">
+      <connectorUi
+            class="org.eclipse.reqcycle.repository.connector.doc.DocRepositoryConnectorUi"
+            icon="icons/Docx.png"
+            id="org.eclipse.reqcycle.repository.connector.doc.connectorCore">
+      </connectorUi>
+   </extension>
+
+</plugin>

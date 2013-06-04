@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.reqcycle.uri.reachableHandler">
+      <reachableHandler
+            handler="org.eclipse.reqcycle.emf.handlers.EMFURIHandler">
+      </reachableHandler>
+      <objectHandler
+            handler="org.eclipse.reqcycle.emf.handlers.EMFURIHandler">
+      </objectHandler>
+   </extension>
+   <extension
+         point="org.eclipse.reqcycle.uri.reachableExtender">
+      <Extender
+            instance="org.eclipse.reqcycle.emf.ui.EMFEditExtender">
+      </Extender>
+   </extension>
+   <extension
+         point="org.eclipse.reqcycle.types.types">
+      <type
+            checker="org.eclipse.reqcycle.emf.types.EMFTypeChecker"
+            icon="icons/ModelFile.gif"
+            id="org.eclipse.reqcycle.emf.type"
+            label="Model Element"
+            >
+      </type>
+   </extension>
+   <extension
+         point="org.agesys.inject.binding">
+      <binding
+            impl="org.eclipse.reqcycle.emf.handlers.EMFURIHandler"
+            interface="org.eclipse.reqcycle.uri.model.IObjectHandler"
+            priority="0">
+      </binding>
+   </extension>
+</plugin>

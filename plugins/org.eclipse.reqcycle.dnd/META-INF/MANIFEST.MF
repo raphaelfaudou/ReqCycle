@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Reqcycle Drag and Drop
+Bundle-SymbolicName: org.eclipse.reqcycle.dnd;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.eclipse.reqcycle.dnd.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.reqcycle.uri,
+ org.eclipse.reqcycle.types,
+ org.eclipse.reqcycle.traceability.types,
+ org.eclipse.emf.facet.infra.browser.uicore,
+ org.agesys.inject,
+ org.eclipse.reqcycle.commands,
+ org.eclipse.emf.workspace;bundle-version="1.5.1"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Import-Package: javax.annotation;version="1.0.0",
+ javax.inject;version="1.0.0"
+Export-Package: org.eclipse.reqcycle.dnd

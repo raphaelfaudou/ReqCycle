@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.reqcycle.traceability.builder.traceabilityAnalyser">
+      <Analyser
+            visitor="org.eclipse.reqcycle.emf.traceability.topcasedreq.builder.TopcasedReqTraceabilityAnalyser">
+      </Analyser>
+   </extension>
+   <extension
+         point="org.eclipse.reqcycle.types.types">
+      <type
+            checker="org.eclipse.reqcycle.emf.traceability.topcasedreq.types.TopcasedReqChecker"
+            icon="icons/CurrentRequirement.gif"
+            id="org.eclipse.reqcycle.emf.traceability.topcasedreq.type"
+            label="Topcased REQ element"
+            subTypeOf="org.eclipse.reqcycle.emf.type">
+      </type>
+   </extension>
+
+</plugin>

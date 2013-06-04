@@ -1,0 +1,39 @@
+2013-05-28 10:34:32,526 [main] WARN SailBase - Closing active connection due to shut down; consider setting the org.openrdf.repository.debug system property
+2013-05-28 10:34:32,536 [main] WARN SailBase - Closing active connection due to shut down; consider setting the org.openrdf.repository.debug system property
+2013-05-28 10:36:11,666 [main] WARN SailBase - Closing active connection due to shut down; consider setting the org.openrdf.repository.debug system property
+2013-05-28 10:36:11,676 [main] WARN SailBase - Closing active connection due to shut down; consider setting the org.openrdf.repository.debug system property
+2013-05-28 10:36:17,202 [main] ERROR ServiceRegistry - Failed to instantiate service
+sun.misc.ServiceConfigurationError: org.openrdf.rio.RDFParserFactory: Provider net.fortytwo.sesametools.nquads.NQuadsParserFactory not found
+	at sun.misc.Service.fail(Service.java:129)
+	at sun.misc.Service.access$000(Service.java:111)
+	at sun.misc.Service$LazyIterator.next(Service.java:274)
+	at info.aduna.lang.service.ServiceRegistry.<init>(ServiceRegistry.java:42)
+	at info.aduna.lang.service.FileFormatServiceRegistry.<init>(FileFormatServiceRegistry.java:20)
+	at org.openrdf.rio.RDFParserRegistry.<init>(RDFParserRegistry.java:33)
+	at org.openrdf.rio.RDFParserRegistry.getInstance(RDFParserRegistry.java:26)
+	at org.openrdf.rio.Rio.createParser(Rio.java:167)
+	at org.openrdf.rio.Rio.createParser(Rio.java:188)
+	at org.openrdf.repository.base.RepositoryConnectionBase.addInputStreamOrReader(RepositoryConnectionBase.java:391)
+	at org.openrdf.repository.base.RepositoryConnectionBase.add(RepositoryConnectionBase.java:295)
+	at org.openrdf.repository.base.RepositoryConnectionBase.add(RepositoryConnectionBase.java:226)
+	at org.eclipse.reqcycle.traceability.storage.blueprints.graph.impl.SailGraphProvider$CustomSailGraph.<init>(SailGraphProvider.java:47)
+	at org.eclipse.reqcycle.traceability.storage.blueprints.graph.impl.SailGraphProvider.main(SailGraphProvider.java:83)
+2013-05-28 10:37:09,358 [main] ERROR ServiceRegistry - Failed to instantiate service
+sun.misc.ServiceConfigurationError: org.openrdf.rio.RDFParserFactory: Provider net.fortytwo.sesametools.nquads.NQuadsParserFactory not found
+	at sun.misc.Service.fail(Service.java:129)
+	at sun.misc.Service.access$000(Service.java:111)
+	at sun.misc.Service$LazyIterator.next(Service.java:274)
+	at info.aduna.lang.service.ServiceRegistry.<init>(ServiceRegistry.java:42)
+	at info.aduna.lang.service.FileFormatServiceRegistry.<init>(FileFormatServiceRegistry.java:20)
+	at org.openrdf.rio.RDFParserRegistry.<init>(RDFParserRegistry.java:33)
+	at org.openrdf.rio.RDFParserRegistry.getInstance(RDFParserRegistry.java:26)
+	at org.openrdf.rio.Rio.createParser(Rio.java:167)
+	at org.openrdf.rio.Rio.createParser(Rio.java:188)
+	at org.openrdf.repository.base.RepositoryConnectionBase.addInputStreamOrReader(RepositoryConnectionBase.java:391)
+	at org.openrdf.repository.base.RepositoryConnectionBase.add(RepositoryConnectionBase.java:295)
+	at org.openrdf.repository.base.RepositoryConnectionBase.add(RepositoryConnectionBase.java:226)
+	at org.eclipse.reqcycle.traceability.storage.blueprints.graph.impl.SailGraphProvider$CustomSailGraph.<init>(SailGraphProvider.java:48)
+	at org.eclipse.reqcycle.traceability.storage.blueprints.graph.impl.SailGraphProvider.main(SailGraphProvider.java:76)
+2013-05-28 10:37:29,407 [main] WARN SailBase - Closing active connection due to shut down; consider setting the org.openrdf.repository.debug system property
+2013-05-28 10:37:29,413 [main] WARN SailBase - Closing active connection due to shut down; consider setting the org.openrdf.repository.debug system property
+2013-05-28 10:37:29,414 [main] WARN SailBase - Closing active connection due to shut down; consider setting the org.openrdf.repository.debug system property

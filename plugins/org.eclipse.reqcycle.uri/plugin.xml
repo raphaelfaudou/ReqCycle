@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+<extension-point id="reachableHandler" name="Reachable Handler" schema="schema/reachableHandler.exsd"/>
+<extension-point id="reachableExtender" name="Reachable Extender" schema="schema/reachableExtender.exsd"/>
+<extension-point id="idContributors" name="ID Contributors" schema="schema/idContributors.exsd"/>
+   <extension
+         point="org.agesys.inject.binding">
+      <binding
+            impl="org.eclipse.reqcycle.uri.impl.ReachableManager"
+            interface="org.eclipse.reqcycle.uri.IReachableManager"
+            priority="100">
+      </binding>
+      <binding
+            impl="org.eclipse.reqcycle.uri.impl.ReachableCreator"
+            interface="org.eclipse.reqcycle.uri.IReachableCreator"
+            priority="100">
+      </binding>
+      <binding
+            impl="org.eclipse.reqcycle.uri.impl.LogicalIDManager"
+            interface="org.eclipse.reqcycle.uri.ILogicalIDManager">
+      </binding>
+      <binding
+            impl="org.eclipse.reqcycle.uri.impl.ReachableListenerManager"
+            interface="org.eclipse.reqcycle.uri.IReachableListenerManager"
+            priority="100">
+      </binding>
+   </extension>
+
+</plugin>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+  <extension
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="true"
+            category="org.eclipse.reqcycle"
+            class="org.eclipse.reqcycle.repository.ui.views.RequirementSourcesView"
+            icon="icons/repositories.gif"
+            id="org.eclipse.reqcycle.repository.ui.views.sources"
+            name="%view.name">
+      </view>
+      <category
+            id="org.eclipse.reqcycle"
+            name="%category.name">
+      </category>
+      <view
+            category="org.eclipse.reqcycle"
+            class="org.eclipse.reqcycle.repository.ui.views.RequirementView"
+            icon="icons/open.png"
+            id="org.eclipse.reqcycle.repository.ui.views.requirements"
+            name="Requirements"
+            restorable="true">
+      </view>
+      <view
+            category="org.eclipse.reqcycle"
+            class="org.eclipse.reqcycle.repository.ui.views.ScopeView"
+            id="org.eclipse.reqcycle.repository.ui.views.requirement.scope"
+            name="Scope"
+            restorable="true">
+      </view>
+   </extension>
+	<extension
+        point="org.eclipse.ui.dropActions">
+     <action
+           class="org.eclipse.reqcycle.dnd.DropRequirementDelegate"
+           id="org.eclipse.reqcycle.repository.ui.dropRequirement">
+     </action>
+  </extension>
+</plugin>
