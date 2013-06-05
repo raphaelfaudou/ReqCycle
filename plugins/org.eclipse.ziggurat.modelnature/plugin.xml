@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="modelnature" name="modelnature" schema="schema/modelnature.exsd"/>
+   <extension
+         point="org.eclipse.ziggurat.inject.binding">
+      <binding
+            impl="org.eclipse.ziggurat.modelnature.internal.DynamicNatureServiceImpl"
+            interface="org.eclipse.ziggurat.modelnature.ModelNatureService"
+            name="Default Model Nature Service"
+            priority="100">
+      </binding>
+      <binding
+            impl="org.eclipse.ziggurat.modelnature.internal.SerializedNatureServiceImpl"
+            interface="org.eclipse.ziggurat.modelnature.ModelNatureService"
+            name="Serialized Nature Service"
+            priority="150">
+      </binding>
+   </extension>
+
+</plugin>
