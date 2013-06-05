@@ -4,12 +4,15 @@ package org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.*;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Configuration;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.CustomType;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Entry;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Relation;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Type;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeConfigContainer;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeconfigurationPackage;
 
 /**
  * <!-- begin-user-doc -->

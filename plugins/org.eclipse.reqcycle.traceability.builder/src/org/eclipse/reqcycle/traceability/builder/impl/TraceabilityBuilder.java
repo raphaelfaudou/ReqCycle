@@ -3,7 +3,6 @@ package org.eclipse.reqcycle.traceability.builder.impl;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.traceability.builder.Activator;
 import org.eclipse.reqcycle.traceability.builder.ITraceabilityBuilder;
@@ -16,6 +15,7 @@ import org.eclipse.reqcycle.uri.model.IReachableHandler;
 import org.eclipse.reqcycle.uri.model.Reachable;
 import org.eclipse.reqcycle.uri.model.ReachableObject;
 import org.eclipse.reqcycle.uri.visitors.IVisitable;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 @Singleton
 public class TraceabilityBuilder implements ITraceabilityBuilder {
@@ -49,7 +49,7 @@ public class TraceabilityBuilder implements ITraceabilityBuilder {
 							visitable = object.getVisitable();
 							TraceabilityVisitor visitor = new TraceabilityVisitor(
 									callBack);
-							AgesysInject.inject(visitor);
+							ZigguratInject.inject(visitor);
 							visitable.accept(visitor);
 							visitable.dispose();
 							callBack.endBuild(reachable);

@@ -2,7 +2,6 @@ package org.eclipse.reqcycle.traceability.model.scopes;
 
 import javax.inject.Inject;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -10,11 +9,12 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.reqcycle.uri.IReachableManager;
 import org.eclipse.reqcycle.uri.model.Reachable;
 import org.eclipse.reqcycle.uri.utils.ReachableUtils;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class Scopes {
 	public static IScope getProjectScope(IResource r) {
 		ResourceVisitor visitor = new ResourceVisitor();
-		AgesysInject.inject(visitor);
+		ZigguratInject.inject(visitor);
 		try {
 			r.getProject().accept(visitor);
 		} catch (CoreException e) {
@@ -25,7 +25,7 @@ public class Scopes {
 
 	public static IScope getSubTree(IResource r) {
 		ResourceVisitor visitor = new ResourceVisitor();
-		AgesysInject.inject(visitor);
+		ZigguratInject.inject(visitor);
 		try {
 			r.accept(visitor);
 		} catch (CoreException e) {
@@ -36,7 +36,7 @@ public class Scopes {
 
 	public static IScope getWorkspaceScope() {
 		ResourceVisitor visitor = new ResourceVisitor();
-		AgesysInject.inject(visitor);
+		ZigguratInject.inject(visitor);
 		try {
 			ResourcesPlugin.getWorkspace().getRoot().accept(visitor);
 		} catch (CoreException e) {

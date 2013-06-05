@@ -2,7 +2,6 @@ package org.eclipse.reqcycle.traceability.types.configuration.preferences;
 
 import javax.inject.Inject;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
@@ -46,6 +45,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class NewRelationDialog extends TitleAreaDialog {
 	private Text textSource;
@@ -180,7 +180,7 @@ public class NewRelationDialog extends TitleAreaDialog {
 				adapterFactory, this.container);
 		ILabelProvider labelProvider = new PreferenceDialogTypeLabelProvider(
 				adapterFactory, new AdapterFactoryLabelProvider(adapterFactory));
-		AgesysInject.inject(labelProvider, provider);
+		ZigguratInject.inject(labelProvider, provider);
 		treeViewer.setContentProvider(provider);
 		treeViewer.setLabelProvider(labelProvider);
 		treeViewer.addFilter(new ViewerFilter() {

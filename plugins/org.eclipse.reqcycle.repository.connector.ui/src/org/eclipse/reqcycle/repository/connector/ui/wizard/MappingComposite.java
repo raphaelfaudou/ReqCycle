@@ -46,8 +46,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-import MappingModel.ElementMapping;
-
 
 public abstract class MappingComposite extends Composite {
 

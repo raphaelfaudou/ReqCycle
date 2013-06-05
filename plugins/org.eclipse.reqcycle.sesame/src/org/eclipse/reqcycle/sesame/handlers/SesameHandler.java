@@ -7,7 +7,6 @@ import java.net.URISyntaxException;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.reqcycle.sesame.graph.SailBusinessOperations;
 import org.eclipse.reqcycle.uri.IReachableCreator;
@@ -15,6 +14,7 @@ import org.eclipse.reqcycle.uri.model.IObjectHandler;
 import org.eclipse.reqcycle.uri.model.IReachableHandler;
 import org.eclipse.reqcycle.uri.model.Reachable;
 import org.eclipse.reqcycle.uri.model.ReachableObject;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 import org.openrdf.rio.RDFWriterRegistry;
 
 import com.tinkerpop.blueprints.Vertex;
@@ -28,7 +28,7 @@ public class SesameHandler implements IObjectHandler, IReachableHandler {
 	@PostConstruct
 	public void init() {
 		op = new SailBusinessOperations();
-		AgesysInject.inject(op);
+		ZigguratInject.inject(op);
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class SesameHandler implements IObjectHandler, IReachableHandler {
 			}
 		}
 		if (result != null) {
-			AgesysInject.inject(result);
+			ZigguratInject.inject(result);
 		}
 		return result;
 	}
@@ -77,7 +77,7 @@ public class SesameHandler implements IObjectHandler, IReachableHandler {
 	public ReachableObject getFromReachable(Reachable t) {
 		SesameReachableObject sesameReachableObject = new SesameReachableObject(
 				t, op);
-		AgesysInject.inject(sesameReachableObject);
+		ZigguratInject.inject(sesameReachableObject);
 		return sesameReachableObject;
 	}
 

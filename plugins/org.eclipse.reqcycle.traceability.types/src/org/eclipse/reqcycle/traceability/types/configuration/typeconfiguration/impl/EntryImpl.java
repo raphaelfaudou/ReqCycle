@@ -4,10 +4,8 @@ package org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Entry;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeconfigurationPackage;
 

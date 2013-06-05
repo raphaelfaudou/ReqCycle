@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.Platform;
@@ -14,6 +13,7 @@ import org.eclipse.reqcycle.uri.exceptions.IReachableHandlerException;
 import org.eclipse.reqcycle.uri.model.IObjectHandler;
 import org.eclipse.reqcycle.uri.model.Reachable;
 import org.eclipse.reqcycle.uri.model.ReachableObject;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class ReachableUtils {
 
@@ -62,7 +62,7 @@ public class ReachableUtils {
 
 	public static ReachableObject getReachableObject(IResource res) {
 		try {
-			IReachableManager manager = AgesysInject
+			IReachableManager manager = ZigguratInject
 					.make(IReachableManager.class);
 			IObjectHandler handler = manager.getHandlerFromObject(res);
 			if (handler != null) {

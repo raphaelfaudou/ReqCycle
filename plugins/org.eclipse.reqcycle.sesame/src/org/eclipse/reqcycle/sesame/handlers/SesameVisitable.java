@@ -1,6 +1,5 @@
 package org.eclipse.reqcycle.sesame.handlers;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
@@ -9,6 +8,7 @@ import org.eclipse.reqcycle.sesame.graph.SailGraphProvider;
 import org.eclipse.reqcycle.uri.model.Reachable;
 import org.eclipse.reqcycle.uri.visitors.IVisitable;
 import org.eclipse.reqcycle.uri.visitors.IVisitor;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 import org.openrdf.rio.RDFWriterRegistry;
 
 import com.tinkerpop.blueprints.Edge;
@@ -29,7 +29,7 @@ public class SesameVisitable implements IVisitable, IAdaptable {
 			}
 		}
 		provider = new SailGraphProvider();
-		AgesysInject.inject(provider);
+		ZigguratInject.inject(provider);
 		graph = provider.getGraph(path, RDFWriterRegistry.getInstance()
 				.getFileFormatForFileName(path));
 

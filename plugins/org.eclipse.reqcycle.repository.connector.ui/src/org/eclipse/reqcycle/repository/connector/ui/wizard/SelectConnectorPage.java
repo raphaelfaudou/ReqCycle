@@ -15,7 +15,6 @@ package org.eclipse.reqcycle.repository.connector.ui.wizard;
 
 import javax.inject.Inject;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -33,6 +32,7 @@ import org.eclipse.reqcycle.repository.connector.IConnectorManager;
 import org.eclipse.reqcycle.repository.connector.ui.providers.ConnectorLabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class SelectConnectorPage extends WizardPage {
 
@@ -43,7 +43,7 @@ public class SelectConnectorPage extends WizardPage {
 	private TableViewer viewer;
 
 	/** the connector manager */
-	private @Inject IConnectorManager connectorManager = AgesysInject.make(IConnectorManager.class);
+	private @Inject IConnectorManager connectorManager = ZigguratInject.make(IConnectorManager.class);
 
 	protected SelectConnectorPage() {
 		super("Select a requirement source repository type");

@@ -20,8 +20,6 @@ import java.util.Iterator;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.agesys.configuration.IConfigurationManager;
-import org.agesys.inject.AgesysInject;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -33,6 +31,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.requirement.data.IScopeManager;
+import org.eclipse.ziggurat.configuration.IConfigurationManager;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import CustomDataModel.CustomDataModelFactory;
 import DataModel.Contained;
@@ -48,7 +48,7 @@ import com.google.common.collect.Collections2;
 public class ScopeManagerImpl implements IScopeManager {
 
 	private @Inject
-	ILogger logger = AgesysInject.make(ILogger.class);
+	ILogger logger = ZigguratInject.make(ILogger.class);
 
 	private static final String SCOPE_MODEL_ECORE = "org.eclipse.reqcycle.repository.data/model/DataModel.ecore";
 
@@ -69,7 +69,7 @@ public class ScopeManagerImpl implements IScopeManager {
 		Scopes confScopes = null;
 		
 
-		confManager = AgesysInject.make(IConfigurationManager.class);
+		confManager = ZigguratInject.make(IConfigurationManager.class);
 		EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, id, rs);
 		if(conf instanceof Scopes) {
 			confScopes = (Scopes)conf;

@@ -5,7 +5,14 @@ package org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
-import org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.*;
+import org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.AnalyzedResource;
+import org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.Attribute;
+import org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.CacheTracabilityPackage;
+import org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.Model;
+import org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.Property;
+import org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.TraceabilityLink;
+import org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.TraceableElement;
+import org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.URIElement;
 
 /**
  * <!-- begin-user-doc -->

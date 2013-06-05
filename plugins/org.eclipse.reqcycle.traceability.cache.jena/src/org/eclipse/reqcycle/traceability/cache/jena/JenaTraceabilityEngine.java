@@ -10,7 +10,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.traceability.cache.AbstractCachedTraceabilityEngine;
 import org.eclipse.reqcycle.traceability.cache.jena.pickers.GetTraceabilityPicker;
@@ -25,6 +24,7 @@ import org.eclipse.reqcycle.uri.exceptions.IReachableHandlerException;
 import org.eclipse.reqcycle.uri.model.IReachableHandler;
 import org.eclipse.reqcycle.uri.model.Reachable;
 import org.eclipse.reqcycle.uri.model.ReachableObject;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 import org.topcased.iterators.exceptions.PickerExecutionException;
 import org.topcased.iterators.factories.IteratorFactory;
 import org.topcased.iterators.pickers.IPicker;
@@ -82,7 +82,7 @@ public class JenaTraceabilityEngine extends AbstractCachedTraceabilityEngine {
 			Reachable source, DIRECTION direction,
 			Predicate<Pair<Link, Reachable>> scope) {
 		IPicker picker = new GetTraceabilityPicker(direction, storage, scope);
-		AgesysInject.inject(picker);
+		ZigguratInject.inject(picker);
 		IPicker[] pickers = new IPicker[] { picker };
 		IteratorFactory factory = new IteratorFactory(Arrays.asList(pickers));
 		factory.activateDepthWisdom();
@@ -104,7 +104,7 @@ public class JenaTraceabilityEngine extends AbstractCachedTraceabilityEngine {
 			Reachable source, DIRECTION direction,
 			Predicate<Pair<Link, Reachable>> scope) {
 		IPicker picker = new GetTraceabilityPicker(direction, storage, scope);
-		AgesysInject.inject(picker);
+		ZigguratInject.inject(picker);
 		Iterable<?> nexts;
 		try {
 			nexts = picker.getNexts(source);
@@ -132,7 +132,7 @@ public class JenaTraceabilityEngine extends AbstractCachedTraceabilityEngine {
 		if (source != null && target != null) {
 			IPicker picker = new GetTraceabilityPicker(direction, storage,
 					scope);
-			AgesysInject.inject(picker);
+			ZigguratInject.inject(picker);
 			Iterable<IPicker> pickers = Arrays.asList(new IPicker[] { picker });
 			IteratorFactory f = new IteratorFactory(pickers);
 			f.activateWidthWisdom();

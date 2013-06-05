@@ -19,7 +19,6 @@ package org.eclipse.reqcycle.repository.connector.ui.wizard;
 
 import javax.inject.Inject;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelection;
@@ -42,6 +41,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.Scope;
 
@@ -60,7 +60,7 @@ public abstract class AbstractRequirementSourceSettingPage extends WizardPage im
 
 	protected boolean skipMapping;
 
-	private @Inject IScopeManager scopeManager = AgesysInject.make(IScopeManager.class);
+	private @Inject IScopeManager scopeManager = ZigguratInject.make(IScopeManager.class);
 
 	private String label;
 

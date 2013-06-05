@@ -17,8 +17,6 @@ import java.util.Collection;
 
 import javax.inject.Inject;
 
-import org.agesys.inject.AgesysInject;
-import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -35,13 +33,14 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.PluginTransfer;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.RequirementSource;
 
 public class RequirementView extends ViewPart {
 
 	private @Inject
-	static ILogger logger = AgesysInject.make(ILogger.class);
+	static ILogger logger = ZigguratInject.make(ILogger.class);
 
 	public RequirementView() {
 	}
@@ -71,7 +70,7 @@ public class RequirementView extends ViewPart {
 		transfers = new Transfer[] { PluginTransfer.getInstance() };
 
 		DragRequirementSourceAdapter listener = new DragRequirementSourceAdapter(viewer);
-		AgesysInject.inject(listener);
+		ZigguratInject.inject(listener);
 		viewer.addDragSupport(dndOperations, transfers,
 				listener);
 		getViewSite().setSelectionProvider(viewer);

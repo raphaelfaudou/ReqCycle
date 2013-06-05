@@ -2,7 +2,6 @@
  */
 package CustomDataModel.impl;
 
-import CustomDataModel.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -12,6 +11,7 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import CustomDataModel.CustomDataModelFactory;
 import CustomDataModel.CustomDataModelPackage;
+import CustomDataModel.Enumeration;
 import CustomDataModel.RequirementType;
 import CustomDataModel.SpecificationType;
 

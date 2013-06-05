@@ -9,7 +9,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.reqcycle.uri,
  org.eclipse.core.resources;bundle-version="3.8.1",
  org.eclipse.jdt.core;bundle-version="3.8.3",
- org.agesys.inject;bundle-version="1.0.0",
- org.eclipse.reqcycle.types;bundle-version="1.0.0"
+ org.eclipse.reqcycle.types;bundle-version="1.0.0",
+ org.eclipse.ziggurat.inject
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

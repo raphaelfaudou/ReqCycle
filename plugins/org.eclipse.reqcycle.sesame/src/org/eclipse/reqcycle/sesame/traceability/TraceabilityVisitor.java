@@ -4,11 +4,11 @@ import java.util.Collections;
 
 import javax.annotation.PostConstruct;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.reqcycle.sesame.graph.SailBusinessOperations;
 import org.eclipse.reqcycle.traceability.builder.ITraceabilityBuilder.IBuilderCallBack;
 import org.eclipse.reqcycle.uri.visitors.IVisitor;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
@@ -21,7 +21,7 @@ public class TraceabilityVisitor implements IVisitor {
 	@PostConstruct
 	public void init() {
 		op = new SailBusinessOperations();
-		AgesysInject.inject(op);
+		ZigguratInject.inject(op);
 	}
 
 	@Override

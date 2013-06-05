@@ -3,7 +3,6 @@
 package org.eclipse.reqcycle.traceability.types.ui.configuration.typeconfiguration.provider;
 
 import org.eclipse.emf.common.EMFPlugin;
-
 import org.eclipse.emf.common.util.ResourceLocator;
 
 /**

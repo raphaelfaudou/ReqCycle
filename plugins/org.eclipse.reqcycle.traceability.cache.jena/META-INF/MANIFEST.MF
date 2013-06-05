@@ -5,7 +5,6 @@ Bundle-SymbolicName: org.eclipse.reqcycle.traceability.cache.jena;singleton:=tru
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.eclipse.reqcycle.traceability.cache.jena.Activator
 Require-Bundle: org.eclipse.core.runtime,
- org.agesys.inject,
  org.eclipse.reqcycle.core;bundle-version="1.0.0",
  org.eclipse.reqcycle.traceability;bundle-version="1.0.0",
  org.eclipse.reqcycle.traceability.builder;bundle-version="1.0.0",
@@ -14,7 +13,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.reqcycle.traceability.storage;bundle-version="1.0.0",
  org.eclipse.ui;bundle-version="3.104.0",
  org.topcased.iterators;bundle-version="0.0.1",
- org.eclipse.reqcycle.traceability.storage.jena;bundle-version="1.0.0"
+ org.eclipse.reqcycle.traceability.storage.jena;bundle-version="1.0.0",
+ org.eclipse.ziggurat.inject
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.reqcycle.traceability.cache.jena

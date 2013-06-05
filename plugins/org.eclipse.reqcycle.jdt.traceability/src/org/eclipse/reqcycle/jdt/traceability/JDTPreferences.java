@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.agesys.configuration.IConfigurationManager;
-import org.agesys.inject.AgesysInject;
 import org.eclipse.reqcycle.traceability.model.TraceabilityLink;
+import org.eclipse.ziggurat.configuration.IConfigurationManager;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
@@ -17,7 +17,7 @@ public class JDTPreferences {
 			+ ".jdtType";
 
 	public static Map<String, TraceabilityLink> getPreferences() {
-		IConfigurationManager manager = AgesysInject
+		IConfigurationManager manager = ZigguratInject
 				.make(IConfigurationManager.class);
 		Map<String, Object> map = manager.getSimpleConfiguration(null, null,
 				JDT_TYPES_CONSTANT);
@@ -29,7 +29,7 @@ public class JDTPreferences {
 	}
 
 	public static void savePreferences(Map<String, TraceabilityLink> map) {
-		IConfigurationManager manager = AgesysInject
+		IConfigurationManager manager = ZigguratInject
 				.make(IConfigurationManager.class);
 		Map<String, Object> newMap = new HashMap<String, Object>(
 				Maps.transformValues(map, Functions.toStringFunction()));

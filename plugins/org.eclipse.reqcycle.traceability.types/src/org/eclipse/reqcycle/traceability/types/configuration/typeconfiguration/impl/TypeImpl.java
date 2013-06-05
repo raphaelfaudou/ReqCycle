@@ -4,7 +4,6 @@ package org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.
 
 import java.util.Collection;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -19,6 +18,7 @@ import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.T
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeconfigurationPackage;
 import org.eclipse.reqcycle.types.IType;
 import org.eclipse.reqcycle.types.ITypesManager;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -44,7 +44,7 @@ import org.eclipse.reqcycle.types.ITypesManager;
  * @generated
  */
 public class TypeImpl extends EObjectImpl implements Type {
-	private ITypesManager manager = AgesysInject.make(ITypesManager.class);
+	private ITypesManager manager = ZigguratInject.make(ITypesManager.class);
 
 	/**
 	 * The default value of the '{@link #getTypeId() <em>Type Id</em>}'

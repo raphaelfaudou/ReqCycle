@@ -18,7 +18,6 @@ import java.util.Collection;
 
 import javax.inject.Inject;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -45,6 +44,7 @@ import org.eclipse.rmf.reqif10.ReqIF;
 import org.eclipse.rmf.reqif10.ReqIFContent;
 import org.eclipse.rmf.reqif10.SpecType;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.RequirementSource;
 import DataModel.Scope;
@@ -60,7 +60,7 @@ public class RMFConnectorUi implements IConnectorUi {
 
 	private RMFRepositoryMappingPage rmfMappingPage;
 	
-	@Inject ILogger logger = AgesysInject.make(ILogger.class);
+	@Inject ILogger logger = ZigguratInject.make(ILogger.class);
 	
 	private Scope scope;
 

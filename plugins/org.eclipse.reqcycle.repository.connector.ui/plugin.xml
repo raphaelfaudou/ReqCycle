@@ -3,7 +3,7 @@
 <plugin>
    <extension-point id="connectorUi" name="Connector UI" schema="schema/connectorUi.exsd"/>
    <extension
-         point="org.agesys.inject.binding">
+         point="org.eclipse.ziggurat.inject.binding">
       <binding
             impl="org.eclipse.reqcycle.repository.connector.ui.impl.ConnectorManagerUiImpl"
             interface="org.eclipse.reqcycle.repository.connector.ui.IConnectorManagerUi">

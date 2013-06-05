@@ -6,13 +6,13 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.reqcycle.types.IInjectedTypeChecker;
 import org.eclipse.reqcycle.types.IInjectedTypeChecker.InjectValue;
 import org.eclipse.reqcycle.types.IType;
 import org.eclipse.reqcycle.types.ITypeChecker;
 import org.eclipse.reqcycle.uri.model.Reachable;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -42,7 +42,7 @@ public class Type implements IType {
 		if (instance == null) {
 			try {
 				instance = checker.newInstance();
-				AgesysInject.inject(instance);
+				ZigguratInject.inject(instance);
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {

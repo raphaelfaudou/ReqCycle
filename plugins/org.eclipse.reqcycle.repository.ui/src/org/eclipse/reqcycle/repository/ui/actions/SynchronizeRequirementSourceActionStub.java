@@ -15,19 +15,19 @@ package org.eclipse.reqcycle.repository.ui.actions;
 
 import javax.inject.Inject;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.reqcycle.core.ILogger;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 /**
  * Action to Synchronize a Requirement Resource
  */
 public class SynchronizeRequirementSourceActionStub extends Action {
 
-	@Inject ILogger logger = AgesysInject.make(ILogger.class);
+	@Inject ILogger logger = ZigguratInject.make(ILogger.class);
 	
 	/** Requirement repositories TreeViewer */
 	private TreeViewer viewer;

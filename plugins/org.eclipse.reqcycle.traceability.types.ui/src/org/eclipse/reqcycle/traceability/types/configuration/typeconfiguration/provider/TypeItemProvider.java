@@ -5,7 +5,6 @@ package org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.
 import java.util.Collection;
 import java.util.List;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -24,6 +23,7 @@ import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.T
 import org.eclipse.reqcycle.traceability.types.ui.configuration.typeconfiguration.provider.TypeConfigurationEditPlugin;
 import org.eclipse.reqcycle.types.IType;
 import org.eclipse.reqcycle.types.ITypesManager;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 /**
  * This is the item provider adapter for a
@@ -35,7 +35,7 @@ import org.eclipse.reqcycle.types.ITypesManager;
 public class TypeItemProvider extends ItemProviderAdapter implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider,
 		ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
-	ITypesManager manager = AgesysInject.make(ITypesManager.class);
+	ITypesManager manager = ZigguratInject.make(ITypesManager.class);
 
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--

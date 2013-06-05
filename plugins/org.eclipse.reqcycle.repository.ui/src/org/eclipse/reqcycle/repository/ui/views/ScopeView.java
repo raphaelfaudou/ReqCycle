@@ -16,7 +16,6 @@ package org.eclipse.reqcycle.repository.ui.views;
 
 import javax.inject.Inject;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
@@ -45,6 +44,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.PluginTransfer;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.Contained;
 import DataModel.Scope;
@@ -52,7 +52,7 @@ import DataModel.Scope;
 public class ScopeView extends ViewPart {
 
 	/** The scope manager */
-	private @Inject IScopeManager scopeManager = AgesysInject.make(IScopeManager.class);
+	private @Inject IScopeManager scopeManager = ZigguratInject.make(IScopeManager.class);
 	
 	/** Selected Scope */
 	private Scope scope;
@@ -150,7 +150,7 @@ public class ScopeView extends ViewPart {
 		transfers = new Transfer[] { PluginTransfer.getInstance() };
 
 		DragRequirementSourceAdapter listener = new DragRequirementSourceAdapter(viewer);
-		AgesysInject.inject(listener);
+		ZigguratInject.inject(listener);
 		viewer.addDragSupport(dndOperations, transfers,
 				listener);
 		getViewSite().setSelectionProvider(viewer);

@@ -5,20 +5,20 @@ import java.net.URISyntaxException;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.internal.core.CompilationUnit;
 import org.eclipse.reqcycle.jdt.model.JDTReachableObject;
 import org.eclipse.reqcycle.uri.IReachableCreator;
 import org.eclipse.reqcycle.uri.model.ReachableObject;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import com.google.common.base.Joiner;
 
 public class JDTUtils {
 	public static final String PLATFORM = "platform:";
 	public static final String SEPARATOR = "::";
-	private static IReachableCreator creator = AgesysInject
+	private static IReachableCreator creator = ZigguratInject
 			.make(IReachableCreator.class);
 
 	public static ReachableObject getReachable(IFile cu) {
@@ -27,7 +27,7 @@ public class JDTUtils {
 				JDTReachableObject jdtReachableObject = new JDTReachableObject(
 						creator.getReachable(new URI(PLATFORM
 								+ cu.getFullPath().toString()), cu));
-				AgesysInject.inject(jdtReachableObject);
+				ZigguratInject.inject(jdtReachableObject);
 				return jdtReachableObject;
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
@@ -42,7 +42,7 @@ public class JDTUtils {
 			uri = new URI(getQualifiedURI(cu));
 			JDTReachableObject object = new JDTReachableObject(
 					creator.getReachable(uri, cu));
-			AgesysInject.inject(object);
+			ZigguratInject.inject(object);
 			return object;
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block

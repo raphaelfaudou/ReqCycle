@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.reqcycle.uri.Activator;
 import org.eclipse.reqcycle.uri.services.IReachableExtender;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
@@ -97,7 +97,7 @@ public class ExtenderManager {
 						try {
 							ext = (IReachableExtender) conf
 									.createExecutableExtension("instance");
-							AgesysInject.inject(ext);
+							ZigguratInject.inject(ext);
 						} catch (CoreException e) {
 						}
 						return ext;

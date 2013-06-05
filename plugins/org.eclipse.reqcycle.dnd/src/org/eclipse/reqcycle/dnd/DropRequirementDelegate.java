@@ -13,8 +13,6 @@
  *****************************************************************************/
 package org.eclipse.reqcycle.dnd;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -23,7 +21,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.ecore.EObject;
@@ -45,6 +42,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.ui.part.IDropActionDelegate;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -52,18 +50,18 @@ import com.google.common.collect.Iterables;
 public class DropRequirementDelegate implements IDropActionDelegate {
 
 	@Inject
-	IReachableCreator creator = AgesysInject.make(IReachableCreator.class);
+	IReachableCreator creator = ZigguratInject.make(IReachableCreator.class);
 
 	@Inject
-	IReachableManager manager = AgesysInject.make(IReachableManager.class);
+	IReachableManager manager = ZigguratInject.make(IReachableManager.class);
 
 	@Inject
-	ITypesManager typesManager = AgesysInject.make(ITypesManager.class);
+	ITypesManager typesManager = ZigguratInject.make(ITypesManager.class);
 
 	@Inject
-	IObjectHandler objectHandler = AgesysInject.make(IObjectHandler.class);
+	IObjectHandler objectHandler = ZigguratInject.make(IObjectHandler.class);
 
-	ITypesConfigurationProvider configManager = AgesysInject
+	ITypesConfigurationProvider configManager = ZigguratInject
 			.make(ITypesConfigurationProvider.class);
 
 	@Override

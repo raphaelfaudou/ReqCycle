@@ -7,7 +7,6 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.agesys.configuration.IConfigurationManager;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.reqcycle.traceability.types.ITypesConfigurationProvider;
@@ -23,6 +22,7 @@ import org.eclipse.reqcycle.types.IInjectedTypeProvider;
 import org.eclipse.reqcycle.types.IType;
 import org.eclipse.reqcycle.types.IType.FieldDescriptor;
 import org.eclipse.reqcycle.types.ITypesManager;
+import org.eclipse.ziggurat.configuration.IConfigurationManager;
 
 import com.google.common.base.Function;
 import com.google.common.base.Objects;

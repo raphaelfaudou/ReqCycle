@@ -17,7 +17,6 @@ import java.util.Collection;
 
 import javax.inject.Inject;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -25,6 +24,7 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
 import org.eclipse.reqcycle.repository.ui.views.RequirementView;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.RequirementSource;
 
@@ -36,7 +36,7 @@ public class OpenRequirementViewAction extends Action {
 	/** Requirement repositories TreeViewer */
 	private TreeViewer viewer;
 
-	@Inject ILogger logger = AgesysInject.make(ILogger.class);
+	@Inject ILogger logger = ZigguratInject.make(ILogger.class);
 	
 		
 	/**

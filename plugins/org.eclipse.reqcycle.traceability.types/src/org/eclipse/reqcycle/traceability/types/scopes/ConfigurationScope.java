@@ -5,11 +5,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.agesys.configuration.Activator;
-import org.agesys.inject.AgesysInject;
 import org.eclipse.reqcycle.traceability.model.scopes.IScope;
+import org.eclipse.reqcycle.traceability.types.Activator;
 import org.eclipse.reqcycle.uri.IReachableCreator;
 import org.eclipse.reqcycle.uri.model.Reachable;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 /**
  * A scope containing files in the configuration area
@@ -19,7 +19,7 @@ import org.eclipse.reqcycle.uri.model.Reachable;
  */
 public class ConfigurationScope implements IScope {
 
-	IReachableCreator creator = AgesysInject.make(IReachableCreator.class);
+	IReachableCreator creator = ZigguratInject.make(IReachableCreator.class);
 
 	@Override
 	public Iterator<Reachable> getReachables() {

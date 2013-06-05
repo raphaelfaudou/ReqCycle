@@ -19,15 +19,14 @@ package org.eclipse.reqcycle.repository.ui.providers;
 
 import javax.inject.Inject;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.reqcycle.repository.connector.IConnectorManager;
 import org.eclipse.reqcycle.repository.connector.ui.IConnectorManagerUi;
 import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
 import org.eclipse.reqcycle.repository.ui.Activator;
 import org.eclipse.reqcycle.repository.ui.Messages;
-import org.eclipse.reqcycle.repository.ui.views.ScopeView;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.RequirementSource;
 
@@ -44,9 +43,9 @@ public class RequirementSourceLabelProvider extends LabelProvider {
 
 	private static final String ICONS_STATUS_BUSY = Messages.RED_STATUS_ICON;
 	
-	private @Inject IConnectorManager repositoryConnectorManager = AgesysInject.make(IConnectorManager.class);
+	private @Inject IConnectorManager repositoryConnectorManager = ZigguratInject.make(IConnectorManager.class);
 	
-	private @Inject IConnectorManagerUi repositoryConnectorManagerUi = AgesysInject.make(IConnectorManagerUi.class);
+	private @Inject IConnectorManagerUi repositoryConnectorManagerUi = ZigguratInject.make(IConnectorManagerUi.class);
 
 
 	/*

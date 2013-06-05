@@ -6,7 +6,14 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.*;
+import org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.AnalyzedResource;
+import org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.Attribute;
+import org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.CacheTracabilityPackage;
+import org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.Model;
+import org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.Property;
+import org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.TraceabilityLink;
+import org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.TraceableElement;
+import org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.URIElement;
 
 /**
  * <!-- begin-user-doc -->

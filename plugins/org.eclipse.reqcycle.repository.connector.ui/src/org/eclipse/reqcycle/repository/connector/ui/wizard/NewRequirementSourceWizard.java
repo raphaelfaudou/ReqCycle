@@ -19,7 +19,6 @@ package org.eclipse.reqcycle.repository.connector.ui.wizard;
 
 import javax.inject.Inject;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.IWizard;
@@ -29,6 +28,7 @@ import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.connector.IConnector;
 import org.eclipse.reqcycle.repository.connector.ui.IConnectorManagerUi;
 import org.eclipse.reqcycle.repository.connector.ui.IConnectorUi;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.RequirementSource;
 import DataModel.Scope;
@@ -42,7 +42,7 @@ public class NewRequirementSourceWizard extends Wizard implements IWizard
     /** requirement source */
     private IRequirementSourceSettingPage settingsPage;
     /** the connector ui manager*/
-    private @Inject IConnectorManagerUi connectorManagerUi = AgesysInject.make(IConnectorManagerUi.class);
+    private @Inject IConnectorManagerUi connectorManagerUi = ZigguratInject.make(IConnectorManagerUi.class);
     /** the requirement source */
     private RequirementSource requirementSource;
     /** the connector ui */
@@ -50,7 +50,7 @@ public class NewRequirementSourceWizard extends Wizard implements IWizard
 	/** selected scope */
 	private Scope scope;
 	/** logger */
-	private @Inject ILogger logger = AgesysInject.make(ILogger.class);
+	private @Inject ILogger logger = ZigguratInject.make(ILogger.class);
     
     public NewRequirementSourceWizard()
     {

@@ -2,8 +2,8 @@ package org.eclipse.reqcycle.sesame.graph;
 
 import java.io.File;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.reqcycle.traceability.storage.blueprints.graph.ISpecificGraphProvider;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 import org.openrdf.sail.nativerdf.NativeStore;
 
 import com.tinkerpop.blueprints.Graph;
@@ -20,7 +20,7 @@ public class SesameBinaryGraphProvider implements ISpecificGraphProvider {
 	@Override
 	public IBusinessOperations getBusinessOperation() {
 		SailBusinessOperations op = new SailBusinessOperations();
-		AgesysInject.inject(op);
+		ZigguratInject.inject(op);
 		return op;
 	}
 

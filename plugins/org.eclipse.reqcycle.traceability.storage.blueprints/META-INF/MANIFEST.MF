@@ -9,10 +9,10 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.reqcycle.traceability.storage;bundle-version="1.0.0",
  org.eclipse.reqcycle.core;bundle-version="1.0.0",
  org.eclipse.reqcycle.uri;bundle-version="1.0.0",
- org.agesys.inject;bundle-version="1.0.0",
  org.eclipse.reqcycle.traceability;bundle-version="1.0.0",
  org.eclipse.reqcycle.traceability.types.ui;bundle-version="1.0.0",
- org.eclipse.reqcycle.types;bundle-version="1.0.0"
+ org.eclipse.reqcycle.types;bundle-version="1.0.0",
+ org.eclipse.ziggurat.inject
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: lib/blueprints-core-2.3.0.jar,

@@ -3,7 +3,6 @@ package org.eclipse.reqcycle.traceability.builder.impl;
 import java.util.ArrayDeque;
 import java.util.Collection;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -13,6 +12,7 @@ import org.eclipse.reqcycle.traceability.builder.Activator;
 import org.eclipse.reqcycle.traceability.builder.ITraceabilityBuilder.IBuilderCallBack;
 import org.eclipse.reqcycle.uri.visitors.CompositeVisitor;
 import org.eclipse.reqcycle.uri.visitors.IVisitor;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class TraceabilityVisitor extends CompositeVisitor implements IAdaptable {
 
@@ -36,7 +36,7 @@ public class TraceabilityVisitor extends CompositeVisitor implements IAdaptable 
 				Activator.PLUGIN_ID, EXT_POINT)) {
 			try {
 				IVisitor v = (IVisitor) e.createExecutableExtension("visitor");
-				AgesysInject.inject(v);
+				ZigguratInject.inject(v);
 				result.add(v);
 			} catch (CoreException e1) {
 				e1.printStackTrace();

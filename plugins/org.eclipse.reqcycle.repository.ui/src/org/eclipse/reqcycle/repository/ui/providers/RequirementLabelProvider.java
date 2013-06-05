@@ -16,19 +16,19 @@ package org.eclipse.reqcycle.repository.ui.providers;
 
 import javax.inject.Inject;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.reqcycle.repository.connector.ui.IConnectorManagerUi;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.Contained;
 import DataModel.RequirementSource;
 
 public class RequirementLabelProvider extends LabelProvider {
 	
-	private @Inject IConnectorManagerUi manager = AgesysInject.make(IConnectorManagerUi.class);
+	private @Inject IConnectorManagerUi manager = ZigguratInject.make(IConnectorManagerUi.class);
 	
 	
 	/* (non-Javadoc)

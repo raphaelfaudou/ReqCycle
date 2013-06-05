@@ -95,7 +95,7 @@
                org.eclipse.emf.edit.provider.IItemPropertySource"/>
    </extension>
    <extension
-         point="org.agesys.inject.binding">
+         point="org.eclipse.ziggurat.inject.binding">
       <binding
             impl="org.eclipse.reqcycle.repository.requirement.data.impl.RequirementSourceManagerImpl"
             interface="org.eclipse.reqcycle.repository.requirement.data.IRequirementSourceManager">

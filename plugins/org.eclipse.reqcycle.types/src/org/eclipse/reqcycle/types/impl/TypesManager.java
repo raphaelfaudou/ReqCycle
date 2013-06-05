@@ -9,13 +9,13 @@ import java.util.Set;
 
 import javax.inject.Singleton;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.reqcycle.types.IInjectedTypeChecker.IValueInjecter;
 import org.eclipse.reqcycle.types.IInjectedTypeProvider;
 import org.eclipse.reqcycle.types.IType;
 import org.eclipse.reqcycle.types.ITypeChecker;
 import org.eclipse.reqcycle.types.ITypesManager;
 import org.eclipse.reqcycle.uri.model.Reachable;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -91,7 +91,7 @@ public class TypesManager implements ITypesManager {
 					try {
 						ITypeChecker iTypeChecker = instance = getCheckerClass()
 								.newInstance();
-						AgesysInject.inject(iTypeChecker);
+						ZigguratInject.inject(iTypeChecker);
 						List<Field> fields = getFieldsToInject();
 						for (Field f : fields) {
 							boolean oldAccess = f.isAccessible();

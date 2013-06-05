@@ -3,7 +3,6 @@
 package org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**

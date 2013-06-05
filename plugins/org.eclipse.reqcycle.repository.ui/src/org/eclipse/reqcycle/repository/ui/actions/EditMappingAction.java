@@ -15,7 +15,6 @@ package org.eclipse.reqcycle.repository.ui.actions;
 
 import javax.inject.Inject;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelection;
@@ -25,6 +24,7 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.reqcycle.repository.connector.IConnector;
 import org.eclipse.reqcycle.repository.connector.IConnectorManager;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.RequirementSource;
 
@@ -64,7 +64,7 @@ private static ITreeContentProvider contentProvider =  new ITreeContentProvider(
 		}
 	};
 	
-	private @Inject IConnectorManager connectorManager = AgesysInject.make(IConnectorManager.class);
+	private @Inject IConnectorManager connectorManager = ZigguratInject.make(IConnectorManager.class);
 	
 	private TreeViewer viewer;
 

@@ -27,7 +27,7 @@
       </type>
    </extension>
    <extension
-         point="org.agesys.inject.binding">
+         point="org.eclipse.ziggurat.inject.binding">
       <binding
             impl="org.eclipse.reqcycle.emf.handlers.EMFURIHandler"
             interface="org.eclipse.reqcycle.uri.model.IObjectHandler"

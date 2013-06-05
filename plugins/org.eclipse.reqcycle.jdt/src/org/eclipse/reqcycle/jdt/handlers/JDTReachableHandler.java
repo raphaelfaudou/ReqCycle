@@ -1,6 +1,5 @@
 package org.eclipse.reqcycle.jdt.handlers;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.internal.core.JavaProject;
@@ -11,6 +10,7 @@ import org.eclipse.reqcycle.uri.model.IObjectHandler;
 import org.eclipse.reqcycle.uri.model.IReachableHandler;
 import org.eclipse.reqcycle.uri.model.Reachable;
 import org.eclipse.reqcycle.uri.model.ReachableObject;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class JDTReachableHandler implements IReachableHandler, IObjectHandler,
 		ITypeChecker {
@@ -21,7 +21,7 @@ public class JDTReachableHandler implements IReachableHandler, IObjectHandler,
 	@Override
 	public ReachableObject getFromReachable(Reachable t) {
 		JDTReachableObject jdtReachableObject = new JDTReachableObject(t);
-		AgesysInject.inject(jdtReachableObject);
+		ZigguratInject.inject(jdtReachableObject);
 		return jdtReachableObject;
 	}
 

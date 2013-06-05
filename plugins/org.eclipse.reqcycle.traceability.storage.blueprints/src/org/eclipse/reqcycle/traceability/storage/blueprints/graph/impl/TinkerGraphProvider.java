@@ -1,11 +1,7 @@
 package org.eclipse.reqcycle.traceability.storage.blueprints.graph.impl;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.eclipse.reqcycle.traceability.storage.blueprints.graph.IGraphProvider;
 
-import com.google.common.io.Files;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
 

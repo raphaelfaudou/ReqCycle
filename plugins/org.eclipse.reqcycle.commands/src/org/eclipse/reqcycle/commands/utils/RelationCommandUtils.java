@@ -1,15 +1,12 @@
 package org.eclipse.reqcycle.commands.utils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.agesys.inject.AgesysInject;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.reqcycle.commands.Activator;
@@ -17,18 +14,18 @@ import org.eclipse.reqcycle.commands.CreateRelationCommand;
 import org.eclipse.reqcycle.traceability.types.ITypesConfigurationProvider;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Configuration;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Relation;
-import org.eclipse.reqcycle.types.IType;
 import org.eclipse.reqcycle.types.ITypesManager;
 import org.eclipse.reqcycle.uri.model.Reachable;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class RelationCommandUtils
 {
 
     @Inject
-    static ITypesConfigurationProvider typeConfigProvider = AgesysInject.make(ITypesConfigurationProvider.class);
+    static ITypesConfigurationProvider typeConfigProvider = ZigguratInject.make(ITypesConfigurationProvider.class);
 
     @Inject
-    static ITypesManager typeManager = AgesysInject.make(ITypesManager.class);
+    static ITypesManager typeManager = ZigguratInject.make(ITypesManager.class);
 
     public static Map<RelationCreationDescriptor, CreateRelationCommand> getAllRelationCommands(List<Reachable> sourceReachables, List<Reachable> targetReachables, IResource resource)
     {
@@ -62,7 +59,7 @@ public class RelationCommandUtils
                     {
                         for(RelationCreationDescriptor desc : descs){
                             CreateRelationCommand command = new CreateRelationCommand(relation, desc.getSource(), desc.getTarget(), resource);
-                            AgesysInject.inject(command);
+                            ZigguratInject.inject(command);
                             map.put(desc, command);
                         }
                     }

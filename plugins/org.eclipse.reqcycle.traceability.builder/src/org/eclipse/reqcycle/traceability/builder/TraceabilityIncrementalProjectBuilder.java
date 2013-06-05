@@ -2,7 +2,6 @@ package org.eclipse.reqcycle.traceability.builder;
 
 import java.util.Map;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
@@ -10,6 +9,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.reqcycle.traceability.builder.exceptions.BuilderException;
 import org.eclipse.reqcycle.traceability.builder.impl.ResourceDeltaBuilderVisitor;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class TraceabilityIncrementalProjectBuilder extends
 		IncrementalProjectBuilder {
@@ -23,7 +23,7 @@ public class TraceabilityIncrementalProjectBuilder extends
 			IResourceDelta delta = getDelta(getProject());
 			ResourceDeltaBuilderVisitor visitor = new ResourceDeltaBuilderVisitor(
 					monitor, clean);
-			AgesysInject.inject(visitor);
+			ZigguratInject.inject(visitor);
 			if (delta != null) {
 				delta.accept(visitor);
 			} else if (kind == FULL_BUILD) {

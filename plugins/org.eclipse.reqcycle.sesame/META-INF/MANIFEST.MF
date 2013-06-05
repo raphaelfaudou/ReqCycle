@@ -8,11 +8,11 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.reqcycle.uri;bundle-version="1.0.0",
  org.eclipse.reqcycle.traceability.storage.blueprints;bundle-version="1.0.0",
- org.agesys.inject;bundle-version="1.0.0",
  org.eclipse.reqcycle.traceability;bundle-version="1.0.0",
  org.eclipse.reqcycle.traceability.storage;bundle-version="1.0.0",
  org.eclipse.reqcycle.traceability.builder;bundle-version="1.0.0",
- org.eclipse.core.resources;bundle-version="3.8.1"
+ org.eclipse.core.resources;bundle-version="3.8.1",
+ org.eclipse.ziggurat.inject
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: lib/openrdf-sesame-2.6.10-onejar.jar,

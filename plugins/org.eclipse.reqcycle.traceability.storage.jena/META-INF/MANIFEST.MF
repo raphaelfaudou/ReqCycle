@@ -9,9 +9,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.reqcycle.traceability;bundle-version="1.0.0",
  org.eclipse.reqcycle.traceability.storage;bundle-version="1.0.0",
  org.eclipse.reqcycle.uri;bundle-version="1.0.0",
- org.agesys.inject;bundle-version="1.0.0",
  org.eclipse.ui;bundle-version="3.104.0",
- org.eclipse.e4.core.contexts;bundle-version="1.2.0"
+ org.eclipse.e4.core.contexts;bundle-version="1.2.0",
+ org.eclipse.ziggurat.inject
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,
  lib/commons-codec-1.6.jar,

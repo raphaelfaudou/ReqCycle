@@ -8,7 +8,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.reqcycle.traceability.engine.ITraceabilityEngine.DIRECTION;
 import org.eclipse.reqcycle.traceability.model.Link;
 import org.eclipse.reqcycle.traceability.model.Pair;
@@ -17,6 +16,7 @@ import org.eclipse.reqcycle.traceability.storage.ITraceabilityStorage;
 import org.eclipse.reqcycle.traceability.storage.blueprints.graph.ISpecificGraphProvider;
 import org.eclipse.reqcycle.uri.IReachableCreator;
 import org.eclipse.reqcycle.uri.model.Reachable;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import com.google.common.collect.Lists;
 import com.tinkerpop.blueprints.Direction;
@@ -40,7 +40,7 @@ public class GraphStorage implements ITraceabilityStorage {
 		this.graph = graph;
 		if (operations == null) {
 			this.graphUtils = new GraphUtils();
-			AgesysInject.inject(this.graphUtils);
+			ZigguratInject.inject(this.graphUtils);
 		} else {
 			this.graphUtils = operations;
 		}

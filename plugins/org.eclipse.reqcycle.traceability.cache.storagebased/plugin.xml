@@ -2,7 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.agesys.inject.binding">
+         point="org.eclipse.ziggurat.inject.binding">
       <binding
             impl="org.eclipse.reqcycle.traceability.cache.storagebased.engine.StorageBasedTraceabilityEngine"
             interface="org.eclipse.reqcycle.traceability.engine.ITraceabilityEngine"

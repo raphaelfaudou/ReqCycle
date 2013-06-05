@@ -20,7 +20,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
@@ -30,6 +29,7 @@ import org.eclipse.reqcycle.repository.connector.Activator;
 import org.eclipse.reqcycle.repository.connector.IConnector;
 import org.eclipse.reqcycle.repository.connector.IConnectorManager;
 //import org.eclipse.reqcycle.repository.connector.IRequirementSourceRepository;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.RequirementSource;
 
@@ -43,7 +43,7 @@ public class ConnectorManager implements IConnectorManager {
 	private Map<String, ConnectorDescriptor> connectors = new HashMap<String, ConnectorDescriptor>();
 
 	/** Logger */
-	@Inject ILogger logger = AgesysInject.make(ILogger.class);
+	@Inject ILogger logger = ZigguratInject.make(ILogger.class);
 	
 	/**
 	 * Constructor
@@ -54,11 +54,11 @@ public class ConnectorManager implements IConnectorManager {
 		for(IConfigurationElement iConfigurationElement : extensions) {
 			try {
 				IConnector connector = (IConnector)iConfigurationElement.createExecutableExtension("class");
-				AgesysInject.inject(connector);
+				ZigguratInject.inject(connector);
 				String name = iConfigurationElement.getAttribute("name");
 				String id = iConfigurationElement.getAttribute("id");
 				ConnectorDescriptor repositoryConnectorDescriptor = new ConnectorDescriptor(connector, name, id);
-				AgesysInject.inject(repositoryConnectorDescriptor);
+				ZigguratInject.inject(repositoryConnectorDescriptor);
 				addConnector(repositoryConnectorDescriptor);
 			} catch (CoreException e) {
 				boolean debug = logger.isDebug(Activator.OPTIONS_DEBUG, Activator.getDefault());

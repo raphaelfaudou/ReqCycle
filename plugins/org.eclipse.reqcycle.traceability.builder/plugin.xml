@@ -3,7 +3,7 @@
 <plugin>
    <extension-point id="traceabilityAnalyser" name="Traceability Analyser" schema="schema/traceabilityAnalyser.exsd"/>
    <extension
-         point="org.agesys.inject.binding">
+         point="org.eclipse.ziggurat.inject.binding">
       <binding
             impl="org.eclipse.reqcycle.traceability.builder.impl.TraceabilityBuilder"
             interface="org.eclipse.reqcycle.traceability.builder.ITraceabilityBuilder"

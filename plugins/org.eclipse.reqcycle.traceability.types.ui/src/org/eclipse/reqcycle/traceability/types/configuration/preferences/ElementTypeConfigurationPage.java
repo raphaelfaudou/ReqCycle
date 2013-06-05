@@ -1,6 +1,5 @@
 package org.eclipse.reqcycle.traceability.types.configuration.preferences;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.viewers.IContentProvider;
@@ -17,6 +16,7 @@ import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.T
 import org.eclipse.reqcycle.types.IType;
 import org.eclipse.reqcycle.types.ITypesManager;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class ElementTypeConfigurationPage extends AbstractPreferencePage {
 
@@ -31,7 +31,7 @@ public class ElementTypeConfigurationPage extends AbstractPreferencePage {
 				if (javaType != null && javaType.isExtensible()) {
 					NewCustomTypeDialog d = new NewCustomTypeDialog(getShell(),
 							type);
-					AgesysInject.inject(d);
+					ZigguratInject.inject(d);
 					if (d.open() == NewCustomTypeDialog.OK) {
 						CustomType custom = d.getCustomType();
 						container.getTypes().add(custom);
@@ -60,7 +60,7 @@ public class ElementTypeConfigurationPage extends AbstractPreferencePage {
 	protected IContentProvider getContentProvider() {
 		PreferenceDialogTypesContentProvider preferenceDialogTypesContentProvider = new PreferenceDialogTypesContentProvider(
 				factory, container);
-		AgesysInject.inject(preferenceDialogTypesContentProvider);
+		ZigguratInject.inject(preferenceDialogTypesContentProvider);
 		return preferenceDialogTypesContentProvider;
 	}
 
@@ -68,7 +68,7 @@ public class ElementTypeConfigurationPage extends AbstractPreferencePage {
 	protected ILabelProvider getLabelProvider() {
 		PreferenceDialogTypeLabelProvider provider = new PreferenceDialogTypeLabelProvider(
 				factory, super.getLabelProvider());
-		AgesysInject.inject(provider);
+		ZigguratInject.inject(provider);
 		return provider;
 
 	}

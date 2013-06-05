@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.util.LocalSelectionTransfer;
@@ -73,6 +72,7 @@ import org.eclipse.ui.part.PluginTransfer;
 import org.eclipse.ui.part.PluginTransferData;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.wb.swt.ResourceManager;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 
@@ -90,10 +90,10 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 	private DIRECTION direction;
 	private RequestContentProvider contentProvider;
 	private TreeViewer listOfTypesViewer;
-	private ITypesManager manager = AgesysInject.make(ITypesManager.class);
-	private ITypesConfigurationProvider typeProvider = AgesysInject
+	private ITypesManager manager = ZigguratInject.make(ITypesManager.class);
+	private ITypesConfigurationProvider typeProvider = ZigguratInject
 			.make(ITypesConfigurationProvider.class);
-	private IReachableManager reachManager = AgesysInject
+	private IReachableManager reachManager = ZigguratInject
 			.make(IReachableManager.class);
 	private ComboViewer comboConfViewer;
 
@@ -152,7 +152,7 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 		treeViewer.setUseHashlookup(true);
 		contentProvider = new RequestContentProvider();
 		RequestLabelProvider labelProvider = new RequestLabelProvider();
-		AgesysInject.inject(labelProvider, contentProvider);
+		ZigguratInject.inject(labelProvider, contentProvider);
 		treeViewer.setContentProvider(contentProvider);
 		treeViewer.setLabelProvider(labelProvider);
 		Tree tree = treeViewer.getTree();

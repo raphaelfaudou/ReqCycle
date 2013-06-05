@@ -15,12 +15,12 @@ package org.eclipse.reqcycle.repository.ui.actions;
 
 import javax.inject.Inject;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.reqcycle.repository.requirement.data.IRequirementSourceManager;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 /**
  * Action to delete a requirement source
@@ -31,7 +31,7 @@ public class DeleteRequirementSourceAction extends Action {
 	private TreeViewer viewer;
 	
 	/** Requirement Source Manager */
-	private @Inject IRequirementSourceManager requirementSourceManager = AgesysInject.make(IRequirementSourceManager.class);
+	private @Inject IRequirementSourceManager requirementSourceManager = ZigguratInject.make(IRequirementSourceManager.class);
 
 	/**
 	 * Constructor

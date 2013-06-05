@@ -3,7 +3,7 @@
 <plugin>
    <extension-point id="types" name="Types" schema="schema/types.exsd"/>
    <extension
-         point="org.agesys.inject.binding">
+         point="org.eclipse.ziggurat.inject.binding">
       <binding
             impl="org.eclipse.reqcycle.types.impl.TypesManager"
             interface="org.eclipse.reqcycle.types.ITypesManager"

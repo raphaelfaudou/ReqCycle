@@ -2,7 +2,6 @@ package org.eclipse.reqcycle.emf.handlers;
 
 import javax.inject.Inject;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -17,6 +16,7 @@ import org.eclipse.reqcycle.uri.exceptions.VisitableException;
 import org.eclipse.reqcycle.uri.model.Reachable;
 import org.eclipse.reqcycle.uri.model.ReachableObject;
 import org.eclipse.reqcycle.uri.visitors.IVisitable;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class EMFReachableObject implements ReachableObject {
 	private final Reachable t;
@@ -31,7 +31,7 @@ public class EMFReachableObject implements ReachableObject {
 	public IVisitable getVisitable() throws VisitableException {
 		try {
 			EMFVisitable emfVisitable = doGetVisitable(EMFUtils.getEMFURI(t));
-			AgesysInject.inject(emfVisitable);
+			ZigguratInject.inject(emfVisitable);
 			return emfVisitable;
 		} catch (RuntimeException e) {
 			if (Activator.getDefault().isDebugging()) {

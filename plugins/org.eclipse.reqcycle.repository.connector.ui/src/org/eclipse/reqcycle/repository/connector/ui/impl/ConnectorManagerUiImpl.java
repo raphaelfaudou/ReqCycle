@@ -23,7 +23,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
@@ -31,14 +30,15 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.connector.ui.Activator;
+import org.eclipse.reqcycle.repository.connector.ui.ConnectorDescriptorUi;
 import org.eclipse.reqcycle.repository.connector.ui.IConnectorManagerUi;
 import org.eclipse.reqcycle.repository.connector.ui.IConnectorUi;
-import org.eclipse.reqcycle.repository.connector.ui.ConnectorDescriptorUi;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 @Singleton
 public class ConnectorManagerUiImpl implements IConnectorManagerUi {
@@ -47,7 +47,7 @@ public class ConnectorManagerUiImpl implements IConnectorManagerUi {
 	private Map<String, ConnectorDescriptorUi> connectorsUi = new HashMap<String, ConnectorDescriptorUi>();
 
 	/** Logger */
-	@Inject ILogger logger = AgesysInject.make(ILogger.class);
+	@Inject ILogger logger = ZigguratInject.make(ILogger.class);
 	
 	/**
 	 * Constructor
@@ -58,7 +58,7 @@ public class ConnectorManagerUiImpl implements IConnectorManagerUi {
 		for(IConfigurationElement iConfigurationElement : extensions) {
 			try {
 				IConnectorUi connector = (IConnectorUi)iConfigurationElement.createExecutableExtension("class");
-				AgesysInject.inject(connector);
+				ZigguratInject.inject(connector);
 				String id = iConfigurationElement.getAttribute("id");
 				String icon = iConfigurationElement.getAttribute("icon");
 				ImageDescriptor imageDescriptor = AbstractUIPlugin.imageDescriptorFromPlugin(iConfigurationElement.getNamespaceIdentifier(), icon);

@@ -1,6 +1,5 @@
 package org.eclipse.reqcycle.emf.handlers;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.util.URI;
@@ -11,6 +10,7 @@ import org.eclipse.reqcycle.uri.model.IObjectHandler;
 import org.eclipse.reqcycle.uri.model.IReachableHandler;
 import org.eclipse.reqcycle.uri.model.Reachable;
 import org.eclipse.reqcycle.uri.model.ReachableObject;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class EMFURIHandler implements IReachableHandler, IObjectHandler {
 
@@ -27,7 +27,7 @@ public class EMFURIHandler implements IReachableHandler, IObjectHandler {
 	@Override
 	public ReachableObject getFromReachable(final Reachable t) {
 		EMFReachableObject emfReachableObject = doGetReachableObject(t);
-		AgesysInject.inject(emfReachableObject);
+		ZigguratInject.inject(emfReachableObject);
 		return emfReachableObject;
 	}
 
@@ -81,7 +81,7 @@ public class EMFURIHandler implements IReachableHandler, IObjectHandler {
 					.getReachable((EObject) adaptable.getAdapter(EObject.class)));
 		}
 		if (result != null) {
-			AgesysInject.inject(result);
+			ZigguratInject.inject(result);
 		}
 		return result;
 	}

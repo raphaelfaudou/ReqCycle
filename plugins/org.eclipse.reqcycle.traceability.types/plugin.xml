@@ -13,7 +13,7 @@
             genModel="model/TypeConfiguration.genmodel"/>
    </extension>
    <extension
-         point="org.agesys.inject.binding">
+         point="org.eclipse.ziggurat.inject.binding">
       <binding
             impl="org.eclipse.reqcycle.traceability.types.engine.impl.TypedTraceabilityEngine"
             interface="org.eclipse.reqcycle.traceability.types.engine.ITypedTraceabilityEngine"

@@ -14,7 +14,6 @@
 package org.eclipse.reqcycle.repository.connector.ui;
 
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IRequirementSourceSettingPage;
 
 import DataModel.RequirementSource;

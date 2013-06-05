@@ -3,7 +3,6 @@ package org.eclipse.reqcycle.emf.utils;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -14,13 +13,14 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.reqcycle.uri.IReachableCreator;
 import org.eclipse.reqcycle.uri.model.Reachable;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class EMFUtils {
 	private static final List<URIHandler> DEFAULT_HANDLERS = URIHandler.DEFAULT_HANDLERS;
 
 	public static Reachable getReachable(URI uri) {
 		try {
-			IReachableCreator creator = AgesysInject
+			IReachableCreator creator = ZigguratInject
 					.make(IReachableCreator.class);
 			return creator.getReachable(new java.net.URI(uri.toString()));
 		} catch (URISyntaxException e) {
@@ -44,7 +44,7 @@ public class EMFUtils {
 
 	public static Reachable getReachable(EObject eobject) {
 		try {
-			IReachableCreator creator = AgesysInject
+			IReachableCreator creator = ZigguratInject
 					.make(IReachableCreator.class);
 			return creator.getReachable(
 					new java.net.URI(EcoreUtil.getURI(eobject).toString()),

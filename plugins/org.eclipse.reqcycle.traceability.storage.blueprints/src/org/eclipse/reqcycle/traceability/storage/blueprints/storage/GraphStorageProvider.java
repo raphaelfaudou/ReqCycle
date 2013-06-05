@@ -2,11 +2,11 @@ package org.eclipse.reqcycle.traceability.storage.blueprints.storage;
 
 import javax.inject.Inject;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.reqcycle.traceability.storage.IStorageProvider;
 import org.eclipse.reqcycle.traceability.storage.ITraceabilityStorage;
 import org.eclipse.reqcycle.traceability.storage.blueprints.graph.IGraphProvider;
 import org.eclipse.reqcycle.traceability.storage.blueprints.graph.ISpecificGraphProvider;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class GraphStorageProvider implements IStorageProvider {
 
@@ -23,7 +23,7 @@ public class GraphStorageProvider implements IStorageProvider {
 		} else {
 			graphStorage = new GraphStorage(getProvider().getGraph(path));
 		}
-		AgesysInject.inject(graphStorage);
+		ZigguratInject.inject(graphStorage);
 		return graphStorage;
 	}
 

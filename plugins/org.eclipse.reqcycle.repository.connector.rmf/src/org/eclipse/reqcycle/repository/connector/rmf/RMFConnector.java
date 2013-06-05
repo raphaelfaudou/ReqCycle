@@ -13,21 +13,17 @@
  *****************************************************************************/
 package org.eclipse.reqcycle.repository.connector.rmf;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.inject.Inject;
-import javax.print.AttributeException;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
@@ -56,10 +52,9 @@ import org.eclipse.rmf.reqif10.SpecType;
 import org.eclipse.rmf.reqif10.Specification;
 import org.eclipse.rmf.reqif10.common.util.ReqIF10Util;
 import org.eclipse.swt.widgets.Shell;
-import org.omg.CORBA.CustomMarshal;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import CustomDataModel.CustomDataModelFactory;
-import CustomDataModel.CustomDataModelPackage;
 import CustomDataModel.Enumeration;
 import CustomDataModel.impl.CustomDataModelFactoryImpl;
 import DataModel.Contained;
@@ -78,13 +73,13 @@ import com.google.common.collect.Collections2;
 
 public class RMFConnector implements IConnector {
 
-	private @Inject static ILogger logger = AgesysInject.make(ILogger.class);
+	private @Inject static ILogger logger = ZigguratInject.make(ILogger.class);
 	
-	private @Inject static IRequirementSourceManager requirementSourceManager = AgesysInject.make(IRequirementSourceManager.class);
+	private @Inject static IRequirementSourceManager requirementSourceManager = ZigguratInject.make(IRequirementSourceManager.class);
 	
-	private @Inject static IScopeManager scopeManager = AgesysInject.make(IScopeManager.class);
+	private @Inject static IScopeManager scopeManager = ZigguratInject.make(IScopeManager.class);
 	
-	private @Inject static IRequirementCreator creator = AgesysInject.make(IRequirementCreator.class);
+	private @Inject static IRequirementCreator creator = ZigguratInject.make(IRequirementCreator.class);
 
 	public RMFConnector() {
 	}

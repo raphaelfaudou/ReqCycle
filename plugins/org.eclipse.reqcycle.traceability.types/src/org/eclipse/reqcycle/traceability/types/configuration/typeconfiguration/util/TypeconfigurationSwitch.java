@@ -4,10 +4,14 @@ package org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
-
-import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.*;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Configuration;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.CustomType;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Entry;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Relation;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Type;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeConfigContainer;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeconfigurationPackage;
 
 /**
  * <!-- begin-user-doc -->

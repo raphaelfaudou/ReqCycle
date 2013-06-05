@@ -17,7 +17,6 @@ import java.util.Collection;
 
 import javax.inject.Inject;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -30,6 +29,7 @@ import org.eclipse.reqcycle.repository.requirement.data.IRequirementSourceManage
 import org.eclipse.reqcycle.repository.requirement.data.IScopeManager;
 import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.Contained;
 import DataModel.Requirement;
@@ -50,10 +50,10 @@ public class AddRequirementSourceAction extends Action {
 	private TreeViewer viewer;
 
 	private @Inject
-	IRequirementSourceManager requirementSourceManager = AgesysInject.make(IRequirementSourceManager.class);
+	IRequirementSourceManager requirementSourceManager = ZigguratInject.make(IRequirementSourceManager.class);
 
 	private @Inject
-	IScopeManager scopeManager = AgesysInject.make(IScopeManager.class);
+	IScopeManager scopeManager = ZigguratInject.make(IScopeManager.class);
 
 
 	/**

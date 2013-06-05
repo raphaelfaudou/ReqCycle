@@ -2,11 +2,10 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.agesys.inject.binding">
+         point="org.eclipse.ziggurat.inject.binding">
       <binding
             impl="org.eclipse.reqcycle.core.impl.Logger"
             interface="org.eclipse.reqcycle.core.ILogger">
       </binding>
    </extension>
-
 </plugin>

@@ -4,7 +4,6 @@ import java.io.File;
 
 import javax.inject.Inject;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
@@ -14,6 +13,7 @@ import org.eclipse.reqcycle.uri.exceptions.VisitableException;
 import org.eclipse.reqcycle.uri.model.Reachable;
 import org.eclipse.reqcycle.uri.model.ReachableObject;
 import org.eclipse.reqcycle.uri.visitors.IVisitable;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import com.tinkerpop.blueprints.Vertex;
 
@@ -37,7 +37,7 @@ public class SesameReachableObject implements ReachableObject {
 	@Override
 	public IVisitable getVisitable() throws VisitableException {
 		SesameVisitable sesameVisitable = new SesameVisitable(reachable);
-		AgesysInject.inject(sesameVisitable);
+		ZigguratInject.inject(sesameVisitable);
 		return sesameVisitable;
 	}
 

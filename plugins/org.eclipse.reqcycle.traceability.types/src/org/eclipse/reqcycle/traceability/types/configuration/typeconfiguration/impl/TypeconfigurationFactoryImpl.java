@@ -6,12 +6,16 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.*;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Configuration;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.CustomType;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Entry;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Relation;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Type;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeConfigContainer;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeconfigurationFactory;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeconfigurationPackage;
 import org.eclipse.reqcycle.types.IType;
 
 /**

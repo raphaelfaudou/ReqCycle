@@ -9,9 +9,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.reqcycle.core;bundle-version="1.0.0",
  org.eclipse.e4.core.contexts;bundle-version="1.1.0",
  org.eclipse.e4.core.services;bundle-version="1.0.0",
- org.agesys.inject;bundle-version="1.0.0",
  org.eclipse.reqcycle.uri;bundle-version="1.0.0",
- org.eclipse.core.resources;bundle-version="3.8.1"
+ org.eclipse.core.resources;bundle-version="3.8.1",
+ org.eclipse.ziggurat.inject
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.reqcycle.traceability,

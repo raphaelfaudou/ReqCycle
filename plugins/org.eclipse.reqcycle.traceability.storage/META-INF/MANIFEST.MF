@@ -8,7 +8,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.reqcycle.core;bundle-version="1.0.0",
  org.eclipse.reqcycle.traceability;bundle-version="1.0.0",
  org.eclipse.reqcycle.uri;bundle-version="1.0.0",
- org.agesys.inject;bundle-version="1.0.0"
+ org.eclipse.ziggurat.inject
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.reqcycle.traceability.storage

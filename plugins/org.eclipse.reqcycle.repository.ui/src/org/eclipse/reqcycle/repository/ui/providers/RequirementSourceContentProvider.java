@@ -17,18 +17,18 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.reqcycle.repository.requirement.data.IRequirementSourceManager;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.RequirementSource;
 
 public class RequirementSourceContentProvider implements ITreeContentProvider, IStructuredContentProvider {
 
 	
-	private @Inject IRequirementSourceManager requirementSourceManager = AgesysInject.make(IRequirementSourceManager.class);
+	private @Inject IRequirementSourceManager requirementSourceManager = ZigguratInject.make(IRequirementSourceManager.class);
 	
 	public void inputChanged(Viewer v, Object oldInput, Object newInput) {
 	}

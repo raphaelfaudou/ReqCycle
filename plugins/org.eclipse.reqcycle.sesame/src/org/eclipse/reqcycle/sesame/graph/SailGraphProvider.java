@@ -6,8 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.reqcycle.traceability.storage.blueprints.graph.ISpecificGraphProvider;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 import org.openrdf.model.Resource;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.sail.SailRepository;
@@ -121,7 +121,7 @@ public class SailGraphProvider implements ISpecificGraphProvider {
 	@Override
 	public IBusinessOperations getBusinessOperation() {
 		SailBusinessOperations sailBusinessOperations = new SailBusinessOperations();
-		AgesysInject.inject(sailBusinessOperations);
+		ZigguratInject.inject(sailBusinessOperations);
 		return sailBusinessOperations;
 	}
 }

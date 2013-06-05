@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.inject.Singleton;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
@@ -25,6 +24,7 @@ import org.eclipse.reqcycle.uri.model.IHandler;
 import org.eclipse.reqcycle.uri.model.IObjectHandler;
 import org.eclipse.reqcycle.uri.model.IReachableHandler;
 import org.eclipse.reqcycle.uri.model.Reachable;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -87,7 +87,7 @@ public class ReachableManager implements IReachableManager {
 
 				}
 				if (toAdd != null) {
-					AgesysInject.inject(toAdd);
+					ZigguratInject.inject(toAdd);
 					String prio = i.getAttribute("priority");
 					Integer val = 0;
 					if (prio != null && numberPattern.matcher(prio).matches()) {

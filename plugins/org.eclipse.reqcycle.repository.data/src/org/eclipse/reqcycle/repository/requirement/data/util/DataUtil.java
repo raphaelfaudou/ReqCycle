@@ -8,7 +8,6 @@ import java.util.Iterator;
 
 import javax.inject.Inject;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -26,6 +25,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.reqcycle.repository.requirement.data.IRequirementSourceManager;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.Contained;
 import DataModel.ReachableSection;
@@ -41,7 +41,7 @@ public class DataUtil {
 
 	/** Requirement Source Manager */
 	private @Inject
-	static IRequirementSourceManager requirementSourceManager = AgesysInject.make(IRequirementSourceManager.class);
+	static IRequirementSourceManager requirementSourceManager = ZigguratInject.make(IRequirementSourceManager.class);
 
 	protected static ComposedAdapterFactory cAdapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 

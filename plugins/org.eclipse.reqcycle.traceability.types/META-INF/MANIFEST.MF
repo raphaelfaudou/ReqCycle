@@ -19,10 +19,10 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui;bundle-version="3.104.0",
  org.eclipse.reqcycle.traceability;bundle-version="1.0.0",
  org.eclipse.reqcycle.uri;bundle-version="1.0.0",
- org.agesys.inject,
  org.eclipse.reqcycle.types;bundle-version="1.0.0",
- org.agesys.configuration;bundle-version="1.0.0",
- org.eclipse.core.resources;bundle-version="3.8.1"
+ org.eclipse.core.resources;bundle-version="3.8.1",
+ org.eclipse.ziggurat.configuration,
+ org.eclipse.ziggurat.inject
 Bundle-ActivationPolicy: lazy
 Import-Package: javax.annotation;version="1.0.0",
  javax.inject;version="1.0.0"

@@ -15,7 +15,6 @@ package org.eclipse.reqcycle.repository.ui.views;
 
 import javax.inject.Inject;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -31,8 +30,8 @@ import org.eclipse.reqcycle.repository.requirement.data.IRequirementSourceManage
 import org.eclipse.reqcycle.repository.ui.Activator;
 import org.eclipse.reqcycle.repository.ui.Messages;
 import org.eclipse.reqcycle.repository.ui.actions.AddRequirementSourceAction;
-import org.eclipse.reqcycle.repository.ui.actions.EditMappingAction;
 import org.eclipse.reqcycle.repository.ui.actions.DeleteRequirementSourceAction;
+import org.eclipse.reqcycle.repository.ui.actions.EditMappingAction;
 import org.eclipse.reqcycle.repository.ui.actions.OpenRequirementViewAction;
 import org.eclipse.reqcycle.repository.ui.actions.RefreshViewAction;
 import org.eclipse.reqcycle.repository.ui.actions.SynchronizeRequirementSourceActionStub;
@@ -45,6 +44,7 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.part.DrillDownAdapter;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.RequirementSource;
 
@@ -94,7 +94,7 @@ public class RequirementSourcesView extends ViewPart {
 
 	/** Requirement Source Manager */
 	private @Inject
-	IRequirementSourceManager requirementSourceManager = AgesysInject.make(IRequirementSourceManager.class);
+	IRequirementSourceManager requirementSourceManager = ZigguratInject.make(IRequirementSourceManager.class);
 
 	
 	/**

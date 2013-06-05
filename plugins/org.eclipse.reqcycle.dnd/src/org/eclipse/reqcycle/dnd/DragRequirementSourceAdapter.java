@@ -13,8 +13,6 @@
  *****************************************************************************/
 package org.eclipse.reqcycle.dnd;
 
-import java.beans.Beans;
-import java.beans.Introspector;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -25,7 +23,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.reqcycle.uri.model.IObjectHandler;

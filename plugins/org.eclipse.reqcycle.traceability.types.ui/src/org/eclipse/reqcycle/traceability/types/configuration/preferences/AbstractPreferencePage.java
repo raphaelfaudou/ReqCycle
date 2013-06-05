@@ -2,7 +2,6 @@ package org.eclipse.reqcycle.traceability.types.configuration.preferences;
 
 import java.util.Collection;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -38,6 +37,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
@@ -45,9 +45,9 @@ import com.google.common.collect.Iterables;
 
 public abstract class AbstractPreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage {
-	protected ITypesManager typesManager = AgesysInject
+	protected ITypesManager typesManager = ZigguratInject
 			.make(ITypesManager.class);
-	protected ITypesConfigurationProvider provider = AgesysInject
+	protected ITypesConfigurationProvider provider = ZigguratInject
 			.make(ITypesConfigurationProvider.class);
 	protected TypeConfigContainer container;
 	protected TreeViewer treeViewer;
@@ -197,7 +197,7 @@ public abstract class AbstractPreferencePage extends PreferencePage implements
 
 	protected void createRelation(Configuration conf) {
 		NewRelationDialog dialog = new NewRelationDialog(getShell(), container);
-		AgesysInject.inject(dialog);
+		ZigguratInject.inject(dialog);
 		if (dialog.open() == NewRelationDialog.OK) {
 			conf.getRelations().add(dialog.getRelation());
 		}

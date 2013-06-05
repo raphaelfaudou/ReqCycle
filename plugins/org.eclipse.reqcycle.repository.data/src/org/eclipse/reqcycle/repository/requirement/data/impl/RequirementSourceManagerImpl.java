@@ -23,8 +23,6 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.agesys.configuration.IConfigurationManager;
-import org.agesys.inject.AgesysInject;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -33,6 +31,8 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.reqcycle.repository.requirement.data.IRequirementSourceManager;
 import org.eclipse.reqcycle.repository.requirement.data.IScopeManager;
+import org.eclipse.ziggurat.configuration.IConfigurationManager;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.Contained;
 import DataModel.ReachableSection;
@@ -51,7 +51,7 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 	private @Inject
 	static IConfigurationManager confManager;
 	
-	private @Inject IScopeManager scopeManager = AgesysInject.make(IScopeManager.class);
+	private @Inject IScopeManager scopeManager = ZigguratInject.make(IScopeManager.class);
 
 	private String id = "org.eclipse.reqcycle.repositories";
 	
@@ -62,7 +62,7 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 	 */
 	RequirementSourceManagerImpl() {
 		
-		confManager = AgesysInject.make(IConfigurationManager.class);
+		confManager = ZigguratInject.make(IConfigurationManager.class);
 		EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, id, rs);
 		if(conf instanceof RequirementSources) {
 			sources = (RequirementSources)conf;

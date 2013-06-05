@@ -3,7 +3,6 @@ package org.eclipse.reqcycle.uri.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
@@ -11,6 +10,7 @@ import org.eclipse.reqcycle.uri.Activator;
 import org.eclipse.reqcycle.uri.IIDContributor;
 import org.eclipse.reqcycle.uri.ILogicalIDManager;
 import org.eclipse.reqcycle.uri.model.Reachable;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class LogicalIDManager implements ILogicalIDManager {
 	private static String EXT_NAME = "idContributors";
@@ -37,7 +37,7 @@ public class LogicalIDManager implements ILogicalIDManager {
 			try {
 				IIDContributor createExecutableExtension = (IIDContributor) c
 						.createExecutableExtension("instance");
-				AgesysInject.inject(createExecutableExtension);
+				ZigguratInject.inject(createExecutableExtension);
 				result.add(createExecutableExtension);
 			} catch (CoreException e) {
 				e.printStackTrace();
