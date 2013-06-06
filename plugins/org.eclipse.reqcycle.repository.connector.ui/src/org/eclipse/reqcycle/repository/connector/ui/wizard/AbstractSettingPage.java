@@ -33,11 +33,8 @@ import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -46,19 +43,15 @@ import org.eclipse.ziggurat.inject.ZigguratInject;
 import DataModel.Scope;
 
 
-public abstract class AbstractRequirementSourceSettingPage extends WizardPage implements IRequirementSourceSettingPage {
+public abstract class AbstractSettingPage extends WizardPage implements IRequirementSourceSettingPage {
 
 	protected Text requirementSourceNameText;
 
 	private ComboViewer scopeComboViewer;
 
-	private Button btnSkipMapping;
-
 	protected String requirementSourceNameString;
 
 	protected Scope selectedScope;
-
-	protected boolean skipMapping;
 
 	private @Inject IScopeManager scopeManager = ZigguratInject.make(IScopeManager.class);
 
@@ -67,13 +60,16 @@ public abstract class AbstractRequirementSourceSettingPage extends WizardPage im
 	private Scope scope;
 
 	
-	public AbstractRequirementSourceSettingPage(String title, String description) {
+	/**
+	 * @wbp.parser.constructor
+	 */
+	public AbstractSettingPage(String title, String description) {
 		super(title);
 		setTitle(title);
 		setDescription(description);
 	}
 	
-	public AbstractRequirementSourceSettingPage(String title, String description, String label, Scope scope) {
+	public AbstractSettingPage(String title, String description, String label, Scope scope) {
 		this(title, description);
 		this.label = label;
 		this.scope = scope;
@@ -83,6 +79,7 @@ public abstract class AbstractRequirementSourceSettingPage extends WizardPage im
 	public void createControl(Composite parent) {
 		Composite compositeContainer = new Composite(parent, SWT.NONE);
 		compositeContainer.setLayout(new GridLayout(1, false));
+		setControl(compositeContainer);
 
 		Composite mainComposite = new Composite(compositeContainer, SWT.NONE);
 		mainComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
@@ -111,26 +108,12 @@ public abstract class AbstractRequirementSourceSettingPage extends WizardPage im
 
 		scopeComboViewer.setInput(scopeManager.getAllScopes());
 
-		
-		addCustomControl(mainComposite);
-
-		Composite bottomComposite = new Composite(compositeContainer, SWT.NONE);
-		bottomComposite.setLayout(new GridLayout(2, false));
-		bottomComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 3, 1));
-
-		btnSkipMapping = new Button(bottomComposite, SWT.CHECK);
-		btnSkipMapping.setEnabled(false);
-
-		Label lblSkipMapping = new Label(bottomComposite, SWT.NONE);
-		lblSkipMapping.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
-		lblSkipMapping.setText("Skip mapping (Perform mapping later)");
-		lblSkipMapping.setEnabled(false);
-
 		hookListeners();
-		
 		init();
 		
-		setControl(compositeContainer);
+		addCustomControl(mainComposite);
+		hookCustomListeners();
+		customInit();
 	}
 
 	
@@ -148,7 +131,6 @@ public abstract class AbstractRequirementSourceSettingPage extends WizardPage im
 				scopeComboViewer.setSelection(new StructuredSelection(scope));
 			}
 		}
-		customInit();
 	}
 
 	protected abstract void customInit();
@@ -158,8 +140,7 @@ public abstract class AbstractRequirementSourceSettingPage extends WizardPage im
 	 * 
 	 * @param composite
 	 */
-	protected void addCustomControl(Composite parent){
-	};
+	protected abstract void addCustomControl(Composite parent);
 
 	protected void hookListeners() {
 
@@ -185,25 +166,12 @@ public abstract class AbstractRequirementSourceSettingPage extends WizardPage im
 				}
 			}
 		});
-
-		btnSkipMapping.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if(btnSkipMapping != null) {
-					skipMapping = btnSkipMapping.getSelection();
-				}
-			}
-		});
-		
-		hookCustomListeners();
 	}
 
 	/**
 	 * Override this method to hook specific listeners
 	 */
-	protected void hookCustomListeners() {
-	}
+	protected abstract void hookCustomListeners();
 
 	@Override
 	public boolean canFlipToNextPage() {
@@ -251,11 +219,6 @@ public abstract class AbstractRequirementSourceSettingPage extends WizardPage im
 
 	public Scope getScope() {
 		return selectedScope;
-	}
-
-	@Override
-	public boolean performMapping() {
-		return skipMapping;
 	}
 
 }

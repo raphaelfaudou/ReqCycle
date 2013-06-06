@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.ui.dialogs.ResourceDialog;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.reqcycle.repository.connector.ui.wizard.AbstractRequirementSourceSettingPage;
+import org.eclipse.reqcycle.repository.connector.ui.wizard.AbstractSettingPage2;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -35,7 +35,7 @@ import org.eclipse.swt.widgets.Text;
 import DataModel.RequirementSource;
 import DataModel.Scope;
 
-public class RMFSettingPage extends AbstractRequirementSourceSettingPage {
+public class RMFSettingPage extends AbstractSettingPage2 {
 
 	private Text fileURIText;
 
