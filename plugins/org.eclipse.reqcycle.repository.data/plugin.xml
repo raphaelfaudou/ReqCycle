@@ -70,7 +70,7 @@
             type="scopesconf"
             class="ScopesConf.util.ScopesConfResourceFactoryImpl"/>
       <parser
-            class="org.agesys.configuration.impl.EMFConfResourceFactory"
+            class="org.eclipse.ziggurat.configuration.impl.EMFConfResourceFactory"
             type="emfconf">
       </parser>
    </extension>
