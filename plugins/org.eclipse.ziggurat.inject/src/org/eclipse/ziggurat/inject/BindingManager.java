@@ -39,12 +39,15 @@ public class BindingManager {
 			@Override
 			public SortedSet<PriorityClass> get() {
 				SortedSet<PriorityClass> sorted = new TreeSet<PriorityClass>(new Comparator<PriorityClass>() {
-
-					@Override
-					public int compare(PriorityClass o1, PriorityClass o2) {
-						return new Integer(o1.priority).compareTo(o2.priority);
-					}
-				});
+							@Override
+							public int compare(PriorityClass o1, PriorityClass o2) {
+								int result = new Integer(o1.priority).compareTo(o2.priority);
+								if (result == 0 && !o1.equals(o2)) {
+									result = -1;
+								}
+								return result;
+							}
+						});
 				return sorted;
 			}
 		};
@@ -78,9 +81,8 @@ public class BindingManager {
 			for(PriorityClass pc : multi.get(c)) {
 				if(pc.name != null && pc.name.length() > 0) {
 					InjectorFactory.getDefault().addBinding(c).implementedBy(pc.aClass).named(pc.name);
-				} else {
-					last = pc;
-				}
+				} 
+				last = pc;
 			}
 			if(last != null) {
 				// the binding by default is made by a class with no name

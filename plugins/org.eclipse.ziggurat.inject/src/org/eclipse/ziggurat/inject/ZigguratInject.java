@@ -87,11 +87,11 @@ public class ZigguratInject extends AbstractUIPlugin {
 	 * @param object
 	 *        the object to perform injection on
 	 */
-	public static void inject(Object object) {
+	private static void doInject(Object object) {
 		IEclipseContext context = (IEclipseContext)PlatformUI.getWorkbench().getService(IEclipseContext.class);
 		inject(object, context);
 	}
-	
+
 	/**
 	 * Injects data into an object, using a specified context.
 	 * 
@@ -112,49 +112,60 @@ public class ZigguratInject extends AbstractUIPlugin {
 	public static <T> T make(Class<T> theInterface, IEclipseContext context) {
 		return ContextInjectionFactory.make(theInterface, context);
 	}
-	
+
 	/**
 	 * Call the annotated method on an object, injecting the parameters from the workbench contect or the given values.
 	 * <p>
 	 * If no matching method is found on the class, null will be returned.
 	 * </p>
-	 * @param object the object on which the method should be called
-	 * @param qualifier the annotation tagging method to be called
-	 * @param parameters that will be retrievable thanks to the annotation "Named"
+	 * 
+	 * @param object
+	 *        the object on which the method should be called
+	 * @param qualifier
+	 *        the annotation tagging method to be called
+	 * @param parameters
+	 *        that will be retrievable thanks to the annotation "Named"
 	 * @return the return value of the method call, might be <code>null</code>
-	 * @throws InjectionException if an exception occurred while performing this operation
+	 * @throws InjectionException
+	 *         if an exception occurred while performing this operation
 	 */
-	public static Object invoke(Object object, Class<? extends Annotation> qualifier, Map<String, Object> stringParameters, Map<Class<?>, Object> classParameters){
+	public static Object invoke(Object object, Class<? extends Annotation> qualifier, Map<String, Object> stringParameters, Map<Class<?>, Object> classParameters) {
 		IEclipseContext context = (IEclipseContext)PlatformUI.getWorkbench().getService(IEclipseContext.class);
 		return invoke(object, qualifier, context, stringParameters, classParameters);
 	}
-	
+
 	/**
 	 * Call the annotated method on an object, injecting the parameters from the context or the given values.
 	 * <p>
 	 * If no matching method is found on the class, null will be returned.
 	 * </p>
-	 * @param object the object on which the method should be called
-	 * @param qualifier the annotation tagging method to be called
-	 * @param context the eclipse context from which some of the values should be returned.
-	 * @param stringParameters that will be retrievable thanks to the annotation "Named"
+	 * 
+	 * @param object
+	 *        the object on which the method should be called
+	 * @param qualifier
+	 *        the annotation tagging method to be called
+	 * @param context
+	 *        the eclipse context from which some of the values should be returned.
+	 * @param stringParameters
+	 *        that will be retrievable thanks to the annotation "Named"
 	 * @return the return value of the method call, might be <code>null</code>
-	 * @throws InjectionException if an exception occurred while performing this operation
+	 * @throws InjectionException
+	 *         if an exception occurred while performing this operation
 	 */
 	@SuppressWarnings("unchecked")
-	public static Object invoke(Object object, Class<? extends Annotation> qualifier,  IEclipseContext context, Map<String, Object> stringParameters, Map<Class<?>, Object> classParameters){
+	public static Object invoke(Object object, Class<? extends Annotation> qualifier, IEclipseContext context, Map<String, Object> stringParameters, Map<Class<?>, Object> classParameters) {
 		IEclipseContext temporaryContext = EclipseContextFactory.create();
-		if (stringParameters != null){
-			for (Entry<String, Object> entry : stringParameters.entrySet()){
+		if(stringParameters != null) {
+			for(Entry<String, Object> entry : stringParameters.entrySet()) {
 				temporaryContext.set(entry.getKey(), entry.getValue());
 			}
 		}
-		if (classParameters != null){
-			for (Entry<Class<?>, Object> entry : classParameters.entrySet()){
+		if(classParameters != null) {
+			for(Entry<Class<?>, Object> entry : classParameters.entrySet()) {
 				@SuppressWarnings("rawtypes")
 				Class key = entry.getKey();
 				Object value = entry.getValue();
-				if (key.isInstance(value)){
+				if(key.isInstance(value)) {
 					temporaryContext.set(key, value);
 				}
 			}
@@ -162,35 +173,34 @@ public class ZigguratInject extends AbstractUIPlugin {
 		IInjector defaultInjector = InjectorFactory.getDefault();
 		return defaultInjector.invoke(object, qualifier, null, ContextObjectSupplier.getObjectSupplier(context, defaultInjector), ContextObjectSupplier.getObjectSupplier(temporaryContext, defaultInjector));
 	}
-	
+
 	/**
 	 * Creates an object from a bundleclass uri, and injects it with values present in the given context.
-	 *<p>
-	 *The format of the uriString should be "bundleclass://plugin_id/class_qualified_name".
-	 *</p>
+	 * <p>
+	 * The format of the uriString should be "bundleclass://plugin_id/class_qualified_name".
+	 * </p>
 	 */
-	public static Object createInstance(String uriString, IEclipseContext context){
+	public static Object createInstance(String uriString, IEclipseContext context) {
 		IContributionFactory contributionFactory = context.get(IContributionFactory.class);
 		return contributionFactory.create(uriString, context);
 	}
-	
+
 	/**
 	 * Creates an object from a bundleclass uri, and injects it with values present in the workbench context.
-	 *<p>
-	 *The format of the uriString should be "bundleclass://plugin_id/class_qualified_name".
-	 *</p>
+	 * <p>
+	 * The format of the uriString should be "bundleclass://plugin_id/class_qualified_name".
+	 * </p>
 	 */
-	public static Object createInstance(String uriString){
+	public static Object createInstance(String uriString) {
 		IEclipseContext context = (IEclipseContext)PlatformUI.getWorkbench().getService(IEclipseContext.class);
 		return createInstance(uriString, context);
 	}
 
 
 	public static void inject(Object... objs) {
-		// TODO Auto-generated method stub
-		for (Object o : objs) {
-			inject(o);
+		for(Object o : objs) {
+			doInject(o);
 		}
-	}	
+	}
 
 }
