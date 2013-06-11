@@ -26,6 +26,7 @@
       <view
             category="org.eclipse.reqcycle"
             class="org.eclipse.reqcycle.repository.ui.views.ScopeView"
+            icon="icons/open.png"
             id="org.eclipse.reqcycle.repository.ui.views.requirement.scope"
             name="Scope"
             restorable="true">

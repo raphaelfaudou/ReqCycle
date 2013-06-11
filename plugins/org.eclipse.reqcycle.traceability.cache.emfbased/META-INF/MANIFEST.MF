@@ -15,8 +15,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.reqcycle.traceability.builder;bundle-version="1.0.0";visibility:=reexport,
  org.topcased.iterators;bundle-version="0.0.1",
  org.eclipse.reqcycle.uri;bundle-version="1.0.0",
- org.eclipse.reqcycle.traceability.cache;bundle-version="1.0.0",
- org.eclipse.ziggurat.inject
+ org.agesys.inject;bundle-version="1.0.0",
+ org.eclipse.reqcycle.traceability.cache;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.reqcycle.traceability.cache.emfbased

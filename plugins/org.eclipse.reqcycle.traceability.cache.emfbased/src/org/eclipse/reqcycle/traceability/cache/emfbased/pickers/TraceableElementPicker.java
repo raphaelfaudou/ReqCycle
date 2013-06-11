@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.agesys.inject.AgesysInject;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.reqcycle.traceability.cache.emfbased.functions.Traceable2TraceableElement;
 import org.eclipse.reqcycle.traceability.cache.emfbased.functions.TraceableElement2Traceable;
@@ -17,7 +18,6 @@ import org.eclipse.reqcycle.traceability.model.Link;
 import org.eclipse.reqcycle.traceability.model.Pair;
 import org.eclipse.reqcycle.uri.IReachableManager;
 import org.eclipse.reqcycle.uri.model.Reachable;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 import org.topcased.iterators.exceptions.PickerExecutionException;
 import org.topcased.iterators.pickers.IPicker;
 
@@ -51,7 +51,7 @@ public class TraceableElementPicker implements IPicker {
 					.getSecond());
 		}
 		TraceableElement2Traceable traceableElement2Traceable = new TraceableElement2Traceable();
-		ZigguratInject.inject(traceableElement2Traceable);
+		AgesysInject.inject(traceableElement2Traceable);
 		if (elem != null) {
 			List<TraceabilityLink> list = null;
 			if (d == DIRECTION.UPWARD) {

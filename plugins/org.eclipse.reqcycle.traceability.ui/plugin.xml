@@ -16,11 +16,11 @@
             id="org.eclipse.reqcycle.traceability.ui.views.TraceabilityViewer"
             name="TraceabilityViewer">
       </view>
-      <view
+      <!--<view
             class="org.eclipse.reqcycle.traceability.ui.views.TraceabilityViewer"
             id="org.eclipse.reqcycle.traceability.ui.views.TraceabilityViewer"
             name="Traceability">
-      </view>
+      </view>-->
    </extension>
 
 </plugin>

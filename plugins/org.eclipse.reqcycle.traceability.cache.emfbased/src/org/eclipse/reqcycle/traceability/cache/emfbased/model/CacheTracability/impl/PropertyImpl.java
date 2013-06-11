@@ -3,7 +3,9 @@
 package org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.impl;
 
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
 import org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.CacheTracabilityPackage;
 import org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.Property;
 
