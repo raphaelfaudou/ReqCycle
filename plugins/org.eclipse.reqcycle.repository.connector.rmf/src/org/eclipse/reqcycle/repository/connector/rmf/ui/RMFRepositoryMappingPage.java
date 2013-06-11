@@ -208,15 +208,25 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements IRe
 			for (Object inputElement : (Collection<?>)getSourceInput()) {
 				if (inputElement instanceof SpecType) {
 					final String inputName = ((SpecType) inputElement).getLongName();
+					
 					EClass element = Iterators.find(((Collection)getTargetInput()).iterator(), new Predicate<EClass>() {
 						@Override
 						public boolean apply(EClass arg0) {
-							return inputName.equals(arg0.getName());
+							String ii = inputName;
+							return ii.equalsIgnoreCase(arg0.getName());
 						}
 					});
 					if (element != null) {
 						ElementMapping elementMapping = MappingModelFactory.eINSTANCE.createElementMapping();
-						elementMapping.getAttributes().addAll(mapAttributes(((SpecType) inputElement).getSpecAttributes(), element.getEAttributes()));
+						EList<EAttribute> allAttributes = element.getEAllAttributes();
+						Collection<EAttribute> filtered = Collections2.filter(allAttributes, new Predicate<EAttribute>() {
+
+							@Override
+							public boolean apply(EAttribute arg0) {
+								return arg0.getEAnnotation("hidden") == null;
+							}
+						});
+						elementMapping.getAttributes().addAll(mapAttributes(((SpecType) inputElement).getSpecAttributes(), filtered));
 						elementMapping.setSourceQualifier(((SpecType) inputElement).getIdentifier());
 						elementMapping.setDescription(((SpecType) inputElement).getLongName());
 						elementMapping.setTargetElement((EClass)element);
@@ -238,7 +248,7 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements IRe
 				@Override
 				public boolean apply(EAttribute arg0) {
 					String name = attribute.getLongName();
-					return arg0.getName().equals(name);
+					return arg0.getName().equalsIgnoreCase(name);
 				}
 			});
 			AttributeMapping attributeMapping = MappingModelFactory.eINSTANCE.createAttributeMapping();
@@ -286,10 +296,13 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements IRe
 
 				@Override
 				protected Object getTargetInput() {
-					EList<EAttribute> attibutes = ((EClass)targetSelection).getEAttributes();
-					Collection<EAttribute> filteredAttribute = Collections2.filter(attibutes, new Predicate<EAttribute>() {
+					EList<EAttribute> allAttributes = ((EClass)targetSelection).getEAllAttributes();
+					Collection<EAttribute> filteredAttribute = Collections2.filter(allAttributes, new Predicate<EAttribute>() {
 						@Override
 						public boolean apply(EAttribute arg0) {
+							if (arg0.getEAnnotation("hidden") != null) {
+								return false;
+							}
 							return true;
 						}
 					});

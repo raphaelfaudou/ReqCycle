@@ -56,30 +56,32 @@ public abstract class AbstractSettingPage2 extends AbstractSettingPage {
 		bottomComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 3, 1));
 
 		btnSkipMapping = new Button(bottomComposite, SWT.CHECK);
+		btnSkipMapping.setEnabled(false);
 
 		Label lblSkipMapping = new Label(bottomComposite, SWT.NONE);
 		lblSkipMapping.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 		lblSkipMapping.setText("Skip mapping (Perform mapping later)");
+		lblSkipMapping.setEnabled(false);
 
 		hookListeners2();
 	}
 	
 
 	private void hookListeners2() {
+
 		btnSkipMapping.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if(btnSkipMapping != null) {
 					skipMapping = btnSkipMapping.getSelection();
-					setPageComplete(isPageComplete());
 				}
 			}
 		});
 	}
 
 	@Override
-	public boolean skipMapping() {
+	public boolean performMapping() {
 		return skipMapping;
 	}
 
