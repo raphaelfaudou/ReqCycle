@@ -372,7 +372,7 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements IRe
 
 
 	@Override
-	public boolean performMapping() {
+	public boolean skipMapping() {
 		return true;
 	}
 	

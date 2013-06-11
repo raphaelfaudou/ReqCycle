@@ -19,6 +19,9 @@ package org.eclipse.reqcycle.repository.connector.rmf.ui;
 
 import java.util.Collection;
 
+import javax.inject.Inject;
+
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
@@ -30,11 +33,19 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.reqcycle.core.ILogger;
+import org.eclipse.reqcycle.repository.connector.rmf.Activator;
+import org.eclipse.reqcycle.repository.connector.rmf.RMFConnector;
 import org.eclipse.reqcycle.repository.connector.rmf.RMFConnectorUi;
+import org.eclipse.reqcycle.repository.requirement.data.IRequirementSourceManager;
 import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
+import org.eclipse.reqcycle.repository.requirement.data.util.RepositoryConstants;
 import org.eclipse.rmf.reqif10.SpecType;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
+import DataModel.RequirementSource;
 import DataModel.Scope;
+import MappingModel.ElementMapping;
 
 
 public class SettingWizard extends Wizard implements IWizard {
@@ -51,6 +62,11 @@ public class SettingWizard extends Wizard implements IWizard {
 	private RMFRepositoryMappingPage mappingPage;
 	private Scope scope;
 	
+	private RMFConnector connector = new RMFConnector();
+	
+	private @Inject ILogger logger = ZigguratInject.make(ILogger.class);
+	private @Inject IRequirementSourceManager sourceManager = ZigguratInject.make(IRequirementSourceManager.class);
+	
 
 	public SettingWizard(Collection<EClassifier> targetEClassifiers, Collection<SpecType> specTypes, Collection<EObject> mapping, String label, String uri, Collection<Scope> scopes) {
 		super();
@@ -61,14 +77,14 @@ public class SettingWizard extends Wizard implements IWizard {
 		this.uri = uri;
 		this.scopes = scopes;
 		
-		settingPage = new RMFSettingPage("RMF Setting", "", label, uri, scopes);
+		settingPage = new RMFSettingPage("ReqIF Setting", "", label, uri, scopes);
 		settingPage.setWizard(this);
 		setForcePreviousAndNextButtons(true);
 	}
 	
 	public SettingWizard() {
 		super();
-		settingPage = new RMFSettingPage("RMF Setting", "");
+		settingPage = new RMFSettingPage("ReqIF Setting", "");
 		setForcePreviousAndNextButtons(true);
 	}
 	
@@ -80,12 +96,12 @@ public class SettingWizard extends Wizard implements IWizard {
 			uri = settingPage.getSourceUrl();
 			
 			ResourceSet resourceSet = new ResourceSetImpl();
+			
 			final EList<SpecType> specTypes = RMFConnectorUi.getReqIFTypes(resourceSet, uri);
 			
 			final Collection<EClassifier> EClassifiers = DataUtil.getTargetEPackage(resourceSet, "org.eclipse.reqcycle.repository.data/model/CustomDataModel.ecore");
 			
-			//TODO : Create RMFRepositoryMappingPage
-			mappingPage = new RMFRepositoryMappingPage("RMF Mapping", "") {
+			mappingPage = new RMFRepositoryMappingPage("ReqIF Mapping", "") {
 				
 				@Override
 				protected Object getTargetInput() {
@@ -148,9 +164,40 @@ public class SettingWizard extends Wizard implements IWizard {
 	
 	@Override
 	public boolean performFinish() {
+		if(settingPage == null || mappingPage == null) {
+			return false;
+		}
+		RequirementSource requirementSource = connector.createRequirementSource();
+		try {
+			requirementSource.setProperty(RepositoryConstants.PROPERTY_URL, uri);
+			requirementSource.setProperty(RepositoryConstants.PROPERTY_LABEL, label);
+			sourceManager.addRepository(requirementSource, null);
+
+			if(!settingPage.skipMapping()) {
+				requirementSource.getMapping().addAll((Collection<? extends ElementMapping>)mappingPage.getResult());
+				connector.fillRequirements(requirementSource, new NullProgressMonitor());
+			}
+			
+		} catch (Exception e) {
+			boolean debug = logger.isDebug(Activator.OPTIONS_DEBUG, Activator.getDefault());
+			if(debug) {
+				logger.trace("Properties " + RepositoryConstants.PROPERTY_URL + " and " + RepositoryConstants.PROPERTY_LABEL + " can't be set on " + requirementSource.getRepositoryLabel() + "\n Trace : " + e.getMessage());
+			}
+		}
 		return true;
 	}
 	
-	
-
+	@Override
+	public boolean canFinish() {
+		if(settingPage != null && settingPage.isPageComplete()) {
+			if(settingPage.skipMapping()) {
+				return true;
+			}
+			else
+			{
+				return mappingPage != null && mappingPage.isPageComplete();
+			}
+		}
+		return false;
+	}
 }

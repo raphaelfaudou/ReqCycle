@@ -32,6 +32,6 @@ public interface IRequirementSourceSettingPage extends IWizardPage
      */
     public boolean preFinish(RequirementSource repository);
     
-    public boolean performMapping();
+    public boolean skipMapping();
     
 }

@@ -164,8 +164,7 @@ public class RequirementSourceItemProvider
 	public String getText(Object object) {
 		String label = ((RequirementSource)object).getName();
 		String uriText = ((RequirementSource)object).getRepositoryUri();
-		return label == null || label.length() == 0 ?
-			getString("_UI_RequirementSource_type") : label + " [" + uriText + "]";
+		return uriText != null && !uriText.isEmpty() ? label + " [" + uriText + "]" : label;
 	}
 
 	/**
