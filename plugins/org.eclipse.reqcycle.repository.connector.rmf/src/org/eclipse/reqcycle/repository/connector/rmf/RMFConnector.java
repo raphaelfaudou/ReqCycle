@@ -133,10 +133,15 @@ public class RMFConnector implements IConnector {
 					EList<SpecHierarchy> specHierarchies = specification.getChildren();
 					Collection<Contained> children = createChildren(specHierarchies, mapping);
 					
-					Contained section = createElement(mapping, specification, ReqIF10Util.getSpecType(specification).getIdentifier(), specification.getLongName(), specification.getDesc());
+					ElementMapping elementMapping = DataUtil.getElementMapping(mapping, specification.getType().getIdentifier());
+					
+					String id = getID(elementMapping, specification);
+					String name = getName(elementMapping, specification);
+					
+					Contained section = createElement(mapping, specification, ReqIF10Util.getSpecType(specification).getIdentifier(), id, name);
 					if(section != null) {
 						requirementSource.getRequirements().add(section);
-						addAttributes(DataUtil.getElementMapping(mapping, specification.getType().getIdentifier()), specification.getValues(), section);
+						addAttributes(elementMapping, specification.getValues(), section);
 					} 
 					
 					if(children != null && !children.isEmpty()) {
@@ -151,6 +156,36 @@ public class RMFConnector implements IConnector {
 		}
 	}
 
+	private String getName(ElementMapping elementMapping, SpecElementWithAttributes element) {
+		EList<AttributeMapping> attributes = elementMapping.getAttributes();
+		for (AttributeMapping attribute : attributes) {
+			if ("name".equalsIgnoreCase(attribute.getTargetAttribute().getName())) {
+				String sourceId = attribute.getSourceId();
+				for(AttributeValue value : element.getValues()){
+					if (sourceId.equals(ReqIF10Util.getAttributeDefinition(value).getIdentifier())){
+						return ReqIF10Util.getTheValue(value).toString();
+					}
+				}
+			}
+		}
+		return "";
+	}
+
+	private String getID(ElementMapping elementMapping, SpecElementWithAttributes element) {
+		EList<AttributeMapping> attributes = elementMapping.getAttributes();
+		for (AttributeMapping attribute : attributes) {
+			if ("id".equalsIgnoreCase(attribute.getTargetAttribute().getName())) {
+				String sourceId = attribute.getSourceId();
+				for(AttributeValue value : element.getValues()){
+					if (sourceId.equals(ReqIF10Util.getAttributeDefinition(value).getIdentifier())){
+						return ReqIF10Util.getTheValue(value).toString();
+					}
+				}
+			}
+		}
+		return "";
+	}
+
 	protected Collection<Contained> createChildren(EList<SpecHierarchy> specHierarchies, Collection<ElementMapping> mapping) {
 
 		Collection<Contained> result = new ArrayList<Contained>();
@@ -163,7 +198,13 @@ public class RMFConnector implements IConnector {
 
 			SpecObject specObject = specHierarchy.getObject();
 			if(specObject != null) {
-				createdObject = createElement(mapping, specObject, ReqIF10Util.getSpecType(specObject).getIdentifier(), specObject.getLongName(), specObject.getDesc());
+				
+				ElementMapping elementMapping = DataUtil.getElementMapping(mapping, ReqIF10Util.getSpecType(specObject).getIdentifier());
+				
+				String id = getID(elementMapping, specObject);
+				String name = getName(elementMapping, specObject);
+				
+				createdObject = createElement(mapping, specObject, ReqIF10Util.getSpecType(specObject).getIdentifier(), id, name);
 			} else {
 				createdObject = creator.createReachableSection(specHierarchy.getLongName(), specHierarchy.getDesc(), specHierarchy.getIdentifier());
 			}
@@ -199,6 +240,9 @@ public class RMFConnector implements IConnector {
 	protected void addAttributes(ElementMapping elementMapping, Collection<AttributeValue> values, Contained element) {
 		for(AttributeValue attributeValue : values) {
 			AttributeMapping attributeMapping = DataUtil.getAttributeMapping(elementMapping, ReqIF10Util.getAttributeDefinition(attributeValue).getIdentifier());
+			if (attributeMapping == null ||"id".equalsIgnoreCase(attributeMapping.getTargetAttribute().getName()) || "name".equalsIgnoreCase(attributeMapping.getTargetAttribute().getName()) ) {
+				continue;
+			}
 			try {
 				if(attributeValue instanceof AttributeValueEnumeration) {
 					for(EnumValue enumValue : ((AttributeValueEnumeration)attributeValue).getValues()) {

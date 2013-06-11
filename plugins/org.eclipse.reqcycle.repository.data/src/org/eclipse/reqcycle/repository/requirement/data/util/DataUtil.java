@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -76,14 +77,29 @@ public class DataUtil {
 	};
 	
 	public static String getInformation(Contained object){
-		String label = object.getName();
+		String result = "";
+		
 		EList<EStructuralFeature> structuralFeatures = object.eClass().getEStructuralFeatures();
-		String attr = " [ id : " + object.getId() + " ]" + "[ name : " + object.getName() + " ]";
+		if(object.getId() != null && !object.getId().isEmpty()) {
+			result += " id : " + object.getId() + " ";
+		}
+		if(object.getName() != null && !object.getName().isEmpty()) {
+			if(!result.isEmpty()) {
+				result += " | ";
+			}
+			result += " name : " + object.getName() + " ";
+		}
 
 		for(EStructuralFeature eStructuralFeature : structuralFeatures) {
-			attr += "[ " + eStructuralFeature.getName() + " : " + object.eGet(eStructuralFeature) + "]";
+			if(!(eStructuralFeature instanceof EReference) && object.eGet(eStructuralFeature) != null) {
+				result += "[ " + eStructuralFeature.getName() + " : " + object.eGet(eStructuralFeature) + "]";
+			}
 		}
-		return label + attr;
+		if (result.isEmpty()) {
+			result = "Element Type : " + object.getClass().getName() +" [ this element doesn't have any attribute ]"; 
+		}
+		
+		return result;
 	}
 	
 	/**
