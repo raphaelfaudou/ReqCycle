@@ -81,7 +81,7 @@ public abstract class AbstractSettingPage2 extends AbstractSettingPage {
 	}
 
 	@Override
-	public boolean performMapping() {
+	public boolean skipMapping() {
 		return skipMapping;
 	}
 
