@@ -23,8 +23,9 @@ import javax.inject.Inject;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.facet.infra.browser.uicore.internal.model.ModelElementItem;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.reqcycle.commands.CreateRelationCommand;
 import org.eclipse.reqcycle.commands.utils.RelationCommandUtils;
@@ -69,8 +70,8 @@ public class DropRequirementDelegate implements IDropActionDelegate {
 		Reachable targetReachable = null;
 		List<Reachable> sourceReachables = new ArrayList<Reachable>();
 
-		if (source instanceof byte[] && target instanceof ModelElementItem) {
-			EObject targetEObj = ((ModelElementItem) target).getEObject();
+		if (source instanceof byte[] && isEObject(target)) {
+			EObject targetEObj = getEObject(target);
 			IFile file = WorkspaceSynchronizer.getFile(targetEObj.eResource());
 			if (file != null) {
 				if (objectHandler.handlesObject(targetEObj)) {
@@ -79,13 +80,36 @@ public class DropRequirementDelegate implements IDropActionDelegate {
 								targetEObj).getReachable(targetEObj);
 					}
 					byte[] data = (byte[]) source;
-					List<Reachable> reachables = DNDReqCycle.getReachables(data);
+					List<Reachable> reachables = DNDReqCycle
+							.getReachables(data);
 					handleDrop(reachables, targetReachable, file);
 				}
 			}
 		}
 		return true;
 
+	}
+
+	private boolean isEObject(Object target) {
+		return getEObject(target) != null;
+	}
+
+	private EObject getEObject(Object target) {
+		EObject result = null;
+		if (target instanceof IAdaptable) {
+			IAdaptable adaptable = (IAdaptable) target;
+			result = (EObject) adaptable.getAdapter(EObject.class);
+		}
+		if (result == null) {
+			result = (EObject) Platform.getAdapterManager().getAdapter(target,
+					EObject.class);
+		}
+		if (result == null) {
+			if (result instanceof EObject) {
+				result = (EObject) target;
+			}
+		}
+		return result;
 	}
 
 	protected void handleDrop(List<Reachable> sourceReachables,

@@ -10,6 +10,9 @@ public class RequestLabelProvider extends LabelProvider {
 
 	@Override
 	public String getText(Object element) {
+		if (element instanceof BusinessDeffered) {
+			element = ((BusinessDeffered) element).getBusinessElement();
+		}
 		if (element instanceof Reachable) {
 			Reachable reach = (Reachable) element;
 			return TraceabilityUtils.getText(reach);
@@ -21,6 +24,9 @@ public class RequestLabelProvider extends LabelProvider {
 
 	@Override
 	public Image getImage(Object element) {
+		if (element instanceof BusinessDeffered) {
+			element = ((BusinessDeffered) element).getBusinessElement();
+		}
 		if (element instanceof Reachable) {
 			Reachable reach = (Reachable) element;
 			Image image = TraceabilityUtils.getImage(reach);

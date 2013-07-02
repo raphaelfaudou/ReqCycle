@@ -2,15 +2,23 @@ package org.eclipse.reqcycle.traceability.ui.providers;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Set;
 
 import javax.inject.Inject;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.deferred.DeferredContentProvider;
 import org.eclipse.reqcycle.traceability.builder.IBuildingTraceabilityEngine;
 import org.eclipse.reqcycle.traceability.engine.ITraceabilityEngine;
 import org.eclipse.reqcycle.traceability.engine.Request;
@@ -26,15 +34,20 @@ import org.eclipse.reqcycle.uri.IReachableListener;
 import org.eclipse.reqcycle.uri.IReachableListenerManager;
 import org.eclipse.reqcycle.uri.model.Reachable;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.internal.progress.ProgressMessages;
+import org.eclipse.ui.progress.DeferredTreeContentManager;
+import org.eclipse.ui.progress.WorkbenchJob;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 
-public class RequestContentProvider implements ITreeContentProvider,
-		IReachableListener {
+public class RequestContentProvider extends DeferredContentProvider implements
+		ITreeContentProvider, IReachableListener {
 
 	public static final String CONF_KEY = "conf";
+	public static final String EXPAND_ALL = "expandAll";
+
 	@Inject
 	ITraceabilityEngine defaultEngine;
 	@Inject
@@ -43,9 +56,21 @@ public class RequestContentProvider implements ITreeContentProvider,
 	IReachableListenerManager listenerManger;
 	Multimap<Reachable, Link> links = ArrayListMultimap.create();
 	private Collection<Request> requests = new LinkedList<Request>();
-	private TreeViewer viewer;
+	private TreeViewer treeViewer;
 	private Object newInput;
 	private Request baseRequest = null;
+	private DeferredTreeContentManager contentManager;
+	// map saving all the parents already asked
+	private Set<Object> allParents = new HashSet<Object>();
+
+	public RequestContentProvider() {
+		super(new Comparator<Object>() {
+			@Override
+			public int compare(Object arg0, Object arg1) {
+				return arg0.toString().compareTo(arg1.toString());
+			}
+		});
+	}
 
 	@Override
 	public void dispose() {
@@ -54,9 +79,50 @@ public class RequestContentProvider implements ITreeContentProvider,
 
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		this.viewer = (TreeViewer) viewer;
+		this.treeViewer = (TreeViewer) viewer;
 		this.newInput = newInput;
 		listenerManger.removeReachableListener(this);
+		allParents.clear();
+		contentManager = new DeferredTreeContentManager(
+				(AbstractTreeViewer) viewer) {
+			@Override
+			protected void addChildren(final Object parent,
+					final Object[] children, IProgressMonitor monitor) {
+				WorkbenchJob updateJob = new WorkbenchJob(
+						ProgressMessages.DeferredTreeContentManager_AddingChildren) {
+					/*
+					 * (non-Javadoc)
+					 * 
+					 * @see
+					 * org.eclipse.ui.progress.UIJob#runInUIThread(org.eclipse
+					 * .core.runtime.IProgressMonitor)
+					 */
+					public IStatus runInUIThread(IProgressMonitor updateMonitor) {
+						// Cancel the job if the tree viewer got closed
+						if (treeViewer.getControl().isDisposed()
+								|| updateMonitor.isCanceled()) {
+							return Status.CANCEL_STATUS;
+						}
+						((AbstractTreeViewer) treeViewer).add(parent, children);
+						if (isSync()) {
+							for (Object o : children) {
+								if (o instanceof BusinessDeffered) {
+									BusinessDeffered bd = (BusinessDeffered) o;
+									treeViewer.expandToLevel(bd,
+											bd.getLevel() + 1);
+								}
+							}
+						}
+						return Status.OK_STATUS;
+					}
+
+				};
+				updateJob.setSystem(true);
+				updateJob.schedule();
+
+			}
+
+		};
 	}
 
 	@Override
@@ -82,7 +148,7 @@ public class RequestContentProvider implements ITreeContentProvider,
 				listenerManger.addReachableListener(source, this);
 				listenerManger
 						.addReachableListener(source.trimFragment(), this);
-				result.add(source);
+				result.add(new BusinessDeffered(source, this));
 			}
 		}
 		return result.toArray();
@@ -90,6 +156,53 @@ public class RequestContentProvider implements ITreeContentProvider,
 
 	@Override
 	public Object[] getChildren(Object parentElement) {
+		return contentManager.getChildren(parentElement);
+	}
+
+	private Iterator<Pair<Link, Reachable>> getTraceability(Request r)
+			throws EngineException {
+		Object conf = r.getProperty(CONF_KEY);
+		if (conf instanceof Configuration) {
+			return typedEngine.getTraceability((Configuration) conf, r);
+		} else {
+			return defaultEngine.getTraceability(r);
+		}
+	}
+
+	@Override
+	public Object getParent(Object element) {
+		return null;
+	}
+
+	@Override
+	public boolean hasChildren(Object element) {
+		return contentManager.mayHaveChildren(element);
+	}
+
+	@Override
+	public void hasChanged(final Reachable reachable) {
+		Display.getDefault().syncExec(new Runnable() {
+
+			@Override
+			public void run() {
+				// to avoid infinite reflexive call
+				if (treeViewer != null) {
+					Object[] objects = treeViewer.getExpandedElements();
+					treeViewer.refresh();
+					treeViewer.setExpandedElements(objects);
+				}
+			}
+		});
+	}
+
+	public Collection<Object> doGetChildren(Object parentElement) {
+		if (!allParents.contains(parentElement)) {
+			allParents.add(parentElement);
+		} else {
+			if (isSync()) {
+				return Collections.emptyList();
+			}
+		}
 		Collection<Object> result = new LinkedList<Object>();
 		if (parentElement instanceof Reachable) {
 			Reachable reachable = (Reachable) parentElement;
@@ -107,16 +220,11 @@ public class RequestContentProvider implements ITreeContentProvider,
 								baseRequest.getProperty(CONF_KEY));
 				ArrayList<Couple> listOfCouples = Lists
 						.newArrayList(baseRequest.getCouples());
-				if (listOfCouples.size() == 1) {
-					Couple couple = listOfCouples.get(0);
-					r.addSourceAndCondition(reachable,
-							couple.getStopCondition());
-					if (couple.getStopCondition() != null) {
+				for (Couple cTmp : listOfCouples) {
+					r.addSourceAndCondition(reachable, cTmp.getStopCondition());
+					if (cTmp.getStopCondition() != null) {
 						r.setDepth(DEPTH.INFINITE);
 					}
-
-				} else {
-					r.addSource(reachable);
 				}
 				try {
 					Iterator<Pair<Link, Reachable>> traceIterator = getTraceability(r);
@@ -140,42 +248,10 @@ public class RequestContentProvider implements ITreeContentProvider,
 			// result.addAll(((Link) parentElement).getSources());
 			// }
 		}
-		return result.toArray();
+		return result;
 	}
 
-	private Iterator<Pair<Link, Reachable>> getTraceability(Request r)
-			throws EngineException {
-		Object conf = r.getProperty(CONF_KEY);
-		if (conf instanceof Configuration) {
-			return typedEngine.getTraceability((Configuration) conf, r);
-		} else {
-			return defaultEngine.getTraceability(r);
-		}
-	}
-
-	@Override
-	public Object getParent(Object element) {
-		return null;
-	}
-
-	@Override
-	public boolean hasChildren(Object element) {
-		return true;
-	}
-
-	@Override
-	public void hasChanged(final Reachable reachable) {
-		Display.getDefault().syncExec(new Runnable() {
-
-			@Override
-			public void run() {
-				// to avoid infinite reflexive call
-				if (viewer != null) {
-					Object[] objects = viewer.getExpandedElements();
-					viewer.refresh();
-					viewer.setExpandedElements(objects);
-				}
-			}
-		});
+	private boolean isSync() {
+		return String.valueOf(true).equals(treeViewer.getData(EXPAND_ALL));
 	}
 }
