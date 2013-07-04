@@ -242,6 +242,7 @@ public class RequirementSourcesView extends ViewPart {
 	 */
 	private void makeActions() {
 		addRepoAction = new AddRequirementSourceAction(viewer);
+		ZigguratInject.inject(addRepoAction);
 		addRepoAction.setText(Messages.ADD_RESOURCE_TEXT);
 		addRepoAction.setToolTipText(Messages.ADD_RESOURCE_TEXT);
 		addRepoAction.setImageDescriptor(Activator.getImageDescriptor(ICON_ADD_LOCATION));

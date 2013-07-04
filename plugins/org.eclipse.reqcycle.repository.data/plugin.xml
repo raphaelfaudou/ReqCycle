@@ -70,8 +70,8 @@
             type="scopesconf"
             class="ScopesConf.util.ScopesConfResourceFactoryImpl"/>
       <parser
-            class="org.eclipse.ziggurat.configuration.impl.EMFConfResourceFactory"
-            type="emfconf">
+            class="RequirementSourcesConf.util.RequirementSourcesConfResourceFactoryImpl"
+            type="requirementSourcesconf">
       </parser>
    </extension>
    <extension point="org.eclipse.emf.ecore.generated_package">

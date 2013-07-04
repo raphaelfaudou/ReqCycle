@@ -17,7 +17,7 @@
       </package>
    </extension>
     <extension
-         point="org.agesys.inject.binding">
+         point="org.eclipse.ziggurat.inject.binding">
       <binding
             impl="org.eclipse.reqcycle.traceability.cache.emfbased.CacheTraceabilityEngine"
             interface="org.eclipse.reqcycle.traceability.engine.ITraceabilityEngine"

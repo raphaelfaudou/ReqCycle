@@ -13,7 +13,6 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.agesys.inject.AgesysInject;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -41,6 +40,7 @@ import org.eclipse.reqcycle.uri.exceptions.IReachableHandlerException;
 import org.eclipse.reqcycle.uri.model.IReachableHandler;
 import org.eclipse.reqcycle.uri.model.Reachable;
 import org.eclipse.reqcycle.uri.model.ReachableObject;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 import org.topcased.iterators.exceptions.PickerExecutionException;
 import org.topcased.iterators.factories.IteratorFactory;
 import org.topcased.iterators.pickers.IPicker;
@@ -151,7 +151,7 @@ public class CacheTraceabilityEngine extends AbstractCachedTraceabilityEngine {
 			List<Reachable> targets, TType kind) {
 		Traceable2TraceableElement traceable2TraceableElement = new Traceable2TraceableElement(
 				theModel);
-		AgesysInject.inject(traceable2TraceableElement);
+		ZigguratInject.inject(traceable2TraceableElement);
 		TraceableElement sourceElement = traceable2TraceableElement
 				.apply(source);
 		Iterable<TraceableElement> targetElements = Iterables.transform(
@@ -314,7 +314,7 @@ public class CacheTraceabilityEngine extends AbstractCachedTraceabilityEngine {
 			Predicate<Pair<Link, Reachable>> scope) {
 		TraceableElementPicker traceableElementPicker = new TraceableElementPicker(
 				direction, theModel, scope);
-		AgesysInject.inject(traceableElementPicker);
+		ZigguratInject.inject(traceableElementPicker);
 		return traceableElementPicker;
 	}
 
@@ -323,7 +323,7 @@ public class CacheTraceabilityEngine extends AbstractCachedTraceabilityEngine {
 			ArrayDeque<Pair<Link, Reachable>> current) {
 		boolean found = false;
 		TraceableElement2Traceable traceableElement2Traceable = new TraceableElement2Traceable();
-		AgesysInject.inject(traceableElement2Traceable);
+		ZigguratInject.inject(traceableElement2Traceable);
 		Reachable source = traceableElement2Traceable.apply(s);
 
 		while (i.hasNext()) {
@@ -374,7 +374,7 @@ public class CacheTraceabilityEngine extends AbstractCachedTraceabilityEngine {
 	private void deleteNodesIfCorrespondingToTraceable(Reachable traceable,
 			Iterable<TraceableElement> collection) {
 		TraceableElement2Traceable function = new TraceableElement2Traceable();
-		AgesysInject.inject(function);
+		ZigguratInject.inject(function);
 		for (TraceableElement t : collection) {
 			Reachable tr = function.apply(t);
 			if (tr.trimFragment().equals(traceable)) {
