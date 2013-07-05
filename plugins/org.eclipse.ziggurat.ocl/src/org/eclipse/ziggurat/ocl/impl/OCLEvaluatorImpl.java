@@ -67,6 +67,12 @@ public class OCLEvaluatorImpl implements OCLEvaluator {
 
 	private Map<EOperationKey, EOperation> compiledOperations = new HashMap<EOperationKey, EOperation>();
 
+	/**
+	 * If the EvaluationEnvironment#define throws an exception, it will still be present in the environment. 
+	 * Therefore, the ocl evaluator should be set as dirty;
+	 */
+	private boolean dirty = false;
+	
 	public OCLEvaluatorImpl() {
 		this(new CustomEnvironmentFactory());
 	}
@@ -176,7 +182,12 @@ public class OCLEvaluatorImpl implements OCLEvaluator {
 		// adding the operation and its context to the environment.
 		oclHelper.setContext(eClassifier);
 		EOperation eOperation;
-		eOperation = oclHelper.defineOperation(operationDef);
+		try {
+			eOperation = oclHelper.defineOperation(operationDef);
+		} catch (ParserException e){
+			dirty = true;
+			throw e;
+		}
 		oclHelper.setOperationContext(eClassifier, eOperation);
 		setContextOperation(eClassifier, eOperation);
 		compiledOperations.put(new EOperationKey(eOperation.getName(), eClassifier), eOperation);
@@ -305,6 +316,11 @@ public class OCLEvaluatorImpl implements OCLEvaluator {
 			return super.hashCode();
 		}
 
+	}
+
+	@Override
+	public boolean isDirty() {
+		return dirty;
 	}
 
 }
