@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.ocl.ParserException;
+import org.eclipse.ocl.ecore.OCL;
 import org.eclipse.ziggurat.ocl.extensions.JavaImplementedOCLOperation;
 
 /**
@@ -26,6 +27,19 @@ import org.eclipse.ziggurat.ocl.extensions.JavaImplementedOCLOperation;
  */
 public interface OCLEvaluator {
 
+	/**
+	 * Gets the OCL.
+	 * @return
+	 */
+	public OCL getOCL();
+	
+	/**
+	 * Returns true if the OCL Environment is dirty : EOperations were defined in it with compilations errors. 
+	 * The operations should be re-compiled.
+	 * @return
+	 */
+	public boolean isDirty();
+	
 	/**
 	 * Compiles an operation defined in ocl, in the OCL environment. The context on which the operation is applicable
 	 * is computed from the metamodel prefix and the classifier name.

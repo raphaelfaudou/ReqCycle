@@ -38,7 +38,7 @@ public class ZigguratOCLPlugin implements BundleActivator {
 		ZigguratOCLPlugin.context = null;
 	}
 	
-	public OCLEvaluator createOCLEvaluator(){
+	public static OCLEvaluator createOCLEvaluator(){
 		return new OCLEvaluatorImpl();
 	}
 
