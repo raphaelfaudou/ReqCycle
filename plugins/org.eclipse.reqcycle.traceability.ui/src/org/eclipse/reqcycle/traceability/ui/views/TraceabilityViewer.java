@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.util.LocalSelectionTransfer;
@@ -101,10 +102,10 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 			.make(IReachableManager.class);
 	private ComboViewer comboConfViewer;
 	private Tree listOfTypes;
-	private Button btnRefresh;
-	private Button btnSync;
-	private Button btnAddSource;
-	private Button btnDeleteSource;
+	private Action delete_action;
+	private Action refresh_action;
+	private Action plus_action;
+	private Action sync_action;
 
 	public TraceabilityViewer() {
 	}
@@ -150,74 +151,9 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 		compoTrac.setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		Section sctTraceability = formToolkit.createSection(compoTrac,
-				Section.EXPANDED);
+				Section.COMPACT | Section.EXPANDED | Section.TITLE_BAR);
+		sctTraceability.setText("Path Tree");
 		formToolkit.paintBordersFor(sctTraceability);
-		sctTraceability.setText("Path");
-
-		Composite composite_5 = new Composite(sctTraceability, SWT.NONE);
-		sctTraceability.setTextClient(composite_5);
-		formToolkit.adapt(composite_5);
-		formToolkit.paintBordersFor(composite_5);
-		composite_5.setLayout(new GridLayout(7, false));
-
-		btnSync = formToolkit.createButton(composite_5, "", SWT.TOGGLE);
-		btnSync.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false,
-				2, 1));
-		btnSync.setToolTipText("Sync to selection");
-		btnSync.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				boolean enabled = !btnSync.getSelection();
-				btnAddSource.setEnabled(enabled);
-				traceabilityTreeViewer.setData(
-						RequestContentProvider.EXPAND_ALL,
-						String.valueOf(!enabled));
-			}
-
-		});
-		btnSync.setImage(ResourceManager.getPluginImage(
-				"org.eclipse.reqcycle.traceability.ui", "icons/synced-1.gif"));
-
-		btnAddSource = formToolkit.createButton(composite_5, "", SWT.NONE);
-		btnAddSource.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 2, 1));
-		btnAddSource.setImage(ResourceManager.getPluginImage(PLUGIN_ID,
-				"icons/add_obj.gif"));
-		btnAddSource.setToolTipText("Add current selection as source");
-		btnAddSource.addSelectionListener(new AddSelectionListener(
-				new SourceSetter()));
-
-		btnRefresh = formToolkit.createButton(composite_5, "", SWT.NONE);
-		btnRefresh.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 2, 1));
-		btnRefresh.setToolTipText("Refresh sources");
-		btnRefresh.setImage(ResourceManager.getPluginImage(PLUGIN_ID,
-				"icons/update.gif"));
-		btnRefresh.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				IStructuredSelection sel = (IStructuredSelection) comboDirectionViewer
-						.getSelection();
-				if (sel != null && !sel.isEmpty() && !sources.isEmpty()) {
-					setInput();
-				}
-			}
-
-		});
-
-		btnDeleteSource = formToolkit.createButton(composite_5, "", SWT.NONE);
-		btnDeleteSource.setImage(ResourceManager.getPluginImage(PLUGIN_ID,
-				"icons/delete_obj.gif"));
-		btnDeleteSource.setToolTipText("Remove elements from view");
-		btnDeleteSource.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				sources.clear();
-				setInput();
-			}
-		});
 
 		Composite composite_1 = formToolkit.createComposite(sctTraceability,
 				SWT.NONE);
@@ -576,6 +512,62 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 	 */
 	private void createActions() {
 		// Create the actions
+		{
+			delete_action = new Action("Remove selections") {
+
+				@Override
+				public void run() {
+					runDelete();
+				}
+
+			};
+			delete_action.setImageDescriptor(ResourceManager
+					.getPluginImageDescriptor(
+							"org.eclipse.reqcycle.traceability.ui",
+							"icons/delete_obj.gif"));
+		}
+		{
+			refresh_action = new Action("Refresh view") {
+
+				@Override
+				public void run() {
+					runRefresh();
+				}
+
+			};
+			refresh_action.setImageDescriptor(ResourceManager
+					.getPluginImageDescriptor(
+							"org.eclipse.reqcycle.traceability.ui",
+							"icons/update.gif"));
+		}
+		{
+			plus_action = new Action("Add current selection") {
+
+				@Override
+				public void run() {
+					handleCurrentSelection(new SourceSetter());
+				}
+
+			};
+			plus_action.setImageDescriptor(ResourceManager
+					.getPluginImageDescriptor(
+							"org.eclipse.reqcycle.traceability.ui",
+							"icons/add_obj.gif"));
+		}
+		{
+			sync_action = new Action("Sync to selection", SWT.TOGGLE) {
+
+				@Override
+				public void run() {
+					runSync();
+				}
+
+			};
+			sync_action.setImageDescriptor(ResourceManager
+					.getPluginImageDescriptor(
+							"org.eclipse.reqcycle.traceability.ui",
+							"icons/synced-1.gif"));
+		}
 	}
 
 	/**
@@ -584,6 +576,10 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 	private void initializeToolBar() {
 		IToolBarManager toolbarManager = getViewSite().getActionBars()
 				.getToolBarManager();
+		toolbarManager.add(sync_action);
+		toolbarManager.add(plus_action);
+		toolbarManager.add(refresh_action);
+		toolbarManager.add(delete_action);
 	}
 
 	/**
@@ -592,6 +588,10 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 	private void initializeMenu() {
 		IMenuManager menuManager = getViewSite().getActionBars()
 				.getMenuManager();
+		menuManager.add(sync_action);
+		menuManager.add(plus_action);
+		menuManager.add(refresh_action);
+		menuManager.add(delete_action);
 	}
 
 	@Override
@@ -610,7 +610,6 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 		@Override
 		public void widgetSelected(SelectionEvent e) {
 			handleCurrentSelection(setter);
-
 		}
 
 		@Override
@@ -672,7 +671,7 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 	}
 
 	public boolean isSyncToSelection() {
-		return this.btnSync.getSelection();
+		return sync_action.isChecked();
 	}
 
 	private void handleCurrentSelection(ISetter setter) {
@@ -690,5 +689,25 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 				}
 			}
 		}
+	}
+
+	private void runRefresh() {
+		IStructuredSelection sel = (IStructuredSelection) comboDirectionViewer
+				.getSelection();
+		if (sel != null && !sel.isEmpty() && !sources.isEmpty()) {
+			setInput();
+		}
+	}
+
+	private void runDelete() {
+		sources.clear();
+		setInput();
+	}
+
+	private void runSync() {
+		boolean enabled = sync_action.isChecked();
+		sync_action.setChecked(enabled);
+		traceabilityTreeViewer.setData(RequestContentProvider.EXPAND_ALL,
+				String.valueOf(!enabled));
 	}
 }
