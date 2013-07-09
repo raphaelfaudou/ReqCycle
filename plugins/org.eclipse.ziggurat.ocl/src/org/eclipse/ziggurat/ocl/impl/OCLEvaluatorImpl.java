@@ -68,11 +68,11 @@ public class OCLEvaluatorImpl implements OCLEvaluator {
 	private Map<EOperationKey, EOperation> compiledOperations = new HashMap<EOperationKey, EOperation>();
 
 	/**
-	 * If the EvaluationEnvironment#define throws an exception, it will still be present in the environment. 
+	 * If the EvaluationEnvironment#define throws an exception, it will still be present in the environment.
 	 * Therefore, the ocl evaluator should be set as dirty;
 	 */
 	private boolean dirty = false;
-	
+
 	public OCLEvaluatorImpl() {
 		this(new CustomEnvironmentFactory());
 	}
@@ -88,12 +88,12 @@ public class OCLEvaluatorImpl implements OCLEvaluator {
 		return this.ocl;
 	}
 
-	public EOperation getCompiledOperation(String operationName, Object context){
-		if (context instanceof EObject){
-			for (EOperationKey key : this.compiledOperations.keySet()){
-				if (key.name != null && key.name.equals(operationName)){
+	public EOperation getCompiledOperation(String operationName, Object context) {
+		if(context instanceof EObject) {
+			for(EOperationKey key : this.compiledOperations.keySet()) {
+				if(key.name != null && key.name.equals(operationName)) {
 					EClassifier keyClassifier = key.classifier;
-					if (keyClassifier.isInstance(context)){
+					if(keyClassifier.isInstance(context)) {
 						return this.compiledOperations.get(key);
 					}
 				}
@@ -101,7 +101,7 @@ public class OCLEvaluatorImpl implements OCLEvaluator {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Changes the extent map of the OCL, responsible for the result of the "allInstances" operation execution.
 	 */
@@ -185,7 +185,7 @@ public class OCLEvaluatorImpl implements OCLEvaluator {
 		EOperation eOperation;
 		try {
 			eOperation = oclHelper.defineOperation(operationDef);
-		} catch (ParserException e){
+		} catch (ParserException e) {
 			dirty = true;
 			throw e;
 		}
