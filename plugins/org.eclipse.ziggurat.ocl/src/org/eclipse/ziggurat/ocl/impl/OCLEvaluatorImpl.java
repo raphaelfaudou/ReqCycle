@@ -91,12 +91,13 @@ public class OCLEvaluatorImpl implements OCLEvaluator {
 	public EOperation getCompiledOperation(String operationName, Object context){
 		if (context instanceof EObject){
 			for (EOperationKey key : this.compiledOperations.keySet()){
-				EClassifier keyClassifier = key.classifier;
-				if (keyClassifier.isInstance(context)){
-					return this.compiledOperations.get(key);
+				if (key.name != null && key.name.equals(operationName)){
+					EClassifier keyClassifier = key.classifier;
+					if (keyClassifier.isInstance(context)){
+						return this.compiledOperations.get(key);
+					}
 				}
 			}
-			
 		}
 		return null;
 	}
