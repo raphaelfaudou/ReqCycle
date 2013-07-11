@@ -80,20 +80,24 @@ public abstract class AbstractSettingPage extends WizardPage implements IRequire
 		setControl(compositeContainer);
 
 		Composite mainComposite = new Composite(compositeContainer, SWT.NONE);
-		mainComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
-		mainComposite.setLayout(new GridLayout(3, false));
+		mainComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		mainComposite.setLayout(new GridLayout());
+		
+		Composite infoComposite = new Composite(mainComposite, SWT.NONE);
+		infoComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+		infoComposite.setLayout(new GridLayout(3, false));
 
-		Label lblRepositoryName = new Label(mainComposite, SWT.NONE);
+		Label lblRepositoryName = new Label(infoComposite, SWT.NONE);
 		lblRepositoryName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblRepositoryName.setText("Repository Name :");
 
-		requirementSourceNameText = new Text(mainComposite, SWT.BORDER);
+		requirementSourceNameText = new Text(infoComposite, SWT.BORDER);
 		requirementSourceNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 
-		Label lblScope = new Label(mainComposite, SWT.NONE);
+		Label lblScope = new Label(infoComposite, SWT.NONE);
 		lblScope.setText("Scope :");
 
-		scopeComboViewer = new ComboViewer(mainComposite);
+		scopeComboViewer = new ComboViewer(infoComposite);
 		scopeComboViewer.getCombo().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		scopeComboViewer.setContentProvider(new ArrayContentProvider());
 		scopeComboViewer.setLabelProvider(new LabelProvider() {

@@ -19,7 +19,9 @@ package org.eclipse.reqcycle.repository.connector.ui.wizard;
 
 import javax.inject.Inject;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.IWizardContainer;
@@ -30,6 +32,7 @@ import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.connector.IConnector;
 import org.eclipse.reqcycle.repository.connector.ui.IConnectorManagerUi;
 import org.eclipse.reqcycle.repository.connector.ui.IConnectorUi;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.RequirementSource;
@@ -131,6 +134,8 @@ public class NewRequirementSourceWizard extends Wizard implements IWizard
 			connector = selectConnectorPage.getConnector();
 			if(connector != null) {
 				connectorUi = connectorManagerUi.getConnectorUi(connector.getConnectorId());
+            	String connectorId = connector.getConnectorId();
+            	connectorUi = connectorManagerUi.getConnectorUi(connectorId);
 				settingWizard = connectorUi.getSettingWizard();
 //				settingWizard.setContainer(getContainer());
 				settingWizard.addPages();
