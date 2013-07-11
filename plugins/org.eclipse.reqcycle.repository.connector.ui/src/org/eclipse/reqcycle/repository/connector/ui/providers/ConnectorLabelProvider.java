@@ -49,6 +49,9 @@ public class ConnectorLabelProvider extends LabelProvider
     
 	public static Image createImage(ConnectorDescriptor connector, int width, int height) {
 		ImageDescriptor imageDescriptor = connector.getImageDescriptor();
+		if (imageDescriptor == null){
+			return null;
+		}
 		Image image = imageDescriptor.createImage();
 		Image scaled = new Image(Display.getDefault(), width, height);
 		GC gc = new GC(scaled);

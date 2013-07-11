@@ -79,7 +79,6 @@ public abstract class AbstractSettingPage2 extends AbstractSettingPage {
 		});
 	}
 
-	@Override
 	public boolean performMapping() {
 		return skipMapping;
 	}

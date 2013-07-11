@@ -95,7 +95,7 @@ public class AddRequirementSourceAction extends Action {
 			RequirementSource source;
 			try {
 				source = createRequirementSource.call();
-				ConnectorDescriptor connector = wizard.getConnector();
+				ConnectorDescriptor connector = wizard.getConnectorDescriptor();
 				source.setConnectorID(connector.getId());
 				String sourceName = wizard.getSourceName();
 				source.setName(sourceName);
@@ -126,6 +126,7 @@ public class AddRequirementSourceAction extends Action {
 			} catch (CoreException e){
 				logger.log(e.getStatus());
 			} catch (Exception e) {
+				e.printStackTrace();
 				logger.log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Could not create the requirement repository", e));
 			}
 				

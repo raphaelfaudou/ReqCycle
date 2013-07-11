@@ -77,16 +77,15 @@ private static ITreeContentProvider contentProvider =  new ITreeContentProvider(
 
 	@Override
 	public void run() {
-		ISelection selection = viewer.getSelection();
-		if(selection instanceof IStructuredSelection) {
-			Object element = ((IStructuredSelection)selection).getFirstElement();
-			if(element instanceof RequirementSource) {
-				String connectorID = ((RequirementSource)element).getConnectorID();
-				IConnector connector = connectorManager.getConnector(connectorID);
-				connector.editMapping(((RequirementSource)element));
-			}
-			
-		}
+//		ISelection selection = viewer.getSelection();
+//		if(selection instanceof IStructuredSelection) {
+//			Object element = ((IStructuredSelection)selection).getFirstElement();
+//			if(element instanceof RequirementSource) {
+//				String connectorID = ((RequirementSource)element).getConnectorID();
+//				IConnector connector = connectorManager.getConnector(connectorID);
+//				connector.editMapping(((RequirementSource)element));
+//			}
+//		}
 	}
 	
 }

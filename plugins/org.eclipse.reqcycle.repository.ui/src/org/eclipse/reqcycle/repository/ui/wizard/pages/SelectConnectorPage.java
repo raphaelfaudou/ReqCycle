@@ -15,6 +15,7 @@ package org.eclipse.reqcycle.repository.ui.wizard.pages;
 
 import javax.inject.Inject;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -29,7 +30,9 @@ import org.eclipse.jface.viewers.OpenEvent;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.connector.ConnectorDescriptor;
+import org.eclipse.reqcycle.repository.connector.IConnector;
 import org.eclipse.reqcycle.repository.connector.IConnectorManager;
 import org.eclipse.reqcycle.repository.connector.ui.providers.ConnectorLabelProvider;
 import org.eclipse.reqcycle.repository.requirement.data.IScopeManager;
@@ -47,13 +50,17 @@ import DataModel.Scope;
 
 public class SelectConnectorPage extends WizardPage {
 
-	private ConnectorDescriptor connector;
+	private ConnectorDescriptor connectorDescriptor;
+	
+	private IConnector connector;
 
 	@Inject
 	private IConnectorManager connectorManager;
 
 	@Inject
 	private IScopeManager scopeManager;
+	
+	@Inject ILogger logger;
 
 	private TableViewer viewer;
 
@@ -64,6 +71,7 @@ public class SelectConnectorPage extends WizardPage {
 	private Scope scope;
 
 	private String sourceName;
+	
 
 
 	public SelectConnectorPage() {
@@ -73,7 +81,7 @@ public class SelectConnectorPage extends WizardPage {
 
 	@Override
 	public boolean canFlipToNextPage() {
-		return connector != null && sourceName != null && sourceName.isEmpty() && getScope() != null;
+		return connectorDescriptor != null && sourceName != null && !sourceName.isEmpty() && getScope() != null;
 	}
 
 	@Override
@@ -128,7 +136,13 @@ public class SelectConnectorPage extends WizardPage {
 				if(selection instanceof IStructuredSelection) {
 					Object selectedElement = ((IStructuredSelection)selection).getFirstElement();
 					if(selectedElement instanceof ConnectorDescriptor) {
-						connector = (ConnectorDescriptor)selectedElement;
+						connectorDescriptor = (ConnectorDescriptor)selectedElement;
+						try {
+							connector = connectorDescriptor.createConnector();
+						} catch (CoreException e) {
+							logger.log(e.getStatus());
+						}
+						getWizard().getContainer().updateButtons();
 					}
 				}
 			}
@@ -173,12 +187,16 @@ public class SelectConnectorPage extends WizardPage {
 		return scope;
 	}
 
-	public ConnectorDescriptor getConnector() {
-		return connector;
+	public ConnectorDescriptor getConnectorDescriptor() {
+		return connectorDescriptor;
 	}
 	
 	public String getSourceName(){
 		return sourceName;
+	}
+	
+	public IConnector getConnector(){
+		return connector;
 	}
 
 }
