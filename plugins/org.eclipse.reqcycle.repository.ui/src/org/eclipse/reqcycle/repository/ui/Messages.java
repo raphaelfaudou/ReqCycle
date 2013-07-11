@@ -10,6 +10,8 @@ public class Messages extends NLS {
 
 	public static String ADD_RESOURCE_TEXT;
 
+	public static String EDIT_RESOURCE_TEXT;
+	
 	public static String DELETE_RESOURCE_ICON;
 
 	public static String GREEN_STATUS_ICON;

@@ -20,7 +20,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
@@ -28,7 +27,6 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.connector.Activator;
 import org.eclipse.reqcycle.repository.connector.ConnectorDescriptor;
-import org.eclipse.reqcycle.repository.connector.IConnector;
 import org.eclipse.reqcycle.repository.connector.IConnectorManager;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 //import org.eclipse.reqcycle.repository.connector.IRequirementSourceRepository;
@@ -41,7 +39,6 @@ public class ConnectorManager implements IConnectorManager {
 	private Map<String, ConnectorDescriptor> connectors = new HashMap<String, ConnectorDescriptor>();
 
 	/** Logger */
-	ILogger logger = ZigguratInject.make(ILogger.class);
 	
 	/**
 	 * Constructor
@@ -50,9 +47,6 @@ public class ConnectorManager implements IConnectorManager {
 		IExtensionRegistry reg = Platform.getExtensionRegistry();
 		IConfigurationElement[] extensions = reg.getConfigurationElementsFor(Activator.PLUGIN_ID, "connectorCore");
 		for(IConfigurationElement iConfigurationElement : extensions) {
-			try {
-				IConnector connector = (IConnector)iConfigurationElement.createExecutableExtension("class");
-				ZigguratInject.inject(connector);
 				String name = iConfigurationElement.getAttribute("name");
 				String id = iConfigurationElement.getAttribute("id");
 				String icon = iConfigurationElement.getAttribute("icon");
@@ -60,17 +54,11 @@ public class ConnectorManager implements IConnectorManager {
 				if (icon != null && ! icon.isEmpty()){
 					imageDescriptor = AbstractUIPlugin.imageDescriptorFromPlugin(iConfigurationElement.getNamespaceIdentifier(), icon);
 				}
-				ConnectorDescriptor repositoryConnectorDescriptor = new ConnectorDescriptor(connector, name, id, imageDescriptor);
+			ConnectorDescriptor repositoryConnectorDescriptor = new ConnectorDescriptor(iConfigurationElement, name, id, imageDescriptor);
 				ZigguratInject.inject(repositoryConnectorDescriptor);
 				addConnector(repositoryConnectorDescriptor, id);
-			} catch (CoreException e) {
-				boolean debug = logger.isDebug(Activator.OPTIONS_DEBUG, Activator.getDefault());
-				if(debug) {
-					logger.trace("Can't create executable for : " + iConfigurationElement.getNamespaceIdentifier() + "\n Stack : " +  e.getMessage());
 				}
 			}
-		}
-	}
 
 	/**
 	 * Adds a connector descriptor

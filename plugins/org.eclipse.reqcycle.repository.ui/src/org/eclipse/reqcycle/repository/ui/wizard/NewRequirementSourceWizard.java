@@ -36,9 +36,6 @@ public class NewRequirementSourceWizard extends Wizard implements IWizard {
 	/** connector selection wizard page */
 	private SelectConnectorPage selectConnectorPage;
 
-	/** selected connector */
-	private ConnectorDescriptor connectorDescriptor = null;
-
 	private Callable<RequirementSource> createRequirementSource = null;
 
 	public NewRequirementSourceWizard() {
@@ -56,17 +53,27 @@ public class NewRequirementSourceWizard extends Wizard implements IWizard {
 
 	@Override
 	public boolean performFinish() {
-		createRequirementSource = connectorDescriptor.getConnector().createRequirementSource();
+		IConnector connector = getConnector();
+		if (connector instanceof IConnectorWizard){
+			boolean finish = ((IConnectorWizard)connector).performFinish();
+			if (! finish){
+				return false;
+			}
+		}
+		createRequirementSource = connector.createRequirementSource();
 		return createRequirementSource != null;
 	}
 
 	@Override
 	public boolean canFinish() {
-		IConnector connector = connectorDescriptor.getConnector();
-		if (getConnector() == null || getScope() == null || getSourceName() == null || getSourceName().isEmpty()){
-			return false; 
+		if(getConnectorDescriptor() == null || getConnector() == null || getScope() == null || getSourceName() == null || getSourceName().isEmpty()) {
+			return false;
 		}
-		if (connector instanceof IConnectorWizard && !((IConnectorWizard) connector).canFinish()){
+		IConnector connector = getConnector();
+		if(connector instanceof IConnectorWizard && ((IConnectorWizard)connector).getPageCount() == 0) {
+			return false;
+		}
+		if(connector instanceof IConnectorWizard && !((IConnectorWizard)connector).canFinish()) {
 			return false;
 		}
 		return true;
@@ -74,18 +81,29 @@ public class NewRequirementSourceWizard extends Wizard implements IWizard {
 
 	@Override
 	public IWizardPage getNextPage(IWizardPage page) {
-		IConnector connector = connectorDescriptor.getConnector();
-		if (page instanceof SelectConnectorPage && connector instanceof IConnectorWizard){
-			IConnectorWizard connectorWizard = (IConnectorWizard) connector;
-			if (connectorWizard.getPageCount() == 0){
+		IConnector connector = getConnector();
+		if(page instanceof SelectConnectorPage && connector instanceof IConnectorWizard) {
+			IConnectorWizard connectorWizard = (IConnectorWizard)connector;
+			if(connectorWizard.getPageCount() == 0) {
 				connectorWizard.addPages();
+			}
+			IWizardPage[] pages = connectorWizard.getPages();
+			for(int i = 0; i < pages.length; i++) {
+				pages[i].setWizard(this);
 			}
 			return connectorWizard.getStartingPage();
 		}
 		return null;
 	}
 
-	public ConnectorDescriptor getConnector() {
+	public ConnectorDescriptor getConnectorDescriptor() {
+		if(selectConnectorPage != null) {
+			return selectConnectorPage.getConnectorDescriptor();
+		}
+		return null;
+	}
+
+	public IConnector getConnector() {
 		if(selectConnectorPage != null) {
 			return selectConnectorPage.getConnector();
 		}
@@ -98,12 +116,16 @@ public class NewRequirementSourceWizard extends Wizard implements IWizard {
 		}
 		return null;
 	}
-	
-	public String getSourceName(){
-		if (selectConnectorPage != null){
+
+	public String getSourceName() {
+		if(selectConnectorPage != null) {
 			return selectConnectorPage.getSourceName();
 		}
 		return null;
+	}
+
+	public Callable<RequirementSource> getResult() {
+		return createRequirementSource;
 	}
 
 }

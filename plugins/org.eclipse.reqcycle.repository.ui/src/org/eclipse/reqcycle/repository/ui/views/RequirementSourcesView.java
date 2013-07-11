@@ -31,7 +31,7 @@ import org.eclipse.reqcycle.repository.ui.Activator;
 import org.eclipse.reqcycle.repository.ui.Messages;
 import org.eclipse.reqcycle.repository.ui.actions.AddRequirementSourceAction;
 import org.eclipse.reqcycle.repository.ui.actions.DeleteRequirementSourceAction;
-import org.eclipse.reqcycle.repository.ui.actions.EditMappingAction;
+import org.eclipse.reqcycle.repository.ui.actions.EditRequirementSourceAction;
 import org.eclipse.reqcycle.repository.ui.actions.OpenRequirementViewAction;
 import org.eclipse.reqcycle.repository.ui.actions.RefreshViewAction;
 import org.eclipse.reqcycle.repository.ui.actions.SynchronizeRequirementSourceActionStub;
@@ -267,9 +267,9 @@ public class RequirementSourcesView extends ViewPart {
 		synchResourceAction.setImageDescriptor(Activator.getImageDescriptor(ICON_SYNCHRONIZE));
 		synchResourceAction.setEnabled(false);
 		
-		editMappingAction = new EditMappingAction(viewer);
-		editMappingAction.setText("Edit Mapping");
-		editMappingAction.setToolTipText("Edit Mapping");
+		editMappingAction = new EditRequirementSourceAction(viewer);
+		editMappingAction.setText(Messages.EDIT_RESOURCE_TEXT);
+		editMappingAction.setToolTipText(Messages.EDIT_RESOURCE_TEXT);
 		// TODO : add image change mapping
 //		changeMappingAction.setImageDescriptor();
 		editMappingAction.setEnabled(false);
