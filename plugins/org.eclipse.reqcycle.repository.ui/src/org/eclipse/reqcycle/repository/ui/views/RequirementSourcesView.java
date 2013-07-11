@@ -78,7 +78,7 @@ public class RequirementSourcesView extends ViewPart {
 	private DrillDownAdapter drillDownAdapter;
 
 	/** Synchronize Resource Stub Action */
-	private SynchronizeRequirementSourceActionStub synchResourceAction;
+	private Action synchResourceAction;
 
 	/** Add location icon */
 	private static final String ICON_ADD_LOCATION = Messages.ADD_RESOURCE_ICON;
@@ -120,6 +120,8 @@ public class RequirementSourcesView extends ViewPart {
 		viewer.setLabelProvider(new RequirementSourceLabelProvider());
 		viewer.setInput(requirementSourceManager.getRepositoryMap().keySet());
 
+		getSite().setSelectionProvider(viewer);
+		
 		makeActions();
 		hookContextMenu();
 		contributeToActionBars();

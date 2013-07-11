@@ -22,8 +22,10 @@ import javax.inject.Inject;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.IWizard;
+import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.connector.IConnector;
 import org.eclipse.reqcycle.repository.connector.ui.IConnectorManagerUi;
@@ -37,20 +39,30 @@ public class NewRequirementSourceWizard extends Wizard implements IWizard
 {
     /** connector selection wizard page */
     private SelectConnectorPage selectConnectorPage;
+    
     /** selected connector */
     private IConnector connector;
+    
     /** requirement source */
     private IRequirementSourceSettingPage settingsPage;
+    
     /** the connector ui manager*/
-    private @Inject IConnectorManagerUi connectorManagerUi = ZigguratInject.make(IConnectorManagerUi.class);
+    private IConnectorManagerUi connectorManagerUi = ZigguratInject.make(IConnectorManagerUi.class);
+    
     /** the requirement source */
     private RequirementSource requirementSource;
+    
     /** the connector ui */
 	private IConnectorUi connectorUi;
+	
 	/** selected scope */
 	private Scope scope;
+	
 	/** logger */
-	private @Inject ILogger logger = ZigguratInject.make(ILogger.class);
+	private ILogger logger = ZigguratInject.make(ILogger.class);
+	
+	/** Setting wizard */
+	private IWizard settingWizard;
     
     public NewRequirementSourceWizard()
     {
@@ -69,65 +81,94 @@ public class NewRequirementSourceWizard extends Wizard implements IWizard
     @Override
     public boolean performFinish()
     {
-        if (canFinish())
-        {
-        	requirementSource = connector.createRequirementSource();
-            boolean finishAccepted = connectorUi.preFinish();
-            if (finishAccepted)
-            {
-            	connectorUi.performFinish(requirementSource);
-                try {
-                	//TODO : give scope to fill requirement
-                	scope = connectorUi.getScope();
-					connector.fillRequirements(requirementSource, new NullProgressMonitor());
-				} catch (Exception e) {
-					logger.error("Error while filling requirement");
-				}
-                return true;
-            }
-        }
-        return false;
-    }
+//    	if(!canFinish()) {
+//			return false;
+//		}
+//
+//    	requirementSource = connector.createRequirementSource();
+//    	
+//		boolean finishAccepted = connectorUi.preFinish();
+//		if(finishAccepted) {
+//			connectorUi.performFinish(requirementSource);
+//			if(!connectorUi.skipMapping()) {
+//				try {
+//					//TODO : give scope to fill requirement
+//					scope = connectorUi.getScope();
+//					connector.fillRequirements(requirementSource, new NullProgressMonitor());
+//				} catch (Exception e) {
+//					logger.error("Error while filling requirement");
+//				}
+//			}
+//			return true;
+//		}
+//		return false;
+    	
+    	return true;
+	}
+    
+    
     
     @Override
     public boolean canFinish()
     {
-        return (selectConnectorPage == null || selectConnectorPage.isPageComplete())
-                && getContainer().getCurrentPage() != selectConnectorPage 
-                && connectorUi.canFinish();
+    	//Check that
+    	//Connector, ConnectorUI and the wizard are set
+    	//Can finish the connector's setting wizard
+    	//SelectConnectorPage complete
+    	
+    	return connector != null && connectorUi != null && settingWizard != null && settingWizard.canFinish();
+//        return (selectConnectorPage == null || selectConnectorPage.isPageComplete())
+//                && getContainer().getCurrentPage() != selectConnectorPage 
+//                && connectorUi.canFinish();
     }
     
     
     @Override
     public IWizardPage getNextPage(IWizardPage page)
     {
-    	//TODO refactor method
-    	IRequirementSourceSettingPage nextPage = null;
-
-    	if (page == selectConnectorPage) {
-            connector = selectConnectorPage.getConnector();
-            if(connector != null) {
-            	connectorUi = connectorManagerUi.getConnectorUi(connector.getConnectorId());
+    	
+    	if(page == selectConnectorPage) {
+			connector = selectConnectorPage.getConnector();
+			if(connector != null) {
+				connectorUi = connectorManagerUi.getConnectorUi(connector.getConnectorId());
+				settingWizard = connectorUi.getSettingWizard();
+//				settingWizard.setContainer(getContainer());
+				settingWizard.addPages();
+				return settingWizard.getStartingPage();
 			}
-            settingsPage = null;
-        } 
-    	else if ( page instanceof IRequirementSourceSettingPage)
-    	{
-    		settingsPage = (IRequirementSourceSettingPage)page;
-    	}
-        
-		if(connector != null && connectorUi != null) {
-			nextPage = connectorUi.getNextPage(settingsPage);
 		}
-		
-		if(nextPage != null) {
-			settingsPage = nextPage;
-			if(settingsPage.getImage() == null) {
-        		settingsPage.setImageDescriptor( ImageDescriptor.createFromImage(connectorManagerUi.getImage(connector.getConnectorId(), 60, 60)));
-        	}
-        	settingsPage.setWizard(this);
-        	return nextPage;
-		}
+//    	else if (connector != null && connectorUi!= null && settingWizard != null)
+//    	{
+//    		return settingWizard.getNextPage(page);
+//    	}
+//    	
+//    	//TODO refactor method
+//    	IRequirementSourceSettingPage nextPage = null;
+//
+//    	if (page == selectConnectorPage) {
+//            connector = selectConnectorPage.getConnector();
+//            if(connector != null) {
+//            	connectorUi = connectorManagerUi.getConnectorUi(connector.getConnectorId());
+//			}
+//            settingsPage = null;
+//        } 
+//    	else if ( page instanceof IRequirementSourceSettingPage)
+//    	{
+//    		settingsPage = (IRequirementSourceSettingPage)page;
+//    	}
+//        
+//		if(connector != null && connectorUi != null) {
+//			nextPage = connectorUi.getNextPage(settingsPage);
+//		}
+//		
+//		if(nextPage != null) {
+//			settingsPage = nextPage;
+//			if(settingsPage.getImage() == null) {
+//        		settingsPage.setImageDescriptor( ImageDescriptor.createFromImage(connectorManagerUi.getImage(connector.getConnectorId(), 60, 60)));
+//        	}
+//        	settingsPage.setWizard(this);
+//        	return nextPage;
+//		}
         
         return super.getNextPage(page);
     }

@@ -66,6 +66,8 @@ public class SettingWizard extends Wizard implements IWizard {
 	
 	private @Inject ILogger logger = ZigguratInject.make(ILogger.class);
 	private @Inject IRequirementSourceManager sourceManager = ZigguratInject.make(IRequirementSourceManager.class);
+	private boolean skipMapping;
+	private RequirementSource requirementSource;
 	
 
 	public SettingWizard(Collection<EClassifier> targetEClassifiers, Collection<SpecType> specTypes, Collection<EObject> mapping, String label, String uri, Collection<Scope> scopes) {
@@ -94,28 +96,28 @@ public class SettingWizard extends Wizard implements IWizard {
 			scope = settingPage.getScope();
 			label = settingPage.getRequirementSourceName();
 			uri = settingPage.getSourceUrl();
+			skipMapping = settingPage.isSkipMapping();
 			
+			//TODO : check mapping input information, if they are unchanged and mappingPage != null => return mappingPage
 			ResourceSet resourceSet = new ResourceSetImpl();
-			
 			final EList<SpecType> specTypes = RMFConnectorUi.getReqIFTypes(resourceSet, uri);
-			
 			final Collection<EClassifier> EClassifiers = DataUtil.getTargetEPackage(resourceSet, "org.eclipse.reqcycle.repository.data/model/CustomDataModel.ecore");
-			
 			mappingPage = new RMFRepositoryMappingPage("ReqIF Mapping", "") {
-				
+
 				@Override
 				protected Object getTargetInput() {
 					return EClassifiers;
 				}
-				
+
 				@Override
 				protected String getTargetDetail() {
 					return "ReqIF";
 				}
-				
+
 				@Override
 				protected IBaseLabelProvider getSourceLabelProvider() {
-					return new LabelProvider(){
+					return new LabelProvider() {
+
 						@Override
 						public String getText(Object element) {
 							if(element instanceof SpecType) {
@@ -125,27 +127,27 @@ public class SettingWizard extends Wizard implements IWizard {
 						}
 					};
 				}
-				
+
 				@Override
 				protected Object getSourceInput() {
 					return specTypes;
 				}
-				
+
 				@Override
 				protected String getSourceDetail() {
 					return "ReqIF";
 				}
-				
+
 				@Override
 				protected IContentProvider getSourceContentProvider() {
 					return RMFConnectorUi.contentProvider;
 				}
-				
+
 				@Override
 				protected String getResultDetail() {
 					return null;
 				}
-				
+
 				@Override
 				protected Collection<EObject> addToMapping() {
 					return mapping;
@@ -167,7 +169,7 @@ public class SettingWizard extends Wizard implements IWizard {
 		if(settingPage == null || mappingPage == null) {
 			return false;
 		}
-		RequirementSource requirementSource = connector.createRequirementSource();
+		requirementSource = connector.createRequirementSource();
 		try {
 			requirementSource.setProperty(RepositoryConstants.PROPERTY_URL, uri);
 			requirementSource.setProperty(RepositoryConstants.PROPERTY_LABEL, label);
@@ -199,5 +201,20 @@ public class SettingWizard extends Wizard implements IWizard {
 			}
 		}
 		return false;
+	}
+
+	
+	public String getLabel() {
+		return label;
+	}
+
+	
+	public String getUri() {
+		return uri;
+	}
+
+	
+	public boolean isSkipMapping() {
+		return skipMapping;
 	}
 }

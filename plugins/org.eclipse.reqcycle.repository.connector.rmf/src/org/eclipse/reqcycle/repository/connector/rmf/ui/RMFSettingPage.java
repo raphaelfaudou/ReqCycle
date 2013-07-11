@@ -43,11 +43,7 @@ public class RMFSettingPage extends AbstractSettingPage2 {
 
 	private String fileURIString;
 
-	private String label;
-
 	private String uri;
-
-	private Collection<Scope> scopes;
 
 	/**
 	 * @param title
@@ -63,10 +59,8 @@ public class RMFSettingPage extends AbstractSettingPage2 {
 	 * @wbp.parser.constructor
 	 */
 	public RMFSettingPage(String title, String description, String label, String uri, Collection<Scope> scopes){
-		super(title, description);
-		this.label = label;
+		super(title, description, label, ((scopes!=null && scopes.size()>0)?scopes.iterator().next():null));
 		this.uri = uri;
-		this.scopes = scopes;
 	}
 
 	/**

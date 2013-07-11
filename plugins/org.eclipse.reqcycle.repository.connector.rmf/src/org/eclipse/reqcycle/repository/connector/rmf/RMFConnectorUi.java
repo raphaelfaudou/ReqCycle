@@ -26,16 +26,17 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFRepositoryMappingPage;
 import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFSettingPage;
+import org.eclipse.reqcycle.repository.connector.rmf.ui.SettingWizard;
 import org.eclipse.reqcycle.repository.connector.ui.IConnectorUi;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IRequirementSourceSettingPage;
 import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
@@ -43,7 +44,6 @@ import org.eclipse.reqcycle.repository.requirement.data.util.RepositoryConstants
 import org.eclipse.rmf.reqif10.ReqIF;
 import org.eclipse.rmf.reqif10.ReqIFContent;
 import org.eclipse.rmf.reqif10.SpecType;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.RequirementSource;
@@ -65,6 +65,10 @@ public class RMFConnectorUi implements IConnectorUi {
 	private Scope scope;
 
 	private String repositoryLabel;
+
+	private SettingWizard settingWizard;
+
+	private boolean skipMapping;
 	
 	public static ITreeContentProvider contentProvider =  new ITreeContentProvider() {
 		
@@ -239,22 +243,41 @@ public class RMFConnectorUi implements IConnectorUi {
 	@Override
 	public boolean preFinish() {
 		boolean result = true;
-		Collection<EObject> mapping = rmfMappingPage.getResult();
-		for(EObject eObject : mapping) {
-			if(eObject instanceof ElementMapping) {
-				EList<EClass> superTypes = ((ElementMapping)eObject).getTargetElement().getESuperTypes();
-				if (!isSectionSuperType(superTypes))
-				{
-					Shell shell = new Shell();
-					boolean dialog = MessageDialog.openQuestion(shell, "Type WARNING", "One or more mapping element doesn't inherit from Reachable Section Type. Its children will be ignored. Would you continue?");
-					shell.dispose();
-					if (!dialog) {
-						result = false;
-					}
-					break;
-				}
-			}
+
+		
+		
+		//TODO :
+		// if there isn't a mapping -> do nothing
+		// if there is a mapping -> check if the mapping is valid
+		// check needed information
+		
+		if(settingWizard != null) {
+			reqIfFile = settingWizard.getUri();
+			repositoryLabel = settingWizard.getLabel();
+			skipMapping = settingWizard.isSkipMapping();
+		} else {
+			return false;
 		}
+		
+//		Collection<EObject> mapping = rmfMappingPage.getResult();
+//		for(EObject eObject : mapping) {
+//			if(eObject instanceof ElementMapping) {
+//				EList<EClass> superTypes = ((ElementMapping)eObject).getTargetElement().getESuperTypes();
+//				if (!isSectionSuperType(superTypes))
+//				{
+//					Shell shell = new Shell();
+//					boolean dialog = MessageDialog.openQuestion(shell, "Type WARNING", "One or more mapping element doesn't inherit from Reachable Section Type. Its children will be ignored. Would you continue?");
+//					shell.dispose();
+//					if (!dialog) {
+//						result = false;
+//					}
+//					break;
+//				}
+//			}
+//		}
+		
+		
+		
 		return result;
 	}
 
@@ -289,6 +312,17 @@ public class RMFConnectorUi implements IConnectorUi {
 	@Override
 	public LabelProvider getSourceLabelProvider() {
 		return null;
+	}
+
+	@Override
+	public IWizard getSettingWizard() {
+		settingWizard = new SettingWizard();
+		return settingWizard;
+	}
+
+	@Override
+	public boolean skipMapping() {
+		return skipMapping;
 	}
 	
 }

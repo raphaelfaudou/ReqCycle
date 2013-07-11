@@ -14,6 +14,7 @@
 package org.eclipse.reqcycle.repository.connector.ui;
 
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IRequirementSourceSettingPage;
 
 import DataModel.RequirementSource;
@@ -42,6 +43,7 @@ public interface IConnectorUi {
 	 */
 	public  void performFinish(RequirementSource requirementSource);
 	
+	public IWizard getSettingWizard();
 	
 	/**
 	 * Gets if the requirement source can be created
@@ -71,4 +73,6 @@ public interface IConnectorUi {
 	 * @return the source label provider
 	 */
 	public LabelProvider getSourceLabelProvider();
+
+	boolean skipMapping();
 }

@@ -110,7 +110,8 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 			//TODO : remove the repository by command
 			repositories.remove(repository);
 			sources.removeRequirementSource(repository);
-			removeRequirements(repository);
+			removeScopes(repository.getRequirements());
+			repository.getRequirements().clear();
 			EcoreUtil.delete(repository, true);
 			try {
 				confManager.saveConfiguration(sources, null, null, id);
@@ -120,6 +121,8 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 		}
 	}
 
+	@Deprecated
+	//TODO remove method
 	public void removeRequirements(RequirementSource repository){
 		removeScopes(repository.getRequirements());
 		repository.getRequirements().clear();
@@ -181,6 +184,8 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 	}
 
 	@Override
+	@Deprecated
+	//TODO remove method
 	public void remove(Object toRemove) {
 		if(toRemove instanceof String && repositoryMap.containsKey((String)toRemove)) {
 			removeConnectorRepositories((String)toRemove);

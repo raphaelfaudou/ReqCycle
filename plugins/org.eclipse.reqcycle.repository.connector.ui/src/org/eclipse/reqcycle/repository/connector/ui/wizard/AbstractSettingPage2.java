@@ -29,8 +29,14 @@ import org.eclipse.swt.widgets.Label;
 import DataModel.Scope;
 
 
+/**
+ * Abstract setting page with escape mapping checkbox
+ */
 public abstract class AbstractSettingPage2 extends AbstractSettingPage {
 
+	private Button btnSkipMapping;
+	
+	protected boolean skipMapping;
 
 	public AbstractSettingPage2(String title, String description) {
 		super(title, description);
@@ -41,9 +47,6 @@ public abstract class AbstractSettingPage2 extends AbstractSettingPage {
 		super(title, description, label, scope);
 	}
 
-	private Button btnSkipMapping;
-
-	protected boolean skipMapping;
 
 	
 	@Override
@@ -82,6 +85,11 @@ public abstract class AbstractSettingPage2 extends AbstractSettingPage {
 
 	@Override
 	public boolean skipMapping() {
+		return skipMapping;
+	}
+
+	
+	public boolean isSkipMapping() {
 		return skipMapping;
 	}
 

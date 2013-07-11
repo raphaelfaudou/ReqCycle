@@ -90,6 +90,7 @@ public class AddRequirementSourceAction extends Action {
 			
 			requirementSourceManager.addRepository(repository, rs);
 			
+			//TODO add requirement to scope when created
 			Collection<Contained> containedElements = DataUtil.getAllContainedElements(repository.getRequirements()); 
 			
 			Collection<Contained> requirements = Collections2.filter(containedElements, new Predicate<Contained>() {

@@ -17,8 +17,6 @@
  */
 package org.eclipse.reqcycle.repository.connector.ui.wizard;
 
-import javax.inject.Inject;
-
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelection;
@@ -53,9 +51,9 @@ public abstract class AbstractSettingPage extends WizardPage implements IRequire
 
 	protected Scope selectedScope;
 
-	private @Inject IScopeManager scopeManager = ZigguratInject.make(IScopeManager.class);
+	private IScopeManager scopeManager = ZigguratInject.make(IScopeManager.class);
 
-	private String label;
+	private String repositoryLabel;
 
 	private Scope scope;
 
@@ -63,15 +61,15 @@ public abstract class AbstractSettingPage extends WizardPage implements IRequire
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public AbstractSettingPage(String title, String description) {
-		super(title);
-		setTitle(title);
-		setDescription(description);
+	public AbstractSettingPage(String pageTitle, String pageDescription) {
+		super(pageTitle);
+		setTitle(pageTitle);
+		setDescription(pageDescription);
 	}
 	
-	public AbstractSettingPage(String title, String description, String label, Scope scope) {
-		this(title, description);
-		this.label = label;
+	public AbstractSettingPage(String pageTitle, String pageDescription, String repositoryLabel, Scope scope) {
+		this(pageTitle, pageDescription);
+		this.repositoryLabel = repositoryLabel;
 		this.scope = scope;
 	}
 
@@ -105,8 +103,12 @@ public abstract class AbstractSettingPage extends WizardPage implements IRequire
 				return DataUtil.getLabel(element);
 			}
 		});
-
 		scopeComboViewer.setInput(scopeManager.getAllScopes());
+		
+		if(scope != null && scopeManager.getAllScopes().contains(scope)) {
+			scopeComboViewer.setSelection(new StructuredSelection(scope));
+		}
+		
 
 		hookListeners();
 		init();
@@ -119,10 +121,10 @@ public abstract class AbstractSettingPage extends WizardPage implements IRequire
 	
 
 	private void init() {
-		if(label != null && !label.isEmpty()) {
-			requirementSourceNameString = label;
+		if(repositoryLabel != null && !repositoryLabel.isEmpty()) {
+			requirementSourceNameString = repositoryLabel;
 			if (requirementSourceNameText != null ){
-				requirementSourceNameText.setText(label);
+				requirementSourceNameText.setText(repositoryLabel);
 			}
 		}
 		if(scope != null) {
