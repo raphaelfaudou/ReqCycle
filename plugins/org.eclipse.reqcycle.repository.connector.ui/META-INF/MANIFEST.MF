@@ -14,5 +14,6 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.reqcycle.repository.connector.ui,
  org.eclipse.reqcycle.repository.connector.ui.providers,
- org.eclipse.reqcycle.repository.connector.ui.wizard
+ org.eclipse.reqcycle.repository.connector.ui.wizard,
+ org.eclipse.reqcycle.repository.connector.ui.wizard.pages
 Import-Package: javax.inject;version="1.0.0"

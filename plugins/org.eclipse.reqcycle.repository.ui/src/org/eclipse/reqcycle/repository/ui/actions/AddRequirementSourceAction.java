@@ -36,6 +36,7 @@ import org.eclipse.reqcycle.repository.requirement.data.IScopeManager;
 import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
 import org.eclipse.reqcycle.repository.ui.wizard.NewRequirementSourceWizard;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.Contained;
 import DataModel.Requirement;
@@ -86,7 +87,8 @@ public class AddRequirementSourceAction extends Action {
 		wd.setHelpAvailable(false);
 		
 		if(wd.open() == Window.OK) {
-			Callable<RequirementSource> createRequirementSource = wizard.getResult();
+			//TODO get wizard result
+			Callable<RequirementSource> createRequirementSource = null;// = wizard.getResult();
 			if (createRequirementSource == null) {
 				logger.error("Could not create the requirement repository");
 				return;

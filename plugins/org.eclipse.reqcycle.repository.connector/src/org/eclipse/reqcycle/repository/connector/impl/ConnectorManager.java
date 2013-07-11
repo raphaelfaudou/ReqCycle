@@ -41,7 +41,7 @@ public class ConnectorManager implements IConnectorManager {
 	private Map<String, ConnectorDescriptor> connectors = new HashMap<String, ConnectorDescriptor>();
 
 	/** Logger */
-	@Inject ILogger logger = ZigguratInject.make(ILogger.class);
+	ILogger logger = ZigguratInject.make(ILogger.class);
 	
 	/**
 	 * Constructor

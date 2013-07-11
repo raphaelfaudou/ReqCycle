@@ -64,7 +64,7 @@ private static ITreeContentProvider contentProvider =  new ITreeContentProvider(
 		}
 	};
 	
-	private @Inject IConnectorManager connectorManager = ZigguratInject.make(IConnectorManager.class);
+	private IConnectorManager connectorManager = ZigguratInject.make(IConnectorManager.class);
 	
 	private TreeViewer viewer;
 
@@ -82,8 +82,9 @@ private static ITreeContentProvider contentProvider =  new ITreeContentProvider(
 			Object element = ((IStructuredSelection)selection).getFirstElement();
 			if(element instanceof RequirementSource) {
 				String connectorID = ((RequirementSource)element).getConnectorID();
-				IConnector connector = connectorManager.getConnector(connectorID);
-				connector.editMapping(((RequirementSource)element));
+				IConnector connector = connectorManager.get(connectorID).getConnector();
+				//TODO : edit mapping
+//				connector.editMapping(((RequirementSource)element));
 			}
 			
 		}

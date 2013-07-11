@@ -28,7 +28,6 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardPage;
-import org.eclipse.reqcycle.repository.connector.ui.wizard.IRequirementSourceSettingPage;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.MappingComposite;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.pages.MappingDialogPage;
 import org.eclipse.rmf.reqif10.AttributeDefinition;
@@ -53,7 +52,7 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.Sets;
 
 
-public abstract class RMFRepositoryMappingPage extends WizardPage implements IRequirementSourceSettingPage {
+public abstract class RMFRepositoryMappingPage extends WizardPage {
 
 	private MappingComposite mappingComposite;
 
@@ -366,7 +365,6 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements IRe
 		return null;
 	}
 	
-	@Override
 	public boolean preFinish(RequirementSource repository) {
 		return true;
 	}
@@ -383,8 +381,6 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements IRe
 		return null;
 	}
 
-
-	@Override
 	public boolean skipMapping() {
 		return true;
 	}

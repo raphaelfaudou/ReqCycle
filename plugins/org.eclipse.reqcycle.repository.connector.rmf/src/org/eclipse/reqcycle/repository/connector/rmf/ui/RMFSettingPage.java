@@ -116,11 +116,10 @@ public class RMFSettingPage extends AbstractSettingPage2 {
 		return true;
 	}
 
-	public String getSourceUrl() {
+	public String getSourceURI() {
 		return fileURIString;
 	}
 
-	@Override
 	public boolean preFinish(RequirementSource repository) {
 		return true;
 	}

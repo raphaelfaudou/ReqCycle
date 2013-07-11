@@ -95,7 +95,7 @@ public class SettingWizard extends Wizard implements IWizard {
 		if(page == settingPage) {
 			scope = settingPage.getScope();
 			label = settingPage.getRequirementSourceName();
-			uri = settingPage.getSourceUrl();
+			uri = settingPage.getSourceURI();
 			skipMapping = settingPage.isSkipMapping();
 			
 			//TODO : check mapping input information, if they are unchanged and mappingPage != null => return mappingPage
@@ -169,8 +169,8 @@ public class SettingWizard extends Wizard implements IWizard {
 		if(settingPage == null || mappingPage == null) {
 			return false;
 		}
-		requirementSource = connector.createRequirementSource();
 		try {
+			requirementSource = connector.createRequirementSource().call();
 			requirementSource.setProperty(RepositoryConstants.PROPERTY_URL, uri);
 			requirementSource.setProperty(RepositoryConstants.PROPERTY_LABEL, label);
 			sourceManager.addRepository(requirementSource, null);

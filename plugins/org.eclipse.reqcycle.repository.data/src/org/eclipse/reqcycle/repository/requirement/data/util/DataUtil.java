@@ -151,7 +151,7 @@ public class DataUtil {
 
 	/**
 	 * @param resourceSet
-	 * @param uriAttributeModelString2
+	 * @param modelLocation
 	 * @return
 	 */
 	public static Collection<EClassifier> getTargetEPackage(ResourceSet resourceSet, String modelLocation) {
