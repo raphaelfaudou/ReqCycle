@@ -36,7 +36,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.connector.rmf.Activator;
 import org.eclipse.reqcycle.repository.connector.rmf.RMFConnector;
-import org.eclipse.reqcycle.repository.connector.rmf.RMFConnectorUi;
+import org.eclipse.reqcycle.repository.connector.rmf.RMFUtils;
 import org.eclipse.reqcycle.repository.requirement.data.IRequirementSourceManager;
 import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
 import org.eclipse.reqcycle.repository.requirement.data.util.RepositoryConstants;
@@ -79,7 +79,7 @@ public class SettingWizard extends Wizard implements IWizard {
 		this.uri = uri;
 		this.scopes = scopes;
 		
-		settingPage = new RMFSettingPage("ReqIF Setting", "", label, uri, scopes);
+		settingPage = new RMFSettingPage("ReqIF Setting", "", uri);
 		settingPage.setWizard(this);
 		setForcePreviousAndNextButtons(true);
 	}
@@ -93,14 +93,12 @@ public class SettingWizard extends Wizard implements IWizard {
 	@Override
 	public IWizardPage getNextPage(IWizardPage page) {
 		if(page == settingPage) {
-			scope = settingPage.getScope();
-			label = settingPage.getRequirementSourceName();
 			uri = settingPage.getSourceURI();
-			skipMapping = settingPage.isSkipMapping();
+			skipMapping = settingPage.skipMapping();
 			
 			//TODO : check mapping input information, if they are unchanged and mappingPage != null => return mappingPage
 			ResourceSet resourceSet = new ResourceSetImpl();
-			final EList<SpecType> specTypes = RMFConnectorUi.getReqIFTypes(resourceSet, uri);
+			final EList<SpecType> specTypes = RMFUtils.getReqIFTypes(resourceSet, uri);
 			final Collection<EClassifier> EClassifiers = DataUtil.getTargetEPackage(resourceSet, "org.eclipse.reqcycle.repository.data/model/CustomDataModel.ecore");
 			mappingPage = new RMFRepositoryMappingPage("ReqIF Mapping", "") {
 
@@ -140,7 +138,7 @@ public class SettingWizard extends Wizard implements IWizard {
 
 				@Override
 				protected IContentProvider getSourceContentProvider() {
-					return RMFConnectorUi.contentProvider;
+					return RMFUtils.contentProvider;
 				}
 
 				@Override
@@ -177,7 +175,7 @@ public class SettingWizard extends Wizard implements IWizard {
 
 			if(!settingPage.skipMapping()) {
 				requirementSource.getMapping().addAll((Collection<? extends ElementMapping>)mappingPage.getResult());
-				connector.fillRequirements(requirementSource, new NullProgressMonitor());
+				RMFUtils.fillRequirements(requirementSource, new NullProgressMonitor());
 			}
 			
 		} catch (Exception e) {

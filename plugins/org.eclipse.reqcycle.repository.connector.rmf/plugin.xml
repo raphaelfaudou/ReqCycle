@@ -5,8 +5,9 @@
          point="org.eclipse.reqcycle.repository.connector.connectorCore">
       <connectorCore
             class="org.eclipse.reqcycle.repository.connector.rmf.RMFConnector"
+            icon="icons/RMF.png"
             id="org.eclipse.reqcycle.repository.connector.rmf.connectorCore"
-            name="ReqIf">
+            name="RMF">
       </connectorCore>
    </extension>
    <extension

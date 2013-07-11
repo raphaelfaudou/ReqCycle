@@ -17,25 +17,24 @@
  */
 package org.eclipse.reqcycle.repository.connector.rmf.ui;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.ui.dialogs.ResourceDialog;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.reqcycle.repository.connector.ui.wizard.pages.AbstractSettingPage2;
+import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import DataModel.RequirementSource;
-import DataModel.Scope;
 
-public class RMFSettingPage extends AbstractSettingPage2 {
+public class RMFSettingPage extends WizardPage {
 
 	private Text fileURIText;
 
@@ -45,53 +44,83 @@ public class RMFSettingPage extends AbstractSettingPage2 {
 
 	private String uri;
 
+	private Button btnSkipMapping;
+
+	private boolean skipMapping;
+
 	/**
 	 * @param title
 	 *        Page title
 	 * @param description
 	 *        page description
-	 */
-	public RMFSettingPage(String title, String description) {
-		super(title, description);
-	}
-	
-	/**
 	 * @wbp.parser.constructor
 	 */
-	public RMFSettingPage(String title, String description, String label, String uri, Collection<Scope> scopes){
-		super(title, description, label, ((scopes!=null && scopes.size()>0)?scopes.iterator().next():null));
-		this.uri = uri;
+	public RMFSettingPage(String title, String description) {
+		super(title);
+		setTitle(title);
+		setDescription(description);
 	}
 
 	/**
-	 * @return the connector Id
+	 * @param title
+	 *        Page title
+	 * @param description
+	 *        Page description
+	 * @param uri
+	 *        input uri
 	 */
-	public String getConnectorId() {
-		return "ReqIF";
+	public RMFSettingPage(String title, String description, String uri) {
+		this(title, description);
+		this.uri = uri;
 	}
 
 	@Override
 	public boolean canFlipToNextPage() {
 		return isPageComplete() && !skipMapping;
 	}
-	
+
 	@Override
-	public void addCustomControl(Composite parent) {
-		Label lblReqIfFile = new Label(parent, SWT.NONE);
+	public void createControl(Composite parent) {
+		Composite compositeContainer = new Composite(parent, SWT.NONE);
+		compositeContainer.setLayout(new GridLayout(3, false));
+		setControl(compositeContainer);
+
+		Label lblReqIfFile = new Label(compositeContainer, SWT.NONE);
 		lblReqIfFile.setText("ReqIF file :");
-		
-		fileURIText = new Text(parent, SWT.BORDER);
+
+		fileURIText = new Text(compositeContainer, SWT.BORDER);
 		fileURIText.setEditable(false);
 		fileURIText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
-		browseFileBtn = new Button(parent, SWT.NONE);
+		browseFileBtn = new Button(compositeContainer, SWT.NONE);
 		browseFileBtn.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		browseFileBtn.setText("Browse");
-	}
+		
+		
+		btnSkipMapping = new Button(compositeContainer, SWT.CHECK);
 
-	@Override
-	protected void hookCustomListeners() {
+		Label lblSkipMapping = new Label(compositeContainer, SWT.NONE);
+		lblSkipMapping.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
+		lblSkipMapping.setText("Skip mapping (Perform mapping later)");
+
+		hookListeners();
+		init();
+	}
+	
+	
+	protected void hookListeners() {
+		btnSkipMapping.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if(btnSkipMapping != null) {
+					skipMapping = btnSkipMapping.getSelection();
+				}
+			}
+		});
+		
 		browseFileBtn.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent e) {
 				ResourceDialog dialog = new ResourceDialog(getShell(), "Select ReqIF file", SWT.NONE);
 				int res = dialog.open();
@@ -106,15 +135,18 @@ public class RMFSettingPage extends AbstractSettingPage2 {
 			}
 		});
 	}
-
+	
+	
 	@Override
-	protected boolean isCustomPageComplete(StringBuffer error) {
+	public boolean isPageComplete() {
+		StringBuffer error = new StringBuffer();
 		if(fileURIString == null || fileURIString.isEmpty()) {
 			error.append(" Choose a ReqIF File.\n");
 			return false;
 		}
 		return true;
 	}
+	
 
 	public String getSourceURI() {
 		return fileURIString;
@@ -124,13 +156,16 @@ public class RMFSettingPage extends AbstractSettingPage2 {
 		return true;
 	}
 
-	@Override
-	protected void customInit() {
+	private void init() {
 		if(uri != null && !uri.isEmpty()) {
 			fileURIString = uri;
 			if(fileURIText != null) {
 				fileURIText.setText(uri);
 			}
 		}
+	}
+	
+	public boolean skipMapping() {
+		return skipMapping;
 	}
 }

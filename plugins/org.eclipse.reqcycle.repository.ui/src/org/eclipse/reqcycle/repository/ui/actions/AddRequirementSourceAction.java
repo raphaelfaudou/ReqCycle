@@ -87,8 +87,7 @@ public class AddRequirementSourceAction extends Action {
 		wd.setHelpAvailable(false);
 		
 		if(wd.open() == Window.OK) {
-			//TODO get wizard result
-			Callable<RequirementSource> createRequirementSource = null;// = wizard.getResult();
+			Callable<RequirementSource> createRequirementSource = wizard.getResult();
 			if (createRequirementSource == null) {
 				logger.error("Could not create the requirement repository");
 				return;

@@ -87,11 +87,19 @@ public class NewRequirementSourceWizard extends Wizard implements IWizard {
 			if(connectorWizard.getPageCount() == 0) {
 				connectorWizard.addPages();
 			}
-			IWizardPage[] pages = connectorWizard.getPages();
-			for(int i = 0; i < pages.length; i++) {
-				pages[i].setWizard(this);
+			IWizardPage startingPage = connectorWizard.getStartingPage();
+			if(startingPage != null) {
+				startingPage.setWizard(this);
 			}
-			return connectorWizard.getStartingPage();
+			return startingPage;
+		}
+		
+		if(connector instanceof IConnectorWizard) {
+			IWizardPage nextPage = ((IConnectorWizard)connector).getNextPage(page);
+			if(nextPage != null) {
+				nextPage.setWizard(this);
+			}
+			return nextPage;
 		}
 		return null;
 	}
