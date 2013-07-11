@@ -22,8 +22,12 @@ import DataModel.RequirementSource;
 public interface IConnector {
 
 	/**
+	 * Initializes the connector with an already existing requirement source.
+	 */
+	public void initializeWithRequirementSource(RequirementSource requirementSource);
+	
+	/**
 	 * Callable that will create the new requirement source repository
-	 * 
 	 * @return new requirement source repository (not null)
 	 */
 	public Callable<RequirementSource> createRequirementSource();

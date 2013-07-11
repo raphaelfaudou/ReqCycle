@@ -53,7 +53,14 @@ public class NewRequirementSourceWizard extends Wizard implements IWizard {
 
 	@Override
 	public boolean performFinish() {
-		createRequirementSource = getConnector().createRequirementSource();
+		IConnector connector = getConnector();
+		if (connector instanceof IConnectorWizard){
+			boolean finish = ((IConnectorWizard)connector).performFinish();
+			if (! finish){
+				return false;
+			}
+		}
+		createRequirementSource = connector.createRequirementSource();
 		return createRequirementSource != null;
 	}
 
