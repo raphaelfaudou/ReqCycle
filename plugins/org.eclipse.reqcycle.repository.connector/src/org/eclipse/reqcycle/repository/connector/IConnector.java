@@ -9,7 +9,7 @@
  * Contributors:
  *  Anass RADOUANI (AtoS) anass.radouani@atos.net - Initial API and implementation
  *
- *****************************************************************************/
+ *****************************************************************************/ 
 package org.eclipse.reqcycle.repository.connector;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -55,6 +55,7 @@ public interface IConnector {
 	public void fillRequirements(RequirementSource repository, IProgressMonitor progressMonitor) throws Exception;
 
 	/**
+	 * edits the mapping
 	 * @param requirementSource
 	 */
 	public void editMapping(RequirementSource requirementSource);
