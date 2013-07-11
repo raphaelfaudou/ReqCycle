@@ -15,7 +15,7 @@
 /**
  * 
  */
-package org.eclipse.reqcycle.repository.connector.ui.wizard;
+package org.eclipse.reqcycle.repository.connector.ui.wizard.pages;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -41,19 +41,18 @@ public abstract class AbstractSettingPage2 extends AbstractSettingPage {
 	public AbstractSettingPage2(String title, String description) {
 		super(title, description);
 	}
-	
-	public AbstractSettingPage2(String title, String description, String label,
-			Scope scope) {
+
+	public AbstractSettingPage2(String title, String description, String label, Scope scope) {
 		super(title, description, label, scope);
 	}
 
 
-	
+
 	@Override
 	public void createControl(Composite parent) {
 
 		super.createControl(parent);
-		
+
 		Composite bottomComposite = new Composite((Composite)super.getControl(), SWT.NONE);
 		bottomComposite.setLayout(new GridLayout(2, false));
 		bottomComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 3, 1));
@@ -68,7 +67,7 @@ public abstract class AbstractSettingPage2 extends AbstractSettingPage {
 
 		hookListeners2();
 	}
-	
+
 
 	private void hookListeners2() {
 

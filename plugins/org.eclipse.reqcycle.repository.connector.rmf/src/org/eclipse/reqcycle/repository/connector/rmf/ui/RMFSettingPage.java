@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.ui.dialogs.ResourceDialog;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.reqcycle.repository.connector.ui.wizard.AbstractSettingPage2;
+import org.eclipse.reqcycle.repository.connector.ui.wizard.pages.AbstractSettingPage2;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;

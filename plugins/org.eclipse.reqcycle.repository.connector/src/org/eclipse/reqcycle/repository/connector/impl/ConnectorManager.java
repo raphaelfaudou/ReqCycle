@@ -24,17 +24,15 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.connector.Activator;
+import org.eclipse.reqcycle.repository.connector.ConnectorDescriptor;
 import org.eclipse.reqcycle.repository.connector.IConnector;
 import org.eclipse.reqcycle.repository.connector.IConnectorManager;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 //import org.eclipse.reqcycle.repository.connector.IRequirementSourceRepository;
 import org.eclipse.ziggurat.inject.ZigguratInject;
-
-import DataModel.RequirementSource;
-
-import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
 
 @Singleton
 public class ConnectorManager implements IConnectorManager {
@@ -57,9 +55,14 @@ public class ConnectorManager implements IConnectorManager {
 				ZigguratInject.inject(connector);
 				String name = iConfigurationElement.getAttribute("name");
 				String id = iConfigurationElement.getAttribute("id");
-				ConnectorDescriptor repositoryConnectorDescriptor = new ConnectorDescriptor(connector, name, id);
+				String icon = iConfigurationElement.getAttribute("icon");
+				ImageDescriptor imageDescriptor = null;
+				if (icon != null && ! icon.isEmpty()){
+					imageDescriptor = AbstractUIPlugin.imageDescriptorFromPlugin(iConfigurationElement.getNamespaceIdentifier(), icon);
+				}
+				ConnectorDescriptor repositoryConnectorDescriptor = new ConnectorDescriptor(connector, name, id, imageDescriptor);
 				ZigguratInject.inject(repositoryConnectorDescriptor);
-				addConnector(repositoryConnectorDescriptor);
+				addConnector(repositoryConnectorDescriptor, id);
 			} catch (CoreException e) {
 				boolean debug = logger.isDebug(Activator.OPTIONS_DEBUG, Activator.getDefault());
 				if(debug) {
@@ -75,37 +78,19 @@ public class ConnectorManager implements IConnectorManager {
 	 * @param connectorDescriptor
 	 *        the connector descriptor
 	 */
-	protected void addConnector(ConnectorDescriptor connectorDescriptor) {
+	protected void addConnector(ConnectorDescriptor connectorDescriptor, String connectorID) {
 		if(!connectors.values().contains(connectorDescriptor)) {
-			connectors.put(connectorDescriptor.getConnector().getConnectorId(), connectorDescriptor);
+			connectors.put(connectorID, connectorDescriptor);
 		}
 	}
 
-	public Collection<IConnector> getAllConnectors() {
-		Collection<ConnectorDescriptor> descriptors = connectors.values();
-		Collection<IConnector> connectors = Collections2.transform(descriptors, new Function<ConnectorDescriptor, IConnector>() {
-
-			public IConnector apply(ConnectorDescriptor arg0) {
-				return arg0.getConnector();
-			}
-		});
-		
-		return connectors;
+	public Collection<ConnectorDescriptor> getAllConnectors() {
+		return connectors.values();
 	}
 
-	public IConnector getConnector(String connectorId) {
-		if (connectors.get(connectorId) != null) {
-			return connectors.get(connectorId).getConnector();
-		}
-		return null;
-	}
-
-	public String getRequirementSourceConnectorId(RequirementSource requirementSource) {
-		return requirementSource.getConnectorID();
-	}
-
-	public IConnector getRequirementSourceConnector(RequirementSource requirementSource) {
-		return getConnector(requirementSource.getConnectorID());
+	@Override
+	public ConnectorDescriptor get(String connectorId) {
+		return connectors.get(connectorId);
 	}
 	
 }

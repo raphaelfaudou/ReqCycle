@@ -38,6 +38,7 @@ import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFRepositoryMappingPage
 import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFSettingPage;
 import org.eclipse.reqcycle.repository.connector.rmf.ui.SettingWizard;
 import org.eclipse.reqcycle.repository.connector.ui.IConnectorUi;
+import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IRequirementSourceSettingPage;
 import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
 import org.eclipse.reqcycle.repository.requirement.data.util.RepositoryConstants;
@@ -51,7 +52,7 @@ import DataModel.Scope;
 import MappingModel.ElementMapping;
 
 
-public class RMFConnectorUi implements IConnectorUi {
+public class RMFConnectorUi implements IConnectorWizard {
 
 	/** ReqIf file uri */
 	private String reqIfFile;

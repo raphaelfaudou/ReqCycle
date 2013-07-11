@@ -30,7 +30,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IRequirementSourceSettingPage;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.MappingComposite;
-import org.eclipse.reqcycle.repository.connector.ui.wizard.MappingDialogPage;
+import org.eclipse.reqcycle.repository.connector.ui.wizard.pages.MappingDialogPage;
 import org.eclipse.rmf.reqif10.AttributeDefinition;
 import org.eclipse.rmf.reqif10.DatatypeDefinition;
 import org.eclipse.rmf.reqif10.SpecType;

@@ -15,7 +15,7 @@
 /**
  * 
  */
-package org.eclipse.reqcycle.repository.connector.ui.wizard;
+package org.eclipse.reqcycle.repository.connector.ui.wizard.pages;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
@@ -41,7 +41,7 @@ import org.eclipse.ziggurat.inject.ZigguratInject;
 import DataModel.Scope;
 
 
-public abstract class AbstractSettingPage extends WizardPage implements IRequirementSourceSettingPage {
+public abstract class AbstractSettingPage extends WizardPage {
 
 	protected Text requirementSourceNameText;
 

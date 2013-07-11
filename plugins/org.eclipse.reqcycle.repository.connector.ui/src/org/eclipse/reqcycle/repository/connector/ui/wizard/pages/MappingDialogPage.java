@@ -15,7 +15,7 @@
 /**
  * 
  */
-package org.eclipse.reqcycle.repository.connector.ui.wizard;
+package org.eclipse.reqcycle.repository.connector.ui.wizard.pages;
 
 import java.util.Collection;
 
@@ -24,6 +24,7 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.reqcycle.repository.connector.ui.wizard.MappingComposite;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
