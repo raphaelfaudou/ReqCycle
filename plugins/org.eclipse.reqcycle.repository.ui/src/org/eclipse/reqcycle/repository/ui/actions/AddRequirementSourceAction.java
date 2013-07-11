@@ -24,10 +24,10 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.reqcycle.repository.connector.ui.wizard.NewRequirementSourceWizard;
 import org.eclipse.reqcycle.repository.requirement.data.IRequirementSourceManager;
 import org.eclipse.reqcycle.repository.requirement.data.IScopeManager;
 import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
+import org.eclipse.reqcycle.repository.ui.wizard.NewRequirementSourceWizard;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
@@ -69,7 +69,7 @@ public class AddRequirementSourceAction extends Action {
 	@Override
 	public void run() {
 		NewRequirementSourceWizard wizard = new NewRequirementSourceWizard();
-
+		ZigguratInject.inject(wizard);
 		//TODO : Create a custom wizard dialog
 		Shell shell = new Shell();
 		WizardDialog wd = new WizardDialog(shell, wizard);

@@ -14,21 +14,15 @@
 
 package org.eclipse.reqcycle.repository.ui.providers;
 
-import javax.inject.Inject;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.reqcycle.repository.connector.ui.IConnectorManagerUi;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.Contained;
 import DataModel.RequirementSource;
 
 public class RequirementLabelProvider extends LabelProvider {
-	
-	private @Inject IConnectorManagerUi manager = ZigguratInject.make(IConnectorManagerUi.class);
 	
 	
 	/* (non-Javadoc)
@@ -62,11 +56,11 @@ public class RequirementLabelProvider extends LabelProvider {
 	@Override
 	public Image getImage(Object element) {
 		
-		if(element instanceof RequirementSource) {
-			String connectorId = ((RequirementSource)element).getConnectorID();
-			return manager.getImage(connectorId, 20, 20);
-		}
-		
+//		if(element instanceof RequirementSource) {
+//			String connectorId = ((RequirementSource)element).getConnectorID();
+//			return manager.getImage(connectorId, 20, 20);
+//		}
+//		
 		return super.getImage(element);
 	}
 	

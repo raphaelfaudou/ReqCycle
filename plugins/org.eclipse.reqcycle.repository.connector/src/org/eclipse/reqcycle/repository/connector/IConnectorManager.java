@@ -15,44 +15,23 @@ package org.eclipse.reqcycle.repository.connector;
 
 import java.util.Collection;
 
-import DataModel.RequirementSource;
-
 
 public interface IConnectorManager {
 
 
 	/**
 	 * Gets all repositories connectors
-	 * 
 	 * @return Collection of repositories connectors
 	 */
-	public Collection<IConnector> getAllConnectors();
+	public Collection<ConnectorDescriptor> getAllConnectors();
 
 	/**
 	 * Gets a repository connector by his id
 	 * 
 	 * @param connectorId the connector id
-	 * 
 	 * @return the corresponding connector
 	 */
-	public IConnector getConnector(String connectorId);
+	public ConnectorDescriptor get(String connectorId);
 
-	/**
-	 * Get the requirement source connector id
-	 * 
-	 * @param requirementSource the Requirement Source
-	 * 
-	 * @return the corresponding connector id
-	 */
-	public String getRequirementSourceConnectorId(RequirementSource requirementSource);
-
-	/**
-	 * Get the requirement source connector
-	 * 
-	 * @param requirementSource the Requirement Source
-	 * 
-	 * @return the corresponding connector
-	 */
-	public IConnector getRequirementSourceConnector(RequirementSource requirementSource);
 	
 }
