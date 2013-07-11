@@ -3,8 +3,6 @@ package org.eclipse.reqcycle.repository.connector.rmf;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.inject.Inject;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;

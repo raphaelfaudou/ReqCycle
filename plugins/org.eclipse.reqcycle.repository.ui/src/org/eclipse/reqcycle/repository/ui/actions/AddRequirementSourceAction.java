@@ -20,6 +20,7 @@ import javax.inject.Inject;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -35,7 +36,10 @@ import org.eclipse.reqcycle.repository.requirement.data.IRequirementSourceManage
 import org.eclipse.reqcycle.repository.requirement.data.IScopeManager;
 import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
 import org.eclipse.reqcycle.repository.ui.wizard.NewRequirementSourceWizard;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.Contained;
@@ -57,10 +61,10 @@ public class AddRequirementSourceAction extends Action {
 	private TreeViewer viewer;
 
 	private @Inject
-	IRequirementSourceManager requirementSourceManager ;
+	IRequirementSourceManager requirementSourceManager;
 
 	private @Inject
-	IScopeManager scopeManager ;
+	IScopeManager scopeManager;
 
 	private @Inject
 	ILogger logger;
@@ -78,61 +82,65 @@ public class AddRequirementSourceAction extends Action {
 
 	@Override
 	public void run() {
+		
 		NewRequirementSourceWizard wizard = new NewRequirementSourceWizard();
 		ZigguratInject.inject(wizard);
+		
+		Shell shell = Display.getDefault().getActiveShell();
+		
 		//TODO : Create a custom wizard dialog
-		Shell shell = new Shell();
 		WizardDialog wd = new WizardDialog(shell, wizard);
-		
+
 		wd.setHelpAvailable(false);
-		
+
 		if(wd.open() == Window.OK) {
 			Callable<RequirementSource> createRequirementSource = wizard.getResult();
-			if (createRequirementSource == null) {
+			if(createRequirementSource == null) {
 				logger.error("Could not create the requirement repository");
 				return;
 			}
 			RequirementSource source;
 			try {
 				source = createRequirementSource.call();
+				
 				ConnectorDescriptor connector = wizard.getConnectorDescriptor();
 				source.setConnectorID(connector.getId());
+				
 				String sourceName = wizard.getSourceName();
 				source.setName(sourceName);
-			
+
 				EList<ElementMapping> mapping = source.getMapping();
-			ResourceSet rs = new ResourceSetImpl();
-			for(ElementMapping elementMapping : mapping) {
-				rs.getResources().add(elementMapping.getTargetElement().eResource());
-				for(AttributeMapping attributeMapping : elementMapping.getAttributes()) {
-					rs.getResources().add(attributeMapping.getTargetAttribute().eResource());
-				}
-					requirementSourceManager.addRepository(source, rs);
-					Collection<Contained> containedElements = DataUtil.getAllContainedElements(source.getRequirements()); 
-			Collection<Contained> requirements = Collections2.filter(containedElements, new Predicate<Contained>() {
-				@Override
-				public boolean apply(Contained arg0) {
-					if(arg0 instanceof Requirement || arg0 instanceof RequirementSection) {
-						return true;
+				
+				ResourceSet rs = new ResourceSetImpl();
+				for(ElementMapping elementMapping : mapping) {
+					rs.getResources().add(elementMapping.getTargetElement().eResource());
+					for(AttributeMapping attributeMapping : elementMapping.getAttributes()) {
+						rs.getResources().add(attributeMapping.getTargetAttribute().eResource());
 					}
-					return false;
+					requirementSourceManager.addRepository(source, rs);
+					Collection<Contained> containedElements = DataUtil.getAllContainedElements(source.getRequirements());
+					Collection<Contained> requirements = Collections2.filter(containedElements, new Predicate<Contained>() {
+
+						@Override
+						public boolean apply(Contained arg0) {
+							if(arg0 instanceof Requirement || arg0 instanceof RequirementSection) {
+								return true;
+							}
+							return false;
+						}
+					});
+					scopeManager.addToScope(wizard.getScope(), requirements);
+					if(viewer != null) {
+						viewer.refresh();
+					}
 				}
-			});
-			scopeManager.addToScope(wizard.getScope(), requirements);
-			if(viewer != null) {
-				viewer.refresh();
-			}
-		}
-			} catch (CoreException e){
+			} catch (CoreException e) {
 				logger.log(e.getStatus());
 			} catch (Exception e) {
 				e.printStackTrace();
 				logger.log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Could not create the requirement repository", e));
 			}
-				
-		}
-		if(shell != null && !shell.isDisposed()) {
-			shell.dispose();
+
 		}
 	}
 }
