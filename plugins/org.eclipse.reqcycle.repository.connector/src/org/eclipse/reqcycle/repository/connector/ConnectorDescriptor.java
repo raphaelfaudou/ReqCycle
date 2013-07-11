@@ -13,12 +13,15 @@
  *****************************************************************************/
 package org.eclipse.reqcycle.repository.connector;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class ConnectorDescriptor {
 
 	/** The repository connector */
-	private IConnector connector;
+	private IConfigurationElement connectorConfElement;
 
 	/** The connector extension point name attribute */
 	private String name;
@@ -39,19 +42,21 @@ public class ConnectorDescriptor {
 	 * @param id
 	 *        The connector extension point id attribute
 	 */
-	public ConnectorDescriptor(IConnector connector, String name, String id, ImageDescriptor imageDescriptor) {
-		this.connector = connector;
+	public ConnectorDescriptor(IConfigurationElement connectorConfElement, String name, String id, ImageDescriptor imageDescriptor) {
+		this.connectorConfElement = connectorConfElement;
 		this.name = name;
 		this.id = id;
 		this.imageDescriptor = imageDescriptor;
 	}
 
 	/**
-	 * Gets the connector
-	 * 
-	 * @return the connector
+	 * Creates a new instance of the connector.
+	 * @return
+	 * @throws CoreException 
 	 */
-	public IConnector getConnector() {
+	public IConnector createConnector() throws CoreException{
+		IConnector connector = (IConnector) connectorConfElement.createExecutableExtension("class");//$NON-NLS-1$
+		ZigguratInject.inject(connector);
 		return connector;
 	}
 
