@@ -14,13 +14,14 @@
 
 package org.eclipse.reqcycle.repository.connector.ui.providers;
 
-import javax.inject.Inject;
-
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.reqcycle.repository.connector.ConnectorDescriptor;
 import org.eclipse.reqcycle.repository.connector.IConnector;
-import org.eclipse.reqcycle.repository.connector.ui.IConnectorManagerUi;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * Connector Label Provider
@@ -28,13 +29,11 @@ import org.eclipse.ziggurat.inject.ZigguratInject;
 public class ConnectorLabelProvider extends LabelProvider
 {
 	
-	private @Inject IConnectorManagerUi connectorManagerUi = ZigguratInject.make(IConnectorManagerUi.class);
-	
     public String getText(Object obj)
     {
-        if (obj instanceof IConnector)
+        if (obj instanceof ConnectorDescriptor)
         {
-            return ((IConnector) obj).getLabel();
+            return ((ConnectorDescriptor) obj).getName();
         }
         return obj.toString();
     }
@@ -43,8 +42,22 @@ public class ConnectorLabelProvider extends LabelProvider
     {
         if (obj instanceof IConnector)
         {
-            return connectorManagerUi.getImage(((IConnector) obj).getConnectorId(), 20, 20);
+            return createImage(((ConnectorDescriptor) obj), 20, 20);
         }
         return null;
     }
+    
+	public static Image createImage(ConnectorDescriptor connector, int width, int height) {
+		ImageDescriptor imageDescriptor = connector.getImageDescriptor();
+		Image image = imageDescriptor.createImage();
+		Image scaled = new Image(Display.getDefault(), width, height);
+		GC gc = new GC(scaled);
+		gc.setAntialias(SWT.ON);
+		gc.setInterpolation(SWT.HIGH);
+		gc.drawImage(image, 0, 0, image.getBounds().width, image.getBounds().height, 0, 0, width, height);
+		gc.dispose();
+		image.dispose();
+		return scaled;
+	}
+    
 }

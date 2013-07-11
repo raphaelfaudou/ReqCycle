@@ -12,7 +12,7 @@
  *****************************************************************************/
 package org.eclipse.reqcycle.repository.connector;
 
-import org.eclipse.core.runtime.IProgressMonitor;
+import java.util.concurrent.Callable;
 
 import DataModel.RequirementSource;
 
@@ -22,41 +22,9 @@ import DataModel.RequirementSource;
 public interface IConnector {
 
 	/**
-	 * Gets the connector type
-	 * 
-	 * @return the connector type
-	 */
-	public String getConnectorId();
-
-	/**
-	 * Gets the connector label
-	 * 
-	 * @return the connector label
-	 */
-	public String getLabel();
-
-	/**
-	 * Creates new requirement source repository
-	 * 
+	 * Callable that will create the new requirement source repository
 	 * @return new requirement source repository (not null)
 	 */
-	public RequirementSource createRequirementSource();
-
-	
-	/**
-	 * Fills the repository requirements
-	 * 
-	 * @param repository the repository
-	 * 
-	 * @param progressMonitor
-	 * 
-	 * @throws Exception
-	 */
-	public void fillRequirements(RequirementSource repository, IProgressMonitor progressMonitor) throws Exception;
-
-	/**
-	 * @param requirementSource
-	 */
-	public void editMapping(RequirementSource requirementSource);
+	public Callable<RequirementSource> createRequirementSource();
 
 }

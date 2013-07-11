@@ -9,12 +9,4 @@
             name="ReqIf">
       </connectorCore>
    </extension>
-   <extension
-         point="org.eclipse.reqcycle.repository.connector.ui.connectorUi">
-      <connectorUi
-            class="org.eclipse.reqcycle.repository.connector.rmf.RMFConnectorUi"
-            icon="icons/RMF.png"
-            id="org.eclipse.reqcycle.repository.connector.rmf.connectorCore">
-      </connectorUi>
-   </extension>
 </plugin>

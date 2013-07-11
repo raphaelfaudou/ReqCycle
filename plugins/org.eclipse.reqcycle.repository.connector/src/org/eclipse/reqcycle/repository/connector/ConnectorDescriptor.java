@@ -11,9 +11,9 @@
  *  Anass RADOUANI (AtoS) anass.radouani@atos.net - Initial API and implementation
  *
  *****************************************************************************/
-package org.eclipse.reqcycle.repository.connector.impl;
+package org.eclipse.reqcycle.repository.connector;
 
-import org.eclipse.reqcycle.repository.connector.IConnector;
+import org.eclipse.jface.resource.ImageDescriptor;
 
 public class ConnectorDescriptor {
 
@@ -26,6 +26,9 @@ public class ConnectorDescriptor {
 	/** The connector extension point id attribute */
 	private String id;
 
+	/** The image descriptor of the connector */
+	private ImageDescriptor imageDescriptor;
+
 	/**
 	 * The Constructor
 	 * 
@@ -36,10 +39,11 @@ public class ConnectorDescriptor {
 	 * @param id
 	 *        The connector extension point id attribute
 	 */
-	public ConnectorDescriptor(IConnector connector, String name, String id) {
+	public ConnectorDescriptor(IConnector connector, String name, String id, ImageDescriptor imageDescriptor) {
 		this.connector = connector;
 		this.name = name;
 		this.id = id;
+		this.imageDescriptor = imageDescriptor;
 	}
 
 	/**
@@ -67,6 +71,15 @@ public class ConnectorDescriptor {
 	 */
 	public String getId() {
 		return id;
+	}
+	
+	/**
+	 * Gets the image descriptor of the connector.
+	 * 
+	 * @return The connector extension point id attribute
+	 */
+	public ImageDescriptor getImageDescriptor() {
+		return imageDescriptor;
 	}
 
 }

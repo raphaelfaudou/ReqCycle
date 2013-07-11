@@ -15,7 +15,7 @@
 /**
  * 
  */
-package org.eclipse.reqcycle.repository.connector.ui.wizard;
+package org.eclipse.reqcycle.repository.connector.ui.wizard.pages;
 
 import javax.inject.Inject;
 
@@ -43,7 +43,7 @@ import org.eclipse.ziggurat.inject.ZigguratInject;
 import DataModel.Scope;
 
 
-public abstract class AbstractSettingPage extends WizardPage implements IRequirementSourceSettingPage {
+public abstract class AbstractSettingPage extends WizardPage {
 
 	protected Text requirementSourceNameText;
 
