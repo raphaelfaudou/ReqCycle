@@ -40,6 +40,8 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 
 import DataModel.RequirementSource;
 import MappingModel.AttributeMapping;
@@ -52,7 +54,7 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.Sets;
 
 
-public abstract class RMFRepositoryMappingPage extends WizardPage {
+public abstract class RMFRepositoryMappingPage extends WizardPage implements Listener {
 
 	private MappingComposite mappingComposite;
 
@@ -198,7 +200,6 @@ public abstract class RMFRepositoryMappingPage extends WizardPage {
 				RMFRepositoryMappingPage.this.generateMapping();
 			}
 		});
-		
 	}
 
 
@@ -381,8 +382,22 @@ public abstract class RMFRepositoryMappingPage extends WizardPage {
 		return null;
 	}
 
-	public boolean skipMapping() {
-		return true;
+	public static class RMFMappingBean {
+
+		private Collection<ElementMapping> mapping;
+		
+		public void setMapping(Collection<ElementMapping> mapping) {
+			this.mapping = mapping;
+		}
+		
+		public Collection<ElementMapping> getMapping() {
+			return mapping;
+		}
+	}
+	
+	@Override
+	public void handleEvent(Event event) {
+		
 	}
 	
 }

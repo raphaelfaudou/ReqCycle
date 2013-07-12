@@ -29,24 +29,24 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 import DataModel.RequirementSource;
 
-public class RMFSettingPage extends WizardPage {
+public class RMFSettingPage extends WizardPage implements Listener {
 
 	private Text fileURIText;
 
 	private Button browseFileBtn;
 
-	private String fileURIString;
-
 	private String uri;
 
 	private Button btnSkipMapping;
 
-	private boolean skipMapping;
+	private RMFSettingPageBean bean;
 
 	/**
 	 * @param title
@@ -55,10 +55,11 @@ public class RMFSettingPage extends WizardPage {
 	 *        page description
 	 * @wbp.parser.constructor
 	 */
-	public RMFSettingPage(String title, String description) {
+	public RMFSettingPage(String title, String description, RMFSettingPageBean bean) {
 		super(title);
 		setTitle(title);
 		setDescription(description);
+		this.bean = bean;
 	}
 
 	/**
@@ -69,14 +70,14 @@ public class RMFSettingPage extends WizardPage {
 	 * @param uri
 	 *        input uri
 	 */
-	public RMFSettingPage(String title, String description, String uri) {
-		this(title, description);
+	public RMFSettingPage(String title, String description, String uri, RMFSettingPageBean bean) {
+		this(title, description, bean);
 		this.uri = uri;
 	}
 
 	@Override
 	public boolean canFlipToNextPage() {
-		return isPageComplete() && !skipMapping;
+		return isPageComplete() && !bean.skipMapping;
 	}
 
 	@Override
@@ -109,15 +110,9 @@ public class RMFSettingPage extends WizardPage {
 	
 	
 	protected void hookListeners() {
-		btnSkipMapping.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if(btnSkipMapping != null) {
-					skipMapping = btnSkipMapping.getSelection();
-				}
-			}
-		});
+		
+		fileURIText.addListener(SWT.Modify, this);
+		btnSkipMapping.addListener(SWT.Selection, this);
 		
 		browseFileBtn.addSelectionListener(new SelectionAdapter() {
 
@@ -127,9 +122,7 @@ public class RMFSettingPage extends WizardPage {
 				if(res == ResourceDialog.OK) {
 					List<URI> uris = dialog.getURIs();
 					if(!uris.isEmpty()) {
-						fileURIString = uris.get(0).toString();
-						fileURIText.setText(fileURIString);
-						setPageComplete(isPageComplete());
+						fileURIText.setText(uris.get(0).toString());
 					}
 				}
 			}
@@ -140,7 +133,7 @@ public class RMFSettingPage extends WizardPage {
 	@Override
 	public boolean isPageComplete() {
 		StringBuffer error = new StringBuffer();
-		if(fileURIString == null || fileURIString.isEmpty()) {
+		if( bean.getUri() == null || bean.getUri().isEmpty()) {
 			error.append(" Choose a ReqIF File.\n");
 			return false;
 		}
@@ -148,24 +141,52 @@ public class RMFSettingPage extends WizardPage {
 	}
 	
 
-	public String getSourceURI() {
-		return fileURIString;
-	}
-
 	public boolean preFinish(RequirementSource repository) {
 		return true;
 	}
 
 	private void init() {
 		if(uri != null && !uri.isEmpty()) {
-			fileURIString = uri;
+			bean.setUri(uri);
 			if(fileURIText != null) {
 				fileURIText.setText(uri);
 			}
 		}
 	}
 	
-	public boolean skipMapping() {
-		return skipMapping;
+	@Override
+	public void handleEvent(Event event) {
+		if(event.widget == fileURIText) {
+			bean.setUri(fileURIText.getText());
+		}
+		if(event.widget == btnSkipMapping) {
+			bean.setSkipMapping(btnSkipMapping.getSelection());
+		}
+		getWizard().getContainer().updateButtons();
 	}
+	
+	
+	public static class RMFSettingPageBean {
+		
+		private String uri = "";
+		
+		private boolean skipMapping = false;
+
+		public String getUri() {
+			return uri;
+		}
+		
+		public void setUri(String uri) {
+			this.uri = uri;
+		}
+		
+		public boolean skipMapping() {
+			return skipMapping;
+		}
+
+		public void setSkipMapping(boolean skipMapping) {
+			this.skipMapping = skipMapping;
+		}
+	}
+	
 }

@@ -20,14 +20,13 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.reqcycle.core.ILogger;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 /**
  * Action to Synchronize a Requirement Resource
  */
 public class SynchronizeRequirementSourceActionStub extends Action {
 
-	@Inject ILogger logger = ZigguratInject.make(ILogger.class);
+	@Inject ILogger logger;
 	
 	/** Requirement repositories TreeViewer */
 	private TreeViewer viewer;

@@ -250,28 +250,32 @@ public class RequirementSourcesView extends ViewPart {
 		addRepoAction.setImageDescriptor(Activator.getImageDescriptor(ICON_ADD_LOCATION));
 
 		deleteRequirementSourceAction = new DeleteRequirementSourceAction(viewer);
+		ZigguratInject.inject(deleteRequirementSourceAction);
 		deleteRequirementSourceAction.setText(Messages.REMOVE_RESOURCE_TEXT);
 		deleteRequirementSourceAction.setToolTipText(Messages.REMOVE_RESOURCE_TEXT);
 		deleteRequirementSourceAction.setImageDescriptor(Activator.getImageDescriptor(ICON_DELETE_LOCATION));
 		deleteRequirementSourceAction.setEnabled(false);
 		
 		openRequirementViewAction = new OpenRequirementViewAction(viewer);
+		ZigguratInject.inject(openRequirementViewAction);
 		openRequirementViewAction.setText("Open Requirement View");
 		openRequirementViewAction.setToolTipText("Open Requirement View");
 		openRequirementViewAction.setImageDescriptor(Activator.getImageDescriptor(ICON_OPEN));
 		openRequirementViewAction.setEnabled(false);
 
 		synchResourceAction = new SynchronizeRequirementSourceActionStub(viewer);
+		ZigguratInject.inject(synchResourceAction);
 		synchResourceAction.setText(Messages.SYNC_RESOURCE_TEXT);
 		synchResourceAction.setToolTipText("Synchronization not available");//Messages.SYNC_RESOURCE_TEXT);
 		synchResourceAction.setImageDescriptor(Activator.getImageDescriptor(ICON_SYNCHRONIZE));
 		synchResourceAction.setEnabled(false);
 		
 		editMappingAction = new EditRequirementSourceAction(viewer);
+		ZigguratInject.inject(editMappingAction);
 		editMappingAction.setText(Messages.EDIT_RESOURCE_TEXT);
 		editMappingAction.setToolTipText(Messages.EDIT_RESOURCE_TEXT);
 		// TODO : add image change mapping
-//		changeMappingAction.setImageDescriptor();
+//		editMappingAction.setImageDescriptor();
 		editMappingAction.setEnabled(false);
 		
 		refreshViewAction = new RefreshViewAction(viewer);

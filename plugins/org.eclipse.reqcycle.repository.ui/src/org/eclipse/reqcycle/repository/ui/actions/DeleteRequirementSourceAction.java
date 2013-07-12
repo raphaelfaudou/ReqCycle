@@ -20,7 +20,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.reqcycle.repository.requirement.data.IRequirementSourceManager;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 /**
  * Action to delete a requirement source
@@ -29,9 +28,10 @@ public class DeleteRequirementSourceAction extends Action {
 
 	/** Requirement Source TreeViewer */
 	private TreeViewer viewer;
-	
+
 	/** Requirement Source Manager */
-	private @Inject IRequirementSourceManager requirementSourceManager = ZigguratInject.make(IRequirementSourceManager.class);
+	@Inject
+	private IRequirementSourceManager requirementSourceManager;
 
 	/**
 	 * Constructor
@@ -48,7 +48,7 @@ public class DeleteRequirementSourceAction extends Action {
 		ISelection selection = viewer.getSelection();
 		if(selection instanceof IStructuredSelection) {
 			Object toRemove = ((IStructuredSelection)selection).getFirstElement();
-			if (toRemove != null) {
+			if(toRemove != null) {
 				requirementSourceManager.remove(toRemove);
 				viewer.refresh();
 			}

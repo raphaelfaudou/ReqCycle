@@ -45,23 +45,24 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 
 	/** Connector id to repositories */
 	private Map<String, Set<RequirementSource>> repositoryMap = new HashMap<String, Set<RequirementSource>>();
-	
+
 	private RequirementSources sources;
-	
-	private @Inject
-	static IConfigurationManager confManager;
-	
-	private @Inject IScopeManager scopeManager = ZigguratInject.make(IScopeManager.class);
+
+	@Inject
+	private static IConfigurationManager confManager;
+
+	@Inject
+	private IScopeManager scopeManager;
 
 	private String id = "org.eclipse.reqcycle.repositories";
-	
+
 	private ResourceSet rs = new ResourceSetImpl();
-	
+
 	/**
 	 * Constructor
 	 */
 	RequirementSourceManagerImpl() {
-		
+
 		confManager = ZigguratInject.make(IConfigurationManager.class);
 		EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, id, rs);
 		if(conf instanceof RequirementSources) {
@@ -92,7 +93,7 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 		repositories.add(repository);
 
 		sources.getRequirementSources().add(repository);
-		
+
 		try {
 			if(rs != null) {
 				confManager.saveConfiguration(sources, null, null, id, rs);
@@ -123,11 +124,11 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 
 	@Deprecated
 	//TODO remove method
-	public void removeRequirements(RequirementSource repository){
+	public void removeRequirements(RequirementSource repository) {
 		removeScopes(repository.getRequirements());
 		repository.getRequirements().clear();
 	}
-	
+
 	/**
 	 * @param reqs
 	 */
@@ -142,8 +143,7 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 		}
 	}
 
-	public void removeConnectorRepositories(String connectorId)
-	{
+	public void removeConnectorRepositories(String connectorId) {
 		Set<RequirementSource> repositories = repositoryMap.get(connectorId);
 		for(RequirementSource iRequirementSourceRepository : repositories) {
 			sources.removeRequirementSource(iRequirementSourceRepository);
@@ -155,7 +155,7 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 		}
 		repositoryMap.remove(connectorId);
 	}
-	
+
 	public RequirementSource getRepository(String kind, String urlString) {
 		Assert.isNotNull(kind);
 		Assert.isNotNull(urlString);
@@ -178,8 +178,8 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 		}
 		return new HashSet<RequirementSource>(result);
 	}
-	
-	public Map<String, Set<RequirementSource>> getRepositoryMap(){
+
+	public Map<String, Set<RequirementSource>> getRepositoryMap() {
 		return repositoryMap;
 	}
 
@@ -194,5 +194,5 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 			removeRequirementSource((RequirementSource)toRemove);
 		}
 	}
-	
+
 }

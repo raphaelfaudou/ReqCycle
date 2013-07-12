@@ -29,28 +29,20 @@ import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFRepositoryMappingPage;
 import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFSettingPage;
+import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFSettingPage.RMFSettingPageBean;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
 import org.eclipse.reqcycle.repository.requirement.data.IRequirementSourceManager;
 import org.eclipse.reqcycle.repository.requirement.data.IScopeManager;
 import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
 import org.eclipse.reqcycle.repository.requirement.data.util.RepositoryConstants;
 import org.eclipse.rmf.reqif10.SpecType;
-import org.eclipse.swt.widgets.Shell;
 
-import DataModel.Contained;
 import DataModel.DataModelFactory;
-import DataModel.Requirement;
-import DataModel.RequirementSection;
 import DataModel.RequirementSource;
-import DataModel.Scope;
 import MappingModel.ElementMapping;
-
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
 
 
 public class RMFConnector extends Wizard implements IConnectorWizard {
@@ -65,9 +57,6 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 	private static IScopeManager scopeManager;
 
 
-	/** Skip mapping page */
-	private boolean skipMapping;
-
 	/** Page containing mapping information */
 	private RMFRepositoryMappingPage mappingPage;
 
@@ -76,7 +65,11 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 
 	private Collection mapping;
 
-	private String uri;
+	private RequirementSource initSource;
+
+	private RMFSettingPageBean settingPageBean;
+
+	private boolean edition = false;
 
 	public RMFConnector() {
 	}
@@ -87,92 +80,47 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 
 			@Override
 			public RequirementSource call() throws Exception {
-				RequirementSource requirementSource = DataModelFactory.eINSTANCE.createRequirementSource();
-				requirementSource.setProperty(RepositoryConstants.PROPERTY_URL, uri);
-				if(!skipMapping && mapping != null && !mapping.isEmpty()) {
+
+				RequirementSource requirementSource;
+
+				if(edition) {
+					requirementSource = initSource;
+				} else {
+					requirementSource = DataModelFactory.eINSTANCE.createRequirementSource();
+					if(settingPageBean != null && settingPageBean.getUri() != null && !settingPageBean.getUri().isEmpty()) {
+						requirementSource.setProperty(RepositoryConstants.PROPERTY_URL, settingPageBean.getUri());
+					}
+				}
+
+				if(((settingPageBean != null && !settingPageBean.skipMapping()) || edition) && mapping != null && !mapping.isEmpty()) {
+					//it's a creation without skip mapping or an edition
+					requirementSource.getMapping().clear();
 					requirementSource.getMapping().addAll(mapping);
+					requirementSource.getRequirements().clear();
 					RMFUtils.fillRequirements(requirementSource, new NullProgressMonitor());
 				}
+
 				return requirementSource;
 			}
 		};
 	}
 
-
-	public void editMapping(final RequirementSource requirementSource) {
-
-		ResourceSet resourceSet = new ResourceSetImpl();
-		Collection<EClassifier> targetEPackage = DataUtil.getTargetEPackage(resourceSet, "org.eclipse.reqcycle.repository.data/model/CustomDataModel.ecore");
-
-		EList<SpecType> specTypes = RMFUtils.getReqIFTypes(resourceSet, requirementSource.getRepositoryUri());
-
-		EList<ElementMapping> mapping = requirementSource.getMapping();
-
-		final RMFRepositoryMappingPage mappingPage = createMappingPage(specTypes, targetEPackage, mapping);
-
-		Wizard wizard = new Wizard() {
-
-			@Override
-			public void addPages() {
-				addPage(mappingPage);
-			}
-
-			@Override
-			public boolean performFinish() {
-				//TODO :  refactor duplicate code (addding reqs to scope) add scope selection in the edit mapping wizard
-				Collection<EObject> mapping = mappingPage.getResult();
-				requirementSource.getMapping().clear();
-				requirementSource.getMapping().addAll((Collection<? extends ElementMapping>)mapping);
-				Scope scope = null;
-				requirementSourceManager.removeRequirements(requirementSource);
-				RMFUtils.fillRequirements(requirementSource, new NullProgressMonitor());
-
-				Collection<Contained> containedElements = DataUtil.getAllContainedElements(requirementSource.getRequirements());
-
-				Collection<Contained> requirements = Collections2.filter(containedElements, new Predicate<Contained>() {
-
-					@Override
-					public boolean apply(Contained arg0) {
-						if(arg0 instanceof Requirement || arg0 instanceof RequirementSection) {
-							return true;
-						}
-						return false;
-					}
-				});
-				for(Contained reqs : requirements) {
-					if(reqs.getScopes().size() > 0) {
-						scopeManager.addToScope(reqs.getScopes().get(0), requirements);
-						break;
-					}
-				}
-
-				return true;
-			}
-		};
-		Shell shell = new Shell();
-		WizardDialog wd = new WizardDialog(shell, wizard);
-		wd.open();
-		if(shell != null && !shell.isDisposed()) {
-			shell.dispose();
-		}
-	}
-
-
-	/*
-	 * 
-	 * 
-	 * Wizard Code
-	 * 
-	 * 
-	 */
-	
-	
-	
-
 	@Override
 	public void addPages() {
-		settingPage = new RMFSettingPage("ReqIF Setting", "");
-		addPage(settingPage);
+		// if the wizard is initialized with a requirement source (requirement source edition)
+		// then the mapping page is added instead of settingPage
+		if(edition) {
+			ResourceSet rs = new ResourceSetImpl();
+			EList<SpecType> specTypes = RMFUtils.getReqIFTypes(rs, initSource.getRepositoryUri());
+			Collection<EClassifier> EClassifiers = DataUtil.getTargetEPackage(rs, "org.eclipse.reqcycle.repository.data/model/CustomDataModel.ecore");
+			EList<ElementMapping> mapping = initSource.getMapping();
+			mappingPage = createMappingPage(specTypes, EClassifiers, mapping);
+			addPage(mappingPage);
+		} else {
+			settingPageBean = new RMFSettingPageBean();
+			settingPage = new RMFSettingPage("ReqIF Setting", "", settingPageBean);
+			addPage(settingPage);
+		}
 	}
 
 
@@ -180,12 +128,8 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 	public IWizardPage getNextPage(IWizardPage page) {
 		if(page instanceof RMFSettingPage) {
 
-			RMFSettingPage rmfSettingPage = ((RMFSettingPage)page);
-			uri = rmfSettingPage.getSourceURI();
-			skipMapping = rmfSettingPage.skipMapping();
-
 			ResourceSet rs = new ResourceSetImpl();
-			final EList<SpecType> specTypes = RMFUtils.getReqIFTypes(rs, uri);
+			final EList<SpecType> specTypes = RMFUtils.getReqIFTypes(rs, settingPageBean.getUri());
 			final Collection<EClassifier> EClassifiers = DataUtil.getTargetEPackage(rs, "org.eclipse.reqcycle.repository.data/model/CustomDataModel.ecore");
 
 			mappingPage = createMappingPage(specTypes, EClassifiers, mapping);
@@ -255,40 +199,35 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 
 	@Override
 	public boolean performFinish() {
-		
-		if(!skipMapping && mappingPage != null) {
+		//TODO : use mapping bean
+		if(((settingPageBean != null && !settingPageBean.skipMapping()) || edition) && mappingPage != null) {
 			mapping = mappingPage.getResult();
 		}
-		
+
 		return true;
 	}
 
 
 	@Override
 	public boolean canFinish() {
-		if(settingPage != null && settingPage.isPageComplete()) {
-			if(settingPage.skipMapping()) {
+
+		//TODO : refactor using beans
+		if(settingPage != null && settingPage.isPageComplete() && settingPageBean != null) {
+			if(settingPageBean.skipMapping()) {
 				return true;
 			} else {
 				return mappingPage != null && mappingPage.isPageComplete();
 			}
+		} else if(initSource != null) {
+			return mappingPage != null && mappingPage.isPageComplete();
 		}
+
 		return false;
 	}
 
 	@Override
 	public void initializeWithRequirementSource(RequirementSource requirementSource) {
-		if(requirementSource == null) {
-			return;
-		}
-
-		if(requirementSource.getRepositoryUri() != null && !requirementSource.getRepositoryUri().isEmpty()) {
-			uri = requirementSource.getRepositoryUri();
-		}
-
-		mapping = requirementSource.getMapping();
-
+		initSource = requirementSource;
+		edition = true;
 	}
-
-
 }
