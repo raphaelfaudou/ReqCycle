@@ -28,7 +28,7 @@ public class RestrictedResourceSet extends ResourceSetImpl {
 
 	@Override
 	public Resource getResource(URI uri, boolean loadOnDemand) {
-		if(!authorizedUris.contains(uri)) {
+		if((uri.isPlatformResource() || uri.isFile()) && !authorizedUris.contains(uri)) {
 			loadOnDemand = false;
 		}
 		return super.getResource(uri, loadOnDemand);

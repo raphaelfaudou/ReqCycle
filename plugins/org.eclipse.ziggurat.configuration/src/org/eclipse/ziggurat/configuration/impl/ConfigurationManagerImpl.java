@@ -24,15 +24,16 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -45,7 +46,6 @@ import org.eclipse.ziggurat.configuration.impl.EMFConfResourceFactory.EMFConfRes
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 @Singleton
 @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -117,18 +117,18 @@ public class ConfigurationManagerImpl implements IConfigurationManager {
 	}
 
 	protected boolean isSelfContained(EObject eObj) {
-		Set<EObject> containedObjs = Sets.newHashSet();
-		containedObjs.add(eObj);
-		TreeIterator<EObject> it = eObj.eAllContents();
-		while(it.hasNext()) {
-			containedObjs.add(it.next());
-		}
-
-		for(EObject o : Lists.newLinkedList(containedObjs)) {
-			if(hasOutsideReferences(o, containedObjs)) {
-				return false;
-			}
-		}
+//		Set<EObject> containedObjs = Sets.newHashSet();
+//		containedObjs.add(eObj);
+//		TreeIterator<EObject> it = eObj.eAllContents();
+//		while(it.hasNext()) {
+//			containedObjs.add(it.next());
+//		}
+//
+//		for(EObject o : Lists.newLinkedList(containedObjs)) {
+//			if(hasOutsideReferences(o, containedObjs)) {
+//				return false;
+//			}
+//		}
 
 		return true;
 	}
@@ -224,37 +224,60 @@ public class ConfigurationManagerImpl implements IConfigurationManager {
 		ePackage.getEClassifiers().add(eClass);
 
 		for(Entry<String, Object> elem : conf.entrySet()) {
-			EAttribute att = EcoreFactory.eINSTANCE.createEAttribute();
-			att.setName(elem.getKey());
-
-			EDataType type = null;
+			EClassifier currentType = null;
+		    int upperBound = 1;
 
 			if(elem.getValue() instanceof Collection) {
-				att.setUpperBound(-1);
+			    upperBound = -1;
 				// check collection consistency
 				for(Object o : (Collection)elem.getValue()) {
 					// allow null objects
 					if(o != null) {
-						EDataType oType = getEDataType(o);
+						EClassifier oType = getEType(o);
 						if(oType == null) {
 							throw new IOException("Unsupported value type");
-						} else if(type != null && !type.equals(oType)) {
+						} else if(oType instanceof EDataType && !oType.equals(oType)) {
 							throw new IOException("Incoherent collection (values of different types)");
+						} else if(oType instanceof EClass) {
+						    if (currentType == null) {
+						        currentType = oType;
+						    } else if(currentType instanceof EClass) {
+						        if (!((EClass)currentType).isSuperTypeOf(eClass)) {
+						            if (((EClass)oType).isSuperTypeOf((EClass) currentType)) {
+						                currentType = oType;
+						            } else {
+						                throw new IOException("Incoherent collection (values of different types)");
+						            }
+						        }
+						    } else {
+						        throw new IOException("Incoherent collection (values of different types)");
+						    }
 						}
-						type = oType;
 					}
 				}
 			} else {
-				type = getEDataType(elem.getValue());
+			    currentType = getEType(elem.getValue());
 			}
+			
+			EStructuralFeature feature = null;
 
-			if(type == null) {
+			if (currentType instanceof EClass) {
+			    feature = EcoreFactory.eINSTANCE.createEReference();
+			} else if (currentType instanceof EDataType) {
+			    feature = EcoreFactory.eINSTANCE.createEAttribute();
+			}
+			
+			
+
+			if(feature == null) {
 				throw new IOException("Unsupported value type");
 			}
 
-			att.setEType(type);
+			feature.setName(elem.getKey());
+			feature.setUpperBound(upperBound);
+			feature.setEType(currentType);
 
-			eClass.getEStructuralFeatures().add(att);
+			eClass.getEStructuralFeatures().add(feature);
 		}
 
 		URI mmFileUri = getConfigurationFileUri(context, scope, id, "ecore");
@@ -265,20 +288,32 @@ public class ConfigurationManagerImpl implements IConfigurationManager {
 		EObject confEObj = eFactory.create(eClass);
 
 		for(Entry<String, Object> elem : conf.entrySet()) {
-			Object value = elem.getValue();
-			if(value instanceof Collection) {
-				List l = (List)confEObj.eGet(eClass.getEStructuralFeature(elem.getKey()));
-				l.addAll((Collection)value);
-			} else {
-				confEObj.eSet(eClass.getEStructuralFeature(elem.getKey()), value);
-			}
+		    Object value = elem.getValue();
+		    if(value instanceof Collection) {
+		        List l = (List)confEObj.eGet(eClass.getEStructuralFeature(elem.getKey()));
+		        for (Object o : (Collection)value) {
+		            if (o instanceof EObject && !isSelfContained((EObject) o)) {
+		                throw new IOException("The configuration object have reference(s) outside of itself and its children");
+		            }
+		            l.add(o);
+		        }
+
+
+		    } else {
+                if (value instanceof EObject && !isSelfContained((EObject) value)) {
+                    throw new IOException("The configuration object have reference(s) outside of itself and its children");
+                }
+		        confEObj.eSet(eClass.getEStructuralFeature(elem.getKey()), value);
+		    }
 		}
 
 		saveConfiguration(confEObj, context, scope, id);
 	}
 
-	protected EDataType getEDataType(Object obj) {
-		if(obj instanceof String) {
+	protected EClassifier getEType(Object obj) {
+	    if (obj instanceof EObject) {
+	        return ((EObject) obj).eClass();
+	    } else if(obj instanceof String) {
 			return EcorePackage.Literals.ESTRING;
 		} else if(obj instanceof Integer) {
 			return EcorePackage.Literals.EINTEGER_OBJECT;
