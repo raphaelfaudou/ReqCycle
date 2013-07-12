@@ -2,10 +2,13 @@ package org.eclipse.reqcycle.traceability.ui.views;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.util.LocalSelectionTransfer;
@@ -16,6 +19,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.reqcycle.dnd.DNDReqCycle;
 import org.eclipse.reqcycle.traceability.builder.IBuildingTraceabilityEngine;
@@ -30,6 +34,7 @@ import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.C
 import org.eclipse.reqcycle.traceability.types.scopes.ConfigurationScope;
 import org.eclipse.reqcycle.traceability.ui.Activator;
 import org.eclipse.reqcycle.traceability.ui.TraceabilityUtils;
+import org.eclipse.reqcycle.traceability.ui.providers.BusinessDeffered;
 import org.eclipse.reqcycle.traceability.ui.providers.RequestContentProvider;
 import org.eclipse.reqcycle.traceability.ui.providers.RequestLabelProvider;
 import org.eclipse.reqcycle.types.IType;
@@ -56,6 +61,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -80,13 +86,12 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 	public static final String ID = "org.eclipse.reqcycle.traceability.ui.views.TraceabilityViewer"; //$NON-NLS-1$
 	private final FormToolkit formToolkit = new FormToolkit(
 			Display.getDefault());
-	private Text sourceText;
 	private Text targetText;
-	private List<Reachable> sources = new LinkedList<Reachable>();
+	private Set<Reachable> sources = new HashSet<Reachable>();
 	private Object target;
 	private ISelection selection;
-	private TreeViewer treeViewer;
-	private ComboViewer comboViewer;
+	private TreeViewer traceabilityTreeViewer;
+	private ComboViewer comboDirectionViewer;
 	private DIRECTION direction;
 	private RequestContentProvider contentProvider;
 	private TreeViewer listOfTypesViewer;
@@ -96,6 +101,11 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 	private IReachableManager reachManager = ZigguratInject
 			.make(IReachableManager.class);
 	private ComboViewer comboConfViewer;
+	private Tree listOfTypes;
+	private Action delete_action;
+	private Action refresh_action;
+	private Action plus_action;
+	private Action sync_action;
 
 	public TraceabilityViewer() {
 	}
@@ -129,6 +139,9 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 				frmNewForm.getBody(), SWT.NONE);
 		formToolkit.paintBordersFor(composite_3);
 		composite_3.setLayout(new GridLayout(1, false));
+		contentProvider = new RequestContentProvider();
+		RequestLabelProvider labelProvider = new RequestLabelProvider();
+		ZigguratInject.inject(labelProvider, contentProvider);
 
 		Composite compoTrac = formToolkit
 				.createComposite(composite_3, SWT.NONE);
@@ -138,9 +151,9 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 		compoTrac.setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		Section sctTraceability = formToolkit.createSection(compoTrac,
-				Section.EXPANDED);
+				Section.COMPACT | Section.EXPANDED | Section.TITLE_BAR);
+		sctTraceability.setText("Path Tree");
 		formToolkit.paintBordersFor(sctTraceability);
-		sctTraceability.setText("Path");
 
 		Composite composite_1 = formToolkit.createComposite(sctTraceability,
 				SWT.NONE);
@@ -148,64 +161,64 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 		sctTraceability.setClient(composite_1);
 		composite_1.setLayout(new GridLayout(1, false));
 
-		treeViewer = new TreeViewer(composite_1, SWT.BORDER);
-		treeViewer.setUseHashlookup(true);
-		contentProvider = new RequestContentProvider();
-		RequestLabelProvider labelProvider = new RequestLabelProvider();
-		ZigguratInject.inject(labelProvider, contentProvider);
-		treeViewer.setContentProvider(contentProvider);
-		treeViewer.setLabelProvider(labelProvider);
-		Tree tree = treeViewer.getTree();
-		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		formToolkit.paintBordersFor(tree);
+		traceabilityTreeViewer = new TreeViewer(composite_1, SWT.BORDER
+				| SWT.VIRTUAL);
+		createDropTarget(traceabilityTreeViewer.getTree());
+		traceabilityTreeViewer.setUseHashlookup(true);
+		traceabilityTreeViewer.setContentProvider(contentProvider);
+		traceabilityTreeViewer.setLabelProvider(labelProvider);
+		traceabilityTreeViewer
+				.addSelectionChangedListener(new ISelectionChangedListener() {
 
-		Composite composite_2 = formToolkit.createComposite(composite_1,
-				SWT.NONE);
-		composite_2.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
-				false, 1, 1));
-		formToolkit.paintBordersFor(composite_2);
-		composite_2.setLayout(new GridLayout(1, false));
+					@Override
+					public void selectionChanged(SelectionChangedEvent event) {
+						Object firstElement = ((IStructuredSelection) event
+								.getSelection()).getFirstElement();
+						if (firstElement instanceof Reachable) {
+							Reachable reachable = (Reachable) firstElement;
+							listOfTypesViewer.setInput(manager
+									.getAllApplicableTypes(reachable));
+						} else {
+							listOfTypesViewer.setInput(null);
+						}
+					}
+				});
+		Tree treeTraceability = traceabilityTreeViewer.getTree();
+		GridData gd_treeTraceability = new GridData(SWT.FILL, SWT.FILL, true,
+				true, 1, 1);
+		gd_treeTraceability.heightHint = 286;
+		treeTraceability.setLayoutData(gd_treeTraceability);
+		formToolkit.paintBordersFor(treeTraceability);
+		traceabilityTreeViewer
+				.addSelectionChangedListener(new ISelectionChangedListener() {
 
-		Label lblNewLabel = new Label(composite_2, SWT.NONE);
-		formToolkit.adapt(lblNewLabel, true, true);
-		lblNewLabel.setText("Type(s) of selections");
-
-		listOfTypesViewer = new TreeViewer(composite_2, SWT.BORDER
-				| SWT.V_SCROLL);
-		listOfTypesViewer
-				.setContentProvider(new IterableOfTypesContentProvider());
-		listOfTypesViewer.setLabelProvider(new TypeLabelProvider());
-		org.eclipse.swt.widgets.Tree listOfTypes = listOfTypesViewer.getTree();
-		listOfTypes.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,
-				1, 1));
-
-		Button btnRefresh = formToolkit.createButton(sctTraceability, "",
-				SWT.NONE);
-		btnRefresh.setImage(ResourceManager.getPluginImage(PLUGIN_ID,
-				"icons/update.gif"));
-		btnRefresh.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				IStructuredSelection sel = (IStructuredSelection) comboViewer
-						.getSelection();
-				if (sel != null && !sel.isEmpty() && !sources.isEmpty()) {
-					setInput();
-				}
-			}
-
-		});
-		sctTraceability.setTextClient(btnRefresh);
+					@Override
+					public void selectionChanged(SelectionChangedEvent event) {
+						Object firstElement = ((IStructuredSelection) event
+								.getSelection()).getFirstElement();
+						if (firstElement instanceof BusinessDeffered) {
+							BusinessDeffered busi = (BusinessDeffered) firstElement;
+							firstElement = busi.getBusinessElement();
+						}
+						if (firstElement instanceof Reachable) {
+							Reachable reachable = (Reachable) firstElement;
+							listOfTypesViewer.setInput(manager
+									.getAllApplicableTypes(reachable));
+						} else {
+							listOfTypesViewer.setInput(null);
+						}
+					}
+				});
 
 		Composite compoParam = formToolkit.createComposite(composite_3,
 				SWT.NONE);
-		compoParam.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,
-				1, 1));
+		compoParam.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
+				false, 1, 2));
 		formToolkit.paintBordersFor(compoParam);
 		compoParam.setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		Section sctnParameters = formToolkit.createSection(compoParam,
-				Section.EXPANDED | Section.TWISTIE);
+				Section.TWISTIE);
 		formToolkit.paintBordersFor(sctnParameters);
 		sctnParameters.setText("Parameters");
 
@@ -214,37 +227,6 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 		formToolkit.paintBordersFor(composite);
 		sctnParameters.setClient(composite);
 		composite.setLayout(new GridLayout(5, false));
-
-		Label lblSource = formToolkit.createLabel(composite, "source :",
-				SWT.NONE);
-		lblSource.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-
-		sourceText = formToolkit.createText(composite, "", SWT.NONE);
-		sourceText.setEditable(false);
-		sourceText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false, 2, 1));
-		createDropTarget(sourceText);
-
-		Button btnNewButton = formToolkit.createButton(composite, "", SWT.NONE);
-		btnNewButton.setImage(ResourceManager.getPluginImage(PLUGIN_ID,
-				"icons/add_obj.gif"));
-		btnNewButton.setToolTipText("Set selection as source");
-		btnNewButton.addSelectionListener(new AddSelectionListener(
-				new SourceSetter()));
-
-		Button btnNewButton_1 = formToolkit.createButton(composite, "",
-				SWT.NONE);
-		btnNewButton_1.setImage(ResourceManager.getPluginImage(PLUGIN_ID,
-				"icons/delete_obj.gif"));
-		btnNewButton_1.setToolTipText("delete selection");
-		btnNewButton_1.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				sources.clear();
-				sourceText.setText("");
-			}
-		});
 
 		Label lblTarget = formToolkit.createLabel(composite, "target :",
 				SWT.NONE);
@@ -277,18 +259,17 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 			}
 
 		});
-		Button btnNewButton_2 = formToolkit.createButton(composite, "",
-				SWT.NONE);
-		btnNewButton_2.setImage(ResourceManager.getPluginImage(PLUGIN_ID,
+		Button btnAddTarget = formToolkit.createButton(composite, "", SWT.NONE);
+		btnAddTarget.setImage(ResourceManager.getPluginImage(PLUGIN_ID,
 				"icons/add_obj.gif"));
-		btnNewButton_2.addSelectionListener(new AddSelectionListener(
+		btnAddTarget.addSelectionListener(new AddSelectionListener(
 				new TargetSetter()));
 
-		Button btnNewButton_3 = formToolkit.createButton(composite, "",
+		Button btnDeleteTarget = formToolkit.createButton(composite, "",
 				SWT.NONE);
-		btnNewButton_3.setImage(ResourceManager.getPluginImage(PLUGIN_ID,
+		btnDeleteTarget.setImage(ResourceManager.getPluginImage(PLUGIN_ID,
 				"icons/delete_obj.gif"));
-		btnNewButton_3.addSelectionListener(new SelectionAdapter() {
+		btnDeleteTarget.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				target = null;
@@ -301,10 +282,10 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 		lblDirection.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1));
 
-		comboViewer = new ComboViewer(composite, SWT.READ_ONLY);
-		Combo combo = comboViewer.getCombo();
-		comboViewer.setContentProvider(new ArrayContentProvider());
-		comboViewer.setLabelProvider(new LabelProvider() {
+		comboDirectionViewer = new ComboViewer(composite, SWT.READ_ONLY);
+		Combo combo = comboDirectionViewer.getCombo();
+		comboDirectionViewer.setContentProvider(new ArrayContentProvider());
+		comboDirectionViewer.setLabelProvider(new LabelProvider() {
 
 			@Override
 			public String getText(Object element) {
@@ -312,7 +293,7 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 			}
 
 		});
-		comboViewer
+		comboDirectionViewer
 				.addSelectionChangedListener(new ISelectionChangedListener() {
 
 					@Override
@@ -321,8 +302,10 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 								.getSelection()).getFirstElement();
 					}
 				});
-		comboViewer.setInput(Arrays
-				.asList(DIRECTION.UPWARD, DIRECTION.DOWNWARD));
+		comboDirectionViewer.setInput(Arrays.asList(DIRECTION.UPWARD,
+				DIRECTION.DOWNWARD));
+		comboDirectionViewer.setSelection(new StructuredSelection(
+				DIRECTION.DOWNWARD));
 		combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 4,
 				1));
 		formToolkit.paintBordersFor(combo);
@@ -358,28 +341,39 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 		input.addAll(typeProvider.getContainer().getConfigurations());
 		comboConfViewer.setInput(input);
 		formToolkit.paintBordersFor(comboConf);
-		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				Object firstElement = ((IStructuredSelection) event
-						.getSelection()).getFirstElement();
-				if (firstElement instanceof Reachable) {
-					Reachable reachable = (Reachable) firstElement;
-					listOfTypesViewer.setInput(manager
-							.getAllApplicableTypes(reachable));
-				} else {
-					listOfTypesViewer.setInput(null);
-				}
-			}
-		});
+		Composite composite_4 = new Composite(composite_3, SWT.NONE);
+		composite_4.setLayout(new FillLayout(SWT.HORIZONTAL));
+		composite_4.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
+				false, 1, 1));
+		formToolkit.adapt(composite_4);
+		formToolkit.paintBordersFor(composite_4);
+
+		Section sctnTypesOfSelection = formToolkit.createSection(composite_4,
+				Section.TWISTIE);
+		formToolkit.paintBordersFor(sctnTypesOfSelection);
+		sctnTypesOfSelection.setText("Type(s) of selection");
+		sctnTypesOfSelection.setExpanded(true);
+
+		Composite composite_2 = new Composite(sctnTypesOfSelection, SWT.NONE);
+		formToolkit.adapt(composite_2);
+		formToolkit.paintBordersFor(composite_2);
+		sctnTypesOfSelection.setClient(composite_2);
+		composite_2.setLayout(new FillLayout(SWT.HORIZONTAL));
+
+		listOfTypesViewer = new TreeViewer(composite_2, SWT.BORDER
+				| SWT.V_SCROLL);
+		listOfTypesViewer
+				.setContentProvider(new IterableOfTypesContentProvider());
+		listOfTypesViewer.setLabelProvider(new TypeLabelProvider());
+		listOfTypes = listOfTypesViewer.getTree();
 		createActions();
 		initializeToolBar();
 		initializeMenu();
 	}
 
-	private void createDropTarget(Text text) {
-		DropTarget target = new DropTarget(text, DND.DROP_DEFAULT
+	private void createDropTarget(Control control) {
+		DropTarget target = new DropTarget(control, DND.DROP_DEFAULT
 				| DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK);
 		target.setTransfer(new Transfer[] {
 				LocalSelectionTransfer.getTransfer(),
@@ -389,6 +383,16 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 			@Override
 			public void dragEnter(DropTargetEvent event) {
 				super.dragEnter(event);
+				Widget widget = event.widget;
+				if (widget instanceof DropTarget) {
+					DropTarget drop = (DropTarget) widget;
+					if (drop.getControl() != targetText) {
+						// drop is forbidden when sync to selection is enabled
+						if (isSyncToSelection()) {
+							return;
+						}
+					}
+				}
 				for (int i = 0; i < event.dataTypes.length; i++) {
 					if (LocalSelectionTransfer.getTransfer().isSupportedType(
 							event.dataTypes[i])) {
@@ -408,13 +412,12 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 					reachables = DNDReqCycle.getReachables(ptd.getData());
 					if (!reachables.isEmpty()) {
 						for (Reachable r : reachables) {
-							ISetter setter = null;
-							if (event.item == sourceText) {
-								setter = new SourceSetter();
+							if (event.item == targetText) {
+								TargetSetter setter = new TargetSetter();
+								setter.set(r);
 							} else {
-								setter = new TargetSetter();
+
 							}
-							setter.set(r);
 						}
 					}
 				}
@@ -435,17 +438,19 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 				if (widget instanceof DropTarget) {
 					DropTarget drop = (DropTarget) widget;
 					ISetter setter = null;
-					if (drop.getControl() == sourceText) {
-						setter = new SourceSetter();
-					} else {
+					if (drop.getControl() == targetText) {
 						setter = new TargetSetter();
+					} else if (!isSyncToSelection()) {
+						setter = new SourceSetter();
 					}
-					if (reachables != null && !reachables.isEmpty()) {
-						for (Reachable r : reachables) {
-							setter.set(r);
+					if (setter != null) {
+						if (reachables != null && !reachables.isEmpty()) {
+							for (Reachable r : reachables) {
+								setter.set(r);
+							}
+						} else {
+							setter.set(null);
 						}
-					} else {
-						setter.set(null);
 					}
 				}
 
@@ -453,7 +458,6 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 
 			@Override
 			public void dragOver(DropTargetEvent event) {
-				// TODO Auto-generated method stub
 				super.dragOver(event);
 			}
 
@@ -466,33 +470,41 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 	}
 
 	public void setInput() {
-		CompositeScope scope = new CompositeScope();
-		scope.add(Scopes.getWorkspaceScope());
-		scope.add(new ConfigurationScope());
-		Request request = new Request()
-				.setDirection(direction)
-				.setScope(scope)
-				.setDepth(DEPTH.ONE)
-				.addProperty(IBuildingTraceabilityEngine.OPTION_CHECK_CACHE,
-						false)
-				.addProperty(
-						RequestContentProvider.CONF_KEY,
-						((IStructuredSelection) comboConfViewer.getSelection())
-								.getFirstElement());
-		if (target == null) {
-			for (Reachable r : sources) {
-				request.addSource(r);
-			}
+		if (sources.isEmpty()) {
+			traceabilityTreeViewer.setInput(null);
 		} else {
-			if (target instanceof Reachable) {
-				request.addSourceAndTarget(sources.iterator().next(),
-						(Reachable) target);
-			} else if (target instanceof IType) {
-				request.addSourceAndCondition(sources.iterator().next(),
-						TypeConditions.is((IType) target));
+			CompositeScope scope = new CompositeScope();
+			scope.add(Scopes.getWorkspaceScope());
+			scope.add(new ConfigurationScope());
+			Request request = new Request()
+					.setDirection(direction)
+					.setScope(scope)
+					.setDepth(DEPTH.ONE)
+					.addProperty(
+							IBuildingTraceabilityEngine.OPTION_CHECK_CACHE,
+							false)
+					.addProperty(
+							RequestContentProvider.CONF_KEY,
+							((IStructuredSelection) comboConfViewer
+									.getSelection()).getFirstElement());
+			if (target == null) {
+				for (Reachable r : sources) {
+					request.addSource(r);
+				}
+			} else {
+				if (target instanceof Reachable) {
+					for (Reachable r : sources) {
+						request.addSourceAndTarget(r, (Reachable) target);
+					}
+				} else if (target instanceof IType) {
+					for (Reachable r : sources) {
+						request.addSourceAndCondition(r,
+								TypeConditions.is((IType) target));
+					}
+				}
 			}
+			traceabilityTreeViewer.setInput(request);
 		}
-		treeViewer.setInput(request);
 	}
 
 	/**
@@ -500,6 +512,62 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 	 */
 	private void createActions() {
 		// Create the actions
+		{
+			delete_action = new Action("Remove selections") {
+
+				@Override
+				public void run() {
+					runDelete();
+				}
+
+			};
+			delete_action.setImageDescriptor(ResourceManager
+					.getPluginImageDescriptor(
+							"org.eclipse.reqcycle.traceability.ui",
+							"icons/delete_obj.gif"));
+		}
+		{
+			refresh_action = new Action("Refresh view") {
+
+				@Override
+				public void run() {
+					runRefresh();
+				}
+
+			};
+			refresh_action.setImageDescriptor(ResourceManager
+					.getPluginImageDescriptor(
+							"org.eclipse.reqcycle.traceability.ui",
+							"icons/update.gif"));
+		}
+		{
+			plus_action = new Action("Add current selection") {
+
+				@Override
+				public void run() {
+					handleCurrentSelection(new SourceSetter());
+				}
+
+			};
+			plus_action.setImageDescriptor(ResourceManager
+					.getPluginImageDescriptor(
+							"org.eclipse.reqcycle.traceability.ui",
+							"icons/add_obj.gif"));
+		}
+		{
+			sync_action = new Action("Sync to selection", SWT.TOGGLE) {
+
+				@Override
+				public void run() {
+					runSync();
+				}
+
+			};
+			sync_action.setImageDescriptor(ResourceManager
+					.getPluginImageDescriptor(
+							"org.eclipse.reqcycle.traceability.ui",
+							"icons/synced-1.gif"));
+		}
 	}
 
 	/**
@@ -508,6 +576,10 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 	private void initializeToolBar() {
 		IToolBarManager toolbarManager = getViewSite().getActionBars()
 				.getToolBarManager();
+		toolbarManager.add(sync_action);
+		toolbarManager.add(plus_action);
+		toolbarManager.add(refresh_action);
+		toolbarManager.add(delete_action);
 	}
 
 	/**
@@ -516,6 +588,10 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 	private void initializeMenu() {
 		IMenuManager menuManager = getViewSite().getActionBars()
 				.getMenuManager();
+		menuManager.add(sync_action);
+		menuManager.add(plus_action);
+		menuManager.add(refresh_action);
+		menuManager.add(delete_action);
 	}
 
 	@Override
@@ -533,22 +609,7 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 
 		@Override
 		public void widgetSelected(SelectionEvent e) {
-			if (selection != null && !selection.isEmpty()) {
-				if (selection instanceof IStructuredSelection) {
-					IStructuredSelection structured = (IStructuredSelection) selection;
-					for (Iterator<Object> i = structured.iterator(); i
-							.hasNext();) {
-						Object o = i.next();
-						if (o == null) {
-							setter.set(null);
-						} else {
-							setter.set(getReachable(o));
-						}
-
-					}
-				}
-			}
-
+			handleCurrentSelection(setter);
 		}
 
 		@Override
@@ -563,39 +624,17 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 	}
 
 	private class SourceSetter implements ISetter {
-
 		@Override
 		public void set(Reachable r) {
-			if (r == null) {
-				sourceText
-						.setText(sourceText.getText().length() > 0 ? sourceText
-								.getText() + ", " : "" + "invalid selection");
-			} else {
-				if (target != null) {
-					new TargetSetter().set(null);
-				}
-				if (!sources.contains(r)) {
-					sources.add(r);
-					sourceText
-							.setText((sourceText.getText().length() > 0 ? sourceText
-									.getText() + ", "
-									: "")
-									+ TraceabilityUtils.getText(r));
-				}
-
-			}
-
+			sources.add(r);
+			setInput();
 		}
 	}
 
 	private class TargetSetter implements ISetter {
 
-		@Override
 		public void set(Reachable r) {
-			if (sources.size() > 1) {
-				targetText.setText("impossible with several sources");
-				target = null;
-			} else if (r == null) {
+			if (r == null) {
 				targetText.setText("invalid selection");
 				target = null;
 			} else {
@@ -621,5 +660,54 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		this.selection = selection;
+		if (isSyncToSelection()) {
+			sources.clear();
+			handleCurrentSelection(new SourceSetter());
+			setInput();
+			if (isSyncToSelection()) {
+				traceabilityTreeViewer.expandToLevel(TreeViewer.ALL_LEVELS);
+			}
+		}
+	}
+
+	public boolean isSyncToSelection() {
+		return sync_action.isChecked();
+	}
+
+	private void handleCurrentSelection(ISetter setter) {
+		if (selection != null && !selection.isEmpty()) {
+			if (selection instanceof IStructuredSelection) {
+				IStructuredSelection structured = (IStructuredSelection) selection;
+				for (Iterator<Object> i = structured.iterator(); i.hasNext();) {
+					Object o = i.next();
+					if (o == null) {
+						setter.set(null);
+					} else {
+						setter.set(getReachable(o));
+					}
+
+				}
+			}
+		}
+	}
+
+	private void runRefresh() {
+		IStructuredSelection sel = (IStructuredSelection) comboDirectionViewer
+				.getSelection();
+		if (sel != null && !sel.isEmpty() && !sources.isEmpty()) {
+			setInput();
+		}
+	}
+
+	private void runDelete() {
+		sources.clear();
+		setInput();
+	}
+
+	private void runSync() {
+		boolean enabled = sync_action.isChecked();
+		sync_action.setChecked(enabled);
+		traceabilityTreeViewer.setData(RequestContentProvider.EXPAND_ALL,
+				String.valueOf(!enabled));
 	}
 }

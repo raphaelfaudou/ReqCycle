@@ -61,7 +61,10 @@ public class ConnectorManagerUiImpl implements IConnectorManagerUi {
 				ZigguratInject.inject(connector);
 				String id = iConfigurationElement.getAttribute("id");
 				String icon = iConfigurationElement.getAttribute("icon");
-				ImageDescriptor imageDescriptor = AbstractUIPlugin.imageDescriptorFromPlugin(iConfigurationElement.getNamespaceIdentifier(), icon);
+				ImageDescriptor imageDescriptor = null;
+				if (icon != null && ! icon.isEmpty()){
+					imageDescriptor = AbstractUIPlugin.imageDescriptorFromPlugin(iConfigurationElement.getNamespaceIdentifier(), icon);
+				}
 				addConnectorUi(new ConnectorDescriptorUi(connector, id, imageDescriptor));
 			} catch (CoreException e) {
 				boolean debug = logger.isDebug(Activator.OPTIONS_DEBUG, Activator.getDefault());
@@ -99,7 +102,9 @@ public class ConnectorManagerUiImpl implements IConnectorManagerUi {
 	public Image getImage(String connectorId, int width, int height) {
 		if(connectorsUi.get(connectorId) != null) {
 			ImageDescriptor imageDescriptor = connectorsUi.get(connectorId).getImageDescriptor();
-			return resize(imageDescriptor.createImage(), width, height);
+			if (imageDescriptor != null){
+				return resize(imageDescriptor.createImage(), width, height);
+			}
 		}
 		return null;
 	}

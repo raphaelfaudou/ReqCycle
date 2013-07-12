@@ -19,7 +19,9 @@ package org.eclipse.reqcycle.repository.connector.ui.wizard;
 
 import javax.inject.Inject;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.IWizardPage;
@@ -28,6 +30,7 @@ import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.connector.IConnector;
 import org.eclipse.reqcycle.repository.connector.ui.IConnectorManagerUi;
 import org.eclipse.reqcycle.repository.connector.ui.IConnectorUi;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.RequirementSource;
@@ -80,6 +83,8 @@ public class NewRequirementSourceWizard extends Wizard implements IWizard
                 	//TODO : give scope to fill requirement
                 	scope = connectorUi.getScope();
 					connector.fillRequirements(requirementSource, new NullProgressMonitor());
+				} catch (CoreException e){
+					logger.log(e.getStatus());
 				} catch (Exception e) {
 					logger.error("Error while filling requirement");
 				}
@@ -104,10 +109,11 @@ public class NewRequirementSourceWizard extends Wizard implements IWizard
     	//TODO refactor method
     	IRequirementSourceSettingPage nextPage = null;
 
-    	if (page == selectConnectorPage) {
+		if (page == selectConnectorPage) {
             connector = selectConnectorPage.getConnector();
             if(connector != null) {
-            	connectorUi = connectorManagerUi.getConnectorUi(connector.getConnectorId());
+            	String connectorId = connector.getConnectorId();
+            	connectorUi = connectorManagerUi.getConnectorUi(connectorId);
 			}
             settingsPage = null;
         } 
@@ -123,7 +129,11 @@ public class NewRequirementSourceWizard extends Wizard implements IWizard
 		if(nextPage != null) {
 			settingsPage = nextPage;
 			if(settingsPage.getImage() == null) {
-        		settingsPage.setImageDescriptor( ImageDescriptor.createFromImage(connectorManagerUi.getImage(connector.getConnectorId(), 60, 60)));
+				String connectorId = connector.getConnectorId();
+        		Image image = connectorManagerUi.getImage(connectorId, 60, 60);
+        		if (image != null){
+        			settingsPage.setImageDescriptor( ImageDescriptor.createFromImage(image));
+        		}
         	}
         	settingsPage.setWizard(this);
         	return nextPage;
