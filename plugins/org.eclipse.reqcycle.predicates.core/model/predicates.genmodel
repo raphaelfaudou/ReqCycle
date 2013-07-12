@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.reqcycle.predicates.core/src" editDirectory="/org.eclipse.reqcycle.predicates.ui/src"
+    editorDirectory="/org.eclipse.reqcycle.predicates.ui/src" modelPluginID="org.eclipse.reqcycle.predicates.core"
+    modelName="Predicates" editPluginClass="org.eclipse.reqcycle.predicates.ui.PredicatesUIPlugin"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" featureMapWrapperInterface=""
+    featureMapWrapperInternalInterface="" featureMapWrapperClass="" testsDirectory=""
+    booleanFlagsField="" importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0"
+    copyrightFields="false" providerRootExtendsClass="org.eclipse.reqcycle.predicates.ui.providers.PredicatesItemProviderAdapter"
+    editPluginID="org.eclipse.reqcycle.predicates.ui" editorPluginID="org.eclipse.reqcycle.predicates.ui"
+    testsPluginID="org.eclipse.reqcycle.predicates.core.tests" colorProviders="true"
+    fontProviders="true" classNamePattern="" operationReflection="true" importOrganizing="true">
+  <foreignModel>predicates.ecore</foreignModel>
+  <genPackages prefix="Predicates" basePackage="org.eclipse.reqcycle" resource="XMI"
+      disposableProviderFactory="true" interfacePackageSuffix="core.api" metaDataPackageSuffix="core"
+      classPackageSuffix="core.impl" utilityPackageSuffix="core.util" providerPackageSuffix="ui.providers"
+      presentationPackageSuffix="ui.presentation" testsPackageSuffix="core.tests"
+      dataTypeConverters="true" contentTypeIdentifier="" ecorePackage="predicates.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="predicates.ecore#//OPERATOR">
+      <genEnumLiterals ecoreEnumLiteral="predicates.ecore#//OPERATOR/EQ"/>
+      <genEnumLiterals ecoreEnumLiteral="predicates.ecore#//OPERATOR/NQ"/>
+      <genEnumLiterals ecoreEnumLiteral="predicates.ecore#//OPERATOR/GT"/>
+      <genEnumLiterals ecoreEnumLiteral="predicates.ecore#//OPERATOR/GET"/>
+      <genEnumLiterals ecoreEnumLiteral="predicates.ecore#//OPERATOR/LT"/>
+      <genEnumLiterals ecoreEnumLiteral="predicates.ecore#//OPERATOR/LET"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="predicates.ecore#//Pattern"/>
+    <genDataTypes ecoreDataType="predicates.ecore#//CharSequence"/>
+    <genDataTypes ecoreDataType="predicates.ecore#//Number"/>
+    <genClasses image="false" ecoreClass="predicates.ecore#//IPredicate">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute predicates.ecore#//IPredicate/displayName"/>
+      <genOperations ecoreOperation="predicates.ecore#//IPredicate/match">
+        <genParameters ecoreParameter="predicates.ecore#//IPredicate/match/input"/>
+      </genOperations>
+    </genClasses>
+    <genClasses image="false" ecoreClass="predicates.ecore#//CompositePredicate">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference predicates.ecore#//CompositePredicate/predicates"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="predicates.ecore#//CustomPredicate"/>
+    <genClasses ecoreClass="predicates.ecore#//EqualPredicate">
+      <genTypeParameters ecoreTypeParameter="predicates.ecore#//EqualPredicate/T"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute predicates.ecore#//EqualPredicate/input"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute predicates.ecore#//EqualPredicate/expectedObject"/>
+    </genClasses>
+    <genClasses ecoreClass="predicates.ecore#//StringEqualPredicate"/>
+    <genClasses ecoreClass="predicates.ecore#//DateEqualPredicate"/>
+    <genClasses ecoreClass="predicates.ecore#//EnumEqualPredicate"/>
+    <genClasses ecoreClass="predicates.ecore#//BooleanEqualPredicate"/>
+    <genClasses ecoreClass="predicates.ecore#//ContainsPatternPredicate">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute predicates.ecore#//ContainsPatternPredicate/input"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute predicates.ecore#//ContainsPatternPredicate/expectedPattern"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="predicates.ecore#//IntoPredicate">
+      <genTypeParameters ecoreTypeParameter="predicates.ecore#//IntoPredicate/T"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute predicates.ecore#//IntoPredicate/input"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute predicates.ecore#//IntoPredicate/allowedEntries"/>
+    </genClasses>
+    <genClasses ecoreClass="predicates.ecore#//StringIntoPredicate"/>
+    <genClasses ecoreClass="predicates.ecore#//EnumIntoPredicate"/>
+    <genClasses ecoreClass="predicates.ecore#//AndPredicate"/>
+    <genClasses ecoreClass="predicates.ecore#//OrPredicate"/>
+    <genClasses ecoreClass="predicates.ecore#//NotPredicate"/>
+    <genClasses ecoreClass="predicates.ecore#//CompareNumberPredicate">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute predicates.ecore#//CompareNumberPredicate/input"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute predicates.ecore#//CompareNumberPredicate/expectedValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute predicates.ecore#//CompareNumberPredicate/operator"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="predicates.ecore#//ITypedPredicate">
+      <genTypeParameters ecoreTypeParameter="predicates.ecore#//ITypedPredicate/T"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference predicates.ecore#//ITypedPredicate/typedElement"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="predicates.ecore#//IEAttrPredicate"/>
+    <genClasses image="false" ecoreClass="predicates.ecore#//IEClassifierPredicate"/>
+  </genPackages>
+</genmodel:GenModel>

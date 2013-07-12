@@ -20,6 +20,7 @@ package org.eclipse.reqcycle.repository.ui.providers;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -51,7 +52,7 @@ public class RequirementContentProvider implements ITreeContentProvider, IStruct
 		}
 		
 		if(inputElement instanceof Collection) {
-			ArrayList<Contained> requirements = new ArrayList<Contained>();
+			List<Contained> requirements = new ArrayList<Contained>();
 			Iterator<?> iter = ((Collection<?>)inputElement).iterator();
 			while (iter.hasNext()) {
 				Object element = iter.next();
@@ -66,20 +67,24 @@ public class RequirementContentProvider implements ITreeContentProvider, IStruct
 		return new Object[0];
 	}
 
-	@Override
-	public Object[] getChildren(Object parentElement) {
-		
-		if(parentElement instanceof ReachableSection) {
-			EList<Contained> children = ((ReachableSection)parentElement).getChildren();
-			return (Contained[])children.toArray(new Contained[children.size()]);
-			
-		}
-		
-		return new Object[0];
-	}
+    @Override
+    public Object[] getChildren(Object parentElement) {
+
+        if (parentElement instanceof RequirementSource) {
+            RequirementSource reqSource = (RequirementSource) parentElement;
+            return reqSource.getRequirements().toArray();
+
+        } else if (parentElement instanceof ReachableSection) {
+            EList<Contained> children = ((ReachableSection) parentElement).getChildren();
+            return (Contained[]) children.toArray(new Contained[children.size()]);
+        }
+
+        return new Object[0];
+    }
 
 	@Override
 	public Object getParent(Object element) {
+	    //TODO GET PARENT
 		return null;
 	}
 

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+      <!-- @generated predicates -->
+      <factory
+            uri="http://www.eclipse.org/reqcycle/predicates/1.0"
+            class="org.eclipse.reqcycle.predicates.ui.providers.PredicatesItemProviderAdapterFactory"
+            supportedTypes=
+              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+               org.eclipse.emf.edit.provider.ITreeItemContentProvider
+               org.eclipse.emf.edit.provider.IItemLabelProvider
+               org.eclipse.emf.edit.provider.IItemPropertySource
+               org.eclipse.emf.edit.provider.IItemColorProvider"/>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated predicates -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.eclipse.reqcycle.predicates.ui.presentation.PredicatesModelWizardID"
+            name="%_UI_PredicatesModelWizard_label"
+            class="org.eclipse.reqcycle.predicates.ui.presentation.PredicatesModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/PredicatesModelFile.gif">
+         <description>%_UI_PredicatesModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated predicates -->
+      <editor
+            id="org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditorID"
+            name="%_UI_PredicatesEditor_label"
+            icon="icons/full/obj16/PredicatesModelFile.gif"
+            extensions="predicates"
+            class="org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditor"
+            contributorClass="org.eclipse.reqcycle.predicates.ui.presentation.PredicatesActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditor"
+            contributorClass="org.eclipse.reqcycle.predicates.ui.presentation.PredicatesActionBarContributor"
+            extensions="predicates"
+            icon="icons/full/obj16/PredicatesModelFile.gif"
+            id="org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditorID"
+            name="%_UI_PredicatesEditor_label">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="org.eclipse.reqcycle.predicates.ui.perspectives.PredicatesPerspective"
+            id="org.eclipse.reqcycle.predicates.ui.perspectives.PredicatesPerspective"
+            name="Predicates">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+         <menu
+               label="Predicates">
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="org.eclipse.reqcycle.predicates.ui.views.ReqCycleCategory"
+            name="ReqCycle">
+      </category>
+   </extension>
+
+</plugin>

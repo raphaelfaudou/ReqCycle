@@ -13,22 +13,33 @@
  *****************************************************************************/
 package org.eclipse.reqcycle.repository.ui.views;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.dnd.DragRequirementSourceAdapter;
+import org.eclipse.reqcycle.predicates.core.api.IPredicate;
 import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
 import org.eclipse.reqcycle.repository.ui.Activator;
+import org.eclipse.reqcycle.repository.ui.providers.ComposedRequirementContentProvider;
+import org.eclipse.reqcycle.repository.ui.providers.ComposedRequirementContentProvider.DummyInput;
 import org.eclipse.reqcycle.repository.ui.providers.RequirementContentProvider;
+import org.eclipse.reqcycle.repository.ui.views.filters.ComposedRequirementViewerFilter;
+import org.eclipse.reqcycle.repository.ui.views.filters.RequirementViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.PluginTransfer;
@@ -39,89 +50,185 @@ import DataModel.RequirementSource;
 
 public class RequirementView extends ViewPart {
 
-	private @Inject
-	static ILogger logger = ZigguratInject.make(ILogger.class);
+    public static final String VIEW_ID = "org.eclipse.reqcycle.repository.ui.views.requirements";
 
-	public RequirementView() {
-	}
+    private @Inject
+    static ILogger             logger  = ZigguratInject.make(ILogger.class);
 
-	/** Requirement repositories TreeViewer */
-	private TreeViewer viewer;
+    public RequirementView() {
+    }
 
-	@Override
-	public void createPartControl(Composite parent) {
-		viewer = new TreeViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL) {
-			@Override
-			public void refresh() {
-				super.refresh();
-				refreshButton(getSelection());
-			}
-		};
-		viewer.setContentProvider(new RequirementContentProvider());
-		viewer.setLabelProvider(new LabelProvider() {
-			@Override
-			public String getText(Object element) {
-				return DataUtil.getLabel(element);
-			}
-		});
-		int dndOperations = DND.DROP_COPY | DND.DROP_MOVE;
+    /** Requirement repositories TreeViewer */
+    private TreeViewer viewer;
 
-		Transfer[] transfers;
-		transfers = new Transfer[] { PluginTransfer.getInstance() };
+    @Override
+    public void createPartControl(Composite parent) {
+        this.viewer = new TreeViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL) {
+            @Override
+            public void refresh() {
+                super.refresh();
+                refreshButton(getSelection());
+            }
+        };
+        ComposedAdapterFactory factory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+        // final ComposedRequirementContentProvider cReqContentProvider = new ComposedRequirementContentProvider(
+        // new AdapterFactoryContentProvider(factory));
+        final ComposedRequirementContentProvider cReqContentProvider = new ComposedRequirementContentProvider(
+                new RequirementContentProvider());
+        getViewer().setContentProvider(cReqContentProvider);
+        getViewer().setLabelProvider(new AdapterFactoryLabelProvider(factory) {
+            @Override
+            public String getText(Object element) {
+                if (element instanceof DummyInput) {
+                    return ((DummyInput) element).getName();
+                }
+                return DataUtil.getLabel(element);
+            }
+        });
+        int dndOperations = DND.DROP_COPY | DND.DROP_MOVE;
 
-		DragRequirementSourceAdapter listener = new DragRequirementSourceAdapter(viewer);
-		ZigguratInject.inject(listener);
-		viewer.addDragSupport(dndOperations, transfers,
-				listener);
-		getViewSite().setSelectionProvider(viewer);
-	}
+        Transfer[] transfers;
+        transfers = new Transfer[] { PluginTransfer.getInstance() };
 
-	public void setInput(Collection<RequirementSource> input) {
-		viewer.setInput(input);
-		viewer.refresh();
-	}
+        DragRequirementSourceAdapter listener = new DragRequirementSourceAdapter(getViewer());
+        ZigguratInject.inject(listener);
+        getViewer().addDragSupport(dndOperations, transfers, listener);
+        getViewSite().setSelectionProvider(getViewer());
+    }
 
-	private void refreshButton(ISelection selection) {
-	}
+    /**
+     * Should be a Collection of {@link RequirementSource} or {@link DummyInput} objects.
+     * 
+     * @param input
+     */
+    public void setInput(Object input) {
+        getViewer().setInput(input);
+        getViewer().refresh();
+    }
 
-	@Override
-	public void setFocus() {
-		viewer.getControl().setFocus();
-	}
+    private void refreshButton(ISelection selection) {
+    }
 
-	// TODO : extract generic method
-	public static void openRequirementView(Collection<RequirementSource> input) {
-		if (!input.isEmpty()) {
-			IWorkbenchPage page = Activator.getDefault().getWorkbench()
-					.getActiveWorkbenchWindow().getActivePage();
-			RequirementView requirementView = (RequirementView) page
-					.findView("org.eclipse.reqcycle.repository.ui.views.requirements");
-			if (requirementView == null) {
-				try {
-					page.showView("org.eclipse.reqcycle.repository.ui.views.requirements");
-				} catch (PartInitException e) {
-					boolean debug = logger.isDebug(Activator.OPTIONS_DEBUG,
-							Activator.getDefault());
-					if (debug) {
-						logger.trace("Can't show the view : "
-								+ "org.eclipse.reqcycle.repository.ui.views.requirements");
-					}
-				}
-				requirementView = (RequirementView) page
-						.findView("org.eclipse.reqcycle.repository.ui.views.requirements");
-			}
-			requirementView.setInput(input);
-			try {
-				page.showView("org.eclipse.reqcycle.repository.ui.views.requirements");
-			} catch (PartInitException e) {
-				boolean debug = logger.isDebug(Activator.OPTIONS_DEBUG,
-						Activator.getDefault());
-				if (debug) {
-					logger.trace("Can't show the view : "
-							+ "org.eclipse.reqcycle.repository.ui.views.requirements");
-				}
-			}
-		}
-	}
+    @Override
+    public void setFocus() {
+        getViewer().getControl().setFocus();
+    }
+
+    // TODO : extract generic method
+    public static void openRequirementView(Collection<RequirementSource> input) {
+        openRequirementView(input, null);
+    }
+
+    // TODO : extract generic method
+    public static void openRequirementView(Collection<RequirementSource> input, ViewerFilter filter) {
+        if (!input.isEmpty()) {
+            IWorkbenchPage page = Activator.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();
+            RequirementView requirementView = (RequirementView) page.findView(VIEW_ID);
+            if (requirementView == null) {
+                try {
+                    page.showView(VIEW_ID);
+                } catch (PartInitException e) {
+                    boolean debug = logger.isDebug(Activator.OPTIONS_DEBUG, Activator.getDefault());
+                    if (debug) {
+                        logger.trace("Can't show the view : " + VIEW_ID);
+                    }
+                }
+                requirementView = (RequirementView) page.findView(VIEW_ID);
+            }
+            requirementView.setInput(input);
+
+            if (filter != null) {
+                requirementView.getViewer().addFilter(filter);
+            }
+            try {
+                page.showView(VIEW_ID);
+            } catch (PartInitException e) {
+                boolean debug = logger.isDebug(Activator.OPTIONS_DEBUG, Activator.getDefault());
+                if (debug) {
+                    logger.trace("Can't show the view : " + VIEW_ID);
+                }
+            }
+        }
+    }
+
+    // TODO : extract generic method
+    public static void openNewRequirementView(Collection<RequirementSource> input, ViewerFilter filter) {
+        if (!input.isEmpty()) {
+            IWorkbenchPage page = Activator.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();
+            try {
+                String secondaryID = UUID.randomUUID().toString();
+                page.showView(VIEW_ID, secondaryID, IWorkbenchPage.VIEW_ACTIVATE);
+                String fullId = VIEW_ID + ":" + secondaryID;
+                for (IViewReference viewRef : page.getViewReferences()) {
+                    if (fullId.equals(viewRef.getId())) {
+                        RequirementView reqView = (RequirementView) viewRef.getView(true);
+                        reqView.setInput(input);
+                        if (filter != null) {
+                            reqView.getViewer().addFilter(filter);
+                            if (filter instanceof RequirementViewerFilter) {
+                                String predicateName = ((RequirementViewerFilter) filter).getPredicate()
+                                        .getDisplayName();
+                                reqView.setPartName(reqView.getPartName() + " (" + predicateName + ")");
+                            }
+                        }
+                        break;
+                    }
+                }
+
+            } catch (PartInitException e) {
+                boolean debug = logger.isDebug(Activator.OPTIONS_DEBUG, Activator.getDefault());
+                if (debug) {
+                    logger.trace("Can't show the view : " + VIEW_ID);
+                }
+            }
+        }
+    }
+
+    /**
+     * @param input
+     * @param predicates - The collection of predicates to use for filtering the same input.
+     */
+    public static void openNewFilteredRequirementView(final Collection<RequirementSource> input,
+            final Collection<IPredicate> predicates) {
+
+        if (!input.isEmpty()) {
+            IWorkbenchPage page = Activator.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();
+            try {
+                String secondaryID = UUID.randomUUID().toString();
+                page.showView(VIEW_ID, secondaryID, IWorkbenchPage.VIEW_ACTIVATE);
+                String fullId = VIEW_ID + ":" + secondaryID;
+                for (IViewReference viewRef : page.getViewReferences()) {
+                    if (fullId.equals(viewRef.getId())) {
+                        RequirementView reqView = (RequirementView) viewRef.getView(true);
+
+                        final List<DummyInput> dummyInputs = new ArrayList<ComposedRequirementContentProvider.DummyInput>();
+
+                        final ComposedRequirementViewerFilter composedReqFilter = new ComposedRequirementViewerFilter(
+                                new ArrayList<RequirementViewerFilter>());
+                        for (IPredicate p : predicates) {
+                            final DummyInput dInput = new DummyInput(input);
+                            dInput.setName(p.getDisplayName());
+                            dummyInputs.add(dInput);
+                            RequirementViewerFilter reqFilter = new RequirementViewerFilter(p);
+                            composedReqFilter.getReqFilters().add(reqFilter);
+                        }
+                        reqView.setInput(dummyInputs);
+                        reqView.getViewer().addFilter(composedReqFilter);
+                        break;
+                    }
+                }
+
+            } catch (PartInitException e) {
+                boolean debug = logger.isDebug(Activator.OPTIONS_DEBUG, Activator.getDefault());
+                if (debug) {
+                    logger.trace("Can't show the view : " + VIEW_ID);
+                }
+            }
+        }
+    }
+
+    public TreeViewer getViewer() {
+        return viewer;
+    }
 
 }

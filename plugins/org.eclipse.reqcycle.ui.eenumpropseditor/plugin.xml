@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.reqcycle.ui.eattrpropseditor.definition">
+      <eAttrPropsEditor
+            class="org.eclipse.reqcycle.ui.eenumpropseditor.internal.EEnumPropsEditor"
+            id="org.eclipse.reqcycle.ui.eenumpropseditor.EEnumPropsEditor"
+            name="EEnum Properties Editor"
+            type="org.eclipse.emf.ecore.EEnum">
+      </eAttrPropsEditor>
+   </extension>
+
+</plugin>

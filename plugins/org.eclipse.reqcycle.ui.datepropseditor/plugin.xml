@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.reqcycle.ui.eattrpropseditor.definition">
+      <eAttrPropsEditor
+            class="org.eclipse.reqcycle.ui.datepropseditor.internal.CalendarPropsEditor"
+            id="org.eclipse.reqcycle.ui.datepropseditor.CalendarPropsEditor"
+            name="Calendar Properties Editor"
+            type="java.util.Calendar">
+      </eAttrPropsEditor>
+      <eAttrPropsEditor
+            class="org.eclipse.reqcycle.ui.datepropseditor.internal.DatePropsEditor"
+            id="org.eclipse.reqcycle.ui.datepropseditor.DatePropsEditor"
+            name="Date Properties Editor"
+            type="java.util.Date">
+      </eAttrPropsEditor>
+   </extension>
+
+</plugin>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.reqcycle.ui.eattrpropseditor.definition">
+      <eAttrPropsEditor
+            class="org.eclipse.reqcycle.ui.simplepropseditors.internal.CharSequencePropsEditor"
+            id="org.eclipse.reqcycle.ui.simplepropseditors.CharSequencePropsEditor"
+            name="CharSequence Propeties Editor"
+            type="java.lang.CharSequence">
+      </eAttrPropsEditor>
+      <eAttrPropsEditor
+            class="org.eclipse.reqcycle.ui.simplepropseditors.internal.StringPropsEditor"
+            id="org.eclipse.reqcycle.ui.simplepropseditors.StringPropsEditor"
+            name="String Properties Editor"
+            type="java.lang.String">
+      </eAttrPropsEditor>
+      <eAttrPropsEditor
+            class="org.eclipse.reqcycle.ui.simplepropseditors.internal.BooleanPropsEditor"
+            id="org.eclipse.reqcycle.ui.simplepropseditors.booleanpropseditor"
+            name="Boolean Properties Editor"
+            type="java.lang.Boolean">
+      </eAttrPropsEditor>
+   </extension>
+
+</plugin>

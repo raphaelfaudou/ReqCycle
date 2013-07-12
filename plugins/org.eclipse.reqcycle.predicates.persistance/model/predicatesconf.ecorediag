@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_mnNOIOJdEeKfi-BvkPzpYA" type="EcoreTools" name="predicatesconf" measurementUnit="Pixel">
+  <children xmi:type="notation:Node" xmi:id="_m_8eQOJdEeKfi-BvkPzpYA" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_m_8eQ-JdEeKfi-BvkPzpYA" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_m_8eROJdEeKfi-BvkPzpYA" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_m_8eReJdEeKfi-BvkPzpYA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_m_8eRuJdEeKfi-BvkPzpYA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_m_8eR-JdEeKfi-BvkPzpYA"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_m_8eSOJdEeKfi-BvkPzpYA" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_m_8eSeJdEeKfi-BvkPzpYA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_m_8eSuJdEeKfi-BvkPzpYA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_m_8eS-JdEeKfi-BvkPzpYA"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_m_8eQeJdEeKfi-BvkPzpYA" fontColor="4210752" fontName="Microsoft Sans Serif" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="predicatesconf.ecore#//PredicatesConf"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_m_8eQuJdEeKfi-BvkPzpYA" x="45" y="155"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_p0Zi4OJdEeKfi-BvkPzpYA" type="1001">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_p0Zi7uJdEeKfi-BvkPzpYA" source="Shortcut">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_p0Zi7-JdEeKfi-BvkPzpYA" key="modelID" value="EcoreTools"/>
+    </eAnnotations>
+    <children xmi:type="notation:Node" xmi:id="_p0Zi4-JdEeKfi-BvkPzpYA" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_p0Zi5OJdEeKfi-BvkPzpYA" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_p0Zi5eJdEeKfi-BvkPzpYA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_p0Zi5uJdEeKfi-BvkPzpYA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_p0Zi5-JdEeKfi-BvkPzpYA"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_p0Zi6OJdEeKfi-BvkPzpYA" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_p0Zi6eJdEeKfi-BvkPzpYA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_p0Zi6uJdEeKfi-BvkPzpYA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_p0Zi6-JdEeKfi-BvkPzpYA"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_p0Zi4eJdEeKfi-BvkPzpYA" fontColor="4210752" fontName="Microsoft Sans Serif" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="platform:/resource/org.eclipse.reqcycle.predicates.core/model/predicates.ecore#//IPredicate"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_p0Zi4uJdEeKfi-BvkPzpYA" x="30" y="30"/>
+  </children>
+  <styles xmi:type="notation:DiagramStyle" xmi:id="_mnNOIeJdEeKfi-BvkPzpYA"/>
+  <element xmi:type="ecore:EPackage" href="predicatesconf.ecore#/"/>
+  <edges xmi:type="notation:Edge" xmi:id="_qS8gEOJdEeKfi-BvkPzpYA" type="3002" source="_m_8eQOJdEeKfi-BvkPzpYA" target="_p0Zi4OJdEeKfi-BvkPzpYA">
+    <children xmi:type="notation:Node" xmi:id="_qS8gFOJdEeKfi-BvkPzpYA" type="4011">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_qS8gFeJdEeKfi-BvkPzpYA" x="-10" y="-10"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_qS8gFuJdEeKfi-BvkPzpYA" type="4012">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_qS8gF-JdEeKfi-BvkPzpYA" x="-6" y="33"/>
+    </children>
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_qS8gEeJdEeKfi-BvkPzpYA" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_qS8gEuJdEeKfi-BvkPzpYA" fontColor="4210752" fontName="Microsoft Sans Serif" fontHeight="10"/>
+    <element xmi:type="ecore:EReference" href="predicatesconf.ecore#//PredicatesConf/predicates"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_qS8gE-JdEeKfi-BvkPzpYA" points="[0, 0, 0, 60]$[0, -60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_sOoJoOJdEeKfi-BvkPzpYA" id="(0.5,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_qS8gGOJdEeKfi-BvkPzpYA" id="(0.496551724137931,1.0)"/>
+  </edges>
+</notation:Diagram>
