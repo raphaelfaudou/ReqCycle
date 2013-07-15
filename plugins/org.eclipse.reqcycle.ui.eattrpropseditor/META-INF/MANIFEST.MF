@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Eattrpropseditor
+Bundle-SymbolicName: org.eclipse.reqcycle.ui.eattrpropseditor;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.eclipse.reqcycle.ui.eattrpropseditor.EAttrPropsEditorPlugin
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.swt;bundle-version="3.102.0";visibility:=reexport,
+ org.eclipse.emf.ecore;bundle-version="2.9.0";visibility:=reexport,
+ org.apache.commons.lang;bundle-version="2.6.0";visibility:=reexport,
+ org.eclipse.jface;bundle-version="3.9.0";resolution:=optional;visibility:=reexport
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: org.eclipse.reqcycle.ui.eattrpropseditor,
+ org.eclipse.reqcycle.ui.eattrpropseditor.api,
+ org.eclipse.reqcycle.ui.eattrpropseditor.impl

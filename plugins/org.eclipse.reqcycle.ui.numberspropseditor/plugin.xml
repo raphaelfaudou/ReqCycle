@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.reqcycle.ui.eattrpropseditor.definition">
+      <eAttrPropsEditor
+            class="org.eclipse.reqcycle.ui.numberspropseditor.internal.DoublePropsEditor"
+            id="org.eclipse.reqcycle.ui.numberspropseditor.NumberPropsEditor"
+            name="Number Properties Editor"
+            type="java.lang.Number">
+      </eAttrPropsEditor>
+      <eAttrPropsEditor
+            class="org.eclipse.reqcycle.ui.numberspropseditor.internal.DoublePropsEditor"
+            id="org.eclipse.reqcycle.ui.numberspropseditor.DoublePropsEditor"
+            name="Double Properties Editor"
+            type="java.lang.Double">
+      </eAttrPropsEditor>
+      <eAttrPropsEditor
+            class="org.eclipse.reqcycle.ui.numberspropseditor.internal.FloatPropsEditor"
+            id="org.eclipse.reqcycle.ui.numberspropseditor.FloatPropsEditor"
+            name="Float Properties Editor"
+            type="java.lang.Float">
+      </eAttrPropsEditor>
+      <eAttrPropsEditor
+            class="org.eclipse.reqcycle.ui.numberspropseditor.internal.LongPropsEditor"
+            id="org.eclipse.reqcycle.ui.numberspropseditor.LongPropsEditor"
+            name="Long Properties Editor"
+            type="java.lang.Long">
+      </eAttrPropsEditor>
+      <eAttrPropsEditor
+            class="org.eclipse.reqcycle.ui.numberspropseditor.internal.IntegerPropsEditor"
+            id="org.eclipse.reqcycle.ui.numberspropseditor.IntegerPropsEditor"
+            name="Integer Properties Editor"
+            type="java.lang.Integer">
+      </eAttrPropsEditor>
+      <eAttrPropsEditor
+            class="org.eclipse.reqcycle.ui.numberspropseditor.internal.BigIntegerPropsEditor"
+            id="org.eclipse.reqcycle.ui.numberspropseditor.BigIntegerPropsEditor"
+            name="BigInteger Properties Editor"
+            type="java.math.BigInteger">
+      </eAttrPropsEditor>
+      <eAttrPropsEditor
+            class="org.eclipse.reqcycle.ui.numberspropseditor.internal.BigDecimalPropsEditor"
+            id="org.eclipse.reqcycle.ui.numberspropseditor.BigDecimalPropsEditor"
+            name="BigDecimal Props Editor"
+            type="java.math.BigDecimal">
+      </eAttrPropsEditor>
+   </extension>
+
+</plugin>

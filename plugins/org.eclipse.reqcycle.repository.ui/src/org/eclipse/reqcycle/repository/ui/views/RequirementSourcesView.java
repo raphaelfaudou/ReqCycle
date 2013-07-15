@@ -13,6 +13,9 @@
  *****************************************************************************/
 package org.eclipse.reqcycle.repository.ui.views;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.eclipse.jface.action.Action;
@@ -31,7 +34,13 @@ import org.eclipse.reqcycle.repository.ui.Activator;
 import org.eclipse.reqcycle.repository.ui.Messages;
 import org.eclipse.reqcycle.repository.ui.actions.AddRequirementSourceAction;
 import org.eclipse.reqcycle.repository.ui.actions.DeleteRequirementSourceAction;
+<<<<<<< HEAD
 import org.eclipse.reqcycle.repository.ui.actions.EditRequirementSourceAction;
+=======
+import org.eclipse.reqcycle.repository.ui.actions.EditMappingAction;
+import org.eclipse.reqcycle.repository.ui.actions.OpenFilteredRequirementViewAction;
+import org.eclipse.reqcycle.repository.ui.actions.OpenPredicatesEditorAction;
+>>>>>>> 1619a01a192b09b61d9baf703c68fc398113ce11
 import org.eclipse.reqcycle.repository.ui.actions.OpenRequirementViewAction;
 import org.eclipse.reqcycle.repository.ui.actions.RefreshViewAction;
 import org.eclipse.reqcycle.repository.ui.actions.SynchronizeRequirementSourceActionStub;
@@ -39,7 +48,10 @@ import org.eclipse.reqcycle.repository.ui.providers.RequirementSourceContentProv
 import org.eclipse.reqcycle.repository.ui.providers.RequirementSourceLabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.part.DrillDownAdapter;
@@ -78,7 +90,17 @@ public class RequirementSourcesView extends ViewPart {
 	private DrillDownAdapter drillDownAdapter;
 
 	/** Synchronize Resource Stub Action */
+<<<<<<< HEAD
 	private Action synchResourceAction;
+=======
+	private SynchronizeRequirementSourceActionStub synchResourceAction;
+	
+	/** Open Predicates Editor Action */
+	private OpenPredicatesEditorAction openPredicatesEditorAction;
+	
+	/** Open Predicates View Action */
+	private OpenFilteredRequirementViewAction openPredicatesViewAction;
+>>>>>>> 1619a01a192b09b61d9baf703c68fc398113ce11
 
 	/** Add location icon */
 	private static final String ICON_ADD_LOCATION = Messages.ADD_RESOURCE_ICON;
@@ -101,13 +123,13 @@ public class RequirementSourcesView extends ViewPart {
 	 * The constructor.
 	 */
 	public RequirementSourcesView() {
-	}
+	}	
 
-	/**
+    /**
 	 * This is a callback that will allow us to create the viewer and initialize it.
 	 */
 	public void createPartControl(Composite parent) {
-		viewer = new TreeViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL) {
+		viewer = new TreeViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.MULTI) {
 			@Override
 			public void refresh() {
 				super.refresh();
@@ -119,6 +141,20 @@ public class RequirementSourcesView extends ViewPart {
 		viewer.setContentProvider(new RequirementSourceContentProvider());
 		viewer.setLabelProvider(new RequirementSourceLabelProvider());
 		viewer.setInput(requirementSourceManager.getRepositoryMap().keySet());
+        viewer.getTree().addListener(SWT.Selection, new Listener() {
+            // Allow the selection of RequirementSource items only !
+            @Override
+            public void handleEvent(Event event) {
+                List<TreeItem> reqSourceItems = new ArrayList<TreeItem>();
+                TreeItem[] selectedItems = viewer.getTree().getSelection();
+                for (TreeItem item : selectedItems) {
+                    if ((item.getData() instanceof RequirementSource)) {
+                        reqSourceItems.add(item);
+                    }
+                }
+                viewer.getTree().setSelection(reqSourceItems.toArray(new TreeItem[reqSourceItems.size()]));
+            }
+        });
 
 		getSite().setSelectionProvider(viewer);
 		
@@ -203,6 +239,10 @@ public class RequirementSourcesView extends ViewPart {
 		manager.add(openRequirementViewAction);
 		manager.add(new Separator());
 		manager.add(synchResourceAction);
+		manager.add(new Separator());
+		manager.add(openPredicatesEditorAction);
+		manager.add(new Separator());
+		manager.add(openPredicatesViewAction);
 	}
 
 	/**
@@ -217,6 +257,8 @@ public class RequirementSourcesView extends ViewPart {
 		manager.add(openRequirementViewAction);
 		manager.add(synchResourceAction);
 		manager.add(editMappingAction);
+		manager.add(openPredicatesEditorAction);
+		manager.add(openPredicatesViewAction);
 		manager.add(new Separator());
 		drillDownAdapter.addNavigationActions(manager);
 		// Other plug-ins can contribute there actions here
@@ -255,6 +297,16 @@ public class RequirementSourcesView extends ViewPart {
 		deleteRequirementSourceAction.setToolTipText(Messages.REMOVE_RESOURCE_TEXT);
 		deleteRequirementSourceAction.setImageDescriptor(Activator.getImageDescriptor(ICON_DELETE_LOCATION));
 		deleteRequirementSourceAction.setEnabled(false);
+		
+		openPredicatesEditorAction = new OpenPredicatesEditorAction(viewer);
+		openPredicatesEditorAction.setText("Open Predicates Editor");
+		openPredicatesEditorAction.setToolTipText("Open Predicates Editor");
+		openPredicatesEditorAction.setImageDescriptor(Activator.getImageDescriptor(ICON_OPEN)); // TODO: replace icon
+		
+		openPredicatesViewAction = new OpenFilteredRequirementViewAction(viewer); 
+		openPredicatesViewAction.setText("Open Filtered Requirements View");
+		openPredicatesViewAction.setToolTipText("Open Filtered Requirements View");
+		openPredicatesViewAction.setImageDescriptor(Activator.getImageDescriptor(ICON_OPEN)); // TODO: replace icon
 		
 		openRequirementViewAction = new OpenRequirementViewAction(viewer);
 		ZigguratInject.inject(openRequirementViewAction);

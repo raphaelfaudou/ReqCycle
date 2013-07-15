@@ -16,6 +16,7 @@
             name="%category.name">
       </category>
       <view
+            allowMultiple="true"
             category="org.eclipse.reqcycle"
             class="org.eclipse.reqcycle.repository.ui.views.RequirementView"
             icon="icons/open.png"
