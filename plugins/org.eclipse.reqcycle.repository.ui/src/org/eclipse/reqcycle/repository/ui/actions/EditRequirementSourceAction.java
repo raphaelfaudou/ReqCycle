@@ -21,6 +21,9 @@ import javax.inject.Inject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -33,6 +36,7 @@ import org.eclipse.reqcycle.repository.connector.IConnector;
 import org.eclipse.reqcycle.repository.connector.IConnectorManager;
 import org.eclipse.reqcycle.repository.connector.ui.Activator;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
+import org.eclipse.reqcycle.repository.requirement.data.IRequirementSourceManager;
 import org.eclipse.reqcycle.repository.requirement.data.IScopeManager;
 import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
 import org.eclipse.swt.widgets.Display;
@@ -45,6 +49,8 @@ import DataModel.Requirement;
 import DataModel.RequirementSection;
 import DataModel.RequirementSource;
 import DataModel.Scope;
+import MappingModel.AttributeMapping;
+import MappingModel.ElementMapping;
 
 /**
  * Action to change the requirementSourceMapping mapping
@@ -59,6 +65,9 @@ public class EditRequirementSourceAction extends Action {
 
 	@Inject
 	private ILogger logger;
+	
+	@Inject
+	private IRequirementSourceManager requirementSourceManager;
 
 	private IConnector connector;
 
@@ -93,6 +102,19 @@ public class EditRequirementSourceAction extends Action {
 					}
 					if (callable != null){
 						callable.call();
+						
+						
+						EList<ElementMapping> mapping = requirementSource.getMapping();
+						
+						ResourceSet rs = new ResourceSetImpl();
+						for(ElementMapping elementMapping : mapping) {
+							rs.getResources().add(elementMapping.getTargetElement().eResource());
+							for(AttributeMapping attributeMapping : elementMapping.getAttributes()) {
+								rs.getResources().add(attributeMapping.getTargetAttribute().eResource());
+							}
+						}
+						requirementSourceManager.addRepository(requirementSource, rs);
+						
 						
 						//TODO : solve scope problems (scope isn't stored if the mapping has been skipped)
 						String scopeName = requirementSource.getProperty("SCOPE_NAME");

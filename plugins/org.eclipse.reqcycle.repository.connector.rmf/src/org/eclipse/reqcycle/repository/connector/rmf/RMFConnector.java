@@ -16,8 +16,6 @@ package org.eclipse.reqcycle.repository.connector.rmf;
 import java.util.Collection;
 import java.util.concurrent.Callable;
 
-import javax.inject.Inject;
-
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClassifier;
@@ -29,13 +27,10 @@ import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFRepositoryMappingPage;
 import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFSettingPage;
 import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFSettingPage.RMFSettingPageBean;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
-import org.eclipse.reqcycle.repository.requirement.data.IRequirementSourceManager;
-import org.eclipse.reqcycle.repository.requirement.data.IScopeManager;
 import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
 import org.eclipse.reqcycle.repository.requirement.data.util.RepositoryConstants;
 import org.eclipse.rmf.reqif10.SpecType;
@@ -46,16 +41,6 @@ import MappingModel.ElementMapping;
 
 
 public class RMFConnector extends Wizard implements IConnectorWizard {
-
-	@Inject
-	private static ILogger logger;
-
-	@Inject
-	private static IRequirementSourceManager requirementSourceManager;
-
-	@Inject
-	private static IScopeManager scopeManager;
-
 
 	/** Page containing mapping information */
 	private RMFRepositoryMappingPage mappingPage;
@@ -127,7 +112,6 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 	@Override
 	public IWizardPage getNextPage(IWizardPage page) {
 		if(page instanceof RMFSettingPage) {
-
 			ResourceSet rs = new ResourceSetImpl();
 			final EList<SpecType> specTypes = RMFUtils.getReqIFTypes(rs, settingPageBean.getUri());
 			final Collection<EClassifier> EClassifiers = DataUtil.getTargetEPackage(rs, "org.eclipse.reqcycle.repository.data/model/CustomDataModel.ecore");
@@ -137,11 +121,11 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 
 			return mappingPage;
 		}
-
 		return super.getNextPage(page);
 	}
 
 	private RMFRepositoryMappingPage createMappingPage(final EList<SpecType> specTypes, final Collection<EClassifier> EClassifiers, final Collection mapping) {
+		
 		return new RMFRepositoryMappingPage("ReqIF Mapping", "") {
 
 			@Override
@@ -210,7 +194,6 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 
 	@Override
 	public boolean canFinish() {
-
 		//TODO : refactor using beans
 		if(settingPage != null && settingPage.isPageComplete() && settingPageBean != null) {
 			if(settingPageBean.skipMapping()) {
@@ -221,7 +204,6 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 		} else if(initSource != null) {
 			return mappingPage != null && mappingPage.isPageComplete();
 		}
-
 		return false;
 	}
 

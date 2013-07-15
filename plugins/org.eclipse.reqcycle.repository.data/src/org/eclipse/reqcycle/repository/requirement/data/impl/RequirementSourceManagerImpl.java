@@ -90,9 +90,14 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 			repositories = new HashSet<RequirementSource>();
 			repositoryMap.put(repository.getConnectorID(), repositories);
 		}
-		repositories.add(repository);
+		
+		if(!repositories.contains(repository)) {
+			repositories.add(repository);
+		}
 
-		sources.getRequirementSources().add(repository);
+		if(!sources.getRequirementSources().contains(repository)) {
+			sources.getRequirementSources().add(repository);
+		}
 
 		try {
 			if(rs != null) {
