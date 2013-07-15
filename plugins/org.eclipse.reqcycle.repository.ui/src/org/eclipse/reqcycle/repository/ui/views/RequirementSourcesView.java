@@ -34,13 +34,9 @@ import org.eclipse.reqcycle.repository.ui.Activator;
 import org.eclipse.reqcycle.repository.ui.Messages;
 import org.eclipse.reqcycle.repository.ui.actions.AddRequirementSourceAction;
 import org.eclipse.reqcycle.repository.ui.actions.DeleteRequirementSourceAction;
-<<<<<<< HEAD
 import org.eclipse.reqcycle.repository.ui.actions.EditRequirementSourceAction;
-=======
-import org.eclipse.reqcycle.repository.ui.actions.EditMappingAction;
 import org.eclipse.reqcycle.repository.ui.actions.OpenFilteredRequirementViewAction;
 import org.eclipse.reqcycle.repository.ui.actions.OpenPredicatesEditorAction;
->>>>>>> 1619a01a192b09b61d9baf703c68fc398113ce11
 import org.eclipse.reqcycle.repository.ui.actions.OpenRequirementViewAction;
 import org.eclipse.reqcycle.repository.ui.actions.RefreshViewAction;
 import org.eclipse.reqcycle.repository.ui.actions.SynchronizeRequirementSourceActionStub;
@@ -90,17 +86,13 @@ public class RequirementSourcesView extends ViewPart {
 	private DrillDownAdapter drillDownAdapter;
 
 	/** Synchronize Resource Stub Action */
-<<<<<<< HEAD
 	private Action synchResourceAction;
-=======
-	private SynchronizeRequirementSourceActionStub synchResourceAction;
 	
 	/** Open Predicates Editor Action */
 	private OpenPredicatesEditorAction openPredicatesEditorAction;
 	
 	/** Open Predicates View Action */
 	private OpenFilteredRequirementViewAction openPredicatesViewAction;
->>>>>>> 1619a01a192b09b61d9baf703c68fc398113ce11
 
 	/** Add location icon */
 	private static final String ICON_ADD_LOCATION = Messages.ADD_RESOURCE_ICON;
