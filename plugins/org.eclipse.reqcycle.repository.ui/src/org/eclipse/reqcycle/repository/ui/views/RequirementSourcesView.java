@@ -18,6 +18,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -29,6 +30,11 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.reqcycle.core.ILogger;
+import org.eclipse.reqcycle.repository.connector.ConnectorDescriptor;
+import org.eclipse.reqcycle.repository.connector.IConnector;
+import org.eclipse.reqcycle.repository.connector.IConnectorManager;
+import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
 import org.eclipse.reqcycle.repository.requirement.data.IRequirementSourceManager;
 import org.eclipse.reqcycle.repository.ui.Activator;
 import org.eclipse.reqcycle.repository.ui.Messages;
@@ -108,13 +114,19 @@ public class RequirementSourcesView extends ViewPart {
 
 	/** Requirement Source Manager */
 	private @Inject
-	IRequirementSourceManager requirementSourceManager = ZigguratInject.make(IRequirementSourceManager.class);
+	IRequirementSourceManager requirementSourceManager;
 
+	@Inject private IConnectorManager connectorManager;
+	
+	@Inject private ILogger logger;
 	
 	/**
 	 * The constructor.
 	 */
 	public RequirementSourcesView() {
+		connectorManager = ZigguratInject.make(IConnectorManager.class);
+		logger = ZigguratInject.make(ILogger.class);
+		requirementSourceManager = ZigguratInject.make(IRequirementSourceManager.class);
 	}	
 
     /**
@@ -175,10 +187,37 @@ public class RequirementSourcesView extends ViewPart {
 			openRequirementViewAction.setEnabled(selectedElement!=null);
 		}
 		if(editMappingAction != null) {
-			editMappingAction.setEnabled(selectedElement instanceof RequirementSource);
+			editMappingAction.setEnabled(selectedElement instanceof RequirementSource?canEditSource((RequirementSource)selectedElement):false);
 		}
 	}
 
+	//TODO move to requirement source util class
+	public boolean canEditSource(RequirementSource source) {
+		if(!(source instanceof RequirementSource)) {
+			return false;
+		}
+		String connectorID = ((RequirementSource)source).getConnectorID();
+		if(connectorID == null) {
+			return false;
+		}
+		ConnectorDescriptor connectorDescriptor = connectorManager.get(connectorID);
+		if( connectorDescriptor == null ) {
+			return false;
+		}
+		IConnector connector = null;
+		try {
+			connector = connectorDescriptor.createConnector();
+		} catch (CoreException e) {
+			//e.printStackTrace();
+			logger.log(e.getStatus());
+		}
+		if(connector instanceof IConnectorWizard) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 	/**
 	 * Adds all components Listeners
 	 */

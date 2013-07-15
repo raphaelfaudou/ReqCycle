@@ -35,6 +35,7 @@ import org.eclipse.reqcycle.repository.connector.ConnectorDescriptor;
 import org.eclipse.reqcycle.repository.connector.IConnector;
 import org.eclipse.reqcycle.repository.connector.IConnectorManager;
 import org.eclipse.reqcycle.repository.connector.ui.providers.ConnectorLabelProvider;
+import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
 import org.eclipse.reqcycle.repository.requirement.data.IScopeManager;
 import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
 import org.eclipse.swt.SWT;
@@ -81,7 +82,7 @@ public class SelectConnectorPage extends WizardPage {
 
 	@Override
 	public boolean canFlipToNextPage() {
-		return connectorDescriptor != null && sourceName != null && !sourceName.isEmpty() && getScope() != null;
+		return connectorDescriptor != null && connector != null && connector instanceof IConnectorWizard && sourceName != null && !sourceName.isEmpty() && getScope() != null;
 	}
 
 	@Override

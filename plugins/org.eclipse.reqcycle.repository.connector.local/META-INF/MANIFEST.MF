@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Reqcycle
+Bundle-SymbolicName: org.eclipse.reqcycle.repository.connector.local;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.eclipse.reqcycle.repository.connector.local.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.reqcycle.repository.data,
+ org.eclipse.reqcycle.repository.ui,
+ org.eclipse.reqcycle.repository.connector
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
