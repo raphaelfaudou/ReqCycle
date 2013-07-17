@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EEnum;
@@ -200,13 +201,13 @@ public class RMFUtils {
 					for(EnumValue enumValue : ((AttributeValueEnumeration)attributeValue).getValues()) {
 						String name = enumValue.getLongName();
 						EAttribute targetAttribute = attributeMapping.getTargetAttribute();
-						if(targetAttribute.getEType() instanceof EEnum) {
+						if(targetAttribute.getEAttributeType() instanceof EEnum) {
 
-							EEnumLiteral enumLiteral = ((EEnum)targetAttribute.getEType()).getEEnumLiteral(name);
+							EEnumLiteral enumLiteral = ((EEnum)targetAttribute.getEAttributeType()).getEEnumLiteral(name);
 							CustomDataModelFactory einstance = CustomDataModelFactory.eINSTANCE;
 
 							if(einstance instanceof CustomDataModelFactoryImpl) {
-								Enumeration result = ((CustomDataModelFactoryImpl)einstance).createEnumerationFromString(targetAttribute.getEAttributeType(), enumLiteral.getInstance().toString());
+								Object result = ((CustomDataModelFactoryImpl)einstance).createFromString(targetAttribute.getEAttributeType(), enumLiteral.getInstance().toString());
 								creator.addAttribute(attributeMapping, element, result);
 							}
 						}
