@@ -2,6 +2,7 @@ package org.eclipse.reqcycle.repository.ui.actions;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 
 import javax.inject.Inject;
 
@@ -52,12 +53,11 @@ public class OpenPredicatesEditorAction extends Action {
 
             final Object obj = ((IStructuredSelection) selection).getFirstElement();
             if (obj instanceof RequirementSource) {
-                final EClass requirementEClass = ((RequirementSource) obj).getRequirements().get(0).eClass();
-
+                final Collection<EClass> eClasses = ((RequirementSource) obj).getTargetEPackage();
                 try {
                     IPredicate selectedPredicate = selectRootPredicate();
                     if (selectedPredicate != null) {
-                        openEditor(requirementEClass, selectedPredicate);
+                        openEditor(eClasses, selectedPredicate);
                     }
 
                 } catch (Exception e) {
@@ -86,7 +86,7 @@ public class OpenPredicatesEditorAction extends Action {
         return null;
     }
 
-    public void openEditor(EClass inputModelEClass, IPredicate rootPredicate) {
+    public void openEditor(Object input, IPredicate rootPredicate) {
         try {
             final File f = File.createTempFile("predicate", ".predicates");
             Runtime.getRuntime().addShutdownHook(new ShutDownHook(f));
@@ -94,7 +94,7 @@ public class OpenPredicatesEditorAction extends Action {
             IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
             PredicatesEditor editor = (PredicatesEditor) IDE.openEditor(page, f.toURI(), PredicatesEditor.ID, true);
             editor.setRootPredicate(rootPredicate);
-            editor.setInputModelEClass(inputModelEClass);
+            editor.setInput(input);
             editor.hideButtonLoadModel();
 
         } catch (PartInitException e) {

@@ -12,7 +12,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -27,6 +26,9 @@ import DataModel.Contained;
 import DataModel.DataModelPackage;
 import DataModel.RequirementSource;
 import MappingModel.ElementMapping;
+
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
 
 /**
  * <!-- begin-user-doc -->
@@ -46,8 +48,6 @@ import MappingModel.ElementMapping;
  * @generated
  */
 public class RequirementSourceImpl extends MinimalEObjectImpl.Container implements RequirementSource {
-	
-	private EPackage ePackage;
 	
 	private Set<PropertyChangeListener> propertyChangeListeners = new HashSet<PropertyChangeListener>();
 	
@@ -375,12 +375,14 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
 	public void dispose() {
 	}
 
-	public void setTargetEPackage(EPackage ePackage) {
-		this.ePackage = ePackage;
-	}
+    public Collection<EClass> getTargetEPackage() {
+        return Collections2.transform(mapping, new Function<ElementMapping, EClass>() {
 
-	public EPackage getTargetEPackage() {
-		return ePackage;
-	}
+            @Override
+            public EClass apply(ElementMapping arg0) {
+                return arg0.getTargetElement();
+            }
+        });
+    }
 	
 } //RequirementSourceImpl

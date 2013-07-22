@@ -52,7 +52,12 @@ public class EEnumPropsEditorComponent extends AbstractPropsEditorComponent<Enum
                 if (!comboViewer.getSelection().isEmpty()
                         && (comboViewer.getSelection() instanceof IStructuredSelection)) {
                     IStructuredSelection selection = (IStructuredSelection) comboViewer.getSelection();
-                    final Enumerator selectedLiteral = ((EEnumLiteral) selection.getFirstElement()).getInstance();
+                    EEnumLiteral enumLiteral = (EEnumLiteral) selection.getFirstElement();
+                    final Enumerator selectedLiteral = enumLiteral.getInstance();
+                    if (selectedLiteral instanceof EEnumLiteral) {
+                        // FIXME : selectedLiteral should not be a EEnumLiteral because it is not serializable.
+                        // Try to retrieve a sole and reduced Enumerator, ... not a EEnumLiteral.
+                    }
                     setValue(selectedLiteral);
                 }
             }

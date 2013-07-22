@@ -15,6 +15,7 @@ import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.predicates.core.api.IPredicate;
 import org.eclipse.reqcycle.predicates.persistance.util.PredicatesConfManager;
 import org.eclipse.reqcycle.predicates.ui.providers.PredicatesTableLabelProvider;
+import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
 import org.eclipse.reqcycle.repository.ui.views.RequirementView;
 import org.eclipse.reqcycle.ui.components.dialogs.CheckBoxInputDialog;
 import org.eclipse.swt.widgets.Display;
@@ -41,21 +42,27 @@ public class OpenFilteredRequirementViewAction extends Action {
         ISelection selection = viewer.getSelection();
         if (selection instanceof IStructuredSelection) {
 
-            @SuppressWarnings("unchecked")
-            Iterator<Object> iter = ((IStructuredSelection) selection).iterator();
-            Collection<RequirementSource> selectedReqSources = new ArrayList<RequirementSource>();
-
-            while (iter.hasNext()) {
-                Object obj = iter.next();
-                if (obj instanceof RequirementSource) {
-                    selectedReqSources.add((RequirementSource) obj);
-                }
+            Collection<Object> selectedObj = new ArrayList<Object>();
+            for (Iterator<?> iterator = ((IStructuredSelection) selection).iterator(); iterator.hasNext();) {
+                selectedObj.add(iterator.next());
             }
 
-            if (!selectedReqSources.isEmpty()) {
-                Collection<IPredicate> selectedPredicates = selectPredicatesToApply();
-                if (selectedPredicates != null && !selectedPredicates.isEmpty()) {
-                    RequirementView.openNewFilteredRequirementView(selectedReqSources, selectedPredicates);
+            Collection<RequirementSource> input = new ArrayList<RequirementSource>();
+            for (Iterator<Object> iterator = selectedObj.iterator(); iterator.hasNext();) {
+                Object obj = iterator.next();
+                input.addAll(DataUtil.getRepositories(obj));
+            }
+
+            if (!input.isEmpty()) {
+                try {
+                    Collection<IPredicate> selectedPredicates = selectPredicatesToApply();
+                    if (selectedPredicates != null && !selectedPredicates.isEmpty()) {
+                        RequirementView.openNewFilteredRequirementView(input, selectedPredicates);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    logger.error("Unable to open the View of filtered requirements : " + e.getMessage());
+                    logger.error(e.toString());
                 }
             }
         }
@@ -75,11 +82,13 @@ public class OpenFilteredRequirementViewAction extends Action {
 
         dialog.setLabelProvider(new PredicatesTableLabelProvider());
         if (Window.OK == dialog.open()) {
-            final Collection<IPredicate> result = new ArrayList<IPredicate>();
+            Collection<IPredicate> predicates = new ArrayList<IPredicate>();
             for (Object obj : dialog.getSelectedItems()) {
-                result.add((IPredicate) obj);
+                if (obj instanceof IPredicate) {
+                    predicates.add((IPredicate) obj);
+                }
             }
-            return result;
+            return predicates;
         }
         return null;
     }

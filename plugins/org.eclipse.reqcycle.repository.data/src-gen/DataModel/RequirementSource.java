@@ -3,11 +3,12 @@
 package DataModel;
 
 import java.beans.PropertyChangeListener;
+import java.util.Collection;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
 
 import MappingModel.ElementMapping;
 
@@ -153,8 +154,6 @@ public interface RequirementSource extends EObject {
 
 	public void dispose();
 	
-	public void setTargetEPackage(EPackage ePackage);
-	
-	public EPackage getTargetEPackage();
+	public Collection<EClass> getTargetEPackage();
 
 } // RequirementSource

@@ -1,5 +1,6 @@
 package org.eclipse.reqcycle.predicates.ui.listeners;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
@@ -24,18 +25,18 @@ import org.eclipse.swt.widgets.Shell;
 public class PredicatesTreeDoubleClickListener implements IDoubleClickListener {
 
     private final PredicatesEditor editor;
-    private EClass                 eClass;
+    private Collection<EClass>     eClasses;
     private boolean                useExtendedFeature;
 
     /**
      * @param editor - The PredicatesEditor. Must not be <tt>null</tt>.
-     * @param eClass - The EClass (normally a IPredicate EClass) which is to be edited.
+     * @param eClassesOfModelToEdit - The collection of EClass.
      * @param useExtendedFeature
      */
-    public PredicatesTreeDoubleClickListener(final PredicatesEditor editor, final EClass eClass,
-            final boolean useExtendedFeature) {
+    public PredicatesTreeDoubleClickListener(final PredicatesEditor editor,
+            final Collection<EClass> eClassesOfModelToEdit, final boolean useExtendedFeature) {
         this.editor = editor;
-        this.eClass = eClass;
+        this.eClasses = eClassesOfModelToEdit;
         this.useExtendedFeature = useExtendedFeature;
     }
 
@@ -47,7 +48,7 @@ public class PredicatesTreeDoubleClickListener implements IDoubleClickListener {
             MessageDialog.openInformation(parent, "Info", "Unable to edit a Composite Predicate.");
             return; // quit
         }
-        if (this.eClass == null) {
+        if (this.eClasses == null || this.eClasses.isEmpty()) {
             MessageDialog.openError(parent, "Error", "You must load a model to edit.");
             return; // quit
         }
@@ -55,7 +56,7 @@ public class PredicatesTreeDoubleClickListener implements IDoubleClickListener {
             ITypedPredicate<?> predicate = (ITypedPredicate<?>) selection.getFirstElement();
             if (predicate instanceof IEAttrPredicate) {
                 final IEAttrPredicatesNodeEditorDialog dialog = new IEAttrPredicatesNodeEditorDialog(parent,
-                        (IEAttrPredicate) predicate, this.eClass, this.useExtendedFeature);
+                        (IEAttrPredicate) predicate, this.eClasses, this.useExtendedFeature);
                 if (dialog.open() == Window.OK) {
 
                     if (selection.getFirstElement() instanceof IEAttrPredicate) {
@@ -106,8 +107,8 @@ public class PredicatesTreeDoubleClickListener implements IDoubleClickListener {
         return typedPredicate.eClass().getEStructuralFeature(attributeName);
     }
 
-    public void setEClass(EClass eClass) {
-        this.eClass = eClass;
+    public void setEClasses(Collection<EClass> eClasses) {
+        this.eClasses = eClasses;
     }
 
     public void setUseExtendedFeature(boolean useExtendedFeature) {

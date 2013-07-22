@@ -5,6 +5,7 @@ package org.eclipse.reqcycle.predicates.ui.presentation;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EventObject;
@@ -86,8 +87,10 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.reqcycle.predicates.core.api.IPredicate;
 import org.eclipse.reqcycle.predicates.ui.PredicatesUIPlugin;
+import org.eclipse.reqcycle.predicates.ui.components.PredicatesTreeViewer;
 import org.eclipse.reqcycle.predicates.ui.components.RightPanelComposite;
 import org.eclipse.reqcycle.predicates.ui.listeners.PredicatesTreeDoubleClickListener;
+import org.eclipse.reqcycle.predicates.ui.providers.EnhancedPredicatesTreeLabelProvider;
 import org.eclipse.reqcycle.predicates.ui.providers.PredicatesItemProviderAdapterFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
@@ -135,8 +138,8 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
     /** Represents the dirtiness status of the editor. */
     private boolean                                 dirty;
 
-    /** The model to edit. The model to which to apply the predicates. */
-    private EClass                                  inputModelEClass;
+    /** The collection of models to which to apply the predicates. */
+    private Collection<EClass>                      input;
 
     /** The double click listener added to the tree model editor. */
     private PredicatesTreeDoubleClickListener       treeDoubleClickListener;
@@ -195,9 +198,9 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
      * This is the viewer that shadows the selection in the content outline. The parent relation must be correctly
      * defined for this to work. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
+     * @generated NOT
      */
-    protected TreeViewer                            selectionViewer;
+    protected PredicatesTreeViewer                  selectionViewer;
 
     /**
      * This inverts the roll of parent and child in the content provider and show parents as a tree. <!-- begin-user-doc
@@ -1009,7 +1012,7 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
                     public Viewer createViewer(Composite composite) {
                         composite.setLayout(new GridLayout());
                         Tree tree = new Tree(composite, SWT.MULTI);
-                        TreeViewer newTreeViewer = new TreeViewer(tree);
+                        TreeViewer newTreeViewer = new PredicatesTreeViewer(tree);
                         return newTreeViewer;
                     }
 
@@ -1020,11 +1023,17 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
                     }
                 };
                 viewerPane.createControl(getContainer());
-                selectionViewer = (TreeViewer) viewerPane.getViewer();
+                selectionViewer = (PredicatesTreeViewer) viewerPane.getViewer();
                 selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
 
-                selectionViewer.setLabelProvider(new AdapterFactoryLabelProvider.ColorProvider(adapterFactory,
-                        selectionViewer));
+                // AdapterFactoryLabelProvider.ColorProvider colorLabelProvider = new
+                // AdapterFactoryLabelProvider.ColorProvider(
+                // adapterFactory, selectionViewer);
+                // selectionViewer.setLabelProvider(colorLabelProvider);
+                EnhancedPredicatesTreeLabelProvider predicatesLabelProvider = new EnhancedPredicatesTreeLabelProvider(
+                        adapterFactory);
+                selectionViewer.setLabelProvider(predicatesLabelProvider);
+
                 selectionViewer.setInput(editingDomain.getResourceSet());
                 selectionViewer.setSelection(
                         new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
@@ -1032,8 +1041,7 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 
                 new AdapterFactoryTreeEditor(selectionViewer.getTree(), adapterFactory);
 
-                this.treeDoubleClickListener = new PredicatesTreeDoubleClickListener(this, this.getInputModelEClass(),
-                        false);
+                this.treeDoubleClickListener = new PredicatesTreeDoubleClickListener(this, this.getInput(), false);
                 selectionViewer.addDoubleClickListener(this.treeDoubleClickListener);
 
                 getSite().setSelectionProvider(selectionViewer);
@@ -1649,24 +1657,40 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
         Composite rightComposite = new Composite(newParent, SWT.BORDER);
         rightComposite.setLayout(new GridLayout(1, false));
         rightComposite.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true, 1, 1));
-        boolean showButtonLoadModel = getInputModelEClass() == null;
+        boolean showButtonLoadModel = getInput() == null; // || getInput().isEmpty();
         rightPanel = new RightPanelComposite(rightComposite, this, showButtonLoadModel);
         rightPanel.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true, 1, 1));
     }
 
     /**
-     * @return The model to edit. The model to which to apply the predicates.
+     * @return The collection of models to which to apply the predicates..
      */
-    public EClass getInputModelEClass() {
-        return this.inputModelEClass;
+    public Collection<EClass> getInput() {
+        return this.input;
     }
 
     /**
-     * @param inputModelEClass - The model to edit. The model to which to apply the predicates.
+     * @param inputModelEClass - The model to edit or the collection / array of models to which to apply the predicates.
      */
-    public void setInputModelEClass(EClass inputModelEClass) {
-        this.inputModelEClass = inputModelEClass;
-        this.treeDoubleClickListener.setEClass(inputModelEClass);
+    @SuppressWarnings("unchecked")
+    public void setInput(Object input) {
+        if (this.input == null) {
+            this.input = new ArrayList<EClass>();
+        }
+        if (input instanceof EClass) {
+            this.input.add((EClass) input);
+
+        } else if (input instanceof Collection) {
+            this.input.addAll((Collection<? extends EClass>) input);
+
+        } else if (input instanceof EClass[]) {
+            this.input.addAll((Collection<? extends EClass>) Arrays.asList(input));
+
+        } else {
+            throw new IllegalArgumentException("Not supported type of input.");
+        }
+
+        this.treeDoubleClickListener.setEClasses(getInput());
         if (this.selectionViewer != null) {
             this.selectionViewer.refresh();
         }

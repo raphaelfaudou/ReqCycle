@@ -14,15 +14,18 @@
 package org.eclipse.reqcycle.repository.ui.views;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 import javax.inject.Inject;
 
+import org.eclipse.emf.ecore.impl.EStringToStringMapEntryImpl;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.reqcycle.core.ILogger;
@@ -30,14 +33,14 @@ import org.eclipse.reqcycle.dnd.DragRequirementSourceAdapter;
 import org.eclipse.reqcycle.predicates.core.api.IPredicate;
 import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
 import org.eclipse.reqcycle.repository.ui.Activator;
-import org.eclipse.reqcycle.repository.ui.providers.ComposedRequirementContentProvider;
-import org.eclipse.reqcycle.repository.ui.providers.ComposedRequirementContentProvider.DummyInput;
-import org.eclipse.reqcycle.repository.ui.providers.RequirementContentProvider;
-import org.eclipse.reqcycle.repository.ui.views.filters.ComposedRequirementViewerFilter;
-import org.eclipse.reqcycle.repository.ui.views.filters.RequirementViewerFilter;
+import org.eclipse.reqcycle.repository.ui.providers.DummyInputContentProvider;
+import org.eclipse.reqcycle.repository.ui.providers.DummyInputContentProvider.DummyInput;
+import org.eclipse.reqcycle.repository.ui.providers.DummyInputContentProvider.DummyObject;
+import org.eclipse.reqcycle.repository.ui.views.filters.DisallowedClassesViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
@@ -70,19 +73,29 @@ public class RequirementView extends ViewPart {
                 refreshButton(getSelection());
             }
         };
-        ComposedAdapterFactory factory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-        // final ComposedRequirementContentProvider cReqContentProvider = new ComposedRequirementContentProvider(
-        // new AdapterFactoryContentProvider(factory));
-        final ComposedRequirementContentProvider cReqContentProvider = new ComposedRequirementContentProvider(
-                new RequirementContentProvider());
-        getViewer().setContentProvider(cReqContentProvider);
-        getViewer().setLabelProvider(new AdapterFactoryLabelProvider(factory) {
+        final ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(
+                ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+        // final DummyInputContentProvider dummyInputContentProvider = new DummyInputContentProvider(adapterFactory,
+        // null); XXX
+        final DummyInputContentProvider dummyInputContentProvider = new DummyInputContentProvider(adapterFactory);
+        getViewer().setContentProvider(dummyInputContentProvider);
+        getViewer().setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory) {
             @Override
             public String getText(Object element) {
                 if (element instanceof DummyInput) {
-                    return ((DummyInput) element).getName();
+                    return ((DummyInput) element).getDisplayName();
+                } else if (element instanceof DummyObject) {
+                    return super.getText(((DummyObject) element).getEobj());
                 }
                 return DataUtil.getLabel(element);
+            }
+
+            @Override
+            public Image getImage(Object object) {
+                if (object instanceof DummyObject) {
+                    return super.getImage(((DummyObject) object).getEobj());
+                }
+                return super.getImage(object);
             }
         });
         int dndOperations = DND.DROP_COPY | DND.DROP_MOVE;
@@ -92,12 +105,23 @@ public class RequirementView extends ViewPart {
 
         DragRequirementSourceAdapter listener = new DragRequirementSourceAdapter(getViewer());
         ZigguratInject.inject(listener);
+        getViewer().addFilter(
+                new DisallowedClassesViewerFilter(Arrays.asList(new Class<?>[] { EStringToStringMapEntryImpl.class })));
+        getViewer().addFilter(new DisallowedClassesViewerFilter(null));
+        getViewer().addSelectionChangedListener(new ISelectionChangedListener() {
+
+            @Override
+            public void selectionChanged(SelectionChangedEvent event) {
+                // TODO Auto-generated method stub
+                event.toString();
+            }
+        });
         getViewer().addDragSupport(dndOperations, transfers, listener);
         getViewSite().setSelectionProvider(getViewer());
     }
 
     /**
-     * Should be a Collection of {@link RequirementSource} or {@link DummyInput} objects.
+     * Should be a Collection {@link DummyInput} objects.
      * 
      * @param input
      */
@@ -151,39 +175,6 @@ public class RequirementView extends ViewPart {
         }
     }
 
-    // TODO : extract generic method
-    public static void openNewRequirementView(Collection<RequirementSource> input, ViewerFilter filter) {
-        if (!input.isEmpty()) {
-            IWorkbenchPage page = Activator.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();
-            try {
-                String secondaryID = UUID.randomUUID().toString();
-                page.showView(VIEW_ID, secondaryID, IWorkbenchPage.VIEW_ACTIVATE);
-                String fullId = VIEW_ID + ":" + secondaryID;
-                for (IViewReference viewRef : page.getViewReferences()) {
-                    if (fullId.equals(viewRef.getId())) {
-                        RequirementView reqView = (RequirementView) viewRef.getView(true);
-                        reqView.setInput(input);
-                        if (filter != null) {
-                            reqView.getViewer().addFilter(filter);
-                            if (filter instanceof RequirementViewerFilter) {
-                                String predicateName = ((RequirementViewerFilter) filter).getPredicate()
-                                        .getDisplayName();
-                                reqView.setPartName(reqView.getPartName() + " (" + predicateName + ")");
-                            }
-                        }
-                        break;
-                    }
-                }
-
-            } catch (PartInitException e) {
-                boolean debug = logger.isDebug(Activator.OPTIONS_DEBUG, Activator.getDefault());
-                if (debug) {
-                    logger.trace("Can't show the view : " + VIEW_ID);
-                }
-            }
-        }
-    }
-
     /**
      * @param input
      * @param predicates - The collection of predicates to use for filtering the same input.
@@ -201,19 +192,23 @@ public class RequirementView extends ViewPart {
                     if (fullId.equals(viewRef.getId())) {
                         RequirementView reqView = (RequirementView) viewRef.getView(true);
 
-                        final List<DummyInput> dummyInputs = new ArrayList<ComposedRequirementContentProvider.DummyInput>();
-
-                        final ComposedRequirementViewerFilter composedReqFilter = new ComposedRequirementViewerFilter(
-                                new ArrayList<RequirementViewerFilter>());
+                        final Collection<DummyInput> dummyInputs = new ArrayList<DummyInput>();
                         for (IPredicate p : predicates) {
                             final DummyInput dInput = new DummyInput(input);
-                            dInput.setName(p.getDisplayName());
+                            dInput.setPredicate(p);
                             dummyInputs.add(dInput);
-                            RequirementViewerFilter reqFilter = new RequirementViewerFilter(p);
-                            composedReqFilter.getReqFilters().add(reqFilter);
                         }
+
+                        final ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(
+                                ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+
+                        final DummyInputContentProvider dummyInputContentProvider = new DummyInputContentProvider(
+                                adapterFactory);
+
+                        reqView.getViewer().setContentProvider(dummyInputContentProvider);
+
                         reqView.setInput(dummyInputs);
-                        reqView.getViewer().addFilter(composedReqFilter);
+
                         break;
                     }
                 }

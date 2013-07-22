@@ -1,6 +1,7 @@
 package org.eclipse.reqcycle.predicates.ui.components;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -102,7 +103,9 @@ public class RightPanelComposite extends Composite {
                     final Resource rs = rSet.getResource(uri, true);
 
                     final EClass eclass = rs.getContents().get(0).eClass();
-                    predicatesEditor.setInputModelEClass(eclass);
+                    Collection<EClass> eClasses = new ArrayList<EClass>();
+                    eClasses.add(eclass);
+                    predicatesEditor.setInput(eClasses);
 
                     btnLoadModel.setText("Change Base Model");
 

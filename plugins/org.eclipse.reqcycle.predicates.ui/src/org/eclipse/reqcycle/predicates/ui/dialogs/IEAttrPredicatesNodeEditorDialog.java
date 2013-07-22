@@ -1,15 +1,15 @@
 package org.eclipse.reqcycle.predicates.ui.dialogs;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.ClassUtils;
+import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -49,27 +50,27 @@ import org.eclipse.swt.widgets.Tree;
 public class IEAttrPredicatesNodeEditorDialog extends Dialog {
 
     /** The TreeViewer that will contain the model to edit (the model to which the predicate is going to be applied). */
-    private TreeViewer            treeViewer;
+    private TreeViewer               treeViewer;
 
-    /** The EClass of the model to edit. The model to which we are going to apply the predicate. */
-    private final EClass          eClassModel;
+    /** The collection of EClass of the model to which we are going to apply the predicate. */
+    private final Collection<EClass> eClassesOfModelToEdit;
 
-    private final boolean         useExtendedFeature;
+    private final boolean            useExtendedFeature;
 
     /** The predicate to edit. */
-    private final IEAttrPredicate eAttrPredicate;
+    private final IEAttrPredicate    eAttrPredicate;
 
     /** The "input" attribute of the predicate if it is of type {@link UnaryPredicate} */
-    private EAttribute            predicateInputAttribute;
+    private EAttribute               predicateInputAttribute;
 
     /** The {@link PredicatePropsEditor}. */
-    private PredicatePropsEditor  predicatePropsEditor;
+    private PredicatePropsEditor     predicatePropsEditor;
 
     public IEAttrPredicatesNodeEditorDialog(final Shell parentShell, final IEAttrPredicate eAttrPredicate,
-            final EClass eClassOfModelToEdit, final boolean useExtendedFeature) {
+            final Collection<EClass> eClassesOfModelToEdit, final boolean useExtendedFeature) {
         super(parentShell);
         this.eAttrPredicate = eAttrPredicate;
-        this.eClassModel = eClassOfModelToEdit;
+        this.eClassesOfModelToEdit = eClassesOfModelToEdit;
         this.useExtendedFeature = useExtendedFeature;
         this.predicateInputAttribute = (EAttribute) this.eAttrPredicate.eClass().getEStructuralFeature("input");
     }
@@ -95,7 +96,7 @@ public class IEAttrPredicatesNodeEditorDialog extends Dialog {
         treeViewer.setLabelProvider(new EClassLabelProvider());
         treeViewer.addSelectionChangedListener(new SelectionChangedListenerImpl());
         treeViewer.addFilter(new ModelAttributesViewerFilter());
-        treeViewer.setInput(this.eClassModel);
+        treeViewer.setInput(this.eClassesOfModelToEdit);
     }
 
     private void initPredicatePropsEditor(final Composite container) {
@@ -177,18 +178,7 @@ public class IEAttrPredicatesNodeEditorDialog extends Dialog {
 
         @Override
         public Object[] getElements(Object inputElement) {
-            if (!(inputElement instanceof EClass)) return Collections.EMPTY_LIST.toArray();
-            final EClass eClass = (EClass) inputElement;
-            final Collection<Object> classifiers = new ArrayList<Object>();
-            for (final EClassifier classifier : eClass.getEPackage().getEClassifiers()) {
-                if (classifier instanceof EClass) {
-                    final EClass c = (EClass) classifier;
-                    if (!(c.isAbstract() || c.isInterface())) {
-                        classifiers.add(classifier);
-                    }
-                }
-            }
-            return classifiers.toArray();
+            return ArrayContentProvider.getInstance().getElements(inputElement);
         }
 
         @Override
@@ -293,7 +283,11 @@ public class IEAttrPredicatesNodeEditorDialog extends Dialog {
                         predicatePropsEditor.addEditor(selectedAttr);
                     }
 
-                    final Class<?> selectedClass = selectedAttr.getEType().getInstanceClass();
+                    EClassifier eType = selectedAttr.getEType();
+                    Class<?> selectedClass = eType.getInstanceClass();
+                    if (selectedClass == null && eType instanceof EEnum) {
+                        selectedClass = Enumerator.class;
+                    }
                     editorEnabled = PredicatesUtil.isSubType(predicateInputAttribute, selectedClass);
                 } else {
                     predicatePropsEditor.removeEditor(previousSelectedAttribute);
@@ -315,23 +309,34 @@ public class IEAttrPredicatesNodeEditorDialog extends Dialog {
         @Override
         public boolean select(Viewer viewer, Object parentElement, Object element) {
             if (element instanceof EStructuralFeature) {
-                Class<?> selectedClass = ((EStructuralFeature) element).getEType().getInstanceClass();
-                if (selectedClass.isPrimitive()) {
-                    selectedClass = ClassUtils.primitiveToWrapper(selectedClass);
-                }
-                boolean isSubType = false;
-                EClass c1 = eAttrPredicate.eClass();
-                EClass c2 = predicateInputAttribute.getEContainingClass();
-                if (c1.equals(c2)) {
-                    isSubType = PredicatesUtil.isSubType(predicateInputAttribute, selectedClass);
-                } else {
-                    Class<?> inputClassCast = PredicatesUtil.getCastClassForInput(eAttrPredicate);
-                    if (Collection.class.equals(inputClassCast)) {
-                        inputClassCast = PredicatesUtil.getObjectClassForInput(eAttrPredicate);
+                final EClassifier eType = ((EStructuralFeature) element).getEType();
+                Class<?> selectedClass = eType.getInstanceClass();
+                if (selectedClass != null) {
+                    if (selectedClass.isPrimitive()) {
+                        selectedClass = ClassUtils.primitiveToWrapper(selectedClass);
                     }
-                    isSubType = inputClassCast.isAssignableFrom(selectedClass);
+                    boolean isSubType = false;
+                    EClass c1 = eAttrPredicate.eClass();
+                    EClass c2 = predicateInputAttribute.getEContainingClass();
+                    if (c1.equals(c2)) {
+                        isSubType = PredicatesUtil.isSubType(predicateInputAttribute, selectedClass);
+                    } else {
+                        Class<?> inputClassCast = PredicatesUtil.getCastClassForInput(eAttrPredicate);
+                        if (Collection.class.equals(inputClassCast)) {
+                            inputClassCast = PredicatesUtil.getObjectClassForInput(eAttrPredicate);
+                        }
+                        isSubType = inputClassCast.isAssignableFrom(selectedClass);
+                    }
+                    return isSubType;
+                } else if (selectedClass == null && eType instanceof EEnum) {
+                    // It the selected class is an Enumerator (EEnum) ... getInstanceClass() tends to return null.
+                    // Thus, we have to do the following in order to verify whether or not the selected EAttribute
+                    // is to be filtered :)
+                    Class<?> inputClassCast = PredicatesUtil.getCastClassForInput(eAttrPredicate);
+                    if (Enumerator.class.isAssignableFrom(inputClassCast)) {
+                        return true;
+                    }
                 }
-                return isSubType;
             }
             return true;
         }

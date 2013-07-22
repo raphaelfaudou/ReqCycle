@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnum;
@@ -83,8 +84,8 @@ public class CollectionsPropsEditorComponent extends AbstractPropsEditorComponen
                 Object obj = cell.getElement();
                 if (obj instanceof ItemValue) {
                     cell.setText(obj.toString());
-                } else if (obj instanceof EEnumLiteral) {
-                    cell.setText(((EEnumLiteral) obj).getLiteral());
+                } else if (obj instanceof Enumerator) {
+                    cell.setText(((Enumerator) obj).getLiteral());
                 } else {
                     throw new IllegalArgumentException("Cannot update the cell label, unknown content type ...");
                 }
