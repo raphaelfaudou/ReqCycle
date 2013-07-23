@@ -23,8 +23,7 @@ public final class Reachable implements Serializable{
 	private Map<String, String> properties = new HashMap<String, String>();
 
 	/**
-	 * This class is not intended to not be instantiate please use an instanceof
-	 * {@link IReachableCreator}
+	 * This class is not intended to be instantiate please use {@link IReachableCreator} instead
 	 */
 	public Reachable() {
 	}
