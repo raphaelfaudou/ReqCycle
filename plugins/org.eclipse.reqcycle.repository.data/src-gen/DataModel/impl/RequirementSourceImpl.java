@@ -12,7 +12,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -41,17 +40,15 @@ import com.google.common.collect.Collections2;
  *   <li>{@link DataModel.impl.RequirementSourceImpl#getRequirements <em>Requirements</em>}</li>
  *   <li>{@link DataModel.impl.RequirementSourceImpl#getName <em>Name</em>}</li>
  *   <li>{@link DataModel.impl.RequirementSourceImpl#getProperties <em>Properties</em>}</li>
- *   <li>{@link DataModel.impl.RequirementSourceImpl#getConnectorID <em>Connector ID</em>}</li>
- *   <li>{@link DataModel.impl.RequirementSourceImpl#getMapping <em>Mapping</em>}</li>
+ *   <li>{@link DataModel.impl.RequirementSourceImpl#getConnectorId <em>Connector Id</em>}</li>
+ *   <li>{@link DataModel.impl.RequirementSourceImpl#getMappings <em>Mappings</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class RequirementSourceImpl extends MinimalEObjectImpl.Container implements RequirementSource {
-	
-	private EPackage ePackage;
-	
+		
 	private Set<PropertyChangeListener> propertyChangeListeners = new HashSet<PropertyChangeListener>();
 	
 	/**
@@ -85,24 +82,24 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
 	protected EMap<String, String> properties;
 
 	/**
-	 * The default value of the '{@link #getConnectorID() <em>Connector ID</em>}' attribute.
+	 * The default value of the '{@link #getConnectorId() <em>Connector Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getConnectorID()
+	 * @see #getConnectorId()
 	 * @generated
 	 * @ordered
 	 */
 	protected static final String CONNECTOR_ID_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getMapping() <em>Mapping</em>}' containment reference list.
+	 * The cached value of the '{@link #getMappings() <em>Mappings</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getMapping()
+	 * @see #getMappings()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<ElementMapping> mapping;
+	protected EList<ElementMapping> mappings;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -171,7 +168,7 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public String getConnectorID() {
+	public String getConnectorId() {
 		String type = getProperties().get(RepositoryConstants.PROPERTY_CONNECTOR_ID);
 		return type != null ? type : RepositoryConstants.TYPE_UNKNOWN;
 	}
@@ -188,22 +185,22 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
-	public EList<ElementMapping> getMapping() {
-		if (mapping == null) {
-			mapping = new EObjectContainmentEList<ElementMapping>(ElementMapping.class, this, DataModelPackage.REQUIREMENT_SOURCE__MAPPING);
-		}
-		return mapping;
+	public void setConnectorId(String newConnectorId) {
+		getProperties().put(RepositoryConstants.PROPERTY_CONNECTOR_ID, newConnectorId);
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
-	public void setConnectorId(String newConnectorId) {
-		getProperties().put(RepositoryConstants.PROPERTY_CONNECTOR_ID, newConnectorId);
+	public EList<ElementMapping> getMappings() {
+		if (mappings == null) {
+			mappings = new EObjectContainmentEList<ElementMapping>(ElementMapping.class, this, DataModelPackage.REQUIREMENT_SOURCE__MAPPINGS);
+		}
+		return mappings;
 	}
 
 	/**
@@ -218,8 +215,8 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
 				return ((InternalEList<?>)getRequirements()).basicRemove(otherEnd, msgs);
 			case DataModelPackage.REQUIREMENT_SOURCE__PROPERTIES:
 				return ((InternalEList<?>)getProperties()).basicRemove(otherEnd, msgs);
-			case DataModelPackage.REQUIREMENT_SOURCE__MAPPING:
-				return ((InternalEList<?>)getMapping()).basicRemove(otherEnd, msgs);
+			case DataModelPackage.REQUIREMENT_SOURCE__MAPPINGS:
+				return ((InternalEList<?>)getMappings()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -240,9 +237,9 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
 				if (coreType) return getProperties();
 				else return getProperties().map();
 			case DataModelPackage.REQUIREMENT_SOURCE__CONNECTOR_ID:
-				return getConnectorID();
-			case DataModelPackage.REQUIREMENT_SOURCE__MAPPING:
-				return getMapping();
+				return getConnectorId();
+			case DataModelPackage.REQUIREMENT_SOURCE__MAPPINGS:
+				return getMappings();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -267,11 +264,11 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
 				((EStructuralFeature.Setting)getProperties()).set(newValue);
 				return;
 			case DataModelPackage.REQUIREMENT_SOURCE__CONNECTOR_ID:
-				setConnectorID((String)newValue);
+				setConnectorId((String)newValue);
 				return;
-			case DataModelPackage.REQUIREMENT_SOURCE__MAPPING:
-				getMapping().clear();
-				getMapping().addAll((Collection<? extends ElementMapping>)newValue);
+			case DataModelPackage.REQUIREMENT_SOURCE__MAPPINGS:
+				getMappings().clear();
+				getMappings().addAll((Collection<? extends ElementMapping>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -295,10 +292,10 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
 				getProperties().clear();
 				return;
 			case DataModelPackage.REQUIREMENT_SOURCE__CONNECTOR_ID:
-				setConnectorID(CONNECTOR_ID_EDEFAULT);
+				setConnectorId(CONNECTOR_ID_EDEFAULT);
 				return;
-			case DataModelPackage.REQUIREMENT_SOURCE__MAPPING:
-				getMapping().clear();
+			case DataModelPackage.REQUIREMENT_SOURCE__MAPPINGS:
+				getMappings().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -319,9 +316,9 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
 			case DataModelPackage.REQUIREMENT_SOURCE__PROPERTIES:
 				return properties != null && !properties.isEmpty();
 			case DataModelPackage.REQUIREMENT_SOURCE__CONNECTOR_ID:
-				return CONNECTOR_ID_EDEFAULT == null ? getConnectorID() != null : !CONNECTOR_ID_EDEFAULT.equals(getConnectorID());
-			case DataModelPackage.REQUIREMENT_SOURCE__MAPPING:
-				return mapping != null && !mapping.isEmpty();
+				return CONNECTOR_ID_EDEFAULT == null ? getConnectorId() != null : !CONNECTOR_ID_EDEFAULT.equals(getConnectorId());
+			case DataModelPackage.REQUIREMENT_SOURCE__MAPPINGS:
+				return mappings != null && !mappings.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -378,8 +375,9 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
 	public void dispose() {
 	}
 
-    public Collection<EClass> getTargetEPackage() {
-        return Collections2.transform(mapping, new Function<ElementMapping, EClass>() {
+	@Override
+	public Collection<EClass> getTargetEPackage() {
+        return Collections2.transform(mappings, new Function<ElementMapping, EClass>() { 
 
             @Override
             public EClass apply(ElementMapping arg0) {
@@ -387,5 +385,6 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
             }
         });
     }
+
 	
 } //RequirementSourceImpl

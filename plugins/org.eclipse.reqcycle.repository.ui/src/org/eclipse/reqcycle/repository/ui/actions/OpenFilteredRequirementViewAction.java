@@ -15,7 +15,7 @@ import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.predicates.core.api.IPredicate;
 import org.eclipse.reqcycle.predicates.persistance.util.PredicatesConfManager;
 import org.eclipse.reqcycle.predicates.ui.providers.PredicatesTableLabelProvider;
-import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
+import org.eclipse.reqcycle.repository.data.util.DataUtil;
 import org.eclipse.reqcycle.repository.ui.views.RequirementView;
 import org.eclipse.reqcycle.ui.components.dialogs.CheckBoxInputDialog;
 import org.eclipse.swt.widgets.Display;

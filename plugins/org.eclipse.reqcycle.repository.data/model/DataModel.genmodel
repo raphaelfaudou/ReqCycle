@@ -4,7 +4,8 @@
     editDirectory="/org.eclipse.reqcycle.repository.data/src-edit" editorDirectory=""
     modelPluginID="org.eclipse.reqcycle.repository.data" modelName="DataModel" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     testsDirectory="" importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0"
-    copyrightFields="false" usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore MappingModel.genmodel#//MappingModel"
+    copyrightFields="false" editorPluginID="org.eclipse.reqcycle.repository.data.editor"
+    usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore MappingModel.genmodel#//MappingModel"
     operationReflection="true" importOrganizing="true">
   <foreignModel>DataModel.ecore</foreignModel>
   <genPackages prefix="DataModel" disposableProviderFactory="true" ecorePackage="DataModel.ecore#/">
