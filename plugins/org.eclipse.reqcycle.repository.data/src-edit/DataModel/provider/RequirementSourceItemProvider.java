@@ -26,6 +26,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 import DataModel.DataModelFactory;
 import DataModel.DataModelPackage;
 import DataModel.RequirementSource;
+import MappingModel.MappingModelFactory;
 
 /**
  * This is the item provider adapter for a {@link DataModel.RequirementSource} object.
@@ -126,6 +127,7 @@ public class RequirementSourceItemProvider
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(DataModelPackage.Literals.REQUIREMENT_SOURCE__REQUIREMENTS);
 			childrenFeatures.add(DataModelPackage.Literals.REQUIREMENT_SOURCE__PROPERTIES);
+			childrenFeatures.add(DataModelPackage.Literals.REQUIREMENT_SOURCE__MAPPINGS);
 		}
 		return childrenFeatures;
 	}
@@ -185,6 +187,7 @@ public class RequirementSourceItemProvider
 				return;
 			case DataModelPackage.REQUIREMENT_SOURCE__REQUIREMENTS:
 			case DataModelPackage.REQUIREMENT_SOURCE__PROPERTIES:
+			case DataModelPackage.REQUIREMENT_SOURCE__MAPPINGS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -205,12 +208,7 @@ public class RequirementSourceItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(DataModelPackage.Literals.REQUIREMENT_SOURCE__REQUIREMENTS,
-				 DataModelFactory.eINSTANCE.createReachableSection()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(DataModelPackage.Literals.REQUIREMENT_SOURCE__REQUIREMENTS,
-				 DataModelFactory.eINSTANCE.createReachableObject()));
+				 DataModelFactory.eINSTANCE.createSection()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -226,6 +224,11 @@ public class RequirementSourceItemProvider
 			(createChildParameter
 				(DataModelPackage.Literals.REQUIREMENT_SOURCE__PROPERTIES,
 				 EcoreFactory.eINSTANCE.create(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY)));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(DataModelPackage.Literals.REQUIREMENT_SOURCE__MAPPINGS,
+				 MappingModelFactory.eINSTANCE.createElementMapping()));
 	}
 
 	/**

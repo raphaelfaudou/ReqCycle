@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EEnum;
@@ -18,8 +17,8 @@ import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.reqcycle.core.ILogger;
-import org.eclipse.reqcycle.repository.requirement.data.IRequirementCreator;
-import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
+import org.eclipse.reqcycle.repository.data.IRequirementCreator;
+import org.eclipse.reqcycle.repository.data.util.DataUtil;
 import org.eclipse.rmf.reqif10.AttributeValue;
 import org.eclipse.rmf.reqif10.AttributeValueEnumeration;
 import org.eclipse.rmf.reqif10.EnumValue;
@@ -33,12 +32,9 @@ import org.eclipse.rmf.reqif10.Specification;
 import org.eclipse.rmf.reqif10.common.util.ReqIF10Util;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import CustomDataModel.CustomDataModelFactory;
-import CustomDataModel.Enumeration;
-import CustomDataModel.impl.CustomDataModelFactoryImpl;
 import DataModel.Contained;
-import DataModel.ReachableSection;
 import DataModel.RequirementSource;
+import DataModel.Section;
 import MappingModel.AttributeMapping;
 import MappingModel.ElementMapping;
 
@@ -65,7 +61,7 @@ public class RMFUtils {
 
 	public static void fillRequirements(RequirementSource requirementSource, IProgressMonitor progressMonitor) {
 
-		Collection<ElementMapping> mapping = requirementSource.getMapping();
+		Collection<ElementMapping> mapping = requirementSource.getMappings();
 		if(mapping == null) {
 			return;
 		}
@@ -98,8 +94,8 @@ public class RMFUtils {
 					}
 
 					if(children != null && !children.isEmpty()) {
-						if(section instanceof ReachableSection) {
-							((ReachableSection)section).getChildren().addAll(children);
+						if(section instanceof Section) {
+							((Section)section).getChildren().addAll(children);
 						} else if(section != null) {
 							logger.error("Specification is not mapped with a Section typed element, children can be missed");
 						}
@@ -129,13 +125,17 @@ public class RMFUtils {
 
 				createdObject = createElement(mapping, specObject, ReqIF10Util.getSpecType(specObject).getIdentifier(), id, name);
 			} else {
-				createdObject = creator.createReachableSection(specHierarchy.getLongName(), specHierarchy.getDesc(), specHierarchy.getIdentifier());
+				try {
+					createdObject = creator.createSection(specHierarchy.getLongName(), specHierarchy.getDesc(), specHierarchy.getIdentifier());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 
 			if(createdObject != null) {
 				if(children != null && !children.isEmpty()) {
-					if(createdObject instanceof ReachableSection) {
-						((ReachableSection)createdObject).getChildren().addAll(children);
+					if(createdObject instanceof Section) {
+						((Section)createdObject).getChildren().addAll(children);
 					} else {
 						logger.error("The element " + createdObject.getId() + " is not a Section Type, his children will be missed");
 					}
@@ -184,7 +184,12 @@ public class RMFUtils {
 		ElementMapping elementMapping = DataUtil.getElementMapping(mapping, sourceQualifier);
 		Contained createdObject = null;
 		if(elementMapping != null) {
-			createdObject = creator.addObject(elementMapping.getTargetElement(), id, name, id);
+			try {
+				createdObject = creator.addObject(elementMapping.getTargetElement(), id, name, id);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			addAttributes(elementMapping, specElement.getValues(), createdObject);
 		}
 		return createdObject;
@@ -204,12 +209,7 @@ public class RMFUtils {
 						if(targetAttribute.getEAttributeType() instanceof EEnum) {
 
 							EEnumLiteral enumLiteral = ((EEnum)targetAttribute.getEAttributeType()).getEEnumLiteral(name);
-							CustomDataModelFactory einstance = CustomDataModelFactory.eINSTANCE;
-
-							if(einstance instanceof CustomDataModelFactoryImpl) {
-								Object result = ((CustomDataModelFactoryImpl)einstance).createFromString(targetAttribute.getEAttributeType(), enumLiteral.getInstance().toString());
-								creator.addAttribute(attributeMapping, element, result);
-							}
+							creator.addAttribute(attributeMapping, element, enumLiteral);
 						}
 					}
 				}

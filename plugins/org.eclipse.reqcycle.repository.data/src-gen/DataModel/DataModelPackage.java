@@ -94,7 +94,7 @@ public interface DataModelPackage extends EPackage {
 	int REQUIREMENT_SOURCE__PROPERTIES = 2;
 
 	/**
-	 * The feature id for the '<em><b>Connector ID</b></em>' attribute.
+	 * The feature id for the '<em><b>Connector Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -103,13 +103,13 @@ public interface DataModelPackage extends EPackage {
 	int REQUIREMENT_SOURCE__CONNECTOR_ID = 3;
 
 	/**
-	 * The feature id for the '<em><b>Mapping</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Mappings</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT_SOURCE__MAPPING = 4;
+	int REQUIREMENT_SOURCE__MAPPINGS = 4;
 
 	/**
 	 * The number of structural features of the '<em>Requirement Source</em>' class.
@@ -194,14 +194,14 @@ public interface DataModelPackage extends EPackage {
 	int CONTAINED_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link DataModel.impl.ReachableSectionImpl <em>Reachable Section</em>}' class.
+	 * The meta object id for the '{@link DataModel.impl.SectionImpl <em>Section</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see DataModel.impl.ReachableSectionImpl
-	 * @see DataModel.impl.DataModelPackageImpl#getReachableSection()
+	 * @see DataModel.impl.SectionImpl
+	 * @see DataModel.impl.DataModelPackageImpl#getSection()
 	 * @generated
 	 */
-	int REACHABLE_SECTION = 2;
+	int SECTION = 2;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -210,7 +210,7 @@ public interface DataModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REACHABLE_SECTION__ID = CONTAINED__ID;
+	int SECTION__ID = CONTAINED__ID;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -219,7 +219,7 @@ public interface DataModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REACHABLE_SECTION__NAME = CONTAINED__NAME;
+	int SECTION__NAME = CONTAINED__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Uri</b></em>' attribute.
@@ -228,7 +228,7 @@ public interface DataModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REACHABLE_SECTION__URI = CONTAINED__URI;
+	int SECTION__URI = CONTAINED__URI;
 
 	/**
 	 * The feature id for the '<em><b>Scopes</b></em>' reference list.
@@ -237,7 +237,7 @@ public interface DataModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REACHABLE_SECTION__SCOPES = CONTAINED__SCOPES;
+	int SECTION__SCOPES = CONTAINED__SCOPES;
 
 	/**
 	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
@@ -246,89 +246,25 @@ public interface DataModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REACHABLE_SECTION__CHILDREN = CONTAINED_FEATURE_COUNT + 0;
+	int SECTION__CHILDREN = CONTAINED_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Reachable Section</em>' class.
+	 * The number of structural features of the '<em>Section</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REACHABLE_SECTION_FEATURE_COUNT = CONTAINED_FEATURE_COUNT + 1;
+	int SECTION_FEATURE_COUNT = CONTAINED_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of operations of the '<em>Reachable Section</em>' class.
+	 * The number of operations of the '<em>Section</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REACHABLE_SECTION_OPERATION_COUNT = CONTAINED_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link DataModel.impl.ReachableObjectImpl <em>Reachable Object</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see DataModel.impl.ReachableObjectImpl
-	 * @see DataModel.impl.DataModelPackageImpl#getReachableObject()
-	 * @generated
-	 */
-	int REACHABLE_OBJECT = 3;
-
-	/**
-	 * The feature id for the '<em><b>Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REACHABLE_OBJECT__ID = CONTAINED__ID;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REACHABLE_OBJECT__NAME = CONTAINED__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Uri</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REACHABLE_OBJECT__URI = CONTAINED__URI;
-
-	/**
-	 * The feature id for the '<em><b>Scopes</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REACHABLE_OBJECT__SCOPES = CONTAINED__SCOPES;
-
-	/**
-	 * The number of structural features of the '<em>Reachable Object</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REACHABLE_OBJECT_FEATURE_COUNT = CONTAINED_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of operations of the '<em>Reachable Object</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REACHABLE_OBJECT_OPERATION_COUNT = CONTAINED_OPERATION_COUNT + 0;
+	int SECTION_OPERATION_COUNT = CONTAINED_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link DataModel.impl.RequirementImpl <em>Requirement</em>}' class.
@@ -338,7 +274,7 @@ public interface DataModelPackage extends EPackage {
 	 * @see DataModel.impl.DataModelPackageImpl#getRequirement()
 	 * @generated
 	 */
-	int REQUIREMENT = 4;
+	int REQUIREMENT = 3;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -347,7 +283,7 @@ public interface DataModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT__ID = REACHABLE_OBJECT__ID;
+	int REQUIREMENT__ID = CONTAINED__ID;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -356,7 +292,7 @@ public interface DataModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT__NAME = REACHABLE_OBJECT__NAME;
+	int REQUIREMENT__NAME = CONTAINED__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Uri</b></em>' attribute.
@@ -365,7 +301,7 @@ public interface DataModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT__URI = REACHABLE_OBJECT__URI;
+	int REQUIREMENT__URI = CONTAINED__URI;
 
 	/**
 	 * The feature id for the '<em><b>Scopes</b></em>' reference list.
@@ -374,7 +310,7 @@ public interface DataModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT__SCOPES = REACHABLE_OBJECT__SCOPES;
+	int REQUIREMENT__SCOPES = CONTAINED__SCOPES;
 
 	/**
 	 * The number of structural features of the '<em>Requirement</em>' class.
@@ -383,7 +319,7 @@ public interface DataModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT_FEATURE_COUNT = REACHABLE_OBJECT_FEATURE_COUNT + 0;
+	int REQUIREMENT_FEATURE_COUNT = CONTAINED_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Requirement</em>' class.
@@ -392,7 +328,7 @@ public interface DataModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT_OPERATION_COUNT = REACHABLE_OBJECT_OPERATION_COUNT + 0;
+	int REQUIREMENT_OPERATION_COUNT = CONTAINED_OPERATION_COUNT + 0;
 
 
 	/**
@@ -403,7 +339,7 @@ public interface DataModelPackage extends EPackage {
 	 * @see DataModel.impl.DataModelPackageImpl#getRequirementSection()
 	 * @generated
 	 */
-	int REQUIREMENT_SECTION = 5;
+	int REQUIREMENT_SECTION = 4;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -412,7 +348,7 @@ public interface DataModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT_SECTION__ID = REACHABLE_OBJECT__ID;
+	int REQUIREMENT_SECTION__ID = REQUIREMENT__ID;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -421,7 +357,7 @@ public interface DataModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT_SECTION__NAME = REACHABLE_OBJECT__NAME;
+	int REQUIREMENT_SECTION__NAME = REQUIREMENT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Uri</b></em>' attribute.
@@ -430,7 +366,7 @@ public interface DataModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT_SECTION__URI = REACHABLE_OBJECT__URI;
+	int REQUIREMENT_SECTION__URI = REQUIREMENT__URI;
 
 	/**
 	 * The feature id for the '<em><b>Scopes</b></em>' reference list.
@@ -439,7 +375,7 @@ public interface DataModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT_SECTION__SCOPES = REACHABLE_OBJECT__SCOPES;
+	int REQUIREMENT_SECTION__SCOPES = REQUIREMENT__SCOPES;
 
 	/**
 	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
@@ -448,7 +384,7 @@ public interface DataModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT_SECTION__CHILDREN = REACHABLE_OBJECT_FEATURE_COUNT + 0;
+	int REQUIREMENT_SECTION__CHILDREN = REQUIREMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Requirement Section</em>' class.
@@ -457,7 +393,7 @@ public interface DataModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT_SECTION_FEATURE_COUNT = REACHABLE_OBJECT_FEATURE_COUNT + 1;
+	int REQUIREMENT_SECTION_FEATURE_COUNT = REQUIREMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Requirement Section</em>' class.
@@ -466,7 +402,7 @@ public interface DataModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT_SECTION_OPERATION_COUNT = REACHABLE_OBJECT_OPERATION_COUNT + 0;
+	int REQUIREMENT_SECTION_OPERATION_COUNT = REQUIREMENT_OPERATION_COUNT + 0;
 
 
 	/**
@@ -477,7 +413,7 @@ public interface DataModelPackage extends EPackage {
 	 * @see DataModel.impl.DataModelPackageImpl#getScope()
 	 * @generated
 	 */
-	int SCOPE = 6;
+	int SCOPE = 5;
 
 	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
@@ -489,13 +425,22 @@ public interface DataModelPackage extends EPackage {
 	int SCOPE__REQUIREMENTS = 0;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCOPE__NAME = 1;
+
+	/**
 	 * The number of structural features of the '<em>Scope</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCOPE_FEATURE_COUNT = 1;
+	int SCOPE_FEATURE_COUNT = 2;
 
 	/**
 	 * The number of operations of the '<em>Scope</em>' class.
@@ -505,81 +450,6 @@ public interface DataModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int SCOPE_OPERATION_COUNT = 0;
-
-	/**
-	 * The meta object id for the '{@link DataModel.impl.SystemImpl <em>System</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see DataModel.impl.SystemImpl
-	 * @see DataModel.impl.DataModelPackageImpl#getSystem()
-	 * @generated
-	 */
-	int SYSTEM = 7;
-
-	/**
-	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SYSTEM__REQUIREMENTS = SCOPE__REQUIREMENTS;
-
-	/**
-	 * The number of structural features of the '<em>System</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SYSTEM_FEATURE_COUNT = SCOPE_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of operations of the '<em>System</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SYSTEM_OPERATION_COUNT = SCOPE_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link DataModel.impl.CustomerImpl <em>Customer</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see DataModel.impl.CustomerImpl
-	 * @see DataModel.impl.DataModelPackageImpl#getCustomer()
-	 * @generated
-	 */
-	int CUSTOMER = 8;
-
-	/**
-	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CUSTOMER__REQUIREMENTS = SCOPE__REQUIREMENTS;
-
-	/**
-	 * The number of structural features of the '<em>Customer</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CUSTOMER_FEATURE_COUNT = SCOPE_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of operations of the '<em>Customer</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CUSTOMER_OPERATION_COUNT = SCOPE_OPERATION_COUNT + 0;
-
 
 	/**
 	 * Returns the meta object for class '{@link DataModel.RequirementSource <em>Requirement Source</em>}'.
@@ -625,26 +495,26 @@ public interface DataModelPackage extends EPackage {
 	EReference getRequirementSource_Properties();
 
 	/**
-	 * Returns the meta object for the attribute '{@link DataModel.RequirementSource#getConnectorID <em>Connector ID</em>}'.
+	 * Returns the meta object for the attribute '{@link DataModel.RequirementSource#getConnectorId <em>Connector Id</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Connector ID</em>'.
-	 * @see DataModel.RequirementSource#getConnectorID()
+	 * @return the meta object for the attribute '<em>Connector Id</em>'.
+	 * @see DataModel.RequirementSource#getConnectorId()
 	 * @see #getRequirementSource()
 	 * @generated
 	 */
-	EAttribute getRequirementSource_ConnectorID();
+	EAttribute getRequirementSource_ConnectorId();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link DataModel.RequirementSource#getMapping <em>Mapping</em>}'.
+	 * Returns the meta object for the containment reference list '{@link DataModel.RequirementSource#getMappings <em>Mappings</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Mapping</em>'.
-	 * @see DataModel.RequirementSource#getMapping()
+	 * @return the meta object for the containment reference list '<em>Mappings</em>'.
+	 * @see DataModel.RequirementSource#getMappings()
 	 * @see #getRequirementSource()
 	 * @generated
 	 */
-	EReference getRequirementSource_Mapping();
+	EReference getRequirementSource_Mappings();
 
 	/**
 	 * Returns the meta object for class '{@link DataModel.Contained <em>Contained</em>}'.
@@ -701,35 +571,25 @@ public interface DataModelPackage extends EPackage {
 	EReference getContained_Scopes();
 
 	/**
-	 * Returns the meta object for class '{@link DataModel.ReachableSection <em>Reachable Section</em>}'.
+	 * Returns the meta object for class '{@link DataModel.Section <em>Section</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Reachable Section</em>'.
-	 * @see DataModel.ReachableSection
+	 * @return the meta object for class '<em>Section</em>'.
+	 * @see DataModel.Section
 	 * @generated
 	 */
-	EClass getReachableSection();
+	EClass getSection();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link DataModel.ReachableSection#getChildren <em>Children</em>}'.
+	 * Returns the meta object for the containment reference list '{@link DataModel.Section#getChildren <em>Children</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Children</em>'.
-	 * @see DataModel.ReachableSection#getChildren()
-	 * @see #getReachableSection()
+	 * @see DataModel.Section#getChildren()
+	 * @see #getSection()
 	 * @generated
 	 */
-	EReference getReachableSection_Children();
-
-	/**
-	 * Returns the meta object for class '{@link DataModel.ReachableObject <em>Reachable Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Reachable Object</em>'.
-	 * @see DataModel.ReachableObject
-	 * @generated
-	 */
-	EClass getReachableObject();
+	EReference getSection_Children();
 
 	/**
 	 * Returns the meta object for class '{@link DataModel.Requirement <em>Requirement</em>}'.
@@ -773,24 +633,15 @@ public interface DataModelPackage extends EPackage {
 	EReference getScope_Requirements();
 
 	/**
-	 * Returns the meta object for class '{@link DataModel.System <em>System</em>}'.
+	 * Returns the meta object for the attribute '{@link DataModel.Scope#getName <em>Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>System</em>'.
-	 * @see DataModel.System
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see DataModel.Scope#getName()
+	 * @see #getScope()
 	 * @generated
 	 */
-	EClass getSystem();
-
-	/**
-	 * Returns the meta object for class '{@link DataModel.Customer <em>Customer</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Customer</em>'.
-	 * @see DataModel.Customer
-	 * @generated
-	 */
-	EClass getCustomer();
+	EAttribute getScope_Name();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -850,20 +701,20 @@ public interface DataModelPackage extends EPackage {
 		EReference REQUIREMENT_SOURCE__PROPERTIES = eINSTANCE.getRequirementSource_Properties();
 
 		/**
-		 * The meta object literal for the '<em><b>Connector ID</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Connector Id</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute REQUIREMENT_SOURCE__CONNECTOR_ID = eINSTANCE.getRequirementSource_ConnectorID();
+		EAttribute REQUIREMENT_SOURCE__CONNECTOR_ID = eINSTANCE.getRequirementSource_ConnectorId();
 
 		/**
-		 * The meta object literal for the '<em><b>Mapping</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Mappings</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference REQUIREMENT_SOURCE__MAPPING = eINSTANCE.getRequirementSource_Mapping();
+		EReference REQUIREMENT_SOURCE__MAPPINGS = eINSTANCE.getRequirementSource_Mappings();
 
 		/**
 		 * The meta object literal for the '{@link DataModel.impl.ContainedImpl <em>Contained</em>}' class.
@@ -908,14 +759,14 @@ public interface DataModelPackage extends EPackage {
 		EReference CONTAINED__SCOPES = eINSTANCE.getContained_Scopes();
 
 		/**
-		 * The meta object literal for the '{@link DataModel.impl.ReachableSectionImpl <em>Reachable Section</em>}' class.
+		 * The meta object literal for the '{@link DataModel.impl.SectionImpl <em>Section</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see DataModel.impl.ReachableSectionImpl
-		 * @see DataModel.impl.DataModelPackageImpl#getReachableSection()
+		 * @see DataModel.impl.SectionImpl
+		 * @see DataModel.impl.DataModelPackageImpl#getSection()
 		 * @generated
 		 */
-		EClass REACHABLE_SECTION = eINSTANCE.getReachableSection();
+		EClass SECTION = eINSTANCE.getSection();
 
 		/**
 		 * The meta object literal for the '<em><b>Children</b></em>' containment reference list feature.
@@ -923,17 +774,7 @@ public interface DataModelPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference REACHABLE_SECTION__CHILDREN = eINSTANCE.getReachableSection_Children();
-
-		/**
-		 * The meta object literal for the '{@link DataModel.impl.ReachableObjectImpl <em>Reachable Object</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see DataModel.impl.ReachableObjectImpl
-		 * @see DataModel.impl.DataModelPackageImpl#getReachableObject()
-		 * @generated
-		 */
-		EClass REACHABLE_OBJECT = eINSTANCE.getReachableObject();
+		EReference SECTION__CHILDREN = eINSTANCE.getSection_Children();
 
 		/**
 		 * The meta object literal for the '{@link DataModel.impl.RequirementImpl <em>Requirement</em>}' class.
@@ -974,24 +815,12 @@ public interface DataModelPackage extends EPackage {
 		EReference SCOPE__REQUIREMENTS = eINSTANCE.getScope_Requirements();
 
 		/**
-		 * The meta object literal for the '{@link DataModel.impl.SystemImpl <em>System</em>}' class.
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see DataModel.impl.SystemImpl
-		 * @see DataModel.impl.DataModelPackageImpl#getSystem()
 		 * @generated
 		 */
-		EClass SYSTEM = eINSTANCE.getSystem();
-
-		/**
-		 * The meta object literal for the '{@link DataModel.impl.CustomerImpl <em>Customer</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see DataModel.impl.CustomerImpl
-		 * @see DataModel.impl.DataModelPackageImpl#getCustomer()
-		 * @generated
-		 */
-		EClass CUSTOMER = eINSTANCE.getCustomer();
+		EAttribute SCOPE__NAME = eINSTANCE.getScope_Name();
 
 	}
 

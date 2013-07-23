@@ -2,15 +2,12 @@
  */
 package DataModel.util;
 
+import DataModel.*;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
-
 import DataModel.Contained;
-import DataModel.Customer;
 import DataModel.DataModelPackage;
-import DataModel.ReachableObject;
-import DataModel.ReachableSection;
 import DataModel.Requirement;
 import DataModel.RequirementSection;
 import DataModel.RequirementSource;
@@ -85,24 +82,16 @@ public class DataModelSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case DataModelPackage.REACHABLE_SECTION: {
-				ReachableSection reachableSection = (ReachableSection)theEObject;
-				T result = caseReachableSection(reachableSection);
-				if (result == null) result = caseContained(reachableSection);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case DataModelPackage.REACHABLE_OBJECT: {
-				ReachableObject reachableObject = (ReachableObject)theEObject;
-				T result = caseReachableObject(reachableObject);
-				if (result == null) result = caseContained(reachableObject);
+			case DataModelPackage.SECTION: {
+				Section section = (Section)theEObject;
+				T result = caseSection(section);
+				if (result == null) result = caseContained(section);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case DataModelPackage.REQUIREMENT: {
 				Requirement requirement = (Requirement)theEObject;
 				T result = caseRequirement(requirement);
-				if (result == null) result = caseReachableObject(requirement);
 				if (result == null) result = caseContained(requirement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -110,8 +99,8 @@ public class DataModelSwitch<T> extends Switch<T> {
 			case DataModelPackage.REQUIREMENT_SECTION: {
 				RequirementSection requirementSection = (RequirementSection)theEObject;
 				T result = caseRequirementSection(requirementSection);
-				if (result == null) result = caseReachableObject(requirementSection);
-				if (result == null) result = caseReachableSection(requirementSection);
+				if (result == null) result = caseRequirement(requirementSection);
+				if (result == null) result = caseSection(requirementSection);
 				if (result == null) result = caseContained(requirementSection);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -119,20 +108,6 @@ public class DataModelSwitch<T> extends Switch<T> {
 			case DataModelPackage.SCOPE: {
 				Scope scope = (Scope)theEObject;
 				T result = caseScope(scope);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case DataModelPackage.SYSTEM: {
-				DataModel.System system = (DataModel.System)theEObject;
-				T result = caseSystem(system);
-				if (result == null) result = caseScope(system);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case DataModelPackage.CUSTOMER: {
-				Customer customer = (Customer)theEObject;
-				T result = caseCustomer(customer);
-				if (result == null) result = caseScope(customer);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -171,32 +146,17 @@ public class DataModelSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Reachable Section</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Section</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Reachable Section</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Section</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseReachableSection(ReachableSection object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Reachable Object</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Reachable Object</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseReachableObject(ReachableObject object) {
+	public T caseSection(Section object) {
 		return null;
 	}
 
@@ -242,36 +202,6 @@ public class DataModelSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseScope(Scope object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>System</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>System</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseSystem(DataModel.System object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Customer</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Customer</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseCustomer(Customer object) {
 		return null;
 	}
 

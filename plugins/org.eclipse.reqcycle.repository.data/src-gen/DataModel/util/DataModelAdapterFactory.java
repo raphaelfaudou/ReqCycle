@@ -2,16 +2,13 @@
  */
 package DataModel.util;
 
+import DataModel.*;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-
 import DataModel.Contained;
-import DataModel.Customer;
 import DataModel.DataModelPackage;
-import DataModel.ReachableObject;
-import DataModel.ReachableSection;
 import DataModel.Requirement;
 import DataModel.RequirementSection;
 import DataModel.RequirementSource;
@@ -82,12 +79,8 @@ public class DataModelAdapterFactory extends AdapterFactoryImpl {
 				return createContainedAdapter();
 			}
 			@Override
-			public Adapter caseReachableSection(ReachableSection object) {
-				return createReachableSectionAdapter();
-			}
-			@Override
-			public Adapter caseReachableObject(ReachableObject object) {
-				return createReachableObjectAdapter();
+			public Adapter caseSection(Section object) {
+				return createSectionAdapter();
 			}
 			@Override
 			public Adapter caseRequirement(Requirement object) {
@@ -100,14 +93,6 @@ public class DataModelAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseScope(Scope object) {
 				return createScopeAdapter();
-			}
-			@Override
-			public Adapter caseSystem(DataModel.System object) {
-				return createSystemAdapter();
-			}
-			@Override
-			public Adapter caseCustomer(Customer object) {
-				return createCustomerAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -158,30 +143,16 @@ public class DataModelAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link DataModel.ReachableSection <em>Reachable Section</em>}'.
+	 * Creates a new adapter for an object of class '{@link DataModel.Section <em>Section</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see DataModel.ReachableSection
+	 * @see DataModel.Section
 	 * @generated
 	 */
-	public Adapter createReachableSectionAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link DataModel.ReachableObject <em>Reachable Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see DataModel.ReachableObject
-	 * @generated
-	 */
-	public Adapter createReachableObjectAdapter() {
+	public Adapter createSectionAdapter() {
 		return null;
 	}
 
@@ -224,34 +195,6 @@ public class DataModelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createScopeAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link DataModel.System <em>System</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see DataModel.System
-	 * @generated
-	 */
-	public Adapter createSystemAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link DataModel.Customer <em>Customer</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see DataModel.Customer
-	 * @generated
-	 */
-	public Adapter createCustomerAdapter() {
 		return null;
 	}
 

@@ -10,7 +10,6 @@ import DataModel.RequirementSource;
 public class LocalConnector implements IConnector {
 
 	public LocalConnector() {
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

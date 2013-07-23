@@ -3,7 +3,6 @@
 package DataModel.impl;
 
 import org.eclipse.emf.ecore.EClass;
-
 import DataModel.DataModelPackage;
 import DataModel.Requirement;
 
@@ -16,7 +15,8 @@ import DataModel.Requirement;
  *
  * @generated
  */
-public class RequirementImpl extends ReachableObjectImpl implements Requirement {
+public class RequirementImpl extends 
+ContainedImpl implements Requirement {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

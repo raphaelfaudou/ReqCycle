@@ -16,9 +16,12 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
+import org.eclipse.emf.edit.provider.ViewerNotification;
 import DataModel.DataModelPackage;
+import DataModel.Scope;
 
 /**
  * This is the item provider adapter for a {@link DataModel.Scope} object.
@@ -56,6 +59,7 @@ public class ScopeItemProvider
 			super.getPropertyDescriptors(object);
 
 			addRequirementsPropertyDescriptor(object);
+			addNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -83,6 +87,39 @@ public class ScopeItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Name feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addNamePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Scope_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Scope_name_feature", "_UI_Scope_type"),
+				 DataModelPackage.Literals.SCOPE__NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This returns Scope.gif.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object getImage(Object object) {
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Scope"));
+	}
+
+	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -90,7 +127,10 @@ public class ScopeItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_Scope_type");
+		String label = ((Scope)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_Scope_type") :
+			getString("_UI_Scope_type") + " " + label;
 	}
 
 	/**
@@ -103,6 +143,12 @@ public class ScopeItemProvider
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
+
+		switch (notification.getFeatureID(Scope.class)) {
+			case DataModelPackage.SCOPE__NAME:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+		}
 		super.notifyChanged(notification);
 	}
 

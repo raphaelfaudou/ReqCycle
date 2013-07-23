@@ -28,9 +28,9 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 import DataModel.Contained;
-import DataModel.ReachableSection;
 import DataModel.Requirement;
 import DataModel.RequirementSource;
+import DataModel.Section;
 
 public class RequirementContentProvider implements ITreeContentProvider, IStructuredContentProvider {
 
@@ -74,8 +74,8 @@ public class RequirementContentProvider implements ITreeContentProvider, IStruct
             RequirementSource reqSource = (RequirementSource) parentElement;
             return reqSource.getRequirements().toArray();
 
-        } else if (parentElement instanceof ReachableSection) {
-            EList<Contained> children = ((ReachableSection) parentElement).getChildren();
+        } else if (parentElement instanceof Section) {
+            EList<Contained> children = ((Section) parentElement).getChildren();
             return (Contained[]) children.toArray(new Contained[children.size()]);
         }
 
@@ -90,7 +90,7 @@ public class RequirementContentProvider implements ITreeContentProvider, IStruct
 
 	@Override
 	public boolean hasChildren(Object element) {
-		if(element instanceof RequirementSource || (element instanceof ReachableSection && !((ReachableSection)element).getChildren().isEmpty()))
+		if(element instanceof RequirementSource || (element instanceof Section && !((Section)element).getChildren().isEmpty()))
 		{
 			return true;
 		}
