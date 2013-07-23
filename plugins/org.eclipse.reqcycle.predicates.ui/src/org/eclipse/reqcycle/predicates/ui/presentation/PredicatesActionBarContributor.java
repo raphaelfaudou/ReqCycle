@@ -4,6 +4,7 @@ package org.eclipse.reqcycle.predicates.ui.presentation;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -30,6 +31,7 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.reqcycle.predicates.core.api.IPredicate;
 import org.eclipse.reqcycle.predicates.ui.PredicatesUIPlugin;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
@@ -244,6 +246,7 @@ public class PredicatesActionBarContributor
     public void selectionChanged(SelectionChangedEvent event) {
         // Remove any menu items for old selection.
         //
+
         if (createChildMenuManager != null) {
             depopulateManager(createChildMenuManager, createChildActions);
         }
@@ -257,10 +260,10 @@ public class PredicatesActionBarContributor
         Collection<?> newSiblingDescriptors = null;
 
         ISelection selection = event.getSelection();
-        if (selection instanceof IStructuredSelection && ((IStructuredSelection)selection).size() == 1) {
-            Object object = ((IStructuredSelection)selection).getFirstElement();
+        if (selection instanceof IStructuredSelection && ((IStructuredSelection) selection).size() == 1) {
+            Object object = ((IStructuredSelection) selection).getFirstElement();
 
-            EditingDomain domain = ((IEditingDomainProvider)activeEditorPart).getEditingDomain();
+            EditingDomain domain = ((IEditingDomainProvider) activeEditorPart).getEditingDomain();
 
             newChildDescriptors = domain.getNewChildDescriptors(object, null);
             newSiblingDescriptors = domain.getNewChildDescriptors(null, object);
@@ -280,6 +283,7 @@ public class PredicatesActionBarContributor
             createSiblingMenuManager.update(true);
         }
     }
+    
 
     /**
      * This generates a {@link org.eclipse.emf.edit.ui.action.CreateChildAction} for each object in <code>descriptors</code>,
@@ -368,23 +372,47 @@ public class PredicatesActionBarContributor
     }
 
     /**
-     * This populates the pop-up menu before it appears.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
+     * This populates the pop-up menu before it appears. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated NOT
      */
     @Override
     public void menuAboutToShow(IMenuManager menuManager) {
+
+        ISelection selection = getActiveEditor().getSite().getSelectionProvider().getSelection();
+        boolean showCreationsMenu = true;
+        if (selection instanceof IStructuredSelection) {
+            Object element = ((IStructuredSelection) selection).getFirstElement();
+            if (element instanceof IPredicate) {
+                showCreationsMenu = !isCustomPredicate((IPredicate) element);
+            }
+        }
+
         super.menuAboutToShow(menuManager);
         MenuManager submenuManager = null;
 
-        submenuManager = new MenuManager(PredicatesUIPlugin.INSTANCE.getString("_UI_CreateChild_menu_item"));
-        populateManager(submenuManager, createChildActions, null);
-        menuManager.insertBefore("edit", submenuManager);
+        if (showCreationsMenu) {
+            submenuManager = new MenuManager(PredicatesUIPlugin.INSTANCE.getString("_UI_CreateChild_menu_item"));
+            populateManager(submenuManager, createChildActions, null);
+            menuManager.insertBefore("edit", submenuManager);
 
-        submenuManager = new MenuManager(PredicatesUIPlugin.INSTANCE.getString("_UI_CreateSibling_menu_item"));
-        populateManager(submenuManager, createSiblingActions, null);
-        menuManager.insertBefore("edit", submenuManager);
+            submenuManager = new MenuManager(PredicatesUIPlugin.INSTANCE.getString("_UI_CreateSibling_menu_item"));
+            populateManager(submenuManager, createSiblingActions, null);
+            menuManager.insertBefore("edit", submenuManager);
+        }
+    }
+
+    private boolean isCustomPredicate(IPredicate predicate) {
+
+        if (predicate.getDisplayName() != null) {
+            return true;
+        }
+
+        if (predicate.eContainer() instanceof IPredicate) {
+            return isCustomPredicate((IPredicate) predicate.eContainer());
+        }
+
+        return false;
     }
 
     /**

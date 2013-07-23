@@ -1,8 +1,10 @@
 package org.eclipse.reqcycle.repository.ui.actions;
 
-import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -21,10 +23,6 @@ import org.eclipse.reqcycle.predicates.core.util.PredicatesUtil;
 import org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditor;
 import org.eclipse.reqcycle.ui.components.dialogs.ComboInputDialog;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.ide.IDE;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.RequirementSource;
@@ -51,20 +49,30 @@ public class OpenPredicatesEditorAction extends Action {
         ISelection selection = viewer.getSelection();
         if (selection instanceof IStructuredSelection) {
 
-            final Object obj = ((IStructuredSelection) selection).getFirstElement();
-            if (obj instanceof RequirementSource) {
-                final Collection<EClass> eClasses = ((RequirementSource) obj).getTargetEPackage();
-                try {
-                    IPredicate selectedPredicate = selectRootPredicate();
-                    if (selectedPredicate != null) {
-                        openEditor(eClasses, selectedPredicate);
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    logger.error("Unable to open the Predicates Editor : " + e.toString());
-                    logger.error(e.toString());
+            final Collection<RequirementSource> selectedReqSources = new ArrayList<RequirementSource>();
+            for (Iterator<?> iterator = ((IStructuredSelection) selection).iterator(); iterator.hasNext();) {
+                Object obj = iterator.next();
+                if (obj instanceof RequirementSource) {
+                    selectedReqSources.add((RequirementSource) obj);
                 }
+            }
+            // The set of EClass to pass to the Predicates Editor.
+            final Set<EClass> eClasses = new HashSet<EClass>();
+            for (Iterator<RequirementSource> iterator = selectedReqSources.iterator(); iterator.hasNext();) {
+                RequirementSource reqSource = (RequirementSource) iterator.next();
+                eClasses.addAll(((RequirementSource) reqSource).getTargetEPackage());
+            }
+
+            try {
+                IPredicate selectedPredicate = selectRootPredicate();
+                if (selectedPredicate != null) {
+                    PredicatesEditor.openEditor(eClasses, selectedPredicate);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                logger.error("Unable to open the Predicates Editor : " + e.toString());
+                logger.error(e.toString());
             }
         }
     }
@@ -84,47 +92,6 @@ public class OpenPredicatesEditorAction extends Action {
             return (IPredicate) dialog.getSelectedItem();
         }
         return null;
-    }
-
-    public void openEditor(Object input, IPredicate rootPredicate) {
-        try {
-            final File f = File.createTempFile("predicate", ".predicates");
-            Runtime.getRuntime().addShutdownHook(new ShutDownHook(f));
-
-            IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-            PredicatesEditor editor = (PredicatesEditor) IDE.openEditor(page, f.toURI(), PredicatesEditor.ID, true);
-            editor.setRootPredicate(rootPredicate);
-            editor.setInput(input);
-            editor.hideButtonLoadModel();
-
-        } catch (PartInitException e) {
-            e.printStackTrace();
-            logger.error("Unable to open the predicates Editor : " + e.getMessage());
-            logger.error(e.toString());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            logger.error("Unable to create the predicates temporary file : " + e.getMessage());
-            logger.error(e.toString());
-        }
-    }
-
-    private static class ShutDownHook extends Thread {
-
-        private final File file;
-
-        public ShutDownHook(File file) {
-            super();
-            this.file = file;
-        }
-
-        @Override
-        public void run() {
-            try {
-                if (this.file.exists()) this.file.delete();
-            } catch (Exception e) {
-            }
-        }
     }
 
 }

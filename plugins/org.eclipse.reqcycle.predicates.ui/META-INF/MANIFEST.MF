@@ -17,8 +17,11 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.eclipse.emf.edit.ui;visibility:=reexport,
  org.eclipse.ui.ide;visibility:=reexport,
- org.apache.commons.lang;bundle-version="2.6.0",
+ org.apache.commons.lang;bundle-version="2.6.0";visibility:=reexport,
  org.eclipse.reqcycle.predicates.core;visibility:=reexport,
- org.eclipse.reqcycle.ui.eattrpropseditor,
- org.eclipse.reqcycle.predicates.persistance;bundle-version="0.1.0";visibility:=reexport
+ org.eclipse.reqcycle.ui.eattrpropseditor;visibility:=reexport,
+ org.eclipse.reqcycle.predicates.persistance;bundle-version="0.1.0";visibility:=reexport,
+ org.eclipse.reqcycle.core;bundle-version="1.0.0";visibility:=reexport,
+ org.eclipse.ziggurat.inject;bundle-version="1.0.0";visibility:=reexport
 Bundle-ActivationPolicy: lazy
+Import-Package: javax.inject;version="1.0.0"

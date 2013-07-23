@@ -2,13 +2,19 @@ package org.eclipse.reqcycle.predicates.ui.components;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.eclipse.emf.common.ui.dialogs.ResourceDialog;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -26,8 +32,10 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
+import org.eclipse.reqcycle.predicates.core.api.IEAttrPredicate;
 import org.eclipse.reqcycle.predicates.core.api.IPredicate;
 import org.eclipse.reqcycle.predicates.core.util.PredicatesUtil;
 import org.eclipse.reqcycle.predicates.persistance.util.PredicatesConfManager;
@@ -44,6 +52,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 
 public class RightPanelComposite extends Composite {
@@ -59,6 +69,8 @@ public class RightPanelComposite extends Composite {
     private InputDialog                 savePredicateDialog;
 
     private final PredicatesConfManager confManager;
+
+    private Button                      expandCustomPredicatesButton;
 
     public RightPanelComposite(Composite parent, PredicatesEditor editor, boolean showButtonLoadModel) {
 
@@ -83,6 +95,32 @@ public class RightPanelComposite extends Composite {
         compositeButtons.setToolTipText("Whether or not to expand the model by showing all references and features.");
         compositeButtons.setLayout(new GridLayout(3, false));
         compositeButtons.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+
+        this.expandCustomPredicatesButton = new Button(compositeButtons, SWT.CHECK);
+        this.expandCustomPredicatesButton.setText("Allow expand of custom predicates");
+        this.expandCustomPredicatesButton
+                .setToolTipText("Show or hide custom predicates contents from the tree viewer.");
+        this.expandCustomPredicatesButton.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                PredicatesTreeViewer predicatesTreeViewer = predicatesEditor.getPredicatesTreeViewer();
+                boolean mayExpandCustomPredicates = expandCustomPredicatesButton.getSelection();
+                predicatesTreeViewer.setMayExpandCustomPredicates(mayExpandCustomPredicates);
+                if (!mayExpandCustomPredicates) {
+                    // collapse all custom predicates.
+                    Object[] expandedElements = predicatesTreeViewer.getExpandedElements();
+                    for (Object expandedElement : expandedElements) {
+                        if (expandedElement instanceof IPredicate) {
+                            if (((IPredicate) expandedElement).getDisplayName() != null) {
+                                predicatesTreeViewer.collapseToLevel(expandedElement, TreeViewer.ALL_LEVELS);
+                            }
+                        }
+                    }
+                }
+                predicatesTreeViewer.refresh();
+            }
+        });
+        this.expandCustomPredicatesButton.setSelection(false);
 
         this.btnLoadModel = new Button(compositeButtons, SWT.NONE);
         this.btnLoadModel.setText("Load Base Model");
@@ -129,6 +167,8 @@ public class RightPanelComposite extends Composite {
                     predicatesEditor.setUseExtendedFeature(btnUseExtendedFeature.getSelection());
                 }
             });
+            btnUseExtendedFeature.setVisible(false); // TODO : make it visible whenever the editor supports editions of
+                                                     // EReferences.
         }
     }
 
@@ -225,6 +265,8 @@ public class RightPanelComposite extends Composite {
                 tableViewerOfCustomPredicates) {
         });
 
+        this.initTableMenuOfCustomPredicates(tableOfCustomPredicates);
+
         Composite compositeButtons = new Composite(grpCustomPredicates, SWT.NONE);
         compositeButtons.setLayout(new GridLayout(2, false));
         compositeButtons.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
@@ -295,6 +337,48 @@ public class RightPanelComposite extends Composite {
                 }
             }
         });
+    }
+
+    private void initTableMenuOfCustomPredicates(final Table table) {
+        Menu menu = new Menu(table);
+        table.setMenu(menu);
+
+        MenuItem menuItemAdd = new MenuItem(menu, SWT.NONE);
+        menuItemAdd.setText("Edit");
+        menuItemAdd.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                int selectionIndex = tableViewerOfCustomPredicates.getTable().getSelectionIndex();
+                IPredicate predicateToEdit = (IPredicate) tableViewerOfCustomPredicates.getElementAt(selectionIndex);
+                openPredicateForEdition(predicateToEdit);
+            }
+        });
+    }
+
+    private void openPredicateForEdition(IPredicate predicate) {
+        // FIXME : retrieve correctly the complete list of EClass of the model to which this predicate is going to be
+        // applied.
+        final Set<EClass> input = new HashSet<EClass>();
+        for (Iterator<EObject> iter = predicate.eAllContents(); iter.hasNext();) {
+            EObject content = iter.next();
+            if (content instanceof IEAttrPredicate) {
+                IEAttrPredicate eAttrPredicate = (IEAttrPredicate) content;
+                Object obj = eAttrPredicate.eGet(eAttrPredicate.eClass().getEStructuralFeature("typedElement"));
+                if (obj instanceof EStructuralFeature) {
+                    EObject eContainer = ((EStructuralFeature) obj).eContainer();
+                    if (eContainer instanceof EClass) {
+                        EList<EClassifier> eClassifiers = ((EClass) eContainer).getEPackage().getEClassifiers();
+                        for (EClassifier eClassifier : eClassifiers) {
+                            if (eClassifier instanceof EClass) {
+                                input.add((EClass) eClassifier);
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        PredicatesEditor.openEditor(input, predicate);
     }
 
     private int openInputDialog() {

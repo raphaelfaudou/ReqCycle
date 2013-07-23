@@ -1,6 +1,9 @@
 package org.eclipse.reqcycle.predicates.ui.providers;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
@@ -43,12 +46,33 @@ public class EnhancedPredicatesTreeLabelProvider implements ILabelProvider {
     @Override
     public String getText(Object element) {
         if (element instanceof IPredicate) {
-            String displayName = ((IPredicate) element).getDisplayName();
+            IPredicate predicate = (IPredicate) element;
+            String displayName = predicate.getDisplayName();
             if (displayName != null) {
+                EObject firstContent = this.getFirstElement(predicate.eResource());
+                if (predicate.equals(firstContent)) {
+                    return labelProvider.getText(element);
+                }
                 return displayName;
+            }
+        } else if (element instanceof Resource) {
+            EObject firstContent = this.getFirstElement((Resource) element);
+            if (firstContent instanceof IPredicate) {
+                String displayName = ((IPredicate) firstContent).getDisplayName();
+                return displayName == null ? "[New predicate] *" : displayName; //$NON-NLS-1$
             }
         }
         return labelProvider.getText(element);
+    }
+
+    private EObject getFirstElement(final Resource resource) {
+        if (resource != null) {
+            EList<EObject> contents = resource.getContents();
+            if (!contents.isEmpty()) {
+                return contents.get(0);
+            }
+        }
+        return null;
     }
 
 }

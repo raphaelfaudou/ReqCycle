@@ -2,6 +2,7 @@
  */
 package org.eclipse.reqcycle.predicates.ui.presentation;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -54,7 +57,6 @@ import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 import org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTreeEditor;
-import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
@@ -85,11 +87,13 @@ import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.predicates.core.api.IPredicate;
 import org.eclipse.reqcycle.predicates.ui.PredicatesUIPlugin;
 import org.eclipse.reqcycle.predicates.ui.components.PredicatesTreeViewer;
 import org.eclipse.reqcycle.predicates.ui.components.RightPanelComposite;
 import org.eclipse.reqcycle.predicates.ui.listeners.PredicatesTreeDoubleClickListener;
+import org.eclipse.reqcycle.predicates.ui.listeners.PredicatesTreeViewerDropAdapter;
 import org.eclipse.reqcycle.predicates.ui.providers.EnhancedPredicatesTreeLabelProvider;
 import org.eclipse.reqcycle.predicates.ui.providers.PredicatesItemProviderAdapterFactory;
 import org.eclipse.swt.SWT;
@@ -110,10 +114,13 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IPartListener;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
+import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
@@ -123,6 +130,7 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 /**
  * This is an example of a Predicates model editor. <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -134,6 +142,9 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 
     /** The id of this editor. */
     public static final String                      ID                        = "org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditorID";
+
+    @Inject
+    private static ILogger                          logger                    = ZigguratInject.make(ILogger.class);
 
     /** Represents the dirtiness status of the editor. */
     private boolean                                 dirty;
@@ -926,7 +937,7 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
      * This creates a context menu for the viewer and adds a listener as well registering the menu for extension. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @generated
+     * @generated NOT
      */
     protected void createContextMenuFor(StructuredViewer viewer) {
         MenuManager contextMenu = new MenuManager("#PopUp");
@@ -941,7 +952,7 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
         Transfer[] transfers = new Transfer[] { LocalTransfer.getInstance(), LocalSelectionTransfer.getTransfer(),
                 FileTransfer.getInstance() };
         viewer.addDragSupport(dndOperations, transfers, new ViewerDragAdapter(viewer));
-        viewer.addDropSupport(dndOperations, transfers, new EditingDomainViewerDropAdapter(editingDomain, viewer));
+        viewer.addDropSupport(dndOperations, transfers, new PredicatesTreeViewerDropAdapter(editingDomain, viewer));
     }
 
     /**
@@ -1012,8 +1023,8 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
                     public Viewer createViewer(Composite composite) {
                         composite.setLayout(new GridLayout());
                         Tree tree = new Tree(composite, SWT.MULTI);
-                        TreeViewer newTreeViewer = new PredicatesTreeViewer(tree);
-                        return newTreeViewer;
+                        TreeViewer predicatesTreeViewer = new PredicatesTreeViewer(tree);
+                        return predicatesTreeViewer;
                     }
 
                     @Override
@@ -1734,5 +1745,60 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 
     public void setUseExtendedFeature(final boolean useExtendedFeature) {
         this.treeDoubleClickListener.setUseExtendedFeature(useExtendedFeature);
+    }
+
+    /**
+     * @return The tree viewer used by the editor.
+     */
+    public PredicatesTreeViewer getPredicatesTreeViewer() {
+        return this.selectionViewer;
+    }
+
+    /**
+     * Opens a new predicates editor.
+     * 
+     * @param input - The input of the editor. Typically a Collection of EClass objects. (The EClass of the model to
+     *            edit/to which the predicates are to applied).
+     * @param rootPredicate - The root predicate of the tree.
+     */
+    public static void openEditor(final Object input, final IPredicate rootPredicate) {
+        try {
+            final File f = File.createTempFile("predicate", ".predicates");
+            Runtime.getRuntime().addShutdownHook(new ShutDownHook(f));
+
+            IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+            PredicatesEditor editor = (PredicatesEditor) IDE.openEditor(page, f.toURI(), PredicatesEditor.ID, true);
+            editor.setRootPredicate(rootPredicate);
+            editor.setInput(input);
+            editor.hideButtonLoadModel();
+
+        } catch (PartInitException e) {
+            e.printStackTrace();
+            logger.error("Unable to open the predicates Editor : " + e.getMessage());
+            logger.error(e.toString());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.error("Unable to create the predicates temporary file : " + e.getMessage());
+            logger.error(e.toString());
+        }
+    }
+
+    private static class ShutDownHook extends Thread {
+
+        private final File file;
+
+        public ShutDownHook(File file) {
+            super();
+            this.file = file;
+        }
+
+        @Override
+        public void run() {
+            try {
+                if (this.file.exists()) this.file.delete();
+            } catch (Exception e) {
+            }
+        }
     }
 }
