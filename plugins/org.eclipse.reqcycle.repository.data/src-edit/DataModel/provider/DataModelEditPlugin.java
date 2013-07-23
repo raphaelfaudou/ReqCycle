@@ -2,6 +2,7 @@
  */
 package DataModel.provider;
 
+import MappingModel.provider.MappingModelEditPlugin;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.provider.EcoreEditPlugin;
@@ -39,6 +40,7 @@ public final class DataModelEditPlugin extends EMFPlugin {
 		super
 		  (new ResourceLocator [] {
 		     EcoreEditPlugin.INSTANCE,
+		     MappingModelEditPlugin.INSTANCE,
 		   });
 	}
 

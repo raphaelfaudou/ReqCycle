@@ -12,6 +12,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -20,7 +21,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.reqcycle.repository.requirement.data.util.RepositoryConstants;
+import org.eclipse.reqcycle.repository.data.util.RepositoryConstants;
 
 import DataModel.Contained;
 import DataModel.DataModelPackage;
@@ -48,6 +49,8 @@ import com.google.common.collect.Collections2;
  * @generated
  */
 public class RequirementSourceImpl extends MinimalEObjectImpl.Container implements RequirementSource {
+	
+	private EPackage ePackage;
 	
 	private Set<PropertyChangeListener> propertyChangeListeners = new HashSet<PropertyChangeListener>();
 	

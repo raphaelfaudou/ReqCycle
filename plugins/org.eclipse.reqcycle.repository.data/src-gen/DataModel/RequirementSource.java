@@ -23,8 +23,8 @@ import MappingModel.ElementMapping;
  *   <li>{@link DataModel.RequirementSource#getRequirements <em>Requirements</em>}</li>
  *   <li>{@link DataModel.RequirementSource#getName <em>Name</em>}</li>
  *   <li>{@link DataModel.RequirementSource#getProperties <em>Properties</em>}</li>
- *   <li>{@link DataModel.RequirementSource#getConnectorID <em>Connector ID</em>}</li>
- *   <li>{@link DataModel.RequirementSource#getMapping <em>Mapping</em>}</li>
+ *   <li>{@link DataModel.RequirementSource#getConnectorId <em>Connector Id</em>}</li>
+ *   <li>{@link DataModel.RequirementSource#getMappings <em>Mappings</em>}</li>
  * </ul>
  * </p>
  *
@@ -93,46 +93,46 @@ public interface RequirementSource extends EObject {
 	EMap<String, String> getProperties();
 
 	/**
-	 * Returns the value of the '<em><b>Connector ID</b></em>' attribute.
+	 * Returns the value of the '<em><b>Connector Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Connector ID</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Connector Id</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Connector ID</em>' attribute.
-	 * @see #setConnectorID(String)
-	 * @see DataModel.DataModelPackage#getRequirementSource_ConnectorID()
+	 * @return the value of the '<em>Connector Id</em>' attribute.
+	 * @see #setConnectorId(String)
+	 * @see DataModel.DataModelPackage#getRequirementSource_ConnectorId()
 	 * @model transient="true" volatile="true" derived="true"
 	 * @generated
 	 */
-	String getConnectorID();
+	String getConnectorId();
 
 	/**
-	 * Sets the value of the '{@link DataModel.RequirementSource#getConnectorID <em>Connector ID</em>}' attribute.
+	 * Sets the value of the '{@link DataModel.RequirementSource#getConnectorId <em>Connector Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Connector ID</em>' attribute.
-	 * @see #getConnectorID()
+	 * @param value the new value of the '<em>Connector Id</em>' attribute.
+	 * @see #getConnectorId()
 	 * @generated
 	 */
-	void setConnectorID(String value);
+	void setConnectorId(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Mapping</b></em>' containment reference list.
+	 * Returns the value of the '<em><b>Mappings</b></em>' containment reference list.
 	 * The list contents are of type {@link MappingModel.ElementMapping}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Mapping</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Mappings</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Mapping</em>' containment reference list.
-	 * @see DataModel.DataModelPackage#getRequirementSource_Mapping()
+	 * @return the value of the '<em>Mappings</em>' containment reference list.
+	 * @see DataModel.DataModelPackage#getRequirementSource_Mappings()
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<ElementMapping> getMapping();
+	EList<ElementMapping> getMappings();
 
 	public void setProperty(String property, String newValue) throws Exception;
 	

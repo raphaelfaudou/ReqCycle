@@ -31,22 +31,13 @@ public interface DataModelFactory extends EFactory {
 	RequirementSource createRequirementSource();
 
 	/**
-	 * Returns a new object of class '<em>Reachable Section</em>'.
+	 * Returns a new object of class '<em>Section</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Reachable Section</em>'.
+	 * @return a new object of class '<em>Section</em>'.
 	 * @generated
 	 */
-	ReachableSection createReachableSection();
-
-	/**
-	 * Returns a new object of class '<em>Reachable Object</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Reachable Object</em>'.
-	 * @generated
-	 */
-	ReachableObject createReachableObject();
+	Section createSection();
 
 	/**
 	 * Returns a new object of class '<em>Requirement</em>'.
@@ -67,22 +58,13 @@ public interface DataModelFactory extends EFactory {
 	RequirementSection createRequirementSection();
 
 	/**
-	 * Returns a new object of class '<em>System</em>'.
+	 * Returns a new object of class '<em>Scope</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>System</em>'.
+	 * @return a new object of class '<em>Scope</em>'.
 	 * @generated
 	 */
-	System createSystem();
-
-	/**
-	 * Returns a new object of class '<em>Customer</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Customer</em>'.
-	 * @generated
-	 */
-	Customer createCustomer();
+	Scope createScope();
 
 	/**
 	 * Returns the package supported by this factory.

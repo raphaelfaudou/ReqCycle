@@ -10,9 +10,9 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
         eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EStringToStringMapEntry"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="connectorID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="connectorId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         volatile="true" transient="true" derived="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="mapping" upperBound="-1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mappings" upperBound="-1"
         eType="ecore:EClass MappingModel.ecore#//ElementMapping" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Contained" abstract="true">
@@ -22,19 +22,18 @@
       <eAnnotations source="hidden"/>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="scopes" upperBound="-1"
-        eType="#//Scope" eOpposite="#//Scope/requirements"/>
+        eType="#//Scope" resolveProxies="false"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ReachableSection" eSuperTypes="#//Contained">
+  <eClassifiers xsi:type="ecore:EClass" name="Section" eSuperTypes="#//Contained">
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
         eType="#//Contained" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ReachableObject" eSuperTypes="#//Contained"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Requirement" eSuperTypes="#//ReachableObject"/>
-  <eClassifiers xsi:type="ecore:EClass" name="RequirementSection" eSuperTypes="#//ReachableObject #//ReachableSection"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Scope" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="Requirement" eSuperTypes="#//Contained"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RequirementSection" eSuperTypes="#//Requirement #//Section"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Scope">
     <eStructuralFeatures xsi:type="ecore:EReference" name="requirements" upperBound="-1"
-        eType="#//Contained" eOpposite="#//Contained/scopes"/>
+        eType="#//Contained" changeable="false" volatile="true" transient="true" unsettable="true"
+        derived="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="System" eSuperTypes="#//Scope"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Customer" eSuperTypes="#//Scope"/>
 </ecore:EPackage>

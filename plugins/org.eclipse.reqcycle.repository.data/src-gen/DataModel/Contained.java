@@ -106,7 +106,6 @@ public interface Contained extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Scopes</b></em>' reference list.
 	 * The list contents are of type {@link DataModel.Scope}.
-	 * It is bidirectional and its opposite is '{@link DataModel.Scope#getRequirements <em>Requirements</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Scopes</em>' reference list isn't clear,
@@ -115,8 +114,7 @@ public interface Contained extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Scopes</em>' reference list.
 	 * @see DataModel.DataModelPackage#getContained_Scopes()
-	 * @see DataModel.Scope#getRequirements
-	 * @model opposite="requirements"
+	 * @model resolveProxies="false"
 	 * @generated
 	 */
 	EList<Scope> getScopes();

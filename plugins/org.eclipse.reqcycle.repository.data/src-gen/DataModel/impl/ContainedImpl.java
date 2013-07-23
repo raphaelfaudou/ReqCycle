@@ -3,17 +3,12 @@
 package DataModel.impl;
 
 import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
-import org.eclipse.emf.ecore.util.InternalEList;
-
+import org.eclipse.emf.ecore.util.EObjectEList;
 import DataModel.Contained;
 import DataModel.DataModelPackage;
 import DataModel.Scope;
@@ -194,38 +189,9 @@ public abstract class ContainedImpl extends MinimalEObjectImpl.Container impleme
 	 */
 	public EList<Scope> getScopes() {
 		if (scopes == null) {
-			scopes = new EObjectWithInverseResolvingEList.ManyInverse<Scope>(Scope.class, this, DataModelPackage.CONTAINED__SCOPES, DataModelPackage.SCOPE__REQUIREMENTS);
+			scopes = new EObjectEList<Scope>(Scope.class, this, DataModelPackage.CONTAINED__SCOPES);
 		}
 		return scopes;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case DataModelPackage.CONTAINED__SCOPES:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getScopes()).basicAdd(otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case DataModelPackage.CONTAINED__SCOPES:
-				return ((InternalEList<?>)getScopes()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**

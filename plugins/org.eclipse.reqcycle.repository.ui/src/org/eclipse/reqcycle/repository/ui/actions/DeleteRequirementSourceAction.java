@@ -19,7 +19,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.reqcycle.repository.requirement.data.IRequirementSourceManager;
+import org.eclipse.reqcycle.repository.data.IRequirementSourceManager;
 
 /**
  * Action to delete a requirement source

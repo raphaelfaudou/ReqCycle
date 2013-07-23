@@ -2,17 +2,14 @@
  */
 package DataModel.impl;
 
+import DataModel.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import DataModel.Customer;
 import DataModel.DataModelFactory;
 import DataModel.DataModelPackage;
-import DataModel.ReachableObject;
-import DataModel.ReachableSection;
 import DataModel.Requirement;
 import DataModel.RequirementSection;
 import DataModel.RequirementSource;
@@ -62,12 +59,10 @@ public class DataModelFactoryImpl extends EFactoryImpl implements DataModelFacto
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case DataModelPackage.REQUIREMENT_SOURCE: return createRequirementSource();
-			case DataModelPackage.REACHABLE_SECTION: return createReachableSection();
-			case DataModelPackage.REACHABLE_OBJECT: return createReachableObject();
+			case DataModelPackage.SECTION: return createSection();
 			case DataModelPackage.REQUIREMENT: return createRequirement();
 			case DataModelPackage.REQUIREMENT_SECTION: return createRequirementSection();
-			case DataModelPackage.SYSTEM: return createSystem();
-			case DataModelPackage.CUSTOMER: return createCustomer();
+			case DataModelPackage.SCOPE: return createScope();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -88,19 +83,9 @@ public class DataModelFactoryImpl extends EFactoryImpl implements DataModelFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ReachableSection createReachableSection() {
-		ReachableSectionImpl reachableSection = new ReachableSectionImpl();
-		return reachableSection;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ReachableObject createReachableObject() {
-		ReachableObjectImpl reachableObject = new ReachableObjectImpl();
-		return reachableObject;
+	public Section createSection() {
+		SectionImpl section = new SectionImpl();
+		return section;
 	}
 
 	/**
@@ -128,19 +113,9 @@ public class DataModelFactoryImpl extends EFactoryImpl implements DataModelFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public DataModel.System createSystem() {
-		SystemImpl system = new SystemImpl();
-		return system;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Customer createCustomer() {
-		CustomerImpl customer = new CustomerImpl();
-		return customer;
+	public Scope createScope() {
+		ScopeImpl scope = new ScopeImpl();
+		return scope;
 	}
 
 	/**

@@ -8,17 +8,14 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import DataModel.Contained;
-import DataModel.Customer;
 import DataModel.DataModelFactory;
 import DataModel.DataModelPackage;
-import DataModel.ReachableObject;
-import DataModel.ReachableSection;
 import DataModel.Requirement;
 import DataModel.RequirementSection;
 import DataModel.RequirementSource;
 import DataModel.Scope;
+import DataModel.Section;
 import MappingModel.MappingModelPackage;
 
 /**
@@ -47,14 +44,7 @@ public class DataModelPackageImpl extends EPackageImpl implements DataModelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass reachableSectionEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass reachableObjectEClass = null;
+	private EClass sectionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -76,20 +66,6 @@ public class DataModelPackageImpl extends EPackageImpl implements DataModelPacka
 	 * @generated
 	 */
 	private EClass scopeEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass systemEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass customerEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -196,7 +172,7 @@ public class DataModelPackageImpl extends EPackageImpl implements DataModelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRequirementSource_ConnectorID() {
+	public EAttribute getRequirementSource_ConnectorId() {
 		return (EAttribute)requirementSourceEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -205,7 +181,7 @@ public class DataModelPackageImpl extends EPackageImpl implements DataModelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRequirementSource_Mapping() {
+	public EReference getRequirementSource_Mappings() {
 		return (EReference)requirementSourceEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -259,8 +235,8 @@ public class DataModelPackageImpl extends EPackageImpl implements DataModelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getReachableSection() {
-		return reachableSectionEClass;
+	public EClass getSection() {
+		return sectionEClass;
 	}
 
 	/**
@@ -268,17 +244,8 @@ public class DataModelPackageImpl extends EPackageImpl implements DataModelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getReachableSection_Children() {
-		return (EReference)reachableSectionEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getReachableObject() {
-		return reachableObjectEClass;
+	public EReference getSection_Children() {
+		return (EReference)sectionEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -322,17 +289,8 @@ public class DataModelPackageImpl extends EPackageImpl implements DataModelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getSystem() {
-		return systemEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getCustomer() {
-		return customerEClass;
+	public EAttribute getScope_Name() {
+		return (EAttribute)scopeEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -368,7 +326,7 @@ public class DataModelPackageImpl extends EPackageImpl implements DataModelPacka
 		createEAttribute(requirementSourceEClass, REQUIREMENT_SOURCE__NAME);
 		createEReference(requirementSourceEClass, REQUIREMENT_SOURCE__PROPERTIES);
 		createEAttribute(requirementSourceEClass, REQUIREMENT_SOURCE__CONNECTOR_ID);
-		createEReference(requirementSourceEClass, REQUIREMENT_SOURCE__MAPPING);
+		createEReference(requirementSourceEClass, REQUIREMENT_SOURCE__MAPPINGS);
 
 		containedEClass = createEClass(CONTAINED);
 		createEAttribute(containedEClass, CONTAINED__ID);
@@ -376,10 +334,8 @@ public class DataModelPackageImpl extends EPackageImpl implements DataModelPacka
 		createEAttribute(containedEClass, CONTAINED__URI);
 		createEReference(containedEClass, CONTAINED__SCOPES);
 
-		reachableSectionEClass = createEClass(REACHABLE_SECTION);
-		createEReference(reachableSectionEClass, REACHABLE_SECTION__CHILDREN);
-
-		reachableObjectEClass = createEClass(REACHABLE_OBJECT);
+		sectionEClass = createEClass(SECTION);
+		createEReference(sectionEClass, SECTION__CHILDREN);
 
 		requirementEClass = createEClass(REQUIREMENT);
 
@@ -387,10 +343,7 @@ public class DataModelPackageImpl extends EPackageImpl implements DataModelPacka
 
 		scopeEClass = createEClass(SCOPE);
 		createEReference(scopeEClass, SCOPE__REQUIREMENTS);
-
-		systemEClass = createEClass(SYSTEM);
-
-		customerEClass = createEClass(CUSTOMER);
+		createEAttribute(scopeEClass, SCOPE__NAME);
 	}
 
 	/**
@@ -425,43 +378,35 @@ public class DataModelPackageImpl extends EPackageImpl implements DataModelPacka
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		reachableSectionEClass.getESuperTypes().add(this.getContained());
-		reachableObjectEClass.getESuperTypes().add(this.getContained());
-		requirementEClass.getESuperTypes().add(this.getReachableObject());
-		requirementSectionEClass.getESuperTypes().add(this.getReachableObject());
-		requirementSectionEClass.getESuperTypes().add(this.getReachableSection());
-		systemEClass.getESuperTypes().add(this.getScope());
-		customerEClass.getESuperTypes().add(this.getScope());
+		sectionEClass.getESuperTypes().add(this.getContained());
+		requirementEClass.getESuperTypes().add(this.getContained());
+		requirementSectionEClass.getESuperTypes().add(this.getRequirement());
+		requirementSectionEClass.getESuperTypes().add(this.getSection());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(requirementSourceEClass, RequirementSource.class, "RequirementSource", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRequirementSource_Requirements(), this.getContained(), null, "requirements", null, 0, -1, RequirementSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRequirementSource_Name(), ecorePackage.getEString(), "name", null, 0, 1, RequirementSource.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getRequirementSource_Properties(), theEcorePackage.getEStringToStringMapEntry(), null, "properties", null, 0, -1, RequirementSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getRequirementSource_ConnectorID(), ecorePackage.getEString(), "connectorID", null, 0, 1, RequirementSource.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-		initEReference(getRequirementSource_Mapping(), theMappingModelPackage.getElementMapping(), null, "mapping", null, 0, -1, RequirementSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRequirementSource_ConnectorId(), ecorePackage.getEString(), "connectorId", null, 0, 1, RequirementSource.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEReference(getRequirementSource_Mappings(), theMappingModelPackage.getElementMapping(), null, "mappings", null, 0, -1, RequirementSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(containedEClass, Contained.class, "Contained", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getContained_Id(), ecorePackage.getEString(), "id", null, 0, 1, Contained.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getContained_Name(), ecorePackage.getEString(), "name", null, 0, 1, Contained.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getContained_Uri(), ecorePackage.getEString(), "uri", null, 0, 1, Contained.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getContained_Scopes(), this.getScope(), this.getScope_Requirements(), "scopes", null, 0, -1, Contained.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getContained_Scopes(), this.getScope(), null, "scopes", null, 0, -1, Contained.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(reachableSectionEClass, ReachableSection.class, "ReachableSection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getReachableSection_Children(), this.getContained(), null, "children", null, 0, -1, ReachableSection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(reachableObjectEClass, ReachableObject.class, "ReachableObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(sectionEClass, Section.class, "Section", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSection_Children(), this.getContained(), null, "children", null, 0, -1, Section.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(requirementEClass, Requirement.class, "Requirement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(requirementSectionEClass, RequirementSection.class, "RequirementSection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(scopeEClass, Scope.class, "Scope", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getScope_Requirements(), this.getContained(), this.getContained_Scopes(), "requirements", null, 0, -1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(systemEClass, DataModel.System.class, "System", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(customerEClass, Customer.class, "Customer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(scopeEClass, Scope.class, "Scope", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getScope_Requirements(), this.getContained(), null, "requirements", null, 0, -1, Scope.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEAttribute(getScope_Name(), theEcorePackage.getEString(), "name", null, 1, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

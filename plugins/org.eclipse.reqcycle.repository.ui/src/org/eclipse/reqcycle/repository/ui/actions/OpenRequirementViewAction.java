@@ -22,7 +22,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.reqcycle.core.ILogger;
-import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
+import org.eclipse.reqcycle.repository.data.util.DataUtil;
 import org.eclipse.reqcycle.repository.ui.views.RequirementView;
 
 import DataModel.RequirementSource;

@@ -20,7 +20,7 @@ import javax.inject.Inject;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.reqcycle.repository.requirement.data.IRequirementSourceManager;
+import org.eclipse.reqcycle.repository.data.IRequirementSourceManager;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.RequirementSource;

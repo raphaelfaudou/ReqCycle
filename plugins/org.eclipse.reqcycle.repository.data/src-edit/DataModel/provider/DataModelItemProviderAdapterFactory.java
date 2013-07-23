@@ -94,49 +94,26 @@ public class DataModelItemProviderAdapterFactory extends DataModelAdapterFactory
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link DataModel.ReachableSection} instances.
+	 * This keeps track of the one adapter used for all {@link DataModel.Section} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ReachableSectionItemProvider reachableSectionItemProvider;
+	protected SectionItemProvider sectionItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link DataModel.ReachableSection}.
+	 * This creates an adapter for a {@link DataModel.Section}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createReachableSectionAdapter() {
-		if (reachableSectionItemProvider == null) {
-			reachableSectionItemProvider = new ReachableSectionItemProvider(this);
+	public Adapter createSectionAdapter() {
+		if (sectionItemProvider == null) {
+			sectionItemProvider = new SectionItemProvider(this);
 		}
 
-		return reachableSectionItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link DataModel.ReachableObject} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected ReachableObjectItemProvider reachableObjectItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link DataModel.ReachableObject}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createReachableObjectAdapter() {
-		if (reachableObjectItemProvider == null) {
-			reachableObjectItemProvider = new ReachableObjectItemProvider(this);
-		}
-
-		return reachableObjectItemProvider;
+		return sectionItemProvider;
 	}
 
 	/**
@@ -186,49 +163,26 @@ public class DataModelItemProviderAdapterFactory extends DataModelAdapterFactory
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link DataModel.System} instances.
+	 * This keeps track of the one adapter used for all {@link DataModel.Scope} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected SystemItemProvider systemItemProvider;
+	protected ScopeItemProvider scopeItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link DataModel.System}.
+	 * This creates an adapter for a {@link DataModel.Scope}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createSystemAdapter() {
-		if (systemItemProvider == null) {
-			systemItemProvider = new SystemItemProvider(this);
+	public Adapter createScopeAdapter() {
+		if (scopeItemProvider == null) {
+			scopeItemProvider = new ScopeItemProvider(this);
 		}
 
-		return systemItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link DataModel.Customer} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected CustomerItemProvider customerItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link DataModel.Customer}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createCustomerAdapter() {
-		if (customerItemProvider == null) {
-			customerItemProvider = new CustomerItemProvider(this);
-		}
-
-		return customerItemProvider;
+		return scopeItemProvider;
 	}
 
 	/**
@@ -331,12 +285,10 @@ public class DataModelItemProviderAdapterFactory extends DataModelAdapterFactory
 	 */
 	public void dispose() {
 		if (requirementSourceItemProvider != null) requirementSourceItemProvider.dispose();
-		if (reachableSectionItemProvider != null) reachableSectionItemProvider.dispose();
-		if (reachableObjectItemProvider != null) reachableObjectItemProvider.dispose();
+		if (sectionItemProvider != null) sectionItemProvider.dispose();
 		if (requirementItemProvider != null) requirementItemProvider.dispose();
 		if (requirementSectionItemProvider != null) requirementSectionItemProvider.dispose();
-		if (systemItemProvider != null) systemItemProvider.dispose();
-		if (customerItemProvider != null) customerItemProvider.dispose();
+		if (scopeItemProvider != null) scopeItemProvider.dispose();
 	}
 
 }

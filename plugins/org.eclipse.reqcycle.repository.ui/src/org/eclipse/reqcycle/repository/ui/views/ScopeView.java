@@ -14,9 +14,16 @@
 package org.eclipse.reqcycle.repository.ui.views;
 
 
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Set;
+
 import javax.inject.Inject;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelection;
@@ -29,8 +36,9 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.reqcycle.dnd.DragRequirementSourceAdapter;
-import org.eclipse.reqcycle.repository.requirement.data.IScopeManager;
-import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
+import org.eclipse.reqcycle.repository.data.IRequirementSourceManager;
+import org.eclipse.reqcycle.repository.data.IScopeManager;
+import org.eclipse.reqcycle.repository.data.util.DataUtil;
 import org.eclipse.reqcycle.repository.ui.Activator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
@@ -46,7 +54,11 @@ import org.eclipse.ui.part.PluginTransfer;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
+
 import DataModel.Contained;
+import DataModel.RequirementSource;
 import DataModel.Scope;
 
 public class ScopeView extends ViewPart {
@@ -65,6 +77,14 @@ public class ScopeView extends ViewPart {
 
 	/** refresh view button */
 	private Button refreshBtn;
+	
+	private IRequirementSourceManager reqSourceManager = ZigguratInject.make(IRequirementSourceManager.class);
+	
+	private ResourceSet rs = new ResourceSetImpl(); 
+
+	protected Set<RequirementSource> repositories;
+	
+	private Collection<Scope> scopes;
 	
 
 	
@@ -127,6 +147,7 @@ public class ScopeView extends ViewPart {
 				return DataUtil.getLabel(element);
 			}
 		});
+		scopes = scopeManager.getAllScopes();
 		comboViewer.setInput(scopeManager.getAllScopes());
 		
 		refreshBtn = new Button(composite, SWT.PUSH);
@@ -178,12 +199,35 @@ public class ScopeView extends ViewPart {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (viewer != null) {
+					initResourceSet();
+					repositories = reqSourceManager.getRepositories();
+					rs.getResources().addAll(Collections2.transform(repositories, new Function<RequirementSource, Resource>() {
+						@Override
+						public Resource apply(RequirementSource arg0) {
+							return arg0.eResource();
+						}
+					}));
 					viewer.refresh();
 				}
 			}
 		});
 	}
 	
+	//FIXME : remove this method (use the same resource set to load requirement sources)
+	protected void initResourceSet() {
+		Iterator<Scope> iter = scopes.iterator();
+		while(iter.hasNext()) {
+			Resource r = ((Scope)iter.next()).eResource();
+			if(r != null) {
+				if (r.getResourceSet() != null) {
+					rs = r.getResourceSet(); 
+					break;
+				}
+			}
+			
+		}
+	}
+
 	@Override
 	public void setFocus() {
 		viewer.getControl().setFocus();

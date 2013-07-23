@@ -31,9 +31,9 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.connector.ConnectorDescriptor;
 import org.eclipse.reqcycle.repository.connector.ui.Activator;
-import org.eclipse.reqcycle.repository.requirement.data.IRequirementSourceManager;
-import org.eclipse.reqcycle.repository.requirement.data.IScopeManager;
-import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
+import org.eclipse.reqcycle.repository.data.IRequirementSourceManager;
+import org.eclipse.reqcycle.repository.data.IScopeManager;
+import org.eclipse.reqcycle.repository.data.util.DataUtil;
 import org.eclipse.reqcycle.repository.ui.wizard.NewRequirementSourceWizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -101,7 +101,7 @@ public class AddRequirementSourceAction extends Action {
 				source = createRequirementSource.call();
 				
 				ConnectorDescriptor connector = wizard.getConnectorDescriptor();
-				source.setConnectorID(connector.getId());
+				source.setConnectorId(connector.getId());
 				
 				String sourceName = wizard.getSourceName();
 				source.setName(sourceName);
@@ -110,10 +110,10 @@ public class AddRequirementSourceAction extends Action {
 				String scopeName = wizard.getScope().eClass().getName();
 				source.setProperty("SCOPE_NAME", scopeName);
 
-				EList<ElementMapping> mapping = source.getMapping();
+				EList<ElementMapping> mappings = source.getMappings();
 				
 				ResourceSet rs = new ResourceSetImpl();
-				for(ElementMapping elementMapping : mapping) {
+				for(ElementMapping elementMapping : mappings) {
 					rs.getResources().add(elementMapping.getTargetElement().eResource());
 					for(AttributeMapping attributeMapping : elementMapping.getAttributes()) {
 						rs.getResources().add(attributeMapping.getTargetAttribute().eResource());

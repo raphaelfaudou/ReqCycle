@@ -3,18 +3,16 @@
 package DataModel.impl;
 
 import java.util.Collection;
-
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import DataModel.Contained;
 import DataModel.DataModelPackage;
-import DataModel.ReachableSection;
 import DataModel.RequirementSection;
+import DataModel.Section;
 
 /**
  * <!-- begin-user-doc -->
@@ -29,7 +27,8 @@ import DataModel.RequirementSection;
  *
  * @generated
  */
-public class RequirementSectionImpl extends ReachableObjectImpl implements RequirementSection {
+public class RequirementSectionImpl extends 
+RequirementImpl implements RequirementSection {
 	/**
 	 * The cached value of the '{@link #getChildren() <em>Children</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -152,9 +151,9 @@ public class RequirementSectionImpl extends ReachableObjectImpl implements Requi
 	 */
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == ReachableSection.class) {
+		if (baseClass == Section.class) {
 			switch (derivedFeatureID) {
-				case DataModelPackage.REQUIREMENT_SECTION__CHILDREN: return DataModelPackage.REACHABLE_SECTION__CHILDREN;
+				case DataModelPackage.REQUIREMENT_SECTION__CHILDREN: return DataModelPackage.SECTION__CHILDREN;
 				default: return -1;
 			}
 		}
@@ -168,13 +167,17 @@ public class RequirementSectionImpl extends ReachableObjectImpl implements Requi
 	 */
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == ReachableSection.class) {
+		if (baseClass == Section.class) {
 			switch (baseFeatureID) {
-				case DataModelPackage.REACHABLE_SECTION__CHILDREN: return DataModelPackage.REQUIREMENT_SECTION__CHILDREN;
+				case DataModelPackage.SECTION__CHILDREN: return DataModelPackage.REQUIREMENT_SECTION__CHILDREN;
 				default: return -1;
 			}
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
+	public void testPrint() {
+		
+	}
+	
 } //RequirementSectionImpl

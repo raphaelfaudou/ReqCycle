@@ -35,7 +35,7 @@ import org.eclipse.reqcycle.repository.connector.ConnectorDescriptor;
 import org.eclipse.reqcycle.repository.connector.IConnector;
 import org.eclipse.reqcycle.repository.connector.IConnectorManager;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
-import org.eclipse.reqcycle.repository.requirement.data.IRequirementSourceManager;
+import org.eclipse.reqcycle.repository.data.IRequirementSourceManager;
 import org.eclipse.reqcycle.repository.ui.Activator;
 import org.eclipse.reqcycle.repository.ui.Messages;
 import org.eclipse.reqcycle.repository.ui.actions.AddRequirementSourceAction;
@@ -196,7 +196,7 @@ public class RequirementSourcesView extends ViewPart {
 		if(!(source instanceof RequirementSource)) {
 			return false;
 		}
-		String connectorID = ((RequirementSource)source).getConnectorID();
+		String connectorID = ((RequirementSource)source).getConnectorId();
 		if(connectorID == null) {
 			return false;
 		}
