@@ -6,6 +6,8 @@ import org.eclipse.reqcycle.traceability.builder.ITraceabilityBuilder.IBuilderCa
 import org.eclipse.reqcycle.traceability.model.TType;
 import org.eclipse.reqcycle.uri.model.Reachable;
 
+import com.google.common.base.Preconditions;
+
 public class DelegatedAndDecoratedBuilderCallBack implements IBuilderCallBack {
 
 	IBuilderCallBack callBack = null;
@@ -32,6 +34,11 @@ public class DelegatedAndDecoratedBuilderCallBack implements IBuilderCallBack {
 	@Override
 	public void newUpwardRelation(Object resource, Object source,
 			List<? extends Object> targets, TType kind) {
+		String check = "arguments must be different to null";
+		Preconditions.checkNotNull(resource, check);
+		Preconditions.checkNotNull(source, check);
+		Preconditions.checkNotNull(targets, check);
+		Preconditions.checkNotNull(kind, check);
 		callBack.newUpwardRelation(resource, source, targets, kind);
 	}
 

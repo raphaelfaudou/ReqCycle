@@ -2,12 +2,19 @@
  */
 package org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl;
 
+import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.reqcycle.traceability.model.TType;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Attribute;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Relation;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Type;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeconfigurationPackage;
@@ -22,6 +29,9 @@ import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.T
  *   <li>{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.RelationImpl#getUpstreamType <em>Upstream Type</em>}</li>
  *   <li>{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.RelationImpl#getDownstreamType <em>Downstream Type</em>}</li>
  *   <li>{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.RelationImpl#getKind <em>Kind</em>}</li>
+ *   <li>{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.RelationImpl#getAgregatedTypes <em>Agregated Types</em>}</li>
+ *   <li>{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.RelationImpl#getIcon <em>Icon</em>}</li>
+ *   <li>{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.RelationImpl#getAttributes <em>Attributes</em>}</li>
  * </ul>
  * </p>
  *
@@ -67,6 +77,46 @@ public class RelationImpl extends EObjectImpl implements Relation {
 	 * @ordered
 	 */
 	protected String kind = KIND_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getAgregatedTypes() <em>Agregated Types</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAgregatedTypes()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<String> agregatedTypes;
+
+	/**
+	 * The default value of the '{@link #getIcon() <em>Icon</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getIcon()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String ICON_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getIcon() <em>Icon</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getIcon()
+	 * @generated
+	 * @ordered
+	 */
+	protected String icon = ICON_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getAttributes() <em>Attributes</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAttributes()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Attribute> attributes;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -233,6 +283,62 @@ public class RelationImpl extends EObjectImpl implements Relation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<String> getAgregatedTypes() {
+		if (agregatedTypes == null) {
+			agregatedTypes = new EDataTypeUniqueEList<String>(String.class, this, TypeconfigurationPackage.RELATION__AGREGATED_TYPES);
+		}
+		return agregatedTypes;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getIcon() {
+		return icon;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setIcon(String newIcon) {
+		String oldIcon = icon;
+		icon = newIcon;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TypeconfigurationPackage.RELATION__ICON, oldIcon, icon));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Attribute> getAttributes() {
+		if (attributes == null) {
+			attributes = new EObjectContainmentEList<Attribute>(Attribute.class, this, TypeconfigurationPackage.RELATION__ATTRIBUTES);
+		}
+		return attributes;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<TType> getAgregated() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -260,6 +366,8 @@ public class RelationImpl extends EObjectImpl implements Relation {
 				return basicSetUpstreamType(null, msgs);
 			case TypeconfigurationPackage.RELATION__DOWNSTREAM_TYPE:
 				return basicSetDownstreamType(null, msgs);
+			case TypeconfigurationPackage.RELATION__ATTRIBUTES:
+				return ((InternalEList<?>)getAttributes()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -280,6 +388,12 @@ public class RelationImpl extends EObjectImpl implements Relation {
 				return basicGetDownstreamType();
 			case TypeconfigurationPackage.RELATION__KIND:
 				return getKind();
+			case TypeconfigurationPackage.RELATION__AGREGATED_TYPES:
+				return getAgregatedTypes();
+			case TypeconfigurationPackage.RELATION__ICON:
+				return getIcon();
+			case TypeconfigurationPackage.RELATION__ATTRIBUTES:
+				return getAttributes();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -289,6 +403,7 @@ public class RelationImpl extends EObjectImpl implements Relation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -300,6 +415,17 @@ public class RelationImpl extends EObjectImpl implements Relation {
 				return;
 			case TypeconfigurationPackage.RELATION__KIND:
 				setKind((String)newValue);
+				return;
+			case TypeconfigurationPackage.RELATION__AGREGATED_TYPES:
+				getAgregatedTypes().clear();
+				getAgregatedTypes().addAll((Collection<? extends String>)newValue);
+				return;
+			case TypeconfigurationPackage.RELATION__ICON:
+				setIcon((String)newValue);
+				return;
+			case TypeconfigurationPackage.RELATION__ATTRIBUTES:
+				getAttributes().clear();
+				getAttributes().addAll((Collection<? extends Attribute>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -322,6 +448,15 @@ public class RelationImpl extends EObjectImpl implements Relation {
 			case TypeconfigurationPackage.RELATION__KIND:
 				setKind(KIND_EDEFAULT);
 				return;
+			case TypeconfigurationPackage.RELATION__AGREGATED_TYPES:
+				getAgregatedTypes().clear();
+				return;
+			case TypeconfigurationPackage.RELATION__ICON:
+				setIcon(ICON_EDEFAULT);
+				return;
+			case TypeconfigurationPackage.RELATION__ATTRIBUTES:
+				getAttributes().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -340,6 +475,12 @@ public class RelationImpl extends EObjectImpl implements Relation {
 				return downstreamType != null;
 			case TypeconfigurationPackage.RELATION__KIND:
 				return KIND_EDEFAULT == null ? kind != null : !KIND_EDEFAULT.equals(kind);
+			case TypeconfigurationPackage.RELATION__AGREGATED_TYPES:
+				return agregatedTypes != null && !agregatedTypes.isEmpty();
+			case TypeconfigurationPackage.RELATION__ICON:
+				return ICON_EDEFAULT == null ? icon != null : !ICON_EDEFAULT.equals(icon);
+			case TypeconfigurationPackage.RELATION__ATTRIBUTES:
+				return attributes != null && !attributes.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -356,6 +497,10 @@ public class RelationImpl extends EObjectImpl implements Relation {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (kind: ");
 		result.append(kind);
+		result.append(", agregatedTypes: ");
+		result.append(agregatedTypes);
+		result.append(", icon: ");
+		result.append(icon);
 		result.append(')');
 		return result.toString();
 	}

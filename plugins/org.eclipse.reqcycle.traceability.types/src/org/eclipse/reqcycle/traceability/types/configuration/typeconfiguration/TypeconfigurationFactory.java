@@ -76,6 +76,24 @@ public interface TypeconfigurationFactory extends EFactory {
 	Entry createEntry();
 
 	/**
+	 * Returns a new object of class '<em>Registered Attribute</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Registered Attribute</em>'.
+	 * @generated
+	 */
+	RegisteredAttribute createRegisteredAttribute();
+
+	/**
+	 * Returns a new object of class '<em>Std Attribute</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Std Attribute</em>'.
+	 * @generated
+	 */
+	StdAttribute createStdAttribute();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

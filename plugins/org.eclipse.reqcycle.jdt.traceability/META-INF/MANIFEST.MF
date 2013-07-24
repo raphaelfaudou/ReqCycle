@@ -15,7 +15,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources;bundle-version="3.8.1",
  org.eclipse.jdt.ui,
  org.eclipse.ziggurat.configuration,
- org.eclipse.ziggurat.inject
+ org.eclipse.ziggurat.inject,
+ org.eclipse.reqcycle.traceability.types
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: javax.inject;version="1.0.0"

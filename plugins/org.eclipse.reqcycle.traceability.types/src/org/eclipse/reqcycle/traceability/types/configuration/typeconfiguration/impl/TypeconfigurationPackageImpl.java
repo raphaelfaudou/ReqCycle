@@ -5,13 +5,19 @@ package org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.eclipse.reqcycle.traceability.model.TType;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Attribute;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.AttributeType;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Configuration;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.CustomType;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Entry;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.RegisteredAttribute;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Relation;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.StdAttribute;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Type;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeConfigContainer;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeconfigurationFactory;
@@ -72,7 +78,42 @@ public class TypeconfigurationPackageImpl extends EPackageImpl implements Typeco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass attributeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass registeredAttributeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass stdAttributeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum attributeTypeEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EDataType iTypeEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType tTypeEDataType = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -257,6 +298,33 @@ public class TypeconfigurationPackageImpl extends EPackageImpl implements Typeco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getRelation_AgregatedTypes() {
+		return (EAttribute)relationEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRelation_Icon() {
+		return (EAttribute)relationEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRelation_Attributes() {
+		return (EReference)relationEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getConfiguration() {
 		return configurationEClass;
 	}
@@ -347,8 +415,89 @@ public class TypeconfigurationPackageImpl extends EPackageImpl implements Typeco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getAttribute() {
+		return attributeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getRegisteredAttribute() {
+		return registeredAttributeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRegisteredAttribute_Id() {
+		return (EAttribute)registeredAttributeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getStdAttribute() {
+		return stdAttributeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStdAttribute_Name() {
+		return (EAttribute)stdAttributeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStdAttribute_PossibleValues() {
+		return (EAttribute)stdAttributeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStdAttribute_Type() {
+		return (EAttribute)stdAttributeEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getAttributeType() {
+		return attributeTypeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EDataType getIType() {
 		return iTypeEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getTType() {
+		return tTypeEDataType;
 	}
 
 	/**
@@ -394,6 +543,9 @@ public class TypeconfigurationPackageImpl extends EPackageImpl implements Typeco
 		createEReference(relationEClass, RELATION__UPSTREAM_TYPE);
 		createEReference(relationEClass, RELATION__DOWNSTREAM_TYPE);
 		createEAttribute(relationEClass, RELATION__KIND);
+		createEAttribute(relationEClass, RELATION__AGREGATED_TYPES);
+		createEAttribute(relationEClass, RELATION__ICON);
+		createEReference(relationEClass, RELATION__ATTRIBUTES);
 
 		configurationEClass = createEClass(CONFIGURATION);
 		createEReference(configurationEClass, CONFIGURATION__RELATIONS);
@@ -408,8 +560,22 @@ public class TypeconfigurationPackageImpl extends EPackageImpl implements Typeco
 		createEAttribute(entryEClass, ENTRY__NAME);
 		createEAttribute(entryEClass, ENTRY__VALUE);
 
+		attributeEClass = createEClass(ATTRIBUTE);
+
+		registeredAttributeEClass = createEClass(REGISTERED_ATTRIBUTE);
+		createEAttribute(registeredAttributeEClass, REGISTERED_ATTRIBUTE__ID);
+
+		stdAttributeEClass = createEClass(STD_ATTRIBUTE);
+		createEAttribute(stdAttributeEClass, STD_ATTRIBUTE__NAME);
+		createEAttribute(stdAttributeEClass, STD_ATTRIBUTE__POSSIBLE_VALUES);
+		createEAttribute(stdAttributeEClass, STD_ATTRIBUTE__TYPE);
+
+		// Create enums
+		attributeTypeEEnum = createEEnum(ATTRIBUTE_TYPE);
+
 		// Create data types
 		iTypeEDataType = createEDataType(ITYPE);
+		tTypeEDataType = createEDataType(TTYPE);
 	}
 
 	/**
@@ -441,6 +607,8 @@ public class TypeconfigurationPackageImpl extends EPackageImpl implements Typeco
 
 		// Add supertypes to classes
 		customTypeEClass.getESuperTypes().add(this.getType());
+		registeredAttributeEClass.getESuperTypes().add(this.getStdAttribute());
+		stdAttributeEClass.getESuperTypes().add(this.getAttribute());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(typeConfigContainerEClass, TypeConfigContainer.class, "TypeConfigContainer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -460,6 +628,11 @@ public class TypeconfigurationPackageImpl extends EPackageImpl implements Typeco
 		initEReference(getRelation_UpstreamType(), this.getType(), this.getType_Outgoings(), "upstreamType", null, 0, 1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRelation_DownstreamType(), this.getType(), this.getType_Incomings(), "downstreamType", null, 0, 1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRelation_Kind(), ecorePackage.getEString(), "kind", null, 0, 1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRelation_AgregatedTypes(), ecorePackage.getEString(), "agregatedTypes", null, 0, -1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRelation_Icon(), ecorePackage.getEString(), "icon", null, 0, 1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRelation_Attributes(), this.getAttribute(), null, "attributes", null, 0, -1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		addEOperation(relationEClass, this.getTType(), "getAgregated", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(configurationEClass, Configuration.class, "Configuration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getConfiguration_Relations(), this.getRelation(), null, "relations", null, 0, -1, Configuration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -474,8 +647,31 @@ public class TypeconfigurationPackageImpl extends EPackageImpl implements Typeco
 		initEAttribute(getEntry_Name(), ecorePackage.getEString(), "name", null, 0, 1, Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEntry_Value(), ecorePackage.getEJavaObject(), "value", null, 0, 1, Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(attributeEClass, Attribute.class, "Attribute", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		addEOperation(attributeEClass, ecorePackage.getEString(), "getName", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(attributeEClass, ecorePackage.getEString(), "getPossibleValues", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(attributeEClass, this.getAttributeType(), "getType", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(registeredAttributeEClass, RegisteredAttribute.class, "RegisteredAttribute", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getRegisteredAttribute_Id(), ecorePackage.getEString(), "id", null, 0, 1, RegisteredAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(stdAttributeEClass, StdAttribute.class, "StdAttribute", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getStdAttribute_Name(), ecorePackage.getEString(), "name", null, 0, 1, StdAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStdAttribute_PossibleValues(), ecorePackage.getEString(), "possibleValues", null, 0, -1, StdAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStdAttribute_Type(), this.getAttributeType(), "type", null, 0, 1, StdAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		// Initialize enums and add enum literals
+		initEEnum(attributeTypeEEnum, AttributeType.class, "AttributeType");
+		addEEnumLiteral(attributeTypeEEnum, AttributeType.STRING);
+		addEEnumLiteral(attributeTypeEEnum, AttributeType.BOOLEAN);
+		addEEnumLiteral(attributeTypeEEnum, AttributeType.INT);
+
 		// Initialize data types
 		initEDataType(iTypeEDataType, IType.class, "IType", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(tTypeEDataType, TType.class, "TType", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

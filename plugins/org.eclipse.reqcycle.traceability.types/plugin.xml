@@ -5,6 +5,8 @@
 -->
 
 <plugin>
+   <extension-point id="ttypes" name="Traceability Types" schema="schema/ttypes.exsd"/>
+   <extension-point id="tattributes" name="Traceability Attributes" schema="schema/tattributes.exsd"/>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
@@ -22,6 +24,10 @@
       <binding
             impl="org.eclipse.reqcycle.traceability.types.impl.ConfigurationProvider"
             interface="org.eclipse.reqcycle.traceability.types.ITypesConfigurationProvider">
+      </binding>
+      <binding
+            impl="org.eclipse.reqcycle.traceability.types.impl.TraceTypesManager"
+            interface="org.eclipse.reqcycle.traceability.types.ITraceTypesManager">
       </binding>
    </extension>
 

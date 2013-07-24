@@ -6,6 +6,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.*;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Configuration;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.CustomType;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Entry;
@@ -93,6 +94,18 @@ public class TypeconfigurationAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseEntry(Entry object) {
 				return createEntryAdapter();
+			}
+			@Override
+			public Adapter caseAttribute(Attribute object) {
+				return createAttributeAdapter();
+			}
+			@Override
+			public Adapter caseRegisteredAttribute(RegisteredAttribute object) {
+				return createRegisteredAttributeAdapter();
+			}
+			@Override
+			public Adapter caseStdAttribute(StdAttribute object) {
+				return createStdAttributeAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -195,6 +208,48 @@ public class TypeconfigurationAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createEntryAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Attribute <em>Attribute</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Attribute
+	 * @generated
+	 */
+	public Adapter createAttributeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.RegisteredAttribute <em>Registered Attribute</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.RegisteredAttribute
+	 * @generated
+	 */
+	public Adapter createRegisteredAttributeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.StdAttribute <em>Std Attribute</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.StdAttribute
+	 * @generated
+	 */
+	public Adapter createStdAttributeAdapter() {
 		return null;
 	}
 

@@ -108,6 +108,8 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 	private Action sync_action;
 
 	public TraceabilityViewer() {
+		setTitleImage(ResourceManager.getPluginImage(
+				"org.eclipse.reqcycle.traceability.ui", "icons/path.gif"));
 	}
 
 	@Override
@@ -353,7 +355,6 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 				Section.TWISTIE);
 		formToolkit.paintBordersFor(sctnTypesOfSelection);
 		sctnTypesOfSelection.setText("Type(s) of selection");
-		sctnTypesOfSelection.setExpanded(true);
 
 		Composite composite_2 = new Composite(sctnTypesOfSelection, SWT.NONE);
 		formToolkit.adapt(composite_2);
@@ -708,6 +709,6 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 		boolean enabled = sync_action.isChecked();
 		sync_action.setChecked(enabled);
 		traceabilityTreeViewer.setData(RequestContentProvider.EXPAND_ALL,
-				String.valueOf(!enabled));
+				String.valueOf(enabled));
 	}
 }
