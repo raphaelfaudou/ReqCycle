@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.reqcycle.traceability.model.TType;
-import org.eclipse.reqcycle.traceability.model.TraceabilityLink;
 import org.eclipse.reqcycle.traceability.storage.blueprints.graph.ISpecificGraphProvider;
+import org.eclipse.reqcycle.traceability.utils.SerializationUtils;
 import org.eclipse.reqcycle.uri.IReachableCreator;
 import org.eclipse.reqcycle.uri.model.Reachable;
 
@@ -102,8 +102,8 @@ public class SailBusinessOperations implements
 	}
 
 	private String getRelationString(TType relation) {
-		return relation.getSemantic() == null ? "" : relation.getSemantic()
-				+ PatternSplitter + relation.getSuperType().toString();
+		return relation.getSemantic() == null ? "" : SerializationUtils
+				.serialize(relation);
 	}
 
 	private String getLitteral(String relation) {
@@ -144,13 +144,7 @@ public class SailBusinessOperations implements
 			Vertex theKind = edges.iterator().next().getVertex(Direction.IN);
 			String id = (String) theKind.getId();
 			id = id.replaceAll("\"", "");
-			String[] splitted = id.split(PatternSplitter);
-			if (splitted.length == 1) {
-				return TType.get(TraceabilityLink.valueOf(splitted[0]));
-			} else if (splitted.length == 2) {
-				return TType.custom(TraceabilityLink.valueOf(splitted[1]),
-						splitted[0]);
-			}
+			return SerializationUtils.deserialize(id);
 		}
 		return null;
 	}

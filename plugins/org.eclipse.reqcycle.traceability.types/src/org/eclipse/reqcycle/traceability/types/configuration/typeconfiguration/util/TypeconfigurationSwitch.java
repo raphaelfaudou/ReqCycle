@@ -5,6 +5,7 @@ package org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.*;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Configuration;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.CustomType;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Entry;
@@ -107,6 +108,27 @@ public class TypeconfigurationSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case TypeconfigurationPackage.ATTRIBUTE: {
+				Attribute attribute = (Attribute)theEObject;
+				T result = caseAttribute(attribute);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TypeconfigurationPackage.REGISTERED_ATTRIBUTE: {
+				RegisteredAttribute registeredAttribute = (RegisteredAttribute)theEObject;
+				T result = caseRegisteredAttribute(registeredAttribute);
+				if (result == null) result = caseStdAttribute(registeredAttribute);
+				if (result == null) result = caseAttribute(registeredAttribute);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TypeconfigurationPackage.STD_ATTRIBUTE: {
+				StdAttribute stdAttribute = (StdAttribute)theEObject;
+				T result = caseStdAttribute(stdAttribute);
+				if (result == null) result = caseAttribute(stdAttribute);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -198,6 +220,51 @@ public class TypeconfigurationSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseEntry(Entry object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Attribute</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Attribute</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAttribute(Attribute object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Registered Attribute</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Registered Attribute</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRegisteredAttribute(RegisteredAttribute object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Std Attribute</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Std Attribute</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseStdAttribute(StdAttribute object) {
 		return null;
 	}
 

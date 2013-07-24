@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 
 import org.eclipse.reqcycle.traceability.storage.blueprints.graph.ISpecificGraphProvider;
 import org.eclipse.ziggurat.inject.ZigguratInject;
@@ -90,9 +92,11 @@ public class SailGraphProvider implements ISpecificGraphProvider {
 			SailRepository repo = new SailRepository(getRawGraph());
 			try {
 				if (getEdges().iterator().hasNext()) {
-					RDFWriter writer = Rio
-							.createWriter(format, new BufferedOutputStream(
-									new FileOutputStream(file)));
+					RDFWriter writer = Rio.createWriter(
+							format,
+							new OutputStreamWriter(new BufferedOutputStream(
+									new FileOutputStream(file)), Charset
+									.forName("UTF-8")));
 					repo.getConnection().export(writer, new Resource[] {});
 				}
 			} catch (RepositoryException e) {

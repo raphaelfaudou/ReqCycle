@@ -1,4 +1,4 @@
-package org.eclipse.reqcycle.traceability.types.configuration.preferences;
+package org.eclipse.reqcycle.traceability.types.configuration.preferences.dialogs;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;

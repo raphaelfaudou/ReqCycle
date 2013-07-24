@@ -1,5 +1,6 @@
 package org.eclipse.reqcycle.traceability.model;
 
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,76 +9,79 @@ import java.util.Map;
  * TraceabilityType determines the type of the relation according to a possible
  * supertype
  * 
+ * 2 {@link TType} are equals if their ids are equals
+ * 
+ * Take care that this class is {@link Serializable} this means all the
+ * attributes contained shall be {@link Serializable} you can also override
+ * write/read method if you want to use at your own risk
+ * 
+ * @see ObjectOutputStream
  * @author tfaure
  * 
  */
 public class TType implements Serializable {
+	protected static Map<String, TType> REGISTRY = new HashMap<String, TType>();
 	private static final long serialVersionUID = 1L;
 	private static Map<String, String> metadata = new HashMap<String, String>();
-	static Map<TraceabilityLink, TType> map = new HashMap<TraceabilityLink, TType>();
-	static {
-		for (TraceabilityLink t : TraceabilityLink.values()) {
-			map.put(t, new TType(t));
-		}
+	private TType superType;
+	private String label;
+	private String id;
+
+	public TType(String id, String label) {
+		this.id = id;
+		this.label = label;
 	}
 
-	private TraceabilityLink type;
-	private String specialization;
-
-	public static TType get(TraceabilityLink link) {
-		return map.get(link);
+	public TType(String id, TType superType) {
+		this(id, superType.getLabel());
+		this.superType = superType;
 	}
 
-	/**
-	 * Create a custom type this type has just the "Trace" meaning
-	 * 
-	 * @param label
-	 * @return
-	 */
-	public static TType custom(String label) {
-		return custom(TraceabilityLink.TRACE, label);
+	public String getLabel() {
+		return label;
 	}
 
-	public static TType custom(TraceabilityLink superType, String label) {
-		return new TType(superType, label);
+	public TType getSuperType() {
+		return superType;
 	}
 
-	private TType(TraceabilityLink type) {
-		this(type, type.getLabel());
-	}
-
-	private TType(TraceabilityLink superType, String specialization) {
-		this.type = superType;
-		this.specialization = specialization;
-	}
-
-	public TraceabilityLink getSuperType() {
-		return type;
+	public String getId() {
+		return id;
 	}
 
 	public String getSemantic() {
-		if (specialization == null) {
-			return type.getLabel();
+		if (superType != null) {
+			return superType.getLabel();
 		} else {
-			return specialization;
+			return label;
 		}
 
 	}
 
 	public boolean is(TType type) {
-		return this.type.equals(type);
+		return this.superType.equals(type);
 	}
 
 	public boolean isBasic() {
-		return specialization == null;
+		return superType == null;
 	}
 
 	@Override
 	public String toString() {
-		return getSemantic();
+		return getLabel();
 	}
 
 	public Map<String, String> getMetadata() {
 		return metadata;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof TType) {
+			TType ttype = (TType) obj;
+			return ttype.getId().equals(this.getId());
+		}
+		return super.equals(obj);
+	}
+
 }

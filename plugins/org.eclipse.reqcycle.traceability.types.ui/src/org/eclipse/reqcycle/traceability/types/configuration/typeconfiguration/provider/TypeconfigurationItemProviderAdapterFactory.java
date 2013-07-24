@@ -208,6 +208,52 @@ public class TypeconfigurationItemProviderAdapterFactory extends Typeconfigurati
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.RegisteredAttribute} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected RegisteredAttributeItemProvider registeredAttributeItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.RegisteredAttribute}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createRegisteredAttributeAdapter() {
+		if (registeredAttributeItemProvider == null) {
+			registeredAttributeItemProvider = new RegisteredAttributeItemProvider(this);
+		}
+
+		return registeredAttributeItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.StdAttribute} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected StdAttributeItemProvider stdAttributeItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.StdAttribute}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createStdAttributeAdapter() {
+		if (stdAttributeItemProvider == null) {
+			stdAttributeItemProvider = new StdAttributeItemProvider(this);
+		}
+
+		return stdAttributeItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -312,6 +358,8 @@ public class TypeconfigurationItemProviderAdapterFactory extends Typeconfigurati
 		if (configurationItemProvider != null) configurationItemProvider.dispose();
 		if (customTypeItemProvider != null) customTypeItemProvider.dispose();
 		if (entryItemProvider != null) entryItemProvider.dispose();
+		if (registeredAttributeItemProvider != null) registeredAttributeItemProvider.dispose();
+		if (stdAttributeItemProvider != null) stdAttributeItemProvider.dispose();
 	}
 
 }

@@ -124,7 +124,7 @@ public class ConfigurationImpl extends EObjectImpl implements Configuration {
 	 */
 	public TypeConfigContainer getParent() {
 		if (eContainerFeatureID() != TypeconfigurationPackage.CONFIGURATION__PARENT) return null;
-		return (TypeConfigContainer)eContainer();
+		return (TypeConfigContainer)eInternalContainer();
 	}
 
 	/**
