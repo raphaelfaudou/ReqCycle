@@ -67,6 +67,7 @@ public class TypesManager implements ITypesManager {
 	public IType newInjectedType(String id, IType parent,
 			final IValueInjecter injecter) {
 		IType newType = new InjectedType(id, parent, injecter);
+		ZigguratInject.inject(newType);
 		return newType;
 	}
 

@@ -40,7 +40,7 @@ public class ReachableListenerManager implements IReachableListenerManager {
 	}
 
 	@Override
-	public void removeReachableListener(IReachableListener listener) {
+	public synchronized void removeReachableListener(IReachableListener listener) {
 		Collection<Reachable> reachables = mapListenerToReachable
 				.removeAll(listener);
 		for (Reachable r : reachables) {
@@ -49,7 +49,7 @@ public class ReachableListenerManager implements IReachableListenerManager {
 	}
 
 	@Override
-	public void notifyChanged(Reachable r) {
+	public synchronized void notifyChanged(Reachable r) {
 		if (!preventReentrant) {
 			try {
 				preventReentrant = true;
@@ -65,8 +65,8 @@ public class ReachableListenerManager implements IReachableListenerManager {
 	}
 
 	@Override
-	public void removeReachableListener(IReachableListener listener,
-			Reachable reachable) {
+	public synchronized void removeReachableListener(
+			IReachableListener listener, Reachable reachable) {
 		remove(mapReachableToListener, mapListenerToReachable, reachable,
 				listener);
 	}

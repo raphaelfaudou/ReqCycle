@@ -6,7 +6,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.reqcycle.types.ICachedTypedChecker;
 import org.eclipse.reqcycle.types.IInjectedTypeChecker;
 import org.eclipse.reqcycle.types.IInjectedTypeChecker.InjectValue;
 import org.eclipse.reqcycle.types.IType;
@@ -26,6 +29,8 @@ public class Type implements IType {
 	private Class<? extends ITypeChecker> checker;
 	protected ITypeChecker instance = null;
 	public IType subType = null;
+	@Inject
+	ICachedTypedChecker cache;
 
 	public Type() {
 	}
@@ -54,6 +59,9 @@ public class Type implements IType {
 
 	@Override
 	public boolean is(Reachable reachable) {
+		if (cache != null) {
+			return cache.is(reachable, getChecker());
+		}
 		return getChecker().apply(reachable);
 	}
 
