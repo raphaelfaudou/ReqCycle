@@ -11,5 +11,8 @@ import org.eclipse.reqcycle.traceability.engine.ITraceabilityEngine;
  */
 public interface IBuildingTraceabilityEngine extends ITraceabilityEngine,
 		IBuilderCallBack {
+	/**
+	 * This string can be used as an option to prevent the check of the cache
+	 */
 	public static String OPTION_CHECK_CACHE = "optionCheckCache";
 }

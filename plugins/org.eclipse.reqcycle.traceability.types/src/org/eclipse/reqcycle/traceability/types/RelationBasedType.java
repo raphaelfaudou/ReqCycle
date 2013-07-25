@@ -11,7 +11,11 @@ public class RelationBasedType extends TType {
 			+ ".relations.";
 
 	public RelationBasedType(Relation rel) {
-		super(RELATION_BASED_NS + rel.getKind(), rel.getKind());
+		this(rel, null);
+	}
+
+	public RelationBasedType(Relation rel, TType superType) {
+		super(RELATION_BASED_NS + rel.getKind(), rel.getKind(), superType);
 	}
 
 }

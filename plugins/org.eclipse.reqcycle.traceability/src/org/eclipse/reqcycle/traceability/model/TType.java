@@ -37,6 +37,11 @@ public class TType implements Serializable {
 		this.superType = superType;
 	}
 
+	public TType(String id, String label, TType superType) {
+		this(id, label);
+		this.superType = superType;
+	}
+
 	public String getLabel() {
 		return label;
 	}

@@ -38,7 +38,7 @@ public class Link2RegisteredLink implements
 		List<Pair<Link, Reachable>> result = new LinkedList<Pair<Link, Reachable>>();
 		for (Relation r : relations) {
 			result.add(new Pair<Link, Reachable>(new Link(
-					new RelationBasedType(r), source, target), target));
+					new RelationBasedType(r, type), source, target), target));
 		}
 		return result;
 	}

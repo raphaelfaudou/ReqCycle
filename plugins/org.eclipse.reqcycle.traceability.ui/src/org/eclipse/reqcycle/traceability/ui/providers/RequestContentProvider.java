@@ -83,6 +83,8 @@ public class RequestContentProvider extends DeferredContentProvider implements
 		this.newInput = newInput;
 		listenerManger.removeReachableListener(this);
 		allParents.clear();
+		links.clear();
+		requests.clear();
 		contentManager = new DeferredTreeContentManager(
 				(AbstractTreeViewer) viewer) {
 			@Override
