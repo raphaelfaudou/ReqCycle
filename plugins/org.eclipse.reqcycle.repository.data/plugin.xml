@@ -27,14 +27,6 @@
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated CustomDataModel -->
-      <package
-            uri="http://www.eclipse.org/ReqCycle/CustomDataModel"
-            class="CustomDataModel.CustomDataModelPackage"
-            genModel="model/CustomDataModel.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated ScopeModel -->
       <package
             uri="http://www.eclipse.org/ReqCycle/ScopeModel"
@@ -97,22 +89,26 @@
    <extension
          point="org.eclipse.ziggurat.inject.binding">
       <binding
-            impl="org.eclipse.reqcycle.repository.requirement.data.impl.RequirementSourceManagerImpl"
-            interface="org.eclipse.reqcycle.repository.requirement.data.IRequirementSourceManager">
+            impl="org.eclipse.reqcycle.repository.data.impl.RequirementSourceManagerImpl"
+            interface="org.eclipse.reqcycle.repository.data.IRequirementSourceManager">
       </binding>
       <binding
-            impl="org.eclipse.reqcycle.repository.requirement.data.impl.ScopeManagerImpl"
-            interface="org.eclipse.reqcycle.repository.requirement.data.IScopeManager">
+            impl="org.eclipse.reqcycle.repository.data.impl.ScopeManagerImpl"
+            interface="org.eclipse.reqcycle.repository.data.IScopeManager">
       </binding>
       <binding
-            impl="org.eclipse.reqcycle.repository.requirement.data.impl.RequirementCreatorImpl"
-            interface="org.eclipse.reqcycle.repository.requirement.data.IRequirementCreator">
+            impl="org.eclipse.reqcycle.repository.data.impl.RequirementCreatorImpl"
+            interface="org.eclipse.reqcycle.repository.data.IRequirementCreator">
+      </binding>
+      <binding
+            impl="org.eclipse.reqcycle.repository.data.impl.DataTypeManagerImpl"
+            interface="org.eclipse.reqcycle.repository.data.IDataTypeManager">
       </binding>
    </extension>
    <extension
          point="org.eclipse.reqcycle.types.types">
       <type
-            checker="org.eclipse.reqcycle.repository.requirement.data.types.ReqcycleTypeChecker"
+            checker="org.eclipse.reqcycle.repository.data.types.ReqcycleTypeChecker"
             icon="icons/CurrentRequirement.gif"
             id="org.eclipse.reqcycle.repository.data.type1"
             label="Requirement">

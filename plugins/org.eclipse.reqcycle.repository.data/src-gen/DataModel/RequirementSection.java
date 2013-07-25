@@ -13,5 +13,5 @@ package DataModel;
  * @model
  * @generated
  */
-public interface RequirementSection extends ReachableObject, ReachableSection {
+public interface RequirementSection extends Requirement, Section {
 } // RequirementSection

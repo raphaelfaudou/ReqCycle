@@ -6,7 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-Activator: org.eclipse.reqcycle.repository.requirement.data.Activator
+Bundle-Activator: org.eclipse.reqcycle.repository.data.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
@@ -25,25 +25,22 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ziggurat.configuration,
  org.eclipse.ziggurat.inject
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: CustomDataModel,
- CustomDataModel.impl,
- CustomDataModel.util,
- DataModel,
+Export-Package: DataModel,
  DataModel.impl,
  DataModel.provider,
  DataModel.util,
+ MappingModel,
+ MappingModel.impl,
+ MappingModel.provider,
+ MappingModel.util,
  RequirementSourcesConf,
  RequirementSourcesConf.impl,
  RequirementSourcesConf.util,
  ScopesConf,
  ScopesConf.impl,
  ScopesConf.util,
- org.eclipse.reqcycle.repository.requirement.data,
- org.eclipse.reqcycle.repository.requirement.data.impl,
- org.eclipse.reqcycle.repository.requirement.data.util,
- MappingModel,
- MappingModel.impl,
- MappingModel.provider,
- MappingModel.util
+ org.eclipse.reqcycle.repository.data,
+ org.eclipse.reqcycle.repository.data.impl,
+ org.eclipse.reqcycle.repository.data.util
 Bundle-ActivationPolicy: lazy
 Import-Package: javax.inject;version="1.0.0"

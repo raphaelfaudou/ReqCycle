@@ -1,13 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension
+    <extension
          point="org.eclipse.ui.preferencePages">
-      <page
+		<page
             class="org.eclipse.reqcycle.core.ui.preferences.ReqCyclePreferencePage"
             id="org.eclipse.reqycle.core.ui.pref.reqcycle"
             name="ReqCycle">
-      </page>
+      	</page>
    </extension>
-
+   
+   <extension
+         point="org.eclipse.ui.menus">
+    <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+      	<menu
+               id="org.eclipse.reqcycle.core.ui.menu"
+               label="ReqCycle"
+               mnemonic="M">
+      	</menu>
+    </menuContribution>
+	<menuContribution
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+        <toolbar
+               id="org.eclipse.reqcycle.core.ui.toolbar">
+		</toolbar>
+	</menuContribution>
+    </extension>
+    
 </plugin>

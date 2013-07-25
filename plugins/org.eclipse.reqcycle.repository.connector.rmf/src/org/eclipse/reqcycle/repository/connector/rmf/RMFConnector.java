@@ -16,6 +16,8 @@ package org.eclipse.reqcycle.repository.connector.rmf;
 import java.util.Collection;
 import java.util.concurrent.Callable;
 
+import javax.inject.Inject;
+
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClassifier;
@@ -31,8 +33,8 @@ import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFRepositoryMappingPage
 import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFSettingPage;
 import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFSettingPage.RMFSettingPageBean;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
-import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
-import org.eclipse.reqcycle.repository.requirement.data.util.RepositoryConstants;
+import org.eclipse.reqcycle.repository.data.IDataTypeManager;
+import org.eclipse.reqcycle.repository.data.util.RepositoryConstants;
 import org.eclipse.rmf.reqif10.SpecType;
 
 import DataModel.DataModelFactory;
@@ -55,6 +57,9 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 	private RMFSettingPageBean settingPageBean;
 
 	private boolean edition = false;
+	
+	@Inject
+	private IDataTypeManager dataTypeManage;
 
 	public RMFConnector() {
 	}
@@ -79,8 +84,8 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 
 				if(((settingPageBean != null && !settingPageBean.skipMapping()) || edition) && mapping != null && !mapping.isEmpty()) {
 					//it's a creation without skip mapping or an edition
-					requirementSource.getMapping().clear();
-					requirementSource.getMapping().addAll(mapping);
+					requirementSource.getMappings().clear();
+					requirementSource.getMappings().addAll(mapping);
 					requirementSource.getRequirements().clear();
 					RMFUtils.fillRequirements(requirementSource, new NullProgressMonitor());
 				}
@@ -97,9 +102,9 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 		if(edition) {
 			ResourceSet rs = new ResourceSetImpl();
 			EList<SpecType> specTypes = RMFUtils.getReqIFTypes(rs, initSource.getRepositoryUri());
-			Collection<EClassifier> EClassifiers = DataUtil.getTargetEPackage(rs, "org.eclipse.reqcycle.repository.data/model/CustomDataModel.ecore");
-			EList<ElementMapping> mapping = initSource.getMapping();
-			mappingPage = createMappingPage(specTypes, EClassifiers, mapping);
+			Collection<EClassifier> eClassifiers = dataTypeManage.getTypes();
+			EList<ElementMapping> mapping = initSource.getMappings();
+			mappingPage = createMappingPage(specTypes, eClassifiers, mapping);
 			addPage(mappingPage);
 		} else {
 			settingPageBean = new RMFSettingPageBean();
@@ -114,9 +119,9 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 		if(page instanceof RMFSettingPage) {
 			ResourceSet rs = new ResourceSetImpl();
 			final EList<SpecType> specTypes = RMFUtils.getReqIFTypes(rs, settingPageBean.getUri());
-			final Collection<EClassifier> EClassifiers = DataUtil.getTargetEPackage(rs, "org.eclipse.reqcycle.repository.data/model/CustomDataModel.ecore");
-
-			mappingPage = createMappingPage(specTypes, EClassifiers, mapping);
+//			final Collection<EClassifier> eClassifiers = DataUtil.getTargetEPackage(rs, "org.eclipse.reqcycle.repository.data/model/CustomDataModel.ecore");
+			Collection<EClassifier> eClassifiers = dataTypeManage.getTypes();
+			mappingPage = createMappingPage(specTypes, eClassifiers, mapping);
 			mappingPage.setWizard(this);
 
 			return mappingPage;
@@ -124,13 +129,13 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 		return super.getNextPage(page);
 	}
 
-	private RMFRepositoryMappingPage createMappingPage(final EList<SpecType> specTypes, final Collection<EClassifier> EClassifiers, final Collection mapping) {
+	private RMFRepositoryMappingPage createMappingPage(final EList<SpecType> specTypes, final Collection<EClassifier> eClassifiers, final Collection mapping) {
 		
 		return new RMFRepositoryMappingPage("ReqIF Mapping", "") {
 
 			@Override
 			protected Object getTargetInput() {
-				return EClassifiers;
+				return eClassifiers;
 			}
 
 			@Override

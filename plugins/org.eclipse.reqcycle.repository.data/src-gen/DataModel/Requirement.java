@@ -3,6 +3,7 @@
 package DataModel;
 
 
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Requirement</b></em>'.
@@ -13,5 +14,5 @@ package DataModel;
  * @model
  * @generated
  */
-public interface Requirement extends ReachableObject {
+public interface Requirement extends Contained {
 } // Requirement

@@ -36,9 +36,9 @@ import org.eclipse.reqcycle.repository.connector.IConnector;
 import org.eclipse.reqcycle.repository.connector.IConnectorManager;
 import org.eclipse.reqcycle.repository.connector.ui.Activator;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
-import org.eclipse.reqcycle.repository.requirement.data.IRequirementSourceManager;
-import org.eclipse.reqcycle.repository.requirement.data.IScopeManager;
-import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
+import org.eclipse.reqcycle.repository.data.IRequirementSourceManager;
+import org.eclipse.reqcycle.repository.data.IScopeManager;
+import org.eclipse.reqcycle.repository.data.util.DataUtil;
 import org.eclipse.swt.widgets.Display;
 
 import com.google.common.base.Predicate;
@@ -85,7 +85,7 @@ public class EditRequirementSourceAction extends Action {
 			if(element instanceof RequirementSource) {
 				try {
 					RequirementSource requirementSource = (RequirementSource)element;
-					String connectorID = requirementSource.getConnectorID();
+					String connectorID = requirementSource.getConnectorId();
 					ConnectorDescriptor connectorDescriptor = connectorManager.get(connectorID);
 
 					this.connector = connectorDescriptor.createConnector();
@@ -104,10 +104,10 @@ public class EditRequirementSourceAction extends Action {
 						callable.call();
 						
 						
-						EList<ElementMapping> mapping = requirementSource.getMapping();
+						EList<ElementMapping> mappings = requirementSource.getMappings();
 						
 						ResourceSet rs = new ResourceSetImpl();
-						for(ElementMapping elementMapping : mapping) {
+						for(ElementMapping elementMapping : mappings) {
 							rs.getResources().add(elementMapping.getTargetElement().eResource());
 							for(AttributeMapping attributeMapping : elementMapping.getAttributes()) {
 								rs.getResources().add(attributeMapping.getTargetAttribute().eResource());

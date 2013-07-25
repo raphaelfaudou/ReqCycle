@@ -23,7 +23,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.reqcycle.repository.connector.ConnectorDescriptor;
 import org.eclipse.reqcycle.repository.connector.IConnectorManager;
 import org.eclipse.reqcycle.repository.connector.ui.providers.ConnectorLabelProvider;
-import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
+import org.eclipse.reqcycle.repository.data.util.DataUtil;
 import org.eclipse.reqcycle.repository.ui.Activator;
 import org.eclipse.reqcycle.repository.ui.Messages;
 import org.eclipse.swt.graphics.Image;

@@ -119,7 +119,6 @@ public class SailBusinessOperations implements
 			final Direction graphDirection) {
 		String label = graphDirection == Direction.IN ? TRACE_TARGET
 				: VERTEX_OUTGOING;
-		Lists.newArrayList(v.getEdges(Direction.IN));
 		return Iterables.transform(v.getEdges(graphDirection, label),
 				new Function<Edge, Vertex>() {
 					public Vertex apply(Edge e) {
@@ -135,7 +134,6 @@ public class SailBusinessOperations implements
 	public Vertex getTraceabilityTarget(Vertex trac, Direction direction) {
 		String label = direction == Direction.IN ? VERTEX_OUTGOING
 				: TRACE_TARGET;
-		Lists.newArrayList(trac.getEdges(Direction.IN));
 		return trac.getEdges(direction, label).iterator().next()
 				.getVertex(invert(direction));
 	}

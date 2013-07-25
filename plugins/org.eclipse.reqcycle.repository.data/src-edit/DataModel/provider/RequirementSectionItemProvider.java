@@ -16,7 +16,7 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
+import org.eclipse.reqcycle.repository.data.util.DataUtil;
 
 import DataModel.Contained;
 import DataModel.DataModelFactory;
@@ -30,7 +30,8 @@ import DataModel.RequirementSection;
  * @generated
  */
 public class RequirementSectionItemProvider
-	extends ReachableObjectItemProvider
+	extends 
+RequirementItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -74,7 +75,7 @@ public class RequirementSectionItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(DataModelPackage.Literals.REACHABLE_SECTION__CHILDREN);
+			childrenFeatures.add(DataModelPackage.Literals.SECTION__CHILDREN);
 		}
 		return childrenFeatures;
 	}
@@ -146,22 +147,17 @@ public class RequirementSectionItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(DataModelPackage.Literals.REACHABLE_SECTION__CHILDREN,
-				 DataModelFactory.eINSTANCE.createReachableSection()));
+				(DataModelPackage.Literals.SECTION__CHILDREN,
+				 DataModelFactory.eINSTANCE.createSection()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(DataModelPackage.Literals.REACHABLE_SECTION__CHILDREN,
-				 DataModelFactory.eINSTANCE.createReachableObject()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(DataModelPackage.Literals.REACHABLE_SECTION__CHILDREN,
+				(DataModelPackage.Literals.SECTION__CHILDREN,
 				 DataModelFactory.eINSTANCE.createRequirement()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(DataModelPackage.Literals.REACHABLE_SECTION__CHILDREN,
+				(DataModelPackage.Literals.SECTION__CHILDREN,
 				 DataModelFactory.eINSTANCE.createRequirementSection()));
 	}
 

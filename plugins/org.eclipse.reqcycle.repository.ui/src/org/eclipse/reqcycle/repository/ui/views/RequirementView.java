@@ -28,7 +28,7 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.dnd.DragRequirementSourceAdapter;
 import org.eclipse.reqcycle.predicates.core.api.IPredicate;
-import org.eclipse.reqcycle.repository.requirement.data.util.DataUtil;
+import org.eclipse.reqcycle.repository.data.util.DataUtil;
 import org.eclipse.reqcycle.repository.ui.Activator;
 import org.eclipse.reqcycle.repository.ui.providers.ComposedRequirementContentProvider;
 import org.eclipse.reqcycle.repository.ui.providers.ComposedRequirementContentProvider.DummyInput;
