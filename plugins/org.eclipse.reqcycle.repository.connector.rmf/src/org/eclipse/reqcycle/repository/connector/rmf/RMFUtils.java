@@ -27,10 +27,14 @@ import org.eclipse.rmf.reqif10.ReqIFContent;
 import org.eclipse.rmf.reqif10.SpecElementWithAttributes;
 import org.eclipse.rmf.reqif10.SpecHierarchy;
 import org.eclipse.rmf.reqif10.SpecObject;
+import org.eclipse.rmf.reqif10.SpecObjectType;
 import org.eclipse.rmf.reqif10.SpecType;
 import org.eclipse.rmf.reqif10.Specification;
 import org.eclipse.rmf.reqif10.common.util.ReqIF10Util;
 import org.eclipse.ziggurat.inject.ZigguratInject;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 
 import DataModel.Contained;
 import DataModel.RequirementSource;
@@ -45,7 +49,7 @@ public class RMFUtils {
 
 	private static IRequirementCreator creator = ZigguratInject.make(IRequirementCreator.class);
 
-	public static EList<SpecType> getReqIFTypes(ResourceSet resourceSet, String fileLocation) {
+	public static Collection<SpecType> getReqIFTypes(ResourceSet resourceSet, String fileLocation) {
 		URI uriReqIf = URI.createURI(fileLocation, false);
 		Resource reqIfResource = resourceSet.getResource(uriReqIf, true);
 		EList<EObject> contents = reqIfResource.getContents();
@@ -53,7 +57,18 @@ public class RMFUtils {
 			EObject content = contents.get(0);
 			if(content instanceof ReqIF) {
 				ReqIFContent coreContent = ((ReqIF)content).getCoreContent();
-				return coreContent.getSpecTypes();
+				EList<SpecType> specTypes = coreContent.getSpecTypes();
+				//Gets SpecObjectTypes, specification elements are automatically transformed in sections
+				return Collections2.filter(specTypes, new Predicate<SpecType>() {
+
+					@Override
+					public boolean apply(SpecType arg0) {
+						if(arg0 instanceof SpecObjectType) {
+							return true;
+						}
+						return false;
+					}
+				});
 			}
 		}
 		return null;
@@ -82,15 +97,21 @@ public class RMFUtils {
 					EList<SpecHierarchy> specHierarchies = specification.getChildren();
 					Collection<Contained> children = createChildren(specHierarchies, mapping);
 
-					ElementMapping elementMapping = DataUtil.getElementMapping(mapping, specification.getType().getIdentifier());
+//					ElementMapping elementMapping = DataUtil.getElementMapping(mapping, specification.getType().getIdentifier());
 
-					String id = getID(elementMapping, specification);
-					String name = getName(elementMapping, specification);
+					String id = specification.getLongName();//getID(elementMapping, specification);
+					String name = specification.getDesc();//getName(elementMapping, specification);
 
-					Contained section = createElement(mapping, specification, ReqIF10Util.getSpecType(specification).getIdentifier(), id, name);
+					Contained section = null;
+					try {
+						section = creator.createSection(id, name, ReqIF10Util.getSpecType(specification).getIdentifier());
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
 					if(section != null) {
 						requirementSource.getRequirements().add(section);
-						addAttributes(elementMapping, specification.getValues(), section);
+//						addAttributes(elementMapping, specification.getValues(), section);
 					}
 
 					if(children != null && !children.isEmpty()) {
@@ -195,6 +216,7 @@ public class RMFUtils {
 		return createdObject;
 	}
 
+	
 	protected static void addAttributes(ElementMapping elementMapping, Collection<AttributeValue> values, Contained element) {
 		for(AttributeValue attributeValue : values) {
 			AttributeMapping attributeMapping = DataUtil.getAttributeMapping(elementMapping, ReqIF10Util.getAttributeDefinition(attributeValue).getIdentifier());
