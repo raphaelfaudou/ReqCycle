@@ -10,5 +10,15 @@
             type="org.eclipse.emf.ecore.EEnum">
       </eAttrPropsEditor>
    </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.eclipse.reqcycle.ui.eenumpropseditor.internal.AdaptableEEnumLiteral"
+            class="org.eclipse.reqcycle.ui.eenumpropseditor.internal.factory.EnumeratorAdapterFactory">
+         <adapter
+               type="org.eclipse.emf.common.util.Enumerator">
+         </adapter>
+      </factory>
+   </extension>
 
 </plugin>

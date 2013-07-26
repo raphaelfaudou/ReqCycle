@@ -16,8 +16,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -93,6 +95,7 @@ public class ComboInputDialog extends AbstractCustomDialog {
         this.comboViewer.setContentProvider(this.comboContentProvider);
         this.comboViewer.setLabelProvider(this.comboILabelProvider);
         this.comboViewer.setInput(getInput());
+        combo.addListener(SWT.Selection, this);
     }
 
     protected void validateInput() {
@@ -151,6 +154,23 @@ public class ComboInputDialog extends AbstractCustomDialog {
 
     protected ComboViewer getComboViewer() {
         return this.comboViewer;
+    }
+
+    @Override
+    protected Button createButton(Composite parent, int id, String label, boolean defaultButton) {
+        Button btn = super.createButton(parent, id, label, defaultButton);
+        if (OK == id && btn != null) {
+            btn.setEnabled(false);
+        }
+        return btn;
+    }
+
+    @Override
+    public void handleEvent(Event event) {
+        if (comboViewer == null) {
+            return;
+        }
+        enableOkButton(comboViewer.getSelection() != null);
     }
 
 }

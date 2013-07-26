@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.reqcycle.predicates.core.api.IPredicate;
 import org.eclipse.reqcycle.predicates.persistance.PredicatesConfFactory;
 import org.eclipse.reqcycle.predicates.persistance.api.PredicatesConf;
@@ -22,7 +24,17 @@ public class PredicatesConfManager {
      */
     public static final String PREDICATES_ENTRIES_CONF_ID = "org.eclipse.reqcycle.predicates.entries";
 
+    protected ResourceSet      rs;
+
     public PredicatesConfManager() {
+        this(null);
+    }
+
+    public PredicatesConfManager(ResourceSet rs) {
+        if (rs == null) {
+            rs = new ResourceSetImpl();
+        }
+        this.rs = rs;
     }
 
     /**
@@ -44,7 +56,7 @@ public class PredicatesConfManager {
                 predicatesConf = PredicatesConfFactory.eINSTANCE.createPredicatesConf();
             }
             added = predicatesConf.getPredicates().add(predicate);
-            getConfManager().saveConfiguration(predicatesConf, null, null, PREDICATES_ENTRIES_CONF_ID);
+            getConfManager().saveConfiguration(predicatesConf, null, null, PREDICATES_ENTRIES_CONF_ID, rs);
 
         } catch (IOException ioe) {
             // TODO log ...
@@ -114,7 +126,7 @@ public class PredicatesConfManager {
                     removed = conf.getPredicates().remove(p);
                     if (removed) {
                         try {
-                            getConfManager().saveConfiguration(conf, null, null, PREDICATES_ENTRIES_CONF_ID);
+                            getConfManager().saveConfiguration(conf, null, null, PREDICATES_ENTRIES_CONF_ID, rs);
                         } catch (IOException e) {
                             // TODO : log ...
                             e.printStackTrace();
@@ -129,7 +141,7 @@ public class PredicatesConfManager {
     }
 
     private PredicatesConf getConf() {
-        return (PredicatesConf) getConfManager().getConfiguration(null, null, PREDICATES_ENTRIES_CONF_ID);
+        return (PredicatesConf) getConfManager().getConfiguration(null, null, PREDICATES_ENTRIES_CONF_ID, rs);
     }
 
     private IConfigurationManager getConfManager() {

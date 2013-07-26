@@ -2,7 +2,6 @@ package org.eclipse.reqcycle.repository.data.impl;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -12,6 +11,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
@@ -23,6 +23,7 @@ import org.eclipse.reqcycle.repository.data.IDataTypeManager;
 import org.eclipse.ziggurat.configuration.IConfigurationManager;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
+import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 
@@ -126,20 +127,42 @@ public class DataTypeManagerImpl implements IDataTypeManager {
 		return ePackage.getEFactoryInstance().create(eClass);
 	}
 	
-	public Collection<EClassifier> getTypes() {
-		return Collections2.filter(ePackage.getEClassifiers(), new Predicate<EClassifier>() {
-			@Override
-			public boolean apply(EClassifier arg0) {
-				if(arg0 instanceof EClass) {
-					return true;
-				}
-				return false;
-			}
-		});
-	}
+    public Collection<EClass> getTypes() {
+        Collection<EClassifier> eClasses = Collections2.filter(ePackage.getEClassifiers(), new Predicate<EClassifier>() {
 
-	public void addTypes(Collection<EClassifier> types) {
-		ePackage.getEClassifiers().addAll(types);
-	}
-	
+            @Override
+            public boolean apply(EClassifier arg0) {
+                return arg0 instanceof EClass;
+            }
+        });
+        
+        return Collections2.transform(eClasses, new Function<EClassifier, EClass>() {
+            @Override
+            public EClass apply(EClassifier arg0) {
+                return (EClass)arg0;
+            }
+        });
+    }
+
+    public void addTypes(Collection<EClassifier> types) {
+        ePackage.getEClassifiers().addAll(types);
+    }
+
+    @Override
+    public Collection<EEnum> getEEnums() {
+
+        Collection<EClassifier> eEnums = Collections2.filter(ePackage.getEClassifiers(), new Predicate<EClassifier>() {
+            @Override
+            public boolean apply(EClassifier arg0) {
+                return arg0 instanceof EEnum;
+            }
+        });
+        
+        return Collections2.transform(eEnums, new Function<EClassifier, EEnum>() {
+            @Override
+            public EEnum apply(EClassifier arg0) {
+                return (EEnum)arg0;
+            }
+        });
+    }
 }

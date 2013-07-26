@@ -12,11 +12,13 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-abstract class AbstractCustomDialog extends Dialog {
+abstract class AbstractCustomDialog extends Dialog implements Listener {
 
     /** The title of the dialog. */
     private String          title;
@@ -139,4 +141,14 @@ abstract class AbstractCustomDialog extends Dialog {
         return this.validator;
     }
 
+    protected void enableOkButton(boolean enable) {
+        Button okBtn = getButton(OK);
+        if (okBtn != null) {
+            okBtn.setEnabled(enable);
+        }
+    }
+
+    @Override
+    public void handleEvent(Event event) {
+    }
 }

@@ -10,7 +10,8 @@ Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.reqcycle.predicates.ui,
  org.eclipse.reqcycle.predicates.ui.presentation,
- org.eclipse.reqcycle.predicates.ui.providers
+ org.eclipse.reqcycle.predicates.ui.providers,
+ org.eclipse.reqcycle.predicates.ui.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources;visibility:=reexport,
  org.eclipse.emf.edit;visibility:=reexport,
@@ -22,6 +23,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.reqcycle.ui.eattrpropseditor;visibility:=reexport,
  org.eclipse.reqcycle.predicates.persistance;bundle-version="0.1.0";visibility:=reexport,
  org.eclipse.reqcycle.core;bundle-version="1.0.0";visibility:=reexport,
- org.eclipse.ziggurat.inject;bundle-version="1.0.0";visibility:=reexport
+ org.eclipse.ziggurat.inject;bundle-version="1.0.0";visibility:=reexport,
+ org.eclipse.reqcycle.ui.components;bundle-version="1.0.0";visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Import-Package: javax.inject;version="1.0.0"

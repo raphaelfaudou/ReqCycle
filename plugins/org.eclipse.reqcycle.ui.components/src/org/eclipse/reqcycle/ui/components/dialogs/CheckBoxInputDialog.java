@@ -115,5 +115,4 @@ public class CheckBoxInputDialog extends AbstractCustomDialog {
     public void setLabelProvider(ITableLabelProvider labelProvider) {
         this.labelProvider = labelProvider;
     }
-
 }

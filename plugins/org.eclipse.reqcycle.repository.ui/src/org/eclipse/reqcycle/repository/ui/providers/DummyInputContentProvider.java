@@ -1,6 +1,7 @@
 package org.eclipse.reqcycle.repository.ui.providers;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 
 import org.eclipse.emf.ecore.EObject;
@@ -9,13 +10,15 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.reqcycle.predicates.core.api.IPredicate;
 
+import DataModel.Contained;
+import DataModel.Requirement;
 import DataModel.RequirementSource;
+import DataModel.Section;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 
 public class DummyInputContentProvider extends AdapterFactoryContentProvider {
 
@@ -31,8 +34,6 @@ public class DummyInputContentProvider extends AdapterFactoryContentProvider {
                 Object obj = iter.next();
                 if (obj instanceof DummyInput) {
                     return ArrayContentProvider.getInstance().getElements(inputElement);
-                } else {
-                    return super.getElements(inputElement);
                 }
             }
         }
@@ -52,22 +53,32 @@ public class DummyInputContentProvider extends AdapterFactoryContentProvider {
         }
         if (object instanceof DummyObject) {
             final DummyObject dummyObject = (DummyObject) object;
-            Collection<Object> defaultChildren = Lists.newArrayList(super.getChildren(dummyObject.getEobj()));
-            Collection<EObject> transformedChildren = Collections2.transform(defaultChildren,
-                    new Function<Object, EObject>() {
-                        @Override
-                        public EObject apply(Object from) {
-                            return (EObject) from;
-                        }
-                    });
-            Iterable<DummyObject> result = Iterables.filter(
-                    Collections2.transform(transformedChildren, new Function<EObject, DummyObject>() {
-                        @Override
-                        public DummyObject apply(EObject eObj) {
-                            DummyObject dObj = new DummyObject(dummyObject.getPredicate(), eObj);
-                            return dObj.getPredicate().match(eObj) ? dObj : null;
-                        }
-                    }), Predicates.notNull());
+            EObject obj = dummyObject.getEobj();
+            Collection<Contained> elements = Collections.emptyList();
+            if (obj instanceof RequirementSource) {
+                elements = ((RequirementSource) obj).getRequirements();
+            }
+            if (obj instanceof Section) {
+                elements = ((Section) obj).getChildren();
+            }
+
+            Collection<DummyObject> transform = Collections2.transform(elements, new Function<EObject, DummyObject>() {
+                @Override
+                public DummyObject apply(EObject eObj) {
+                    DummyObject dObj = new DummyObject(dummyObject.getPredicate(), eObj);
+                    IPredicate predicate = dObj.getPredicate();
+                    if (dObj.getEobj() instanceof Section && !(dObj.getEobj() instanceof Requirement)) {
+                        return dObj; // do not use predicate filter for sections which are not requirements
+                    }
+                    if (predicate != null) {
+                        return predicate.match(eObj) ? dObj : null;
+                    } else {
+                        return dObj;
+                    }
+                }
+            });
+
+            Iterable<DummyObject> result = Iterables.filter(transform, Predicates.notNull());
             return Iterables.toArray(result, DummyObject.class);
         }
         return super.getChildren(object);

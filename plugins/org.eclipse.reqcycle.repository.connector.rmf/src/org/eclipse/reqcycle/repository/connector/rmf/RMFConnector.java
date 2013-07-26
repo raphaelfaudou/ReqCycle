@@ -20,7 +20,7 @@ import javax.inject.Inject;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -102,7 +102,7 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 		if(edition) {
 			ResourceSet rs = new ResourceSetImpl();
 			EList<SpecType> specTypes = RMFUtils.getReqIFTypes(rs, initSource.getRepositoryUri());
-			Collection<EClassifier> eClassifiers = dataTypeManage.getTypes();
+			Collection<EClass> eClassifiers = dataTypeManage.getTypes();
 			EList<ElementMapping> mapping = initSource.getMappings();
 			mappingPage = createMappingPage(specTypes, eClassifiers, mapping);
 			addPage(mappingPage);
@@ -120,7 +120,7 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 			ResourceSet rs = new ResourceSetImpl();
 			final EList<SpecType> specTypes = RMFUtils.getReqIFTypes(rs, settingPageBean.getUri());
 //			final Collection<EClassifier> eClassifiers = DataUtil.getTargetEPackage(rs, "org.eclipse.reqcycle.repository.data/model/CustomDataModel.ecore");
-			Collection<EClassifier> eClassifiers = dataTypeManage.getTypes();
+			Collection<EClass> eClassifiers = dataTypeManage.getTypes();
 			mappingPage = createMappingPage(specTypes, eClassifiers, mapping);
 			mappingPage.setWizard(this);
 
@@ -129,7 +129,7 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 		return super.getNextPage(page);
 	}
 
-	private RMFRepositoryMappingPage createMappingPage(final EList<SpecType> specTypes, final Collection<EClassifier> eClassifiers, final Collection mapping) {
+	private RMFRepositoryMappingPage createMappingPage(final EList<SpecType> specTypes, final Collection<EClass> eClassifiers, final Collection mapping) {
 		
 		return new RMFRepositoryMappingPage("ReqIF Mapping", "") {
 

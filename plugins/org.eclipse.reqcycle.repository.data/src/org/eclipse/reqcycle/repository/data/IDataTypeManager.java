@@ -2,8 +2,9 @@ package org.eclipse.reqcycle.repository.data;
 
 import java.util.Collection;
 
-import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EEnum;
 
 
 public interface IDataTypeManager {
@@ -18,5 +19,7 @@ public interface IDataTypeManager {
 	
 	public boolean isAvailable(String name);
 
-	public Collection<EClassifier> getTypes();
+	public Collection<EClass> getTypes();
+	
+	public Collection<EEnum> getEEnums();
 }

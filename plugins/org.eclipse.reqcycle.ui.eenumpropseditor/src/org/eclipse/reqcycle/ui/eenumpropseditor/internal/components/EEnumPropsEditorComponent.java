@@ -11,6 +11,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.reqcycle.ui.eattrpropseditor.api.AbstractPropsEditorComponent;
+import org.eclipse.reqcycle.ui.eenumpropseditor.internal.AdaptableEEnumLiteral;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -49,16 +50,18 @@ public class EEnumPropsEditorComponent extends AbstractPropsEditorComponent<Enum
 
             @Override
             public void selectionChanged(SelectionChangedEvent event) {
-                if (!comboViewer.getSelection().isEmpty()
-                        && (comboViewer.getSelection() instanceof IStructuredSelection)) {
+                if (comboViewer.getSelection() instanceof IStructuredSelection && !comboViewer.getSelection().isEmpty()) {
                     IStructuredSelection selection = (IStructuredSelection) comboViewer.getSelection();
-                    EEnumLiteral enumLiteral = (EEnumLiteral) selection.getFirstElement();
-                    final Enumerator selectedLiteral = enumLiteral.getInstance();
-                    if (selectedLiteral instanceof EEnumLiteral) {
-                        // FIXME : selectedLiteral should not be a EEnumLiteral because it is not serializable.
-                        // Try to retrieve a sole and reduced Enumerator, ... not a EEnumLiteral.
+                    Object selectedElement = selection.getFirstElement();
+                    if (selectedElement instanceof Enumerator) {
+                        Enumerator enumerator = (Enumerator) selectedElement;
+                        if (enumerator instanceof EEnumLiteral) {
+                            AdaptableEEnumLiteral adaptableEEnumLiteral = new AdaptableEEnumLiteral(
+                                    (EEnumLiteral) enumerator);
+                            enumerator = (Enumerator) adaptableEEnumLiteral.getAdapter(Enumerator.class);
+                        }
+                        setValue(enumerator);
                     }
-                    setValue(selectedLiteral);
                 }
             }
         });
