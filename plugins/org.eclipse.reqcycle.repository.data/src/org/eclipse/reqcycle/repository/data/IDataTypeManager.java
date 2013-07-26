@@ -22,4 +22,6 @@ public interface IDataTypeManager {
 	public Collection<EClass> getTypes();
 	
 	public Collection<EEnum> getEEnums();
+	
+	public void loadTypes();
 }
