@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.reqcycle.traceability.model.TraceabilityLink;
+import org.eclipse.reqcycle.jdt.traceability.types.JDTType;
+import org.eclipse.reqcycle.traceability.model.TType;
 import org.eclipse.ziggurat.configuration.IConfigurationManager;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
@@ -16,19 +17,19 @@ public class JDTPreferences {
 	private static final String JDT_TYPES_CONSTANT = Activator.PLUGIN_ID
 			+ ".jdtType";
 
-	public static Map<String, TraceabilityLink> getPreferences() {
+	public static Map<String, TType> getPreferences() {
 		IConfigurationManager manager = ZigguratInject
 				.make(IConfigurationManager.class);
 		Map<String, Object> map = manager.getSimpleConfiguration(null, null,
 				JDT_TYPES_CONSTANT);
 		if (map == null) {
-			return new HashMap<String, TraceabilityLink>();
+			return new HashMap<String, TType>();
 		}
-		return new HashMap<String, TraceabilityLink>(Maps.transformValues(map,
+		return new HashMap<String, TType>(Maps.transformValues(map,
 				new MapFunction()));
 	}
 
-	public static void savePreferences(Map<String, TraceabilityLink> map) {
+	public static void savePreferences(Map<String, TType> map) {
 		IConfigurationManager manager = ZigguratInject
 				.make(IConfigurationManager.class);
 		Map<String, Object> newMap = new HashMap<String, Object>(
@@ -41,12 +42,11 @@ public class JDTPreferences {
 		}
 	}
 
-	private static class MapFunction implements
-			Function<Object, TraceabilityLink> {
-		public TraceabilityLink apply(Object o) {
+	private static class MapFunction implements Function<Object, TType> {
+		public TType apply(Object o) {
 			if (o instanceof String) {
 				String string = (String) o;
-				return TraceabilityLink.valueOf(string);
+				return new JDTType(string);
 			} else {
 				return null;
 			}

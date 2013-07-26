@@ -26,107 +26,108 @@ import com.google.common.collect.Collections2;
 @Singleton
 public class DataTypeManagerImpl implements IDataTypeManager {
 
-	/** EPackage containing possible data types */
-	private EPackage ePackage;
-	private EPackage ePackageBak;
-	
-	/** Configuration Manager */
-	@Inject
-	private IConfigurationManager confManager;
-	
-	/** Configuration ID */
-	final static String CONF_ID =  "org.eclipse.reqcycle.data.dataTypes";
-	
-	@Inject
-	private ILogger logger;
+    /** EPackage containing possible data types */
+    private EPackage              ePackage;
+    private EPackage              ePackageBak;
 
-	
-	/**
-	 * Constructor
-	 */
-	DataTypeManagerImpl() {
-		if(confManager == null) {
-			confManager = ZigguratInject.make(IConfigurationManager.class);
-		}
-		loadTypes();
-	}
+    /** Configuration Manager */
+    @Inject
+    private IConfigurationManager confManager;
 
-	public void loadTypes() {
-		if(ePackageBak != null) {
-			ePackage = ePackageBak;
-			saveTypes();
-			return;
-		}
-		
-		EObject conf = loadEpackage();
-		if(conf instanceof EPackage) {
-			ePackage = (EPackage)conf;
-			ePackageBak = EcoreUtil.copy(ePackage);
-		} else {
-			initEpackage();
-		}
-	}
+    /** Configuration ID */
+    final static String           CONF_ID = "org.eclipse.reqcycle.data.dataTypes";
 
-	private EObject loadEpackage() {
-		EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, CONF_ID);
-		return conf;
-	}
+    @Inject
+    private ILogger               logger;
 
-	private void initEpackage() {
-		ePackage = EcoreFactory.eINSTANCE.createEPackage();
-		ePackage.setName("DataTypes");
-		ePackage.setNsPrefix("DataTypes");
-		ePackage.setNsURI("http://www.eclipse.org/ReqCycle/DataType");
-	}
+    /**
+     * Constructor
+     */
+    DataTypeManagerImpl() {
+        if (confManager == null) {
+            confManager = ZigguratInject.make(IConfigurationManager.class);
+        }
+        loadTypes();
+    }
 
-	public void saveTypes() {
-		try {
-			ePackageBak = EcoreUtil.copy(ePackage);
-			confManager.saveConfiguration(ePackage, null, IConfigurationManager.Scope.WORKSPACE, CONF_ID);
-		} catch (IOException e) {
-			//TODO : use logger
-			e.printStackTrace();
-		}
-	}
-	
-	public void addType(EClassifier eClassifier) {
-		Assert.isNotNull(eClassifier);
-		ePackage.getEClassifiers().add(eClassifier);
-	}
-	
-	public void removeType(EClassifier eClassifier) {
-		Assert.isNotNull(ePackage);
-		ePackage.getEClassifiers().remove(eClassifier);
-	}
-	
-	public boolean isAvailable(String name) {
-		Assert.isNotNull(ePackage);
-		return ePackage.getEClassifier(name) == null;
-	}
-	
-	public EClassifier getType(String name) {
-		Assert.isNotNull(ePackage);
-		return ePackage.getEClassifier(name);
-	}
+    public void loadTypes() {
+        if (ePackageBak != null) {
+            ePackage = ePackageBak;
+            saveTypes();
+            return;
+        }
 
-	public EObject create(EClass eClass) {
-		Assert.isNotNull(ePackage);
-		return ePackage.getEFactoryInstance().create(eClass);
-	}
-	
+        EObject conf = loadEpackage();
+        if (conf instanceof EPackage) {
+            ePackage = (EPackage) conf;
+            ePackageBak = EcoreUtil.copy(ePackage);
+        } else {
+            initEpackage();
+        }
+    }
+
+    private EObject loadEpackage() {
+        EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, CONF_ID);
+        return conf;
+    }
+
+    private void initEpackage() {
+        ePackage = EcoreFactory.eINSTANCE.createEPackage();
+        ePackage.setName("DataTypes");
+        ePackage.setNsPrefix("DataTypes");
+        ePackage.setNsURI("http://www.eclipse.org/ReqCycle/DataType");
+    }
+
+    public void saveTypes() {
+        try {
+            ePackageBak = EcoreUtil.copy(ePackage);
+            confManager.saveConfiguration(ePackage, null, IConfigurationManager.Scope.WORKSPACE, CONF_ID);
+        } catch (IOException e) {
+            // TODO : use logger
+            e.printStackTrace();
+        }
+    }
+
+    public void addType(EClassifier eClassifier) {
+        Assert.isNotNull(eClassifier);
+        ePackage.getEClassifiers().add(eClassifier);
+        EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, CONF_ID);
+    }
+
+    public void removeType(EClassifier eClassifier) {
+        Assert.isNotNull(ePackage);
+        ePackage.getEClassifiers().remove(eClassifier);
+    }
+
+    public boolean isAvailable(String name) {
+        Assert.isNotNull(ePackage);
+        return ePackage.getEClassifier(name) == null;
+    }
+
+    public EClassifier getType(String name) {
+        Assert.isNotNull(ePackage);
+        return ePackage.getEClassifier(name);
+    }
+
+    public EObject create(EClass eClass) {
+        Assert.isNotNull(ePackage);
+        return ePackage.getEFactoryInstance().create(eClass);
+    }
+
     public Collection<EClass> getTypes() {
-        Collection<EClassifier> eClasses = Collections2.filter(ePackage.getEClassifiers(), new Predicate<EClassifier>() {
+        Collection<EClassifier> eClasses = Collections2.filter(ePackage.getEClassifiers(),
+                new Predicate<EClassifier>() {
 
-            @Override
-            public boolean apply(EClassifier arg0) {
-                return arg0 instanceof EClass;
-            }
-        });
-        
+                    @Override
+                    public boolean apply(EClassifier arg0) {
+                        return arg0 instanceof EClass;
+                    }
+                });
+
         return Collections2.transform(eClasses, new Function<EClassifier, EClass>() {
             @Override
             public EClass apply(EClassifier arg0) {
-                return (EClass)arg0;
+                return (EClass) arg0;
             }
         });
     }
@@ -144,12 +145,13 @@ public class DataTypeManagerImpl implements IDataTypeManager {
                 return arg0 instanceof EEnum;
             }
         });
-        
+
         return Collections2.transform(eEnums, new Function<EClassifier, EEnum>() {
             @Override
             public EEnum apply(EClassifier arg0) {
-                return (EEnum)arg0;
+                return (EEnum) arg0;
             }
         });
     }
+
 }

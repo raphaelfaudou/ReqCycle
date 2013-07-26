@@ -22,7 +22,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.reqcycle.types;bundle-version="1.0.0",
  org.eclipse.core.resources;bundle-version="3.8.1",
  org.eclipse.ziggurat.configuration,
- org.eclipse.ziggurat.inject
+ org.eclipse.ziggurat.inject,
+ org.eclipse.reqcycle.traceability.builder
 Bundle-ActivationPolicy: lazy
 Import-Package: javax.annotation;version="1.0.0",
  javax.inject;version="1.0.0"

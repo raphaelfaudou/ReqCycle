@@ -15,8 +15,8 @@ public class Link {
 	TType kind;
 
 	public String getLabel() {
-		String label = kind.getSemantic();
-		if (!kind.getSemantic().equals(kind.getSuperType().getLabel())) {
+		String label = kind.getLabel();
+		if (kind.getSuperType() != null) {
 			label += " [" + kind.getSuperType().getLabel() + "]";
 		}
 		return label;
@@ -35,32 +35,6 @@ public class Link {
 
 	public Link(TType kind, Reachable source, Reachable target) {
 		this(kind, Collections.singleton(source), Collections.singleton(target));
-	}
-
-	/**
-	 * A new link is created with a custom {@link TType} set to
-	 * {@link TraceabilityLink} TRACE
-	 * 
-	 * @param kind
-	 * @param source
-	 * @param target
-	 */
-	public Link(String kind, Reachable source, Reachable target) {
-		this(TType.custom(TraceabilityLink.TRACE, kind), Collections
-				.singleton(source), Collections.singleton(target));
-	}
-
-	/**
-	 * A new link is created with a custom {@link TType} set to
-	 * {@link TraceabilityLink} TRACE
-	 * 
-	 * @param kind
-	 * @param source
-	 * @param target
-	 */
-	public Link(String kind, Iterable<Reachable> sources,
-			Iterable<Reachable> targets) {
-		this(TType.custom(TraceabilityLink.TRACE, kind), sources, targets);
 	}
 
 	public Set<Reachable> getSources() {

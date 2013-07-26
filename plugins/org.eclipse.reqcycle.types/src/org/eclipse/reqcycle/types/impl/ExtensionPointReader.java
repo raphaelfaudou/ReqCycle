@@ -9,6 +9,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.reqcycle.types.Activator;
 import org.eclipse.reqcycle.types.IType;
 import org.eclipse.reqcycle.types.ITypeChecker;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 import org.osgi.framework.Bundle;
 
 import com.google.common.base.Function;
@@ -45,6 +46,7 @@ public class ExtensionPointReader {
 				// type = new Type.InjectedType();
 				// } else {
 				type = new Type();
+				ZigguratInject.inject(type);
 				// }
 				type.setChecker(aClass);
 

@@ -134,7 +134,8 @@ public class ConfigurationProvider implements ITypesConfigurationProvider,
 		if (container.getDefaultConfiguration() == null) {
 			return null;
 		}
-		return EcoreUtil.copy(container.getDefaultConfiguration());
+		TypeConfigContainer copy = EcoreUtil.copy(container);
+		return copy.getDefaultConfiguration();
 	}
 
 	@Override

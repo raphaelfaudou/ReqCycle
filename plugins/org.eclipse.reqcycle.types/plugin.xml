@@ -9,6 +9,10 @@
             interface="org.eclipse.reqcycle.types.ITypesManager"
             priority="1">
       </binding>
+      <binding
+            impl="org.eclipse.reqcycle.types.impl.CachedTypeChecker"
+            interface="org.eclipse.reqcycle.types.ICachedTypedChecker">
+      </binding>
    </extension>
    <extension
          point="org.eclipse.reqcycle.types.types">

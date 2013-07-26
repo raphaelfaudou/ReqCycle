@@ -129,8 +129,7 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 		return super.getNextPage(page);
 	}
 
-	private RMFRepositoryMappingPage createMappingPage(final Collection<SpecType> specTypes, final Collection<EClass> eClassifiers, final Collection mapping) {
-		
+	private RMFRepositoryMappingPage createMappingPage(final Collection<SpecType> specTypes, final Collection<EClass> eClassifiers, final Collection mapping) {		
 		return new RMFRepositoryMappingPage("ReqIF Mapping", "") {
 
 			@Override

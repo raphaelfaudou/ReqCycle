@@ -153,7 +153,7 @@ public interface RequirementSource extends EObject {
 	public void store();
 
 	public void dispose();
-		
+
 	public Collection<EClass> getTargetEPackage();
 
 } // RequirementSource

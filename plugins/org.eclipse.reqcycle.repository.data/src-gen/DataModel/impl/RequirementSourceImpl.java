@@ -375,16 +375,14 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
 	public void dispose() {
 	}
 
-	@Override
 	public Collection<EClass> getTargetEPackage() {
-        return Collections2.transform(mappings, new Function<ElementMapping, EClass>() { 
+		return Collections2.transform(mappings, new Function<ElementMapping, EClass>() {
 
-            @Override
-            public EClass apply(ElementMapping arg0) {
-                return arg0.getTargetElement();
-            }
-        });
-    }
-
+			@Override
+			public EClass apply(ElementMapping arg0) {
+				return arg0.getTargetElement();
+			}
+		});
+	}
 	
 } //RequirementSourceImpl

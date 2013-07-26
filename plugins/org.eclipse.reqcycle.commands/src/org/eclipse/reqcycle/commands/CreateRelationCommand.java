@@ -9,10 +9,9 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.reqcycle.traceability.model.TType;
-import org.eclipse.reqcycle.traceability.model.TraceabilityLink;
 import org.eclipse.reqcycle.traceability.storage.IStorageProvider;
 import org.eclipse.reqcycle.traceability.storage.ITraceabilityStorage;
+import org.eclipse.reqcycle.traceability.types.ITraceTypesManager;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Relation;
 import org.eclipse.reqcycle.uri.IReachableCreator;
 import org.eclipse.reqcycle.uri.IReachableManager;
@@ -23,7 +22,10 @@ public class CreateRelationCommand implements Command {
 	@Inject
 	@Named("RDF")
 	IStorageProvider provider;
-	
+
+	@Inject
+	ITraceTypesManager tTypesManager;
+
 	@Inject
 	IReachableManager manager;
 
@@ -60,20 +62,20 @@ public class CreateRelationCommand implements Command {
 		String uri = file.getLocationURI().getPath();
 		ITraceabilityStorage storage = provider.getStorage(uri);
 		try {
-		    Reachable container = manager.getHandlerFromObject(file).getFromObject(file).getReachable(file);
+			Reachable container = manager.getHandlerFromObject(file)
+					.getFromObject(file).getReachable(file);
 			storage.startTransaction();
-			storage.newUpwardRelationShip(TType.get(TraceabilityLink
-					.valueOf(relation.getKind().toUpperCase())), container, source,
-					new Reachable[] { target });
+			// FIX ME
+			storage.newUpwardRelationShip(
+					tTypesManager.getTType(relation.getKind()), container,
+					source, new Reachable[] { target });
 			storage.commit();
 			storage.save();
 		} catch (RuntimeException e) {
 			storage.rollback();
-		}
-        catch (IReachableHandlerException e)
-        {
-            e.printStackTrace();
-        } finally {
+		} catch (IReachableHandlerException e) {
+			e.printStackTrace();
+		} finally {
 			storage.dispose();
 		}
 		try {
@@ -86,5 +88,4 @@ public class CreateRelationCommand implements Command {
 		}
 
 	}
-
 }

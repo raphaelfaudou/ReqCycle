@@ -9,6 +9,26 @@ import org.eclipse.reqcycle.uri.model.Reachable;
 public interface ITraceabilityStorage {
 
 	/**
+	 * Dispose the storage
+	 */
+	void dispose();
+
+	/**
+	 * start a transaction for the storage
+	 */
+	void startTransaction();
+
+	/**
+	 * Commit the modification during the curent transaction
+	 */
+	void commit();
+
+	/**
+	 * Cancel the modification made during the current transaction
+	 */
+	void rollback();
+
+	/**
 	 * Save the instance of {@link ITraceabilityStorage}
 	 */
 	void save();
@@ -38,26 +58,6 @@ public interface ITraceabilityStorage {
 
 	Iterable<Pair<Link, Reachable>> getTraceability(Reachable r,
 			DIRECTION direction);
-
-	/**
-	 * Dispose the storage
-	 */
-	void dispose();
-
-	/**
-	 * start a transaction for the storage
-	 */
-	void startTransaction();
-
-	/**
-	 * Commit the modification during the curent transaction
-	 */
-	void commit();
-
-	/**
-	 * Cancel the modification made during the current transaction
-	 */
-	void rollback();
 
 	/**
 	 * Removes all the traceability links contained in the given reachable

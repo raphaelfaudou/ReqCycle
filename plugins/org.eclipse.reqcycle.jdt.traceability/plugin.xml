@@ -16,5 +16,11 @@
             name="Java Annotations">
       </page>
    </extension>
+   <extension
+         point="org.eclipse.reqcycle.traceability.types.ttypes">
+      <ttype
+            provider="org.eclipse.reqcycle.jdt.traceability.types.JDTTTypeProvider">
+      </ttype>
+   </extension>
 
 </plugin>

@@ -13,18 +13,11 @@
  *****************************************************************************/
 package org.eclipse.reqcycle.repository.data.impl;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.inject.Singleton;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.reqcycle.repository.data.IRequirementCreator;
 
@@ -52,7 +45,7 @@ public class RequirementCreatorImpl implements IRequirementCreator {
 		if(object instanceof Contained) {
 			contained = (Contained) object;
 		} else {
-			throw new Exception();
+			throw new Exception("Error while creating a " + objectType.getName() + " element.");
 		}
 		
 		//		EStructuralFeature sf = objectType.getEStructuralFeature("uri");

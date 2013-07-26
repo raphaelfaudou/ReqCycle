@@ -9,7 +9,13 @@
   <foreignModel>TypeConfiguration.ecore</foreignModel>
   <genPackages prefix="Typeconfiguration" basePackage="org.eclipse.reqcycle.traceability.types.configuration"
       disposableProviderFactory="true" generateExampleClass="false" ecorePackage="TypeConfiguration.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="TypeConfiguration.ecore#//AttributeType">
+      <genEnumLiterals ecoreEnumLiteral="TypeConfiguration.ecore#//AttributeType/String"/>
+      <genEnumLiterals ecoreEnumLiteral="TypeConfiguration.ecore#//AttributeType/Boolean"/>
+      <genEnumLiterals ecoreEnumLiteral="TypeConfiguration.ecore#//AttributeType/Int"/>
+    </genEnums>
     <genDataTypes ecoreDataType="TypeConfiguration.ecore#//IType"/>
+    <genDataTypes ecoreDataType="TypeConfiguration.ecore#//TType"/>
     <genClasses ecoreClass="TypeConfiguration.ecore#//TypeConfigContainer">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TypeConfiguration.ecore#//TypeConfigContainer/types"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TypeConfiguration.ecore#//TypeConfigContainer/configurations"/>
@@ -26,6 +32,10 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TypeConfiguration.ecore#//Relation/upstreamType"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference TypeConfiguration.ecore#//Relation/downstreamType"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TypeConfiguration.ecore#//Relation/kind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TypeConfiguration.ecore#//Relation/agregatedTypes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TypeConfiguration.ecore#//Relation/icon"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TypeConfiguration.ecore#//Relation/attributes"/>
+      <genOperations ecoreOperation="TypeConfiguration.ecore#//Relation/getAgregated"/>
     </genClasses>
     <genClasses ecoreClass="TypeConfiguration.ecore#//Configuration">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TypeConfiguration.ecore#//Configuration/relations"/>
@@ -39,6 +49,19 @@
     <genClasses ecoreClass="TypeConfiguration.ecore#//Entry">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TypeConfiguration.ecore#//Entry/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TypeConfiguration.ecore#//Entry/value"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="TypeConfiguration.ecore#//Attribute">
+      <genOperations ecoreOperation="TypeConfiguration.ecore#//Attribute/getName"/>
+      <genOperations ecoreOperation="TypeConfiguration.ecore#//Attribute/getPossibleValues"/>
+      <genOperations ecoreOperation="TypeConfiguration.ecore#//Attribute/getType"/>
+    </genClasses>
+    <genClasses ecoreClass="TypeConfiguration.ecore#//RegisteredAttribute">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TypeConfiguration.ecore#//RegisteredAttribute/id"/>
+    </genClasses>
+    <genClasses ecoreClass="TypeConfiguration.ecore#//StdAttribute">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TypeConfiguration.ecore#//StdAttribute/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TypeConfiguration.ecore#//StdAttribute/possibleValues"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TypeConfiguration.ecore#//StdAttribute/type"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

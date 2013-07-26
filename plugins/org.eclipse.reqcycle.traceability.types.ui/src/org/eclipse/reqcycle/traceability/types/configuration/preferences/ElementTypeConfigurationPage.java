@@ -8,6 +8,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.reqcycle.traceability.types.configuration.preferences.dialogs.NewCustomTypeDialog;
 import org.eclipse.reqcycle.traceability.types.configuration.preferences.providers.PreferenceDialogTypeLabelProvider;
 import org.eclipse.reqcycle.traceability.types.configuration.preferences.providers.PreferenceDialogTypesContentProvider;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.CustomType;

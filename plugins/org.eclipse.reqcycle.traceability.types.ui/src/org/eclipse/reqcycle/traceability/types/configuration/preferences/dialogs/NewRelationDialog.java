@@ -1,4 +1,4 @@
-package org.eclipse.reqcycle.traceability.types.configuration.preferences;
+package org.eclipse.reqcycle.traceability.types.configuration.preferences.dialogs;
 
 import javax.inject.Inject;
 
@@ -9,17 +9,18 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.CheckStateChangedEvent;
+import org.eclipse.jface.viewers.CheckboxTableViewer;
+import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
-import org.eclipse.reqcycle.traceability.model.TraceabilityLink;
+import org.eclipse.reqcycle.traceability.model.TType;
+import org.eclipse.reqcycle.traceability.types.ITraceTypesManager;
 import org.eclipse.reqcycle.traceability.types.configuration.preferences.providers.PreferenceDialogTypeLabelProvider;
 import org.eclipse.reqcycle.traceability.types.configuration.preferences.providers.PreferenceDialogTypesContentProvider;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.CustomType;
@@ -31,21 +32,27 @@ import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.T
 import org.eclipse.reqcycle.types.ITypesManager;
 import org.eclipse.reqcycle.types.ui.providers.TypeLabelProvider;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ziggurat.inject.ZigguratInject;
+
+import com.google.common.collect.Lists;
 
 public class NewRelationDialog extends TitleAreaDialog {
 	private Text textSource;
@@ -54,10 +61,14 @@ public class NewRelationDialog extends TitleAreaDialog {
 	private TreeViewer treeViewer;
 	@Inject
 	ITypesManager manager;
-	private ComboViewer comboViewer;
+	@Inject
+	ITraceTypesManager ttManager;
 	private TypeConfigContainer container;
 	private AdapterFactory adapterFactory = new ComposedAdapterFactory(
 			ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+	private Text textKind;
+	private CheckboxTableViewer listOfTTViewer;
+	private Text textIcon;
 
 	/**
 	 * Create the dialog.
@@ -67,6 +78,7 @@ public class NewRelationDialog extends TitleAreaDialog {
 	 */
 	public NewRelationDialog(Shell parentShell, TypeConfigContainer container) {
 		super(parentShell);
+		setShellStyle(SWT.RESIZE | SWT.TITLE);
 		this.container = container;
 	}
 
@@ -136,30 +148,34 @@ public class NewRelationDialog extends TitleAreaDialog {
 		btnTarget.setText("Downstream");
 
 		Group grpProperties = new Group(container, SWT.NONE);
-		grpProperties.setLayout(new GridLayout(2, false));
+		grpProperties.setLayout(new GridLayout(3, false));
 		grpProperties.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1));
 		grpProperties.setText("Properties");
 
 		Label lblNewLabel_1 = new Label(grpProperties, SWT.NONE);
-		lblNewLabel_1.setText("Kind : ");
+		lblNewLabel_1.setText("Name : ");
 
-		comboViewer = new ComboViewer(grpProperties, SWT.READ_ONLY);
-		Combo combo = comboViewer.getCombo();
-		combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1,
-				1));
-		comboViewer.setContentProvider(new ArrayContentProvider());
-		comboViewer.setLabelProvider(new LabelProvider());
-		comboViewer.setInput(TraceabilityLink.values());
-		comboViewer
-				.addSelectionChangedListener(new ISelectionChangedListener() {
+		textKind = new Text(grpProperties, SWT.BORDER);
+		textKind.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
+				2, 1));
+		textKind.addModifyListener(new ModifyListener() {
 
-					@Override
-					public void selectionChanged(SelectionChangedEvent event) {
-						rel.setKind(((TraceabilityLink) ((IStructuredSelection) event
-								.getSelection()).getFirstElement()).getLabel());
-					}
-				});
+			@Override
+			public void modifyText(ModifyEvent e) {
+				rel.setKind(textKind.getText());
+			}
+		});
+
+		Label lblIcon = new Label(grpProperties, SWT.NONE);
+		lblIcon.setText("Icon : ");
+
+		textIcon = new Text(grpProperties, SWT.BORDER);
+		textIcon.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
+				1, 1));
+
+		Button btnNewButton = new Button(grpProperties, SWT.NONE);
+		btnNewButton.setText("...");
 
 		Label lblSource = new Label(grpProperties, SWT.NONE);
 		lblSource.setText("Upstream :");
@@ -167,7 +183,7 @@ public class NewRelationDialog extends TitleAreaDialog {
 		textSource = new Text(grpProperties, SWT.BORDER);
 		textSource.setEditable(false);
 		textSource.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false, 1, 1));
+				false, 2, 1));
 
 		Label lblNewLabel = new Label(grpProperties, SWT.NONE);
 		lblNewLabel.setText("Downstream :");
@@ -175,7 +191,42 @@ public class NewRelationDialog extends TitleAreaDialog {
 		textTarget = new Text(grpProperties, SWT.BORDER);
 		textTarget.setEditable(false);
 		textTarget.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false, 1, 1));
+				false, 2, 1));
+
+		Group grpIncludedTraceability = new Group(container, SWT.NONE);
+		grpIncludedTraceability.setText("Included Traceability");
+		grpIncludedTraceability.setLayout(new FillLayout(SWT.HORIZONTAL));
+		grpIncludedTraceability.setLayoutData(new GridData(SWT.FILL,
+				SWT.CENTER, false, false, 1, 1));
+
+		listOfTTViewer = CheckboxTableViewer.newCheckList(
+				grpIncludedTraceability, SWT.BORDER | SWT.V_SCROLL | SWT.CHECK);
+		listOfTTViewer.addCheckStateListener(new ICheckStateListener() {
+
+			@Override
+			public void checkStateChanged(CheckStateChangedEvent event) {
+				String id = ((TType) event.getElement()).getId();
+				if (event.getChecked()) {
+					rel.getAgregatedTypes().add(id);
+				} else {
+					rel.getAgregatedTypes().remove(id);
+				}
+			}
+		});
+		listOfTTViewer.setContentProvider(new ArrayContentProvider());
+		listOfTTViewer.setLabelProvider(new LabelProvider() {
+
+			@Override
+			public String getText(Object element) {
+				if (element instanceof TType) {
+					TType ttype = (TType) element;
+					return ttype.getLabel();
+				}
+				return super.getText(element);
+			}
+
+		});
+		listOfTTViewer.setInput(Lists.newArrayList(ttManager.getAllTTypes()));
 		IContentProvider provider = new PreferenceDialogTypesContentProvider(
 				adapterFactory, this.container);
 		ILabelProvider labelProvider = new PreferenceDialogTypeLabelProvider(
@@ -224,7 +275,18 @@ public class NewRelationDialog extends TitleAreaDialog {
 	 */
 	@Override
 	protected Point getInitialSize() {
-		return new Point(450, 439);
+		Rectangle bounds = Display.getDefault().getPrimaryMonitor().getBounds();
+		int width = bounds.width * 3 / 5;
+		int height = bounds.width * 4 / 5;
+		return new Point(width, height);
+	}
+
+	@Override
+	protected Point getInitialLocation(Point initialSize) {
+		Rectangle bounds = Display.getDefault().getPrimaryMonitor().getBounds();
+		int x = bounds.x + (bounds.width * 1 / 5);
+		int y = bounds.y + (bounds.height * 1 / 5);
+		return new Point(x, y);
 	}
 
 	public Relation getRelation() {
