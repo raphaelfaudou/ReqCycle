@@ -12,18 +12,17 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.reqcycle.repository.data.IRequirementSourceManager;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ziggurat.inject.ZigguratInject;
@@ -43,6 +42,19 @@ public class DataUtil {
 	/** Requirement Source Manager */
 	private @Inject
 	static IRequirementSourceManager requirementSourceManager = ZigguratInject.make(IRequirementSourceManager.class);
+	
+	public static final Collection<EDataType> eDataTypes = 
+		Arrays.asList(EcorePackage.Literals.EBYTE, 
+			EcorePackage.Literals.ESTRING, 
+			EcorePackage.Literals.EINT, 
+			EcorePackage.Literals.ELONG,
+			EcorePackage.Literals.EBIG_DECIMAL, 
+			EcorePackage.Literals.ECHAR, 
+			EcorePackage.Literals.EFLOAT, 
+			EcorePackage.Literals.EDOUBLE,
+			EcorePackage.Literals.ESHORT,
+			EcorePackage.Literals.EBIG_INTEGER,
+			EcorePackage.Literals.EBOOLEAN);
 
 	protected static ComposedAdapterFactory cAdapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 
@@ -197,42 +209,4 @@ public class DataUtil {
 		return Collections.emptyList();
 	}
 	
-	public static ITreeContentProvider CollectionTreeContentProvider = new ITreeContentProvider() {
-		
-		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-		@Override
-		public void dispose() {
-			// TODO Auto-generated method stub
-			
-		}
-		
-		@Override
-		public boolean hasChildren(Object element) {
-			// TODO Auto-generated method stub
-			return false;
-		}
-		
-		@Override
-		public Object getParent(Object element) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-		
-		@Override
-		public Object[] getElements(Object inputElement) {
-			return ArrayContentProvider.getInstance().getElements(inputElement);
-		}
-		
-		@Override
-		public Object[] getChildren(Object parentElement) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-	};
-
 }

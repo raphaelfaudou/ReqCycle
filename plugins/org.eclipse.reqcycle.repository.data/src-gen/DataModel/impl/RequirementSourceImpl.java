@@ -28,6 +28,9 @@ import DataModel.DataModelPackage;
 import DataModel.RequirementSource;
 import MappingModel.ElementMapping;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
+
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Requirement Source</b></em>'.
@@ -375,12 +378,16 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
 	public void dispose() {
 	}
 
-	public void setTargetEPackage(EPackage ePackage) {
-		this.ePackage = ePackage;
+	public Collection<EClass> getTargetEPackage() {
+		return Collections2.transform(mappings, new Function<ElementMapping, EClass>() {
+
+			@Override
+			public EClass apply(ElementMapping arg0) {
+				return arg0.getTargetElement();
+			}
+		});
 	}
 
-	public EPackage getTargetEPackage() {
-		return ePackage;
-	}
+
 	
 } //RequirementSourceImpl

@@ -2,22 +2,18 @@ package org.eclipse.reqcycle.repository.data.impl;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.data.IDataTypeManager;
 import org.eclipse.ziggurat.configuration.IConfigurationManager;
@@ -31,6 +27,7 @@ public class DataTypeManagerImpl implements IDataTypeManager {
 
 	/** EPackage containing possible data types */
 	private EPackage ePackage;
+	private EPackage ePackageBak;
 	
 	/** Configuration Manager */
 	@Inject
@@ -41,43 +38,32 @@ public class DataTypeManagerImpl implements IDataTypeManager {
 	
 	@Inject
 	private ILogger logger;
+
 	
 	/**
 	 * Constructor
 	 */
 	DataTypeManagerImpl() {
-		confManager = ZigguratInject.make(IConfigurationManager.class);
+		if(confManager == null) {
+			confManager = ZigguratInject.make(IConfigurationManager.class);
+		}
+		loadTypes();
+	}
+
+	public void loadTypes() {
+		if(ePackageBak != null) {
+			ePackage = ePackageBak;
+			saveTypes();
+			return;
+		}
+		
 		EObject conf = loadEpackage();
 		if(conf instanceof EPackage) {
 			ePackage = (EPackage)conf;
+			ePackageBak = EcoreUtil.copy(ePackage);
 		} else {
 			initEpackage();
 		}
-		
-		//TODO : remove ePackage init
-		if (ePackage.getEClassifiers().isEmpty()){
-			ePackage.getEClassifiers().addAll(getInitClassifiers(ePackage.eResource() != null ? ePackage.eResource().getResourceSet() : null));
-			saveTypes();
-		}
-		
-	}
-
-	//FIXME : remove method
-	private Collection<? extends EClassifier> getInitClassifiers(ResourceSet rs) {
-		if(rs == null) {
-			rs = new ResourceSetImpl();
-		}
-		
-		Resource resource = rs.getResource(URI.createPlatformPluginURI("/org.eclipse.reqcycle.repository.data/model/CustomDataModel.ecore", true), true);
-		EList<EObject> contents = resource.getContents();
-		if(contents.size()>0) {
-			EObject content = contents.get(0);
-			if(content instanceof EPackage) {
-				return ((EPackage)content).getEClassifiers();
-				
-			}
-		}
-		return null;
 	}
 
 	private EObject loadEpackage() {
@@ -94,16 +80,18 @@ public class DataTypeManagerImpl implements IDataTypeManager {
 
 	public void saveTypes() {
 		try {
+			ePackageBak = EcoreUtil.copy(ePackage);
 			confManager.saveConfiguration(ePackage, null, IConfigurationManager.Scope.WORKSPACE, CONF_ID);
 		} catch (IOException e) {
-			e.printStackTrace();
 			//TODO : use logger
+			e.printStackTrace();
 		}
 	}
 	
 	public void addType(EClassifier eClassifier) {
 		Assert.isNotNull(eClassifier);
 		ePackage.getEClassifiers().add(eClassifier);
+		EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, CONF_ID);
 	}
 	
 	public void removeType(EClassifier eClassifier) {
@@ -130,16 +118,23 @@ public class DataTypeManagerImpl implements IDataTypeManager {
 		return Collections2.filter(ePackage.getEClassifiers(), new Predicate<EClassifier>() {
 			@Override
 			public boolean apply(EClassifier arg0) {
-				if(arg0 instanceof EClass) {
-					return true;
-				}
-				return false;
+				return arg0 instanceof EClass;
 			}
 		});
 	}
 
 	public void addTypes(Collection<EClassifier> types) {
 		ePackage.getEClassifiers().addAll(types);
+	}
+
+	@Override
+	public Collection<EClassifier> getEEnums() {
+		return Collections2.filter(ePackage.getEClassifiers(), new Predicate<EClassifier>() {
+			@Override
+			public boolean apply(EClassifier arg0) {
+				return arg0 instanceof EEnum;
+			}
+		});
 	}
 	
 }

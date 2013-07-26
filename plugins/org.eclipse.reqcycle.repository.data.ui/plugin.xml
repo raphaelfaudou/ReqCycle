@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+ <extension
+       point="org.eclipse.ui.preferencePages">
+    <page
+          category="org.eclipse.reqycle.core.ui.pref.reqcycle"
+          class="org.eclipse.reqcycle.repository.data.ui.preference.TypePreferencePage"
+          id="org.eclipse.reqcycle.repository.data.ui.page"
+          name="Requirement Types">
+    </page>
+ </extension>
+</plugin>
