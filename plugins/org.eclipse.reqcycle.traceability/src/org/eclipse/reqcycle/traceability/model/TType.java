@@ -20,9 +20,8 @@ import java.util.Map;
  * 
  */
 public class TType implements Serializable {
-	protected static Map<String, TType> REGISTRY = new HashMap<String, TType>();
 	private static final long serialVersionUID = 1L;
-	private static Map<String, String> metadata = new HashMap<String, String>();
+	private Map<String, String> metadata = new HashMap<String, String>();
 	private TType superType;
 	private String label;
 	private String id;

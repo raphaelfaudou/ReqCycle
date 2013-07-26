@@ -186,7 +186,11 @@ public abstract class AbstractPreferencePage extends PreferencePage implements
 					if (new_name.getFirstElement() instanceof Configuration) {
 						Configuration conf = (Configuration) new_name
 								.getFirstElement();
-						conf.getParent().setDefaultConfiguration(conf);
+						if (conf.getParent().getDefaultConfiguration() == conf) {
+							conf.getParent().setDefaultConfiguration(null);
+						} else {
+							conf.getParent().setDefaultConfiguration(conf);
+						}
 						treeViewer.refresh();
 					}
 				}

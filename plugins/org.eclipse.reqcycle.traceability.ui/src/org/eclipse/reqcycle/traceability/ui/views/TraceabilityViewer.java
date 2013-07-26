@@ -11,6 +11,7 @@ import java.util.Set;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
@@ -68,7 +69,11 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IViewReference;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.forms.widgets.Form;
@@ -106,6 +111,8 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 	private Action refresh_action;
 	private Action plus_action;
 	private Action sync_action;
+	private Action new_instance;
+	private Action changeViewName;
 
 	public TraceabilityViewer() {
 		setTitleImage(ResourceManager.getPluginImage(
@@ -569,6 +576,66 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 							"org.eclipse.reqcycle.traceability.ui",
 							"icons/synced-1.gif"));
 		}
+		{
+			new_instance = new Action("New Instance") {
+
+				@Override
+				public void run() {
+					createNewView();
+				}
+
+			};
+			new_instance.setImageDescriptor(ResourceManager
+					.getPluginImageDescriptor(
+							"org.eclipse.reqcycle.traceability.ui",
+							"icons/newView.gif"));
+		}
+		{
+			changeViewName = new Action("Change view name") {
+
+				@Override
+				public void run() {
+					setViewName();
+				}
+
+			};
+			changeViewName.setImageDescriptor(ResourceManager
+					.getPluginImageDescriptor(
+							"org.eclipse.reqcycle.traceability.ui",
+							"icons/setName.gif"));
+		}
+	}
+
+	protected void setViewName() {
+		InputDialog dialog = new InputDialog(getSite().getShell(), "View Name",
+				"Please enter the name of this view", getPartName(), null);
+		if (dialog.open() == InputDialog.OK) {
+			String value = dialog.getValue();
+			if (value != null && value.length() > 0) {
+				setPartName(value);
+			}
+		}
+	}
+
+	protected void createNewView() {
+		IWorkbenchPage activePage = PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getActivePage();
+		int nbView = 0;
+		for (IViewReference ref : activePage.getViewReferences()) {
+			if (ref.getId().startsWith(ID)) {
+				nbView++;
+			}
+		}
+		// increment to have the second view named #2
+		nbView++;
+		try {
+			IViewPart view = activePage.showView(ID, ID + "#" + nbView,
+					IWorkbenchPage.VIEW_ACTIVATE);
+			// view.
+		} catch (PartInitException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	/**
@@ -581,6 +648,7 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 		toolbarManager.add(plus_action);
 		toolbarManager.add(refresh_action);
 		toolbarManager.add(delete_action);
+		toolbarManager.add(new_instance);
 	}
 
 	/**
@@ -593,6 +661,8 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 		menuManager.add(plus_action);
 		menuManager.add(refresh_action);
 		menuManager.add(delete_action);
+		menuManager.add(new_instance);
+		menuManager.add(changeViewName);
 	}
 
 	@Override

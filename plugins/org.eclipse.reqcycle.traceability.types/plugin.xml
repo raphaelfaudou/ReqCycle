@@ -30,5 +30,11 @@
             interface="org.eclipse.reqcycle.traceability.types.ITraceTypesManager">
       </binding>
    </extension>
+   <extension
+         point="org.eclipse.reqcycle.traceability.builder.newUpwardDecoration">
+      <decoration
+            decorate="org.eclipse.reqcycle.traceability.types.builder.AttributesConfigurationBuildingDecoration">
+      </decoration>
+   </extension>
 
 </plugin>

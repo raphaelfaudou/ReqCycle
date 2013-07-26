@@ -53,8 +53,12 @@ public class ReachableListenerManager implements IReachableListenerManager {
 		if (!preventReentrant) {
 			try {
 				preventReentrant = true;
-				for (IReachableListener l : mapReachableToListener.get(r)) {
-					l.hasChanged(r);
+				Collection<IReachableListener> collection = mapReachableToListener
+						.get(r);
+				IReachableListener[] array = collection
+						.toArray(new IReachableListener[collection.size()]);
+				for (int i = 0; i < array.length; i++) {
+					array[i].hasChanged(r);
 				}
 			} catch (RuntimeException e) {
 				throw e;

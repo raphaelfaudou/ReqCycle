@@ -98,7 +98,8 @@ public class RelationUtils {
 		for (Relation r : config.getRelations()) {
 			for (String s : r.getAgregatedTypes()) {
 				if (type.equals(tManager.getTType(s))) {
-					if (getSourceType(r, direction).getIType().is(source)) {
+					Type sourceType = getSourceType(r, direction);
+					if (sourceType != null && sourceType.getIType().is(source)) {
 						if (getTargetType(r, direction).getIType().is(target)) {
 							relations.add(r);
 						}

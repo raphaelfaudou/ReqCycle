@@ -2,6 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="traceabilityAnalyser" name="Traceability Analyser" schema="schema/traceabilityAnalyser.exsd"/>
+   <extension-point id="newUpwardDecoration" name="New Upward Decoration" schema="schema/newUpwardDecoration.exsd"/>
    <extension
          point="org.eclipse.ziggurat.inject.binding">
       <binding

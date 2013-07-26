@@ -7,9 +7,8 @@ import org.eclipse.reqcycle.traceability.model.Filter;
 import org.eclipse.reqcycle.traceability.model.Link;
 import org.eclipse.reqcycle.traceability.model.Pair;
 import org.eclipse.reqcycle.traceability.types.ITraceTypesManager;
-import org.eclipse.reqcycle.traceability.types.RelationUtils;
+import org.eclipse.reqcycle.traceability.types.RelationBasedType;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Configuration;
-import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Relation;
 import org.eclipse.reqcycle.types.ITypesManager;
 import org.eclipse.reqcycle.uri.model.Reachable;
 
@@ -30,9 +29,11 @@ public class ConfigurationBasedFilter implements Filter {
 
 	@Override
 	public boolean apply(Pair<Link, Reachable> pair) {
-		Iterable<Relation> relations = RelationUtils.getMatchingRelations(pair,
-				direction, config);
-		return relations.iterator().hasNext();
+		// Iterable<Relation> relations =
+		// RelationUtils.getMatchingRelations(pair,
+		// direction, config);
+		// return relations.iterator().hasNext();
+		return pair.getFirst().getKind() instanceof RelationBasedType;
 	}
 
 }

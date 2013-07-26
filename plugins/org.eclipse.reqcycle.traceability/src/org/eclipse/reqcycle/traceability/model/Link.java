@@ -15,7 +15,7 @@ public class Link {
 	TType kind;
 
 	public String getLabel() {
-		String label = kind.getSemantic();
+		String label = kind.getLabel();
 		if (kind.getSuperType() != null) {
 			label += " [" + kind.getSuperType().getLabel() + "]";
 		}
