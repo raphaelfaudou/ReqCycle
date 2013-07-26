@@ -147,10 +147,12 @@ public class RequestContentProvider extends DeferredContentProvider implements
 		for (Request r : requests) {
 			for (Couple c : r.getCouples()) {
 				Reachable source = c.getSource();
-				listenerManger.addReachableListener(source, this);
-				listenerManger
-						.addReachableListener(source.trimFragment(), this);
-				result.add(new BusinessDeffered(source, this));
+				if (source != null) {
+					listenerManger.addReachableListener(source, this);
+					listenerManger.addReachableListener(source.trimFragment(),
+							this);
+					result.add(new BusinessDeffered(source, this));
+				}
 			}
 		}
 		return result.toArray();
