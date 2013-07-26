@@ -13,7 +13,12 @@ import org.eclipse.reqcycle.traceability.model.Pair;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Configuration;
 import org.eclipse.reqcycle.traceability.types.engine.ITypedTraceabilityEngine;
 import org.eclipse.reqcycle.traceability.types.engine.functions.Configuration2Filter;
+import org.eclipse.reqcycle.traceability.types.engine.functions.Iterable2Iterator;
+import org.eclipse.reqcycle.traceability.types.engine.functions.Link2RegisteredLink;
 import org.eclipse.reqcycle.uri.model.Reachable;
+
+import static com.google.common.collect.Iterators.concat;
+import static com.google.common.collect.Iterators.transform;
 
 public class TypedTraceabilityEngine implements ITypedTraceabilityEngine {
 
@@ -24,14 +29,27 @@ public class TypedTraceabilityEngine implements ITypedTraceabilityEngine {
 	public Iterator<Pair<Link, Reachable>> getTraceability(
 			Configuration typeConfig, Request... requests)
 			throws EngineException {
+		DIRECTION d = null;
 		if (typeConfig != null) {
 			for (Request r : requests) {
-				Filter confFilter = new Configuration2Filter(r.getDirection())
-						.apply(typeConfig);
-				r.setFilter(new AndFilter(r.getFilter(), confFilter));
+				handleFilter(typeConfig, r);
+				d = r.getDirection();
 			}
 		}
-		return engine.getTraceability(requests);
+		Iterator<Pair<Link, Reachable>> result = engine
+				.getTraceability(requests);
+		Iterator<Iterable<Pair<Link, Reachable>>> newVal = transform(result,
+				new Link2RegisteredLink(typeConfig, d));
+		Iterator<Iterator<Pair<Link, Reachable>>> iterat = transform(newVal,
+				new Iterable2Iterator<Pair<Link, Reachable>>());
+		result = concat(iterat);
+		return result;
+	}
+
+	private void handleFilter(Configuration typeConfig, Request r) {
+		Filter confFilter = new Configuration2Filter(r.getDirection())
+				.apply(typeConfig);
+		r.setFilter(new AndFilter(r.getFilter(), confFilter));
 	}
 
 	/*

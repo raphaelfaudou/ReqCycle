@@ -1,4 +1,4 @@
-package org.eclipse.reqcycle.traceability.types.configuration.preferences;
+package org.eclipse.reqcycle.traceability.types.configuration.preferences.dialogs;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -157,6 +157,8 @@ public class NewCustomTypeDialog extends TitleAreaDialog {
 						} else {
 							currentEntry.setValue(value);
 						}
+					} else {
+						currentEntry.setValue(null);
 					}
 				}
 			}

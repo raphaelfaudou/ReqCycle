@@ -21,6 +21,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.reqcycle.traceability.types.ITypesConfigurationProvider;
+import org.eclipse.reqcycle.traceability.types.configuration.preferences.dialogs.NewConfigurationDialog;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Configuration;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeConfigContainer;
 import org.eclipse.reqcycle.types.ITypesManager;
@@ -194,14 +195,6 @@ public abstract class AbstractPreferencePage extends PreferencePage implements
 	}
 
 	protected abstract ViewerFilter getFilter();
-
-	protected void createRelation(Configuration conf) {
-		NewRelationDialog dialog = new NewRelationDialog(getShell(), container);
-		ZigguratInject.inject(dialog);
-		if (dialog.open() == NewRelationDialog.OK) {
-			conf.getRelations().add(dialog.getRelation());
-		}
-	}
 
 	protected void displayProperties(EObject eobject) {
 		if (eobject == null) {

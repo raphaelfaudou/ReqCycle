@@ -3,6 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Traceability
 Bundle-SymbolicName: org.eclipse.reqcycle.traceability;singleton:=true
 Bundle-Version: 1.0.0.qualifier
+Eclipse-BuddyPolicy: dependent
 Bundle-Activator: org.eclipse.reqcycle.traceability.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

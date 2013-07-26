@@ -3,11 +3,12 @@ package org.eclipse.reqcycle.emf.traceability.sysml.handler;
 import java.util.Collections;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.papyrus.sysml.requirements.RequirementsPackage;
+import org.eclipse.papyrus.sysml.allocations.Allocate;
+import org.eclipse.reqcycle.emf.traceability.sysml.types.traceability.SysMLTTypeProvider;
 import org.eclipse.reqcycle.traceability.builder.ITraceabilityBuilder.IBuilderCallBack;
 import org.eclipse.reqcycle.traceability.model.TType;
-import org.eclipse.reqcycle.traceability.model.TraceabilityLink;
 import org.eclipse.reqcycle.uri.visitors.IVisitor;
 import org.eclipse.uml2.uml.Abstraction;
 import org.eclipse.uml2.uml.profile.l2.Trace;
@@ -23,35 +24,35 @@ public class SysMLTraceabilityVisitor implements IVisitor {
 		}
 		if (o instanceof Trace) {
 			return visit((Trace) o, adapable);
+		} else if (o instanceof Allocate) {
+			return visit((Allocate) o, adapable);
 		}
 		return true;
+	}
+
+	public boolean visit(Allocate satis, IAdaptable adaptable) {
+		Abstraction abstraction = satis.getBase_Abstraction();
+		if (abstraction != null) {
+			visit(satis, adaptable, abstraction);
+		}
+		return true;
+	}
+
+	private void visit(EObject satis, IAdaptable adaptable,
+			Abstraction abstraction) {
+		Object source = abstraction.getClients().get(0);
+		Object target = abstraction.getSuppliers().get(0);
+		TType tType = SysMLTTypeProvider.get(satis.eClass());
+		getCallBack(adaptable).newUpwardRelation(satis.eResource(), source,
+				Collections.singletonList(target), tType);
 	}
 
 	public boolean visit(Trace satis, IAdaptable adaptable) {
 		Abstraction abstraction = satis.getBase_Abstraction();
 		if (abstraction != null) {
-			Object source = abstraction.getClients().get(0);
-			Object target = abstraction.getSuppliers().get(0);
-			TType tType = getTType(satis);
-			getCallBack(adaptable).newUpwardRelation(satis.eResource(), source,
-					Collections.singletonList(target), tType);
+			visit(satis, adaptable, abstraction);
 		}
 		return true;
-	}
-
-	private TType getTType(Trace satis) {
-		switch (satis.eClass().getClassifierID()) {
-		case RequirementsPackage.COPY:
-			return TType.get(TraceabilityLink.COPY);
-		case RequirementsPackage.DERIVE_REQT:
-			return TType.get(TraceabilityLink.DERIVE);
-		case RequirementsPackage.SATISFY:
-			return TType.get(TraceabilityLink.SATISFY);
-		case RequirementsPackage.VERIFY:
-			return TType.get(TraceabilityLink.VERIFY);
-		default:
-			return TType.get(TraceabilityLink.TRACE);
-		}
 	}
 
 	private IBuilderCallBack getCallBack(IAdaptable adaptable) {

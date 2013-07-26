@@ -5,6 +5,7 @@ package org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -195,13 +196,40 @@ public interface TypeconfigurationPackage extends EPackage {
 	int RELATION__KIND = 2;
 
 	/**
+	 * The feature id for the '<em><b>Agregated Types</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATION__AGREGATED_TYPES = 3;
+
+	/**
+	 * The feature id for the '<em><b>Icon</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATION__ICON = 4;
+
+	/**
+	 * The feature id for the '<em><b>Attributes</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATION__ATTRIBUTES = 5;
+
+	/**
 	 * The number of structural features of the '<em>Relation</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RELATION_FEATURE_COUNT = 3;
+	int RELATION_FEATURE_COUNT = 6;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.ConfigurationImpl <em>Configuration</em>}' class.
@@ -363,6 +391,136 @@ public interface TypeconfigurationPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.AttributeImpl <em>Attribute</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.AttributeImpl
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeconfigurationPackageImpl#getAttribute()
+	 * @generated
+	 */
+	int ATTRIBUTE = 6;
+
+	/**
+	 * The number of structural features of the '<em>Attribute</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_FEATURE_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.RegisteredAttributeImpl <em>Registered Attribute</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.RegisteredAttributeImpl
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeconfigurationPackageImpl#getRegisteredAttribute()
+	 * @generated
+	 */
+	int REGISTERED_ATTRIBUTE = 7;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.StdAttributeImpl <em>Std Attribute</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.StdAttributeImpl
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeconfigurationPackageImpl#getStdAttribute()
+	 * @generated
+	 */
+	int STD_ATTRIBUTE = 8;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STD_ATTRIBUTE__NAME = ATTRIBUTE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Possible Values</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STD_ATTRIBUTE__POSSIBLE_VALUES = ATTRIBUTE_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STD_ATTRIBUTE__TYPE = ATTRIBUTE_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Std Attribute</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STD_ATTRIBUTE_FEATURE_COUNT = ATTRIBUTE_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REGISTERED_ATTRIBUTE__NAME = STD_ATTRIBUTE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Possible Values</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REGISTERED_ATTRIBUTE__POSSIBLE_VALUES = STD_ATTRIBUTE__POSSIBLE_VALUES;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REGISTERED_ATTRIBUTE__TYPE = STD_ATTRIBUTE__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REGISTERED_ATTRIBUTE__ID = STD_ATTRIBUTE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Registered Attribute</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REGISTERED_ATTRIBUTE_FEATURE_COUNT = STD_ATTRIBUTE_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.AttributeType <em>Attribute Type</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.AttributeType
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeconfigurationPackageImpl#getAttributeType()
+	 * @generated
+	 */
+	int ATTRIBUTE_TYPE = 9;
+
+	/**
 	 * The meta object id for the '<em>IType</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -370,7 +528,18 @@ public interface TypeconfigurationPackage extends EPackage {
 	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeconfigurationPackageImpl#getIType()
 	 * @generated
 	 */
-	int ITYPE = 6;
+	int ITYPE = 10;
+
+
+	/**
+	 * The meta object id for the '<em>TType</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.reqcycle.traceability.model.TType
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeconfigurationPackageImpl#getTType()
+	 * @generated
+	 */
+	int TTYPE = 11;
 
 
 	/**
@@ -514,6 +683,39 @@ public interface TypeconfigurationPackage extends EPackage {
 	EAttribute getRelation_Kind();
 
 	/**
+	 * Returns the meta object for the attribute list '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Relation#getAgregatedTypes <em>Agregated Types</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Agregated Types</em>'.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Relation#getAgregatedTypes()
+	 * @see #getRelation()
+	 * @generated
+	 */
+	EAttribute getRelation_AgregatedTypes();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Relation#getIcon <em>Icon</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Icon</em>'.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Relation#getIcon()
+	 * @see #getRelation()
+	 * @generated
+	 */
+	EAttribute getRelation_Icon();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Relation#getAttributes <em>Attributes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Attributes</em>'.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Relation#getAttributes()
+	 * @see #getRelation()
+	 * @generated
+	 */
+	EReference getRelation_Attributes();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Configuration <em>Configuration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -621,6 +823,90 @@ public interface TypeconfigurationPackage extends EPackage {
 	EAttribute getEntry_Value();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Attribute <em>Attribute</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Attribute</em>'.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Attribute
+	 * @generated
+	 */
+	EClass getAttribute();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.RegisteredAttribute <em>Registered Attribute</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Registered Attribute</em>'.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.RegisteredAttribute
+	 * @generated
+	 */
+	EClass getRegisteredAttribute();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.RegisteredAttribute#getId <em>Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Id</em>'.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.RegisteredAttribute#getId()
+	 * @see #getRegisteredAttribute()
+	 * @generated
+	 */
+	EAttribute getRegisteredAttribute_Id();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.StdAttribute <em>Std Attribute</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Std Attribute</em>'.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.StdAttribute
+	 * @generated
+	 */
+	EClass getStdAttribute();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.StdAttribute#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.StdAttribute#getName()
+	 * @see #getStdAttribute()
+	 * @generated
+	 */
+	EAttribute getStdAttribute_Name();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.StdAttribute#getPossibleValues <em>Possible Values</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Possible Values</em>'.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.StdAttribute#getPossibleValues()
+	 * @see #getStdAttribute()
+	 * @generated
+	 */
+	EAttribute getStdAttribute_PossibleValues();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.StdAttribute#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.StdAttribute#getType()
+	 * @see #getStdAttribute()
+	 * @generated
+	 */
+	EAttribute getStdAttribute_Type();
+
+	/**
+	 * Returns the meta object for enum '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.AttributeType <em>Attribute Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Attribute Type</em>'.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.AttributeType
+	 * @generated
+	 */
+	EEnum getAttributeType();
+
+	/**
 	 * Returns the meta object for data type '{@link org.eclipse.reqcycle.types.IType <em>IType</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -630,6 +916,17 @@ public interface TypeconfigurationPackage extends EPackage {
 	 * @generated
 	 */
 	EDataType getIType();
+
+	/**
+	 * Returns the meta object for data type '{@link org.eclipse.reqcycle.traceability.model.TType <em>TType</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>TType</em>'.
+	 * @see org.eclipse.reqcycle.traceability.model.TType
+	 * @model instanceClass="org.eclipse.reqcycle.traceability.model.TType"
+	 * @generated
+	 */
+	EDataType getTType();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -764,6 +1061,30 @@ public interface TypeconfigurationPackage extends EPackage {
 		EAttribute RELATION__KIND = eINSTANCE.getRelation_Kind();
 
 		/**
+		 * The meta object literal for the '<em><b>Agregated Types</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RELATION__AGREGATED_TYPES = eINSTANCE.getRelation_AgregatedTypes();
+
+		/**
+		 * The meta object literal for the '<em><b>Icon</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RELATION__ICON = eINSTANCE.getRelation_Icon();
+
+		/**
+		 * The meta object literal for the '<em><b>Attributes</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RELATION__ATTRIBUTES = eINSTANCE.getRelation_Attributes();
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.ConfigurationImpl <em>Configuration</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -850,6 +1171,78 @@ public interface TypeconfigurationPackage extends EPackage {
 		EAttribute ENTRY__VALUE = eINSTANCE.getEntry_Value();
 
 		/**
+		 * The meta object literal for the '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.AttributeImpl <em>Attribute</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.AttributeImpl
+		 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeconfigurationPackageImpl#getAttribute()
+		 * @generated
+		 */
+		EClass ATTRIBUTE = eINSTANCE.getAttribute();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.RegisteredAttributeImpl <em>Registered Attribute</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.RegisteredAttributeImpl
+		 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeconfigurationPackageImpl#getRegisteredAttribute()
+		 * @generated
+		 */
+		EClass REGISTERED_ATTRIBUTE = eINSTANCE.getRegisteredAttribute();
+
+		/**
+		 * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REGISTERED_ATTRIBUTE__ID = eINSTANCE.getRegisteredAttribute_Id();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.StdAttributeImpl <em>Std Attribute</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.StdAttributeImpl
+		 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeconfigurationPackageImpl#getStdAttribute()
+		 * @generated
+		 */
+		EClass STD_ATTRIBUTE = eINSTANCE.getStdAttribute();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STD_ATTRIBUTE__NAME = eINSTANCE.getStdAttribute_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Possible Values</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STD_ATTRIBUTE__POSSIBLE_VALUES = eINSTANCE.getStdAttribute_PossibleValues();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STD_ATTRIBUTE__TYPE = eINSTANCE.getStdAttribute_Type();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.AttributeType <em>Attribute Type</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.AttributeType
+		 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeconfigurationPackageImpl#getAttributeType()
+		 * @generated
+		 */
+		EEnum ATTRIBUTE_TYPE = eINSTANCE.getAttributeType();
+
+		/**
 		 * The meta object literal for the '<em>IType</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -858,6 +1251,16 @@ public interface TypeconfigurationPackage extends EPackage {
 		 * @generated
 		 */
 		EDataType ITYPE = eINSTANCE.getIType();
+
+		/**
+		 * The meta object literal for the '<em>TType</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.reqcycle.traceability.model.TType
+		 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeconfigurationPackageImpl#getTType()
+		 * @generated
+		 */
+		EDataType TTYPE = eINSTANCE.getTType();
 
 	}
 

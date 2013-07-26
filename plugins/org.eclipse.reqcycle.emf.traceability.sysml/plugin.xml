@@ -24,5 +24,12 @@
             subTypeOf="org.eclipse.reqcycle.emf.type">
       </type>
    </extension>
+   <extension
+         point="org.eclipse.reqcycle.traceability.types.ttypes">
+      <ttype
+            provider="org.eclipse.reqcycle.emf.traceability.sysml.types.traceability.SysMLTTypeProvider"
+            theClass="org.eclipse.reqcycle.emf.traceability.sysml.SysMLTType">
+      </ttype>
+   </extension>
 
 </plugin>

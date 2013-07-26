@@ -159,21 +159,25 @@ public class StorageBasedTraceabilityEngine extends
 			if (o instanceof Pair) {
 				Pair<Link, Reachable> pair = (Pair<Link, Reachable>) o;
 				if (cond.apply(pair.getSecond())) {
-					current.add(pair);
 					found = true;
-					break;
-				} else if (!(pair.getFirst().getSources().contains(source))) {
-					if (checkPath(pair.getFirst().getSources().iterator()
-							.next(), cond, i, result, current)) {
-						result.addAll(current);
-					}
-				} else {
 					current.add(pair);
-					if (cond.apply(pair.getSecond())) {
+					break;
+				} else {
+					if (checkPath(pair.getFirst().getTargets().iterator()
+							.next(), cond, i, result, current)) {
+						current.add(pair);
 						found = true;
 						break;
+						// result.addAll(current);
 					}
 				}
+				// else {
+				// if (cond.apply(pair.getSecond())) {
+				// current.add(pair);
+				// found = true;
+				// break;
+				// }
+				// }
 			}
 		}
 		return found;

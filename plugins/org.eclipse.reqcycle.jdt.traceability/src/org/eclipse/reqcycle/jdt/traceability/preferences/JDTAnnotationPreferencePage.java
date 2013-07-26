@@ -15,7 +15,7 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.reqcycle.jdt.traceability.Activator;
 import org.eclipse.reqcycle.jdt.traceability.JDTPreferences;
-import org.eclipse.reqcycle.traceability.model.TraceabilityLink;
+import org.eclipse.reqcycle.traceability.model.TType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -34,7 +34,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 public class JDTAnnotationPreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage {
 	private Table table;
-	private Map<String, TraceabilityLink> preferences;
+	private Map<String, TType> preferences;
 	private TableViewer tableViewer;
 	private static final String IMAGE_PATH = "/icons/annot.gif";
 	private static final String IMAGE_KEY = Activator.PLUGIN_ID
@@ -112,7 +112,7 @@ public class JDTAnnotationPreferencePage extends PreferencePage implements
 				IStructuredSelection selec = (IStructuredSelection) tableViewer
 						.getSelection();
 				@SuppressWarnings("unchecked")
-				Entry<String, TraceabilityLink> entry = (Entry<String, TraceabilityLink>) selec
+				Entry<String, TType> entry = (Entry<String, TType>) selec
 						.getFirstElement();
 				preferences.remove(entry.getKey());
 				tableViewer.refresh(true);
@@ -142,7 +142,7 @@ public class JDTAnnotationPreferencePage extends PreferencePage implements
 			@Override
 			public String getColumnText(Object element, int columnIndex) {
 				if (element instanceof Entry) {
-					Entry<String, TraceabilityLink> entry = (Entry) element;
+					Entry<String, TType> entry = (Entry) element;
 					if (columnIndex == 0) {
 						return entry.getKey();
 					} else {
@@ -175,7 +175,7 @@ public class JDTAnnotationPreferencePage extends PreferencePage implements
 			@Override
 			public Object[] getElements(Object inputElement) {
 				if (inputElement instanceof Map) {
-					Map<String, TraceabilityLink> map = (Map<String, TraceabilityLink>) inputElement;
+					Map<String, TType> map = (Map<String, TType>) inputElement;
 					return map.entrySet().toArray();
 				}
 				return new Object[] {};

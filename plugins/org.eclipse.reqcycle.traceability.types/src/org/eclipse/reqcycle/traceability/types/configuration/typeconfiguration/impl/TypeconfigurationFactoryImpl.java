@@ -8,6 +8,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.reqcycle.traceability.model.TType;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.*;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Configuration;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.CustomType;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Entry;
@@ -33,7 +35,7 @@ public class TypeconfigurationFactoryImpl extends EFactoryImpl implements Typeco
 	 */
 	public static TypeconfigurationFactory init() {
 		try {
-			TypeconfigurationFactory theTypeconfigurationFactory = (TypeconfigurationFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.org.eclipse.reqcycle/typeconfiguration/1.0"); 
+			TypeconfigurationFactory theTypeconfigurationFactory = (TypeconfigurationFactory)EPackage.Registry.INSTANCE.getEFactory(TypeconfigurationPackage.eNS_URI);
 			if (theTypeconfigurationFactory != null) {
 				return theTypeconfigurationFactory;
 			}
@@ -68,6 +70,8 @@ public class TypeconfigurationFactoryImpl extends EFactoryImpl implements Typeco
 			case TypeconfigurationPackage.CONFIGURATION: return createConfiguration();
 			case TypeconfigurationPackage.CUSTOM_TYPE: return createCustomType();
 			case TypeconfigurationPackage.ENTRY: return createEntry();
+			case TypeconfigurationPackage.REGISTERED_ATTRIBUTE: return createRegisteredAttribute();
+			case TypeconfigurationPackage.STD_ATTRIBUTE: return createStdAttribute();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -81,8 +85,12 @@ public class TypeconfigurationFactoryImpl extends EFactoryImpl implements Typeco
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
+			case TypeconfigurationPackage.ATTRIBUTE_TYPE:
+				return createAttributeTypeFromString(eDataType, initialValue);
 			case TypeconfigurationPackage.ITYPE:
 				return createITypeFromString(eDataType, initialValue);
+			case TypeconfigurationPackage.TTYPE:
+				return createTTypeFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -96,8 +104,12 @@ public class TypeconfigurationFactoryImpl extends EFactoryImpl implements Typeco
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
+			case TypeconfigurationPackage.ATTRIBUTE_TYPE:
+				return convertAttributeTypeToString(eDataType, instanceValue);
 			case TypeconfigurationPackage.ITYPE:
 				return convertITypeToString(eDataType, instanceValue);
+			case TypeconfigurationPackage.TTYPE:
+				return convertTTypeToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -168,6 +180,46 @@ public class TypeconfigurationFactoryImpl extends EFactoryImpl implements Typeco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public RegisteredAttribute createRegisteredAttribute() {
+		RegisteredAttributeImpl registeredAttribute = new RegisteredAttributeImpl();
+		return registeredAttribute;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public StdAttribute createStdAttribute() {
+		StdAttributeImpl stdAttribute = new StdAttributeImpl();
+		return stdAttribute;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AttributeType createAttributeTypeFromString(EDataType eDataType, String initialValue) {
+		AttributeType result = AttributeType.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertAttributeTypeToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public IType createITypeFromString(EDataType eDataType, String initialValue) {
 		return (IType)super.createFromString(eDataType, initialValue);
 	}
@@ -178,6 +230,24 @@ public class TypeconfigurationFactoryImpl extends EFactoryImpl implements Typeco
 	 * @generated
 	 */
 	public String convertITypeToString(EDataType eDataType, Object instanceValue) {
+		return super.convertToString(eDataType, instanceValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TType createTTypeFromString(EDataType eDataType, String initialValue) {
+		return (TType)super.createFromString(eDataType, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertTTypeToString(EDataType eDataType, Object instanceValue) {
 		return super.convertToString(eDataType, instanceValue);
 	}
 

@@ -1,6 +1,7 @@
 package org.eclipse.reqcycle.jdt.traceability.preferences;
 
-import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedList;
 
 import org.eclipse.jdt.core.search.IJavaSearchConstants;
 import org.eclipse.jdt.core.search.SearchEngine;
@@ -11,10 +12,11 @@ import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.reqcycle.traceability.model.TraceabilityLink;
+import org.eclipse.reqcycle.jdt.traceability.JDTPreferences;
+import org.eclipse.reqcycle.jdt.traceability.types.JDTType;
+import org.eclipse.reqcycle.traceability.model.TType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -36,8 +38,9 @@ import org.eclipse.wb.swt.ResourceManager;
 public class NewAnnotDialog extends TitleAreaDialog {
 	private Text text;
 	private String annotName = null;
-	private TraceabilityLink link = null;
+	private TType link = null;
 	private ComboViewer comboViewer;
+	Collection<String> input = new LinkedList<String>();
 
 	/**
 	 * Create the dialog.
@@ -100,20 +103,20 @@ public class NewAnnotDialog extends TitleAreaDialog {
 				1, 1));
 		lblKind.setText("Kind : ");
 
-		comboViewer = new ComboViewer(container, SWT.READ_ONLY);
+		comboViewer = new ComboViewer(container, SWT.None);
 		Combo combo = comboViewer.getCombo();
 		combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2,
 				1));
 		comboViewer.setContentProvider(new ArrayContentProvider());
 		comboViewer.setLabelProvider(new LabelProvider());
-		comboViewer.setInput(Arrays.asList(TraceabilityLink.values()));
+		input.addAll(JDTPreferences.getPreferences().keySet());
+		comboViewer.setInput(input);
 		comboViewer
 				.addSelectionChangedListener(new ISelectionChangedListener() {
 
 					@Override
 					public void selectionChanged(SelectionChangedEvent event) {
-						link = (TraceabilityLink) ((IStructuredSelection) comboViewer
-								.getSelection()).getFirstElement();
+						link = new JDTType(comboViewer.getCCombo().getText());
 					}
 				});
 		return area;
@@ -153,7 +156,7 @@ public class NewAnnotDialog extends TitleAreaDialog {
 		return annotName;
 	}
 
-	public TraceabilityLink getLink() {
+	public TType getLink() {
 		return link;
 	}
 

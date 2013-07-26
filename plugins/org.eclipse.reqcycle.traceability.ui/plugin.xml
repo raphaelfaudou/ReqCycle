@@ -12,7 +12,7 @@
             allowMultiple="false"
             category="org.eclipse.reqcycle.traceability.ui"
             class="org.eclipse.reqcycle.traceability.ui.views.TraceabilityViewer"
-            icon="icons/sample.gif"
+            icon="icons/path.gif"
             id="org.eclipse.reqcycle.traceability.ui.views.TraceabilityViewer"
             name="TraceabilityViewer">
       </view>

@@ -14,7 +14,6 @@ import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.reqcycle.traceability.builder.ITraceabilityBuilder.IBuilderCallBack;
 import org.eclipse.reqcycle.traceability.model.TType;
-import org.eclipse.reqcycle.traceability.model.TraceabilityLink;
 import org.eclipse.reqcycle.uri.ILogicalIDManager;
 import org.eclipse.reqcycle.uri.model.Reachable;
 import org.eclipse.reqcycle.uri.visitors.IVisitor;
@@ -25,7 +24,7 @@ public class JDTTraceabilityVisitor implements IVisitor {
 	@Inject
 	ILogicalIDManager manager;
 
-	Map<String, TraceabilityLink> mapOfTypes = JDTPreferences.getPreferences();
+	Map<String, TType> mapOfTypes = JDTPreferences.getPreferences();
 
 	@Override
 	public void start(IAdaptable adaptable) {
@@ -57,7 +56,7 @@ public class JDTTraceabilityVisitor implements IVisitor {
 	}
 
 	protected void handleAnnot(IAnnotatable annot, IAnnotation ann,
-			TraceabilityLink traceabilityLink) {
+			TType traceabilityLink) {
 		if (ann != null) {
 			IMemberValuePair[] pairs;
 			try {
@@ -77,7 +76,7 @@ public class JDTTraceabilityVisitor implements IVisitor {
 													annot,
 													Collections
 															.singletonList(reachable),
-													TType.get(traceabilityLink));
+													traceabilityLink);
 								}
 							}
 						}

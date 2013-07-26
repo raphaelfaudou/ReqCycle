@@ -5,11 +5,17 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.reqcycle.traceability.types.configuration.preferences.dialogs.NewAttributeDialog;
+import org.eclipse.reqcycle.traceability.types.configuration.preferences.dialogs.NewRelationDialog;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Configuration;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Relation;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Type;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeConfigContainer;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class TraceabilityTypePreferencePage extends AbstractPreferencePage {
+	public TraceabilityTypePreferencePage() {
+	}
 
 	@Override
 	protected ViewerFilter getFilter() {
@@ -37,6 +43,8 @@ public class TraceabilityTypePreferencePage extends AbstractPreferencePage {
 			Object firstElement = selec.getFirstElement();
 			if (firstElement == null) {
 				createConfiguration();
+			} else if (firstElement instanceof Relation) {
+				createAttribute((Relation) firstElement);
 			} else if (firstElement instanceof TypeConfigContainer) {
 				createConfiguration();
 			} else if (firstElement instanceof Configuration) {
@@ -46,6 +54,23 @@ public class TraceabilityTypePreferencePage extends AbstractPreferencePage {
 			createConfiguration();
 		}
 
+	}
+
+	protected void createRelation(Configuration conf) {
+		NewRelationDialog dialog = new NewRelationDialog(getShell(), container);
+		ZigguratInject.inject(dialog);
+		if (dialog.open() == NewRelationDialog.OK) {
+			conf.getRelations().add(dialog.getRelation());
+		}
+	}
+
+	private void createAttribute(Relation relation) {
+		NewAttributeDialog dialog = new NewAttributeDialog(getShell(),
+				container);
+		ZigguratInject.inject(dialog);
+		if (dialog.open() == NewAttributeDialog.OK) {
+			relation.getAttributes().add(EcoreUtil.copy(dialog.getAttribute()));
+		}
 	}
 
 	@Override
