@@ -25,6 +25,7 @@ import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
 
 import static com.google.common.collect.Iterables.filter;
+import static com.google.common.collect.Iterables.transform;
 
 public class SailBusinessOperations implements
 		ISpecificGraphProvider.IBusinessOperations {
@@ -218,16 +219,19 @@ public class SailBusinessOperations implements
 
 	@Override
 	public Iterable<Vertex> getAllTraceabilityVertices(Graph graph) {
-		return filter(graph.getVertices(), new Predicate<Vertex>() {
+		Iterable<Edge> edges = graph.getEdges();
+		Iterable<Edge> edgesFilterd = filter(edges, new Predicate<Edge>() {
 
 			@Override
-			public boolean apply(Vertex arg0) {
-				Iterable<Edge> outgoing = arg0.getEdges(Direction.BOTH,
-						VERTEX_OUTGOING);
-				Iterable<Edge> incoming = arg0.getEdges(Direction.BOTH,
-						VERTEX_INCOMING);
-				return outgoing.iterator().hasNext()
-						|| incoming.iterator().hasNext();
+			public boolean apply(Edge arg0) {
+				return VERTEX_OUTGOING.equals(arg0.getLabel());
+			}
+		});
+		return transform(edgesFilterd, new Function<Edge, Vertex>() {
+
+			@Override
+			public Vertex apply(Edge arg0) {
+				return arg0.getVertex(Direction.OUT);
 			}
 		});
 	}
@@ -254,5 +258,32 @@ public class SailBusinessOperations implements
 			}
 			return null;
 		}
+	}
+
+	@Override
+	public void removeUpwardRelationShip(Graph graph, TType kind,
+			Reachable container, Reachable source, Reachable target) {
+		Vertex vertex = getVertex(graph, source);
+		if (vertex != null) {
+			for (Iterator<Edge> i = vertex.getEdges(Direction.OUT,
+					VERTEX_OUTGOING).iterator(); i.hasNext();) {
+				Edge e = i.next();
+				if (getReachable(e.getVertex(Direction.OUT)).equals(target)) {
+					e.remove();
+				}
+			}
+		}
+	}
+
+	@Override
+	public Vertex getSourceFromTraceabilityVertex(Vertex arg0) {
+		return arg0.getEdges(Direction.IN, TRACE_SOURCE).iterator().next()
+				.getVertex(Direction.IN);
+	}
+
+	@Override
+	public Vertex getTargetFromTraceabilityVertex(Vertex arg0) {
+		return arg0.getEdges(Direction.OUT, TRACE_TARGET).iterator().next()
+				.getVertex(Direction.OUT);
 	}
 }

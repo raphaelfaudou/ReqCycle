@@ -45,5 +45,12 @@ public interface ISpecificGraphProvider extends IGraphProvider {
 
 		Iterable<Vertex> getAllTraceabilityVertices(Graph graph);
 
+		void removeUpwardRelationShip(Graph graph, TType kind,
+				Reachable container, Reachable source, Reachable target);
+
+		Vertex getSourceFromTraceabilityVertex(Vertex arg0);
+
+		Vertex getTargetFromTraceabilityVertex(Vertex arg0);
+
 	}
 }

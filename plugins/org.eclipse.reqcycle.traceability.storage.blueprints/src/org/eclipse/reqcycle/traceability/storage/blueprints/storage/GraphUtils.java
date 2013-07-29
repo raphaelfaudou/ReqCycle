@@ -1,6 +1,7 @@
 package org.eclipse.reqcycle.traceability.storage.blueprints.storage;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
 
 import static com.google.common.collect.Iterables.filter;
+import static com.google.common.collect.Iterables.transform;
 
 public class GraphUtils implements ISpecificGraphProvider.IBusinessOperations {
 	private static final String KIND = "kind";
@@ -141,15 +143,47 @@ public class GraphUtils implements ISpecificGraphProvider.IBusinessOperations {
 
 	@Override
 	public Iterable<Vertex> getAllTraceabilityVertices(Graph graph) {
-		return filter(graph.getVertices(), new Predicate<Vertex>() {
+		Iterable<Edge> edges = graph.getEdges();
+		Iterable<Edge> edgesFilterd = filter(edges, new Predicate<Edge>() {
 
 			@Override
-			public boolean apply(Vertex arg0) {
-				Iterable<Edge> outgoing = arg0.getEdges(Direction.BOTH,
-						VERTEX_OUTGOING);
-				return outgoing.iterator().hasNext();
+			public boolean apply(Edge arg0) {
+				return VERTEX_OUTGOING.equals(arg0.getLabel());
+			}
+		});
+		return transform(edgesFilterd, new Function<Edge, Vertex>() {
+
+			@Override
+			public Vertex apply(Edge arg0) {
+				return arg0.getVertex(Direction.OUT);
 			}
 		});
 	}
 
+	@Override
+	public void removeUpwardRelationShip(Graph graph, TType kind,
+			Reachable container, Reachable source, Reachable target) {
+		Vertex vertex = getVertex(graph, source);
+		if (vertex != null) {
+			for (Iterator<Edge> i = vertex.getEdges(Direction.OUT,
+					VERTEX_OUTGOING).iterator(); i.hasNext();) {
+				Edge e = i.next();
+				if (e.getVertex(Direction.OUT).equals(getVertex(graph, target))) {
+					e.remove();
+				}
+			}
+		}
+	}
+
+	@Override
+	public Vertex getSourceFromTraceabilityVertex(Vertex arg0) {
+		return arg0.getEdges(Direction.IN, TRACE_TARGET).iterator().next()
+				.getVertex(Direction.IN);
+	}
+
+	@Override
+	public Vertex getTargetFromTraceabilityVertex(Vertex arg0) {
+		return arg0.getEdges(Direction.OUT, TRACE_TARGET).iterator().next()
+				.getVertex(Direction.OUT);
+	}
 }
