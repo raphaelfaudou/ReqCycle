@@ -184,19 +184,24 @@ public class GraphStorage implements ITraceabilityStorage {
 			Reachable source, Reachable... targets) {
 		Set<Vertex> toDelete = new HashSet<Vertex>();
 		Vertex vSource = graphUtils.getVertex(graph, source);
+		if (vSource == null) {
+			return;
+		}
 		Iterable<Vertex> traceability = graphUtils.getTraceability(vSource,
 				Direction.OUT);
 		for (Reachable t : targets) {
 			for (Vertex vTrac : traceability) {
 				Vertex vTarget = graphUtils.getTraceabilityTarget(vTrac,
 						Direction.OUT);
-				if (getReachable((String) vTarget.getId()).equals(t)) {
-					// target is the same check for kind
-					TType aKind = graphUtils.getTType(vTrac);
-					if (aKind != null && aKind.equals(kind)) {
-						// the good one is found
-						toDelete.add(vTrac);
-						break;
+				if (vTarget != null) {
+					if (getReachable((String) vTarget.getId()).equals(t)) {
+						// target is the same check for kind
+						TType aKind = graphUtils.getTType(vTrac);
+						if (aKind != null && aKind.equals(kind)) {
+							// the good one is found
+							toDelete.add(vTrac);
+							break;
+						}
 					}
 				}
 			}
