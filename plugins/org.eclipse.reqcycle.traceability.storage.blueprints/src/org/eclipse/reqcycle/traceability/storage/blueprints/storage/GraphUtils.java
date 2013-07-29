@@ -1,10 +1,11 @@
 package org.eclipse.reqcycle.traceability.storage.blueprints.storage;
 
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.reqcycle.traceability.model.TType;
 import org.eclipse.reqcycle.traceability.storage.blueprints.graph.ISpecificGraphProvider;
@@ -61,12 +62,17 @@ public class GraphUtils implements ISpecificGraphProvider.IBusinessOperations {
 
 	public Vertex addTraceabilityRelation(Graph graph, Reachable source,
 			Reachable target, TType relation) {
+		Vertex vSource = getVertex(graph, source);
+		Vertex vTarget = getVertex(graph, target);
+		return addTraceabilityRelation(graph, relation, vSource, vTarget);
+	}
+
+	private Vertex addTraceabilityRelation(Graph graph, TType relation,
+			Vertex vSource, Vertex vTarget) {
 		Vertex traceability = graph.addVertex(null);
-		traceability.setProperty(KIND, relation);
-		graph.addEdge(null, getVertex(graph, source), traceability,
-				VERTEX_OUTGOING);
-		graph.addEdge(null, traceability, getVertex(graph, target),
-				TRACE_TARGET);
+		setKind(graph, relation, traceability);
+		graph.addEdge(null, vSource, traceability, VERTEX_OUTGOING);
+		graph.addEdge(null, traceability, vTarget, TRACE_TARGET);
 		return traceability;
 	}
 
@@ -172,19 +178,77 @@ public class GraphUtils implements ISpecificGraphProvider.IBusinessOperations {
 				.getVertex(Direction.OUT);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.reqcycle.traceability.storage.blueprints.graph.
+	 * ISpecificGraphProvider
+	 * .IBusinessOperations#removeUpwardRelationShip(com.tinkerpop
+	 * .blueprints.Graph, org.eclipse.reqcycle.traceability.model.TType,
+	 * org.eclipse.reqcycle.uri.model.Reachable,
+	 * org.eclipse.reqcycle.uri.model.Reachable,
+	 * org.eclipse.reqcycle.uri.model.Reachable)
+	 */
 	@Override
 	public void removeUpwardRelationShip(Graph graph, TType kind,
 			Reachable container, Reachable source, Reachable target) {
-		Vertex vertex = getVertex(graph, source);
-		if (vertex != null) {
-			for (Iterator<Edge> i = vertex.getEdges(Direction.OUT,
-					VERTEX_OUTGOING).iterator(); i.hasNext();) {
-				Edge e = i.next();
-				if (e.getVertex(Direction.OUT).equals(getVertex(graph, target))) {
-					e.remove();
+		removeUpwardRelationShip(graph, kind,
+				graph.getVertex(container.toString()),
+				graph.getVertex(source.toString()),
+				graph.getVertex(target.toString()));
+	}
+
+	public void removeUpwardRelationShip(Graph graph, TType kind,
+			Vertex container, Vertex sourceVertex, Vertex target) {
+		Set<Edge> toDelete = new HashSet<Edge>();
+		if (sourceVertex != null) {
+			for (Edge e : sourceVertex.getEdges(Direction.OUT, VERTEX_OUTGOING)) {
+				Vertex traceVertex = e.getVertex(Direction.OUT);
+				for (Edge e2 : traceVertex
+						.getEdges(Direction.OUT, TRACE_TARGET)) {
+					if (e2.getVertex(Direction.OUT).equals(target)) {
+						toDelete.add(e);
+						toDelete.add(e2);
+						if (container != null) {
+							for (Edge e3 : traceVertex.getEdges(Direction.IN,
+									CHILDREN_EDGE)) {
+								toDelete.add(e3);
+							}
+						}
+					}
 				}
 			}
 		}
+		for (Edge e : toDelete) {
+			graph.removeEdge(e);
+		}
+	}
+
+	@Override
+	public void setTarget(Graph graph, Reachable newTarget,
+			Vertex traceabilityVertex) {
+		TType kind = getKind(traceabilityVertex);
+		Vertex vSource = getSourceFromTraceabilityVertex(traceabilityVertex);
+		Vertex vTarget = getTargetFromTraceabilityVertex(traceabilityVertex);
+		removeUpwardRelationShip(graph, kind, null, vSource, vTarget);
+		addTraceabilityRelation(graph, kind, vSource,
+				getVertex(graph, newTarget));
+	}
+
+	@Override
+	public void setSource(Graph graph, Reachable newSource, Vertex vTrac) {
+		TType kind = getKind(vTrac);
+		Vertex vSource = getSourceFromTraceabilityVertex(vTrac);
+		Vertex vTarget = getTargetFromTraceabilityVertex(vTrac);
+		removeUpwardRelationShip(graph, kind, null, vSource, vTarget);
+		addTraceabilityRelation(graph, kind, getVertex(graph, newSource),
+				vTarget);
+
+	}
+
+	@Override
+	public void setKind(Graph graph, TType newType, Vertex vTrac) {
+		vTrac.setProperty(KIND, newType);
 	}
 
 }

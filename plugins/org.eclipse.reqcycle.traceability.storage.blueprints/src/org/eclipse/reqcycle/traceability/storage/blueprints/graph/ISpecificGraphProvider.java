@@ -52,5 +52,12 @@ public interface ISpecificGraphProvider extends IGraphProvider {
 
 		Vertex getTargetFromTraceabilityVertex(Vertex arg0);
 
+		void setTarget(Graph graph, Reachable newTarget,
+				Vertex traceabilityVertex);
+
+		void setSource(Graph graph, Reachable newSource, Vertex vTrac);
+
+		void setKind(Graph graph, TType newType, Vertex vTrac);
+
 	}
 }

@@ -91,6 +91,6 @@ public interface ITraceabilityStorage {
 	 * @param oldLink
 	 * @param newLin
 	 */
-	void updateRelationShip(Link oldLink, Link newLink);
+	void updateRelationShip(Link oldLink, Link newLink, DIRECTION direction);
 
 }

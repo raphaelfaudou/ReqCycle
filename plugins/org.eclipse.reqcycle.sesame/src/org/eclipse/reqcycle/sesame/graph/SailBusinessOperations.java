@@ -1,15 +1,14 @@
 package org.eclipse.reqcycle.sesame.graph;
 
-import static com.google.common.collect.Iterables.filter;
-import static com.google.common.collect.Iterables.transform;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -26,6 +25,9 @@ import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
+
+import static com.google.common.collect.Iterables.filter;
+import static com.google.common.collect.Iterables.transform;
 
 public class SailBusinessOperations implements
 		ISpecificGraphProvider.IBusinessOperations {
@@ -91,18 +93,39 @@ public class SailBusinessOperations implements
 		// TODO change for sail
 		// Vertex vKind = graph.addVertex(getLitteral(relation));
 		// graph.addEdge(null, traceability, vKind, KIND);
-		setKind(graph, traceability, relation);
+		setKind(graph, relation, traceability);
 		Vertex sourceVertex = getVertex(graph, source);
 		Vertex targetVertex = getVertex(graph, target);
 
-		graph.addEdge(null, sourceVertex, traceability, VERTEX_OUTGOING);
-		graph.addEdge(null, traceability, sourceVertex, TRACE_SOURCE);
-		graph.addEdge(null, traceability, targetVertex, TRACE_TARGET);
-		graph.addEdge(null, targetVertex, traceability, VERTEX_INCOMING);
+		setSource(graph, traceability, sourceVertex);
+		setTarget(graph, traceability, targetVertex);
 		return traceability;
 	}
 
-	private void setKind(Graph graph, Vertex traceability, TType relation) {
+	/**
+	 * Set link between source and traceability vertex
+	 * 
+	 * @param graph
+	 * @param traceability
+	 * @param sourceVertex
+	 */
+	private void setSource(Graph graph, Vertex traceability, Vertex sourceVertex) {
+		doSet(graph, traceability, sourceVertex, TRACE_SOURCE, VERTEX_OUTGOING);
+	}
+
+	// add the correct edges between a vertex and its traceability vertex
+	private void doSet(Graph graph, Vertex traceaVertex, Vertex node,
+			String traceaVertex2Node, String node2TraceaVertex) {
+		graph.addEdge(null, traceaVertex, node, traceaVertex2Node);
+		graph.addEdge(null, node, traceaVertex, node2TraceaVertex);
+	}
+
+	private void setTarget(Graph graph, Vertex traceability, Vertex targetVertex) {
+		doSet(graph, traceability, targetVertex, TRACE_TARGET, VERTEX_INCOMING);
+	}
+
+	@Override
+	public void setKind(Graph graph, TType relation, Vertex traceability) {
 		graph.addEdge(null, traceability,
 				graph.addVertex(getLitteral(getRelationString(relation))), KIND);
 
@@ -263,15 +286,35 @@ public class SailBusinessOperations implements
 	@Override
 	public void removeUpwardRelationShip(Graph graph, TType kind,
 			Reachable container, Reachable source, Reachable target) {
-		Vertex vertex = getVertex(graph, source);
-		if (vertex != null) {
-			for (Iterator<Edge> i = vertex.getEdges(Direction.OUT,
-					VERTEX_OUTGOING).iterator(); i.hasNext();) {
-				Edge e = i.next();
-				if (getReachable(e.getVertex(Direction.OUT)).equals(target)) {
-					e.remove();
+		Vertex sourceVertex = getVertex(graph, source);
+		Vertex targetVertex = getVertex(graph, target);
+		Set<Edge> toDelete = new HashSet<Edge>();
+		delete(targetVertex, sourceVertex, VERTEX_OUTGOING, TRACE_TARGET,
+				toDelete, true);
+		for (Edge e : toDelete) {
+			graph.removeEdge(e);
+		}
+	}
+
+	private void delete(Vertex target, Vertex sourceVertex, String vertex2Trac,
+			String trac2vertex, Set<Edge> toDelete, boolean flag) {
+		if (sourceVertex != null) {
+			for (Edge e : sourceVertex.getEdges(Direction.OUT, VERTEX_OUTGOING)) {
+				Vertex tracVertex = e.getVertex(Direction.OUT);
+				for (Edge e2 : tracVertex.getEdges(Direction.OUT, TRACE_TARGET)) {
+					Vertex targetVertex = e2.getVertex(Direction.OUT);
+					if (targetVertex.equals(target)) {
+						toDelete.add(e);
+						toDelete.add(e2);
+						if (flag) {
+							delete(sourceVertex, target, VERTEX_INCOMING,
+									TRACE_SOURCE, toDelete, false);
+						}
+					}
 				}
+
 			}
+
 		}
 	}
 
@@ -283,7 +326,47 @@ public class SailBusinessOperations implements
 
 	@Override
 	public Vertex getTargetFromTraceabilityVertex(Vertex arg0) {
-		return arg0.getEdges(Direction.OUT, TRACE_TARGET).iterator().next()
+		return getTargetEdgeFromTraceabilityVertex(arg0).iterator().next()
 				.getVertex(Direction.IN);
+	}
+
+	private Iterable<Edge> getTargetEdgeFromTraceabilityVertex(Vertex arg0) {
+		return arg0.getEdges(Direction.OUT, TRACE_TARGET);
+	}
+
+	@Override
+	public void setTarget(Graph graph, Reachable newTarget,
+			Vertex traceabilityVertex) {
+		set(graph, TRACE_TARGET, VERTEX_INCOMING, traceabilityVertex,
+				newTarget, Direction.OUT);
+	}
+
+	private void set(Graph graph, String stringForVertexTr,
+			String stringForNode, Vertex traceabilityVertex,
+			Reachable newTarget, Direction out) {
+		Iterable<Edge> edges = traceabilityVertex.getEdges(Direction.OUT,
+				stringForVertexTr);
+		// only one by traceability
+		Edge next = edges.iterator().next();
+		Vertex otherVertex = next.getVertex(Direction.OUT);
+		Set<Edge> toDelete = new HashSet<Edge>();
+		toDelete.add(next);
+		for (Edge e : otherVertex.getEdges(Direction.OUT, stringForNode)) {
+			if (e.getVertex(Direction.OUT).equals(traceabilityVertex)) {
+				toDelete.add(e);
+			}
+		}
+		// remove the edges
+		for (Edge e : toDelete) {
+			graph.removeEdge(e);
+		}
+		doSet(graph, traceabilityVertex, getVertex(graph, newTarget),
+				stringForVertexTr, stringForNode);
+	}
+
+	@Override
+	public void setSource(Graph graph, Reachable newSource, Vertex vTrac) {
+		set(graph, TRACE_SOURCE, VERTEX_OUTGOING, vTrac, newSource,
+				Direction.IN);
 	}
 }

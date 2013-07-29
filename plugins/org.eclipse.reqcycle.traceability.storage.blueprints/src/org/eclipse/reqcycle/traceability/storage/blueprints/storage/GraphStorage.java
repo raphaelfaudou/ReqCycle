@@ -182,6 +182,17 @@ public class GraphStorage implements ITraceabilityStorage {
 	@Override
 	public void removeUpwardRelationShip(TType kind, Reachable container,
 			Reachable source, Reachable... targets) {
+		for (Reachable t : targets) {
+			graphUtils.removeUpwardRelationShip(graph, kind, container, source,
+					t);
+		}
+	}
+
+	@Override
+	public void updateRelationShip(Link oldLink, Link newLink,
+			DIRECTION direction) {
+		Reachable source = oldLink.getSources().iterator().next();
+		Reachable target = oldLink.getTargets().iterator().next();
 		Set<Vertex> toDelete = new HashSet<Vertex>();
 		Vertex vSource = graphUtils.getVertex(graph, source);
 		if (vSource == null) {
@@ -189,32 +200,59 @@ public class GraphStorage implements ITraceabilityStorage {
 		}
 		Iterable<Vertex> traceability = graphUtils.getTraceability(vSource,
 				Direction.OUT);
-		for (Reachable t : targets) {
-			for (Vertex vTrac : traceability) {
-				Vertex vTarget = graphUtils.getTraceabilityTarget(vTrac,
-						Direction.OUT);
-				if (vTarget != null) {
-					if (getReachable((String) vTarget.getId()).equals(t)) {
-						// target is the same check for kind
-						TType aKind = graphUtils.getTType(vTrac);
-						if (aKind != null && aKind.equals(kind)) {
-							// the good one is found
-							toDelete.add(vTrac);
-							break;
-						}
+		for (Vertex vTrac : traceability) {
+			Vertex vTarget = graphUtils.getTraceabilityTarget(vTrac,
+					Direction.OUT);
+			if (vTarget != null) {
+				if (getReachable((String) vTarget.getId()).equals(target)) {
+					// target is the same check for kind
+					TType aKind = graphUtils.getTType(vTrac);
+					if (aKind != null && aKind.equals(oldLink.getKind())) {
+						handleTraceability(oldLink, source, target, newLink,
+								vSource, vTarget, vTrac, direction);
+						break;
 					}
 				}
 			}
 		}
-		for (Vertex v : toDelete) {
-			graphUtils.delete(v);
+	}
+
+	protected void handleTraceability(Link oldLink, Reachable oldSource,
+			Reachable oldTarget, Link newLink, Vertex vSource, Vertex vTarget,
+			Vertex vTrac, DIRECTION direction) {
+		Reachable newSource = newLink.getSources().iterator().next();
+		Reachable newTarget = newLink.getTargets().iterator().next();
+		if (!newSource.equals(oldSource)) {
+			if (direction == DIRECTION.DOWNWARD) {
+				handleTargetChanged(oldTarget, newTarget, vTrac);
+			} else {
+				handleSourceChanged(oldSource, newSource, vTrac);
+			}
+		}
+		if (!newTarget.equals(oldTarget)) {
+			if (direction == DIRECTION.DOWNWARD) {
+				handleTargetChanged(oldSource, newSource, vTrac);
+			} else {
+				handleSourceChanged(oldTarget, newTarget, vTrac);
+			}
+		}
+		TType newType = newLink.getKind();
+		if (!newType.equals(oldLink.getKind())) {
+			handleKindChanged(oldLink.getKind(), newType, vTrac);
 		}
 	}
 
-	@Override
-	public void updateRelationShip(Link oldLink, Link newLink) {
-		// manage only one source and one target
-		// Reachable soyu
-		// Vertex source = graphUtils.getVertex(graph, oldLink.get)
+	protected void handleKindChanged(TType kind, TType newType, Vertex vTrac) {
+		graphUtils.setKind(graph, newType, vTrac);
+	}
+
+	protected void handleTargetChanged(Reachable oldTarget,
+			Reachable newTarget, Vertex vTrac) {
+		graphUtils.setTarget(graph, newTarget, vTrac);
+	}
+
+	private void handleSourceChanged(Reachable oldSource, Reachable newSource,
+			Vertex vTrac) {
+		graphUtils.setSource(graph, newSource, vTrac);
 	}
 }
