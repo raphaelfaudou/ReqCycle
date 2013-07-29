@@ -39,7 +39,7 @@ public class DragRequirementSourceAdapter extends DragSourceAdapter
 
     private ISelectionProvider provider;
 
-    private final static String PLUGIN_TRANSFER_ACTION_ID = "org.eclipse.reqcycle.repository.ui.dropRequirement";
+    private final static String PLUGIN_TRANSFER_ACTION_ID = "org.eclipse.reqcycle.dnd.DropRequirementDelegate";
 
     /** IObjectHandler */
     @Inject

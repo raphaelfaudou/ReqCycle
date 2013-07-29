@@ -33,11 +33,4 @@
             restorable="true">
       </view>
    </extension>
-	<extension
-        point="org.eclipse.ui.dropActions">
-     <action
-           class="org.eclipse.reqcycle.dnd.DropRequirementDelegate"
-           id="org.eclipse.reqcycle.repository.ui.dropRequirement">
-     </action>
-  </extension>
 </plugin>

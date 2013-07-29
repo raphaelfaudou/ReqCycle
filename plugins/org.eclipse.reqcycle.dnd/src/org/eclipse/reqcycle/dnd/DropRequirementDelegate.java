@@ -50,38 +50,31 @@ import com.google.common.collect.Iterables;
 
 public class DropRequirementDelegate implements IDropActionDelegate {
 
-	@Inject
 	IReachableCreator creator = ZigguratInject.make(IReachableCreator.class);
 
-	@Inject
 	IReachableManager manager = ZigguratInject.make(IReachableManager.class);
 
-	@Inject
 	ITypesManager typesManager = ZigguratInject.make(ITypesManager.class);
 
-	@Inject
 	IObjectHandler objectHandler = ZigguratInject.make(IObjectHandler.class);
 
-	ITypesConfigurationProvider configManager = ZigguratInject
-			.make(ITypesConfigurationProvider.class);
+	ITypesConfigurationProvider configManager = ZigguratInject.make(ITypesConfigurationProvider.class);
 
 	@Override
 	public boolean run(Object source, Object target) {
 		Reachable targetReachable = null;
 		List<Reachable> sourceReachables = new ArrayList<Reachable>();
 
-		if (source instanceof byte[] && isEObject(target)) {
+		if(source instanceof byte[] && isEObject(target)) {
 			EObject targetEObj = getEObject(target);
 			IFile file = WorkspaceSynchronizer.getFile(targetEObj.eResource());
-			if (file != null) {
-				if (objectHandler.handlesObject(targetEObj)) {
+			if(file != null) {
+				if(objectHandler.handlesObject(targetEObj)) {
 					{
-						targetReachable = objectHandler.getFromObject(
-								targetEObj).getReachable(targetEObj);
+						targetReachable = objectHandler.getFromObject(targetEObj).getReachable(targetEObj);
 					}
-					byte[] data = (byte[]) source;
-					List<Reachable> reachables = DNDReqCycle
-							.getReachables(data);
+					byte[] data = (byte[])source;
+					List<Reachable> reachables = DNDReqCycle.getReachables(data);
 					handleDrop(reachables, targetReachable, file);
 				}
 			}
@@ -96,69 +89,60 @@ public class DropRequirementDelegate implements IDropActionDelegate {
 
 	private EObject getEObject(Object target) {
 		EObject result = null;
-		if (target instanceof IAdaptable) {
-			IAdaptable adaptable = (IAdaptable) target;
-			result = (EObject) adaptable.getAdapter(EObject.class);
+		if(target instanceof IAdaptable) {
+			IAdaptable adaptable = (IAdaptable)target;
+			result = (EObject)adaptable.getAdapter(EObject.class);
 		}
-		if (result == null) {
-			result = (EObject) Platform.getAdapterManager().getAdapter(target,
-					EObject.class);
+		if(result == null) {
+			result = (EObject)Platform.getAdapterManager().getAdapter(target, EObject.class);
 		}
-		if (result == null) {
-			if (result instanceof EObject) {
-				result = (EObject) target;
+		if(result == null) {
+			if(result instanceof EObject) {
+				result = (EObject)target;
 			}
 		}
 		return result;
 	}
 
-	protected void handleDrop(List<Reachable> sourceReachables,
-			Reachable targetReachable, IResource res) {
-		final Map<RelationCreationDescriptor, CreateRelationCommand> allCommands = RelationCommandUtils
-				.getAllRelationCommands(sourceReachables,
-						Collections.singletonList(targetReachable), res);
-		Iterable<RelationCreationDescriptor> upstreamToDownstreams = Iterables
-				.filter(allCommands.keySet(),
-						new Predicate<RelationCreationDescriptor>() {
-							public boolean apply(RelationCreationDescriptor desc) {
-								return desc.isUpstreamToDownstream();
-							}
-						});
-		Iterable<RelationCreationDescriptor> downstreamToUpstream = Iterables
-				.filter(allCommands.keySet(),
-						new Predicate<RelationCreationDescriptor>() {
-							public boolean apply(RelationCreationDescriptor desc) {
-								return desc.isDownstreamToUpstream();
-							}
-						});
+	protected void handleDrop(List<Reachable> sourceReachables, Reachable targetReachable, IResource res) {
+		final Map<RelationCreationDescriptor, CreateRelationCommand> allCommands = RelationCommandUtils.getAllRelationCommands(sourceReachables, Collections.singletonList(targetReachable), res);
+		Iterable<RelationCreationDescriptor> upstreamToDownstreams = Iterables.filter(allCommands.keySet(), new Predicate<RelationCreationDescriptor>() {
+
+			public boolean apply(RelationCreationDescriptor desc) {
+				return desc.isUpstreamToDownstream();
+			}
+		});
+		Iterable<RelationCreationDescriptor> downstreamToUpstream = Iterables.filter(allCommands.keySet(), new Predicate<RelationCreationDescriptor>() {
+
+			public boolean apply(RelationCreationDescriptor desc) {
+				return desc.isDownstreamToUpstream();
+			}
+		});
 		Menu menu = new Menu(Display.getDefault().getActiveShell());
-		Iterator<RelationCreationDescriptor> iteratorUD = upstreamToDownstreams
-				.iterator();
-		if (iteratorUD.hasNext()) {
+		Iterator<RelationCreationDescriptor> iteratorUD = upstreamToDownstreams.iterator();
+		if(iteratorUD.hasNext()) {
 			createMenu(menu, "Upstream To Downstream", iteratorUD, allCommands);
 		}
-		Iterator<RelationCreationDescriptor> iteratorDU = downstreamToUpstream
-				.iterator();
-		if (iteratorDU.hasNext()) {
+		Iterator<RelationCreationDescriptor> iteratorDU = downstreamToUpstream.iterator();
+		if(iteratorDU.hasNext()) {
 			createMenu(menu, "Downstream To Upstream", iteratorDU, allCommands);
 		}
 		menu.setVisible(true);
 
 	}
 
-	private void createMenu(Menu menu, String string,
-			Iterator<RelationCreationDescriptor> iteratorUD,
-			Map<RelationCreationDescriptor, CreateRelationCommand> allCommands) {
+	private void createMenu(Menu menu, String string, Iterator<RelationCreationDescriptor> iteratorUD, Map<RelationCreationDescriptor, CreateRelationCommand> allCommands) {
 		MenuItem newItem = new MenuItem(menu, SWT.CASCADE);
 		Menu newMenu = new Menu(menu);
 		newItem.setMenu(newMenu);
 		newItem.setText(string);
-		for (; iteratorUD.hasNext();) {
+		for(; iteratorUD.hasNext();) {
 			RelationCreationDescriptor desc = iteratorUD.next();
 			MenuItem item = new MenuItem(newMenu, SWT.NONE);
 			final CreateRelationCommand command = allCommands.get(desc);
 			item.setText(desc.getLabel());
 			item.addSelectionListener(new SelectionAdapter() {
+
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					command.execute();
