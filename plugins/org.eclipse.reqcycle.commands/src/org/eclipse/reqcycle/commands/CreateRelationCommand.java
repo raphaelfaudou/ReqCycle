@@ -9,6 +9,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.reqcycle.traceability.model.TType;
 import org.eclipse.reqcycle.traceability.storage.IStorageProvider;
 import org.eclipse.reqcycle.traceability.storage.ITraceabilityStorage;
 import org.eclipse.reqcycle.traceability.types.ITraceTypesManager;
@@ -66,12 +67,15 @@ public class CreateRelationCommand implements Command {
 					.getFromObject(file).getReachable(file);
 			storage.startTransaction();
 			// FIX ME
-			storage.newUpwardRelationShip(
-					tTypesManager.getTType(relation.getKind()), container,
+			for(TType type : relation.getAgregated()){
+				storage.newUpwardRelationShip(
+					type, container,
 					source, new Reachable[] { target });
+			}
 			storage.commit();
 			storage.save();
 		} catch (RuntimeException e) {
+			e.printStackTrace();
 			storage.rollback();
 		} catch (IReachableHandlerException e) {
 			e.printStackTrace();
