@@ -1,5 +1,8 @@
 package org.eclipse.reqcycle.sesame.graph;
 
+import static com.google.common.collect.Iterables.filter;
+import static com.google.common.collect.Iterables.transform;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -23,9 +26,6 @@ import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
-
-import static com.google.common.collect.Iterables.filter;
-import static com.google.common.collect.Iterables.transform;
 
 public class SailBusinessOperations implements
 		ISpecificGraphProvider.IBusinessOperations {
@@ -224,7 +224,7 @@ public class SailBusinessOperations implements
 
 			@Override
 			public boolean apply(Edge arg0) {
-				return VERTEX_OUTGOING.equals(arg0.getLabel());
+				return TRACE_TARGET.equals(arg0.getLabel());
 			}
 		});
 		return transform(edgesFilterd, new Function<Edge, Vertex>() {
@@ -277,13 +277,13 @@ public class SailBusinessOperations implements
 
 	@Override
 	public Vertex getSourceFromTraceabilityVertex(Vertex arg0) {
-		return arg0.getEdges(Direction.IN, TRACE_SOURCE).iterator().next()
+		return arg0.getEdges(Direction.OUT, TRACE_SOURCE).iterator().next()
 				.getVertex(Direction.IN);
 	}
 
 	@Override
 	public Vertex getTargetFromTraceabilityVertex(Vertex arg0) {
 		return arg0.getEdges(Direction.OUT, TRACE_TARGET).iterator().next()
-				.getVertex(Direction.OUT);
+				.getVertex(Direction.IN);
 	}
 }
