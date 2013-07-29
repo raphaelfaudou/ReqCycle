@@ -27,11 +27,17 @@ public class DelegatedAndDecoratedBuilderCallBack implements IBuilderCallBack {
 
 	@Override
 	public void startBuild(Reachable reachable) {
+		for (IBuildingDecoration d : decorations) {
+			d.startBuild(this, reachable);
+		}
 		callBack.startBuild(reachable);
 	}
 
 	@Override
 	public void endBuild(Reachable reachable) {
+		for (IBuildingDecoration d : decorations) {
+			d.endBuild(this, reachable);
+		}
 		callBack.endBuild(reachable);
 	}
 

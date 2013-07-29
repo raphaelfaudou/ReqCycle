@@ -10,11 +10,14 @@ import org.eclipse.reqcycle.traceability.storage.blueprints.graph.ISpecificGraph
 import org.eclipse.reqcycle.uri.model.Reachable;
 
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
+
+import static com.google.common.collect.Iterables.filter;
 
 public class GraphUtils implements ISpecificGraphProvider.IBusinessOperations {
 	private static final String KIND = "kind";
@@ -57,9 +60,6 @@ public class GraphUtils implements ISpecificGraphProvider.IBusinessOperations {
 	public Vertex addTraceabilityRelation(Graph graph, Reachable source,
 			Reachable target, TType relation) {
 		Vertex traceability = graph.addVertex(null);
-		// TODO change for sail
-		// Vertex vKind = graph.addVertex(getLitteral(relation));
-		// graph.addEdge(null, traceability, vKind, KIND);
 		traceability.setProperty(KIND, relation);
 		graph.addEdge(null, getVertex(graph, source), traceability,
 				VERTEX_OUTGOING);
@@ -138,4 +138,18 @@ public class GraphUtils implements ISpecificGraphProvider.IBusinessOperations {
 		}
 		return map;
 	}
+
+	@Override
+	public Iterable<Vertex> getAllTraceabilityVertices(Graph graph) {
+		return filter(graph.getVertices(), new Predicate<Vertex>() {
+
+			@Override
+			public boolean apply(Vertex arg0) {
+				Iterable<Edge> outgoing = arg0.getEdges(Direction.BOTH,
+						VERTEX_OUTGOING);
+				return outgoing.iterator().hasNext();
+			}
+		});
+	}
+
 }

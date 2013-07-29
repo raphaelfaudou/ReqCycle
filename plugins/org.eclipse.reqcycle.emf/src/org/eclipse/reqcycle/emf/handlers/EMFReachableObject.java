@@ -2,10 +2,13 @@ package org.eclipse.reqcycle.emf.handlers;
 
 import javax.inject.Inject;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.emf.ui.EMFLabelProvider;
@@ -62,6 +65,14 @@ public class EMFReachableObject implements ReachableObject {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public Object getAdapter(Class adapter) {
+		if (IResource.class.equals(adapter) || IFile.class.equals(adapter)) {
+			try {
+				return WorkspaceSynchronizer
+						.getFile(((EMFVisitable) getVisitable()).getResource());
+			} catch (VisitableException e) {
+				e.printStackTrace();
+			}
+		}
 		if (Resource.class.equals(adapter)) {
 			try {
 				return ((EMFVisitable) getVisitable()).getResource();

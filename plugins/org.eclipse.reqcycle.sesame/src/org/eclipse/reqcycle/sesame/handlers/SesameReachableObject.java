@@ -63,8 +63,8 @@ public class SesameReachableObject implements ReachableObject {
 	public Reachable getReachable(Object o) {
 		if (o instanceof Vertex) {
 			Vertex vertex = (Vertex) o;
-			return op.getReachable(vertex, creator);
-		} else  {
+			return op.getReachable(vertex);
+		} else {
 			return this.reachable;
 		}
 	}

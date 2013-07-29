@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.eclipse.reqcycle.traceability.builder.ITraceabilityBuilder.IBuilderCallBack;
 import org.eclipse.reqcycle.traceability.model.TType;
+import org.eclipse.reqcycle.uri.model.Reachable;
 
 /**
  * The {@link IBuildingDecoration} decorates the building call back for each
@@ -25,6 +26,10 @@ public interface IBuildingDecoration {
 	 * @param c
 	 */
 	void transform(Composite c);
+
+	void startBuild(IBuilderCallBack callBack, Reachable reachable);
+
+	void endBuild(IBuilderCallBack callBack, Reachable reachable);
 
 	/**
 	 * Notify of traceability creation
@@ -69,6 +74,12 @@ public interface IBuildingDecoration {
 
 		@Override
 		public void transform(Composite c) {
+		}
+
+		public void startBuild(IBuilderCallBack callBack, Reachable reachable) {
+		}
+
+		public void endBuild(IBuilderCallBack callBack, Reachable reachable) {
 		}
 
 	}

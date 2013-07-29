@@ -43,5 +43,7 @@ public interface ISpecificGraphProvider extends IGraphProvider {
 
 		Map<String, String> getProperties(Vertex v);
 
+		Iterable<Vertex> getAllTraceabilityVertices(Graph graph);
+
 	}
 }

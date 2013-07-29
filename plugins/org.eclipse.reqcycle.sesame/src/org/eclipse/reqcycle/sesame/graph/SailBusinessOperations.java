@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import org.eclipse.reqcycle.traceability.model.TType;
 import org.eclipse.reqcycle.traceability.storage.blueprints.graph.ISpecificGraphProvider;
 import org.eclipse.reqcycle.traceability.utils.SerializationUtils;
@@ -17,11 +19,12 @@ import org.eclipse.reqcycle.uri.model.Reachable;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
+
+import static com.google.common.collect.Iterables.filter;
 
 public class SailBusinessOperations implements
 		ISpecificGraphProvider.IBusinessOperations {
@@ -34,6 +37,9 @@ public class SailBusinessOperations implements
 	public static final String VERTEX_OUTGOING = "http://outgoing";
 	public static final String VERTEX_INCOMING = "http://incoming";
 	public static final String EDGE_PROPERTIES = "http://properties";
+
+	@Inject
+	IReachableCreator creator;
 
 	public Vertex getVertex(Graph graph, Reachable reachable) {
 		String id = reachable.toString();
@@ -206,19 +212,47 @@ public class SailBusinessOperations implements
 		return null;
 	}
 
-	public Reachable getReachable(Vertex v, IReachableCreator creator) {
-		if (v != null) {
-			Reachable r;
-			try {
-				r = creator.getReachable(new URI((String) v.getId()));
-				Map<String, String> properties = getProperties(v);
-				for (String s : properties.keySet()) {
-					r.put(s, (String) properties.get(s));
-				}
-				return r;
-			} catch (URISyntaxException e) {
+	public Reachable getReachable(Vertex v) {
+		return new Vertex2Reachable().apply(v);
+	}
+
+	@Override
+	public Iterable<Vertex> getAllTraceabilityVertices(Graph graph) {
+		return filter(graph.getVertices(), new Predicate<Vertex>() {
+
+			@Override
+			public boolean apply(Vertex arg0) {
+				Iterable<Edge> outgoing = arg0.getEdges(Direction.BOTH,
+						VERTEX_OUTGOING);
+				Iterable<Edge> incoming = arg0.getEdges(Direction.BOTH,
+						VERTEX_INCOMING);
+				return outgoing.iterator().hasNext()
+						|| incoming.iterator().hasNext();
 			}
+		});
+	}
+
+	private class Vertex2Reachable implements Function<Vertex, Reachable> {
+		private IReachableCreator creator;
+
+		public Vertex2Reachable() {
 		}
-		return null;
+
+		@Override
+		public Reachable apply(Vertex v) {
+			if (v != null) {
+				Reachable r;
+				try {
+					r = creator.getReachable(new URI((String) v.getId()));
+					Map<String, String> properties = getProperties(v);
+					for (String s : properties.keySet()) {
+						r.put(s, (String) properties.get(s));
+					}
+					return r;
+				} catch (URISyntaxException e) {
+				}
+			}
+			return null;
+		}
 	}
 }

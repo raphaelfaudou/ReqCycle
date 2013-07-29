@@ -18,11 +18,15 @@ import org.eclipse.reqcycle.uri.IReachableCreator;
 import org.eclipse.reqcycle.uri.model.Reachable;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
+import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.TransactionalGraph;
 import com.tinkerpop.blueprints.Vertex;
+
+import static com.google.common.collect.Iterables.concat;
+import static com.google.common.collect.Iterables.transform;
 
 public class GraphStorage implements ITraceabilityStorage {
 
@@ -146,9 +150,36 @@ public class GraphStorage implements ITraceabilityStorage {
 	}
 
 	@Override
-	public void removeUpwardRelationShip(String kind, Reachable container,
+	public Iterable<Pair<Link, Reachable>> getAllTraceability(
+			final DIRECTION direction) {
+		Iterable<Vertex> allVertices = graphUtils
+				.getAllTraceabilityVertices(graph);
+		Iterable<Reachable> allReachables = transform(allVertices,
+				new Function<Vertex, Reachable>() {
+
+					@Override
+					public Reachable apply(Vertex arg0) {
+						return getReachable((String) arg0.getId());
+					}
+				});
+		return concat(transform(allReachables,
+				new Function<Reachable, Iterable<Pair<Link, Reachable>>>() {
+
+					@Override
+					public Iterable<Pair<Link, Reachable>> apply(Reachable arg0) {
+						return getTraceability(arg0, direction);
+					}
+				}));
+	}
+
+	@Override
+	public void removeUpwardRelationShip(TType kind, Reachable container,
 			Reachable source, Reachable... targets) {
-		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void updateRelationShip(Link oldLink, Link newLink) {
 
 	}
 

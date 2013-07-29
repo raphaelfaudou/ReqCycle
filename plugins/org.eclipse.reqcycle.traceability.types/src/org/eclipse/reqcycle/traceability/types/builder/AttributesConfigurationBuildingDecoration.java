@@ -4,10 +4,15 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.reqcycle.traceability.builder.IBuildingDecoration.IBuildingDecorationAdapter;
 import org.eclipse.reqcycle.traceability.builder.ITraceabilityBuilder.IBuilderCallBack;
 import org.eclipse.reqcycle.traceability.engine.ITraceabilityEngine.DIRECTION;
 import org.eclipse.reqcycle.traceability.model.TType;
+import org.eclipse.reqcycle.traceability.storage.IStorageProvider;
+import org.eclipse.reqcycle.traceability.storage.ITraceabilityStorage;
 import org.eclipse.reqcycle.traceability.types.ITypesConfigurationProvider;
 import org.eclipse.reqcycle.traceability.types.RelationBasedType;
 import org.eclipse.reqcycle.traceability.types.RelationUtils;
@@ -16,7 +21,9 @@ import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.R
 import org.eclipse.reqcycle.uri.IReachableManager;
 import org.eclipse.reqcycle.uri.exceptions.IReachableHandlerException;
 import org.eclipse.reqcycle.uri.model.IObjectHandler;
+import org.eclipse.reqcycle.uri.model.IReachableHandler;
 import org.eclipse.reqcycle.uri.model.Reachable;
+import org.eclipse.reqcycle.uri.model.ReachableObject;
 
 public class AttributesConfigurationBuildingDecoration extends
 		IBuildingDecorationAdapter {
@@ -25,6 +32,35 @@ public class AttributesConfigurationBuildingDecoration extends
 	ITypesConfigurationProvider provider;
 	@Inject
 	IReachableManager manager;
+	@Inject
+	IStorageProvider storageProvider;
+	@Inject
+	IReachableHandler reachableHandler;
+	ITraceabilityStorage currentStorage;
+
+	@Override
+	public void startBuild(IBuilderCallBack callBack, Reachable reachable) {
+		ReachableObject object = reachableHandler.getFromReachable(reachable);
+		if (object != null) {
+			IFile adapted = (IFile) object.getAdapter(IFile.class);
+			if (adapted != null && adapted.exists()) {
+				IProject p = adapted.getProject();
+				currentStorage = getStorage(p);
+			}
+		}
+	}
+
+	private ITraceabilityStorage getStorage(IProject p) {
+		IFile file = p.getFile(new Path("./.traceability.rdf"));
+		// get the storage for the file path
+		String uri = file.getLocationURI().getPath();
+		return storageProvider.getStorage(uri);
+	}
+
+	@Override
+	public void endBuild(IBuilderCallBack callBack, Reachable reachable) {
+		currentStorage = null;
+	}
 
 	@Override
 	public boolean newUpwardRelation(IBuilderCallBack callBack,

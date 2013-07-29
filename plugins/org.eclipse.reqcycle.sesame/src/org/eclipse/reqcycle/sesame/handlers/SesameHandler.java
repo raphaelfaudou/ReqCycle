@@ -37,8 +37,7 @@ public class SesameHandler implements IObjectHandler, IReachableHandler {
 		if (object instanceof Vertex) {
 			Vertex vertext = (Vertex) object;
 			if (vertext.getId() instanceof String) {
-				result = new SesameReachableObject(op.getReachable(vertext,
-						creator), op);
+				result = new SesameReachableObject(op.getReachable(vertext), op);
 			}
 		} else if (object instanceof File) {
 			result = new SesameReachableObject(creator.getReachable(

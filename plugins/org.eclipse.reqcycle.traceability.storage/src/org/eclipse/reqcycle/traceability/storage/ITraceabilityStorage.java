@@ -60,13 +60,37 @@ public interface ITraceabilityStorage {
 			DIRECTION direction);
 
 	/**
+	 * Returns all the traceability link of the {@link ITraceabilityStorage}
+	 * 
+	 * @param direction
+	 * @return
+	 */
+	Iterable<Pair<Link, Reachable>> getAllTraceability(DIRECTION direction);
+
+	/**
 	 * Removes all the traceability links contained in the given reachable
 	 * 
 	 * @param reachable
 	 */
 	void removeTraceabilityLinksContainedIn(Reachable reachable);
 
-	void removeUpwardRelationShip(String kind, Reachable container,
+	/**
+	 * Remove an upward relation ship
+	 * 
+	 * @param kind
+	 * @param container
+	 * @param source
+	 * @param targets
+	 */
+	void removeUpwardRelationShip(TType kind, Reachable container,
 			Reachable source, Reachable... targets);
+
+	/**
+	 * Update in the storage the given relation ship
+	 * 
+	 * @param oldLink
+	 * @param newLin
+	 */
+	void updateRelationShip(Link oldLink, Link newLink);
 
 }
