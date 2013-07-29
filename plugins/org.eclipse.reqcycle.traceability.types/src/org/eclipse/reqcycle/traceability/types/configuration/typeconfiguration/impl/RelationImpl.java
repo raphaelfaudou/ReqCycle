@@ -3,8 +3,10 @@
 package org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl;
 
 import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -18,6 +20,8 @@ import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.A
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Relation;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Type;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeconfigurationPackage;
+import org.eclipse.reqcycle.traceability.types.impl.TraceTypesManager;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 /**
  * <!-- begin-user-doc -->
@@ -326,12 +330,15 @@ public class RelationImpl extends EObjectImpl implements Relation {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated not
 	 */
 	public EList<TType> getAgregated() {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		TraceTypesManager typeManager = ZigguratInject.make(TraceTypesManager.class);
+		EList<TType> result = new BasicEList<TType>();
+		for (String typeID : this.getAgregatedTypes()){
+			result.add(typeManager.getTType(typeID));
+		}
+		return result;
 	}
 
 	/**
