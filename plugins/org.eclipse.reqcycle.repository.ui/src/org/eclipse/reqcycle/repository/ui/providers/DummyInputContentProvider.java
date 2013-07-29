@@ -1,9 +1,11 @@
 package org.eclipse.reqcycle.repository.ui.providers;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
@@ -22,135 +24,149 @@ import com.google.common.collect.Iterables;
 
 public class DummyInputContentProvider extends AdapterFactoryContentProvider {
 
-    public DummyInputContentProvider(ComposedAdapterFactory adapterFactory) {
-        super(adapterFactory);
-    }
+	public DummyInputContentProvider(ComposedAdapterFactory adapterFactory) {
+		super(adapterFactory);
+	}
 
-    @Override
-    public Object[] getElements(Object inputElement) {
-        if (inputElement instanceof Collection) {
-            Iterator<?> iter = ((Collection<?>) inputElement).iterator();
-            if (iter.hasNext()) {
-                Object obj = iter.next();
-                if (obj instanceof DummyInput) {
-                    return ArrayContentProvider.getInstance().getElements(inputElement);
-                }
-            }
-        }
-        return super.getElements(inputElement);
-    }
+	@Override
+	public Object[] getElements(Object inputElement) {
+		if(inputElement instanceof Collection) {
+			Iterator<?> iter = ((Collection<?>)inputElement).iterator();
+			if(iter.hasNext()) {
+				Object obj = iter.next();
+				if(obj instanceof DummyInput) {
+					return ArrayContentProvider.getInstance().getElements(inputElement);
+				}
+			}
+		}
+		return super.getElements(inputElement);
+	}
 
-    @Override
-    public Object[] getChildren(final Object object) {
-        if (object instanceof DummyInput) {
-            Object[] children = Collections2.transform(((DummyInput) object).getInput(),
-                    new Function<RequirementSource, DummyObject>() {
-                        public DummyObject apply(RequirementSource reqSource) {
-                            return new DummyObject(((DummyInput) object).getPredicate(), reqSource);
-                        };
-                    }).toArray();
-            return children;
-        }
-        if (object instanceof DummyObject) {
-            final DummyObject dummyObject = (DummyObject) object;
-            EObject obj = dummyObject.getEobj();
-            Collection<Contained> elements = Collections.emptyList();
-            if (obj instanceof RequirementSource) {
-                elements = ((RequirementSource) obj).getRequirements();
-            }
-            if (obj instanceof Section) {
-                elements = ((Section) obj).getChildren();
-            }
+	@Override
+	public Object[] getChildren(final Object object) {
+		if(object instanceof DummyInput) {
+			Object[] children = Collections2.transform(((DummyInput)object).getInput(), new Function<RequirementSource, DummyObject>() {
 
-            Collection<DummyObject> transform = Collections2.transform(elements, new Function<EObject, DummyObject>() {
-                @Override
-                public DummyObject apply(EObject eObj) {
-                    DummyObject dObj = new DummyObject(dummyObject.getPredicate(), eObj);
-                    IPredicate predicate = dObj.getPredicate();
-                    if (dObj.getEobj() instanceof Section && !(dObj.getEobj() instanceof Requirement)) {
-                        return dObj; // do not use predicate filter for sections which are not requirements
-                    }
-                    if (predicate != null) {
-                        return predicate.match(eObj) ? dObj : null;
-                    } else {
-                        return dObj;
-                    }
-                }
-            });
+				public DummyObject apply(RequirementSource reqSource) {
+					return new DummyObject(((DummyInput)object).getPredicate(), reqSource);
+				};
+			}).toArray();
+			return children;
+		}
+		if(object instanceof DummyObject) {
+			final DummyObject dummyObject = (DummyObject)object;
+			EObject obj = dummyObject.getEobj();
+			Collection<Contained> elements = Collections.emptyList();
+			if(obj instanceof RequirementSource) {
+				elements = ((RequirementSource)obj).getRequirements();
+			}
+			if(obj instanceof Section) {
+				elements = ((Section)obj).getChildren();
+			}
 
-            Iterable<DummyObject> result = Iterables.filter(transform, Predicates.notNull());
-            return Iterables.toArray(result, DummyObject.class);
-        }
-        return super.getChildren(object);
-    }
+			Collection<DummyObject> transform = Collections2.transform(elements, new Function<EObject, DummyObject>() {
 
-    @Override
-    public Object getParent(Object object) {
-        if (object instanceof DummyInput) {
-            return null;
-        } else if (object instanceof DummyObject) {
-            return super.getParent(((DummyObject) object).getEobj());
-        }
-        return super.getParent(object);
-    }
+				@Override
+				public DummyObject apply(EObject eObj) {
+					DummyObject dObj = new DummyObject(dummyObject.getPredicate(), eObj);
+					IPredicate predicate = dObj.getPredicate();
+					if(dObj.getEobj() instanceof Section && !(dObj.getEobj() instanceof Requirement)) {
+						return dObj; // do not use predicate filter for sections which are not requirements
+					}
+					if(predicate != null) {
+						return predicate.match(eObj) ? dObj : null;
+					} else {
+						return dObj;
+					}
+				}
+			});
 
-    @Override
-    public boolean hasChildren(Object object) {
-        if (object instanceof DummyInput) {
-            return true;
-        } else if (object instanceof DummyObject) {
-            return super.hasChildren(((DummyObject) object).getEobj());
-        }
-        return super.hasChildren(object);
-    }
+			Iterable<DummyObject> result = Iterables.filter(transform, Predicates.notNull());
+			return Iterables.toArray(result, DummyObject.class);
+		}
+		return super.getChildren(object);
+	}
 
-    public static class DummyInput {
+	@Override
+	public Object getParent(Object object) {
+		if(object instanceof DummyInput) {
+			return null;
+		} else if(object instanceof DummyObject) {
+			return super.getParent(((DummyObject)object).getEobj());
+		}
+		return super.getParent(object);
+	}
 
-        private final Collection<RequirementSource> input;
-        private IPredicate                          predicate;
+	@Override
+	public boolean hasChildren(Object object) {
+		if(object instanceof DummyInput) {
+			return true;
+		} else if(object instanceof DummyObject) {
+			return super.hasChildren(((DummyObject)object).getEobj());
+		}
+		return super.hasChildren(object);
+	}
 
-        public DummyInput(Collection<RequirementSource> input) {
-            this.input = input;
-        }
+	public static class DummyInput {
 
-        public Collection<RequirementSource> getInput() {
-            return this.input;
-        }
+		private final Collection<RequirementSource> input;
 
-        public IPredicate getPredicate() {
-            return predicate;
-        }
+		private IPredicate predicate;
 
-        public void setPredicate(IPredicate predicate) {
-            this.predicate = predicate;
-        }
+		public DummyInput(Collection<RequirementSource> input) {
+			this.input = input;
+		}
 
-        public String getDisplayName() {
-            return predicate == null ? null : predicate.getDisplayName();
-        }
-    }
+		public Collection<RequirementSource> getInput() {
+			return this.input;
+		}
 
-    public class DummyObject {
+		public IPredicate getPredicate() {
+			return predicate;
+		}
 
-        private IPredicate predicate;
-        private EObject    eobj;
+		public void setPredicate(IPredicate predicate) {
+			this.predicate = predicate;
+		}
 
-        public EObject getEobj() {
-            return this.eobj;
-        }
+		public String getDisplayName() {
+			return predicate == null ? null : predicate.getDisplayName();
+		}
+	}
 
-        public void setEobj(EObject eobj) {
-            this.eobj = eobj;
-        }
+	public class DummyObject implements IAdaptable {
 
-        public DummyObject(IPredicate predicate, EObject eobj) {
-            this.predicate = predicate;
-            this.eobj = eobj;
-        }
+		private IPredicate predicate;
 
-        public IPredicate getPredicate() {
-            return predicate;
-        }
-    }
+		private EObject eobj;
+
+		public EObject getEobj() {
+			return this.eobj;
+		}
+
+		public void setEobj(EObject eobj) {
+			this.eobj = eobj;
+		}
+
+		public DummyObject(IPredicate predicate, EObject eobj) {
+			this.predicate = predicate;
+			this.eobj = eobj;
+		}
+
+		public IPredicate getPredicate() {
+			return predicate;
+		}
+
+		@Override
+		public Object getAdapter(Class adapter) {
+			if(adapter == null) {
+				return null;
+			}
+			if(adapter.isInstance(this.eobj)) {
+				return this.eobj;
+			}
+			return null;
+		}
+	}
 
 }
