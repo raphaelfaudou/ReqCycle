@@ -148,16 +148,28 @@ public class GraphUtils implements ISpecificGraphProvider.IBusinessOperations {
 
 			@Override
 			public boolean apply(Edge arg0) {
-				return VERTEX_OUTGOING.equals(arg0.getLabel());
+				return TRACE_TARGET.equals(arg0.getLabel());
 			}
 		});
 		return transform(edgesFilterd, new Function<Edge, Vertex>() {
 
 			@Override
 			public Vertex apply(Edge arg0) {
-				return arg0.getVertex(Direction.OUT);
+				return arg0.getVertex(Direction.IN);
 			}
 		});
+	}
+
+	@Override
+	public Vertex getSourceFromTraceabilityVertex(Vertex arg0) {
+		return arg0.getEdges(Direction.IN, VERTEX_OUTGOING).iterator().next()
+				.getVertex(Direction.IN);
+	}
+
+	@Override
+	public Vertex getTargetFromTraceabilityVertex(Vertex arg0) {
+		return arg0.getEdges(Direction.OUT, TRACE_TARGET).iterator().next()
+				.getVertex(Direction.OUT);
 	}
 
 	@Override
@@ -175,15 +187,4 @@ public class GraphUtils implements ISpecificGraphProvider.IBusinessOperations {
 		}
 	}
 
-	@Override
-	public Vertex getSourceFromTraceabilityVertex(Vertex arg0) {
-		return arg0.getEdges(Direction.IN, TRACE_TARGET).iterator().next()
-				.getVertex(Direction.IN);
-	}
-
-	@Override
-	public Vertex getTargetFromTraceabilityVertex(Vertex arg0) {
-		return arg0.getEdges(Direction.OUT, TRACE_TARGET).iterator().next()
-				.getVertex(Direction.OUT);
-	}
 }

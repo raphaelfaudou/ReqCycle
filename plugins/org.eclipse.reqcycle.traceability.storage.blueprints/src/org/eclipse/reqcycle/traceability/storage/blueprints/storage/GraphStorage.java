@@ -2,9 +2,11 @@ package org.eclipse.reqcycle.traceability.storage.blueprints.storage;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -180,10 +182,28 @@ public class GraphStorage implements ITraceabilityStorage {
 	@Override
 	public void removeUpwardRelationShip(TType kind, Reachable container,
 			Reachable source, Reachable... targets) {
-		// for (Reachable t : targets) {
-		// graphUtils.removeUpwardRelationShip(graph, kind, container, source,
-		// t);
-		// }
+		Set<Vertex> toDelete = new HashSet<Vertex>();
+		Vertex vSource = graphUtils.getVertex(graph, source);
+		Iterable<Vertex> traceability = graphUtils.getTraceability(vSource,
+				Direction.OUT);
+		for (Reachable t : targets) {
+			for (Vertex vTrac : traceability) {
+				Vertex vTarget = graphUtils.getTraceabilityTarget(vTrac,
+						Direction.OUT);
+				if (getReachable((String) vTarget.getId()).equals(t)) {
+					// target is the same check for kind
+					TType aKind = graphUtils.getTType(vTrac);
+					if (aKind != null && aKind.equals(kind)) {
+						// the good one is found
+						toDelete.add(vTrac);
+						break;
+					}
+				}
+			}
+		}
+		for (Vertex v : toDelete) {
+			graphUtils.delete(v);
+		}
 	}
 
 	@Override
