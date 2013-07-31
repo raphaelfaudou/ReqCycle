@@ -21,7 +21,6 @@ import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.R
 import org.eclipse.reqcycle.uri.IReachableManager;
 import org.eclipse.reqcycle.uri.exceptions.IReachableHandlerException;
 import org.eclipse.reqcycle.uri.model.IObjectHandler;
-import org.eclipse.reqcycle.uri.model.IReachableHandler;
 import org.eclipse.reqcycle.uri.model.Reachable;
 import org.eclipse.reqcycle.uri.model.ReachableObject;
 
@@ -34,19 +33,23 @@ public class AttributesConfigurationBuildingDecoration extends
 	IReachableManager manager;
 	@Inject
 	IStorageProvider storageProvider;
-	@Inject
-	IReachableHandler reachableHandler;
 	ITraceabilityStorage currentStorage;
 
 	@Override
 	public void startBuild(IBuilderCallBack callBack, Reachable reachable) {
-		ReachableObject object = reachableHandler.getFromReachable(reachable);
-		if (object != null) {
-			IFile adapted = (IFile) object.getAdapter(IFile.class);
-			if (adapted != null && adapted.exists()) {
-				IProject p = adapted.getProject();
-				currentStorage = getStorage(p);
+		ReachableObject object;
+		try {
+			object = manager.getHandlerFromReachable(reachable).getFromReachable(reachable);
+			if (object != null) {
+				IFile adapted = (IFile) object.getAdapter(IFile.class);
+				if (adapted != null && adapted.exists()) {
+					IProject p = adapted.getProject();
+					currentStorage = getStorage(p);
+				}
 			}
+		} catch (IReachableHandlerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
