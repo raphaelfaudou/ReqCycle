@@ -36,6 +36,8 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.reqcycle.repository.connector.ui.Activator;
+import org.eclipse.reqcycle.repository.data.AttributeType;
+import org.eclipse.reqcycle.repository.data.DataType;
 import org.eclipse.reqcycle.repository.data.util.DataUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -295,11 +297,11 @@ public abstract class MappingComposite extends Composite {
 		return new LabelProvider(){
 			@Override
 			public String getText(Object element) {
-				if(element instanceof EClass) {
-					return ((EClass)element).getName();
+				if(element instanceof DataType) {
+					return ((DataType)element).getName();
 				}
-				if(element instanceof EAttribute) {
-					return ((EAttribute)element).getName();
+				if(element instanceof AttributeType) {
+					return ((AttributeType)element).getName();
 				}
 				return super.getText(element);
 			}

@@ -6,13 +6,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EEnumLiteral;
-import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -26,10 +20,17 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.window.Window;
+import org.eclipse.reqcycle.repository.data.AttributeType;
+import org.eclipse.reqcycle.repository.data.RequirementType;
+import org.eclipse.reqcycle.repository.data.DataTypePackage;
+import org.eclipse.reqcycle.repository.data.EnumerationType;
+import org.eclipse.reqcycle.repository.data.EnumeratorType;
 import org.eclipse.reqcycle.repository.data.IDataTypeManager;
+import org.eclipse.reqcycle.repository.data.DataType;
 import org.eclipse.reqcycle.repository.data.ui.Activator;
 import org.eclipse.reqcycle.repository.data.ui.dialog.AddAttributeDialog;
 import org.eclipse.reqcycle.repository.data.ui.dialog.AddElementDialog;
+import org.eclipse.reqcycle.repository.data.ui.dialog.NameDialog;
 import org.eclipse.reqcycle.repository.data.util.DataUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -46,8 +47,6 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import DataModel.DataModelPackage;
-
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 
@@ -55,18 +54,42 @@ import com.google.common.collect.Collections2;
 public class TypePreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 
 	private TableViewer elementTableViewer;
+
 	private Table elementTable;
+
 	private TableViewerColumn elementNameCol;
+
 	private TableViewerColumn elementTypeCol;
+
 	private IDataTypeManager dataTypeManager = ZigguratInject.make(IDataTypeManager.class);
+
 	private TableViewer attrTableViewer;
+
 	private Table attrTable;
+
 	private TableViewerColumn attrNameCol;
+
 	private TableViewerColumn attrTypeCol;
+
 	private Button addElementBtn;
+
 	private Button addAttrBtn;
-	private ArrayList<EClassifier> input = new ArrayList<EClassifier>();
+
+	private ArrayList<DataType> input = new ArrayList<DataType>();
+
+	private Collection<DataTypePackage> dataTypeInput = new ArrayList<DataTypePackage>();
+
 	protected Object selectedElmt;
+
+	private TableViewer dataTypeTV;
+
+	private Table dataTypeTable;
+
+	private TableViewerColumn dataTypeNameCol;
+
+	private Button addDataTypeBtn;
+
+	protected DataTypePackage selectedDataType;
 
 	/**
 	 * @wbp.parser.constructor
@@ -83,59 +106,75 @@ public class TypePreferencePage extends PreferencePage implements IWorkbenchPref
 	}
 
 	@Override
-	protected void performDefaults() {
-		dataTypeManager.loadTypes();
-		if(elementTableViewer != null) {
-			input.clear();
-			input.addAll(dataTypeManager.getTypes());
-			input.addAll(dataTypeManager.getEEnums());
-			elementTableViewer.refresh();
-			attrTableViewer.setInput(Collections.emptyList());
-			attrTableViewer.refresh();
-		}
-		super.performDefaults();
-	}
-	
-	@Override
 	public void init(IWorkbench workbench) {
 		performDefaults();
 	}
+
+	@Override
+	protected void performDefaults() {
+		super.performDefaults();
+		dataTypeManager.undoUnsavedChanges();
+		init();
+	}
+
+	private void init() {
+		if(input != null) {
+			input.clear();
+		}
+		if(dataTypeInput != null && dataTypeTV != null) {
+			dataTypeInput.clear();
+			dataTypeInput.addAll(dataTypeManager.getAllDataTypePackages());
+			dataTypeTV.setInput(dataTypeInput);
+			dataTypeTV.refresh();
+		}
+		if(elementTableViewer != null) {
+			elementTableViewer.setInput(Collections.emptyList());
+			elementTableViewer.refresh();
+		}
+		if(attrTableViewer != null) {
+			attrTableViewer.setInput(Collections.emptyList());
+			attrTableViewer.refresh();
+		}
+	}
+
 
 	@Override
 	public boolean performOk() {
 		dataTypeManager.saveTypes();
 		return super.performOk();
 	}
-	
+
 	@Override
 	public void applyData(Object data) {
 		dataTypeManager.saveTypes();
 	}
-	
+
 	@Override
 	public boolean performCancel() {
-		dataTypeManager.loadTypes();
+		dataTypeManager.undoUnsavedChanges();
 		return super.performCancel();
 	}
-	
+
 	@Override
 	protected Control createContents(Composite parent) {
-		
+
 		Composite control = new Composite(parent, SWT.None);
-		control.setLayout(new GridLayout(2, false));
-		
+		control.setLayout(new GridLayout(1, false));
+
+		//Data type group
+		Group dataTypeGrp = createGroup(control, "DataType");
+		createDataTypPackageUi(dataTypeGrp);
+
 		//Elements' group
 		Group elementGrp = createGroup(control, "Element");
-		
 		createElementUi(elementGrp);
-		
+
 		//Attributes' group
 		Group attrGrp = createGroup(control, "Attributes");
-		
 		createAttrUi(attrGrp);
-		
+
 		hookListeners();
-		
+		init();
 		return control;
 	}
 
@@ -144,14 +183,51 @@ public class TypePreferencePage extends PreferencePage implements IWorkbenchPref
 		super.createControl(parent);
 		Button defaultButton = getDefaultsButton();
 		if(defaultButton != null) {
+			//Rename Default Button to Load Backup
 			defaultButton.setText("Load Backup");
 		}
 		Button applyButton = getApplyButton();
 		if(applyButton != null) {
+			//Rename Apply Button to Save 
 			applyButton.setText("Save");
 		}
 	}
-	
+
+
+	private void createDataTypPackageUi(Composite parent) {
+		//Table Viewer
+		Composite viewerComposite = new Composite(parent, SWT.None);
+		viewerComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		TableColumnLayout dataTypeTVLayout = new TableColumnLayout();
+		viewerComposite.setLayout(dataTypeTVLayout);
+
+		dataTypeTV = new TableViewer(viewerComposite);
+		dataTypeTable = dataTypeTV.getTable();
+		dataTypeTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		dataTypeTable.setHeaderVisible(true);
+		dataTypeTable.setLinesVisible(true);
+		dataTypeTV.setContentProvider(ArrayContentProvider.getInstance());
+
+		//Columns
+		dataTypeNameCol = createTableViewerColumn(dataTypeTV, "Name", 100, 0, SWT.None);
+		dataTypeNameCol.setLabelProvider(new ColumnLabelProvider() {
+
+			@Override
+			public String getText(Object element) {
+				if(element instanceof DataTypePackage) {
+					return ((DataTypePackage)element).getName();
+				}
+				return super.getText(element);
+			}
+		});
+		dataTypeTVLayout.setColumnData(dataTypeNameCol.getColumn(), new ColumnWeightData(20, 100, true));
+
+		addDataTypeBtn = new Button(parent, SWT.PUSH);
+		addDataTypeBtn.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
+		addDataTypeBtn.setToolTipText("Add DataType");
+		addDataTypeBtn.setImage(Activator.getImageDescriptor("/icons/add.gif").createImage());
+	}
+
 	private void createAttrUi(Composite parent) {
 		//Table Viewer
 		Composite viewerComposite = new Composite(parent, SWT.NONE);
@@ -168,41 +244,37 @@ public class TypePreferencePage extends PreferencePage implements IWorkbenchPref
 
 		//Columns
 		attrNameCol = createTableViewerColumn(attrTableViewer, "Name", 100, 0, SWT.None);
-		attrTVLayout.setColumnData(attrNameCol.getColumn(), new ColumnWeightData(20, 100, true));
 		attrNameCol.setLabelProvider(new ColumnLabelProvider() {
+
 			@Override
 			public String getText(Object element) {
-				if(element instanceof EAttribute) {
-					return ((EAttribute)element).getName();
-				}
-				if(element instanceof EEnumLiteral) {
-					return ((EEnumLiteral)element).getName();
+				if(element instanceof AttributeType) {
+					return ((AttributeType)element).getName();
+				} else if(element instanceof EnumeratorType) {
+					return ((EnumeratorType)element).getName();
 				}
 				return super.getText(element);
 			}
 		});
+		attrTVLayout.setColumnData(attrNameCol.getColumn(), new ColumnWeightData(20, 100, true));
 
 		attrTypeCol = createTableViewerColumn(attrTableViewer, "Value Type", 100, 0, SWT.None);
 		attrTypeCol.setLabelProvider(new ColumnLabelProvider() {
+
 			@Override
 			public String getText(Object element) {
-				if(element instanceof EAttribute) {
-					String name = ((EAttribute)element).getEAttributeType().getName();
-					String nsURI = ((EAttribute)element).getEAttributeType().getEPackage().getNsURI();
-					if(EcoreFactory.eINSTANCE.getEPackage().getNsURI().equals(nsURI) && name.startsWith("E")) {
-						name = name.replaceFirst("E", "");
-					}
-					return name;
+				if(element instanceof AttributeType) {
+					return ((AttributeType)element).getType().getName();
 				}
-				if(element instanceof EEnumLiteral) {
+				if(element instanceof EnumeratorType) {
 					return "-";// ((EEnumLiteral)element).getLiteral();
 				}
 				return super.getText(element);
 			}
 		});
 		attrTVLayout.setColumnData(attrTypeCol.getColumn(), new ColumnWeightData(20, 100, true));
-		
-		
+
+
 		addAttrBtn = new Button(parent, SWT.PUSH);
 		addAttrBtn.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
 		addAttrBtn.setToolTipText("Add Type");
@@ -216,31 +288,34 @@ public class TypePreferencePage extends PreferencePage implements IWorkbenchPref
 		TableColumnLayout elementTVLayout = new TableColumnLayout();
 		viewerComposite.setLayout(new TableColumnLayout());
 		viewerComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		
-		elementTableViewer = new TableViewer(viewerComposite, SWT.BORDER); 
+
+		elementTableViewer = new TableViewer(viewerComposite, SWT.BORDER);
 		elementTable = elementTableViewer.getTable();
 		elementTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		elementTable.setHeaderVisible(true);
 		elementTable.setLinesVisible(true);
 		elementTableViewer.setContentProvider(ArrayContentProvider.getInstance());
-		
+
 		//Columns
 		elementNameCol = createTableViewerColumn(elementTableViewer, "Name", 100, 0, SWT.None);
 		elementNameCol.setLabelProvider(new ColumnLabelProvider() {
+
 			@Override
 			public String getText(Object element) {
-				return ((EClassifier)element).getName();
+				if(element instanceof DataType) {
+					return ((DataType)element).getName();
+				}
+				return super.getText(element);
 			}
 		});
 		elementTVLayout.setColumnData(elementNameCol.getColumn(), new ColumnWeightData(20, 100, true));
 
 		elementTypeCol = createTableViewerColumn(elementTableViewer, "Type", 200, 0, SWT.None);
 		elementTypeCol.setLabelProvider(new ColumnLabelProvider() {
-			
+
 			@Override
 			public String getText(Object element) {
-
-				if(element instanceof EEnum) {
+				if(element instanceof EnumerationType) {
 					return "Enumeration";
 				} else {
 					return "Requirement";
@@ -249,14 +324,11 @@ public class TypePreferencePage extends PreferencePage implements IWorkbenchPref
 		});
 		elementTVLayout.setColumnData(elementTypeCol.getColumn(), new ColumnWeightData(20, 200, true));
 
-		input.addAll(dataTypeManager.getTypes());
-		input.addAll(dataTypeManager.getEEnums());
-		elementTableViewer.setInput(input);
-		
 		addElementBtn = new Button(parent, SWT.PUSH);
 		addElementBtn.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
 		addElementBtn.setToolTipText("Add Type");
 		addElementBtn.setImage(Activator.getImageDescriptor("/icons/add.gif").createImage());
+		addElementBtn.setEnabled(false);
 	}
 
 	private Group createGroup(Composite parent, String name) {
@@ -266,104 +338,138 @@ public class TypePreferencePage extends PreferencePage implements IWorkbenchPref
 		grpElements.setText(name);
 		return grpElements;
 	}
-	
+
 	private TableViewerColumn createTableViewerColumn(TableViewer viewer, String title, int bound, int colNumber, int style) {
-	    TableViewerColumn viewerColumn = new TableViewerColumn(viewer, style);
-	    TableColumn column = viewerColumn.getColumn();
-	    column.setText(title);
-	    column.setWidth(bound);
-	    column.setResizable(true);
-	    column.setMoveable(true);
-	    return viewerColumn;
+		TableViewerColumn viewerColumn = new TableViewerColumn(viewer, style);
+		TableColumn column = viewerColumn.getColumn();
+		column.setText(title);
+		column.setWidth(bound);
+		column.setResizable(true);
+		column.setMoveable(true);
+		return viewerColumn;
 	}
 
 	private void hookListeners() {
-		
+
+		dataTypeTV.addSelectionChangedListener(new ISelectionChangedListener() {
+
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				ISelection selection = event.getSelection();
+				addElementBtn.setEnabled(false);
+				elementTableViewer.setInput(Collections.emptyList());
+				attrTableViewer.setInput(Collections.emptyList());
+				if(selection instanceof IStructuredSelection) {
+					Object obj = ((IStructuredSelection)selection).getFirstElement();
+					if(obj instanceof DataTypePackage) {
+						selectedDataType = (DataTypePackage)obj;
+						input.clear();
+						addElementBtn.setEnabled(true);
+						input.addAll(dataTypeManager.getDataTypes(selectedDataType));
+						input.addAll(dataTypeManager.getEnumerationTypes(selectedDataType));
+						elementTableViewer.setInput(input);
+					}
+					elementTableViewer.refresh();
+				}
+			}
+		});
+
 		elementTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			
+
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				ISelection selection = event.getSelection();
 				addAttrBtn.setEnabled(!selection.isEmpty());
 				if(selection instanceof IStructuredSelection) {
 					selectedElmt = ((IStructuredSelection)selection).getFirstElement();
-					if(selectedElmt instanceof EClass) {
-						attrTableViewer.setInput(((EClass)selectedElmt).getEAllAttributes());
+					if(selectedElmt instanceof RequirementType) {
+						attrTableViewer.setInput(((RequirementType)selectedElmt).getAttributeTypes());
 					}
-					if(selectedElmt instanceof EEnum) {
-						attrTableViewer.setInput(((EEnum)selectedElmt).getELiterals());
+					if(selectedElmt instanceof EnumerationType) {
+						attrTableViewer.setInput(((EnumerationType)selectedElmt).getEnumerators());
 					}
 					attrTableViewer.refresh();
 				}
 			}
 		});
-		
+
+		addDataTypeBtn.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				NameDialog dialog = new NameDialog(e.display.getActiveShell(), null);
+				if(dialog.open() == Window.OK) {
+					String name = dialog.getName();
+					dataTypeInput.add(dataTypeManager.createDataTypePackage(name));
+					dataTypeTV.setInput(dataTypeInput);
+					dataTypeTV.refresh();
+				}
+			}
+		});
+
 		addElementBtn.addSelectionListener(new SelectionAdapter() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				AddElementDialog dialog = new AddElementDialog(e.display.getActiveShell());
 				if(dialog.open() == Window.OK) {
 					String name = dialog.getName();
-					boolean isReq= dialog.isRequirement();
-					EClassifier element;
-					
+					boolean isReq = dialog.isRequirement();
+					DataType element;
+
 					if(isReq) {
-						element = EcoreFactory.eINSTANCE.createEClass();
-						((EClass)element).getESuperTypes().add(DataModelPackage.Literals.REQUIREMENT_SECTION);
+						element = dataTypeManager.createDataType(name);
+						dataTypeManager.addDataType(selectedDataType, (RequirementType)element);
+					} else {
+						element = dataTypeManager.createEnumerationType(name);
+						dataTypeManager.addEnumerationType(selectedDataType, (EnumerationType)element);
 					}
-					else {
-						element = EcoreFactory.eINSTANCE.createEEnum();
-					}
-					
-					element.setName(name);
-					dataTypeManager.addType(element);
+
 					input.add(element);
 					elementTableViewer.refresh();
-					
+
 				}
 			}
 		});
-		
+
 		addAttrBtn.addSelectionListener(new SelectionAdapter() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				AddAttributeDialog dialog = null;
-				if(selectedElmt instanceof EEnum) {
-					dialog = new AddAttributeDialog(e.display.getActiveShell(), true, null);
-					if (dialog.open() == Window.OK){
-						String name = dialog.getName();
-						EEnumLiteral enumLiteral = EcoreFactory.eINSTANCE.createEEnumLiteral();
-						enumLiteral.setName(name);
-						((EEnum)selectedElmt).getELiterals().add(enumLiteral);
+
+				NameDialog dialog = null;
+				if(selectedElmt instanceof EnumerationType) {
+					dialog = new NameDialog(e.display.getActiveShell(), null);
+					if(dialog.open() == Window.OK) {
+						EnumeratorType enumerator = dataTypeManager.createEnumeratorType(dialog.getName());
+						((EnumerationType)selectedElmt).addEnumeratorType(enumerator);
 						attrTableViewer.refresh();
 					}
-				} else if (selectedElmt instanceof EClass) {
+				} else if(selectedElmt instanceof RequirementType) {
+
 					Set<Object> values = new HashSet<Object>();
 					values.addAll(DataUtil.eDataTypes);
-					values.addAll(dataTypeManager.getEEnums());
+					values.addAll(dataTypeManager.getEnumerationTypes(selectedDataType));
 					Collection<Object> types = Collections2.filter(values, Predicates.notNull());
-					
-					dialog = new AddAttributeDialog(e.display.getActiveShell(), false, types);
-					
+
+					dialog = new AddAttributeDialog(e.display.getActiveShell(), types);
+
 					if(Window.OK == dialog.open()) {
-						
+
 						String name = dialog.getName();
-						EDataType type = dialog.getType();
-						
-						EAttribute eAttr = EcoreFactory.eINSTANCE.createEAttribute();
-						eAttr.setName(name);
-						eAttr.setEType(type);
-						
-						((EClass)selectedElmt).getEStructuralFeatures().add(eAttr);
-						attrTableViewer.setInput(((EClass)selectedElmt).getEAllAttributes());
+						EDataType type = ((AddAttributeDialog)dialog).getType();
+
+						AttributeType attr = dataTypeManager.createAttributeType(name, type);
+
+						((RequirementType)selectedElmt).addAttributeType(attr);
+
+						attrTableViewer.setInput(((RequirementType)selectedElmt).getAttributeTypes());
 						attrTableViewer.refresh();
-					} 
+					}
 				}
 			}
 
 		});
 	}
-	
+
 }

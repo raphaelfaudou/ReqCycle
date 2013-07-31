@@ -30,6 +30,9 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.MappingComposite;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.pages.MappingDialogPage;
+import org.eclipse.reqcycle.repository.data.AttributeType;
+import org.eclipse.reqcycle.repository.data.DataType;
+import org.eclipse.reqcycle.repository.data.RequirementType;
 import org.eclipse.rmf.reqif10.AttributeDefinition;
 import org.eclipse.rmf.reqif10.DatatypeDefinition;
 import org.eclipse.rmf.reqif10.SpecType;
@@ -59,8 +62,6 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements Lis
 	private MappingComposite mappingComposite;
 
 	private Button autoMappingBtn;
-
-	private EObject toAdd;
 
 	static ITreeContentProvider contentProvider = new ITreeContentProvider() {
 		
@@ -209,21 +210,21 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements Lis
 				if (inputElement instanceof SpecType) {
 					final String inputName = ((SpecType) inputElement).getLongName();
 					
-					EClass element = Iterators.find(((Collection)getTargetInput()).iterator(), new Predicate<EClass>() {
+					RequirementType element = Iterators.find(((Collection)getTargetInput()).iterator(), new Predicate<RequirementType>() {
 						@Override
-						public boolean apply(EClass arg0) {
+						public boolean apply(RequirementType arg0) {
 							String ii = inputName;
 							return ii.equalsIgnoreCase(arg0.getName());
 						}
 					});
 					if (element != null) {
 						ElementMapping elementMapping = MappingModelFactory.eINSTANCE.createElementMapping();
-						EList<EAttribute> allAttributes = element.getEAllAttributes();
-						Collection<EAttribute> filtered = Collections2.filter(allAttributes, new Predicate<EAttribute>() {
+						Collection<AttributeType> allAttributes = element.getAttributeTypes();
+						Collection<AttributeType> filtered = Collections2.filter(allAttributes, new Predicate<AttributeType>() {
 
 							@Override
-							public boolean apply(EAttribute arg0) {
-								return arg0.getEAnnotation("hidden") == null;
+							public boolean apply(AttributeType arg0) {
+								return !arg0.isHidden();
 							}
 						});
 						elementMapping.getAttributes().addAll(mapAttributes(((SpecType) inputElement).getSpecAttributes(), filtered));
@@ -239,20 +240,20 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements Lis
 		}
 	}
 	
-	private Collection<AttributeMapping> mapAttributes(Collection<AttributeDefinition> source, Collection<EAttribute> target)
+	private Collection<AttributeMapping> mapAttributes(Collection<AttributeDefinition> source, Collection<AttributeType> target)
 	{
 		Collection<AttributeMapping> result = Sets.newHashSet();
 		
 		for (final AttributeDefinition attribute : source) {
-			EAttribute eAttribute = Iterators.find(target.iterator(), new Predicate<EAttribute>() {
+			AttributeType eAttribute = Iterators.find(target.iterator(), new Predicate<AttributeType>() {
 				@Override
-				public boolean apply(EAttribute arg0) {
+				public boolean apply(AttributeType arg0) {
 					String name = attribute.getLongName();
 					return arg0.getName().equalsIgnoreCase(name);
 				}
 			});
 			AttributeMapping attributeMapping = MappingModelFactory.eINSTANCE.createAttributeMapping();
-			attributeMapping.setTargetAttribute((EAttribute)eAttribute);
+			attributeMapping.setTargetAttribute(((AttributeType)eAttribute).getEAttribute());
 			attributeMapping.setSourceId(((AttributeDefinition)attribute).getIdentifier());
 			attributeMapping.setDescription(((AttributeDefinition)attribute).getLongName());
 			result.add(attributeMapping);
@@ -270,7 +271,7 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements Lis
 	private ElementMapping mapElements(final Composite parent, Object sourceSelection, final Object targetSelection) {
 		
 		
-		if(targetSelection instanceof EClass && sourceSelection instanceof SpecType) {
+		if(targetSelection instanceof RequirementType && sourceSelection instanceof SpecType) {
 
 			final SpecType specType = (SpecType)sourceSelection;
 			
@@ -279,9 +280,9 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements Lis
 				@Override
 				protected AttributeMapping linkElements(Object sourceSelection,
 						Object targetSelection) {
-					if(sourceSelection instanceof AttributeDefinition && targetSelection instanceof EAttribute) {
+					if(sourceSelection instanceof AttributeDefinition && targetSelection instanceof AttributeType) {
 					AttributeMapping attributeMapping = MappingModelFactory.eINSTANCE.createAttributeMapping();
-					attributeMapping.setTargetAttribute((EAttribute)targetSelection);
+					attributeMapping.setTargetAttribute(((AttributeType)targetSelection).getEAttribute());
 					attributeMapping.setSourceId(((AttributeDefinition)sourceSelection).getIdentifier());
 					attributeMapping.setDescription(((AttributeDefinition)sourceSelection).getLongName());
 					return attributeMapping;
@@ -296,14 +297,11 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements Lis
 
 				@Override
 				protected Object getTargetInput() {
-					EList<EAttribute> allAttributes = ((EClass)targetSelection).getEAllAttributes();
-					Collection<EAttribute> filteredAttribute = Collections2.filter(allAttributes, new Predicate<EAttribute>() {
+					Collection<AttributeType> allAttributes = ((RequirementType)targetSelection).getAttributeTypes();
+					Collection<AttributeType> filteredAttribute = Collections2.filter(allAttributes, new Predicate<AttributeType>() {
 						@Override
-						public boolean apply(EAttribute arg0) {
-							if (arg0.getEAnnotation("hidden") != null) {
-								return false;
-							}
-							return true;
+						public boolean apply(AttributeType arg0) {
+							return !arg0.isHidden();
 						}
 					});
 					return filteredAttribute;
@@ -356,7 +354,7 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements Lis
 					element.getAttributes().addAll((Collection<? extends AttributeMapping>)mappingDialog.getResult());
 					element.setSourceQualifier(specType.getIdentifier());
 					element.setDescription(specType.getLongName());
-					element.setTargetElement((EClass)targetSelection);
+					element.setTargetElement(((RequirementType)targetSelection).getEClass());
 					return element;
 				}
 			}

@@ -33,7 +33,9 @@ import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFRepositoryMappingPage
 import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFSettingPage;
 import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFSettingPage.RMFSettingPageBean;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
+import org.eclipse.reqcycle.repository.data.DataType;
 import org.eclipse.reqcycle.repository.data.IDataTypeManager;
+import org.eclipse.reqcycle.repository.data.RequirementType;
 import org.eclipse.reqcycle.repository.data.util.RepositoryConstants;
 import org.eclipse.rmf.reqif10.SpecType;
 
@@ -102,7 +104,7 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 		if(edition) {
 			ResourceSet rs = new ResourceSetImpl();
 			Collection<SpecType> specTypes = RMFUtils.getReqIFTypes(rs, initSource.getRepositoryUri());
-			Collection<EClass> eClassifiers = dataTypeManage.getTypes();
+			Collection<RequirementType> eClassifiers = dataTypeManage.getAllDataTypes();
 			EList<ElementMapping> mapping = initSource.getMappings();
 			mappingPage = createMappingPage(specTypes, eClassifiers, mapping);
 			addPage(mappingPage);
@@ -120,7 +122,7 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 			ResourceSet rs = new ResourceSetImpl();
 			final Collection<SpecType> specTypes = RMFUtils.getReqIFTypes(rs, settingPageBean.getUri());
 //			final Collection<EClassifier> eClassifiers = DataUtil.getTargetEPackage(rs, "org.eclipse.reqcycle.repository.data/model/CustomDataModel.ecore");
-			Collection<EClass> eClassifiers = dataTypeManage.getTypes();
+			Collection<RequirementType> eClassifiers = dataTypeManage.getAllDataTypes();
 			mappingPage = createMappingPage(specTypes, eClassifiers, mapping);
 			mappingPage.setWizard(this);
 
@@ -129,7 +131,7 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 		return super.getNextPage(page);
 	}
 
-	private RMFRepositoryMappingPage createMappingPage(final Collection<SpecType> specTypes, final Collection<EClass> eClassifiers, final Collection mapping) {		
+	private RMFRepositoryMappingPage createMappingPage(final Collection<SpecType> specTypes, final Collection<RequirementType> eClassifiers, final Collection mapping) {		
 		return new RMFRepositoryMappingPage("ReqIF Mapping", "") {
 
 			@Override
@@ -139,7 +141,7 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 
 			@Override
 			protected String getTargetDetail() {
-				return "ReqIF";
+				return "ReqCycle";
 			}
 
 			@Override

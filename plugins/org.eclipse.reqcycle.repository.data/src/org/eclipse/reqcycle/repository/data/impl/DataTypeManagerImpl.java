@@ -1,157 +1,177 @@
 package org.eclipse.reqcycle.repository.data.impl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.reqcycle.core.ILogger;
+import org.eclipse.reqcycle.repository.data.AttributeType;
+import org.eclipse.reqcycle.repository.data.RequirementType;
+import org.eclipse.reqcycle.repository.data.DataTypePackage;
+import org.eclipse.reqcycle.repository.data.EnumerationType;
+import org.eclipse.reqcycle.repository.data.EnumeratorType;
 import org.eclipse.reqcycle.repository.data.IDataTypeManager;
+import org.eclipse.reqcycle.repository.data.internal.AttributeTypeImpl;
+import org.eclipse.reqcycle.repository.data.internal.DataTypeImpl;
+import org.eclipse.reqcycle.repository.data.internal.DataTypePackageImpl;
+import org.eclipse.reqcycle.repository.data.internal.EnumerationTypeImpl;
+import org.eclipse.reqcycle.repository.data.internal.EnumeratorTypeImpl;
 import org.eclipse.ziggurat.configuration.IConfigurationManager;
 import org.eclipse.ziggurat.inject.ZigguratInject;
-
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
 
 @Singleton
 public class DataTypeManagerImpl implements IDataTypeManager {
 
-    /** EPackage containing possible data types */
-    private EPackage              ePackage;
-    private EPackage              ePackageBak;
+	/** EPackage containing possible data types */
+	private DataTypePackage dataTypePackage;
 
-    /** Configuration Manager */
-    @Inject
-    private IConfigurationManager confManager;
+	/** Configuration Manager */
+	@Inject
+	private IConfigurationManager confManager;
 
-    /** Configuration ID */
-    final static String           CONF_ID = "org.eclipse.reqcycle.data.dataTypes";
+	/** Configuration ID */
+	final static String CONF_ID = "org.eclipse.reqcycle.data.dataTypes";
 
-    @Inject
-    private ILogger               logger;
+	/**
+	 * Constructor
+	 */
+	DataTypeManagerImpl() {
+		if(confManager == null) {
+			confManager = ZigguratInject.make(IConfigurationManager.class);
+		}
+		initTypes();
+	}
 
-    /**
-     * Constructor
-     */
-    DataTypeManagerImpl() {
-        if (confManager == null) {
-            confManager = ZigguratInject.make(IConfigurationManager.class);
-        }
-        loadTypes();
-    }
+	private void initTypes() {
+		EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, CONF_ID);
+		if(conf instanceof EPackage) {
+			dataTypePackage = new DataTypePackageImpl((EPackage)conf);
+		} else {
+			dataTypePackage = new DataTypePackageImpl("DataTypes");
+		}
+	}
 
-    public void loadTypes() {
-        if (ePackageBak != null) {
-            ePackage = ePackageBak;
-            saveTypes();
-            return;
-        }
+	public void undoUnsavedChanges() {
+		initTypes();
+	}
 
-        EObject conf = loadEpackage();
-        if (conf instanceof EPackage) {
-            ePackage = (EPackage) conf;
-            ePackageBak = EcoreUtil.copy(ePackage);
-        } else {
-            initEpackage();
-        }
-    }
 
-    private EObject loadEpackage() {
-        EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, CONF_ID);
-        return conf;
-    }
+	public void saveTypes() {
+		try {
+			EPackage ePackage = ((DataTypePackageImpl)dataTypePackage).getEPackage();
+			confManager.saveConfiguration(ePackage, null, IConfigurationManager.Scope.WORKSPACE, CONF_ID);
+		} catch (IOException e) {
+			// TODO : use logger
+			e.printStackTrace();
+		}
+	}
 
-    private void initEpackage() {
-        ePackage = EcoreFactory.eINSTANCE.createEPackage();
-        ePackage.setName("DataTypes");
-        ePackage.setNsPrefix("DataTypes");
-        ePackage.setNsURI("http://www.eclipse.org/ReqCycle/DataType");
-    }
+	public EObject createInstance(RequirementType dataType) {
+		return dataTypePackage.create(dataType);
+	}
 
-    public void saveTypes() {
-        try {
-            ePackageBak = EcoreUtil.copy(ePackage);
-            confManager.saveConfiguration(ePackage, null, IConfigurationManager.Scope.WORKSPACE, CONF_ID);
-        } catch (IOException e) {
-            // TODO : use logger
-            e.printStackTrace();
-        }
-    }
+	public DataTypePackage createDataTypePackage(String name) {
+		DataTypePackage dataTypePackage = new DataTypePackageImpl(name);
+		this.dataTypePackage.add(dataTypePackage);
+		return dataTypePackage;
+	}
 
-    public void addType(EClassifier eClassifier) {
-        Assert.isNotNull(eClassifier);
-        ePackage.getEClassifiers().add(eClassifier);
-        EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, CONF_ID);
-    }
+	public void addDataTypePackage(DataTypePackage p) {
+		dataTypePackage.add(p);
+	}
 
-    public void removeType(EClassifier eClassifier) {
-        Assert.isNotNull(ePackage);
-        ePackage.getEClassifiers().remove(eClassifier);
-    }
+	public void addDataType(DataTypePackage dataTypePackage, RequirementType dataType) {
+		dataTypePackage.add(dataType);
+	}
 
-    public boolean isAvailable(String name) {
-        Assert.isNotNull(ePackage);
-        return ePackage.getEClassifier(name) == null;
-    }
+	public void addDataTypes(DataTypePackage dataTypePackage, Collection<RequirementType> types) {
+		for(RequirementType dataType : types) {
+			dataTypePackage.add(dataType);
+		}
+	}
 
-    public EClassifier getType(String name) {
-        Assert.isNotNull(ePackage);
-        return ePackage.getEClassifier(name);
-    }
+	public void addEnumerationType(DataTypePackage dataTypePackage, EnumerationType enumerationType) {
+		dataTypePackage.add(enumerationType);
+	}
 
-    public EObject create(EClass eClass) {
-        Assert.isNotNull(ePackage);
-        return ePackage.getEFactoryInstance().create(eClass);
-    }
+	public void addEnumerationTypes(DataTypePackage dataTypePackage, Collection<EnumerationType> types) {
+		for(EnumerationType enumerationType : types) {
+			dataTypePackage.add(enumerationType);
+		}
+	}
 
-    public Collection<EClass> getTypes() {
-        Collection<EClassifier> eClasses = Collections2.filter(ePackage.getEClassifiers(),
-                new Predicate<EClassifier>() {
+	public DataTypePackage getDataTypePackage(String name) {
+		Assert.isNotNull(dataTypePackage);
+		return dataTypePackage.getDataTypePackage(name);
+	}
 
-                    @Override
-                    public boolean apply(EClassifier arg0) {
-                        return arg0 instanceof EClass;
-                    }
-                });
+	public Collection<DataTypePackage> getAllDataTypePackages() {
+		Assert.isNotNull(dataTypePackage);
+		return dataTypePackage.getDataTypePackages();
+	}
 
-        return Collections2.transform(eClasses, new Function<EClassifier, EClass>() {
-            @Override
-            public EClass apply(EClassifier arg0) {
-                return (EClass) arg0;
-            }
-        });
-    }
+	public RequirementType getDataType(DataTypePackage dataTypePackage, String name) {
+		return dataTypePackage.getDataType(name);
+	}
 
-    public void addTypes(Collection<EClassifier> types) {
-        ePackage.getEClassifiers().addAll(types);
-    }
+	public Collection<RequirementType> getDataTypes(DataTypePackage dataTypePackage) {
+		return dataTypePackage.getAllDataTypes();
+	}
 
-    @Override
-    public Collection<EEnum> getEEnums() {
+	public Collection<RequirementType> getAllDataTypes() {
+		Assert.isNotNull(dataTypePackage);
+		Collection<RequirementType> types = new ArrayList<RequirementType>();
+		for(DataTypePackage p : getAllDataTypePackages()) {
+			types.addAll(getDataTypes(p));
+		}
+		return types;
+	}
 
-        Collection<EClassifier> eEnums = Collections2.filter(ePackage.getEClassifiers(), new Predicate<EClassifier>() {
-            @Override
-            public boolean apply(EClassifier arg0) {
-                return arg0 instanceof EEnum;
-            }
-        });
+	public EnumerationType getEnumerationType(DataTypePackage dataTypePackage, String name) {
+		return dataTypePackage.getEnumerationType(name);
+	}
 
-        return Collections2.transform(eEnums, new Function<EClassifier, EEnum>() {
-            @Override
-            public EEnum apply(EClassifier arg0) {
-                return (EEnum) arg0;
-            }
-        });
-    }
+
+	public Collection<EnumerationType> getEnumerationTypes(DataTypePackage dataTypePackage) {
+		return dataTypePackage.getAllEnumerationTypes();
+	}
+
+	public Collection<EnumerationType> getAllEnumerationTypes() {
+		Collection<EnumerationType> enums = new ArrayList<EnumerationType>();
+		for(DataTypePackage p : getAllDataTypePackages()) {
+			enums.addAll(getEnumerationTypes(p));
+		}
+		return enums;
+	}
+
+	@Override
+	public RequirementType createDataType(String name) {
+		RequirementType element = new DataTypeImpl(name);
+		return element;
+	}
+
+	@Override
+	public EnumerationType createEnumerationType(String name) {
+		EnumerationType element = new EnumerationTypeImpl(name);
+		return element;
+	}
+
+	@Override
+	public EnumeratorType createEnumeratorType(String name) {
+		EnumeratorType enumeratorType = new EnumeratorTypeImpl(name);
+		return enumeratorType;
+	}
+
+	@Override
+	public AttributeType createAttributeType(String name, EDataType type) {
+		AttributeType attributeType = new AttributeTypeImpl(name, type);
+		return attributeType;
+	}
 
 }

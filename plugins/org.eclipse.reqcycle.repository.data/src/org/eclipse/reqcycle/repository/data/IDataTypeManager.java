@@ -2,25 +2,56 @@ package org.eclipse.reqcycle.repository.data;
 
 import java.util.Collection;
 
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EObject;
 
 public interface IDataTypeManager {
 
-    public void saveTypes();
+	public void undoUnsavedChanges();
 
-    public void addType(EClassifier eClassifier);
+	public void saveTypes();
 
-    public void removeType(EClassifier eClassifier);
+	public void addDataTypePackage(DataTypePackage p);
+	
+	public DataTypePackage createDataTypePackage(String name);
+	
+	public void addDataType(DataTypePackage p, RequirementType dataType);
+	
+	public void addDataTypes(DataTypePackage p, Collection<RequirementType> types);
+	
+	public void addEnumerationType(DataTypePackage p, EnumerationType enumerationType);
 
-    public EClassifier getType(String name);
+	public void addEnumerationTypes(DataTypePackage p, Collection<EnumerationType> types);
 
-    public boolean isAvailable(String name);
+	public DataTypePackage getDataTypePackage(String name);
+	
+	public Collection<DataTypePackage> getAllDataTypePackages();
+	
+	public RequirementType getDataType(DataTypePackage p, String name);
 
-    public Collection<EClass> getTypes();
+	public Collection<RequirementType> getDataTypes(DataTypePackage p);
 
-    public Collection<EEnum> getEEnums();
+	public Collection<RequirementType> getAllDataTypes();
+	
+	public EnumerationType getEnumerationType(DataTypePackage p, String name);
+	
+	public Collection<EnumerationType> getEnumerationTypes(DataTypePackage p);
+	
+	public Collection<EnumerationType> getAllEnumerationTypes();
+	
+//	public boolean isAvailable(EPackage ePackage, String name);
 
-    public void loadTypes();
+	public EObject createInstance(RequirementType dataType);
+	
+//	public Collection<DataType> getUncategorizedDataTypes();
+//	
+//	public Collection<EnumerationType> getUncategorizedEnumerationTypes();
+
+	public DataType createDataType(String name);	
+	
+	public DataType createEnumerationType(String name);
+
+	public EnumeratorType createEnumeratorType(String name);
+
+	public AttributeType createAttributeType(String name, EDataType type);
 }

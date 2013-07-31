@@ -36,6 +36,7 @@ import org.eclipse.reqcycle.repository.connector.IConnector;
 import org.eclipse.reqcycle.repository.connector.IConnectorManager;
 import org.eclipse.reqcycle.repository.connector.ui.providers.ConnectorLabelProvider;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
+import org.eclipse.reqcycle.repository.data.IDataTypeManager;
 import org.eclipse.reqcycle.repository.data.IScopeManager;
 import org.eclipse.reqcycle.repository.data.util.DataUtil;
 import org.eclipse.swt.SWT;
@@ -61,8 +62,9 @@ public class SelectConnectorPage extends WizardPage {
 	@Inject
 	private IScopeManager scopeManager;
 	
-	@Inject ILogger logger;
-
+	@Inject 
+	private ILogger logger;
+	
 	private TableViewer viewer;
 
 	private Text requirementSourceNameText;
@@ -121,6 +123,7 @@ public class SelectConnectorPage extends WizardPage {
 			}
 		});
 
+		//FIXME : call data type manager ro retrieve scope
 		scopeComboViewer.setInput(scopeManager.getAllScopes());
 
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(viewer.getControl());

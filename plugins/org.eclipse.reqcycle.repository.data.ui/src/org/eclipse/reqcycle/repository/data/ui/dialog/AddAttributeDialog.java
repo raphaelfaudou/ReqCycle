@@ -41,20 +41,17 @@ public class AddAttributeDialog extends NameDialog {
 		}
 	}
 	
-	private boolean isEnumeration;
 	private Collection<Object> types;
 	private ComboViewer attrCV;
 
-	public AddAttributeDialog(Shell parentShell, boolean isEnumeration, Collection<Object> types) {
+	public AddAttributeDialog(Shell parentShell, Collection<Object> types) {
 		super(parentShell);
 		setBean(new Bean(this));
-		this.isEnumeration = isEnumeration;
 		this.types = types;
 	}
 
 	@Override
 	protected void doCreateDialogArea(Composite parent) {
-		if(!isEnumeration) {
 			Label typelbl = new Label(parent, SWT.None);
 			typelbl.setText("Type :");
 			typelbl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
@@ -77,7 +74,6 @@ public class AddAttributeDialog extends NameDialog {
 			});
 			attrCV.setContentProvider(ArrayContentProvider.getInstance());
 			attrCV.setInput(types);
-		}
 	};
 	
 	@Override
@@ -95,7 +91,7 @@ public class AddAttributeDialog extends NameDialog {
 
 	@Override
 	public boolean doHandleEvent(Event event) {
-		if(!isEnumeration && ((Bean)bean).getType() == null) {
+		if(((Bean)bean).getType() == null) {
 			return false;
 		}
 		return true;
@@ -103,11 +99,9 @@ public class AddAttributeDialog extends NameDialog {
 	
 	
 	protected void doInitDataBindings(DataBindingContext bindingContext) {
-		if(!isEnumeration) {
-			IObservableValue observeSingleSelectionAttrCV = ViewerProperties.singleSelection().observe(attrCV);
-			IObservableValue typeBeanObserveValue = PojoProperties.value("type").observe(bean);
-			bindingContext.bindValue(observeSingleSelectionAttrCV, typeBeanObserveValue, null, null);
-		}
+		IObservableValue observeSingleSelectionAttrCV = ViewerProperties.singleSelection().observe(attrCV);
+		IObservableValue typeBeanObserveValue = PojoProperties.value("type").observe(bean);
+		bindingContext.bindValue(observeSingleSelectionAttrCV, typeBeanObserveValue, null, null);
 	}
 
 	public EDataType getType() {
