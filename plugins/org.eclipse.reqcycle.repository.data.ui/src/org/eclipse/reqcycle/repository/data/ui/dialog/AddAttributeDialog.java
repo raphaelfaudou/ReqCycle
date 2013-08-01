@@ -12,7 +12,7 @@ import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.reqcycle.repository.data.types.EnumerationType;
-import org.eclipse.reqcycle.repository.data.types.impl.internal.EnumerationTypeImpl;
+import org.eclipse.reqcycle.repository.data.types.internal.EnumerationTypeImpl;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
@@ -43,10 +43,10 @@ public class AddAttributeDialog extends NameDialog {
 		}
 	}
 	
-	private Collection<Object> types;
+	private Collection<EDataType> types;
 	private ComboViewer attrCV;
 
-	public AddAttributeDialog(Shell parentShell, Collection<Object> types) {
+	public AddAttributeDialog(Shell parentShell, Collection<EDataType> types) {
 		super(parentShell);
 		setBean(new Bean(this));
 		this.types = types;
@@ -70,9 +70,6 @@ public class AddAttributeDialog extends NameDialog {
 							name = name.replaceFirst("E", "");
 						}
 						return name + "  [" + nsURI + "]";
-					} else if (element instanceof EnumerationType) {
-						//FIXME : don't use EnumerationTypeImpl
-						return ((EnumerationType)element).getName() + " [" + ((EnumerationTypeImpl)element).getModelNsURI() +"]";
 					}
 					return super.getText(element);
 				}

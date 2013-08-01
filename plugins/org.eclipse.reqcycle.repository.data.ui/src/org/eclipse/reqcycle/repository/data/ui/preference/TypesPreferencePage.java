@@ -42,6 +42,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
+import com.google.common.base.Function;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 
@@ -375,10 +376,17 @@ public class TypesPreferencePage extends DataPreferencePage {
 
 				} else if(selectedType instanceof RequirementType) {
 
-					Set<Object> values = new HashSet<Object>();
+					Set<EDataType> values = new HashSet<EDataType>();
 					values.addAll(DataUtil.eDataTypes);
-					values.addAll(dataTypeManager.getEnumerationTypes(selectedPackage));
-					Collection<Object> types = Collections2.filter(values, Predicates.notNull());
+					Collection<EnumerationType> enumerations = dataTypeManager.getEnumerationTypes(selectedPackage);
+					values.addAll(Collections2.transform(enumerations, new Function<EnumerationType, EDataType>() {
+
+						@Override
+						public EDataType apply(EnumerationType arg0) {
+							return arg0.getEDataType();
+						}
+					}));
+					Collection<EDataType> types = Collections2.filter(values, Predicates.notNull());
 
 					AddAttributeDialog dialog = new AddAttributeDialog(e.display.getActiveShell(), types);
 
@@ -386,7 +394,6 @@ public class TypesPreferencePage extends DataPreferencePage {
 
 						String name = dialog.getName();
 						EDataType type = dialog.getType();
-
 						attribute = dataTypeManager.createAttributeType(name, type);
 						((RequirementType)selectedType).addAttributeType((RequirementTypeAttribute)attribute);
 					}

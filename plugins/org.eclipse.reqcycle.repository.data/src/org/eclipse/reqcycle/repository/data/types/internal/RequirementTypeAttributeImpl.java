@@ -1,4 +1,4 @@
-package org.eclipse.reqcycle.repository.data.types.impl.internal;
+package org.eclipse.reqcycle.repository.data.types.internal;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EDataType;
@@ -10,9 +10,9 @@ public class RequirementTypeAttributeImpl implements RequirementTypeAttribute {
 	
 	private EAttribute eAttribute;
 	
-	public RequirementTypeAttributeImpl(String name, EDataType dataType){
+	public RequirementTypeAttributeImpl(String name, EDataType type){
 		EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
-		eAttribute.setEType(dataType);
+		eAttribute.setEType(type);
 		eAttribute.setName(name);
 		this.eAttribute = eAttribute;
 	}

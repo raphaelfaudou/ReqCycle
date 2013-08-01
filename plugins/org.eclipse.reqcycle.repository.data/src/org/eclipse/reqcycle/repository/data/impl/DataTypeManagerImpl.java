@@ -18,11 +18,11 @@ import org.eclipse.reqcycle.repository.data.types.DataTypePackage;
 import org.eclipse.reqcycle.repository.data.types.EnumerationType;
 import org.eclipse.reqcycle.repository.data.types.EnumeratorType;
 import org.eclipse.reqcycle.repository.data.types.RequirementType;
-import org.eclipse.reqcycle.repository.data.types.impl.internal.RequirementTypeAttributeImpl;
-import org.eclipse.reqcycle.repository.data.types.impl.internal.RequirementTypeImpl;
-import org.eclipse.reqcycle.repository.data.types.impl.internal.DataTypePackageImpl;
-import org.eclipse.reqcycle.repository.data.types.impl.internal.EnumerationTypeImpl;
-import org.eclipse.reqcycle.repository.data.types.impl.internal.EnumeratorTypeImpl;
+import org.eclipse.reqcycle.repository.data.types.internal.DataTypePackageImpl;
+import org.eclipse.reqcycle.repository.data.types.internal.EnumerationTypeImpl;
+import org.eclipse.reqcycle.repository.data.types.internal.EnumeratorTypeImpl;
+import org.eclipse.reqcycle.repository.data.types.internal.RequirementTypeAttributeImpl;
+import org.eclipse.reqcycle.repository.data.types.internal.RequirementTypeImpl;
 import org.eclipse.ziggurat.configuration.IConfigurationManager;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
@@ -182,6 +182,10 @@ public class DataTypeManagerImpl implements IDataTypeManager {
 		return attributeType;
 	}
 
+	public RequirementTypeAttribute createAttributeType(String name, EnumerationType type) {
+		return createAttributeType(name, type.getEDataType());
+	}
+	
 	@Override
 	public Scope createScope(String name) {
 		Scope scope = DataModelFactory.eINSTANCE.createScope();

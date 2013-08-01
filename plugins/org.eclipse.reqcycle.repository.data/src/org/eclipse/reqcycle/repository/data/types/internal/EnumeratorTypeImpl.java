@@ -1,4 +1,4 @@
-package org.eclipse.reqcycle.repository.data.types.impl.internal;
+package org.eclipse.reqcycle.repository.data.types.internal;
 
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EcoreFactory;

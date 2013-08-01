@@ -1,4 +1,4 @@
-package org.eclipse.reqcycle.repository.data.types.impl.internal;
+package org.eclipse.reqcycle.repository.data.types.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -108,7 +108,7 @@ public class DataTypePackageImpl implements DataTypePackage {
 
 	@Override
 	public void add(EnumerationType enumerationType) {
-		ePackage.getEClassifiers().add(((EnumerationTypeImpl)enumerationType).getEEnum());
+		ePackage.getEClassifiers().add(enumerationType.getEDataType());
 		enumerationTypes.add(enumerationType);
 	}
 

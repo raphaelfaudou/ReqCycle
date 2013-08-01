@@ -69,5 +69,8 @@ public interface IDataTypeManager {
 
 	public EnumeratorType createEnumeratorType(String name);
 
-	public RequirementTypeAttribute createAttributeType(String name, EDataType dataType);
+	public RequirementTypeAttribute createAttributeType(String name, EDataType type);
+	
+	public RequirementTypeAttribute createAttributeType(String name, EnumerationType type);
 }
+

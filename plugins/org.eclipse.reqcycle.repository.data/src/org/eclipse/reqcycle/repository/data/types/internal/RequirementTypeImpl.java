@@ -1,4 +1,4 @@
-package org.eclipse.reqcycle.repository.data.types.impl.internal;
+package org.eclipse.reqcycle.repository.data.types.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;

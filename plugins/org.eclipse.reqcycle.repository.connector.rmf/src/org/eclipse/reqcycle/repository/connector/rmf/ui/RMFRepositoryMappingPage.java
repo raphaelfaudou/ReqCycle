@@ -31,7 +31,7 @@ import org.eclipse.reqcycle.repository.connector.ui.wizard.pages.MappingDialogPa
 import org.eclipse.reqcycle.repository.data.types.DataTypeAttribute;
 import org.eclipse.reqcycle.repository.data.types.RequirementType;
 import org.eclipse.reqcycle.repository.data.types.RequirementTypeAttribute;
-import org.eclipse.reqcycle.repository.data.types.impl.internal.RequirementTypeAttributeImpl;
+import org.eclipse.reqcycle.repository.data.types.internal.RequirementTypeAttributeImpl;
 import org.eclipse.rmf.reqif10.AttributeDefinition;
 import org.eclipse.rmf.reqif10.DatatypeDefinition;
 import org.eclipse.rmf.reqif10.SpecType;
