@@ -125,6 +125,12 @@ public class StorageBasedTraceabilityEngine extends
 	}
 
 	@Override
+	protected Iterator<Pair<Link, Reachable>> doGetAllTraceability(
+			DIRECTION direction) {
+		return storage.getAllTraceability(direction).iterator();
+	}
+
+	@Override
 	protected Iterator<Pair<Link, Reachable>> doGetTraceability(
 			Reachable source, StopCondition condition, DIRECTION direction,
 			Predicate<Pair<Link, Reachable>> scope) {
@@ -272,4 +278,5 @@ public class StorageBasedTraceabilityEngine extends
 		super.errorOccurs(reachable, t);
 		storage.rollback();
 	}
+
 }
