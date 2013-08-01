@@ -65,7 +65,7 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 	RequirementSourceManagerImpl() {
 
 		confManager = ZigguratInject.make(IConfigurationManager.class);
-		EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, ID, rs);
+		EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, ID, rs, false);
 		if(conf instanceof RequirementSources) {
 			sources = (RequirementSources)conf;
 			EList<RequirementSource> RequirementSources = ((RequirementSources)conf).getRequirementSources();

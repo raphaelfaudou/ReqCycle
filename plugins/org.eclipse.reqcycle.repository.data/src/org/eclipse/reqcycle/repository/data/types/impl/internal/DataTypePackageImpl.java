@@ -1,8 +1,9 @@
-package org.eclipse.reqcycle.repository.data.internal;
+package org.eclipse.reqcycle.repository.data.types.impl.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnum;
@@ -10,16 +11,22 @@ import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.reqcycle.repository.data.RequirementType;
-import org.eclipse.reqcycle.repository.data.DataTypePackage;
-import org.eclipse.reqcycle.repository.data.EnumerationType;
+import org.eclipse.reqcycle.repository.data.types.DataType;
+import org.eclipse.reqcycle.repository.data.types.DataTypePackage;
+import org.eclipse.reqcycle.repository.data.types.EnumerationType;
+import org.eclipse.reqcycle.repository.data.types.RequirementType;
+
+import DataModel.RequirementSection;
+import DataModel.Scope;
 
 
 public class DataTypePackageImpl implements DataTypePackage {
 	
 	private EPackage ePackage;
 	
-	private Collection<DataTypePackage> packages = new ArrayList<DataTypePackage>();
+	private Collection<DataTypePackage> subPackages = new ArrayList<DataTypePackage>();
+	
+	private Collection<Scope> scopes = new ArrayList<Scope>();
 	
 	private Collection<RequirementType> dataTypes = new ArrayList<RequirementType>();
 	
@@ -40,14 +47,23 @@ public class DataTypePackageImpl implements DataTypePackage {
 		
 		for(EClassifier classifier : ePackage.getEClassifiers()) {
 			if(classifier instanceof EClass) {
-				dataTypes.add(new DataTypeImpl((EClass)classifier));
+				dataTypes.add(new RequirementTypeImpl((EClass)classifier));
 			} else if (classifier instanceof EEnum) {
 				enumerationTypes.add(new EnumerationTypeImpl((EEnum)classifier));
 			}
 		}
 		
 		for(EPackage subPackage : ePackage.getESubpackages()) {
-			packages.add(new DataTypePackageImpl(subPackage));
+			subPackages.add(new DataTypePackageImpl(subPackage));
+		}
+		
+		EAnnotation scopeEAnnotation = ePackage.getEAnnotation("SCOPES");
+		if(scopeEAnnotation != null) {
+			for(EObject content : scopeEAnnotation.getContents()) {
+				if(content instanceof Scope) {
+					scopes.add((Scope)content);
+				}
+			}
 		}
 	}
 
@@ -60,20 +76,29 @@ public class DataTypePackageImpl implements DataTypePackage {
 		return ePackage.getEFactoryInstance();
 	}
 
+	//FIXME : Continue
 	@Override
-	public EObject create(RequirementType dataType) {
-		return createFactoryInstance().create(((DataTypeImpl)dataType).getEClass());
+	public RequirementSection create(RequirementType dataType) {
+//		return (RequirementSection)createFactoryInstance().create(((RequirementTypeImpl)dataType).getEClass());
+		EClass eclass = ((RequirementTypeImpl)dataType).getEClass();
+		for(DataTypePackage p : getDataTypePackages()) {
+			EPackage pac = ((DataTypePackageImpl)p).getEPackage();
+			if (pac.getEClassifiers().contains(eclass)){
+				return (RequirementSection)((DataTypePackageImpl)p).getEPackage().getEFactoryInstance().create(eclass);
+			}
+		}
+		return null;
 	}
 
 	@Override
 	public void add(DataTypePackage dataTypePackage) {
 		ePackage.getESubpackages().add(((DataTypePackageImpl)dataTypePackage).getEPackage());
-		packages.add(dataTypePackage);
+		subPackages.add(dataTypePackage);
 	}
 	
 	@Override
 	public void add(RequirementType dataType) {
-		ePackage.getEClassifiers().add(((DataTypeImpl)dataType).getEClass());
+		ePackage.getEClassifiers().add(((RequirementTypeImpl)dataType).getEClass());
 		dataTypes.add(dataType);
 	}
 	
@@ -89,7 +114,7 @@ public class DataTypePackageImpl implements DataTypePackage {
 
 	@Override
 	public DataTypePackage getDataTypePackage(String name) {
-		for(DataTypePackage p : packages) {
+		for(DataTypePackage p : subPackages) {
 			if(name.equals(p.getName())) {
 				return p;
 			}
@@ -99,7 +124,7 @@ public class DataTypePackageImpl implements DataTypePackage {
 	
 	@Override
 	public Collection<DataTypePackage> getDataTypePackages() {
-		return packages;
+		return subPackages;
 	}
 
 	@Override
@@ -123,13 +148,50 @@ public class DataTypePackageImpl implements DataTypePackage {
 	}
 
 	@Override
-	public Collection<RequirementType> getAllDataTypes() {
+	public Collection<RequirementType> getDataTypes() {
 		return dataTypes;
 	}
 
 	@Override
-	public Collection<EnumerationType> getAllEnumerationTypes() {
+	public Collection<EnumerationType> getEnumerationTypes() {
 		return enumerationTypes;
+	}
+
+	@Override
+	public void add(Scope scope) {
+		
+		EAnnotation scopeEAnnotation = ePackage.getEAnnotation("SCOPES");
+		if(scopeEAnnotation == null) {
+			scopeEAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+			scopeEAnnotation.setSource("SCOPES");
+			ePackage.getEAnnotations().add(scopeEAnnotation);
+		}
+		scopes.add(scope);
+		scopeEAnnotation.getContents().add(scope);
+	}
+
+	@Override
+	public Scope getScope(String name) {
+		for(Scope scope : scopes) {
+			if(name.equals(scope.getName())) {
+				return scope;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public Collection<Scope> getScopes() {
+		return scopes;
+	}
+
+	@Override
+	public void add(DataType type) {
+		if(type instanceof RequirementType) {
+			add((RequirementType)type);
+		} else if (type instanceof EnumerationType) {
+			add((EnumerationType)type);
+		}
 	}
 	
 }

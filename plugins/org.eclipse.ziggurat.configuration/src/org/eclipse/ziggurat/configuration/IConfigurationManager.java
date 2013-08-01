@@ -34,7 +34,7 @@ public interface IConfigurationManager {
 	 * @param id
 	 * @return the configuration or null if not found
 	 */
-	Map<String, Object> getSimpleConfiguration(IResource context, Scope scope, String id);
+	Map<String, Object> getSimpleConfiguration(IResource context, Scope scope, String id, boolean reload);
 
 	/**
 	 * Retrieve a configuration EObject.
@@ -48,7 +48,7 @@ public interface IConfigurationManager {
 	 * @param id
 	 * @return the configuration or null if not found
 	 */
-	EObject getConfiguration(IResource context, Scope scope, String id);
+	EObject getConfiguration(IResource context, Scope scope, String id, boolean reload);
 
 	/**
 	 * Retrieve a configuration EObject using the provided resource set to load the corresponding configuration resource.
@@ -62,7 +62,7 @@ public interface IConfigurationManager {
 	 * @param resourceSet
 	 * @return the configuration or null if not found
 	 */
-	EObject getConfiguration(IResource context, Scope scope, String id, ResourceSet resourceSet);
+	EObject getConfiguration(IResource context, Scope scope, String id, ResourceSet resourceSet, boolean reload);
 
 	/**
 	 * Save an EObject as a configuration.

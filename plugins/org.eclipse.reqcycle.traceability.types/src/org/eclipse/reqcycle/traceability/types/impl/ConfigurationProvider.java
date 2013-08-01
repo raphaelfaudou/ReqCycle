@@ -51,7 +51,7 @@ public class ConfigurationProvider implements ITypesConfigurationProvider,
 	private TypeConfigContainer doGetContainer() {
 		TypeConfigContainer configuration = (TypeConfigContainer) confManager
 				.getConfiguration(null, null,
-						ITypesConfigurationProvider.CONF_PREF_ID);
+						ITypesConfigurationProvider.CONF_PREF_ID, false);
 		if (configuration == null) {
 			configuration = TypeconfigurationFactory.eINSTANCE
 					.createTypeConfigContainer();
@@ -176,7 +176,7 @@ public class ConfigurationProvider implements ITypesConfigurationProvider,
 	public Iterable<IType> getTypes() {
 		final TypeConfigContainer container = (TypeConfigContainer) confManager
 				.getConfiguration(null, null,
-						ITypesConfigurationProvider.CONF_PREF_ID);
+						ITypesConfigurationProvider.CONF_PREF_ID, false);
 		return Iterables.transform(
 				Iterables.filter(container.getTypes(), CustomType.class),
 				new Function<CustomType, IType>() {

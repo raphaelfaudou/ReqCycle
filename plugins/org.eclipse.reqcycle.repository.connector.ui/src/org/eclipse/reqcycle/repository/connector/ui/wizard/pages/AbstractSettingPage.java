@@ -52,7 +52,7 @@ public abstract class AbstractSettingPage extends WizardPage {
 	protected Scope selectedScope;
 
 	private IScopeManager scopeManager = ZigguratInject.make(IScopeManager.class);
-
+	
 	private String repositoryLabel;
 
 	private Scope scope;

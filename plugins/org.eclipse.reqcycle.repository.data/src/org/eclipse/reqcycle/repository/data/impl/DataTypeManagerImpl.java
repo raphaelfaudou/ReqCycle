@@ -11,19 +11,23 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.reqcycle.repository.data.AttributeType;
-import org.eclipse.reqcycle.repository.data.RequirementType;
-import org.eclipse.reqcycle.repository.data.DataTypePackage;
-import org.eclipse.reqcycle.repository.data.EnumerationType;
-import org.eclipse.reqcycle.repository.data.EnumeratorType;
 import org.eclipse.reqcycle.repository.data.IDataTypeManager;
-import org.eclipse.reqcycle.repository.data.internal.AttributeTypeImpl;
-import org.eclipse.reqcycle.repository.data.internal.DataTypeImpl;
-import org.eclipse.reqcycle.repository.data.internal.DataTypePackageImpl;
-import org.eclipse.reqcycle.repository.data.internal.EnumerationTypeImpl;
-import org.eclipse.reqcycle.repository.data.internal.EnumeratorTypeImpl;
+import org.eclipse.reqcycle.repository.data.types.DataType;
+import org.eclipse.reqcycle.repository.data.types.RequirementTypeAttribute;
+import org.eclipse.reqcycle.repository.data.types.DataTypePackage;
+import org.eclipse.reqcycle.repository.data.types.EnumerationType;
+import org.eclipse.reqcycle.repository.data.types.EnumeratorType;
+import org.eclipse.reqcycle.repository.data.types.RequirementType;
+import org.eclipse.reqcycle.repository.data.types.impl.internal.RequirementTypeAttributeImpl;
+import org.eclipse.reqcycle.repository.data.types.impl.internal.RequirementTypeImpl;
+import org.eclipse.reqcycle.repository.data.types.impl.internal.DataTypePackageImpl;
+import org.eclipse.reqcycle.repository.data.types.impl.internal.EnumerationTypeImpl;
+import org.eclipse.reqcycle.repository.data.types.impl.internal.EnumeratorTypeImpl;
 import org.eclipse.ziggurat.configuration.IConfigurationManager;
 import org.eclipse.ziggurat.inject.ZigguratInject;
+
+import DataModel.DataModelFactory;
+import DataModel.Scope;
 
 @Singleton
 public class DataTypeManagerImpl implements IDataTypeManager {
@@ -49,7 +53,7 @@ public class DataTypeManagerImpl implements IDataTypeManager {
 	}
 
 	private void initTypes() {
-		EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, CONF_ID);
+		EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, CONF_ID, true);
 		if(conf instanceof EPackage) {
 			dataTypePackage = new DataTypePackageImpl((EPackage)conf);
 		} else {
@@ -57,7 +61,7 @@ public class DataTypeManagerImpl implements IDataTypeManager {
 		}
 	}
 
-	public void undoUnsavedChanges() {
+	public void discardUnsavedChanges() {
 		initTypes();
 	}
 
@@ -86,11 +90,15 @@ public class DataTypeManagerImpl implements IDataTypeManager {
 		dataTypePackage.add(p);
 	}
 
-	public void addDataType(DataTypePackage dataTypePackage, RequirementType dataType) {
-		dataTypePackage.add(dataType);
+	public void addDataType(DataTypePackage dataTypePackage, DataType type){
+		dataTypePackage.add(type);
+	}
+	
+	public void addRequirementType(DataTypePackage dataTypePackage, RequirementType Type) {
+		dataTypePackage.add(Type);
 	}
 
-	public void addDataTypes(DataTypePackage dataTypePackage, Collection<RequirementType> types) {
+	public void addRequirementTypes(DataTypePackage dataTypePackage, Collection<RequirementType> types) {
 		for(RequirementType dataType : types) {
 			dataTypePackage.add(dataType);
 		}
@@ -121,7 +129,7 @@ public class DataTypeManagerImpl implements IDataTypeManager {
 	}
 
 	public Collection<RequirementType> getDataTypes(DataTypePackage dataTypePackage) {
-		return dataTypePackage.getAllDataTypes();
+		return dataTypePackage.getDataTypes();
 	}
 
 	public Collection<RequirementType> getAllDataTypes() {
@@ -139,7 +147,7 @@ public class DataTypeManagerImpl implements IDataTypeManager {
 
 
 	public Collection<EnumerationType> getEnumerationTypes(DataTypePackage dataTypePackage) {
-		return dataTypePackage.getAllEnumerationTypes();
+		return dataTypePackage.getEnumerationTypes();
 	}
 
 	public Collection<EnumerationType> getAllEnumerationTypes() {
@@ -151,8 +159,8 @@ public class DataTypeManagerImpl implements IDataTypeManager {
 	}
 
 	@Override
-	public RequirementType createDataType(String name) {
-		RequirementType element = new DataTypeImpl(name);
+	public RequirementType createRequirementType(String name) {
+		RequirementType element = new RequirementTypeImpl(name);
 		return element;
 	}
 
@@ -169,9 +177,47 @@ public class DataTypeManagerImpl implements IDataTypeManager {
 	}
 
 	@Override
-	public AttributeType createAttributeType(String name, EDataType type) {
-		AttributeType attributeType = new AttributeTypeImpl(name, type);
+	public RequirementTypeAttribute createAttributeType(String name, EDataType type) {
+		RequirementTypeAttribute attributeType = new RequirementTypeAttributeImpl(name, type);
 		return attributeType;
+	}
+
+	@Override
+	public Scope createScope(String name) {
+		Scope scope = DataModelFactory.eINSTANCE.createScope();
+		scope.setName(name);
+		return scope;
+	}
+
+	@Override
+	public void addScope(DataTypePackage dataTypePackage, Scope scope) {
+		dataTypePackage.add(scope);
+	}
+
+	@Override
+	public void addScopes(DataTypePackage dataTypePackage, Collection<Scope> scopes) {
+		for(Scope scope : scopes) {
+			dataTypePackage.add(scope);
+		}
+	}
+
+	@Override
+	public Scope getScope(DataTypePackage dataTypePackage, String name) {
+		return dataTypePackage.getScope(name);
+	}
+
+	@Override
+	public Collection<Scope> getScopes(DataTypePackage dataTypePackage) {
+		return dataTypePackage.getScopes();
+	}
+
+	@Override
+	public Collection<Scope> getAllScopes() {
+		Collection<Scope> scopes = new ArrayList<Scope>();
+		for(DataTypePackage p : getAllDataTypePackages()) {
+			scopes.addAll(getScopes(p));
+		}
+		return scopes;
 	}
 
 }

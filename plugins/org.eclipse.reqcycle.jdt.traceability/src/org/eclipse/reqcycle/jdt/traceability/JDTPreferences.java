@@ -21,7 +21,7 @@ public class JDTPreferences {
 		IConfigurationManager manager = ZigguratInject
 				.make(IConfigurationManager.class);
 		Map<String, Object> map = manager.getSimpleConfiguration(null, null,
-				JDT_TYPES_CONSTANT);
+				JDT_TYPES_CONSTANT, false);
 		if (map == null) {
 			return new HashMap<String, TType>();
 		}

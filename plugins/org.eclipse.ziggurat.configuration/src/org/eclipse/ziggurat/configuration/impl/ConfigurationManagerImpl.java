@@ -86,12 +86,18 @@ public class ConfigurationManagerImpl implements IConfigurationManager {
 		}
 	}
 
-	public EObject getConfiguration(IResource context, Scope scope, String id, ResourceSet resourceSet) {
+	public EObject getConfiguration(IResource context, Scope scope, String id, ResourceSet resourceSet, boolean reload) {
 		URI confFileUri = getConfigurationFileUri(context, scope, id);
 		if(resourceSet instanceof RestrictedResourceSet) {
 			((RestrictedResourceSet)resourceSet).addAuthorizedUri(confFileUri);
 		}
 		try {
+			Resource loadedResource = resourceSet.getResource(confFileUri, false);
+			if (reload && loadedResource != null && loadedResource.isLoaded()) {
+				loadedResource.unload();
+				resourceSet.getResources().remove(loadedResource);
+			}
+
 			Resource r = resourceSet.getResource(confFileUri, true);
 
 			if(r != null && !r.getContents().isEmpty()) {
@@ -112,8 +118,8 @@ public class ConfigurationManagerImpl implements IConfigurationManager {
 		saveConfiguration(conf, context, scope, id, rs);
 	}
 
-	public EObject getConfiguration(IResource context, Scope scope, String id) {
-		return getConfiguration(context, scope, id, rs);
+	public EObject getConfiguration(IResource context, Scope scope, String id, boolean reload) {
+		return getConfiguration(context, scope, id, rs, reload);
 	}
 
 	protected boolean isSelfContained(EObject eObj) {
@@ -185,8 +191,8 @@ public class ConfigurationManagerImpl implements IConfigurationManager {
 		return CONF_RESOURCE_EXTENSION;
 	}
 
-	public Map<String, Object> getSimpleConfiguration(IResource context, Scope scope, String id) {
-		EObject confEObj = getConfiguration(context, scope, id);
+	public Map<String, Object> getSimpleConfiguration(IResource context, Scope scope, String id, boolean reload) {
+		EObject confEObj = getConfiguration(context, scope, id, reload);
 
 		if(confEObj == null) {
 			return null;

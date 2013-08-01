@@ -1,27 +1,26 @@
-package org.eclipse.reqcycle.repository.data.internal;
+package org.eclipse.reqcycle.repository.data.types.impl.internal;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.reqcycle.repository.data.AttributeType;
+import org.eclipse.reqcycle.repository.data.types.RequirementTypeAttribute;
 
 
-public class AttributeTypeImpl implements AttributeType {
+public class RequirementTypeAttributeImpl implements RequirementTypeAttribute {
 	
 	private EAttribute eAttribute;
 	
-	public AttributeTypeImpl(String name, EDataType dataType){
+	public RequirementTypeAttributeImpl(String name, EDataType dataType){
 		EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
 		eAttribute.setEType(dataType);
 		eAttribute.setName(name);
 		this.eAttribute = eAttribute;
 	}
 	
-	protected AttributeTypeImpl(EAttribute eAttribute) {
+	protected RequirementTypeAttributeImpl(EAttribute eAttribute) {
 		this.eAttribute = eAttribute;
 	}
 	
-	//FIXME : change visibility to protected
 	public EAttribute getEAttribute() {
 		return eAttribute;
 	}

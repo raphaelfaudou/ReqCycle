@@ -141,7 +141,7 @@ public class PredicatesConfManager {
     }
 
     private PredicatesConf getConf() {
-        return (PredicatesConf) getConfManager().getConfiguration(null, null, PREDICATES_ENTRIES_CONF_ID, rs);
+        return (PredicatesConf) getConfManager().getConfiguration(null, null, PREDICATES_ENTRIES_CONF_ID, rs, false);
     }
 
     private IConfigurationManager getConfManager() {

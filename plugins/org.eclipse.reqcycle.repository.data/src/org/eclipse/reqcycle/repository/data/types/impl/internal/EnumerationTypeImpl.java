@@ -1,4 +1,4 @@
-package org.eclipse.reqcycle.repository.data.internal;
+package org.eclipse.reqcycle.repository.data.types.impl.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,8 +6,8 @@ import java.util.Collection;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.reqcycle.repository.data.EnumerationType;
-import org.eclipse.reqcycle.repository.data.EnumeratorType;
+import org.eclipse.reqcycle.repository.data.types.EnumerationType;
+import org.eclipse.reqcycle.repository.data.types.EnumeratorType;
 
 
 public class EnumerationTypeImpl implements EnumerationType {
@@ -44,7 +44,11 @@ public class EnumerationTypeImpl implements EnumerationType {
 	}
 
 	@Override
-	public Collection<EnumeratorType> getEnumerators() {
+	public Collection<EnumeratorType> getAttributes() {
 		return enumerators;
+	}
+	
+	public String getModelNsURI() {
+		return eEnum.getEPackage()!=null?eEnum.getEPackage().getNsURI():null;	
 	}
 }

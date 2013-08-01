@@ -64,7 +64,7 @@ public class ScopeManagerImpl implements IScopeManager {
 	ScopeManagerImpl() {
 		Scopes confScopes = null;
 		confManager = ZigguratInject.make(IConfigurationManager.class);
-		EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, id);
+		EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, id, false);
 		if(conf instanceof Scopes) {
 			confScopes = (Scopes)conf;
 		} else {

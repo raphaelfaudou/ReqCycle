@@ -46,7 +46,7 @@ public class NameDialog extends Dialog implements Listener {
 	protected NameBean bean;
 	protected Text txtName;
 
-	protected NameDialog(Shell parentShell) {
+	public NameDialog(Shell parentShell) {
 		super(parentShell);
 	}
 	

@@ -15,8 +15,6 @@ package org.eclipse.reqcycle.repository.connector.rmf.ui;
 
 import java.util.Collection;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -30,9 +28,10 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.MappingComposite;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.pages.MappingDialogPage;
-import org.eclipse.reqcycle.repository.data.AttributeType;
-import org.eclipse.reqcycle.repository.data.DataType;
-import org.eclipse.reqcycle.repository.data.RequirementType;
+import org.eclipse.reqcycle.repository.data.types.DataTypeAttribute;
+import org.eclipse.reqcycle.repository.data.types.RequirementType;
+import org.eclipse.reqcycle.repository.data.types.RequirementTypeAttribute;
+import org.eclipse.reqcycle.repository.data.types.impl.internal.RequirementTypeAttributeImpl;
 import org.eclipse.rmf.reqif10.AttributeDefinition;
 import org.eclipse.rmf.reqif10.DatatypeDefinition;
 import org.eclipse.rmf.reqif10.SpecType;
@@ -219,12 +218,15 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements Lis
 					});
 					if (element != null) {
 						ElementMapping elementMapping = MappingModelFactory.eINSTANCE.createElementMapping();
-						Collection<AttributeType> allAttributes = element.getAttributeTypes();
-						Collection<AttributeType> filtered = Collections2.filter(allAttributes, new Predicate<AttributeType>() {
+						Collection<? extends DataTypeAttribute> allAttributes = element.getAttributes();
+						Collection<RequirementTypeAttribute> filtered = (Collection<RequirementTypeAttribute>)Collections2.filter(allAttributes, new Predicate<DataTypeAttribute>() {
 
 							@Override
-							public boolean apply(AttributeType arg0) {
-								return !arg0.isHidden();
+							public boolean apply(DataTypeAttribute arg0) {
+								if(arg0 instanceof RequirementTypeAttribute) {
+									return !((RequirementTypeAttribute)arg0).isHidden();
+								}
+								return false;
 							}
 						});
 						elementMapping.getAttributes().addAll(mapAttributes(((SpecType) inputElement).getSpecAttributes(), filtered));
@@ -240,20 +242,20 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements Lis
 		}
 	}
 	
-	private Collection<AttributeMapping> mapAttributes(Collection<AttributeDefinition> source, Collection<AttributeType> target)
+	private Collection<AttributeMapping> mapAttributes(Collection<AttributeDefinition> source, Collection<RequirementTypeAttribute> target)
 	{
 		Collection<AttributeMapping> result = Sets.newHashSet();
 		
 		for (final AttributeDefinition attribute : source) {
-			AttributeType eAttribute = Iterators.find(target.iterator(), new Predicate<AttributeType>() {
+			RequirementTypeAttribute eAttribute = Iterators.find(target.iterator(), new Predicate<RequirementTypeAttribute>() {
 				@Override
-				public boolean apply(AttributeType arg0) {
+				public boolean apply(RequirementTypeAttribute arg0) {
 					String name = attribute.getLongName();
 					return arg0.getName().equalsIgnoreCase(name);
 				}
 			});
 			AttributeMapping attributeMapping = MappingModelFactory.eINSTANCE.createAttributeMapping();
-			attributeMapping.setTargetAttribute(((AttributeType)eAttribute).getEAttribute());
+			attributeMapping.setTargetAttribute(((RequirementTypeAttributeImpl)eAttribute).getEAttribute());
 			attributeMapping.setSourceId(((AttributeDefinition)attribute).getIdentifier());
 			attributeMapping.setDescription(((AttributeDefinition)attribute).getLongName());
 			result.add(attributeMapping);
@@ -280,9 +282,9 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements Lis
 				@Override
 				protected AttributeMapping linkElements(Object sourceSelection,
 						Object targetSelection) {
-					if(sourceSelection instanceof AttributeDefinition && targetSelection instanceof AttributeType) {
+					if(sourceSelection instanceof AttributeDefinition && targetSelection instanceof RequirementTypeAttribute) {
 					AttributeMapping attributeMapping = MappingModelFactory.eINSTANCE.createAttributeMapping();
-					attributeMapping.setTargetAttribute(((AttributeType)targetSelection).getEAttribute());
+					attributeMapping.setTargetAttribute(((RequirementTypeAttributeImpl)targetSelection).getEAttribute());
 					attributeMapping.setSourceId(((AttributeDefinition)sourceSelection).getIdentifier());
 					attributeMapping.setDescription(((AttributeDefinition)sourceSelection).getLongName());
 					return attributeMapping;
@@ -297,11 +299,14 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements Lis
 
 				@Override
 				protected Object getTargetInput() {
-					Collection<AttributeType> allAttributes = ((RequirementType)targetSelection).getAttributeTypes();
-					Collection<AttributeType> filteredAttribute = Collections2.filter(allAttributes, new Predicate<AttributeType>() {
+					Collection<? extends DataTypeAttribute> allAttributes = ((RequirementType)targetSelection).getAttributes();
+					Collection<RequirementTypeAttribute> filteredAttribute = (Collection<RequirementTypeAttribute>)Collections2.filter(allAttributes, new Predicate<DataTypeAttribute>() {
 						@Override
-						public boolean apply(AttributeType arg0) {
-							return !arg0.isHidden();
+						public boolean apply(DataTypeAttribute arg0) {
+							if(arg0 instanceof RequirementTypeAttribute) {
+								return !((RequirementTypeAttribute)arg0).isHidden();
+							}
+							return false;
 						}
 					});
 					return filteredAttribute;

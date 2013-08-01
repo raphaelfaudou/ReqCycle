@@ -33,9 +33,9 @@ import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFRepositoryMappingPage
 import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFSettingPage;
 import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFSettingPage.RMFSettingPageBean;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
-import org.eclipse.reqcycle.repository.data.DataType;
 import org.eclipse.reqcycle.repository.data.IDataTypeManager;
-import org.eclipse.reqcycle.repository.data.RequirementType;
+import org.eclipse.reqcycle.repository.data.types.DataType;
+import org.eclipse.reqcycle.repository.data.types.RequirementType;
 import org.eclipse.reqcycle.repository.data.util.RepositoryConstants;
 import org.eclipse.rmf.reqif10.SpecType;
 

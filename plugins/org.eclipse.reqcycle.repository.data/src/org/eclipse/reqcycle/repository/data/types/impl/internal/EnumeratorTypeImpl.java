@@ -1,8 +1,8 @@
-package org.eclipse.reqcycle.repository.data.internal;
+package org.eclipse.reqcycle.repository.data.types.impl.internal;
 
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.reqcycle.repository.data.EnumeratorType;
+import org.eclipse.reqcycle.repository.data.types.EnumeratorType;
 
 
 public class EnumeratorTypeImpl implements EnumeratorType {

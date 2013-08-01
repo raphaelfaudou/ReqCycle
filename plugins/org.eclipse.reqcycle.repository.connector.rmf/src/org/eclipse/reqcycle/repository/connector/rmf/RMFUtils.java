@@ -17,7 +17,9 @@ import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.reqcycle.core.ILogger;
+import org.eclipse.reqcycle.repository.data.IDataTypeManager;
 import org.eclipse.reqcycle.repository.data.IRequirementCreator;
+import org.eclipse.reqcycle.repository.data.types.impl.internal.RequirementTypeImpl;
 import org.eclipse.reqcycle.repository.data.util.DataUtil;
 import org.eclipse.rmf.reqif10.AttributeValue;
 import org.eclipse.rmf.reqif10.AttributeValueEnumeration;
@@ -33,14 +35,14 @@ import org.eclipse.rmf.reqif10.Specification;
 import org.eclipse.rmf.reqif10.common.util.ReqIF10Util;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
-
 import DataModel.Contained;
 import DataModel.RequirementSource;
 import DataModel.Section;
 import MappingModel.AttributeMapping;
 import MappingModel.ElementMapping;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 
 
 public class RMFUtils {
@@ -48,7 +50,9 @@ public class RMFUtils {
 	private static ILogger logger = ZigguratInject.make(ILogger.class);
 
 	private static IRequirementCreator creator = ZigguratInject.make(IRequirementCreator.class);
-
+	
+	private static IDataTypeManager dataTypeManager = ZigguratInject.make(IDataTypeManager.class);
+	
 	public static Collection<SpecType> getReqIFTypes(ResourceSet resourceSet, String fileLocation) {
 		URI uriReqIf = URI.createURI(fileLocation, false);
 		Resource reqIfResource = resourceSet.getResource(uriReqIf, true);
@@ -207,6 +211,7 @@ public class RMFUtils {
 		if(elementMapping != null) {
 			try {
 				createdObject = creator.addObject(elementMapping.getTargetElement(), id, name, id);
+				EObject instance = dataTypeManager.createInstance(new RequirementTypeImpl(elementMapping.getTargetElement()));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

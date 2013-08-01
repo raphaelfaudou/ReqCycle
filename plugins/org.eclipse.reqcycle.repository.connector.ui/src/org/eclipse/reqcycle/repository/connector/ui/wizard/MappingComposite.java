@@ -20,8 +20,6 @@ package org.eclipse.reqcycle.repository.connector.ui.wizard;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
@@ -36,8 +34,8 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.reqcycle.repository.connector.ui.Activator;
-import org.eclipse.reqcycle.repository.data.AttributeType;
-import org.eclipse.reqcycle.repository.data.DataType;
+import org.eclipse.reqcycle.repository.data.types.RequirementTypeAttribute;
+import org.eclipse.reqcycle.repository.data.types.DataType;
 import org.eclipse.reqcycle.repository.data.util.DataUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -300,8 +298,8 @@ public abstract class MappingComposite extends Composite {
 				if(element instanceof DataType) {
 					return ((DataType)element).getName();
 				}
-				if(element instanceof AttributeType) {
-					return ((AttributeType)element).getName();
+				if(element instanceof RequirementTypeAttribute) {
+					return ((RequirementTypeAttribute)element).getName();
 				}
 				return super.getText(element);
 			}
