@@ -290,6 +290,8 @@ public class SailBusinessOperations implements
 		Set<Edge> toDelete = new HashSet<Edge>();
 		delete(targetVertex, sourceVertex, VERTEX_OUTGOING, TRACE_TARGET,
 				toDelete, true);
+		delete(sourceVertex,targetVertex, VERTEX_INCOMING, TRACE_SOURCE,
+			toDelete, true);
 		for (Edge e : toDelete) {
 			graph.removeEdge(e);
 		}
@@ -297,21 +299,18 @@ public class SailBusinessOperations implements
 
 	private void delete(Vertex target, Vertex sourceVertex, String vertex2Trac,
 			String trac2vertex, Set<Edge> toDelete, boolean flag) {
+		Direction directionEdge = Direction.IN;
+		Direction directionVertex = Direction.OUT;
 		if (sourceVertex != null) {
-			for (Edge e : sourceVertex.getEdges(Direction.OUT, VERTEX_OUTGOING)) {
-				Vertex tracVertex = e.getVertex(Direction.OUT);
-				for (Edge e2 : tracVertex.getEdges(Direction.OUT, TRACE_TARGET)) {
-					Vertex targetVertex = e2.getVertex(Direction.OUT);
-					if (targetVertex.equals(target)) {
+			for (Edge e : sourceVertex.getEdges(directionVertex, vertex2Trac)) {
+				Vertex tracVertex = e.getVertex(directionEdge);
+				for (Edge e2 : tracVertex.getEdges(directionVertex, trac2vertex)) {
+					Vertex targetVertex = e2.getVertex(directionEdge);
+					if (targetVertex != null && targetVertex.getId().equals(target.getId())) {
 						toDelete.add(e);
 						toDelete.add(e2);
-						if (flag) {
-							delete(sourceVertex, target, VERTEX_INCOMING,
-									TRACE_SOURCE, toDelete, false);
-						}
 					}
 				}
-
 			}
 
 		}
