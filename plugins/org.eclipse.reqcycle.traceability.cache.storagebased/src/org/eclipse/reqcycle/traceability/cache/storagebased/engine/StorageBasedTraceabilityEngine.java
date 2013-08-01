@@ -34,6 +34,8 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 
+import static com.google.common.collect.Iterables.filter;
+
 @Singleton
 public class StorageBasedTraceabilityEngine extends
 		AbstractCachedTraceabilityEngine {
@@ -122,12 +124,6 @@ public class StorageBasedTraceabilityEngine extends
 			e.printStackTrace();
 		}
 		return Iterators.emptyIterator();
-	}
-
-	@Override
-	protected Iterator<Pair<Link, Reachable>> doGetAllTraceability(
-			DIRECTION direction) {
-		return storage.getAllTraceability(direction).iterator();
 	}
 
 	@Override
@@ -277,6 +273,14 @@ public class StorageBasedTraceabilityEngine extends
 	public void errorOccurs(Reachable reachable, Throwable t) {
 		super.errorOccurs(reachable, t);
 		storage.rollback();
+	}
+
+	@Override
+	protected Iterator<Pair<Link, Reachable>> doGetAllTraceability(
+			DIRECTION direction,
+			Predicate<Pair<Link, Reachable>> requestPredicate) {
+		return filter(storage.getAllTraceability(direction), requestPredicate)
+				.iterator();
 	}
 
 }

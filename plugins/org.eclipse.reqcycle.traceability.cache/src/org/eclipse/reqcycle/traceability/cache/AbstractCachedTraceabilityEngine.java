@@ -165,8 +165,10 @@ public abstract class AbstractCachedTraceabilityEngine implements
 						throw new EngineException(
 								"for a couple with source equals to null the request shall be infinite");
 					} else {
-						result = Iterators.concat(result,
-								doGetAllTraceability(request.getDirection()));
+						result = Iterators.concat(
+								result,
+								doGetAllTraceability(request.getDirection(),
+										requestPredicate));
 					}
 				} else {
 					// when the target is equals to null it is a prospective
@@ -266,7 +268,8 @@ public abstract class AbstractCachedTraceabilityEngine implements
 	}
 
 	protected abstract Iterator<Pair<Link, Reachable>> doGetAllTraceability(
-			DIRECTION direction);
+			DIRECTION direction,
+			Predicate<Pair<Link, Reachable>> requestPredicate);
 
 	protected abstract Iterator<Pair<Link, Reachable>> doGetTraceability(
 			Reachable source, DIRECTION direction,
