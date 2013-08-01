@@ -260,7 +260,6 @@ public class SailBusinessOperations implements
 	}
 
 	private class Vertex2Reachable implements Function<Vertex, Reachable> {
-		private IReachableCreator creator;
 
 		public Vertex2Reachable() {
 		}
@@ -270,7 +269,7 @@ public class SailBusinessOperations implements
 			if (v != null) {
 				Reachable r;
 				try {
-					r = creator.getReachable(new URI((String) v.getId()));
+					r = SailBusinessOperations.this.creator.getReachable(new URI((String) v.getId()));
 					Map<String, String> properties = getProperties(v);
 					for (String s : properties.keySet()) {
 						r.put(s, (String) properties.get(s));
