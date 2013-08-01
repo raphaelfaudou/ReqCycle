@@ -71,7 +71,7 @@ public class SailBusinessOperations implements
 					}
 				});
 		for (Edge e : edges) {
-			graph.removeVertex(e.getVertex(Direction.OUT));
+			graph.removeVertex(e.getVertex(Direction.IN));
 			graph.removeEdge(e);
 		}
 	}
@@ -269,7 +269,8 @@ public class SailBusinessOperations implements
 			if (v != null) {
 				Reachable r;
 				try {
-					r = SailBusinessOperations.this.creator.getReachable(new URI((String) v.getId()));
+					r = SailBusinessOperations.this.creator
+							.getReachable(new URI((String) v.getId()));
 					Map<String, String> properties = getProperties(v);
 					for (String s : properties.keySet()) {
 						r.put(s, (String) properties.get(s));
@@ -290,8 +291,8 @@ public class SailBusinessOperations implements
 		Set<Edge> toDelete = new HashSet<Edge>();
 		delete(targetVertex, sourceVertex, VERTEX_OUTGOING, TRACE_TARGET,
 				toDelete, true);
-		delete(sourceVertex,targetVertex, VERTEX_INCOMING, TRACE_SOURCE,
-			toDelete, true);
+		delete(sourceVertex, targetVertex, VERTEX_INCOMING, TRACE_SOURCE,
+				toDelete, true);
 		for (Edge e : toDelete) {
 			graph.removeEdge(e);
 		}
@@ -304,9 +305,11 @@ public class SailBusinessOperations implements
 		if (sourceVertex != null) {
 			for (Edge e : sourceVertex.getEdges(directionVertex, vertex2Trac)) {
 				Vertex tracVertex = e.getVertex(directionEdge);
-				for (Edge e2 : tracVertex.getEdges(directionVertex, trac2vertex)) {
+				for (Edge e2 : tracVertex
+						.getEdges(directionVertex, trac2vertex)) {
 					Vertex targetVertex = e2.getVertex(directionEdge);
-					if (targetVertex != null && targetVertex.getId().equals(target.getId())) {
+					if (targetVertex != null
+							&& targetVertex.getId().equals(target.getId())) {
 						toDelete.add(e);
 						toDelete.add(e2);
 					}
@@ -350,7 +353,7 @@ public class SailBusinessOperations implements
 		Set<Edge> toDelete = new HashSet<Edge>();
 		toDelete.add(next);
 		for (Edge e : otherVertex.getEdges(Direction.OUT, stringForNode)) {
-			if (e.getVertex(Direction.OUT).equals(traceabilityVertex)) {
+			if (e.getVertex(Direction.IN).equals(traceabilityVertex)) {
 				toDelete.add(e);
 			}
 		}

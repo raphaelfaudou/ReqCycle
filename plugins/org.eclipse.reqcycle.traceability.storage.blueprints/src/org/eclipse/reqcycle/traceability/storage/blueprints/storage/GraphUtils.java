@@ -193,8 +193,8 @@ public class GraphUtils implements ISpecificGraphProvider.IBusinessOperations {
 	public void removeUpwardRelationShip(Graph graph, TType kind,
 			Reachable container, Reachable source, Reachable target) {
 		removeUpwardRelationShip(graph, kind,
-				graph.getVertex(container.toString()),
-				graph.getVertex(source.toString()),
+				container != null ? graph.getVertex(container.toString())
+						: null, graph.getVertex(source.toString()),
 				graph.getVertex(target.toString()));
 	}
 
@@ -203,7 +203,7 @@ public class GraphUtils implements ISpecificGraphProvider.IBusinessOperations {
 		Set<Edge> toDelete = new HashSet<Edge>();
 		if (sourceVertex != null) {
 			for (Edge e : sourceVertex.getEdges(Direction.OUT, VERTEX_OUTGOING)) {
-				Vertex traceVertex = e.getVertex(Direction.OUT);
+				Vertex traceVertex = e.getVertex(Direction.IN);
 				for (Edge e2 : traceVertex
 						.getEdges(Direction.OUT, TRACE_TARGET)) {
 					if (e2.getVertex(Direction.OUT).equals(target)) {
