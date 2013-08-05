@@ -42,8 +42,8 @@ public class DelegatedAndDecoratedBuilderCallBack implements IBuilderCallBack {
 	}
 
 	@Override
-	public void newUpwardRelation(Object resource, Object source,
-			List<? extends Object> targets, TType kind) {
+	public void newUpwardRelation(Object traceability, Object resource,
+			Object source, List<? extends Object> targets, TType kind) {
 		String check = "arguments must be different to null";
 		Preconditions.checkNotNull(resource, check);
 		Preconditions.checkNotNull(source, check);
@@ -51,18 +51,21 @@ public class DelegatedAndDecoratedBuilderCallBack implements IBuilderCallBack {
 		Preconditions.checkNotNull(kind, check);
 		boolean keepOriginalLink = true;
 		for (IBuildingDecoration d : decorations) {
-			keepOriginalLink &= d.newUpwardRelation(this, resource, source,
-					targets, kind);
+			keepOriginalLink &= d.newUpwardRelation(this, traceability,
+					resource, source, targets, kind);
 		}
 		if (keepOriginalLink) {
-			Composite c = getComposite(resource, source, targets, kind);
-			callBack.newUpwardRelation(c.resource, c.source, c.targets, c.kind);
+			Composite c = getComposite(traceability, resource, source, targets,
+					kind);
+			callBack.newUpwardRelation(c.traceabilityObject, c.resource,
+					c.source, c.targets, c.kind);
 		}
 	}
 
-	private Composite getComposite(Object resource, Object source,
-			List<? extends Object> targets, TType kind) {
+	private Composite getComposite(Object traceabilityObject, Object resource,
+			Object source, List<? extends Object> targets, TType kind) {
 		Composite compo = new Composite();
+		compo.traceabilityObject = traceabilityObject;
 		compo.resource = resource;
 		compo.source = source;
 		compo.targets = targets;
@@ -72,9 +75,9 @@ public class DelegatedAndDecoratedBuilderCallBack implements IBuilderCallBack {
 			try {
 				old = (Composite) compo.clone();
 				d.transform(compo);
-				if (compo == null || compo.kind == null
-						|| compo.resource == null || compo.source == null
-						|| compo.targets == null) {
+				if (compo == null || compo.traceabilityObject == null
+						|| compo.kind == null || compo.resource == null
+						|| compo.source == null || compo.targets == null) {
 					compo = old;
 				}
 			} catch (CloneNotSupportedException e) {
@@ -85,6 +88,9 @@ public class DelegatedAndDecoratedBuilderCallBack implements IBuilderCallBack {
 
 	@Override
 	public void errorOccurs(Reachable reachable, Throwable t) {
+		for (IBuildingDecoration d : decorations) {
+			d.errorOccurs(this, reachable, t);
+		}
 		callBack.errorOccurs(reachable, t);
 	}
 

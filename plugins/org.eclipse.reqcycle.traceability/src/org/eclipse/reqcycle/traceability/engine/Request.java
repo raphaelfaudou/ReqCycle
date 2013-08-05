@@ -19,8 +19,9 @@ import com.google.common.collect.Iterables;
 
 /**
  * a {@link Request} contains the data to determine traceability the scope can
- * be set by default it contains the traceable corresponding to the source and
+ * be set. By default it contains the traceable corresponding to the source and
  * the target
+ * 
  * 
  * @author tfaure
  * 

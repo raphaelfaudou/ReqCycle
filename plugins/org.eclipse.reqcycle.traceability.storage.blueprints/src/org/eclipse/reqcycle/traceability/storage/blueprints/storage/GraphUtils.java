@@ -251,4 +251,15 @@ public class GraphUtils implements ISpecificGraphProvider.IBusinessOperations {
 		vTrac.setProperty(KIND, newType);
 	}
 
+	@Override
+	public void setProperty(Graph graph, Vertex vertex, String propertyName,
+			String propertyValue) {
+		if (propertyValue == null) {
+			vertex.removeProperty(propertyName);
+		} else {
+			vertex.setProperty(propertyName, propertyValue);
+		}
+
+	}
+
 }

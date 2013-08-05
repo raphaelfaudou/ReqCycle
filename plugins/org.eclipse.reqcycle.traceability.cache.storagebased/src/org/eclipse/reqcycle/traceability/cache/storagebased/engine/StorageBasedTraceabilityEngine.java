@@ -234,11 +234,12 @@ public class StorageBasedTraceabilityEngine extends
 	}
 
 	@Override
-	public void newUpwardRelation(Reachable container, Reachable source,
-			List<Reachable> targets, TType tType) {
+	public void newUpwardRelation(Reachable traceaReachable,
+			Reachable container, Reachable source, List<Reachable> targets,
+			TType tType) {
 		handleRevision(container);
-		storage.newUpwardRelationShip(tType, container, source,
-				targets.toArray(new Reachable[targets.size()]));
+		storage.newUpwardRelationShip(tType, traceaReachable, container,
+				source, targets.toArray(new Reachable[targets.size()]));
 	}
 
 	private void handleRevision(Reachable container) {
