@@ -155,6 +155,17 @@ public abstract class AbstractCachedTraceabilityEngine implements
 						requestPredicate);
 			}
 			Iterable<Couple> couples = request.getCouples();
+			if (!couples.iterator().hasNext()){
+				if (request.getDepth() == DEPTH.ONE) {
+					throw new EngineException(
+							"for a couple with source equals to null the request shall be infinite");
+				} else {
+					result = Iterators.concat(
+							result,
+							doGetAllTraceability(request.getDirection(),
+									requestPredicate));
+				}
+			}
 			// for each couple an traceability iterable is computed
 			for (Couple c : couples) {
 				// if the source is null it means the engine needs to return all
