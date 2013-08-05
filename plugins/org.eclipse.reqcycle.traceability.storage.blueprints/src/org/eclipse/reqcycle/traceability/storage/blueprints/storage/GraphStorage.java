@@ -15,6 +15,7 @@ import org.eclipse.reqcycle.traceability.model.Link;
 import org.eclipse.reqcycle.traceability.model.Pair;
 import org.eclipse.reqcycle.traceability.model.TType;
 import org.eclipse.reqcycle.traceability.storage.ITraceabilityStorage;
+import org.eclipse.reqcycle.traceability.storage.ITraceabilityStorageListener;
 import org.eclipse.reqcycle.traceability.storage.blueprints.graph.ISpecificGraphProvider;
 import org.eclipse.reqcycle.uri.IReachableCreator;
 import org.eclipse.reqcycle.uri.model.Reachable;
@@ -36,6 +37,8 @@ public class GraphStorage implements ITraceabilityStorage {
 	private Graph graph;
 	private ISpecificGraphProvider.IBusinessOperations graphUtils;
 
+	private Set<ITraceabilityStorageListener> listeners = new HashSet<ITraceabilityStorageListener>();
+
 	public GraphStorage(Graph graph) {
 		this(graph, null);
 	}
@@ -54,19 +57,35 @@ public class GraphStorage implements ITraceabilityStorage {
 	@Override
 	public void save() {
 		if (graph instanceof TransactionalGraph) {
+			for (ITraceabilityStorageListener l : listeners) {
+				l.notifySave(this);
+			}
 			TransactionalGraph tGraph = (TransactionalGraph) graph;
 			tGraph.commit();
 		}
 	}
 
 	@Override
-	public void newUpwardRelationShip(TType kind, Reachable container,
-			Reachable source, Reachable... targets) {
+	public void newUpwardRelationShip(TType kind, Reachable tracea,
+			Reachable container, Reachable source, Reachable... targets) {
+		// FIXME improve the multi target
+		// in general cases only one target is provided.
+		// currently several traceability links are created and the first one is
+		// returned
+		// in the future, create one traceability link for several targets
+		String uri = null;
 		for (Reachable target : targets) {
 			Vertex vertex = graphUtils.addTraceabilityRelation(graph, source,
 					target, kind);
+			if (uri == null) {
+				uri = (String) vertex.getId();
+			}
 			graphUtils.addChildrenRelation(graph,
 					graphUtils.getVertex(graph, container), vertex);
+		}
+		for (ITraceabilityStorageListener l : listeners) {
+			l.notifyNewUpwardRelationShip(this, kind, tracea, container,
+					source, targets);
 		}
 	}
 
@@ -108,7 +127,8 @@ public class GraphStorage implements ITraceabilityStorage {
 			Vertex target = graphUtils.getTraceabilityTarget(trac,
 					graphDirection);
 			Reachable rTarget = getReachable((String) target.getId());
-			Link link = new Link(graphUtils.getKind(trac), r, rTarget);
+			Link link = new Link((String) trac.getId(),
+					graphUtils.getKind(trac), r, rTarget);
 			result.add(new Pair<Link, Reachable>(link, rTarget));
 		}
 		return result;
@@ -116,7 +136,11 @@ public class GraphStorage implements ITraceabilityStorage {
 
 	@Override
 	public void dispose() {
+		for (ITraceabilityStorageListener l : listeners) {
+			l.notifyDispose(this);
+		}
 		graph.shutdown();
+		listeners.clear();
 	}
 
 	@Override
@@ -126,6 +150,9 @@ public class GraphStorage implements ITraceabilityStorage {
 	@Override
 	public void commit() {
 		if (graph instanceof TransactionalGraph) {
+			for (ITraceabilityStorageListener l : listeners) {
+				l.notifyCommit(this);
+			}
 			TransactionalGraph tGraph = (TransactionalGraph) graph;
 			tGraph.commit();
 		}
@@ -146,6 +173,20 @@ public class GraphStorage implements ITraceabilityStorage {
 				reachable);
 		for (Vertex v : traceabilities) {
 			graphUtils.delete(v);
+			for (ITraceabilityStorageListener l : listeners) {
+				Reachable source;
+				try {
+					source = creator.getReachable(new URI((String) graphUtils
+							.getSourceFromTraceabilityVertex(v).getId()));
+					Reachable target = creator
+							.getReachable(new URI((String) graphUtils
+									.getTargetFromTraceabilityVertex(v).getId()));
+					l.notifyTraceabilityLinksRemoved(this, reachable, source,
+							target, graphUtils.getKind(v));
+				} catch (URISyntaxException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 
 	}
@@ -169,8 +210,9 @@ public class GraphStorage implements ITraceabilityStorage {
 							source = target;
 							target = sourceTmp;
 						}
-						Link link = new Link(graphUtils.getKind(arg0),
-								getReachable((String) source.getId()),
+						Link link = new Link((String) arg0.getId(), graphUtils
+								.getKind(arg0), getReachable((String) source
+								.getId()),
 								getReachable((String) target.getId()));
 						return new Pair<Link, Reachable>(link, link
 								.getTargets().iterator().next());
@@ -210,6 +252,10 @@ public class GraphStorage implements ITraceabilityStorage {
 					if (aKind != null && aKind.equals(oldLink.getKind())) {
 						handleTraceability(oldLink, source, target, newLink,
 								vSource, vTarget, vTrac, direction);
+						for (ITraceabilityStorageListener l : listeners) {
+							l.notifyUpdateRelationShip(this, oldLink, newLink,
+									direction);
+						}
 						break;
 					}
 				}
@@ -240,6 +286,7 @@ public class GraphStorage implements ITraceabilityStorage {
 		if (!newType.equals(oldLink.getKind())) {
 			handleKindChanged(oldLink.getKind(), newType, vTrac);
 		}
+
 	}
 
 	protected void handleKindChanged(TType kind, TType newType, Vertex vTrac) {
@@ -254,5 +301,40 @@ public class GraphStorage implements ITraceabilityStorage {
 	private void handleSourceChanged(Reachable oldSource, Reachable newSource,
 			Vertex vTrac) {
 		graphUtils.setSource(graph, newSource, vTrac);
+	}
+
+	@Override
+	public void addUpdateRemoveProperty(Reachable reachable,
+			String propertyName, String propertyValue) {
+		String id = reachable.toString();
+		Vertex vertex = graphUtils.getVertex(graph, id);
+		if (vertex != null) {
+			graphUtils.setProperty(graph, vertex, propertyName, propertyValue);
+		}
+	}
+
+	@Override
+	public String getProperty(Reachable reachable, String propertyName) {
+		String id = reachable.toString();
+		Vertex vertex = graphUtils.getVertex(graph, id);
+		if (vertex != null) {
+			Map<String, String> p = graphUtils.getProperties(vertex);
+			if (p != null) {
+				return p.get(propertyName);
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public void addTraceabilityStorageListener(
+			ITraceabilityStorageListener listener) {
+
+	}
+
+	@Override
+	public void removeTraceabilityStorageListener(
+			ITraceabilityStorageListener listener) {
+
 	}
 }

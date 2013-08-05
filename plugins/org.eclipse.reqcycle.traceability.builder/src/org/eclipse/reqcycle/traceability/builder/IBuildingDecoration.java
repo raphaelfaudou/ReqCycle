@@ -31,6 +31,8 @@ public interface IBuildingDecoration {
 
 	void endBuild(IBuilderCallBack callBack, Reachable reachable);
 
+	void errorOccurs(IBuilderCallBack callBack, Reachable reachable, Throwable t);
+
 	/**
 	 * Notify of traceability creation
 	 * 
@@ -41,10 +43,12 @@ public interface IBuildingDecoration {
 	 * @param kind
 	 * @return true if the original traceability link shall be created
 	 */
-	boolean newUpwardRelation(IBuilderCallBack callback, Object resource,
-			Object source, List<? extends Object> targets, TType kind);
+	boolean newUpwardRelation(IBuilderCallBack callback,
+			Object traceabilityObject, Object resource, Object source,
+			List<? extends Object> targets, TType kind);
 
 	public static class Composite implements Cloneable {
+		public Object traceabilityObject;
 		public Object resource;
 		public Object source;
 		public TType kind;
@@ -66,9 +70,9 @@ public interface IBuildingDecoration {
 			IBuildingDecoration {
 
 		@Override
-		public boolean newUpwardRelation(IBuilderCallBack callBack,
-				Object resource, Object source, List<? extends Object> targets,
-				TType label) {
+		public boolean newUpwardRelation(IBuilderCallBack callback,
+				Object traceabilityObject, Object resource, Object source,
+				List<? extends Object> targets, TType kind) {
 			return true;
 		}
 
@@ -80,6 +84,11 @@ public interface IBuildingDecoration {
 		}
 
 		public void endBuild(IBuilderCallBack callBack, Reachable reachable) {
+		}
+
+		@Override
+		public void errorOccurs(IBuilderCallBack callBack, Reachable reachable,
+				Throwable t) {
 		}
 
 	}

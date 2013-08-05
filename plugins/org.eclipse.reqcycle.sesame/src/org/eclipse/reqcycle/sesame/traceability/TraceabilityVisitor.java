@@ -42,8 +42,8 @@ public class TraceabilityVisitor implements IVisitor {
 						.getEdges(Direction.OUT,
 								SailBusinessOperations.TRACE_TARGET).iterator()
 						.next().getVertex(Direction.IN);
-				getCallBack(adaptable).newUpwardRelation(container, source,
-						Collections.singletonList(target),
+				getCallBack(adaptable).newUpwardRelation(traceabilityVertex,
+						container, source, Collections.singletonList(target),
 						op.getKind(traceabilityVertex));
 			}
 			return true;

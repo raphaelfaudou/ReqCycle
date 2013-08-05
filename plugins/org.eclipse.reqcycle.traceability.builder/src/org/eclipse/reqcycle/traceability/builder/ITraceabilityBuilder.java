@@ -1,6 +1,5 @@
 package org.eclipse.reqcycle.traceability.builder;
 
-import java.net.URI;
 import java.util.List;
 
 import org.eclipse.reqcycle.traceability.builder.exceptions.BuilderException;
@@ -60,17 +59,21 @@ public interface ITraceabilityBuilder {
 		 * it is important to notice that the traceability link will be
 		 * consistent only with all the targets
 		 * 
+		 * @param traceabilityObject
+		 *            the {@link Object} identifying the relationship
 		 * @param resource
-		 *            the {@link URI} of the resource containing the relation
+		 *            the {@link Object} of the resource containing the relation
 		 * @param source
 		 *            the {@link Object} source of the relation
 		 * @param targets
 		 *            the {@link Object} targets of the relation
 		 * @param label
 		 *            the label identifying the relation
+		 * @return the reachable corresponding to the identification of the
+		 *         link, or null if the creation was not possible
 		 */
-		void newUpwardRelation(Object resource, Object source,
-				List<? extends Object> targets, TType label);
+		void newUpwardRelation(Object traceabilityObject, Object resource,
+				Object source, List<? extends Object> targets, TType label);
 
 	}
 

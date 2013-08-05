@@ -43,8 +43,8 @@ public class SysMLTraceabilityVisitor implements IVisitor {
 		Object source = abstraction.getClients().get(0);
 		Object target = abstraction.getSuppliers().get(0);
 		TType tType = SysMLTTypeProvider.get(satis.eClass());
-		getCallBack(adaptable).newUpwardRelation(satis.eResource(), source,
-				Collections.singletonList(target), tType);
+		getCallBack(adaptable).newUpwardRelation(satis, satis.eResource(),
+				source, Collections.singletonList(target), tType);
 	}
 
 	public boolean visit(Trace satis, IAdaptable adaptable) {

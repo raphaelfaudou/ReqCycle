@@ -37,10 +37,9 @@ public class Link2RegisteredLink implements
 				type, typeConfig, source, target, direction);
 		List<Pair<Link, Reachable>> result = new LinkedList<Pair<Link, Reachable>>();
 		for (Relation r : relations) {
-			result.add(new Pair<Link, Reachable>(new Link(
+			result.add(new Pair<Link, Reachable>(new Link(link.getId(),
 					new RelationBasedType(r, type), source, target), target));
 		}
 		return result;
 	}
-
 }

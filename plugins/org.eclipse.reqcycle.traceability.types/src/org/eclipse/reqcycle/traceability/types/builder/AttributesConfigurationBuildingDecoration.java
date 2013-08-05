@@ -39,12 +39,17 @@ public class AttributesConfigurationBuildingDecoration extends
 	public void startBuild(IBuilderCallBack callBack, Reachable reachable) {
 		ReachableObject object;
 		try {
-			object = manager.getHandlerFromReachable(reachable).getFromReachable(reachable);
+			object = manager.getHandlerFromReachable(reachable)
+					.getFromReachable(reachable);
 			if (object != null) {
 				IFile adapted = (IFile) object.getAdapter(IFile.class);
 				if (adapted != null && adapted.exists()) {
 					IProject p = adapted.getProject();
 					currentStorage = getStorage(p);
+					if (currentStorage != null) {
+//						allTraceabilities = currentStorage.get
+						
+					}
 				}
 			}
 		} catch (IReachableHandlerException e) {
@@ -67,8 +72,8 @@ public class AttributesConfigurationBuildingDecoration extends
 
 	@Override
 	public boolean newUpwardRelation(IBuilderCallBack callBack,
-			Object resource, Object source, List<? extends Object> targets,
-			TType kind) {
+			Object traceability, Object resource, Object source,
+			List<? extends Object> targets, TType kind) {
 		if (kind instanceof RelationBasedType) {
 			// prevent recursive call
 			return true;
@@ -88,8 +93,8 @@ public class AttributesConfigurationBuildingDecoration extends
 			for (Relation r : relations) {
 				newOne = false;
 				RelationBasedType relBasedType = new RelationBasedType(r, kind);
-				callBack.newUpwardRelation(resource, source, targets,
-						relBasedType);
+				callBack.newUpwardRelation(traceability, resource, source,
+						targets, relBasedType);
 			}
 		}
 		return newOne;

@@ -9,7 +9,7 @@ import java.util.Set;
 
 import org.eclipse.reqcycle.uri.IReachableCreator;
 
-public final class Reachable implements Serializable{
+public final class Reachable implements Serializable {
 	private static final long serialVersionUID = -2197337862552450878L;
 	private String scheme;
 	private String path;
@@ -23,7 +23,8 @@ public final class Reachable implements Serializable{
 	private Map<String, String> properties = new HashMap<String, String>();
 
 	/**
-	 * This class is not intended to be instantiate please use {@link IReachableCreator} instead
+	 * This class is not intended to be instantiate please use
+	 * {@link IReachableCreator} instead
 	 */
 	public Reachable() {
 	}
@@ -42,7 +43,12 @@ public final class Reachable implements Serializable{
 
 	public URI getURI() {
 		try {
-			return new URI(scheme, userInfo, host, port, path, query, fragment);
+			if (schemeSpecificPart != null) {
+				return new URI(scheme, schemeSpecificPart, fragment);
+			} else {
+				return new URI(scheme, userInfo, host, port, path, query,
+						fragment);
+			}
 		} catch (URISyntaxException e) {
 			return null;
 		}

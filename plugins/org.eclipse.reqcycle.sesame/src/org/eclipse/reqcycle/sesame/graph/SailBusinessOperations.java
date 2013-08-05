@@ -54,9 +54,17 @@ public class SailBusinessOperations implements
 
 	private void addProperties(Graph graph, Vertex v, Reachable reachable) {
 		for (String key : reachable.getProperties().keySet()) {
-			graph.addEdge(null, v, graph.addVertex(getVertexProperty(key,
-					reachable.getProperties().get(key))), EDGE_PROPERTIES);
+			addProperty(graph, v, key, reachable.getProperties().get(key));
 		}
+	}
+
+	private void addProperty(Graph graph, Vertex v, String propertyName,
+			String propertyValue) {
+		graph.addEdge(
+				null,
+				v,
+				graph.addVertex(getVertexProperty(propertyName, propertyValue)),
+				EDGE_PROPERTIES);
 	}
 
 	private String getVertexProperty(String key, String value) {
@@ -64,7 +72,7 @@ public class SailBusinessOperations implements
 	}
 
 	private void removeProperties(Graph graph, Vertex v) {
-		Iterable<Edge> edges = Iterables.filter(graph.getEdges(),
+		Iterable<Edge> edges = Iterables.filter(v.getEdges(Direction.BOTH),
 				new Predicate<Edge>() {
 					public boolean apply(Edge e) {
 						return EDGE_PROPERTIES.equals(e.getId());
@@ -208,22 +216,38 @@ public class SailBusinessOperations implements
 	public Map<String, String> getProperties(Vertex v) {
 		Map<String, String> map = new HashMap<String, String>();
 		for (Edge e : v.getEdges(Direction.OUT, EDGE_PROPERTIES)) {
-			Vertex p = e.getVertex(Direction.IN);
-			String s = (String) p.getId();
-			s = s.replaceAll("\"", "");
-			String[] splitted = s.split(PatternSplitter);
-			if (splitted.length >= 2) {
-				StringBuffer buffer = new StringBuffer();
-				for (int i = 1; i < splitted.length; i++) {
-					buffer.append(splitted[i]);
-					if (i != splitted.length - 1) {
-						buffer.append(PatternSplitter);
-					}
-				}
-				map.put(splitted[0], buffer.toString());
+			String[] prop = getProperties(e);
+			if (prop != null) {
+				map.put(prop[0], prop[1]);
 			}
 		}
 		return map;
+	}
+
+	/**
+	 * Returns an array with : 0 : the key 1 : the value
+	 * 
+	 * @param edgeProperties
+	 * @return
+	 */
+	public String[] getProperties(Edge edgeProperties) {
+		Vertex p = edgeProperties.getVertex(Direction.IN);
+		String s = (String) p.getId();
+		s = s.replaceAll("\"", "");
+		String[] splitted = s.split(PatternSplitter);
+		StringBuffer buffer = new StringBuffer();
+		if (splitted.length >= 2) {
+			for (int i = 1; i < splitted.length; i++) {
+				buffer.append(splitted[i]);
+				if (i != splitted.length - 1) {
+					buffer.append(PatternSplitter);
+				}
+			}
+		}
+		if (buffer.length() > 0) {
+			return new String[] { splitted[0], buffer.toString() };
+		}
+		return null;
 	}
 
 	public Vertex getContainerOfTraceability(Vertex v) {
@@ -292,14 +316,14 @@ public class SailBusinessOperations implements
 		delete(targetVertex, sourceVertex, VERTEX_OUTGOING, TRACE_TARGET,
 				toDelete, true);
 		delete(sourceVertex, targetVertex, VERTEX_INCOMING, TRACE_SOURCE,
-				toDelete, true);
+				toDelete, false);
 		for (Edge e : toDelete) {
 			graph.removeEdge(e);
 		}
 	}
 
 	private void delete(Vertex target, Vertex sourceVertex, String vertex2Trac,
-			String trac2vertex, Set<Edge> toDelete, boolean flag) {
+			String trac2vertex, Set<Edge> toDelete, boolean deleteTraceaEdges) {
 		Direction directionEdge = Direction.IN;
 		Direction directionVertex = Direction.OUT;
 		if (sourceVertex != null) {
@@ -312,6 +336,12 @@ public class SailBusinessOperations implements
 							&& targetVertex.getId().equals(target.getId())) {
 						toDelete.add(e);
 						toDelete.add(e2);
+					}
+				}
+				if (deleteTraceaEdges) {
+					for (Edge etmp : tracVertex.getEdges(Direction.BOTH,
+							new String[] {})) {
+						toDelete.add(etmp);
 					}
 				}
 			}
@@ -369,5 +399,24 @@ public class SailBusinessOperations implements
 	public void setSource(Graph graph, Reachable newSource, Vertex vTrac) {
 		set(graph, TRACE_SOURCE, VERTEX_OUTGOING, vTrac, newSource,
 				Direction.IN);
+	}
+
+	@Override
+	public void setProperty(Graph graph, Vertex vertex, String propertyName,
+			String propertyValue) {
+		Edge toDelete = null;
+		for (Edge e : vertex.getEdges(Direction.OUT, EDGE_PROPERTIES)) {
+			String[] prop = getProperties(e);
+			if (prop != null) {
+				if (propertyName.equals(prop[0])) {
+					toDelete = e;
+					break;
+				}
+			}
+		}
+		if (toDelete != null) {
+			graph.removeEdge(toDelete);
+		}
+		addProperty(graph, vertex, propertyName, propertyValue);
 	}
 }

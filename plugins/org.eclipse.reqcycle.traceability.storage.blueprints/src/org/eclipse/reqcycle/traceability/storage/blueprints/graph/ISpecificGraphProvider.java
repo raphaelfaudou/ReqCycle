@@ -59,5 +59,15 @@ public interface ISpecificGraphProvider extends IGraphProvider {
 
 		void setKind(Graph graph, TType newType, Vertex vTrac);
 
+		/**
+		 * @param graph
+		 * @param vertex
+		 * @param propertyName
+		 * @param propertyValue
+		 *            if null deletion
+		 */
+		void setProperty(Graph graph, Vertex vertex, String propertyName,
+				String propertyValue);
+
 	}
 }

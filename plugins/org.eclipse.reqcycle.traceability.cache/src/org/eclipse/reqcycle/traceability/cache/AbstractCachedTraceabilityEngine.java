@@ -323,24 +323,27 @@ public abstract class AbstractCachedTraceabilityEngine implements
 	protected abstract boolean isCacheOk(Reachable reachable);
 
 	@Override
-	public void newUpwardRelation(Object resource, Object source,
-			List<? extends Object> targets, TType kind) {
+	public void newUpwardRelation(Object traceabilityObject, Object resource,
+			Object source, List<? extends Object> targets, TType kind) {
 		Function<Object, Reachable> obj2RO = URIFunctions
 				.newObject2ReachableFunction();
 		Reachable resourceReachable = obj2RO.apply(resource);
 		Reachable sourceR = obj2RO.apply(source);
+		Reachable traceaReachable = obj2RO.apply(traceabilityObject);
 		List<Reachable> targetsR = Lists.newArrayList(Iterables.transform(
 				targets, obj2RO));
 		if (sourceR != null
 				&& Iterables.filter(targetsR, Predicates.notNull()).iterator()
 						.hasNext()) {
-			newUpwardRelation(resourceReachable, sourceR, targetsR, kind);
+			newUpwardRelation(traceaReachable, resourceReachable, sourceR,
+					targetsR, kind);
 		}
 
 	}
 
-	public abstract void newUpwardRelation(Reachable container,
-			Reachable source, List<Reachable> targets, TType kind);
+	public abstract void newUpwardRelation(Reachable traceaReachable,
+			Reachable container, Reachable source, List<Reachable> targets,
+			TType kind);
 
 	@Override
 	public void startBuild(Reachable reachable) {
