@@ -1,3 +1,16 @@
+/*****************************************************************************
+ * Copyright (c) 2013 AtoS.
+ *
+ *    
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Anass RADOUANI (AtoS) anass.radouani@atos.net - Initial API and implementation
+ *
+  *****************************************************************************/
 package org.eclipse.reqcycle.repository.data.ui.dialog;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -16,13 +29,19 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
 
-public class AddElementDialog extends NameDialog {
+public class AddTypeDialog extends NameDialog {
 	
+	/**
+	 * Element Types
+	 */
 	static enum TYPE {
 		REQUIREMENT,
 		ENUMERATION
 	}
 	
+	/**
+	 * The popup Bean
+	 */
 	public class Bean extends NameBean {
 		
 		private TYPE type;
@@ -42,11 +61,11 @@ public class AddElementDialog extends NameDialog {
 	}
 	
 	
-	private Button reqRadio;
-	private Button enumRadio;
+	private Button btnReqRadio;
+	private Button btnEnumRadio;
 
-	public AddElementDialog(Shell parentShell) {
-		super(parentShell);
+	public AddTypeDialog(Shell parentShell, String title) {
+		super(parentShell, title);
 		setBean(new Bean(this));
 	}
 
@@ -60,37 +79,44 @@ public class AddElementDialog extends NameDialog {
 		radioComposite.setLayout(new GridLayout(1, false));
 		radioComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 		
-		reqRadio = new Button(radioComposite, SWT.RADIO);
-		reqRadio.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-		reqRadio.setText("Requirement");
+		btnReqRadio = new Button(radioComposite, SWT.RADIO);
+		btnReqRadio.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		btnReqRadio.setText("Requirement");
 
-		enumRadio = new Button(radioComposite, SWT.RADIO);
-		enumRadio.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-		enumRadio.setText("Enumeration");
+		btnEnumRadio = new Button(radioComposite, SWT.RADIO);
+		btnEnumRadio.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		btnEnumRadio.setText("Enumeration");
 
-		reqRadio.setSelection(true);
+		btnReqRadio.setSelection(true);
 		((Bean)bean).setType(TYPE.REQUIREMENT);
 	};
 	
 	
+	/**
+	 * @return true if Requirement has been chosen instead of Enumeration
+	 */
 	public boolean isRequirement() {
 		return TYPE.REQUIREMENT.equals(((Bean)bean).getType());
 	}
 	
+	/**
+	 * @return true if Enumeration has been chosen instead of Requirement 
+	 */
 	public boolean isEnumeration() {
 		return TYPE.ENUMERATION.equals(((Bean)bean).getType());
 	}
 	
+	@Override
 	protected void doInitDataBindings(DataBindingContext bindingContext) {
 		//Create the Select Observable for our enum type  
 		SelectObservableValue typeRadioObservable = new SelectObservableValue(TYPE.class);
 		
 		//bind the requirement radio button selection to the right enum value  
-		IObservableValue btnRequirementObserverSelection = SWTObservables.observeSelection(reqRadio);
+		IObservableValue btnRequirementObserverSelection = SWTObservables.observeSelection(btnReqRadio);
 		typeRadioObservable.addOption(TYPE.REQUIREMENT, btnRequirementObserverSelection);
 		
 		//bind the enumeration radio button selection to the right enum value 
-		IObservableValue btnEnumerationObserverSelection = SWTObservables.observeSelection(enumRadio);
+		IObservableValue btnEnumerationObserverSelection = SWTObservables.observeSelection(btnEnumRadio);
 		typeRadioObservable.addOption(TYPE.ENUMERATION, btnEnumerationObserverSelection);
 		
 		bindingContext.bindValue(typeRadioObservable, PojoObservables.observeValue(bean ,"type"));

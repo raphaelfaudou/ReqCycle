@@ -66,7 +66,7 @@ public class NewRequirementSourceWizard extends Wizard implements IWizard {
 
 	@Override
 	public boolean canFinish() {
-		if(getConnectorDescriptor() == null || getConnector() == null || getScope() == null || getSourceName() == null || getSourceName().isEmpty()) {
+		if(getConnectorDescriptor() == null || getConnector() == null || getSourceName() == null || getSourceName().isEmpty()) {
 			return false;
 		}
 		IConnector connector = getConnector();
@@ -118,12 +118,13 @@ public class NewRequirementSourceWizard extends Wizard implements IWizard {
 		return null;
 	}
 
-	public Scope getScope() {
-		if(selectConnectorPage != null) {
-			return selectConnectorPage.getScope();
-		}
-		return null;
-	}
+//	public Scope getScope() {
+//		if(selectConnectorPage != null) {
+//			return selectConnectorPage.getScope();
+//		}
+//		//FIXME call
+//		return null;
+//	}
 
 	public String getSourceName() {
 		if(selectConnectorPage != null) {

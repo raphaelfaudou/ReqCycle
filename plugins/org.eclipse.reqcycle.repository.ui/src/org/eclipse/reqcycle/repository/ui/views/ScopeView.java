@@ -36,6 +36,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.reqcycle.dnd.DragRequirementSourceAdapter;
+import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.IRequirementSourceManager;
 import org.eclipse.reqcycle.repository.data.IScopeManager;
 import org.eclipse.reqcycle.repository.data.util.DataUtil;
@@ -66,6 +67,8 @@ public class ScopeView extends ViewPart {
 	/** The scope manager */
 	private @Inject IScopeManager scopeManager = ZigguratInject.make(IScopeManager.class);
 	
+	private IDataModelManager dataManager = ZigguratInject.make(IDataModelManager.class);
+	
 	/** Selected Scope */
 	private Scope scope;
 
@@ -78,10 +81,10 @@ public class ScopeView extends ViewPart {
 	/** refresh view button */
 	private Button refreshBtn;
 	
+	private ResourceSet rs;
+	
 	private IRequirementSourceManager reqSourceManager = ZigguratInject.make(IRequirementSourceManager.class);
 	
-	private ResourceSet rs = new ResourceSetImpl(); 
-
 	protected Set<RequirementSource> repositories;
 	
 	private Collection<Scope> scopes;
@@ -129,6 +132,8 @@ public class ScopeView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		
+		scopes = dataManager.getAllScopes();
+		
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new GridLayout(3, false));
 		
@@ -147,8 +152,8 @@ public class ScopeView extends ViewPart {
 				return DataUtil.getLabel(element);
 			}
 		});
-		scopes = scopeManager.getAllScopes();
-		comboViewer.setInput(scopeManager.getAllScopes());
+
+		comboViewer.setInput(scopes);
 		
 		refreshBtn = new Button(composite, SWT.PUSH);
 		refreshBtn.setImage(Activator.getImageDescriptor("icons/refresh.gif").createImage());
@@ -164,6 +169,7 @@ public class ScopeView extends ViewPart {
 				return DataUtil.getLabel(element);
 			}
 		});
+		viewer.setInput(scope);
 		
 		int dndOperations = DND.DROP_COPY | DND.DROP_MOVE;
 
@@ -188,7 +194,6 @@ public class ScopeView extends ViewPart {
 					Object element = ((IStructuredSelection)selection).getFirstElement();
 					if(element instanceof Scope) {
 						scope = (Scope)element;
-						viewer.setInput(scope);
 						viewer.refresh();
 					}
 				}
@@ -200,6 +205,7 @@ public class ScopeView extends ViewPart {
 			public void widgetSelected(SelectionEvent e) {
 				if (viewer != null) {
 					initResourceSet();
+					scopes = dataManager.getAllScopes();
 					repositories = reqSourceManager.getRepositories();
 					rs.getResources().addAll(Collections2.transform(repositories, new Function<RequirementSource, Resource>() {
 						@Override

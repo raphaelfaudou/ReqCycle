@@ -13,7 +13,6 @@
  *****************************************************************************/
 package org.eclipse.reqcycle.repository.ui.actions;
 
-import java.util.Collection;
 import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
@@ -32,22 +31,14 @@ import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.connector.ConnectorDescriptor;
 import org.eclipse.reqcycle.repository.connector.ui.Activator;
 import org.eclipse.reqcycle.repository.data.IRequirementSourceManager;
-import org.eclipse.reqcycle.repository.data.IScopeManager;
-import org.eclipse.reqcycle.repository.data.util.DataUtil;
 import org.eclipse.reqcycle.repository.ui.wizard.NewRequirementSourceWizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import DataModel.Contained;
-import DataModel.Requirement;
-import DataModel.RequirementSection;
 import DataModel.RequirementSource;
 import MappingModel.AttributeMapping;
 import MappingModel.ElementMapping;
-
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
 
 /**
  * Action to create a new requirement source
@@ -60,8 +51,8 @@ public class AddRequirementSourceAction extends Action {
 	private @Inject
 	IRequirementSourceManager requirementSourceManager;
 
-	private @Inject
-	IScopeManager scopeManager;
+//	private @Inject
+//	IScopeManager scopeManager;
 
 	private @Inject
 	ILogger logger;
@@ -107,8 +98,8 @@ public class AddRequirementSourceAction extends Action {
 				source.setName(sourceName);
 				
 				//TODO : solve scope problems (scope isn't stored if the mapping has been skipped)
-				String scopeName = wizard.getScope().eClass().getName();
-				source.setProperty("SCOPE_NAME", scopeName);
+//				String scopeName = wizard.getScope().eClass().getName();
+//				source.setProperty("SCOPE_NAME", scopeName);
 
 				EList<ElementMapping> mappings = source.getMappings();
 				
@@ -120,18 +111,18 @@ public class AddRequirementSourceAction extends Action {
 					}
 				}
 				requirementSourceManager.addRepository(source, rs);
-				Collection<Contained> containedElements = DataUtil.getAllContainedElements(source.getRequirements());
-				Collection<Contained> requirements = Collections2.filter(containedElements, new Predicate<Contained>() {
-					
-					@Override
-					public boolean apply(Contained arg0) {
-						if(arg0 instanceof Requirement || arg0 instanceof RequirementSection) {
-							return true;
-						}
-						return false;
-					}
-				});
-				scopeManager.addToScope(wizard.getScope(), requirements);
+//				Collection<Contained> containedElements = DataUtil.getAllContainedElements(source.getRequirements());
+//				Collection<Contained> requirements = Collections2.filter(containedElements, new Predicate<Contained>() {
+//					
+//					@Override
+//					public boolean apply(Contained arg0) {
+//						if(arg0 instanceof Requirement || arg0 instanceof RequirementSection) {
+//							return true;
+//						}
+//						return false;
+//					}
+//				});
+//				scopeManager.addToScope(wizard.getScope(), requirements);
 				if(viewer != null) {
 					viewer.refresh();
 				}

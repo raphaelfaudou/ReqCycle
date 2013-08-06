@@ -17,9 +17,8 @@ import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.reqcycle.core.ILogger;
-import org.eclipse.reqcycle.repository.data.IDataTypeManager;
+import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.IRequirementCreator;
-import org.eclipse.reqcycle.repository.data.types.internal.RequirementTypeImpl;
 import org.eclipse.reqcycle.repository.data.util.DataUtil;
 import org.eclipse.rmf.reqif10.AttributeValue;
 import org.eclipse.rmf.reqif10.AttributeValueEnumeration;
@@ -37,6 +36,7 @@ import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.Contained;
 import DataModel.RequirementSource;
+import DataModel.Scope;
 import DataModel.Section;
 import MappingModel.AttributeMapping;
 import MappingModel.ElementMapping;
@@ -47,11 +47,11 @@ import com.google.common.collect.Collections2;
 
 public class RMFUtils {
 
-	private static ILogger logger = ZigguratInject.make(ILogger.class);
+	static ILogger logger = ZigguratInject.make(ILogger.class);
 
-	private static IRequirementCreator creator = ZigguratInject.make(IRequirementCreator.class);
+	static IRequirementCreator creator = ZigguratInject.make(IRequirementCreator.class);
 	
-	private static IDataTypeManager dataTypeManager = ZigguratInject.make(IDataTypeManager.class);
+	static IDataModelManager dataTypeManager = ZigguratInject.make(IDataModelManager.class);
 	
 	public static Collection<SpecType> getReqIFTypes(ResourceSet resourceSet, String fileLocation) {
 		URI uriReqIf = URI.createURI(fileLocation, false);
@@ -78,7 +78,7 @@ public class RMFUtils {
 		return null;
 	}
 
-	public static void fillRequirements(RequirementSource requirementSource, IProgressMonitor progressMonitor) {
+	public static void fillRequirements(RequirementSource requirementSource, IProgressMonitor progressMonitor, Scope scope) {
 
 		Collection<ElementMapping> mapping = requirementSource.getMappings();
 		if(mapping == null) {
@@ -99,7 +99,7 @@ public class RMFUtils {
 				for(Specification specification : specifications) {
 
 					EList<SpecHierarchy> specHierarchies = specification.getChildren();
-					Collection<Contained> children = createChildren(specHierarchies, mapping);
+					Collection<Contained> children = createChildren(specHierarchies, mapping, scope);
 
 //					ElementMapping elementMapping = DataUtil.getElementMapping(mapping, specification.getType().getIdentifier());
 
@@ -130,13 +130,13 @@ public class RMFUtils {
 		}
 	}
 
-	protected static Collection<Contained> createChildren(EList<SpecHierarchy> specHierarchies, Collection<ElementMapping> mapping) {
+	protected static Collection<Contained> createChildren(EList<SpecHierarchy> specHierarchies, Collection<ElementMapping> mapping, Scope scope) {
 
 		Collection<Contained> result = new ArrayList<Contained>();
 
 		for(SpecHierarchy specHierarchy : specHierarchies) {
 
-			Collection<Contained> children = createChildren(specHierarchy.getChildren(), mapping);
+			Collection<Contained> children = createChildren(specHierarchy.getChildren(), mapping, scope);
 
 			Contained createdObject = null;
 
@@ -149,6 +149,9 @@ public class RMFUtils {
 				String name = getName(elementMapping, specObject);
 
 				createdObject = createElement(mapping, specObject, ReqIF10Util.getSpecType(specObject).getIdentifier(), id, name);
+				if(scope != null && !(createdObject instanceof Section)) {
+					createdObject.getScopes().add(scope);
+				}
 			} else {
 				try {
 					createdObject = creator.createSection(specHierarchy.getLongName(), specHierarchy.getDesc(), specHierarchy.getIdentifier());
@@ -211,7 +214,7 @@ public class RMFUtils {
 		if(elementMapping != null) {
 			try {
 				createdObject = creator.addObject(elementMapping.getTargetElement(), id, name, id);
-				EObject instance = dataTypeManager.createInstance(new RequirementTypeImpl(elementMapping.getTargetElement()));
+//				EObject instance = dataTypeManager.createInstance(new RequirementTypeImpl(elementMapping.getTargetElement()));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

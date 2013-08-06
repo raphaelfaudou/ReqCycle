@@ -101,8 +101,8 @@
             interface="org.eclipse.reqcycle.repository.data.IRequirementCreator">
       </binding>
       <binding
-            impl="org.eclipse.reqcycle.repository.data.impl.DataTypeManagerImpl"
-            interface="org.eclipse.reqcycle.repository.data.IDataTypeManager">
+            impl="org.eclipse.reqcycle.repository.data.impl.DataModelManagerImpl"
+            interface="org.eclipse.reqcycle.repository.data.IDataModelManager">
       </binding>
    </extension>
    <extension

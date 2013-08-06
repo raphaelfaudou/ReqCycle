@@ -4,16 +4,22 @@
  <extension
        point="org.eclipse.ui.preferencePages">
     <page
-          category="org.eclipse.reqycle.core.ui.pref.reqcycle"
-          class="org.eclipse.reqcycle.repository.data.ui.preference.TypesPreferencePage"
+          category="org.eclipse.reqcycle.repository.data.ui.dataModelPreferencePage"
+          class="org.eclipse.reqcycle.repository.data.ui.preference.DataTypesPreferencePage"
           id="org.eclipse.reqcycle.repository.data.ui.typesPreferencePage"
-          name="Requirement Types">
+          name="Requirement Types Preferences">
+    </page>
+    <page
+          category="org.eclipse.reqcycle.repository.data.ui.dataModelPreferencePage"
+          class="org.eclipse.reqcycle.repository.data.ui.preference.ScopesPreferencePage"
+          id="org.eclipse.reqcycle.repository.data.ui.scopesPreferencePage"
+          name="Scopes Preferences">
     </page>
     <page
           category="org.eclipse.reqycle.core.ui.pref.reqcycle"
-          class="org.eclipse.reqcycle.repository.data.ui.preference.ScopesPreferencePage"
-          id="org.eclipse.reqcycle.repository.data.ui.scopesPreferencePage"
-          name="Scopes">
+          class="org.eclipse.reqcycle.repository.data.ui.preference.DataModelsPreferencePage"
+          id="org.eclipse.reqcycle.repository.data.ui.dataModelPreferencePage"
+          name="Data Models Preferences">
     </page>
  </extension>
 </plugin>

@@ -18,7 +18,7 @@ import java.util.Collection;
 import DataModel.Contained;
 import DataModel.Scope;
 
-
+@Deprecated
 public interface IScopeManager {
 
 	public Collection<Scope> getAllScopes();

@@ -1,3 +1,16 @@
+/*****************************************************************************
+ * Copyright (c) 2013 AtoS.
+ *
+ *    
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Anass RADOUANI (AtoS) anass.radouani@atos.net - Initial API and implementation
+ *
+  *****************************************************************************/
 package org.eclipse.reqcycle.repository.data.ui.dialog;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -17,9 +30,15 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-
+/**
+ * Simple popup requesting name
+ */
 public class NameDialog extends Dialog implements Listener {
 
+	
+	/**
+	 * The popup Bean
+	 */
 	public class NameBean {
 		
 		protected Listener listener;
@@ -35,7 +54,13 @@ public class NameDialog extends Dialog implements Listener {
 		
 		public void setName(String name) {
 			this.name = name;
-			listener.handleEvent(new Event());
+			handleEvent(new Event());
+		}
+		
+		public void handleEvent(Event event) {
+			if(listener != null) {
+				listener.handleEvent(event);
+			}
 		}
 		
 		protected Listener getListener() {
@@ -43,21 +68,33 @@ public class NameDialog extends Dialog implements Listener {
 		}
 	}
 	
+	/** popup bean for databinding */
 	protected NameBean bean;
+	
+	/** popup text field */
 	protected Text txtName;
+	
+	/** popup title */
+	private String title;
 
-	public NameDialog(Shell parentShell) {
+	public NameDialog(Shell parentShell, String title) {
 		super(parentShell);
+		this.title = title;
 	}
 	
-	public NameDialog(Shell parentShell, NameBean bean){
-		this(parentShell);
+	public NameDialog(Shell parentShell, String title, NameBean bean){
+		this(parentShell, title);
 		this.bean = bean;
 	}
 	
 	
 	@Override
 	protected Control createDialogArea(Composite parent) {
+		
+		Shell shell = getShell();
+		if(shell != null) {
+			shell.setText(title);
+		}
 		
 		Composite control = (Composite)super.createDialogArea(parent);
 		
@@ -95,11 +132,20 @@ public class NameDialog extends Dialog implements Listener {
 		return button;
 	}
 	
+	
+	/**
+	 * @return Entered Name
+	 */
 	public String getName() {
 		return bean.getName();
 	}
 	
 	
+	/**
+	 * Perfom binding between the popup and the bean
+	 * 
+	 * @return the data binding context
+	 */
 	protected DataBindingContext initDataBindings() {
 		if(bean == null) {
 			bean = new NameBean(this);
@@ -123,6 +169,11 @@ public class NameDialog extends Dialog implements Listener {
 	}
 
 	
+	/**
+	 * Enables the button OK
+	 * 
+	 * @param enable
+	 */
 	private void enableOKbtn(boolean enable){
 		Button okBtn = getButton(OK);
 		if(okBtn != null) {
@@ -146,7 +197,7 @@ public class NameDialog extends Dialog implements Listener {
 	}
 
 	/**
-	 * Override this method to handle change modification events
+	 * Override this method to handle changes modifications events
 	 * 
 	 * @param event the event which occurred
 	 * @return return false if OK button have to be disabled
@@ -156,6 +207,11 @@ public class NameDialog extends Dialog implements Listener {
 	}
 	
 	
+	/**
+	 * Sets the popup bean
+	 * 
+	 * @param bean the bean to set
+	 */
 	public void setBean(NameBean bean) {
 		this.bean = bean;
 	}

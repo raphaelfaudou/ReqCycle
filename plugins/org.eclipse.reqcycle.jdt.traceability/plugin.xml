@@ -10,7 +10,7 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            category="org.eclipse.reqycle.core.ui.pref.reqcycle"
+            category="org.eclipse.reqcycle.traceability.types.ui.traceabilityPage"
             class="org.eclipse.reqcycle.jdt.traceability.preferences.JDTAnnotationPreferencePage"
             id="org.eclipse.reqcycle.jdt.traceability.annotation"
             name="Java Annotations">

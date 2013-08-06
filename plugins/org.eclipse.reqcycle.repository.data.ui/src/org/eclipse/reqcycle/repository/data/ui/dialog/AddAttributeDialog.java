@@ -1,3 +1,16 @@
+/*****************************************************************************
+ * Copyright (c) 2013 AtoS.
+ *
+ *    
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Anass RADOUANI (AtoS) anass.radouani@atos.net - Initial API and implementation
+ *
+  *****************************************************************************/
 package org.eclipse.reqcycle.repository.data.ui.dialog;
 
 import java.util.Collection;
@@ -11,8 +24,6 @@ import org.eclipse.jface.databinding.viewers.ViewerProperties;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.reqcycle.repository.data.types.EnumerationType;
-import org.eclipse.reqcycle.repository.data.types.internal.EnumerationTypeImpl;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
@@ -22,9 +33,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
-
 public class AddAttributeDialog extends NameDialog {
 	
+	/**
+	 * The popup bean
+	 */
 	public class Bean extends NameBean {
 		
 		private EDataType type;
@@ -43,13 +56,16 @@ public class AddAttributeDialog extends NameDialog {
 		}
 	}
 	
-	private Collection<EDataType> types;
-	private ComboViewer attrCV;
+	/** Attribute types */
+	private Collection<EDataType> dataTypes;
+	
+	/** Attribute Types Combo Viewer */
+	private ComboViewer cvAttribute;
 
-	public AddAttributeDialog(Shell parentShell, Collection<EDataType> types) {
-		super(parentShell);
+	public AddAttributeDialog(Shell parentShell, String title, Collection<EDataType> dataTypes) {
+		super(parentShell, title);
 		setBean(new Bean(this));
-		this.types = types;
+		this.dataTypes = dataTypes;
 	}
 
 	@Override
@@ -58,9 +74,9 @@ public class AddAttributeDialog extends NameDialog {
 			typelbl.setText("Type :");
 			typelbl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 			
-			attrCV = new ComboViewer(parent);
-			attrCV.getCombo().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-			attrCV.setLabelProvider(new LabelProvider(){
+			cvAttribute = new ComboViewer(parent);
+			cvAttribute.getCombo().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+			cvAttribute.setLabelProvider(new LabelProvider(){
 				@Override
 				public String getText(Object element) {
 					if(element instanceof EDataType) {
@@ -74,8 +90,8 @@ public class AddAttributeDialog extends NameDialog {
 					return super.getText(element);
 				}
 			});
-			attrCV.setContentProvider(ArrayContentProvider.getInstance());
-			attrCV.setInput(types);
+			cvAttribute.setContentProvider(ArrayContentProvider.getInstance());
+			cvAttribute.setInput(dataTypes);
 	};
 	
 	@Override
@@ -87,6 +103,7 @@ public class AddAttributeDialog extends NameDialog {
 		return button;
 	}
 	
+	@Override
 	public String getName() {
 		return bean.getName();
 	}
@@ -99,13 +116,16 @@ public class AddAttributeDialog extends NameDialog {
 		return true;
 	}
 	
-	
+	@Override
 	protected void doInitDataBindings(DataBindingContext bindingContext) {
-		IObservableValue observeSingleSelectionAttrCV = ViewerProperties.singleSelection().observe(attrCV);
+		IObservableValue observeSingleSelectionAttrCV = ViewerProperties.singleSelection().observe(cvAttribute);
 		IObservableValue typeBeanObserveValue = PojoProperties.value("type").observe(bean);
 		bindingContext.bindValue(observeSingleSelectionAttrCV, typeBeanObserveValue, null, null);
 	}
 
+	/**
+	 * @return chosen attribue type
+	 */
 	public EDataType getType() {
 		return ((Bean)bean).getType();
 	}

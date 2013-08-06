@@ -20,7 +20,6 @@ import javax.inject.Inject;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -33,14 +32,14 @@ import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFRepositoryMappingPage
 import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFSettingPage;
 import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFSettingPage.RMFSettingPageBean;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
-import org.eclipse.reqcycle.repository.data.IDataTypeManager;
-import org.eclipse.reqcycle.repository.data.types.DataType;
+import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.types.RequirementType;
 import org.eclipse.reqcycle.repository.data.util.RepositoryConstants;
 import org.eclipse.rmf.reqif10.SpecType;
 
 import DataModel.DataModelFactory;
 import DataModel.RequirementSource;
+import DataModel.Scope;
 import MappingModel.ElementMapping;
 
 
@@ -59,9 +58,9 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 	private RMFSettingPageBean settingPageBean;
 
 	private boolean edition = false;
-	
+
 	@Inject
-	private IDataTypeManager dataTypeManage;
+	private IDataModelManager dataTypeManage;
 
 	public RMFConnector() {
 	}
@@ -74,22 +73,26 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 			public RequirementSource call() throws Exception {
 
 				RequirementSource requirementSource;
+				Scope scope = null;
 
 				if(edition) {
 					requirementSource = initSource;
+					scope = dataTypeManage.getAnalyseScope();
 				} else {
 					requirementSource = DataModelFactory.eINSTANCE.createRequirementSource();
-					if(settingPageBean != null && settingPageBean.getUri() != null && !settingPageBean.getUri().isEmpty()) {
+					if(settingPageBean != null) {
+						scope = settingPageBean.getScope();
+						requirementSource.setProperty("SCOPE_NAME", scope.getName());
 						requirementSource.setProperty(RepositoryConstants.PROPERTY_URL, settingPageBean.getUri());
 					}
 				}
 
-				if(((settingPageBean != null && !settingPageBean.skipMapping()) || edition) && mapping != null && !mapping.isEmpty()) {
-					//it's a creation without skip mapping or an edition
+				if(((settingPageBean != null && !settingPageBean.getSkipMapping()) || edition) && mapping != null && !mapping.isEmpty()) {
+					//it's an edition or a creation without skipping the mapping
 					requirementSource.getMappings().clear();
 					requirementSource.getMappings().addAll(mapping);
-					requirementSource.getRequirements().clear();
-					RMFUtils.fillRequirements(requirementSource, new NullProgressMonitor());
+//					requirementSource.getRequirements().clear();
+					RMFUtils.fillRequirements(requirementSource, new NullProgressMonitor(), scope);
 				}
 
 				return requirementSource;
@@ -109,8 +112,8 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 			mappingPage = createMappingPage(specTypes, eClassifiers, mapping);
 			addPage(mappingPage);
 		} else {
-			settingPageBean = new RMFSettingPageBean();
-			settingPage = new RMFSettingPage("ReqIF Setting", "", settingPageBean);
+			settingPage = new RMFSettingPage("ReqIF Setting", "");
+			settingPageBean = settingPage.getBean();
 			addPage(settingPage);
 		}
 	}
@@ -121,8 +124,8 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 		if(page instanceof RMFSettingPage) {
 			ResourceSet rs = new ResourceSetImpl();
 			final Collection<SpecType> specTypes = RMFUtils.getReqIFTypes(rs, settingPageBean.getUri());
-//			final Collection<EClassifier> eClassifiers = DataUtil.getTargetEPackage(rs, "org.eclipse.reqcycle.repository.data/model/CustomDataModel.ecore");
-			Collection<RequirementType> eClassifiers = dataTypeManage.getAllDataTypes();
+			//			final Collection<EClassifier> eClassifiers = DataUtil.getTargetEPackage(rs, "org.eclipse.reqcycle.repository.data/model/CustomDataModel.ecore");
+			Collection<RequirementType> eClassifiers = dataTypeManage.getDataTypes(settingPageBean.getDataPackage());
 			mappingPage = createMappingPage(specTypes, eClassifiers, mapping);
 			mappingPage.setWizard(this);
 
@@ -131,7 +134,7 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 		return super.getNextPage(page);
 	}
 
-	private RMFRepositoryMappingPage createMappingPage(final Collection<SpecType> specTypes, final Collection<RequirementType> eClassifiers, final Collection mapping) {		
+	private RMFRepositoryMappingPage createMappingPage(final Collection<SpecType> specTypes, final Collection<RequirementType> eClassifiers, final Collection mapping) {
 		return new RMFRepositoryMappingPage("ReqIF Mapping", "") {
 
 			@Override
@@ -190,7 +193,7 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 	@Override
 	public boolean performFinish() {
 		//TODO : use mapping bean
-		if(((settingPageBean != null && !settingPageBean.skipMapping()) || edition) && mappingPage != null) {
+		if(((settingPageBean != null && !settingPageBean.getSkipMapping()) || edition) && mappingPage != null) {
 			mapping = mappingPage.getResult();
 		}
 
@@ -202,7 +205,7 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 	public boolean canFinish() {
 		//TODO : refactor using beans
 		if(settingPage != null && settingPage.isPageComplete() && settingPageBean != null) {
-			if(settingPageBean.skipMapping()) {
+			if(settingPageBean.getSkipMapping()) {
 				return true;
 			} else {
 				return mappingPage != null && mappingPage.isPageComplete();

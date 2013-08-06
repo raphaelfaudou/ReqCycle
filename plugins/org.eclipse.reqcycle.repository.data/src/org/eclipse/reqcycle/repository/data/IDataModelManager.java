@@ -13,11 +13,11 @@ import org.eclipse.reqcycle.repository.data.types.RequirementType;
 
 import DataModel.Scope;
 
-public interface IDataTypeManager {
+public interface IDataModelManager {
 
 	public void discardUnsavedChanges();
 
-	public void saveTypes();
+	public void save();
 
 	public void addDataTypePackage(DataTypePackage dataTypePackage);
 	
@@ -57,6 +57,8 @@ public interface IDataTypeManager {
 	
 	public Scope getScope(DataTypePackage dataTypePackage, String name);
 	
+	public Scope getScope(String name);
+
 	public Collection<Scope> getScopes(DataTypePackage dataTypePackage);
 	
 	public Collection<Scope> getAllScopes();
@@ -72,5 +74,10 @@ public interface IDataTypeManager {
 	public RequirementTypeAttribute createAttributeType(String name, EDataType type);
 	
 	public RequirementTypeAttribute createAttributeType(String name, EnumerationType type);
+
+	public Collection<DataTypePackage> getDataModel(Scope s);
+
+	public Scope getAnalyseScope();
+	
 }
 

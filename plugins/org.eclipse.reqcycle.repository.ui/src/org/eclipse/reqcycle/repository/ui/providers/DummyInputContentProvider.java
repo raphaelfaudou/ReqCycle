@@ -1,6 +1,5 @@
 package org.eclipse.reqcycle.repository.ui.providers;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -68,8 +67,8 @@ public class DummyInputContentProvider extends AdapterFactoryContentProvider {
 
 				@Override
 				public DummyObject apply(EObject eObj) {
-					DummyObject dObj = new DummyObject(dummyObject.getPredicate(), eObj);
-					IPredicate predicate = dObj.getPredicate();
+					IPredicate predicate = dummyObject.getPredicate();
+					DummyObject dObj = new DummyObject(predicate, eObj);
 					if(dObj.getEobj() instanceof Section && !(dObj.getEobj() instanceof Requirement)) {
 						return dObj; // do not use predicate filter for sections which are not requirements
 					}

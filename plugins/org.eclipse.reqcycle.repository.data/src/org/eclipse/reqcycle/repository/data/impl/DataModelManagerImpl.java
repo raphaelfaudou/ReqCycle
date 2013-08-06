@@ -8,16 +8,21 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.reqcycle.repository.data.IDataTypeManager;
+import org.eclipse.emf.ecore.EStructuralFeature.Setting;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
+import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.types.DataType;
-import org.eclipse.reqcycle.repository.data.types.RequirementTypeAttribute;
 import org.eclipse.reqcycle.repository.data.types.DataTypePackage;
 import org.eclipse.reqcycle.repository.data.types.EnumerationType;
 import org.eclipse.reqcycle.repository.data.types.EnumeratorType;
 import org.eclipse.reqcycle.repository.data.types.RequirementType;
+import org.eclipse.reqcycle.repository.data.types.RequirementTypeAttribute;
 import org.eclipse.reqcycle.repository.data.types.internal.DataTypePackageImpl;
 import org.eclipse.reqcycle.repository.data.types.internal.EnumerationTypeImpl;
 import org.eclipse.reqcycle.repository.data.types.internal.EnumeratorTypeImpl;
@@ -30,7 +35,7 @@ import DataModel.DataModelFactory;
 import DataModel.Scope;
 
 @Singleton
-public class DataTypeManagerImpl implements IDataTypeManager {
+public class DataModelManagerImpl implements IDataModelManager {
 
 	/** EPackage containing possible data types */
 	private DataTypePackage dataTypePackage;
@@ -45,7 +50,7 @@ public class DataTypeManagerImpl implements IDataTypeManager {
 	/**
 	 * Constructor
 	 */
-	DataTypeManagerImpl() {
+	DataModelManagerImpl() {
 		if(confManager == null) {
 			confManager = ZigguratInject.make(IConfigurationManager.class);
 		}
@@ -58,6 +63,13 @@ public class DataTypeManagerImpl implements IDataTypeManager {
 			dataTypePackage = new DataTypePackageImpl((EPackage)conf);
 		} else {
 			dataTypePackage = new DataTypePackageImpl("DataTypes");
+
+			DataTypePackageImpl reqCycleDataModel = new DataTypePackageImpl("ReqCycle");
+			reqCycleDataModel.add(createScope("Analysis"));
+			
+			dataTypePackage.add(reqCycleDataModel);
+			
+			save();
 		}
 	}
 
@@ -66,12 +78,12 @@ public class DataTypeManagerImpl implements IDataTypeManager {
 	}
 
 
-	public void saveTypes() {
+	public void save() {
 		try {
 			EPackage ePackage = ((DataTypePackageImpl)dataTypePackage).getEPackage();
 			confManager.saveConfiguration(ePackage, null, IConfigurationManager.Scope.WORKSPACE, CONF_ID);
 		} catch (IOException e) {
-			// TODO : use logger
+			// FIXME : use logger
 			e.printStackTrace();
 		}
 	}
@@ -224,4 +236,59 @@ public class DataTypeManagerImpl implements IDataTypeManager {
 		return scopes;
 	}
 
+	@Override
+	public Collection<DataTypePackage> getDataModel(Scope scope) {
+		ECrossReferenceAdapter c = ECrossReferenceAdapter.getCrossReferenceAdapter(scope);
+		if(c == null) {
+			c = new ECrossReferenceAdapter();
+			Resource r = scope.eResource();
+			if(r != null) {
+				ResourceSet rs = r.getResourceSet();
+				if (rs != null) {
+					c.setTarget(rs);
+				} else {
+					c.setTarget(r);
+				}
+			}
+		}
+		
+		Collection<DataTypePackage> res = new BasicEList<DataTypePackage>();
+		for(Setting s : c.getInverseReferences(scope, true)) {
+			if(s.getEObject() instanceof DataTypePackage) {
+				res.add((DataTypePackage)s.getEObject());
+			}
+		}
+		
+		return res;
+	}
+
+	@Override
+	public Scope getScope(String name) {
+		for(DataTypePackage p : getAllDataTypePackages()) {
+			for(Scope s : p.getScopes()) {
+				if (name.equals(s.getName())) {
+					return s;
+				}
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public Scope getAnalyseScope() {
+		DataTypePackage dataModel = getDataTypePackage("ReqCycle");
+		if(dataModel == null) {
+			dataModel = createDataTypePackage("ReqCycle");
+			addDataTypePackage(dataModel);
+		}
+		
+		Scope scope = dataModel.getScope("Analysis");
+		if(scope == null) {
+			scope = createScope("Analysis");
+			dataModel.add(scope);
+			save();
+		}
+		
+		return scope;
+	}
 }

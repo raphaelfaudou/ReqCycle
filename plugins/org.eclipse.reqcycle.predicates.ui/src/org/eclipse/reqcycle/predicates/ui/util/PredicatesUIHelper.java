@@ -9,6 +9,7 @@ import org.eclipse.reqcycle.predicates.persistance.util.PredicatesConfManager;
 import org.eclipse.reqcycle.predicates.ui.providers.PredicatesTableLabelProvider;
 import org.eclipse.reqcycle.ui.components.dialogs.CheckBoxInputDialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 /**
  * This class contains common UI utilities related to predicates such as for example : opening a dialog chooser in order
@@ -29,8 +30,11 @@ public class PredicatesUIHelper {
     public static Collection<IPredicate> openPredicatesChooser() {
         Display display = Display.getCurrent();
         if (display == null) display = Display.getDefault();
-        PredicatesConfManager confManager = new PredicatesConfManager();
-        Collection<IPredicate> storedPredicates = confManager.getStoredPredicates();
+        
+        PredicatesConfManager predicatesConfManager = new PredicatesConfManager();
+        ZigguratInject.inject(predicatesConfManager);
+        
+        Collection<IPredicate> storedPredicates = predicatesConfManager.getStoredPredicates();
         final CheckBoxInputDialog dialog = new CheckBoxInputDialog(display.getActiveShell(), "Requirement filtering", //$NON-NLS-1$
                 "Select a predicate to apply for filtering", storedPredicates, null); //$NON-NLS-1$
 

@@ -13,7 +13,6 @@
  *****************************************************************************/
 package org.eclipse.reqcycle.repository.ui.actions;
 
-import java.util.Collection;
 import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
@@ -36,19 +35,12 @@ import org.eclipse.reqcycle.repository.connector.IConnector;
 import org.eclipse.reqcycle.repository.connector.IConnectorManager;
 import org.eclipse.reqcycle.repository.connector.ui.Activator;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
+import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.IRequirementSourceManager;
 import org.eclipse.reqcycle.repository.data.IScopeManager;
-import org.eclipse.reqcycle.repository.data.util.DataUtil;
 import org.eclipse.swt.widgets.Display;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
-
-import DataModel.Contained;
-import DataModel.Requirement;
-import DataModel.RequirementSection;
 import DataModel.RequirementSource;
-import DataModel.Scope;
 import MappingModel.AttributeMapping;
 import MappingModel.ElementMapping;
 
@@ -58,16 +50,19 @@ import MappingModel.ElementMapping;
 public class EditRequirementSourceAction extends Action {
 
 	@Inject
-	private IConnectorManager connectorManager;
+	IConnectorManager connectorManager;
 	
 	@Inject
-	private IScopeManager scopeManager;
+	IScopeManager scopeManager;
+	
+	@Inject
+	IDataModelManager dataModelManager;
 
 	@Inject
-	private ILogger logger;
+	ILogger logger;
 	
 	@Inject
-	private IRequirementSourceManager requirementSourceManager;
+	IRequirementSourceManager requirementSourceManager;
 
 	private IConnector connector;
 
@@ -85,12 +80,15 @@ public class EditRequirementSourceAction extends Action {
 			if(element instanceof RequirementSource) {
 				try {
 					RequirementSource requirementSource = (RequirementSource)element;
+					
+					//Gets and init the connector 
 					String connectorID = requirementSource.getConnectorId();
 					ConnectorDescriptor connectorDescriptor = connectorManager.get(connectorID);
-
-					this.connector = connectorDescriptor.createConnector();
-					this.connector.initializeWithRequirementSource(requirementSource);
+					connector = connectorDescriptor.createConnector();
+					connector.initializeWithRequirementSource(requirementSource);
+					
 					Callable<RequirementSource> callable = null;
+					
 					if(connector instanceof IConnectorWizard) {
 						WizardDialog wd = new WizardDialog(Display.getDefault().getActiveShell(), (IConnectorWizard) connector);
 						wd.setHelpAvailable(false);
@@ -100,6 +98,7 @@ public class EditRequirementSourceAction extends Action {
 					} else {
 						callable = this.connector.createRequirementSource();
 					}
+					
 					if (callable != null){
 						callable.call();
 						
@@ -115,26 +114,6 @@ public class EditRequirementSourceAction extends Action {
 						}
 						requirementSourceManager.addRepository(requirementSource, rs);
 						
-						
-						//TODO : solve scope problems (scope isn't stored if the mapping has been skipped)
-						String scopeName = requirementSource.getProperty("SCOPE_NAME");
-						Scope scope = getScope(scopeName);
-						
-						Collection<Contained> containedElements = DataUtil.getAllContainedElements(requirementSource.getRequirements());
-						Collection<Contained> requirements = Collections2.filter(containedElements, new Predicate<Contained>() {
-							
-							@Override
-							public boolean apply(Contained arg0) {
-								if(arg0 instanceof Requirement || arg0 instanceof RequirementSection) {
-									return true;
-								}
-								return false;
-							}
-						});
-						
-						
-						scopeManager.addToScope(scope, requirements);
-						
 					}
 				} catch (CoreException e) {
 					logger.log(e.getStatus());
@@ -144,20 +123,6 @@ public class EditRequirementSourceAction extends Action {
 
 			}
 		}
-	}
-
-	private Scope getScope(String scopeName) {
-		if(scopeName == null) {
-			return null;
-		}
-		
-		for(Scope scope : scopeManager.getAllScopes()) {
-			if(scopeName.equalsIgnoreCase(scope.eClass().getName())) {
-				return scope;
-			}
-		}
-		
-		return null;
 	}
 
 }

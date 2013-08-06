@@ -55,6 +55,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class RightPanelComposite extends Composite {
 
@@ -68,7 +69,7 @@ public class RightPanelComposite extends Composite {
     private final boolean               showButtonLoadModel;
     private InputDialog                 savePredicateDialog;
 
-    private final PredicatesConfManager confManager;
+    private final PredicatesConfManager predicatesConfManager;
 
     private Button                      expandCustomPredicatesButton;
 
@@ -77,7 +78,8 @@ public class RightPanelComposite extends Composite {
         super(parent, SWT.NONE);
         setLayout(new GridLayout(1, false));
 
-        this.confManager = new PredicatesConfManager();
+        this.predicatesConfManager = new PredicatesConfManager();
+        ZigguratInject.inject(predicatesConfManager);
 
         this.predicatesEditor = editor;
         this.showButtonLoadModel = showButtonLoadModel;
@@ -251,12 +253,12 @@ public class RightPanelComposite extends Composite {
 
             @Override
             public Object[] getElements(Object inputElement) {
-                return confManager.getStoredPredicates().toArray();
+                return predicatesConfManager.getStoredPredicates().toArray();
             }
         });
         tableViewerOfCustomPredicates.setLabelProvider(new PredicatesTableLabelProvider());
 
-        tableViewerOfCustomPredicates.setInput(confManager.getStoredPredicates());
+        tableViewerOfCustomPredicates.setInput(predicatesConfManager.getStoredPredicates());
 
         final Transfer[] transferTypes = new Transfer[] { LocalTransfer.getInstance() };
         final int dndOperations = DND.DROP_COPY | DND.DROP_MOVE;
@@ -281,7 +283,7 @@ public class RightPanelComposite extends Composite {
                 if (openInputDialog() == Window.OK) {
                     String predicateName = savePredicateDialog.getValue();
                     IPredicate newPredicate = EcoreUtil.copy(predicatesEditor.getEditedPredicate());
-                    boolean added = confManager.storePredicate(predicateName, newPredicate);
+                    boolean added = predicatesConfManager.storePredicate(predicateName, newPredicate);
                     if (added) {
                         tableViewerOfCustomPredicates.add(newPredicate);
                     } else {
@@ -324,7 +326,7 @@ public class RightPanelComposite extends Composite {
                                 confirmMessage.toString());
                         if (confirmRemoval) {
                             for (IPredicate p : predicatesToRemove) {
-                                boolean removed = confManager.removeStoredPredicate(p.getDisplayName());
+                                boolean removed = predicatesConfManager.removeStoredPredicate(p.getDisplayName());
                                 if (removed) {
                                     tableViewerOfCustomPredicates.remove(p);
                                 } else {
@@ -390,7 +392,7 @@ public class RightPanelComposite extends Composite {
                         final String regex = "\\w+[-\\w]*";
                         if (!Pattern.compile(regex, Pattern.CASE_INSENSITIVE).matcher(newText).matches()) {
                             return "The name of the predicate is not valid.";
-                        } else if (new PredicatesConfManager().isPredicateNameAlreadyUsed(newText)) {
+                        } else if (predicatesConfManager.isPredicateNameAlreadyUsed(newText)) {
                             return "This predicate's name is already used.";
                         }
                         return null;

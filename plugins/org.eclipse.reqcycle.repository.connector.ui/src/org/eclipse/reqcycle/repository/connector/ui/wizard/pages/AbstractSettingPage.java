@@ -40,7 +40,7 @@ import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.Scope;
 
-
+@Deprecated
 public abstract class AbstractSettingPage extends WizardPage {
 
 	protected Text requirementSourceNameText;

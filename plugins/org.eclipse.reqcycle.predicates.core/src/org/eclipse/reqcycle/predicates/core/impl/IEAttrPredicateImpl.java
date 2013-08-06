@@ -9,9 +9,12 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.reqcycle.predicates.core.PredicatesPackage;
 import org.eclipse.reqcycle.predicates.core.api.IEAttrPredicate;
 
@@ -151,11 +154,20 @@ public abstract class IEAttrPredicateImpl extends MinimalEObjectImpl.Container i
      */
     protected Object getInputValueFromEObject(final Object eObj) {
         assertIsEObject(eObj);
-        Object value = ((EObject) eObj).eGet(getTypedElement());
+        Object value = ((EObject)eObj).eGet(get(getTypedElement(),(EObject)eObj));
         return value;
     }
 
-    protected void assertIsEObject(final Object input) {
+    private EStructuralFeature get(EStructuralFeature typedElement2, EObject eObj) {
+		for (EStructuralFeature f : eObj.eClass().getEAllStructuralFeatures()){
+			if (EcoreUtil.equals(f,typedElement2)){
+				return f;
+			}
+		}
+		return typedElement2;
+	}
+
+	protected void assertIsEObject(final Object input) {
         if (!(input instanceof EObject)) {
             throw new IllegalArgumentException("The input must be of type 'EObject'.");
         }

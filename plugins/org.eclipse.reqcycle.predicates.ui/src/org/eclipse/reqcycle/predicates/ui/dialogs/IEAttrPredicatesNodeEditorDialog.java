@@ -288,6 +288,7 @@ public class IEAttrPredicatesNodeEditorDialog extends Dialog {
                     if (selectedClass == null && eType instanceof EEnum) {
                         selectedClass = Enumerator.class;
                     }
+                    //TODO : [EnumLiteral] Add Literal (String), not the EnumLiteral
                     editorEnabled = PredicatesUtil.isSubType(predicateInputAttribute, selectedClass);
                 } else {
                     predicatePropsEditor.removeEditor(previousSelectedAttribute);

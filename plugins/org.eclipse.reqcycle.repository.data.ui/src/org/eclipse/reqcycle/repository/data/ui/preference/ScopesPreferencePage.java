@@ -1,3 +1,16 @@
+/*****************************************************************************
+ * Copyright (c) 2013 AtoS.
+ *
+ *    
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Anass RADOUANI (AtoS) anass.radouani@atos.net - Initial API and implementation
+ *
+  *****************************************************************************/
 package org.eclipse.reqcycle.repository.data.ui.preference;
 
 import java.util.ArrayList;
@@ -14,9 +27,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.window.Window;
-import org.eclipse.reqcycle.repository.data.IDataTypeManager;
 import org.eclipse.reqcycle.repository.data.types.DataTypePackage;
-import org.eclipse.reqcycle.repository.data.ui.Activator;
 import org.eclipse.reqcycle.repository.data.ui.dialog.NameDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -25,162 +36,94 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.Scope;
 
+public class ScopesPreferencePage extends DataModelsPreferencePage {
 
-public class ScopesPreferencePage extends DataPreferencePage {
-
-	private IDataTypeManager dataTypeManager = ZigguratInject.make(IDataTypeManager.class);
+	/** Table Viewer Ui Elements */
+	private TableViewer tvScopes;
+	private Table tScopes;
+	private TableViewerColumn tvcScopesNames;
 	
-	private TableViewer packagesTV;
-	private TableViewer scopesTV;
-	
-	private Table packagesTable;
-	private Table scopesTable;
+	/** Selected Model */
+	private DataTypePackage selectedModel;
 
-	private TableViewerColumn packagesNameCol;
-	private TableViewerColumn scopesNamesCol;
+	/** Scopes Table Input */
+	private Collection<Scope> inputScopes = new ArrayList<Scope>();
 
-	private Button addPackageBtn;
-	private Button addScopeBtn;
-	
-	private DataTypePackage selectedPackage;
-
-	private Collection<Scope> scopesInput = new ArrayList<Scope>();
-	private Collection<DataTypePackage> packagesInput = new ArrayList<DataTypePackage>();
+	/** Buttons */
+	private Button btnAddScope;
+	private Button btnEditScope;
 	
 	@Override
-	void doInit() {
-		dataTypeManager.discardUnsavedChanges();
+	public void doInit() {
+		super.doInit();
 		
-		if(packagesInput != null) {
-			packagesInput.clear();
-			packagesInput.addAll(dataTypeManager.getAllDataTypePackages());
+		if(inputScopes != null) {
+			inputScopes.clear();
 		}
 		
-		if (packagesTV != null) {
-			packagesTV.refresh();
-		}
-		
-		if(scopesInput != null) {
-			scopesInput.clear();
-		}
-		
-		if(scopesTV != null) {
-			scopesTV.refresh();
+		if(tvScopes != null) {
+			tvScopes.refresh();
 		}
 	}
+	
 	@Override
-	protected Control createContents(Composite parent) {
-		Composite control = new Composite(parent, SWT.None);
-		control.setLayout(new GridLayout(1, false));
-
-		Group packagesGrp = PreferenceUtil.createGroup(control, "Data Type Packages");
-		createPackagesUi(packagesGrp);
-
-		Group scopesGrp = PreferenceUtil.createGroup(control, "Scopes");
+	public void doCreateContents(Composite control) {
+		Group scopesGrp = PreferenceUiUtil.createGroup(control, "Scopes");
 		createScopesUi(scopesGrp);
-		
-		hookListeners();
-		doInit();
-
-		return control;
 	}
 
-	private void hookListeners() {
-		packagesTV.addSelectionChangedListener(new ISelectionChangedListener() {
+	@Override
+	public void hookListeners() {
+		super.hookListeners();
+		
+		tvModels.addSelectionChangedListener(new ISelectionChangedListener() {
 			
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
-				addScopeBtn.setEnabled(false);
-				scopesInput.clear();
+				btnAddScope.setEnabled(false);
+				inputScopes.clear();
 				
 				ISelection selection = event.getSelection();
 				if(selection instanceof IStructuredSelection) {
 					Object obj = ((IStructuredSelection)selection).getFirstElement();
 					if(obj instanceof DataTypePackage) {
-						selectedPackage = (DataTypePackage)obj;
-						addScopeBtn.setEnabled(true);
-						scopesInput.addAll(selectedPackage.getScopes());
+						selectedModel = (DataTypePackage)obj;
+						btnAddScope.setEnabled(true);
+						inputScopes.addAll(selectedModel.getScopes());
 					}
 					
 				}
 				
-				scopesTV.refresh();
+				tvScopes.refresh();
 			}
 		});
 		
-		
-		addPackageBtn.addSelectionListener(new SelectionAdapter() {
+		btnAddScope.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				NameDialog dialog = new NameDialog(e.display.getActiveShell(), null);
+				NameDialog dialog = new NameDialog(e.display.getActiveShell(), "Add Scope");
 				if(dialog.open() == Window.OK) {
 					String name = dialog.getName();
-					packagesInput.add(dataTypeManager.createDataTypePackage(name));
-					packagesTV.setInput(packagesInput);
-					packagesTV.refresh();
-				}
-			}
-		});
-		
-		addScopeBtn.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				NameDialog dialog = new NameDialog(e.display.getActiveShell(), null);
-				if(dialog.open() == Window.OK) {
-					String name = dialog.getName();
-					Scope scope = dataTypeManager.createScope(name);
-					dataTypeManager.addScope(selectedPackage, scope);
-					scopesInput.add(scope);
-					scopesTV.setInput(scopesInput);
-					scopesTV.refresh();
+					Scope scope = dataModelManager.createScope(name);
+					dataModelManager.addScope(selectedModel, scope);
+					inputScopes.add(scope);
+					tvScopes.setInput(inputScopes);
+					tvScopes.refresh();
 				}
 			}
 		});
 		
 	}
 
-	private void createPackagesUi(Composite parent) {
-		//Table Viewer
-		Composite viewerComposite = new Composite(parent, SWT.None);
-		viewerComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		TableColumnLayout dataTypeTVLayout = new TableColumnLayout();
-		viewerComposite.setLayout(dataTypeTVLayout);
-
-		packagesTV = new TableViewer(viewerComposite);
-		packagesTV.setContentProvider(ArrayContentProvider.getInstance());
-		packagesTable = packagesTV.getTable();
-		packagesTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		packagesTable.setLinesVisible(true);
-
-		//Columns
-		packagesNameCol = PreferenceUtil.createTableViewerColumn(packagesTV, "Name", 100, 0, SWT.None);
-		packagesNameCol.setLabelProvider(new ColumnLabelProvider() {
-
-			@Override
-			public String getText(Object element) {
-				if(element instanceof DataTypePackage) {
-					return ((DataTypePackage)element).getName();
-				}
-				return super.getText(element);
-			}
-		});
-		dataTypeTVLayout.setColumnData(packagesNameCol.getColumn(), new ColumnWeightData(20, 100, true));
-
-		packagesTV.setInput(packagesInput);
-		
-		addPackageBtn = new Button(parent, SWT.PUSH);
-		addPackageBtn.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
-		addPackageBtn.setToolTipText("Add Data Type Package");
-		addPackageBtn.setImage(Activator.getImageDescriptor("/icons/add.gif").createImage());
-	}
-	
+	/**
+	 * Creates Scope Ui
+	 * @param parent Prent Composite
+	 */
 	private void createScopesUi(Group parent) {
 		//Table Viewer
 		Composite viewerComposite = new Composite(parent, SWT.None);
@@ -188,15 +131,15 @@ public class ScopesPreferencePage extends DataPreferencePage {
 		TableColumnLayout dataTypeTVLayout = new TableColumnLayout();
 		viewerComposite.setLayout(dataTypeTVLayout);
 
-		scopesTV = new TableViewer(viewerComposite);
-		scopesTV.setContentProvider(ArrayContentProvider.getInstance());
-		scopesTable = scopesTV.getTable();
-		scopesTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		scopesTable.setLinesVisible(true);
+		tvScopes = new TableViewer(viewerComposite);
+		tvScopes.setContentProvider(ArrayContentProvider.getInstance());
+		tScopes = tvScopes.getTable();
+		tScopes.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		tScopes.setLinesVisible(true);
 
 		//Columns
-		scopesNamesCol = PreferenceUtil.createTableViewerColumn(scopesTV, "Name", 100, 0, SWT.None);
-		scopesNamesCol.setLabelProvider(new ColumnLabelProvider() {
+		tvcScopesNames = PreferenceUiUtil.createTableViewerColumn(tvScopes, "Name", SWT.None);
+		tvcScopesNames.setLabelProvider(new ColumnLabelProvider() {
 
 			@Override
 			public String getText(Object element) {
@@ -206,15 +149,19 @@ public class ScopesPreferencePage extends DataPreferencePage {
 				return super.getText(element);
 			}
 		});
-		dataTypeTVLayout.setColumnData(scopesNamesCol.getColumn(), new ColumnWeightData(20, 100, true));
+		dataTypeTVLayout.setColumnData(tvcScopesNames.getColumn(), new ColumnWeightData(20, 100, true));
 		
-		scopesTV.setInput(scopesInput);
+		tvScopes.setInput(inputScopes);
 
-		addScopeBtn = new Button(parent, SWT.PUSH);
-		addScopeBtn.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
-		addScopeBtn.setToolTipText("Add Scope");
-		addScopeBtn.setImage(Activator.getImageDescriptor("/icons/add.gif").createImage());
-		addScopeBtn.setEnabled(false);
+		Composite btnComposite = new Composite(parent, SWT.None);
+		btnComposite.setLayout(new GridLayout());
+		btnComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
+
+		btnAddScope = PreferenceUiUtil.createAddButton(btnComposite, "Add Scope");
+		btnAddScope.setEnabled(false);
+		
+		btnEditScope = PreferenceUiUtil.createEditButton(btnComposite, "Edit Scope");
+		btnEditScope.setEnabled(false);
 	}
 
 }

@@ -56,250 +56,252 @@ import DataModel.RequirementSource;
 
 public class RequirementView extends ViewPart {
 
-    public static final String VIEW_ID = "org.eclipse.reqcycle.repository.ui.views.requirements";
+	public static final String VIEW_ID = "org.eclipse.reqcycle.repository.ui.views.requirements";
 
-    private @Inject
-    static ILogger             logger  = ZigguratInject.make(ILogger.class);
+	private @Inject
+	static ILogger logger = ZigguratInject.make(ILogger.class);
 
-    private Action             selectPredicatesFilterAction;
+	private Action selectPredicatesFilterAction;
 
-    private Action             selectRequirementSourcesAction;
+	private Action selectRequirementSourcesAction;
 
-    public RequirementView() {
-    }
+	public RequirementView() {
+	}
 
-    /** Requirement repositories TreeViewer */
-    private TreeViewer             viewer;
+	/** Requirement repositories TreeViewer */
+	private TreeViewer viewer;
 
-    private Collection<IPredicate> predicates;
+	private Collection<IPredicate> predicates;
 
-    @Override
-    public void createPartControl(Composite parent) {
-        this.viewer = new TreeViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL) {
-            @Override
-            public void refresh() {
-                super.refresh();
-                refreshButton(getSelection());
-            }
-        };
-        final ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(
-                ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-        // final DummyInputContentProvider dummyInputContentProvider = new DummyInputContentProvider(adapterFactory,
-        // null); XXX
-        final DummyInputContentProvider dummyInputContentProvider = new DummyInputContentProvider(adapterFactory);
-        getViewer().setContentProvider(dummyInputContentProvider);
-        getViewer().setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory) {
-            @Override
-            public String getText(Object element) {
-                if (element instanceof DummyInput) {
-                    return ((DummyInput) element).getDisplayName();
-                } else if (element instanceof DummyObject) {
-                    return super.getText(((DummyObject) element).getEobj());
-                }
-                return DataUtil.getLabel(element);
-            }
+	@Override
+	public void createPartControl(Composite parent) {
+		this.viewer = new TreeViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL) {
 
-            @Override
-            public Image getImage(Object object) {
-                if (object instanceof DummyObject) {
-                    return super.getImage(((DummyObject) object).getEobj());
-                }
-                return super.getImage(object);
-            }
-        });
-        int dndOperations = DND.DROP_COPY | DND.DROP_MOVE;
+			@Override
+			public void refresh() {
+				super.refresh();
+				refreshButton(getSelection());
+			}
+		};
+		final ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+		// final DummyInputContentProvider dummyInputContentProvider = new DummyInputContentProvider(adapterFactory,
+		// null); XXX
+		final DummyInputContentProvider dummyInputContentProvider = new DummyInputContentProvider(adapterFactory);
+		getViewer().setContentProvider(dummyInputContentProvider);
+		getViewer().setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory) {
 
-        Transfer[] transfers;
-        transfers = new Transfer[] { PluginTransfer.getInstance() };
+			@Override
+			public String getText(Object element) {
+				if(element instanceof DummyInput) {
+					return ((DummyInput)element).getDisplayName();
+				} else if(element instanceof DummyObject) {
+					return super.getText(((DummyObject)element).getEobj());
+				}
+				return DataUtil.getLabel(element);
+			}
 
-        DragRequirementSourceAdapter listener = new DragRequirementSourceAdapter(getViewer());
-        ZigguratInject.inject(listener);
-        getViewer().addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
+			public Image getImage(Object object) {
+				if(object instanceof DummyObject) {
+					return super.getImage(((DummyObject)object).getEobj());
+				}
+				return super.getImage(object);
+			}
+		});
+		int dndOperations = DND.DROP_COPY | DND.DROP_MOVE;
 
-            @Override
-            public void selectionChanged(SelectionChangedEvent event) {
-                // TODO Auto-generated method stub
-                event.toString();
-            }
-        });
-        getViewer().addDragSupport(dndOperations, transfers, listener);
-        getViewSite().setSelectionProvider(getViewer());
+		Transfer[] transfers;
+		transfers = new Transfer[]{ PluginTransfer.getInstance() };
 
-        makeActions();
-        contributeToActionBars();
-        hookListeners();
-    }
+		DragRequirementSourceAdapter listener = new DragRequirementSourceAdapter(getViewer());
+		ZigguratInject.inject(listener);
+		getViewer().addSelectionChangedListener(new ISelectionChangedListener() {
 
-    /**
-     * Should be a Collection {@link DummyInput} objects.
-     * 
-     * @param input
-     */
-    public void setInput(Collection<DummyInput> input) {
-        getViewer().setInput(input);
-        getViewer().refresh();
-    }
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				// TODO Auto-generated method stub
+				event.toString();
+			}
+		});
+		getViewer().addDragSupport(dndOperations, transfers, listener);
+		getViewSite().setSelectionProvider(getViewer());
 
-    private void refreshButton(ISelection selection) {
-    }
+		makeActions();
+		contributeToActionBars();
+		hookListeners();
+	}
 
-    @Override
-    public void setFocus() {
-        getViewer().getControl().setFocus();
-    }
+	/**
+	 * Should be a Collection {@link DummyInput} objects.
+	 * 
+	 * @param input
+	 */
+	public void setInput(Collection<DummyInput> input) {
+		getViewer().setInput(input);
+		getViewer().refresh();
+	}
 
-    // TODO : extract generic method
-    public static void openRequirementView(Collection<RequirementSource> input) {
-        openRequirementView(input, null);
-    }
+	private void refreshButton(ISelection selection) {
+	}
 
-    // TODO : extract generic method
-    public static void openRequirementView(final Collection<RequirementSource> input, ViewerFilter filter) {
+	@Override
+	public void setFocus() {
+		getViewer().getControl().setFocus();
+	}
 
-        if (!input.isEmpty()) {
-            IWorkbenchPage page = Activator.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();
-            RequirementView requirementView = (RequirementView) page.findView(VIEW_ID);
-            if (requirementView == null) {
-                try {
-                    page.showView(VIEW_ID);
-                } catch (PartInitException e) {
-                    boolean debug = logger.isDebug(Activator.OPTIONS_DEBUG, Activator.getDefault());
-                    if (debug) {
-                        logger.trace("Can't show the view : " + VIEW_ID);
-                    }
-                }
-                requirementView = (RequirementView) page.findView(VIEW_ID);
-            }
+	// TODO : extract generic method
+	public static void openRequirementView(Collection<RequirementSource> input) {
+		openRequirementView(input, null);
+	}
 
-            final Collection<DummyInput> dummyInputs = new ArrayList<DummyInput>();
-            dummyInputs.add(new DummyInput(input));
-            requirementView.setInput(dummyInputs);
+	// TODO : extract generic method
+	public static void openRequirementView(final Collection<RequirementSource> input, ViewerFilter filter) {
 
-            if (filter != null) {
-                requirementView.getViewer().addFilter(filter);
-            }
-            try {
-                page.showView(VIEW_ID);
-            } catch (PartInitException e) {
-                boolean debug = logger.isDebug(Activator.OPTIONS_DEBUG, Activator.getDefault());
-                if (debug) {
-                    logger.trace("Can't show the view : " + VIEW_ID);
-                }
-            }
-        }
-    }
+		if(!input.isEmpty()) {
+			IWorkbenchPage page = Activator.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();
+			RequirementView requirementView = (RequirementView)page.findView(VIEW_ID);
+			if(requirementView == null) {
+				try {
+					page.showView(VIEW_ID);
+				} catch (PartInitException e) {
+					boolean debug = logger.isDebug(Activator.OPTIONS_DEBUG, Activator.getDefault());
+					if(debug) {
+						logger.trace("Can't show the view : " + VIEW_ID);
+					}
+				}
+				requirementView = (RequirementView)page.findView(VIEW_ID);
+			}
 
-    /**
-     * @param input
-     * @param predicates - The collection of predicates to use for filtering the same input.
-     */
-    public static void openNewFilteredRequirementView(final Collection<RequirementSource> input,
-            final Collection<IPredicate> predicates) {
+			final Collection<DummyInput> dummyInputs = new ArrayList<DummyInput>();
+			dummyInputs.add(new DummyInput(input));
+			requirementView.setInput(dummyInputs);
 
-        if (!input.isEmpty()) {
-            IWorkbenchPage page = Activator.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();
-            try {
-                String secondaryID = UUID.randomUUID().toString();
-                page.showView(VIEW_ID, secondaryID, IWorkbenchPage.VIEW_ACTIVATE);
-                String fullId = VIEW_ID + ":" + secondaryID;
-                for (IViewReference viewRef : page.getViewReferences()) {
-                    if (fullId.equals(viewRef.getId())) {
-                        RequirementView reqView = (RequirementView) viewRef.getView(true);
+			if(filter != null) {
+				requirementView.getViewer().addFilter(filter);
+			}
+			try {
+				page.showView(VIEW_ID);
+			} catch (PartInitException e) {
+				boolean debug = logger.isDebug(Activator.OPTIONS_DEBUG, Activator.getDefault());
+				if(debug) {
+					logger.trace("Can't show the view : " + VIEW_ID);
+				}
+			}
+		}
+	}
 
-                        final Collection<DummyInput> dummyInputs = new ArrayList<DummyInput>();
-                        if (predicates == null || predicates.isEmpty()) {
-                            dummyInputs.add(new DummyInput(input));
-                        } else {
-                            for (IPredicate p : predicates) {
-                                final DummyInput dInput = new DummyInput(input);
-                                dInput.setPredicate(p);
-                                dummyInputs.add(dInput);
-                            }
-                        }
+	/**
+	 * @param input
+	 * @param predicates
+	 *        - The collection of predicates to use for filtering the same input.
+	 */
+	public static void openNewFilteredRequirementView(final Collection<RequirementSource> input, final Collection<IPredicate> predicates) {
 
-                        final ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(
-                                ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+		if(!input.isEmpty()) {
+			IWorkbenchPage page = Activator.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();
+			try {
+				String secondaryID = UUID.randomUUID().toString();
+				page.showView(VIEW_ID, secondaryID, IWorkbenchPage.VIEW_ACTIVATE);
+				String fullId = VIEW_ID + ":" + secondaryID;
+				for(IViewReference viewRef : page.getViewReferences()) {
+					if(VIEW_ID.equals(viewRef.getId())) {
+						RequirementView reqView = (RequirementView)viewRef.getView(true);
 
-                        final DummyInputContentProvider dummyInputContentProvider = new DummyInputContentProvider(
-                                adapterFactory);
+						final Collection<DummyInput> dummyInputs = new ArrayList<DummyInput>();
+						if(predicates == null || predicates.isEmpty()) {
+							dummyInputs.add(new DummyInput(input));
+						} else {
+							for(IPredicate p : predicates) {
+								final DummyInput dInput = new DummyInput(input);
+								dInput.setPredicate(p);
+								dummyInputs.add(dInput);
+							}
+						}
 
-                        reqView.getViewer().setContentProvider(dummyInputContentProvider);
+						final ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 
-                        reqView.setPredicates(predicates);
+						final DummyInputContentProvider dummyInputContentProvider = new DummyInputContentProvider(adapterFactory);
 
-                        reqView.setInput(dummyInputs);
+						reqView.getViewer().setContentProvider(dummyInputContentProvider);
 
-                        break;
-                    }
-                }
+						reqView.setPredicates(predicates);
 
-            } catch (PartInitException e) {
-                boolean debug = logger.isDebug(Activator.OPTIONS_DEBUG, Activator.getDefault());
-                if (debug) {
-                    logger.trace("Can't show the view : " + VIEW_ID);
-                }
-            }
-        }
-    }
+						reqView.setInput(dummyInputs);
 
-    public TreeViewer getViewer() {
-        return viewer;
-    }
+						break;
+					}
+				}
 
-    public Collection<IPredicate> getPredicates() {
-        return predicates;
-    }
+			} catch (PartInitException e) {
+				boolean debug = logger.isDebug(Activator.OPTIONS_DEBUG, Activator.getDefault());
+				if(debug) {
+					logger.trace("Can't show the view : " + VIEW_ID);
+				}
+			}
+		}
+	}
 
-    public void setPredicates(Collection<IPredicate> predicates) {
-        this.predicates = predicates;
-    }
+	public TreeViewer getViewer() {
+		return viewer;
+	}
 
-    /**
-     * Fills the action Bars
-     */
-    private void contributeToActionBars() {
-        IActionBars bars = getViewSite().getActionBars();
-        fillLocalToolBar(bars.getToolBarManager());
-    }
+	public Collection<IPredicate> getPredicates() {
+		return predicates;
+	}
 
-    /**
-     * Fills the local ToolBar
-     * 
-     * @param manager The tool Bar manager
-     */
-    private void fillLocalToolBar(IToolBarManager manager) {
-        manager.add(selectPredicatesFilterAction);
-        manager.add(selectRequirementSourcesAction);
-        manager.add(new Separator());
-    }
+	public void setPredicates(Collection<IPredicate> predicates) {
+		this.predicates = predicates;
+	}
 
-    private void makeActions() {
-        selectPredicatesFilterAction = new SelectPredicatesFiltersAction(getViewer());
-        ZigguratInject.inject(selectPredicatesFilterAction);
-        selectPredicatesFilterAction.setText("Select Predicates Filters");
-        selectPredicatesFilterAction
-                .setToolTipText("Select the list of predicates to use for filtering into the tree viewer.");
-        // TODO: change icon ...
-        // selectPredicatesFilterAction.setImageDescriptor(Activator.getImageDescriptor(ICON_OPEN));
+	/**
+	 * Fills the action Bars
+	 */
+	private void contributeToActionBars() {
+		IActionBars bars = getViewSite().getActionBars();
+		fillLocalToolBar(bars.getToolBarManager());
+	}
 
-        selectRequirementSourcesAction = new SelectRequirementSourcesAction(getViewer());
-        ZigguratInject.inject(selectRequirementSourcesAction);
-        selectRequirementSourcesAction.setText("Select Requirement Sources");
-        selectRequirementSourcesAction.setToolTipText("Select the list of requirement sources.");
-        // TODO: change icon ...
-        // selectRequirementSourcesAction.setImageDescriptor(Activator.getImageDescriptor(ICON_DELETE_LOCATION));
-    }
+	/**
+	 * Fills the local ToolBar
+	 * 
+	 * @param manager
+	 *        The tool Bar manager
+	 */
+	private void fillLocalToolBar(IToolBarManager manager) {
+		manager.add(selectPredicatesFilterAction);
+		manager.add(selectRequirementSourcesAction);
+		manager.add(new Separator());
+	}
 
-    /**
-     * Adds all components listeners
-     */
-    private void hookListeners() {
-        getViewer().addSelectionChangedListener(new ISelectionChangedListener() {
-            @Override
-            public void selectionChanged(SelectionChangedEvent event) {
-                ISelection selection = event.getSelection();
-                refreshButton(selection);
-            }
-        });
-    }
+	private void makeActions() {
+		selectPredicatesFilterAction = new SelectPredicatesFiltersAction(getViewer());
+		ZigguratInject.inject(selectPredicatesFilterAction);
+		selectPredicatesFilterAction.setText("Select Predicates Filters");
+		selectPredicatesFilterAction.setToolTipText("Select the list of predicates to use for filtering into the tree viewer.");
+		selectPredicatesFilterAction.setEnabled(false);
+		// TODO: change icon ...
+		// selectPredicatesFilterAction.setImageDescriptor(Activator.getImageDescriptor(ICON_OPEN));
+
+		selectRequirementSourcesAction = new SelectRequirementSourcesAction(getViewer());
+		ZigguratInject.inject(selectRequirementSourcesAction);
+		selectRequirementSourcesAction.setText("Select Requirement Sources");
+		selectRequirementSourcesAction.setToolTipText("Select the list of requirement sources.");
+		selectRequirementSourcesAction.setEnabled(false);
+		// TODO: change icon ...
+		// selectRequirementSourcesAction.setImageDescriptor(Activator.getImageDescriptor(ICON_DELETE_LOCATION));
+	}
+
+	/**
+	 * Adds all components listeners
+	 */
+	private void hookListeners() {
+		getViewer().addSelectionChangedListener(new ISelectionChangedListener() {
+
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				ISelection selection = event.getSelection();
+				refreshButton(selection);
+			}
+		});
+	}
 }

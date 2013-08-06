@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.reqcycle.core.ILogger;
+import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.IScopeManager;
 import org.eclipse.ziggurat.configuration.IConfigurationManager;
 import org.eclipse.ziggurat.inject.ZigguratInject;
@@ -42,6 +43,7 @@ import ScopesConf.ScopesConfFactory;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 
+@Deprecated
 @Singleton
 public class ScopeManagerImpl implements IScopeManager {
 
@@ -56,8 +58,11 @@ public class ScopeManagerImpl implements IScopeManager {
 
 	private String id = "org.eclipse.reqcycle.repository.scopes";
 
-	private @Inject
-	static IConfigurationManager confManager;
+	@Inject
+	IConfigurationManager confManager;
+	
+	@Inject
+	IDataModelManager dataManager;
 
 
 
@@ -146,7 +151,6 @@ public class ScopeManagerImpl implements IScopeManager {
 	 * @return
 	 * @deprecated to remove
 	 */
-	//TODO remove method
 	private boolean contains(EList<Scope> scopes, EClassifier eClassifier) {
 		for(Scope scope : scopes) {
 			if(scope.eClass().getName().equals(eClassifier.getName())) {
@@ -157,38 +161,36 @@ public class ScopeManagerImpl implements IScopeManager {
 	}
 
 
-	@Override
+	@Deprecated
 	public Collection<Scope> getAllScopes() {
-		return scopes.getScopes();
+		return dataManager.getAllScopes();
 	}
 
-	@Override
+	@Deprecated
 	public void addToScope(Scope scope, Contained element) {
 		element.getScopes().add(scope);
 	}
-
+	
+	@Deprecated
 	public void addToScope(Scope scope, Collection<Contained> elements) {
 		for(Contained contained : elements) {
 			addToScope(scope, contained);
 		}
 	}
 	
-	@Override
+	@Deprecated
 	public void removeFromScopes(Contained contained) {
 		contained.getScopes().clear();
 	}
 	
+	@Deprecated
 	public void removeFromScope(Scope scope, Contained contained) {
 		contained.getScopes().remove(scope);
 	}
 	
+	@Deprecated
 	public void save() {
-		try {
-			confManager.saveConfiguration(scopes, null, IConfigurationManager.Scope.WORKSPACE, id);
-		} catch (IOException e) {
-			//FIXME use logger
-			e.printStackTrace();
-		}
+		dataManager.save();
 	}
 	
 

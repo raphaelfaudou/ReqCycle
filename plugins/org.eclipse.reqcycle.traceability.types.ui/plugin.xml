@@ -20,16 +20,22 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            category="org.eclipse.reqycle.core.ui.pref.reqcycle"
+            category="org.eclipse.reqcycle.traceability.types.ui.traceabilityPage"
             class="org.eclipse.reqcycle.traceability.types.configuration.preferences.ElementTypeConfigurationPage"
             id="org.eclipse.reqcycle.traceability.types.ui.elementtype"
             name="Element Types">
       </page>
       <page
-            category="org.eclipse.reqycle.core.ui.pref.reqcycle"
+            category="org.eclipse.reqcycle.traceability.types.ui.traceabilityPage"
             class="org.eclipse.reqcycle.traceability.types.configuration.preferences.TraceabilityTypePreferencePage"
             id="org.eclipse.reqcycle.traceability.types.ui.tracatype"
             name="Traceability Types">
+      </page>
+      <page
+            category="org.eclipse.reqycle.core.ui.pref.reqcycle"
+            class="org.eclipse.ui.internal.dialogs.EmptyPreferencePage"
+            id="org.eclipse.reqcycle.traceability.types.ui.traceabilityPage"
+            name="Traceability">
       </page>
    </extension>
 

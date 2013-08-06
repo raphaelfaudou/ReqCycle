@@ -21,6 +21,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.reqcycle.repository.data.IRequirementSourceManager;
 
+import DataModel.RequirementSource;
+
 /**
  * Action to delete a requirement source
  */
@@ -47,9 +49,9 @@ public class DeleteRequirementSourceAction extends Action {
 	public void run() {
 		ISelection selection = viewer.getSelection();
 		if(selection instanceof IStructuredSelection) {
-			Object toRemove = ((IStructuredSelection)selection).getFirstElement();
-			if(toRemove != null) {
-				requirementSourceManager.remove(toRemove);
+			Object obj = ((IStructuredSelection)selection).getFirstElement();
+			if(obj instanceof RequirementSource) {
+				requirementSourceManager.remove((RequirementSource)obj);
 				viewer.refresh();
 			}
 		}

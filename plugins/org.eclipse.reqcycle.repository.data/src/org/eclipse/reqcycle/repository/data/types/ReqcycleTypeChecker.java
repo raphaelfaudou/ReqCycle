@@ -4,6 +4,7 @@ import javax.inject.Inject;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.reqcycle.emf.types.EMFTypeChecker;
+import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.types.IInjectedTypeChecker;
 import org.eclipse.reqcycle.uri.IReachableManager;
 import org.eclipse.reqcycle.uri.exceptions.IReachableHandlerException;
@@ -22,7 +23,13 @@ public class ReqcycleTypeChecker implements IInjectedTypeChecker {
 	IReachableManager manager;
 
 	@InjectValue
+	String dataModel;
+	
+	@InjectValue
 	String requirementScope;
+	
+	@Inject
+	IDataModelManager dataModelManager;
 
 	public boolean apply(Reachable reachable) {
 		EMFTypeChecker emfTypeChecker = new EMFTypeChecker();
@@ -54,7 +61,8 @@ public class ReqcycleTypeChecker implements IInjectedTypeChecker {
 			if(found && requirementScope != null) {
 				Requirement type = (Requirement)o;
 				for(Scope s : type.getScopes()) {
-					if(requirementScope.equalsIgnoreCase(s.eClass().getName())) {
+					if(requirementScope.equalsIgnoreCase(s.eClass().getName()) 
+						&& dataModelManager.getDataModel(s).contains(dataModelManager.getDataTypePackage(dataModel))) {
 						return true;
 					}
 				}

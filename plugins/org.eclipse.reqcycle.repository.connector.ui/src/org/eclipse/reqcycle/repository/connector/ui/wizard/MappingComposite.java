@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.IContentProvider;
@@ -299,7 +300,13 @@ public abstract class MappingComposite extends Composite {
 					return ((DataType)element).getName();
 				}
 				if(element instanceof RequirementTypeAttribute) {
-					return ((RequirementTypeAttribute)element).getName();
+					RequirementTypeAttribute attr = (RequirementTypeAttribute)element;
+					String typeName = attr.getType().getName();
+					String nsURI = attr.getType().getEPackage().getNsURI();
+					if(EcorePackage.eNS_URI.equals(nsURI)) {
+						typeName = typeName.replaceFirst("E", "");
+					}
+					return attr.getName() + " : " + typeName;
 				}
 				return super.getText(element);
 			}
