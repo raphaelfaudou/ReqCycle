@@ -128,7 +128,7 @@ public abstract class AbstractCachedTraceabilityEngine implements
 			timeInNanos = System.nanoTime();
 		}
 		if (requests == null) {
-			throw new EngineException();
+			throw new EngineException("request can not be null");
 		}
 		boolean checkCache = isCacheCheckNeeded(requests);
 		if (checkCache) {
@@ -155,47 +155,77 @@ public abstract class AbstractCachedTraceabilityEngine implements
 						requestPredicate);
 			}
 			Iterable<Couple> couples = request.getCouples();
+			if (!couples.iterator().hasNext()){
+				if (request.getDepth() == DEPTH.ONE) {
+					throw new EngineException(
+							"for a couple with source equals to null the request shall be infinite");
+				} else {
+					result = Iterators.concat(
+							result,
+							doGetAllTraceability(request.getDirection(),
+									requestPredicate));
+				}
+			}
 			// for each couple an traceability iterable is computed
 			for (Couple c : couples) {
-
-				// when the target is equals to null it is a prospective
-				// analysis
-				if (c.getStopCondition() == null) {
-					// for a depth equals to infinite the traceability shall be
-					// complete
-					if (request.getDepth() == DEPTH.INFINITE) {
+				// if the source is null it means the engine needs to return all
+				// the traceability and the request depth shall be equals to
+				// INFINITE
+				if (c.getSource() == null) {
+					if (request.getDepth() == DEPTH.ONE) {
+						throw new EngineException(
+								"for a couple with source equals to null the request shall be infinite");
+					} else {
 						result = Iterators.concat(
 								result,
-								doGetTraceability(c.getSource(),
-										request.getDirection(),
-										requestPredicate));
-						// otherwise just the first level shall be complete
-					} else if (request.getDepth() == DEPTH.ONE) {
-						result = Iterators.concat(
-								result,
-								doGetOneLevelTraceability(c.getSource(),
-										request.getDirection(),
+								doGetAllTraceability(request.getDirection(),
 										requestPredicate));
 					}
-					// when the target is different to null a search shall be
-					// performed
 				} else {
-					if (request.getDepth() == DEPTH.INFINITE) {
-						result = Iterators.concat(
-								result,
-								doGetTraceability(c.getSource(), c.getStopCondition(),
-										request.getDirection(),
-										requestPredicate));
+					// when the target is equals to null it is a prospective
+					// analysis
+					if (c.getStopCondition() == null) {
+						// for a depth equals to infinite the traceability shall
+						// be
+						// complete
+						if (request.getDepth() == DEPTH.INFINITE) {
+							result = Iterators.concat(
+									result,
+									doGetTraceability(c.getSource(),
+											request.getDirection(),
+											requestPredicate));
+							// otherwise just the first level shall be complete
+						} else if (request.getDepth() == DEPTH.ONE) {
+							result = Iterators.concat(
+									result,
+									doGetOneLevelTraceability(c.getSource(),
+											request.getDirection(),
+											requestPredicate));
+						}
+						// when the target is different to null a search shall
+						// be
+						// performed
 					} else {
-						// except when the depth is equals to one in this case
-						// it can be computed using a filter
-						result = Iterators.concat(
-								result,
-								doGetTraceability(c.getSource(), c.getStopCondition(),
-										request.getDirection(), Predicates.and(
-												requestPredicate,
-												new TargetEqualsPredicate(c
-														.getStopCondition()))));
+						if (request.getDepth() == DEPTH.INFINITE) {
+							result = Iterators.concat(
+									result,
+									doGetTraceability(c.getSource(),
+											c.getStopCondition(),
+											request.getDirection(),
+											requestPredicate));
+						} else {
+							// except when the depth is equals to one in this
+							// case
+							// it can be computed using a filter
+							result = Iterators.concat(
+									result,
+									doGetTraceability(c.getSource(), c
+											.getStopCondition(), request
+											.getDirection(), Predicates.and(
+											requestPredicate,
+											new TargetEqualsPredicate(c
+													.getStopCondition()))));
+						}
 					}
 				}
 			}
@@ -247,6 +277,10 @@ public abstract class AbstractCachedTraceabilityEngine implements
 			}
 		}
 	}
+
+	protected abstract Iterator<Pair<Link, Reachable>> doGetAllTraceability(
+			DIRECTION direction,
+			Predicate<Pair<Link, Reachable>> requestPredicate);
 
 	protected abstract Iterator<Pair<Link, Reachable>> doGetTraceability(
 			Reachable source, DIRECTION direction,
@@ -300,24 +334,27 @@ public abstract class AbstractCachedTraceabilityEngine implements
 	protected abstract boolean isCacheOk(Reachable reachable);
 
 	@Override
-	public void newUpwardRelation(Object resource, Object source,
-			List<? extends Object> targets, TType kind) {
+	public void newUpwardRelation(Object traceabilityObject, Object resource,
+			Object source, List<? extends Object> targets, TType kind) {
 		Function<Object, Reachable> obj2RO = URIFunctions
 				.newObject2ReachableFunction();
 		Reachable resourceReachable = obj2RO.apply(resource);
 		Reachable sourceR = obj2RO.apply(source);
+		Reachable traceaReachable = obj2RO.apply(traceabilityObject);
 		List<Reachable> targetsR = Lists.newArrayList(Iterables.transform(
 				targets, obj2RO));
 		if (sourceR != null
 				&& Iterables.filter(targetsR, Predicates.notNull()).iterator()
 						.hasNext()) {
-			newUpwardRelation(resourceReachable, sourceR, targetsR, kind);
+			newUpwardRelation(traceaReachable, resourceReachable, sourceR,
+					targetsR, kind);
 		}
 
 	}
 
-	public abstract void newUpwardRelation(Reachable container,
-			Reachable source, List<Reachable> targets, TType kind);
+	public abstract void newUpwardRelation(Reachable traceaReachable,
+			Reachable container, Reachable source, List<Reachable> targets,
+			TType kind);
 
 	@Override
 	public void startBuild(Reachable reachable) {

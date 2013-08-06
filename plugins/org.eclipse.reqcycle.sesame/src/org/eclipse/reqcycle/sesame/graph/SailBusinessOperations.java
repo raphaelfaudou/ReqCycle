@@ -54,9 +54,17 @@ public class SailBusinessOperations implements
 
 	private void addProperties(Graph graph, Vertex v, Reachable reachable) {
 		for (String key : reachable.getProperties().keySet()) {
-			graph.addEdge(null, v, graph.addVertex(getVertexProperty(key,
-					reachable.getProperties().get(key))), EDGE_PROPERTIES);
+			addProperty(graph, v, key, reachable.getProperties().get(key));
 		}
+	}
+
+	private void addProperty(Graph graph, Vertex v, String propertyName,
+			String propertyValue) {
+		graph.addEdge(
+				null,
+				v,
+				graph.addVertex(getVertexProperty(propertyName, propertyValue)),
+				EDGE_PROPERTIES);
 	}
 
 	private String getVertexProperty(String key, String value) {
@@ -64,14 +72,14 @@ public class SailBusinessOperations implements
 	}
 
 	private void removeProperties(Graph graph, Vertex v) {
-		Iterable<Edge> edges = Iterables.filter(graph.getEdges(),
+		Iterable<Edge> edges = Iterables.filter(v.getEdges(Direction.BOTH),
 				new Predicate<Edge>() {
 					public boolean apply(Edge e) {
 						return EDGE_PROPERTIES.equals(e.getId());
 					}
 				});
 		for (Edge e : edges) {
-			graph.removeVertex(e.getVertex(Direction.OUT));
+			graph.removeVertex(e.getVertex(Direction.IN));
 			graph.removeEdge(e);
 		}
 	}
@@ -208,22 +216,38 @@ public class SailBusinessOperations implements
 	public Map<String, String> getProperties(Vertex v) {
 		Map<String, String> map = new HashMap<String, String>();
 		for (Edge e : v.getEdges(Direction.OUT, EDGE_PROPERTIES)) {
-			Vertex p = e.getVertex(Direction.IN);
-			String s = (String) p.getId();
-			s = s.replaceAll("\"", "");
-			String[] splitted = s.split(PatternSplitter);
-			if (splitted.length >= 2) {
-				StringBuffer buffer = new StringBuffer();
-				for (int i = 1; i < splitted.length; i++) {
-					buffer.append(splitted[i]);
-					if (i != splitted.length - 1) {
-						buffer.append(PatternSplitter);
-					}
-				}
-				map.put(splitted[0], buffer.toString());
+			String[] prop = getProperties(e);
+			if (prop != null) {
+				map.put(prop[0], prop[1]);
 			}
 		}
 		return map;
+	}
+
+	/**
+	 * Returns an array with : 0 : the key 1 : the value
+	 * 
+	 * @param edgeProperties
+	 * @return
+	 */
+	public String[] getProperties(Edge edgeProperties) {
+		Vertex p = edgeProperties.getVertex(Direction.IN);
+		String s = (String) p.getId();
+		s = s.replaceAll("\"", "");
+		String[] splitted = s.split(PatternSplitter);
+		StringBuffer buffer = new StringBuffer();
+		if (splitted.length >= 2) {
+			for (int i = 1; i < splitted.length; i++) {
+				buffer.append(splitted[i]);
+				if (i != splitted.length - 1) {
+					buffer.append(PatternSplitter);
+				}
+			}
+		}
+		if (buffer.length() > 0) {
+			return new String[] { splitted[0], buffer.toString() };
+		}
+		return null;
 	}
 
 	public Vertex getContainerOfTraceability(Vertex v) {
@@ -269,7 +293,8 @@ public class SailBusinessOperations implements
 			if (v != null) {
 				Reachable r;
 				try {
-					r = SailBusinessOperations.this.creator.getReachable(new URI((String) v.getId()));
+					r = SailBusinessOperations.this.creator
+							.getReachable(new URI((String) v.getId()));
 					Map<String, String> properties = getProperties(v);
 					for (String s : properties.keySet()) {
 						r.put(s, (String) properties.get(s));
@@ -290,28 +315,35 @@ public class SailBusinessOperations implements
 		Set<Edge> toDelete = new HashSet<Edge>();
 		delete(targetVertex, sourceVertex, VERTEX_OUTGOING, TRACE_TARGET,
 				toDelete, true);
+		delete(sourceVertex, targetVertex, VERTEX_INCOMING, TRACE_SOURCE,
+				toDelete, false);
 		for (Edge e : toDelete) {
 			graph.removeEdge(e);
 		}
 	}
 
 	private void delete(Vertex target, Vertex sourceVertex, String vertex2Trac,
-			String trac2vertex, Set<Edge> toDelete, boolean flag) {
+			String trac2vertex, Set<Edge> toDelete, boolean deleteTraceaEdges) {
+		Direction directionEdge = Direction.IN;
+		Direction directionVertex = Direction.OUT;
 		if (sourceVertex != null) {
-			for (Edge e : sourceVertex.getEdges(Direction.OUT, VERTEX_OUTGOING)) {
-				Vertex tracVertex = e.getVertex(Direction.OUT);
-				for (Edge e2 : tracVertex.getEdges(Direction.OUT, TRACE_TARGET)) {
-					Vertex targetVertex = e2.getVertex(Direction.OUT);
-					if (targetVertex.equals(target)) {
+			for (Edge e : sourceVertex.getEdges(directionVertex, vertex2Trac)) {
+				Vertex tracVertex = e.getVertex(directionEdge);
+				for (Edge e2 : tracVertex
+						.getEdges(directionVertex, trac2vertex)) {
+					Vertex targetVertex = e2.getVertex(directionEdge);
+					if (targetVertex != null
+							&& targetVertex.getId().equals(target.getId())) {
 						toDelete.add(e);
 						toDelete.add(e2);
-						if (flag) {
-							delete(sourceVertex, target, VERTEX_INCOMING,
-									TRACE_SOURCE, toDelete, false);
-						}
 					}
 				}
-
+				if (deleteTraceaEdges) {
+					for (Edge etmp : tracVertex.getEdges(Direction.BOTH,
+							new String[] {})) {
+						toDelete.add(etmp);
+					}
+				}
 			}
 
 		}
@@ -351,7 +383,7 @@ public class SailBusinessOperations implements
 		Set<Edge> toDelete = new HashSet<Edge>();
 		toDelete.add(next);
 		for (Edge e : otherVertex.getEdges(Direction.OUT, stringForNode)) {
-			if (e.getVertex(Direction.OUT).equals(traceabilityVertex)) {
+			if (e.getVertex(Direction.IN).equals(traceabilityVertex)) {
 				toDelete.add(e);
 			}
 		}
@@ -367,5 +399,24 @@ public class SailBusinessOperations implements
 	public void setSource(Graph graph, Reachable newSource, Vertex vTrac) {
 		set(graph, TRACE_SOURCE, VERTEX_OUTGOING, vTrac, newSource,
 				Direction.IN);
+	}
+
+	@Override
+	public void setProperty(Graph graph, Vertex vertex, String propertyName,
+			String propertyValue) {
+		Edge toDelete = null;
+		for (Edge e : vertex.getEdges(Direction.OUT, EDGE_PROPERTIES)) {
+			String[] prop = getProperties(e);
+			if (prop != null) {
+				if (propertyName.equals(prop[0])) {
+					toDelete = e;
+					break;
+				}
+			}
+		}
+		if (toDelete != null) {
+			graph.removeEdge(toDelete);
+		}
+		addProperty(graph, vertex, propertyName, propertyValue);
 	}
 }

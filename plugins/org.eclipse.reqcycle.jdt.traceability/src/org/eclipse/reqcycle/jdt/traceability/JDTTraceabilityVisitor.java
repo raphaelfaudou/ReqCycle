@@ -72,6 +72,8 @@ public class JDTTraceabilityVisitor implements IVisitor {
 									getCallBack()
 											.newUpwardRelation(
 													((IJavaElement) annot)
+															.getElementName(),
+													((IJavaElement) annot)
 															.getResource(),
 													annot,
 													Collections

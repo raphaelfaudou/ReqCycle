@@ -9,6 +9,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.reqcycle.traceability.model.TType;
 import org.eclipse.reqcycle.traceability.storage.IStorageProvider;
 import org.eclipse.reqcycle.traceability.storage.ITraceabilityStorage;
@@ -65,12 +66,14 @@ public class CreateRelationCommand implements Command {
 		try {
 			Reachable container = manager.getHandlerFromObject(file)
 					.getFromObject(file).getReachable(file);
+			String id = getNextId();
+			Reachable tracea = manager.getHandlerFromObject(id)
+					.getFromObject(id).getReachable(id);
 			storage.startTransaction();
 			// FIX ME
-			for(TType type : relation.getAgregated()){
-				storage.newUpwardRelationShip(
-					type, container,
-					source, new Reachable[] { target });
+			for (TType type : relation.getAgregated()) {
+				storage.newUpwardRelationShip(type, tracea, container, source,
+						new Reachable[] { target });
 			}
 			storage.commit();
 			storage.save();
@@ -91,5 +94,9 @@ public class CreateRelationCommand implements Command {
 			e.printStackTrace();
 		}
 
+	}
+
+	private String getNextId() {
+		return EcoreUtil.generateUUID();
 	}
 }
