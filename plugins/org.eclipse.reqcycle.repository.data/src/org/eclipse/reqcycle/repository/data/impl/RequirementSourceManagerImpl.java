@@ -22,22 +22,17 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.reqcycle.repository.data.IRequirementSourceManager;
-import org.eclipse.reqcycle.repository.data.IScopeManager;
 import org.eclipse.ziggurat.configuration.IConfigurationManager;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import DataModel.Contained;
 import DataModel.RequirementSource;
-import DataModel.Section;
 import RequirementSourcesConf.RequirementSources;
 import RequirementSourcesConf.RequirementSourcesConfFactory;
 
@@ -50,25 +45,28 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 	private RequirementSources sources;
 
 	@Inject
-	private static IConfigurationManager confManager;
-
-	@Inject
-	private IScopeManager scopeManager;
+	IConfigurationManager confManager;
 
 	public static final String ID = "org.eclipse.reqcycle.repositories";
 
-	private ResourceSet rs = new ResourceSetImpl();
-
+	@Inject
+	@Named("confResourceSet")
+	private ResourceSet rs;
+	
+	
 	/**
 	 * Constructor
 	 */
-	RequirementSourceManagerImpl() {
+	@Inject
+	RequirementSourceManagerImpl(@Named("confResourceSet") ResourceSet rs, IConfigurationManager confManager) {
+		this.rs = rs;
+		this.confManager = confManager;
+		
+		EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, ID, rs, true);
 
-		confManager = ZigguratInject.make(IConfigurationManager.class);
-		EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, ID, rs, false);
 		if(conf instanceof RequirementSources) {
 			sources = (RequirementSources)conf;
-			EList<RequirementSource> RequirementSources = ((RequirementSources)conf).getRequirementSources();
+			Collection<RequirementSource> RequirementSources = sources.getRequirementSources();
 			for(RequirementSource requirementSourceRepository : RequirementSources) {
 				String connectorId = requirementSourceRepository.getConnectorId();
 				if(repositoryMap.containsKey(connectorId)) {
@@ -84,7 +82,7 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 		}
 	}
 
-	public void addRepository(final RequirementSource repository, ResourceSet rs) {
+	public void addRepository(final RequirementSource repository) {
 		Set<RequirementSource> repositories;
 		repositories = repositoryMap.get(repository.getConnectorId());
 		if(repositories == null) {
@@ -101,12 +99,9 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 		}
 
 		try {
-			if(rs != null) {
-				confManager.saveConfiguration(sources, null, null, ID, rs);
-			} else {
-				confManager.saveConfiguration(sources, null, null, ID);
-			}
+			confManager.saveConfiguration(sources, null, null, ID, rs);
 		} catch (IOException e) {
+			//FIXME : use Logger
 			e.printStackTrace();
 		}
 	}
@@ -114,47 +109,24 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 	public void removeRequirementSource(final RequirementSource repository) {
 		Set<RequirementSource> repositories = repositoryMap.get(repository.getConnectorId());
 		if(repositories != null) {
-			//TODO : remove the repository by command
 			repositories.remove(repository);
 			sources.removeRequirementSource(repository);
-			removeScopes(repository.getRequirements());
 			repository.getRequirements().clear();
 			EcoreUtil.delete(repository, true);
 			try {
-				confManager.saveConfiguration(sources, null, null, ID);
+				confManager.saveConfiguration(sources, null, null, ID, rs);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	@Deprecated
-	//TODO remove method
-	public void removeRequirements(RequirementSource repository) {
-		removeScopes(repository.getRequirements());
-		repository.getRequirements().clear();
-	}
-
-	/**
-	 * @param reqs
-	 */
-	private void removeScopes(EList<Contained> reqs) {
-		for(Contained contained : reqs) {
-			scopeManager.removeFromScopes(contained);
-
-			contained.getScopes().clear();
-			if(contained instanceof Section) {
-				removeScopes(((Section)contained).getChildren());
-			}
-		}
-	}
-
 	public void removeConnectorRepositories(String connectorId) {
 		Set<RequirementSource> repositories = repositoryMap.get(connectorId);
-		for(RequirementSource iRequirementSourceRepository : repositories) {
-			sources.removeRequirementSource(iRequirementSourceRepository);
+		for(RequirementSource reqSource : repositories) {
+			sources.removeRequirementSource(reqSource);
 			try {
-				confManager.saveConfiguration(sources, null, null, ID);
+				confManager.saveConfiguration(sources, null, null, ID, rs);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -162,12 +134,12 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 		repositoryMap.remove(connectorId);
 	}
 
-	public RequirementSource getRepository(String kind, String urlString) {
-		Assert.isNotNull(kind);
-		Assert.isNotNull(urlString);
-		if(repositoryMap.containsKey(kind)) {
-			for(RequirementSource repository : repositoryMap.get(kind)) {
-				if(repository.getRepositoryUri().equals(urlString)) {
+	public RequirementSource getRepository(String connectorId, String repositoryUri) {
+		Assert.isNotNull(connectorId);
+		Assert.isNotNull(repositoryUri);
+		if(repositoryMap.containsKey(connectorId)) {
+			for(RequirementSource repository : repositoryMap.get(connectorId)) {
+				if(repository.getRepositoryUri().equals(repositoryUri)) {
 					return repository;
 				}
 			}
@@ -187,18 +159,6 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 
 	public Map<String, Set<RequirementSource>> getRepositoryMap() {
 		return repositoryMap;
-	}
-
-	@Override
-	@Deprecated
-	//TODO remove method
-	public void remove(Object toRemove) {
-		if(toRemove instanceof String && repositoryMap.containsKey((String)toRemove)) {
-			removeConnectorRepositories((String)toRemove);
-		}
-		if(toRemove instanceof RequirementSource) {
-			removeRequirementSource((RequirementSource)toRemove);
-		}
 	}
 
 	@Override

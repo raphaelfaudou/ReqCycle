@@ -12,7 +12,6 @@ public interface DataTypePackage {
 
 	public EObject create(RequirementType type);
 
-
 	public void add(DataTypePackage dataTypePackage);
 
 	public void add(Scope scope);
@@ -22,7 +21,6 @@ public interface DataTypePackage {
 	public void add(EnumerationType type);
 
 	public void add(DataType type);
-
 
 	public DataTypePackage getDataTypePackage(String name);
 

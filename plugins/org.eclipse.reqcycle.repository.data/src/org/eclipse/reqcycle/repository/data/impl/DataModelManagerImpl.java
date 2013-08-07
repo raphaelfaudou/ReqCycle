@@ -5,17 +5,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EStructuralFeature.Setting;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.types.DataType;
 import org.eclipse.reqcycle.repository.data.types.DataTypePackage;
@@ -29,7 +27,6 @@ import org.eclipse.reqcycle.repository.data.types.internal.EnumeratorTypeImpl;
 import org.eclipse.reqcycle.repository.data.types.internal.RequirementTypeAttributeImpl;
 import org.eclipse.reqcycle.repository.data.types.internal.RequirementTypeImpl;
 import org.eclipse.ziggurat.configuration.IConfigurationManager;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.DataModelFactory;
 import DataModel.Scope;
@@ -38,112 +35,118 @@ import DataModel.Scope;
 public class DataModelManagerImpl implements IDataModelManager {
 
 	/** EPackage containing possible data types */
-	private DataTypePackage dataTypePackage;
+	protected DataTypePackage dataTypePackage;
 
 	/** Configuration Manager */
 	@Inject
-	private IConfigurationManager confManager;
+	IConfigurationManager confManager;
 
 	/** Configuration ID */
 	final static String CONF_ID = "org.eclipse.reqcycle.data.dataTypes";
 
+	@Inject
+	@Named("confResourceSet")
+	protected ResourceSet rs;
+
 	/**
 	 * Constructor
 	 */
-	DataModelManagerImpl() {
-		if(confManager == null) {
-			confManager = ZigguratInject.make(IConfigurationManager.class);
-		}
+	@Inject
+	DataModelManagerImpl(@Named("confResourceSet") ResourceSet rs, IConfigurationManager confManager) {
+		this.rs = rs;
+		this.confManager = confManager;
+		
 		initTypes();
 	}
 
-	private void initTypes() {
-		EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, CONF_ID, true);
+	protected void initTypes() {
+		
+		EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, CONF_ID, rs, true);
 		if(conf instanceof EPackage) {
 			dataTypePackage = new DataTypePackageImpl((EPackage)conf);
 		} else {
 			dataTypePackage = new DataTypePackageImpl("DataTypes");
-
-			DataTypePackageImpl reqCycleDataModel = new DataTypePackageImpl("ReqCycle");
-			reqCycleDataModel.add(createScope("Analysis"));
-			
-			dataTypePackage.add(reqCycleDataModel);
-			
 			save();
 		}
 	}
 
+	@Override
 	public void discardUnsavedChanges() {
 		initTypes();
 	}
 
-
+	@Override
 	public void save() {
 		try {
 			EPackage ePackage = ((DataTypePackageImpl)dataTypePackage).getEPackage();
-			confManager.saveConfiguration(ePackage, null, IConfigurationManager.Scope.WORKSPACE, CONF_ID);
+			confManager.saveConfiguration(ePackage, null, IConfigurationManager.Scope.WORKSPACE, CONF_ID, rs);
 		} catch (IOException e) {
 			// FIXME : use logger
 			e.printStackTrace();
 		}
 	}
 
+	@Override
 	public EObject createInstance(RequirementType dataType) {
 		return dataTypePackage.create(dataType);
 	}
 
+	@Override
 	public DataTypePackage createDataTypePackage(String name) {
 		DataTypePackage dataTypePackage = new DataTypePackageImpl(name);
 		this.dataTypePackage.add(dataTypePackage);
 		return dataTypePackage;
 	}
 
+	@Override
 	public void addDataTypePackage(DataTypePackage p) {
 		dataTypePackage.add(p);
 	}
 
-	public void addDataType(DataTypePackage dataTypePackage, DataType type){
-		dataTypePackage.add(type);
+	@Override
+	public void addDataTypes(DataTypePackage dataTypePackage, DataType... types){
+		for(DataType type : types) {
+			dataTypePackage.add(type);
+		}
 	}
 	
-	public void addRequirementType(DataTypePackage dataTypePackage, RequirementType Type) {
-		dataTypePackage.add(Type);
-	}
-
-	public void addRequirementTypes(DataTypePackage dataTypePackage, Collection<RequirementType> types) {
+	@Override
+	public void addRequirementTypes(DataTypePackage dataTypePackage, RequirementType... types) {
 		for(RequirementType dataType : types) {
 			dataTypePackage.add(dataType);
 		}
 	}
 
-	public void addEnumerationType(DataTypePackage dataTypePackage, EnumerationType enumerationType) {
-		dataTypePackage.add(enumerationType);
-	}
-
-	public void addEnumerationTypes(DataTypePackage dataTypePackage, Collection<EnumerationType> types) {
-		for(EnumerationType enumerationType : types) {
+	@Override
+	public void addEnumerationTypes(DataTypePackage dataTypePackage, EnumerationType... enumerationTypes) {
+		for(EnumerationType enumerationType : enumerationTypes) {
 			dataTypePackage.add(enumerationType);
 		}
 	}
 
+	@Override
 	public DataTypePackage getDataTypePackage(String name) {
 		Assert.isNotNull(dataTypePackage);
 		return dataTypePackage.getDataTypePackage(name);
 	}
 
+	@Override
 	public Collection<DataTypePackage> getAllDataTypePackages() {
 		Assert.isNotNull(dataTypePackage);
 		return dataTypePackage.getDataTypePackages();
 	}
 
+	@Override
 	public RequirementType getDataType(DataTypePackage dataTypePackage, String name) {
 		return dataTypePackage.getDataType(name);
 	}
 
+	@Override
 	public Collection<RequirementType> getDataTypes(DataTypePackage dataTypePackage) {
 		return dataTypePackage.getDataTypes();
 	}
 
+	@Override
 	public Collection<RequirementType> getAllDataTypes() {
 		Assert.isNotNull(dataTypePackage);
 		Collection<RequirementType> types = new ArrayList<RequirementType>();
@@ -153,15 +156,17 @@ public class DataModelManagerImpl implements IDataModelManager {
 		return types;
 	}
 
+	@Override
 	public EnumerationType getEnumerationType(DataTypePackage dataTypePackage, String name) {
 		return dataTypePackage.getEnumerationType(name);
 	}
 
-
+	@Override
 	public Collection<EnumerationType> getEnumerationTypes(DataTypePackage dataTypePackage) {
 		return dataTypePackage.getEnumerationTypes();
 	}
 
+	@Override
 	public Collection<EnumerationType> getAllEnumerationTypes() {
 		Collection<EnumerationType> enums = new ArrayList<EnumerationType>();
 		for(DataTypePackage p : getAllDataTypePackages()) {
@@ -206,12 +211,7 @@ public class DataModelManagerImpl implements IDataModelManager {
 	}
 
 	@Override
-	public void addScope(DataTypePackage dataTypePackage, Scope scope) {
-		dataTypePackage.add(scope);
-	}
-
-	@Override
-	public void addScopes(DataTypePackage dataTypePackage, Collection<Scope> scopes) {
+	public void addScopes(DataTypePackage dataTypePackage, Scope... scopes) {
 		for(Scope scope : scopes) {
 			dataTypePackage.add(scope);
 		}
@@ -237,29 +237,17 @@ public class DataModelManagerImpl implements IDataModelManager {
 	}
 
 	@Override
-	public Collection<DataTypePackage> getDataModel(Scope scope) {
-		ECrossReferenceAdapter c = ECrossReferenceAdapter.getCrossReferenceAdapter(scope);
-		if(c == null) {
-			c = new ECrossReferenceAdapter();
-			Resource r = scope.eResource();
-			if(r != null) {
-				ResourceSet rs = r.getResourceSet();
-				if (rs != null) {
-					c.setTarget(rs);
-				} else {
-					c.setTarget(r);
-				}
+	public DataTypePackage getDataModel(Scope scope) {
+		EObject container = scope.eContainer();
+		if(container instanceof EAnnotation) {
+			EAnnotation annotation = (EAnnotation)container;
+			container = annotation.eContainer();
+			if(container instanceof EPackage) {
+				EPackage p = (EPackage)container;
+				return getDataTypePackage(p.getName());
 			}
 		}
-		
-		Collection<DataTypePackage> res = new BasicEList<DataTypePackage>();
-		for(Setting s : c.getInverseReferences(scope, true)) {
-			if(s.getEObject() instanceof DataTypePackage) {
-				res.add((DataTypePackage)s.getEObject());
-			}
-		}
-		
-		return res;
+		return null;
 	}
 
 	@Override
@@ -275,20 +263,14 @@ public class DataModelManagerImpl implements IDataModelManager {
 	}
 
 	@Override
-	public Scope getAnalyseScope() {
-		DataTypePackage dataModel = getDataTypePackage("ReqCycle");
-		if(dataModel == null) {
-			dataModel = createDataTypePackage("ReqCycle");
-			addDataTypePackage(dataModel);
-		}
-		
-		Scope scope = dataModel.getScope("Analysis");
+	public Scope getAnalysisScope() {
+		Scope scope = dataTypePackage.getScope("Analysis");
 		if(scope == null) {
 			scope = createScope("Analysis");
-			dataModel.add(scope);
+			dataTypePackage.add(scope);
 			save();
 		}
-		
 		return scope;
 	}
+
 }

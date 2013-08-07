@@ -46,12 +46,13 @@ public class OpenFilteredRequirementViewAction extends Action {
                 input.addAll(DataUtil.getRepositories(obj));
             }
 
-            if (!input.isEmpty()) {
-                try {
-                    Collection<IPredicate> selectedPredicates = PredicatesUIHelper.openPredicatesChooser();
-                    RequirementView.openNewFilteredRequirementView(input, selectedPredicates);
-
-                } catch (Exception e) {
+			if (!input.isEmpty()) {
+				try {
+					Collection<IPredicate> selectedPredicates = new ArrayList<IPredicate>();
+					if (PredicatesUIHelper.openPredicatesChooser(selectedPredicates)) {
+						RequirementView.openNewFilteredRequirementView(input, selectedPredicates);
+					}
+				} catch (Exception e) {
                     e.printStackTrace();
                     logger.error("Unable to open the View of filtered requirements : " + e.getMessage());
                     logger.error(e.toString());

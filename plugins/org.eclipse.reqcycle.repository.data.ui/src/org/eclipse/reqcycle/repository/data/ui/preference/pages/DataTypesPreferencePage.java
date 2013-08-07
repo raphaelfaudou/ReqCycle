@@ -11,7 +11,7 @@
  *  Anass RADOUANI (AtoS) anass.radouani@atos.net - Initial API and implementation
  *
   *****************************************************************************/
-package org.eclipse.reqcycle.repository.data.ui.preference;
+package org.eclipse.reqcycle.repository.data.ui.preference.pages;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,6 +41,7 @@ import org.eclipse.reqcycle.repository.data.types.RequirementTypeAttribute;
 import org.eclipse.reqcycle.repository.data.ui.dialog.AddAttributeDialog;
 import org.eclipse.reqcycle.repository.data.ui.dialog.AddTypeDialog;
 import org.eclipse.reqcycle.repository.data.ui.dialog.NameDialog;
+import org.eclipse.reqcycle.repository.data.ui.preference.PreferenceUiUtil;
 import org.eclipse.reqcycle.repository.data.util.DataUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -49,6 +50,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Table;
 
@@ -59,36 +61,40 @@ import com.google.common.collect.Collections2;
 public class DataTypesPreferencePage extends DataModelsPreferencePage {
 
 	/** Types Viewer Elements */ 
-	private TableViewer tvTypes;
-	private Table tTypes;
-	private TableViewerColumn tvcTypesNames;
-	private TableViewerColumn tvcTypesTypes;
+	protected TableViewer tvTypes;
+	protected Table tTypes;
+	protected TableViewerColumn tvcTypesNames;
+	protected TableViewerColumn tvcTypesTypes;
 
 	/** Attributes Viewer Elements */
-	private TableViewer tvAttributes;
-	private Table tAttributes;
-	private TableViewerColumn tvcAttributesNames;
-	private TableViewerColumn tvcAttributesTypes;
+	protected TableViewer tvAttributes;
+	protected Table tAttributes;
+	protected TableViewerColumn tvcAttributesNames;
+	protected TableViewerColumn tvcAttributesTypes;
 
 	/** Add Buttons */
-	private Button btnAddType;
-	private Button btnAddAttribute;
+	protected Button btnAddType;
+	protected Button btnAddAttribute;
 
 	/** Edit Buttons */
-	private Button btnEditAttribute;
-	private Button btnEditType;
+	protected Button btnEditAttribute;
+	protected Button btnEditType;
 
 	/** Viewers Inputs */
-	private Collection<DataType> inputTypes = new ArrayList<DataType>();
-	private Collection<DataTypeAttribute> inputAttributes = new ArrayList<DataTypeAttribute>();
+	protected Collection<DataType> inputTypes = new ArrayList<DataType>();
+	protected Collection<DataTypeAttribute> inputAttributes = new ArrayList<DataTypeAttribute>();
 
 	/** Viewers Selected Items */
 	protected DataTypePackage selectedModel;
 	protected DataType selectedType;
 	
+	
+	public DataTypesPreferencePage() {
+	}
+
 	@Override
-	public void doInit() {
-		super.doInit();
+	public void handleEvent(Event event) {
+		super.handleEvent(event);
 		
 		inputTypes.clear();
 		if(tvTypes != null) {
@@ -100,7 +106,7 @@ public class DataTypesPreferencePage extends DataModelsPreferencePage {
 			tvAttributes.refresh();
 		}
 	}
-
+	
 	@Override
 	public void doCreateContents(Composite control) {
 		//Data Type group
@@ -116,7 +122,7 @@ public class DataTypesPreferencePage extends DataModelsPreferencePage {
 	 * Create Attributes Ui Elements
 	 * @param parent Composite parent
 	 */
-	private void createAttribuesUi(Composite parent) {
+	protected void createAttribuesUi(Composite parent) {
 		//Table Viewer
 		Composite viewerComposite = new Composite(parent, SWT.NONE);
 		viewerComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -187,7 +193,7 @@ public class DataTypesPreferencePage extends DataModelsPreferencePage {
 	 * Create Types Attributes
 	 * @param parent Composite parent
 	 */
-	private void createTypesUi(Composite parent) {
+	protected void createTypesUi(Composite parent) {
 		//Table viewer
 		Composite viewerComposite = new Composite(parent, SWT.NONE);
 		viewerComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -310,7 +316,7 @@ public class DataTypesPreferencePage extends DataModelsPreferencePage {
 						element = dataModelManager.createEnumerationType(name);
 					}
 
-					dataModelManager.addDataType(selectedModel, element);
+					dataModelManager.addDataTypes(selectedModel, element);
 
 					inputTypes.add(element);
 					tvTypes.refresh();

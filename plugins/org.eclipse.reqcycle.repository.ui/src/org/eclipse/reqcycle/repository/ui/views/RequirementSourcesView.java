@@ -43,7 +43,6 @@ import org.eclipse.reqcycle.repository.ui.actions.DeleteRequirementSourceAction;
 import org.eclipse.reqcycle.repository.ui.actions.EditRequirementSourceAction;
 import org.eclipse.reqcycle.repository.ui.actions.OpenFilteredRequirementViewAction;
 import org.eclipse.reqcycle.repository.ui.actions.OpenPredicatesEditorAction;
-import org.eclipse.reqcycle.repository.ui.actions.OpenRequirementViewAction;
 import org.eclipse.reqcycle.repository.ui.actions.RefreshViewAction;
 import org.eclipse.reqcycle.repository.ui.actions.SynchronizeRequirementSourceActionStub;
 import org.eclipse.reqcycle.repository.ui.providers.RequirementSourceContentProvider;
@@ -80,7 +79,7 @@ public class RequirementSourcesView extends ViewPart {
 	private Action deleteRequirementSourceAction;
 	
 	/** Opens requirement view action */
-	private Action openRequirementViewAction;
+//	private Action openRequirementViewAction;
 	
 	/** Changes the repository mapping Action */
 	private Action editMappingAction;
@@ -183,9 +182,9 @@ public class RequirementSourcesView extends ViewPart {
 		if(deleteRequirementSourceAction != null) {
 			deleteRequirementSourceAction.setEnabled(selectedElement!=null);
 		}
-		if(openRequirementViewAction != null) {
-			openRequirementViewAction.setEnabled(selectedElement!=null);
-		}
+//		if(openRequirementViewAction != null) {
+//			openRequirementViewAction.setEnabled(selectedElement!=null);
+//		}
 		if(editMappingAction != null) {
 			editMappingAction.setEnabled(selectedElement instanceof RequirementSource?canEditSource((RequirementSource)selectedElement):false);
 		}
@@ -266,8 +265,8 @@ public class RequirementSourcesView extends ViewPart {
 		manager.add(addRepoAction);
 		manager.add(new Separator());
 		manager.add(deleteRequirementSourceAction);
-		manager.add(new Separator());
-		manager.add(openRequirementViewAction);
+//		manager.add(new Separator());
+//		manager.add(openRequirementViewAction);
 		manager.add(new Separator());
 		manager.add(synchResourceAction);
 		manager.add(new Separator());
@@ -285,7 +284,7 @@ public class RequirementSourcesView extends ViewPart {
 	private void fillContextMenu(IMenuManager manager) {
 		manager.add(addRepoAction);
 		manager.add(deleteRequirementSourceAction);
-		manager.add(openRequirementViewAction);
+//		manager.add(openRequirementViewAction);
 		manager.add(synchResourceAction);
 		manager.add(editMappingAction);
 		manager.add(openPredicatesEditorAction);
@@ -305,7 +304,7 @@ public class RequirementSourcesView extends ViewPart {
 	private void fillLocalToolBar(IToolBarManager manager) {
 		manager.add(addRepoAction);
 		manager.add(deleteRequirementSourceAction);
-		manager.add(openRequirementViewAction);
+//		manager.add(openRequirementViewAction);
 		manager.add(synchResourceAction);
 		manager.add(refreshViewAction);
 		manager.add(new Separator());
@@ -339,12 +338,12 @@ public class RequirementSourcesView extends ViewPart {
 		openPredicatesViewAction.setToolTipText("Open Filtered Requirements View");
 		openPredicatesViewAction.setImageDescriptor(Activator.getImageDescriptor(ICON_OPEN)); // TODO: replace icon
 		
-		openRequirementViewAction = new OpenRequirementViewAction(viewer);
-		ZigguratInject.inject(openRequirementViewAction);
-		openRequirementViewAction.setText("Open Requirement View");
-		openRequirementViewAction.setToolTipText("Open Requirement View");
-		openRequirementViewAction.setImageDescriptor(Activator.getImageDescriptor(ICON_OPEN));
-		openRequirementViewAction.setEnabled(false);
+//		openRequirementViewAction = new OpenRequirementViewAction(viewer);
+//		ZigguratInject.inject(openRequirementViewAction);
+//		openRequirementViewAction.setText("Open Requirement View");
+//		openRequirementViewAction.setToolTipText("Open Requirement View");
+//		openRequirementViewAction.setImageDescriptor(Activator.getImageDescriptor(ICON_OPEN));
+//		openRequirementViewAction.setEnabled(false);
 
 		synchResourceAction = new SynchronizeRequirementSourceActionStub(viewer);
 		ZigguratInject.inject(synchResourceAction);

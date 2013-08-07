@@ -25,19 +25,13 @@ public interface IDataModelManager {
 	
 	public Scope createScope(String name);
 	
-	public void addRequirementType(DataTypePackage dataTypePackage, RequirementType dataType);
+	public void addRequirementTypes(DataTypePackage dataTypePackage, RequirementType... dataTypes);
 	
-	public void addRequirementTypes(DataTypePackage dataTypePackage, Collection<RequirementType> types);
+	public void addEnumerationTypes(DataTypePackage dataTypePackage, EnumerationType... enumerationTypes);
 	
-	public void addEnumerationType(DataTypePackage dataTypePackage, EnumerationType enumerationType);
-
-	public void addEnumerationTypes(DataTypePackage dataTypePackage, Collection<EnumerationType> types);
+	public void addScopes(DataTypePackage dataTypePackage, Scope... scopes);
 	
-	public void addScope(DataTypePackage dataTypePackage, Scope scope);
-	
-	public void addScopes(DataTypePackage dataTypePackage, Collection<Scope> scopes);
-	
-	public void addDataType(DataTypePackage dataTypePackage, DataType type);
+	public void addDataTypes(DataTypePackage dataTypePackage, DataType... types);
 
 	public DataTypePackage getDataTypePackage(String name);
 	
@@ -75,9 +69,9 @@ public interface IDataModelManager {
 	
 	public RequirementTypeAttribute createAttributeType(String name, EnumerationType type);
 
-	public Collection<DataTypePackage> getDataModel(Scope s);
+	public DataTypePackage getDataModel(Scope s);
 
-	public Scope getAnalyseScope();
+	public Scope getAnalysisScope();
 	
 }
 

@@ -45,9 +45,11 @@ import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.PluginTransfer;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ziggurat.inject.ZigguratInject;
@@ -189,6 +191,29 @@ public class RequirementView extends ViewPart {
 			}
 		}
 	}
+	
+	protected static IViewPart createNewView() {
+		IWorkbenchPage activePage = PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getActivePage();
+		int nbView = 0;
+		for (IViewReference ref : activePage.getViewReferences()) {
+			if (ref.getId().startsWith(VIEW_ID)) {
+				nbView++;
+			}
+		}
+		// increment to have the second view named #2
+		nbView++;
+		IViewPart view = null;
+		try {
+			view = activePage.showView(VIEW_ID, VIEW_ID + "_" + nbView,
+					IWorkbenchPage.VIEW_ACTIVATE);
+			// view.
+		} catch (PartInitException e) {
+			e.printStackTrace();
+		}
+		return view;
+
+	}
 
 	/**
 	 * @param input
@@ -198,46 +223,34 @@ public class RequirementView extends ViewPart {
 	public static void openNewFilteredRequirementView(final Collection<RequirementSource> input, final Collection<IPredicate> predicates) {
 
 		if(!input.isEmpty()) {
-			IWorkbenchPage page = Activator.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();
-			try {
-				String secondaryID = UUID.randomUUID().toString();
-				page.showView(VIEW_ID, secondaryID, IWorkbenchPage.VIEW_ACTIVATE);
-				String fullId = VIEW_ID + ":" + secondaryID;
-				for(IViewReference viewRef : page.getViewReferences()) {
-					if(VIEW_ID.equals(viewRef.getId())) {
-						RequirementView reqView = (RequirementView)viewRef.getView(true);
+			
+			IViewPart view = createNewView();
+			if(view == null) {
+				return;
+			}
+			
+			RequirementView reqView = (RequirementView)view;
 
-						final Collection<DummyInput> dummyInputs = new ArrayList<DummyInput>();
-						if(predicates == null || predicates.isEmpty()) {
-							dummyInputs.add(new DummyInput(input));
-						} else {
-							for(IPredicate p : predicates) {
-								final DummyInput dInput = new DummyInput(input);
-								dInput.setPredicate(p);
-								dummyInputs.add(dInput);
-							}
-						}
-
-						final ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-
-						final DummyInputContentProvider dummyInputContentProvider = new DummyInputContentProvider(adapterFactory);
-
-						reqView.getViewer().setContentProvider(dummyInputContentProvider);
-
-						reqView.setPredicates(predicates);
-
-						reqView.setInput(dummyInputs);
-
-						break;
-					}
-				}
-
-			} catch (PartInitException e) {
-				boolean debug = logger.isDebug(Activator.OPTIONS_DEBUG, Activator.getDefault());
-				if(debug) {
-					logger.trace("Can't show the view : " + VIEW_ID);
+			final Collection<DummyInput> dummyInputs = new ArrayList<DummyInput>();
+			if(predicates == null || predicates.isEmpty()) {
+				dummyInputs.add(new DummyInput(input));
+			} else {
+				for(IPredicate p : predicates) {
+					final DummyInput dInput = new DummyInput(input);
+					dInput.setPredicate(p);
+					dummyInputs.add(dInput);
 				}
 			}
+
+			final ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+
+			final DummyInputContentProvider dummyInputContentProvider = new DummyInputContentProvider(adapterFactory);
+
+			reqView.getViewer().setContentProvider(dummyInputContentProvider);
+
+			reqView.setPredicates(predicates);
+
+			reqView.setInput(dummyInputs);
 		}
 	}
 

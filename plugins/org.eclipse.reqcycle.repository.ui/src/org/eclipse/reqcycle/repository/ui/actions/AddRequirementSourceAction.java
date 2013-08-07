@@ -20,9 +20,6 @@ import javax.inject.Inject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
@@ -37,8 +34,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.RequirementSource;
-import MappingModel.AttributeMapping;
-import MappingModel.ElementMapping;
 
 /**
  * Action to create a new requirement source
@@ -50,9 +45,6 @@ public class AddRequirementSourceAction extends Action {
 
 	private @Inject
 	IRequirementSourceManager requirementSourceManager;
-
-//	private @Inject
-//	IScopeManager scopeManager;
 
 	private @Inject
 	ILogger logger;
@@ -97,32 +89,17 @@ public class AddRequirementSourceAction extends Action {
 				String sourceName = wizard.getSourceName();
 				source.setName(sourceName);
 				
-				//TODO : solve scope problems (scope isn't stored if the mapping has been skipped)
-//				String scopeName = wizard.getScope().eClass().getName();
-//				source.setProperty("SCOPE_NAME", scopeName);
-
-				EList<ElementMapping> mappings = source.getMappings();
-				
-				ResourceSet rs = new ResourceSetImpl();
-				for(ElementMapping elementMapping : mappings) {
-					rs.getResources().add(elementMapping.getTargetElement().eResource());
-					for(AttributeMapping attributeMapping : elementMapping.getAttributes()) {
-						rs.getResources().add(attributeMapping.getTargetAttribute().eResource());
-					}
-				}
-				requirementSourceManager.addRepository(source, rs);
-//				Collection<Contained> containedElements = DataUtil.getAllContainedElements(source.getRequirements());
-//				Collection<Contained> requirements = Collections2.filter(containedElements, new Predicate<Contained>() {
-//					
-//					@Override
-//					public boolean apply(Contained arg0) {
-//						if(arg0 instanceof Requirement || arg0 instanceof RequirementSection) {
-//							return true;
-//						}
-//						return false;
+//				EList<ElementMapping> mappings = source.getMappings();
+//				
+//				ResourceSet rs = new ResourceSetImpl();
+//				for(ElementMapping elementMapping : mappings) {
+//					rs.getResources().add(elementMapping.getTargetElement().eResource());
+//					for(AttributeMapping attributeMapping : elementMapping.getAttributes()) {
+//						rs.getResources().add(attributeMapping.getTargetAttribute().eResource());
 //					}
-//				});
-//				scopeManager.addToScope(wizard.getScope(), requirements);
+//				}
+				requirementSourceManager.addRepository(source);
+				
 				if(viewer != null) {
 					viewer.refresh();
 				}

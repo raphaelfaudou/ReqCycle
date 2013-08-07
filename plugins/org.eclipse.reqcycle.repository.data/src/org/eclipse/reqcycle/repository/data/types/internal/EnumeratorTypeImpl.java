@@ -7,7 +7,7 @@ import org.eclipse.reqcycle.repository.data.types.EnumeratorType;
 
 public class EnumeratorTypeImpl implements EnumeratorType {
 
-	private EEnumLiteral eEnumLiteral;
+	protected EEnumLiteral eEnumLiteral;
 	
 	public EnumeratorTypeImpl(String name) {
 		eEnumLiteral = EcoreFactory.eINSTANCE.createEEnumLiteral();

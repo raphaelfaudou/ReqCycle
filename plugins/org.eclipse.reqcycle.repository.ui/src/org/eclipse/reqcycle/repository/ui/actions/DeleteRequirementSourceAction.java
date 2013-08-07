@@ -19,6 +19,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.reqcycle.repository.connector.IConnectorManager;
 import org.eclipse.reqcycle.repository.data.IRequirementSourceManager;
 
 import DataModel.RequirementSource;
@@ -33,7 +34,10 @@ public class DeleteRequirementSourceAction extends Action {
 
 	/** Requirement Source Manager */
 	@Inject
-	private IRequirementSourceManager requirementSourceManager;
+	IRequirementSourceManager requirementSourceManager;
+	
+	@Inject
+	IConnectorManager connectorManager;
 
 	/**
 	 * Constructor
@@ -47,13 +51,20 @@ public class DeleteRequirementSourceAction extends Action {
 
 	@Override
 	public void run() {
+		
 		ISelection selection = viewer.getSelection();
 		if(selection instanceof IStructuredSelection) {
 			Object obj = ((IStructuredSelection)selection).getFirstElement();
+			
 			if(obj instanceof RequirementSource) {
-				requirementSourceManager.remove((RequirementSource)obj);
-				viewer.refresh();
+				requirementSourceManager.removeRequirementSource((RequirementSource)obj);
 			}
+			else if (obj instanceof String && connectorManager.get((String)obj) != null)
+			{
+				requirementSourceManager.removeConnectorRepositories((String)obj);
+			}
+			
+			viewer.refresh();
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package org.eclipse.reqcycle.ui.eenumpropseditor.internal.components;
 
+import org.eclipse.emf.common.util.AbstractEnumerator;
 import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EEnum;
@@ -11,7 +12,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.reqcycle.ui.eattrpropseditor.api.AbstractPropsEditorComponent;
-import org.eclipse.reqcycle.ui.eenumpropseditor.internal.AdaptableEEnumLiteral;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -31,7 +31,7 @@ public class EEnumPropsEditorComponent extends AbstractPropsEditorComponent<Enum
         lblName.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblName.setText(attribute.getName());
 
-        comboViewer = new ComboViewer(this, SWT.READ_ONLY);
+        comboViewer = new ComboViewer(this);
         Combo combo = comboViewer.getCombo();
         combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
         comboViewer.setContentProvider(ArrayContentProvider.getInstance());
@@ -52,15 +52,13 @@ public class EEnumPropsEditorComponent extends AbstractPropsEditorComponent<Enum
             public void selectionChanged(SelectionChangedEvent event) {
                 if (comboViewer.getSelection() instanceof IStructuredSelection && !comboViewer.getSelection().isEmpty()) {
                     IStructuredSelection selection = (IStructuredSelection) comboViewer.getSelection();
-                    Object selectedElement = selection.getFirstElement();
-                    if (selectedElement instanceof Enumerator) {
-                        Enumerator enumerator = (Enumerator) selectedElement;
-                        if (enumerator instanceof EEnumLiteral) {
-                            AdaptableEEnumLiteral adaptableEEnumLiteral = new AdaptableEEnumLiteral(
-                                    (EEnumLiteral) enumerator);
-                            enumerator = (Enumerator) adaptableEEnumLiteral.getAdapter(Enumerator.class);
-                        }
-                        setValue(enumerator);
+                    final Object selectedElement = selection.getFirstElement();
+                    if (selectedElement instanceof EEnumLiteral) {
+                    	Enumerator enumerator = new AbstractEnumerator(((EEnumLiteral)selectedElement).getValue(),
+                    		((EEnumLiteral)selectedElement).getName(),
+                    		((EEnumLiteral)selectedElement).getLiteral()) {
+						};
+                    	setValue(enumerator);
                     }
                 }
             }

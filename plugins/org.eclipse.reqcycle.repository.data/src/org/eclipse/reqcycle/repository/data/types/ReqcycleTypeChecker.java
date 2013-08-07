@@ -3,6 +3,7 @@ package org.eclipse.reqcycle.repository.data.types;
 import javax.inject.Inject;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.reqcycle.emf.types.EMFTypeChecker;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.types.IInjectedTypeChecker;
@@ -57,13 +58,17 @@ public class ReqcycleTypeChecker implements IInjectedTypeChecker {
 		}
 
 		public boolean visit(Object o, IAdaptable adaptable) {
-			found = o instanceof Requirement;
-			if(found && requirementScope != null) {
-				Requirement type = (Requirement)o;
-				for(Scope s : type.getScopes()) {
-					if(requirementScope.equalsIgnoreCase(s.eClass().getName()) 
-						&& dataModelManager.getDataModel(s).contains(dataModelManager.getDataTypePackage(dataModel))) {
-						return true;
+ 			found = o instanceof EObject;
+			if (found){
+				EObject eobj = (EObject)o;
+				
+				if(found && requirementScope != null) {
+					Requirement type = (Requirement)o;
+					for(Scope s : type.getScopes()) {
+						if(requirementScope.equalsIgnoreCase(s.eClass().getName()) 
+							&& dataModelManager.getDataModel(s).equals(dataModelManager.getDataTypePackage(dataModel))) {
+							return true;
+						}
 					}
 				}
 			}

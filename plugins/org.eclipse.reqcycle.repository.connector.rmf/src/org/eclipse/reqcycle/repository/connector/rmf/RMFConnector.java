@@ -77,7 +77,7 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 
 				if(edition) {
 					requirementSource = initSource;
-					scope = dataTypeManage.getAnalyseScope();
+					scope = dataTypeManage.getAnalysisScope();
 				} else {
 					requirementSource = DataModelFactory.eINSTANCE.createRequirementSource();
 					if(settingPageBean != null) {

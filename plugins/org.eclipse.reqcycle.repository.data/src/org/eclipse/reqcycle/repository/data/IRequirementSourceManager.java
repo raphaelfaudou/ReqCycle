@@ -16,8 +16,6 @@ package org.eclipse.reqcycle.repository.data;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.emf.ecore.resource.ResourceSet;
-
 import DataModel.RequirementSource;
 
 
@@ -29,7 +27,7 @@ public interface IRequirementSourceManager {
 	 * @param repository
 	 *        the repository to add
 	 */
-	public void addRepository(final RequirementSource repository, ResourceSet rs);
+	public void addRepository(final RequirementSource repository);
 
 	/**
 	 * Remove a repository from repositories list
@@ -79,8 +77,4 @@ public interface IRequirementSourceManager {
 	 */
 	public void removeConnectorRepositories(String connectorId);
 
-	public void remove(Object toRemove);
-	
-	public void removeRequirements(RequirementSource repository);
-	
 }

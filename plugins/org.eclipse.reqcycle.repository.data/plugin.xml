@@ -93,16 +93,18 @@
             interface="org.eclipse.reqcycle.repository.data.IRequirementSourceManager">
       </binding>
       <binding
-            impl="org.eclipse.reqcycle.repository.data.impl.ScopeManagerImpl"
-            interface="org.eclipse.reqcycle.repository.data.IScopeManager">
-      </binding>
-      <binding
             impl="org.eclipse.reqcycle.repository.data.impl.RequirementCreatorImpl"
             interface="org.eclipse.reqcycle.repository.data.IRequirementCreator">
       </binding>
       <binding
             impl="org.eclipse.reqcycle.repository.data.impl.DataModelManagerImpl"
             interface="org.eclipse.reqcycle.repository.data.IDataModelManager">
+      </binding>
+      <binding
+            impl="org.eclipse.reqcycle.repository.data.impl.ConfResourceSet"
+            interface="org.eclipse.emf.ecore.resource.ResourceSet"
+            name="confResourceSet"
+            priority="20">
       </binding>
    </extension>
    <extension
@@ -113,6 +115,17 @@
             id="org.eclipse.reqcycle.repository.data.type1"
             label="Requirement">
       </type>
+   </extension>
+   <extension
+         point="org.eclipse.reqcycle.uri.reachableHandler">
+      <objectHandler
+            handler="org.eclipse.reqcycle.repository.data.reachables.ConfReachableHandler"
+            priority="10">
+      </objectHandler>
+      <reachableHandler
+            handler="org.eclipse.reqcycle.repository.data.reachables.ConfReachableHandler"
+            priority="10">
+      </reachableHandler>
    </extension>
 
 </plugin>

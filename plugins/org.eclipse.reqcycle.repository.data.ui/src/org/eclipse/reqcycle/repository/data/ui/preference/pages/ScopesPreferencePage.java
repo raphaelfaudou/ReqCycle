@@ -11,7 +11,7 @@
  *  Anass RADOUANI (AtoS) anass.radouani@atos.net - Initial API and implementation
  *
   *****************************************************************************/
-package org.eclipse.reqcycle.repository.data.ui.preference;
+package org.eclipse.reqcycle.repository.data.ui.preference.pages;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,6 +29,7 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.window.Window;
 import org.eclipse.reqcycle.repository.data.types.DataTypePackage;
 import org.eclipse.reqcycle.repository.data.ui.dialog.NameDialog;
+import org.eclipse.reqcycle.repository.data.ui.preference.PreferenceUiUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -42,25 +43,27 @@ import org.eclipse.swt.widgets.Table;
 import DataModel.Scope;
 
 public class ScopesPreferencePage extends DataModelsPreferencePage {
+	public ScopesPreferencePage() {
+	}
 
 	/** Table Viewer Ui Elements */
-	private TableViewer tvScopes;
-	private Table tScopes;
-	private TableViewerColumn tvcScopesNames;
+	protected TableViewer tvScopes;
+	protected Table tScopes;
+	protected TableViewerColumn tvcScopesNames;
 	
 	/** Selected Model */
-	private DataTypePackage selectedModel;
+	protected DataTypePackage selectedModel;
 
 	/** Scopes Table Input */
-	private Collection<Scope> inputScopes = new ArrayList<Scope>();
+	protected Collection<Scope> inputScopes = new ArrayList<Scope>();
 
 	/** Buttons */
-	private Button btnAddScope;
-	private Button btnEditScope;
+	protected Button btnAddScope;
+	protected Button btnEditScope;
 	
 	@Override
-	public void doInit() {
-		super.doInit();
+	protected void performDefaults() {
+		super.performDefaults();
 		
 		if(inputScopes != null) {
 			inputScopes.clear();
@@ -70,6 +73,7 @@ public class ScopesPreferencePage extends DataModelsPreferencePage {
 			tvScopes.refresh();
 		}
 	}
+	
 	
 	@Override
 	public void doCreateContents(Composite control) {
@@ -110,7 +114,7 @@ public class ScopesPreferencePage extends DataModelsPreferencePage {
 				if(dialog.open() == Window.OK) {
 					String name = dialog.getName();
 					Scope scope = dataModelManager.createScope(name);
-					dataModelManager.addScope(selectedModel, scope);
+					dataModelManager.addScopes(selectedModel, scope);
 					inputScopes.add(scope);
 					tvScopes.setInput(inputScopes);
 					tvScopes.refresh();
@@ -124,7 +128,7 @@ public class ScopesPreferencePage extends DataModelsPreferencePage {
 	 * Creates Scope Ui
 	 * @param parent Prent Composite
 	 */
-	private void createScopesUi(Group parent) {
+	protected void createScopesUi(Group parent) {
 		//Table Viewer
 		Composite viewerComposite = new Composite(parent, SWT.None);
 		viewerComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));

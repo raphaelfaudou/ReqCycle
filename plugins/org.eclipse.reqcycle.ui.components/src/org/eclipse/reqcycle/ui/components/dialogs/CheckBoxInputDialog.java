@@ -100,7 +100,7 @@ public class CheckBoxInputDialog extends AbstractCustomDialog {
         } else {
             this.selectedItems.removeAll(selectedItems);
         }
-        super.okPressed();
+        super.buttonPressed(buttonId);
     }
 
     @Override

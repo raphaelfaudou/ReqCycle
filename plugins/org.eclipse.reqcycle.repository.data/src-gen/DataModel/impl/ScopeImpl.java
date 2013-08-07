@@ -2,6 +2,8 @@
  */
 package DataModel.impl;
 
+import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -34,6 +36,7 @@ import DataModel.Scope;
  * @generated
  */
 public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
+	
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -78,15 +81,19 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@SuppressWarnings("unchecked")
 	public EList<Contained> getRequirements() {
 		return (EList<Contained>)getOppositeObjs(DataModelPackage.Literals.CONTAINED__SCOPES);
 	}
 	
 	public EList<? extends EObject> getOppositeObjs(EReference oppositeRef) {
+
 		ECrossReferenceAdapter c = ECrossReferenceAdapter.getCrossReferenceAdapter(this);
+		
 		if (c == null) {
 			c = new ECrossReferenceAdapter() {
 			};
+			
 			Resource r = this.eResource();
 			if (r != null) {
 				ResourceSet rs = r.getResourceSet();
@@ -99,8 +106,10 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 				c.setTarget(this);
 			}
 		}
+		
 		EList<EObject> res = new BasicEList<EObject>();
-		for(Setting s : c.getInverseReferences(this, true)) {
+		Collection<Setting> settings = c.getInverseReferences(this, true);
+		for(Setting s : settings) {
 			if(oppositeRef.equals(s.getEStructuralFeature())) {
 				res.add(s.getEObject());
 			}
@@ -159,7 +168,6 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {

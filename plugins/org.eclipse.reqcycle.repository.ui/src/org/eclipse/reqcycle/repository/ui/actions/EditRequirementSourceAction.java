@@ -20,9 +20,6 @@ import javax.inject.Inject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -37,12 +34,9 @@ import org.eclipse.reqcycle.repository.connector.ui.Activator;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.IRequirementSourceManager;
-import org.eclipse.reqcycle.repository.data.IScopeManager;
 import org.eclipse.swt.widgets.Display;
 
 import DataModel.RequirementSource;
-import MappingModel.AttributeMapping;
-import MappingModel.ElementMapping;
 
 /**
  * Action to change the requirementSourceMapping mapping
@@ -51,9 +45,6 @@ public class EditRequirementSourceAction extends Action {
 
 	@Inject
 	IConnectorManager connectorManager;
-	
-	@Inject
-	IScopeManager scopeManager;
 	
 	@Inject
 	IDataModelManager dataModelManager;
@@ -103,16 +94,16 @@ public class EditRequirementSourceAction extends Action {
 						callable.call();
 						
 						
-						EList<ElementMapping> mappings = requirementSource.getMappings();
-						
-						ResourceSet rs = new ResourceSetImpl();
-						for(ElementMapping elementMapping : mappings) {
-							rs.getResources().add(elementMapping.getTargetElement().eResource());
-							for(AttributeMapping attributeMapping : elementMapping.getAttributes()) {
-								rs.getResources().add(attributeMapping.getTargetAttribute().eResource());
-							}
-						}
-						requirementSourceManager.addRepository(requirementSource, rs);
+//						EList<ElementMapping> mappings = requirementSource.getMappings();
+//						
+//						ResourceSet rs = new ResourceSetImpl();
+//						for(ElementMapping elementMapping : mappings) {
+//							rs.getResources().add(elementMapping.getTargetElement().eResource());
+//							for(AttributeMapping attributeMapping : elementMapping.getAttributes()) {
+//								rs.getResources().add(attributeMapping.getTargetAttribute().eResource());
+//							}
+//						}
+						requirementSourceManager.addRepository(requirementSource);
 						
 					}
 				} catch (CoreException e) {

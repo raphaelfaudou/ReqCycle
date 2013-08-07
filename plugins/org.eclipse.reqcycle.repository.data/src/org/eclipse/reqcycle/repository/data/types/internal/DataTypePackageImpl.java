@@ -22,18 +22,26 @@ import DataModel.Scope;
 
 public class DataTypePackageImpl implements DataTypePackage {
 	
-	private EPackage ePackage;
+	protected EPackage ePackage;
 	
-	private Collection<DataTypePackage> subPackages = new ArrayList<DataTypePackage>();
+	protected Collection<DataTypePackage> subPackages = new ArrayList<DataTypePackage>();
 	
-	private Collection<Scope> scopes = new ArrayList<Scope>();
+	protected Collection<Scope> scopes = new ArrayList<Scope>();
 	
-	private Collection<RequirementType> dataTypes = new ArrayList<RequirementType>();
+	protected Collection<RequirementType> dataTypes = new ArrayList<RequirementType>();
 	
-	private Collection<EnumerationType> enumerationTypes = new ArrayList<EnumerationType>();
+	protected Collection<EnumerationType> enumerationTypes = new ArrayList<EnumerationType>();
 	
-	private static final String NS_URI = "http://www.eclipse.org/ReqCycle/DataType";
+	protected static final String NS_URI = "http://www.eclipse.org/ReqCycle/DataType";
 	
+	public DataTypePackageImpl() {
+		ePackage = EcoreFactory.eINSTANCE.createEPackage();
+		ePackage.setName("");
+		ePackage.setName("");
+		ePackage.setNsPrefix("");
+		ePackage.setNsURI(NS_URI);
+	}
+
 	public DataTypePackageImpl(String name) {
 		ePackage = EcoreFactory.eINSTANCE.createEPackage();
 		ePackage.setName(name);

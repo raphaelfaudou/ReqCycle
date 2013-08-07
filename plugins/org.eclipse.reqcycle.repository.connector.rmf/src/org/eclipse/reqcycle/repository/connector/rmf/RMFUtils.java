@@ -19,6 +19,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.IRequirementCreator;
+import org.eclipse.reqcycle.repository.data.types.internal.RequirementTypeImpl;
 import org.eclipse.reqcycle.repository.data.util.DataUtil;
 import org.eclipse.rmf.reqif10.AttributeValue;
 import org.eclipse.rmf.reqif10.AttributeValueEnumeration;
@@ -35,6 +36,7 @@ import org.eclipse.rmf.reqif10.common.util.ReqIF10Util;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.Contained;
+import DataModel.RequirementSection;
 import DataModel.RequirementSource;
 import DataModel.Scope;
 import DataModel.Section;
@@ -144,14 +146,15 @@ public class RMFUtils {
 			if(specObject != null) {
 
 				ElementMapping elementMapping = DataUtil.getElementMapping(mapping, ReqIF10Util.getSpecType(specObject).getIdentifier());
-
-				String id = getID(elementMapping, specObject);
-				String name = getName(elementMapping, specObject);
-
-				createdObject = createElement(mapping, specObject, ReqIF10Util.getSpecType(specObject).getIdentifier(), id, name);
-				if(scope != null && !(createdObject instanceof Section)) {
-					createdObject.getScopes().add(scope);
+				if(elementMapping != null) {
+					String id = getID(elementMapping, specObject);
+					String name = getName(elementMapping, specObject);
+					createdObject = createElement(mapping, specObject, ReqIF10Util.getSpecType(specObject).getIdentifier(), id, name);
+					if(scope != null && (createdObject instanceof RequirementSection)) {
+						createdObject.getScopes().add(scope);
+					}
 				}
+
 			} else {
 				try {
 					createdObject = creator.createSection(specHierarchy.getLongName(), specHierarchy.getDesc(), specHierarchy.getIdentifier());
@@ -213,8 +216,11 @@ public class RMFUtils {
 		Contained createdObject = null;
 		if(elementMapping != null) {
 			try {
-				createdObject = creator.addObject(elementMapping.getTargetElement(), id, name, id);
-//				EObject instance = dataTypeManager.createInstance(new RequirementTypeImpl(elementMapping.getTargetElement()));
+//				createdObject = creator.addObject(elementMapping.getTargetElement(), id, name, id);
+				createdObject = (Contained)dataTypeManager.createInstance(new RequirementTypeImpl(elementMapping.getTargetElement()));
+				createdObject.setId(id);
+				createdObject.setName(name);
+				createdObject.setUri(id);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -227,10 +233,16 @@ public class RMFUtils {
 	
 	protected static void addAttributes(ElementMapping elementMapping, Collection<AttributeValue> values, Contained element) {
 		for(AttributeValue attributeValue : values) {
+			
 			AttributeMapping attributeMapping = DataUtil.getAttributeMapping(elementMapping, ReqIF10Util.getAttributeDefinition(attributeValue).getIdentifier());
-			if(attributeMapping == null || "id".equalsIgnoreCase(attributeMapping.getTargetAttribute().getName()) || "name".equalsIgnoreCase(attributeMapping.getTargetAttribute().getName())) {
+			
+			if(attributeMapping == null 
+				|| "id".equalsIgnoreCase(attributeMapping.getTargetAttribute().getName()) 
+				|| "name".equalsIgnoreCase(attributeMapping.getTargetAttribute().getName())) {
+				
 				continue;
 			}
+			
 			try {
 				if(attributeValue instanceof AttributeValueEnumeration) {
 					for(EnumValue enumValue : ((AttributeValueEnumeration)attributeValue).getValues()) {

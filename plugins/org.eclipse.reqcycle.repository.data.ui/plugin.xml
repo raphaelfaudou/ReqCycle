@@ -5,21 +5,28 @@
        point="org.eclipse.ui.preferencePages">
     <page
           category="org.eclipse.reqcycle.repository.data.ui.dataModelPreferencePage"
-          class="org.eclipse.reqcycle.repository.data.ui.preference.DataTypesPreferencePage"
+          class="org.eclipse.reqcycle.repository.data.ui.preference.pages.DataTypesPreferencePage"
           id="org.eclipse.reqcycle.repository.data.ui.typesPreferencePage"
           name="Requirement Types Preferences">
     </page>
     <page
           category="org.eclipse.reqcycle.repository.data.ui.dataModelPreferencePage"
-          class="org.eclipse.reqcycle.repository.data.ui.preference.ScopesPreferencePage"
+          class="org.eclipse.reqcycle.repository.data.ui.preference.pages.ScopesPreferencePage"
           id="org.eclipse.reqcycle.repository.data.ui.scopesPreferencePage"
           name="Scopes Preferences">
     </page>
     <page
           category="org.eclipse.reqycle.core.ui.pref.reqcycle"
-          class="org.eclipse.reqcycle.repository.data.ui.preference.DataModelsPreferencePage"
+          class="org.eclipse.reqcycle.repository.data.ui.preference.pages.DataModelsPreferencePage"
           id="org.eclipse.reqcycle.repository.data.ui.dataModelPreferencePage"
           name="Data Models Preferences">
     </page>
+ </extension>
+ <extension
+       point="org.eclipse.ziggurat.inject.binding">
+    <binding
+          impl="org.eclipse.reqcycle.repository.data.ui.DataModelUiManager"
+          interface="org.eclipse.reqcycle.repository.data.ui.IDataModelUiManager">
+    </binding>
  </extension>
 </plugin>

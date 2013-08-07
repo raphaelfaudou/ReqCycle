@@ -108,7 +108,7 @@ public class DataUtil {
 			}
 		}
 		if (result.isEmpty()) {
-			result = "Element Type : " + object.getClass().getName() +" [ this element doesn't have any attribute ]"; 
+			result = "Requirement Type : " + object.eClass().getName() +" [ this element doesn't have any attribute ]"; 
 		}
 		
 		return result;

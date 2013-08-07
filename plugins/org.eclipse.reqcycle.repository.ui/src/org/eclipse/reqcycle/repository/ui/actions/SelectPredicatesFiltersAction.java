@@ -23,7 +23,9 @@ public class SelectPredicatesFiltersAction extends Action {
     @Override
     public void run() {
         super.run();
-        Collection<IPredicate> selectedPredicates = PredicatesUIHelper.openPredicatesChooser();
+        Collection<IPredicate> selectedPredicates = new ArrayList<IPredicate>();
+        //FIXME : use the result of openPredicatesChooser
+        PredicatesUIHelper.openPredicatesChooser(selectedPredicates);
         final Collection<DummyInput> dummyInputs = new ArrayList<DummyInput>();
         @SuppressWarnings("unchecked")
         Collection<DummyInput> input = (Collection<DummyInput>) this.treeViewer.getInput();

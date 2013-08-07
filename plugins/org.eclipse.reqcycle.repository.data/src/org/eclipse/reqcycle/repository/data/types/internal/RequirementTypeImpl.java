@@ -5,18 +5,20 @@ import java.util.Collection;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.reqcycle.repository.data.types.RequirementType;
 import org.eclipse.reqcycle.repository.data.types.RequirementTypeAttribute;
 
 import DataModel.DataModelPackage;
+import DataModel.RequirementSection;
 
 
 public class RequirementTypeImpl implements RequirementType {
 
-	private EClass eClass;
+	protected EClass eClass;
 	
-	private Collection<RequirementTypeAttribute> attributes = new ArrayList<RequirementTypeAttribute>();
+	protected Collection<RequirementTypeAttribute> attributes = new ArrayList<RequirementTypeAttribute>();
 	
 	public RequirementTypeImpl(String name) {
 		eClass = EcoreFactory.eINSTANCE.createEClass();
@@ -52,6 +54,15 @@ public class RequirementTypeImpl implements RequirementType {
 	@Override
 	public Collection<RequirementTypeAttribute> getAttributes() {
 		return attributes;
+	}
+
+	@Override
+	public RequirementSection createInstance() {
+		EPackage ePackage = eClass.getEPackage();
+		if(ePackage != null) {
+			return (RequirementSection)ePackage.getEFactoryInstance().create(eClass);
+		}
+		return null;
 	}
 
 }

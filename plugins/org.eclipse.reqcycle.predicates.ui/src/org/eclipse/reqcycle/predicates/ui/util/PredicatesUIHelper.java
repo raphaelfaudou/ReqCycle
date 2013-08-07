@@ -1,6 +1,5 @@
 package org.eclipse.reqcycle.predicates.ui.util;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.jface.window.Window;
@@ -27,7 +26,7 @@ public class PredicatesUIHelper {
      * 
      * @return The selected predicates or an empty list if nothing is selected.
      */
-    public static Collection<IPredicate> openPredicatesChooser() {
+    public static Boolean openPredicatesChooser(Collection<IPredicate> predicates) {
         Display display = Display.getCurrent();
         if (display == null) display = Display.getDefault();
         
@@ -36,18 +35,17 @@ public class PredicatesUIHelper {
         
         Collection<IPredicate> storedPredicates = predicatesConfManager.getStoredPredicates();
         final CheckBoxInputDialog dialog = new CheckBoxInputDialog(display.getActiveShell(), "Requirement filtering", //$NON-NLS-1$
-                "Select a predicate to apply for filtering", storedPredicates, null); //$NON-NLS-1$
+                "Select a predicate to apply or press OK to continue without filtering.", storedPredicates, null); //$NON-NLS-1$
 
         dialog.setLabelProvider(new PredicatesTableLabelProvider());
         if (Window.OK == dialog.open()) {
-            Collection<IPredicate> predicates = new ArrayList<IPredicate>();
             for (Object obj : dialog.getSelectedItems()) {
                 if (obj instanceof IPredicate) {
                     predicates.add((IPredicate) obj);
                 }
             }
-            return predicates;
+            return true;
         }
-        return null;
+        return false;
     }
 }

@@ -8,7 +8,7 @@ import org.eclipse.reqcycle.repository.data.types.RequirementTypeAttribute;
 
 public class RequirementTypeAttributeImpl implements RequirementTypeAttribute {
 	
-	private EAttribute eAttribute;
+	protected EAttribute eAttribute;
 	
 	public RequirementTypeAttributeImpl(String name, EDataType type){
 		EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();

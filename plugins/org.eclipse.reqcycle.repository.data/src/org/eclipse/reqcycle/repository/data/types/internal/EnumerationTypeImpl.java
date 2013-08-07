@@ -13,9 +13,9 @@ import org.eclipse.reqcycle.repository.data.types.EnumeratorType;
 
 public class EnumerationTypeImpl implements EnumerationType {
 
-	private EEnum eEnum;
+	protected EEnum eEnum;
 	
-	private Collection<EnumeratorType> enumerators = new ArrayList<EnumeratorType>();
+	protected Collection<EnumeratorType> enumerators = new ArrayList<EnumeratorType>();
 	
 	public EnumerationTypeImpl(String name) {
 		eEnum = EcoreFactory.eINSTANCE.createEEnum();

@@ -11,24 +11,22 @@
  *  Anass RADOUANI (AtoS) anass.radouani@atos.net - Initial API and implementation
  *
   *****************************************************************************/
-package org.eclipse.reqcycle.repository.data.ui.preference;
+package org.eclipse.reqcycle.repository.data.ui.preference.pages;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.window.Window;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.types.DataTypePackage;
+import org.eclipse.reqcycle.repository.data.ui.IDataModelUiManager;
 import org.eclipse.reqcycle.repository.data.ui.dialog.NameDialog;
+import org.eclipse.reqcycle.repository.data.ui.preference.PreferenceUiUtil;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -36,14 +34,16 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
 
-public class DataModelsPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
+public class DataModelsPreferencePage extends PreferencePage implements IWorkbenchPreferencePage, Listener {
 
 	//TODO : Use e4 Injection instead of make method
 	IDataModelManager dataModelManager = ZigguratInject.make(IDataModelManager.class);
@@ -52,20 +52,25 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 	protected TableViewer tvModels;
 	
 	/** Models table */
-	private Table tModels;
+	protected Table tModels;
 	
-	/** Models table viewer column */
-	private TableViewerColumn tvcModelsNames;
+//	/** Models table viewer column */
+//	protected TableViewerColumn tvcModelsNames;
 	
-	/** Models table viewer input */
-	private Collection<DataTypePackage> inputModels = new ArrayList<DataTypePackage>();
+//	/** Models table viewer input */
+//	protected static Collection<DataTypePackage> inputModels = new ArrayList<DataTypePackage>();
 	
 	/** Add Model Button */
-	private Button btnAddModel;
+	protected Button btnAddModel;
 	
 	/** Edit Model Button */
-	private Button btnEditModel;
+	protected Button btnEditModel;
 	
+	protected IDataModelUiManager viewerManager = ZigguratInject.make(IDataModelUiManager.class); 
+	
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public DataModelsPreferencePage() {
 	}
 	
@@ -80,27 +85,15 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 	@Override
 	protected void performDefaults() {
 		super.performDefaults();
-		doInit();
-	}
-	
-	@Override
-	public void init(IWorkbench workbench) {
-		doInit();
-	}
-	
-	/**
-	 * Override to initialize the preference page
-	 */
-	public void doInit() {
 		dataModelManager.discardUnsavedChanges();
 
-		inputModels.clear();
-		inputModels.addAll(dataModelManager.getAllDataTypePackages());
+		viewerManager.clear();
+		Collection<DataTypePackage> models = dataModelManager.getAllDataTypePackages();
+		viewerManager.addDataModels((DataTypePackage[])models.toArray(new DataTypePackage[models.size()]));
 		
-		if(tvModels != null) {
-			tvModels.refresh();
-		}
+		handleEvent(new Event());
 	}
+	
 	
 	@Override
 	public void createControl(Composite parent) {
@@ -126,6 +119,7 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 	@Override
 	public void applyData(Object data) {
 		dataModelManager.save();
+		viewerManager.notifyListeners(new Event());
 	}
 
 	@Override
@@ -137,7 +131,7 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 
 	@Override
 	protected Control createContents(Composite parent) {
-		Composite control = new Composite(parent, SWT.None);
+		SashForm control = new SashForm(parent, SWT.VERTICAL);
 		control.setLayout(new GridLayout(1, false));
 		control.setLayoutData(new GridData());
 		
@@ -148,7 +142,6 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 		doCreateContents(control);
 		
 		hookListeners();
-		doInit();
 		return control;
 	}
 
@@ -164,7 +157,7 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 	 * Create Model Viewer UI
 	 * @param parent Composite parent
 	 */
-	private void createModelsUi(Composite parent) {
+	protected void createModelsUi(Composite parent) {
 		//Table Viewer
 		Composite viewerComposite = new Composite(parent, SWT.None);
 		viewerComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -172,27 +165,31 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 		TableColumnLayout packagesTVLayout = new TableColumnLayout();
 		viewerComposite.setLayout(packagesTVLayout);
 
-		tvModels = new TableViewer(viewerComposite);
-		tvModels.setContentProvider(ArrayContentProvider.getInstance());
+//		tvModels = new TableViewer(viewerComposite);
+//		tvModels.setContentProvider(ArrayContentProvider.getInstance());
+//		tModels = tvModels.getTable();
+//		tModels.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+//		tModels.setLinesVisible(true);
+//
+//		//Columns
+//		tvcModelsNames = PreferenceUiUtil.createTableViewerColumn(tvModels, "Name", SWT.None);
+//		tvcModelsNames.setLabelProvider(new ColumnLabelProvider() {
+//
+//			@Override
+//			public String getText(Object element) {
+//				if(element instanceof DataTypePackage) {
+//					return ((DataTypePackage)element).getName();
+//				}
+//				return super.getText(element);
+//			}
+//		});
+//		packagesTVLayout.setColumnData(tvcModelsNames.getColumn(), new ColumnWeightData(20, 100, true));
+//
+//		tvModels.setInput(inputModels);
+		
+		viewerManager.addListener(this);
+		tvModels = viewerManager.createDataModelTableViewer(viewerComposite, packagesTVLayout);
 		tModels = tvModels.getTable();
-		tModels.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		tModels.setLinesVisible(true);
-
-		//Columns
-		tvcModelsNames = PreferenceUiUtil.createTableViewerColumn(tvModels, "Name", SWT.None);
-		tvcModelsNames.setLabelProvider(new ColumnLabelProvider() {
-
-			@Override
-			public String getText(Object element) {
-				if(element instanceof DataTypePackage) {
-					return ((DataTypePackage)element).getName();
-				}
-				return super.getText(element);
-			}
-		});
-		packagesTVLayout.setColumnData(tvcModelsNames.getColumn(), new ColumnWeightData(20, 100, true));
-
-		tvModels.setInput(inputModels);
 
 		Composite btnComposite = new Composite(parent, SWT.None);
 		btnComposite.setLayout(new GridLayout());
@@ -216,11 +213,30 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 				NameDialog dialog = new NameDialog(e.display.getActiveShell(), "Add Data Model");
 				if(dialog.open() == Window.OK) {
 					String name = dialog.getName();
-					inputModels.add(dataModelManager.createDataTypePackage(name));
+//					inputModels.add(dataModelManager.createDataTypePackage(name));
+					viewerManager.addDataModels(dataModelManager.createDataTypePackage(name));
 					tvModels.refresh();
 				}
 			}
 		});
 	}
 
+	@Override
+	public void handleEvent(Event event) {
+		if(tvModels != null) {
+			tvModels.refresh();
+		}
+	}
+
+	@Override
+	public void dispose() {
+		viewerManager.removeListener(this);
+		super.dispose();
+	}
+
+	@Override
+	public void init(IWorkbench workbench) {
+		
+	}
+	
 }
