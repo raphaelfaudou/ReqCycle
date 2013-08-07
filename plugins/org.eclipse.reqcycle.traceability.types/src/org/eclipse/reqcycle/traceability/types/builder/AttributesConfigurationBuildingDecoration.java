@@ -1,8 +1,11 @@
 package org.eclipse.reqcycle.traceability.types.builder;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -16,6 +19,7 @@ import org.eclipse.reqcycle.traceability.storage.ITraceabilityStorage;
 import org.eclipse.reqcycle.traceability.types.ITypesConfigurationProvider;
 import org.eclipse.reqcycle.traceability.types.RelationBasedType;
 import org.eclipse.reqcycle.traceability.types.RelationUtils;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Attribute;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Configuration;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Relation;
 import org.eclipse.reqcycle.uri.IReachableManager;
@@ -28,12 +32,16 @@ public class AttributesConfigurationBuildingDecoration extends
 		IBuildingDecorationAdapter {
 
 	@Inject
-	ITypesConfigurationProvider provider;
+	protected ITypesConfigurationProvider provider;
 	@Inject
-	IReachableManager manager;
+	protected IReachableManager manager;
 	@Inject
-	IStorageProvider storageProvider;
-	ITraceabilityStorage currentStorage;
+	@Named("RDF")
+	protected IStorageProvider storageProvider;
+
+	protected ITraceabilityStorage currentStorage;
+
+	protected Set<Reachable> allTraceabilityWithProperties = new HashSet<Reachable>();
 
 	@Override
 	public void startBuild(IBuilderCallBack callBack, Reachable reachable) {
@@ -46,10 +54,7 @@ public class AttributesConfigurationBuildingDecoration extends
 				if (adapted != null && adapted.exists()) {
 					IProject p = adapted.getProject();
 					currentStorage = getStorage(p);
-					if (currentStorage != null) {
-//						allTraceabilities = currentStorage.get
-						
-					}
+					// currentStorage.get
 				}
 			}
 		} catch (IReachableHandlerException e) {
@@ -59,15 +64,20 @@ public class AttributesConfigurationBuildingDecoration extends
 	}
 
 	private ITraceabilityStorage getStorage(IProject p) {
-		IFile file = p.getFile(new Path("./.traceability.rdf"));
+		IFile file = p.getFile(new Path("./.t-attributes.rdf"));
 		// get the storage for the file path
 		String uri = file.getLocationURI().getPath();
-		return storageProvider.getStorage(uri);
+		ITraceabilityStorage storage = storageProvider.getStorage(uri);
+		return storage;
 	}
 
 	@Override
 	public void endBuild(IBuilderCallBack callBack, Reachable reachable) {
-		currentStorage = null;
+		if (currentStorage != null) {
+			currentStorage.save();
+			currentStorage.dispose();
+			currentStorage = null;
+		}
 	}
 
 	@Override
@@ -84,6 +94,7 @@ public class AttributesConfigurationBuildingDecoration extends
 			return true;
 		}
 		Reachable reachableSource = getReachable(source);
+		Reachable reachableTrac = getReachable(traceability);
 		boolean newOne = true;
 		for (Object t : targets) {
 			Reachable reachableTarget = getReachable(t);
@@ -95,6 +106,15 @@ public class AttributesConfigurationBuildingDecoration extends
 				RelationBasedType relBasedType = new RelationBasedType(r, kind);
 				callBack.newUpwardRelation(traceability, resource, source,
 						targets, relBasedType);
+				if (currentStorage != null) {
+					for (Attribute a : r.getAttributes()) {
+						if (currentStorage.getProperty(reachableTrac,
+								a.getName()) == null) {
+							currentStorage.addUpdateProperty(reachableTrac,
+									a.getName(), null);
+						}
+					}
+				}
 			}
 		}
 		return newOne;

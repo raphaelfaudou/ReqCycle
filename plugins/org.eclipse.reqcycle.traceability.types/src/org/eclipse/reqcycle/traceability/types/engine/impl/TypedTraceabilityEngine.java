@@ -24,20 +24,11 @@ public class TypedTraceabilityEngine implements ITypedTraceabilityEngine {
 	public Iterator<Pair<Link, Reachable>> getTraceability(
 			Configuration typeConfig, Request... requests)
 			throws EngineException {
-		DIRECTION d = null;
 		if (typeConfig != null) {
 			for (Request r : requests) {
 				handleFilter(typeConfig, r);
-				d = r.getDirection();
 			}
 		}
-		// Iterator<Pair<Link, Reachable>> result = engine
-		// .getTraceability(requests);
-		// Iterator<Iterable<Pair<Link, Reachable>>> newVal = transform(result,
-		// new Link2RegisteredLink(typeConfig, d));
-		// Iterator<Iterator<Pair<Link, Reachable>>> iterat = transform(newVal,
-		// new Iterable2Iterator<Pair<Link, Reachable>>());
-		// result = concat(iterat);
 		return engine.getTraceability(requests);
 	}
 

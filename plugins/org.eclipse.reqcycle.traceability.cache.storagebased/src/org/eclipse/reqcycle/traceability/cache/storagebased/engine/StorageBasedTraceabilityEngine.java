@@ -186,9 +186,8 @@ public class StorageBasedTraceabilityEngine extends
 
 	}
 
-	@Override
-	protected void removeEntriesFor(Reachable reachable) {
-		storage.removeTraceabilityLinksContainedIn(reachable);
+	protected Iterable<Reachable> getEntriesFor(Reachable reachable) {
+		return storage.getTraceabilityLinksContainedIn(reachable);
 	}
 
 	@Override
@@ -238,8 +237,9 @@ public class StorageBasedTraceabilityEngine extends
 			Reachable container, Reachable source, List<Reachable> targets,
 			TType tType) {
 		handleRevision(container);
-		storage.newUpwardRelationShip(tType, traceaReachable, container,
-				source, targets.toArray(new Reachable[targets.size()]));
+		storage.addOrUpdateUpwardRelationShip(tType, traceaReachable,
+				container, source,
+				targets.toArray(new Reachable[targets.size()]));
 	}
 
 	private void handleRevision(Reachable container) {
@@ -282,6 +282,11 @@ public class StorageBasedTraceabilityEngine extends
 			Predicate<Pair<Link, Reachable>> requestPredicate) {
 		return filter(storage.getAllTraceability(direction), requestPredicate)
 				.iterator();
+	}
+
+	@Override
+	protected void removeTraceabilityLink(Reachable r) {
+		storage.removeTraceabilityLink(r);
 	}
 
 }

@@ -27,6 +27,7 @@ import org.eclipse.reqcycle.traceability.engine.Request.DEPTH;
 import org.eclipse.reqcycle.traceability.exceptions.EngineException;
 import org.eclipse.reqcycle.traceability.model.Link;
 import org.eclipse.reqcycle.traceability.model.Pair;
+import org.eclipse.reqcycle.traceability.types.ITypesConfigurationProvider;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Configuration;
 import org.eclipse.reqcycle.traceability.types.engine.ITypedTraceabilityEngine;
 import org.eclipse.reqcycle.traceability.utils.EngineUtils;
@@ -54,6 +55,9 @@ public class RequestContentProvider extends DeferredContentProvider implements
 	ITypedTraceabilityEngine typedEngine;
 	@Inject
 	IReachableListenerManager listenerManger;
+	@Inject
+	ITypesConfigurationProvider typeProvider;
+
 	Multimap<Reachable, Link> links = ArrayListMultimap.create();
 	private Collection<Request> requests = new LinkedList<Request>();
 	private TreeViewer treeViewer;
@@ -166,8 +170,10 @@ public class RequestContentProvider extends DeferredContentProvider implements
 	private Iterator<Pair<Link, Reachable>> getTraceability(Request r)
 			throws EngineException {
 		Object conf = r.getProperty(CONF_KEY);
-		if (conf instanceof Configuration) {
-			return typedEngine.getTraceability((Configuration) conf, r);
+		Configuration defaultConfiguration = typeProvider
+				.getDefaultConfiguration();
+		if (defaultConfiguration != null && Boolean.TRUE.equals(conf)) {
+			return typedEngine.getTraceability(defaultConfiguration, r);
 		} else {
 			return defaultEngine.getTraceability(r);
 		}

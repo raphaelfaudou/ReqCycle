@@ -60,16 +60,22 @@ public class GraphUtils implements ISpecificGraphProvider.IBusinessOperations {
 				relation);
 	}
 
-	public Vertex addTraceabilityRelation(Graph graph, Reachable source,
-			Reachable target, TType relation) {
+	public Vertex addTraceabilityRelation(Graph graph, Reachable tracea,
+			Reachable source, Reachable target, TType relation) {
 		Vertex vSource = getVertex(graph, source);
 		Vertex vTarget = getVertex(graph, target);
-		return addTraceabilityRelation(graph, relation, vSource, vTarget);
+		Vertex vTracea = null;
+		if (tracea != null) {
+			vTracea = getVertex(graph, tracea);
+		} else {
+			vTracea = graph.addVertex(null);
+		}
+		return addTraceabilityRelation(graph, relation, vTracea, vSource,
+				vTarget);
 	}
 
 	private Vertex addTraceabilityRelation(Graph graph, TType relation,
-			Vertex vSource, Vertex vTarget) {
-		Vertex traceability = graph.addVertex(null);
+			Vertex traceability, Vertex vSource, Vertex vTarget) {
 		setKind(graph, relation, traceability);
 		graph.addEdge(null, vSource, traceability, VERTEX_OUTGOING);
 		graph.addEdge(null, traceability, vTarget, TRACE_TARGET);
@@ -231,7 +237,7 @@ public class GraphUtils implements ISpecificGraphProvider.IBusinessOperations {
 		Vertex vSource = getSourceFromTraceabilityVertex(traceabilityVertex);
 		Vertex vTarget = getTargetFromTraceabilityVertex(traceabilityVertex);
 		removeUpwardRelationShip(graph, kind, null, vSource, vTarget);
-		addTraceabilityRelation(graph, kind, vSource,
+		addTraceabilityRelation(graph, kind, traceabilityVertex, vSource,
 				getVertex(graph, newTarget));
 	}
 
@@ -241,8 +247,8 @@ public class GraphUtils implements ISpecificGraphProvider.IBusinessOperations {
 		Vertex vSource = getSourceFromTraceabilityVertex(vTrac);
 		Vertex vTarget = getTargetFromTraceabilityVertex(vTrac);
 		removeUpwardRelationShip(graph, kind, null, vSource, vTarget);
-		addTraceabilityRelation(graph, kind, getVertex(graph, newSource),
-				vTarget);
+		addTraceabilityRelation(graph, kind, vTrac,
+				getVertex(graph, newSource), vTarget);
 
 	}
 
@@ -254,12 +260,12 @@ public class GraphUtils implements ISpecificGraphProvider.IBusinessOperations {
 	@Override
 	public void setProperty(Graph graph, Vertex vertex, String propertyName,
 			String propertyValue) {
-		if (propertyValue == null) {
-			vertex.removeProperty(propertyName);
-		} else {
-			vertex.setProperty(propertyName, propertyValue);
-		}
+		vertex.setProperty(propertyName, propertyValue);
+	}
 
+	@Override
+	public void removeProperty(Graph graph, Vertex vertex, String propertyName) {
+		vertex.removeProperty(propertyName);
 	}
 
 }

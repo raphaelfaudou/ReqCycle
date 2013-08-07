@@ -23,8 +23,8 @@ public interface ISpecificGraphProvider extends IGraphProvider {
 		void addRelation(Graph graph, Reachable source, Reachable target,
 				String relation);
 
-		Vertex addTraceabilityRelation(Graph graph, Reachable source,
-				Reachable target, TType relation);
+		Vertex addTraceabilityRelation(Graph graph, Reachable tracea,
+				Reachable source, Reachable target, TType relation);
 
 		void addChildrenRelation(Graph graph, Vertex container, Vertex children);
 
@@ -68,6 +68,8 @@ public interface ISpecificGraphProvider extends IGraphProvider {
 		 */
 		void setProperty(Graph graph, Vertex vertex, String propertyName,
 				String propertyValue);
+
+		void removeProperty(Graph graph, Vertex vertex, String propertyName);
 
 	}
 }

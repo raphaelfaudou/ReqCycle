@@ -2,6 +2,7 @@ package org.eclipse.reqcycle.traceability.cache;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -49,6 +50,7 @@ public abstract class AbstractCachedTraceabilityEngine implements
 	protected IReachableManager manager;
 	@Inject
 	ILogger logger;
+	private Set<Reachable> allTraceabilities = new HashSet<Reachable>();
 
 	public AbstractCachedTraceabilityEngine() {
 		PlatformUI.getWorkbench().addWorkbenchListener(
@@ -308,7 +310,7 @@ public abstract class AbstractCachedTraceabilityEngine implements
 
 	}
 
-	protected abstract void removeEntriesFor(Reachable reachable);
+	protected abstract Iterable<Reachable> getEntriesFor(Reachable reachable);
 
 	protected Iterable<Link> getLinksToTag(Iterable<Link> oldLinks,
 			Iterable<Link> newLinks) {
@@ -346,6 +348,7 @@ public abstract class AbstractCachedTraceabilityEngine implements
 		if (sourceR != null
 				&& Iterables.filter(targetsR, Predicates.notNull()).iterator()
 						.hasNext()) {
+			allTraceabilities.remove(traceaReachable);
 			newUpwardRelation(traceaReachable, resourceReachable, sourceR,
 					targetsR, kind);
 		}
@@ -360,13 +363,21 @@ public abstract class AbstractCachedTraceabilityEngine implements
 	public void startBuild(Reachable reachable) {
 		// the build is starting it is the moment to remove the corresponding
 		// entries
-		removeEntriesFor(reachable);
+		allTraceabilities = Sets.newHashSet(getEntriesFor(reachable));
 	}
 
 	@Override
 	public void endBuild(Reachable reachable) {
-		// DO NOTHING
+		// for each new upward relation ship the existing one is removed from
+		// the list
+		// it remains the deleted/moved one
+		for (Reachable r : allTraceabilities) {
+			removeTraceabilityLink(r);
+		}
+		allTraceabilities.clear();
 	}
+
+	protected abstract void removeTraceabilityLink(Reachable r);
 
 	@Override
 	public void errorOccurs(Reachable reachable, Throwable t) {

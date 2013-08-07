@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -29,9 +28,7 @@ import org.eclipse.reqcycle.traceability.engine.Request;
 import org.eclipse.reqcycle.traceability.engine.Request.DEPTH;
 import org.eclipse.reqcycle.traceability.model.scopes.CompositeScope;
 import org.eclipse.reqcycle.traceability.model.scopes.Scopes;
-import org.eclipse.reqcycle.traceability.types.ITypesConfigurationProvider;
 import org.eclipse.reqcycle.traceability.types.conditions.TypeConditions;
-import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Configuration;
 import org.eclipse.reqcycle.traceability.types.scopes.ConfigurationScope;
 import org.eclipse.reqcycle.traceability.ui.Activator;
 import org.eclipse.reqcycle.traceability.ui.TraceabilityUtils;
@@ -101,11 +98,8 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 	private RequestContentProvider contentProvider;
 	private TreeViewer listOfTypesViewer;
 	private ITypesManager manager = ZigguratInject.make(ITypesManager.class);
-	private ITypesConfigurationProvider typeProvider = ZigguratInject
-			.make(ITypesConfigurationProvider.class);
 	private IReachableManager reachManager = ZigguratInject
 			.make(IReachableManager.class);
-	private ComboViewer comboConfViewer;
 	private Tree listOfTypes;
 	private Action delete_action;
 	private Action refresh_action;
@@ -113,6 +107,7 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 	private Action sync_action;
 	private Action new_instance;
 	private Action changeViewName;
+	private Button btnFilterOnCurrent;
 
 	public TraceabilityViewer() {
 		setTitleImage(ResourceManager.getPluginImage(
@@ -325,31 +320,11 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 		formToolkit.adapt(lblConfiguration, true, true);
 		lblConfiguration.setText("configuration :");
 
-		comboConfViewer = new ComboViewer(composite, SWT.READ_ONLY);
-		Combo comboConf = comboConfViewer.getCombo();
-		comboConf.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
-				4, 1));
-		comboConfViewer.setLabelProvider(new LabelProvider() {
-
-			@Override
-			public String getText(Object element) {
-				if (element == "") {
-					return "";
-				}
-				if (element instanceof Configuration) {
-					Configuration conf = (Configuration) element;
-					return conf.getName();
-				}
-				return super.getText(element);
-			}
-
-		});
-		comboConfViewer.setContentProvider(new ArrayContentProvider());
-		List<Object> input = new LinkedList<Object>();
-		input.add("");
-		input.addAll(typeProvider.getContainer().getConfigurations());
-		comboConfViewer.setInput(input);
-		formToolkit.paintBordersFor(comboConf);
+		btnFilterOnCurrent = new Button(composite, SWT.CHECK);
+		btnFilterOnCurrent.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER,
+				false, false, 4, 1));
+		formToolkit.adapt(btnFilterOnCurrent, true, true);
+		btnFilterOnCurrent.setText("Filter on current configuration");
 
 		Composite composite_4 = new Composite(composite_3, SWT.NONE);
 		composite_4.setLayout(new FillLayout(SWT.HORIZONTAL));
@@ -491,10 +466,8 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 					.addProperty(
 							IBuildingTraceabilityEngine.OPTION_CHECK_CACHE,
 							false)
-					.addProperty(
-							RequestContentProvider.CONF_KEY,
-							((IStructuredSelection) comboConfViewer
-									.getSelection()).getFirstElement());
+					.addProperty(RequestContentProvider.CONF_KEY,
+							btnFilterOnCurrent.getSelection());
 			if (target == null) {
 				for (Reachable r : sources) {
 					request.addSource(r);
@@ -629,7 +602,7 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 		// increment to have the second view named #2
 		nbView++;
 		try {
-			IViewPart view = activePage.showView(ID, ID + "#" + nbView,
+			IViewPart view = activePage.showView(ID, ID + "_" + nbView,
 					IWorkbenchPage.VIEW_ACTIVATE);
 			// view.
 		} catch (PartInitException e) {

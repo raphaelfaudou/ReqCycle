@@ -13,9 +13,9 @@ public class Link {
 	Set<Reachable> sources = new HashSet<Reachable>();
 	Set<Reachable> targets = new HashSet<Reachable>();
 	TType kind;
-	String id;
+	Reachable id;
 
-	public Link(String id, TType kind, Iterable<Reachable> sources,
+	public Link(Reachable id, TType kind, Iterable<Reachable> sources,
 			Iterable<Reachable> targets) {
 		this.id = id;
 		this.kind = kind;
@@ -23,12 +23,12 @@ public class Link {
 		this.targets = Sets.newHashSet(targets);
 	}
 
-	public Link(String id, TType kind, Reachable source, Reachable target) {
+	public Link(Reachable id, TType kind, Reachable source, Reachable target) {
 		this(id, kind, Collections.singleton(source), Collections
 				.singleton(target));
 	}
 
-	public String getId() {
+	public Reachable getId() {
 		return id;
 	}
 

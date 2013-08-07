@@ -126,6 +126,9 @@ public class EMFVisitable implements IVisitable, IAdaptable {
 	}
 
 	public Resource getResource() {
+		if (resource == null) {
+			resource = getResource(uri);
+		}
 		return resource;
 	}
 

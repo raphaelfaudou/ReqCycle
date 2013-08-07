@@ -9,6 +9,11 @@ import org.eclipse.reqcycle.uri.model.Reachable;
 public interface ITraceabilityStorage {
 
 	/**
+	 * @return the path used for construction
+	 */
+	String getPath();
+
+	/**
 	 * Dispose the storage
 	 */
 	void dispose();
@@ -46,8 +51,10 @@ public interface ITraceabilityStorage {
 	 * @param targets
 	 *            the targets of the upward relationship
 	 */
-	void newUpwardRelationShip(TType kind, Reachable traceaReachable,
+	void addOrUpdateUpwardRelationShip(TType kind, Reachable traceaReachable,
 			Reachable container, Reachable source, Reachable... targets);
+
+	void removeTraceabilityLink(Reachable r);
 
 	/**
 	 * Get a reachable from the storage
@@ -73,7 +80,7 @@ public interface ITraceabilityStorage {
 	 * 
 	 * @param reachable
 	 */
-	void removeTraceabilityLinksContainedIn(Reachable reachable);
+	Iterable<Reachable> getTraceabilityLinksContainedIn(Reachable reachable);
 
 	/**
 	 * Remove an upward relation ship
@@ -102,8 +109,10 @@ public interface ITraceabilityStorage {
 	 * @param propertyValue
 	 *            set to null to remove the property
 	 */
-	void addUpdateRemoveProperty(Reachable reachable, String propertyName,
+	void addUpdateProperty(Reachable reachable, String propertyName,
 			String propertyValue);
+
+	void removeProperty(Reachable reachable, String propertyName);
 
 	/**
 	 * Get property for a given reachable
@@ -114,18 +123,4 @@ public interface ITraceabilityStorage {
 	 */
 	String getProperty(Reachable reachable, String propertyName);
 
-	/**
-	 * Add a traceability listener to the storage. The listener is enabled until
-	 * it is removed or the storage is disposed
-	 * 
-	 * @param listener
-	 */
-	void addTraceabilityStorageListener(ITraceabilityStorageListener listener);
-
-	/**
-	 * Remove the listner registered
-	 * 
-	 * @param listener
-	 */
-	void removeTraceabilityStorageListener(ITraceabilityStorageListener listener);
 }

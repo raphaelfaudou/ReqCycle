@@ -95,9 +95,14 @@ public class SailBusinessOperations implements
 				relation);
 	}
 
-	public Vertex addTraceabilityRelation(Graph graph, Reachable source,
-			Reachable target, TType relation) {
-		Vertex traceability = graph.addVertex(null);
+	public Vertex addTraceabilityRelation(Graph graph, Reachable tracea,
+			Reachable source, Reachable target, TType relation) {
+		Vertex traceability = null;
+		if (tracea != null) {
+			traceability = getVertex(graph, tracea);
+		} else {
+			traceability = graph.addVertex(null);
+		}
 		// TODO change for sail
 		// Vertex vKind = graph.addVertex(getLitteral(relation));
 		// graph.addEdge(null, traceability, vKind, KIND);
@@ -351,14 +356,24 @@ public class SailBusinessOperations implements
 
 	@Override
 	public Vertex getSourceFromTraceabilityVertex(Vertex arg0) {
-		return arg0.getEdges(Direction.OUT, TRACE_SOURCE).iterator().next()
-				.getVertex(Direction.IN);
+		Iterator<Edge> iterator = arg0.getEdges(Direction.OUT, TRACE_SOURCE)
+				.iterator();
+		if (iterator.hasNext()) {
+			return iterator.next().getVertex(Direction.IN);
+		} else {
+			return null;
+		}
 	}
 
 	@Override
 	public Vertex getTargetFromTraceabilityVertex(Vertex arg0) {
-		return getTargetEdgeFromTraceabilityVertex(arg0).iterator().next()
-				.getVertex(Direction.IN);
+		Iterator<Edge> iterator = getTargetEdgeFromTraceabilityVertex(arg0)
+				.iterator();
+		if (iterator.hasNext()) {
+			return iterator.next().getVertex(Direction.IN);
+		} else {
+			return null;
+		}
 	}
 
 	private Iterable<Edge> getTargetEdgeFromTraceabilityVertex(Vertex arg0) {
@@ -404,6 +419,12 @@ public class SailBusinessOperations implements
 	@Override
 	public void setProperty(Graph graph, Vertex vertex, String propertyName,
 			String propertyValue) {
+		removeProperty(graph, vertex, propertyName);
+		addProperty(graph, vertex, propertyName, propertyValue);
+	}
+
+	@Override
+	public void removeProperty(Graph graph, Vertex vertex, String propertyName) {
 		Edge toDelete = null;
 		for (Edge e : vertex.getEdges(Direction.OUT, EDGE_PROPERTIES)) {
 			String[] prop = getProperties(e);
@@ -417,6 +438,5 @@ public class SailBusinessOperations implements
 		if (toDelete != null) {
 			graph.removeEdge(toDelete);
 		}
-		addProperty(graph, vertex, propertyName, propertyValue);
 	}
 }

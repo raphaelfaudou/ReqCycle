@@ -72,7 +72,7 @@ public class CreateRelationCommand implements Command {
 			storage.startTransaction();
 			// FIX ME
 			for (TType type : relation.getAgregated()) {
-				storage.newUpwardRelationShip(type, tracea, container, source,
+				storage.addOrUpdateUpwardRelationShip(type, tracea, container, source,
 						new Reachable[] { target });
 			}
 			storage.commit();

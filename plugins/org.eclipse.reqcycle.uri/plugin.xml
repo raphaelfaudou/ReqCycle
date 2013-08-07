@@ -32,7 +32,7 @@
             handler="org.eclipse.reqcycle.uri.impl.handlers.StandardTypeHandler">
       </objectHandler>
       <reachableHandler
-            handler="org.eclipse.reqcycle.uri.ReachableHandler2">
+            handler="org.eclipse.reqcycle.uri.impl.handlers.StandardTypeHandler">
       </reachableHandler>
    </extension>
 
