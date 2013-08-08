@@ -33,6 +33,8 @@
    <extension
          point="org.eclipse.reqcycle.traceability.builder.traceabilityAnalyser">
       <Analyser
+            description="analyse the traceability links created by the user"
+            label="Explicit Traceability Analyser"
             visitor="org.eclipse.reqcycle.sesame.traceability.TraceabilityVisitor">
       </Analyser>
    </extension>

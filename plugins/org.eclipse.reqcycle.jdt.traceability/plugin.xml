@@ -4,6 +4,8 @@
    <extension
          point="org.eclipse.reqcycle.traceability.builder.traceabilityAnalyser">
       <Analyser
+            description="analyse traceability in java using annotations"
+            label="JDT Analyser"
             visitor="org.eclipse.reqcycle.jdt.traceability.JDTTraceabilityVisitor">
       </Analyser>
    </extension>
