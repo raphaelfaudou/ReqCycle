@@ -71,7 +71,7 @@ public class AnalysersPreferencePage extends PreferencePage implements
 		FormData fd_lblNewLabel = new FormData();
 		fd_lblNewLabel.right = new FormAttachment(0, 365);
 		fd_lblNewLabel.top = new FormAttachment(0);
-		fd_lblNewLabel.left = new FormAttachment(0);
+		fd_lblNewLabel.left = new FormAttachment(0, 5);
 		lblNewLabel.setLayoutData(fd_lblNewLabel);
 		lblNewLabel
 				.setText("Checked analysers will be used for traceability analysis");
