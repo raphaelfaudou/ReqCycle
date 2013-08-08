@@ -15,5 +15,14 @@
          </action>
       </objectContribution>
       </extension>
-
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="org.eclipse.reqcycle.traceability.types.ui.traceabilityPage"
+            class="org.eclipse.reqcycle.traceability.builder.ui.preferences.TraceabilityBuildersPreferencePage"
+            id="org.eclipse.reqcycle.traceability.types.ui.tracabuilders"
+            name="Traceability Analysis">
+      </page>
+   </extension>
+	
 </plugin>
