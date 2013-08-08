@@ -4,7 +4,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
-import org.eclipse.jface.viewers.CheckboxTreeViewer;
+import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ICheckStateProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -16,7 +16,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.model.BaseWorkbenchContentProvider;
@@ -24,8 +24,6 @@ import org.eclipse.ui.model.WorkbenchLabelProvider;
 
 public class TraceabilityBuildersPreferencePage extends PreferencePage
 		implements IWorkbenchPreferencePage {
-
-	private boolean flagBuild = false;
 
 	public TraceabilityBuildersPreferencePage() {
 		super();
@@ -46,14 +44,14 @@ public class TraceabilityBuildersPreferencePage extends PreferencePage
 		lblTheCheckedProjects
 				.setText("The checked projects will be analyzed by ReqCycle traceability engine");
 
-		CheckboxTreeViewer checkboxTreeViewer = new CheckboxTreeViewer(c,
-				SWT.BORDER);
-		Tree tree = checkboxTreeViewer.getTree();
-		checkboxTreeViewer.setLabelProvider(new WorkbenchLabelProvider());
-		checkboxTreeViewer
+		CheckboxTableViewer checkboxTableViewer = CheckboxTableViewer
+				.newCheckList(c, SWT.BORDER);
+		Table table = checkboxTableViewer.getTable();
+		checkboxTableViewer.setLabelProvider(new WorkbenchLabelProvider());
+		checkboxTableViewer
 				.setContentProvider(new BaseWorkbenchContentProvider());
-		checkboxTreeViewer.setInput(ResourcesPlugin.getWorkspace().getRoot());
-		checkboxTreeViewer.setCheckStateProvider(new ICheckStateProvider() {
+		checkboxTableViewer.setInput(ResourcesPlugin.getWorkspace().getRoot());
+		checkboxTableViewer.setCheckStateProvider(new ICheckStateProvider() {
 
 			@Override
 			public boolean isGrayed(Object element) {
@@ -69,15 +67,16 @@ public class TraceabilityBuildersPreferencePage extends PreferencePage
 				return false;
 			}
 		});
-		checkboxTreeViewer.addFilter(new ViewerFilter() {
+		checkboxTableViewer.addFilter(new ViewerFilter() {
 
 			@Override
 			public boolean select(Viewer viewer, Object parentElement,
 					Object element) {
-				return element instanceof IProject;
+				return element instanceof IProject
+						&& ((IProject) element).isAccessible();
 			}
 		});
-		checkboxTreeViewer.addCheckStateListener(new ICheckStateListener() {
+		checkboxTableViewer.addCheckStateListener(new ICheckStateListener() {
 
 			@Override
 			public void checkStateChanged(CheckStateChangedEvent event) {
@@ -89,18 +88,11 @@ public class TraceabilityBuildersPreferencePage extends PreferencePage
 					} else {
 						AddBuilderHandler.removeBuilder(project);
 					}
-					flagBuild = true;
 				}
 			}
 		});
-		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		return parent;
-	}
-
-	@Override
-	public boolean performOk() {
-		// launch build
-		return super.performOk();
 	}
 
 }
