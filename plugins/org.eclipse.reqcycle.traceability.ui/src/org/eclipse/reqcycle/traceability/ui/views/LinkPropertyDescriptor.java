@@ -17,7 +17,7 @@ import org.eclipse.ui.views.properties.PropertyDescriptor;
 public class LinkPropertyDescriptor extends PropertyDescriptor {
 
 	private EditableAttribute att;
-	private static Pattern INTPATTERN = Pattern.compile("\\d*");
+	private static Pattern INTPATTERN = Pattern.compile("-?\\d*");
 
 	public LinkPropertyDescriptor(EditableAttribute att) {
 		super(att.getName(), att.getName());
@@ -39,6 +39,17 @@ public class LinkPropertyDescriptor extends PropertyDescriptor {
 		} else {
 			TextCellEditor result = new TextCellEditor(parent);
 			if (att.getType() == AttributeType.INT) {
+				result = new TextCellEditor(parent) {
+					@Override
+					public Object doGetValue() {
+						return Integer.parseInt((String) super.doGetValue());
+					}
+
+					@Override
+					public void doSetValue(Object value) {
+						super.doSetValue(value.toString());
+					}
+				};
 				result.setValidator(new ICellEditorValidator() {
 
 					@Override
