@@ -119,6 +119,12 @@ public class OCLEvaluatorImpl implements OCLEvaluator {
 		EClassifier eClassifier = oclHelper.getOCL().getEnvironment().lookupClassifier(lookupParameters);
 		return eClassifier;
 	}
+	
+	public EClassifier lookupEClassifier(List<String> parameters) {
+		Helper oclHelper = getOCL().createOCLHelper();
+		EClassifier eClassifier = oclHelper.getOCL().getEnvironment().lookupClassifier(parameters);
+		return eClassifier;
+	}
 
 	public Object evaluateQuery(String queryBody, Object context) throws ParserException {
 		return evaluateQuery(queryBody, context, null);

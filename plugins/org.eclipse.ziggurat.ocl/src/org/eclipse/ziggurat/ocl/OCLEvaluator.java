@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.ziggurat.ocl;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -85,6 +86,11 @@ public interface OCLEvaluator {
 	 * Computes a context classifier from a metamodel prefix and a context name.
 	 */
 	public EClassifier lookupEClassifier(String metamodelPrefix, String eClassifierContext);
+	
+	/**
+	 * Computes a context classifier from a list of parameters
+	 */
+	public EClassifier lookupEClassifier(List<String> parameters);
 	
 	/**
 	 * Sets the extent map of the OCL environment, responsible for the result of the "allInstances" operation execution.
