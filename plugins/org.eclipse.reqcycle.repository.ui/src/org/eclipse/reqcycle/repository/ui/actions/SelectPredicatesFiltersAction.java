@@ -14,7 +14,9 @@ import DataModel.RequirementSource;
 
 public class SelectPredicatesFiltersAction extends Action {
 
-    private final TreeViewer treeViewer;
+	private final TreeViewer treeViewer;
+	
+	private Collection<IPredicate> predicates;
 
     public SelectPredicatesFiltersAction(TreeViewer viewer) {
         this.treeViewer = viewer;
@@ -23,9 +25,12 @@ public class SelectPredicatesFiltersAction extends Action {
     @Override
     public void run() {
         super.run();
-        Collection<IPredicate> selectedPredicates = new ArrayList<IPredicate>();
-        //FIXME : use the result of openPredicatesChooser
-        PredicatesUIHelper.openPredicatesChooser(selectedPredicates);
+
+        Collection<IPredicate> selectedPredicates = PredicatesUIHelper.openPredicatesChooser(predicates);
+        if(selectedPredicates == null) {
+			return;
+		}
+        
         final Collection<DummyInput> dummyInputs = new ArrayList<DummyInput>();
         @SuppressWarnings("unchecked")
         Collection<DummyInput> input = (Collection<DummyInput>) this.treeViewer.getInput();
@@ -49,6 +54,10 @@ public class SelectPredicatesFiltersAction extends Action {
                 }
             }
         }
+    }
+    
+    public void setInitialSelection(Collection<IPredicate> predicates) {
+    	this.predicates = predicates;
     }
 
 }

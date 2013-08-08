@@ -48,8 +48,8 @@ public class OpenFilteredRequirementViewAction extends Action {
 
 			if (!input.isEmpty()) {
 				try {
-					Collection<IPredicate> selectedPredicates = new ArrayList<IPredicate>();
-					if (PredicatesUIHelper.openPredicatesChooser(selectedPredicates)) {
+					Collection<IPredicate> selectedPredicates = PredicatesUIHelper.openPredicatesChooser(null);
+					if (selectedPredicates != null) {
 						RequirementView.openNewFilteredRequirementView(input, selectedPredicates);
 					}
 				} catch (Exception e) {

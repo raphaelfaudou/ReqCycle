@@ -13,6 +13,7 @@ import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
@@ -32,10 +33,13 @@ public class CheckBoxInputDialog extends AbstractCustomDialog {
 
     private final List<Object>  selectedItems;
 
+	private Collection<Object> initialSelection;
+
     public CheckBoxInputDialog(Shell parentShell, String dialogTitle, String dialogMessage, Object initialInput,
-            IInputValidator validator) {
+            IInputValidator validator, Collection<Object> initialSelection) {
         super(parentShell, dialogTitle, dialogMessage, initialInput, validator);
         this.selectedItems = new ArrayList<Object>();
+        this.initialSelection = initialSelection;
     }
 
     @Override
@@ -58,6 +62,9 @@ public class CheckBoxInputDialog extends AbstractCustomDialog {
         this.checkboxTableViewer.setContentProvider(this.contentProvider);
         this.checkboxTableViewer.setLabelProvider(this.labelProvider);
         this.checkboxTableViewer.setInput(getInput());
+        if(initialSelection != null && !initialSelection.isEmpty()) {
+        	this.checkboxTableViewer.setCheckedElements(initialSelection.toArray());
+		}
     }
 
     private ITableLabelProvider getDefaultLabelProvider() {

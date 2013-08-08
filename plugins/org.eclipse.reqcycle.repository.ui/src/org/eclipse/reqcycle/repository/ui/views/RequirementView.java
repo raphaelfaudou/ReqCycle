@@ -15,9 +15,6 @@ package org.eclipse.reqcycle.repository.ui.views;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.UUID;
-
-import javax.inject.Inject;
 
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
@@ -60,20 +57,19 @@ public class RequirementView extends ViewPart {
 
 	public static final String VIEW_ID = "org.eclipse.reqcycle.repository.ui.views.requirements";
 
-	private @Inject
 	static ILogger logger = ZigguratInject.make(ILogger.class);
 
-	private Action selectPredicatesFilterAction;
+	protected Action selectPredicatesFilterAction;
 
-	private Action selectRequirementSourcesAction;
+	protected Action selectRequirementSourcesAction;
 
 	public RequirementView() {
 	}
 
 	/** Requirement repositories TreeViewer */
-	private TreeViewer viewer;
+	protected TreeViewer viewer;
 
-	private Collection<IPredicate> predicates;
+	protected Collection<IPredicate> predicates;
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -264,6 +260,7 @@ public class RequirementView extends ViewPart {
 
 	public void setPredicates(Collection<IPredicate> predicates) {
 		this.predicates = predicates;
+		((SelectPredicatesFiltersAction)selectPredicatesFilterAction).setInitialSelection(predicates);
 	}
 
 	/**
@@ -291,9 +288,8 @@ public class RequirementView extends ViewPart {
 		ZigguratInject.inject(selectPredicatesFilterAction);
 		selectPredicatesFilterAction.setText("Select Predicates Filters");
 		selectPredicatesFilterAction.setToolTipText("Select the list of predicates to use for filtering into the tree viewer.");
-		selectPredicatesFilterAction.setEnabled(false);
-		// TODO: change icon ...
-		// selectPredicatesFilterAction.setImageDescriptor(Activator.getImageDescriptor(ICON_OPEN));
+		selectPredicatesFilterAction.setEnabled(true);
+		 selectPredicatesFilterAction.setImageDescriptor(Activator.getImageDescriptor("/icons/editList.png"));
 
 		selectRequirementSourcesAction = new SelectRequirementSourcesAction(getViewer());
 		ZigguratInject.inject(selectRequirementSourcesAction);
