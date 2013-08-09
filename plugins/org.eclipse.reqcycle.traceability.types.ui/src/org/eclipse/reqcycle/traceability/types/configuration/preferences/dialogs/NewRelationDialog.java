@@ -175,6 +175,12 @@ public class NewRelationDialog extends TitleAreaDialog {
 				1, 1));
 
 		Button btnNewButton = new Button(grpProperties, SWT.NONE);
+		btnNewButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// image serialization
+			}
+		});
 		btnNewButton.setText("...");
 
 		Label lblSource = new Label(grpProperties, SWT.NONE);

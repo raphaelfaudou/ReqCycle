@@ -19,7 +19,6 @@ import org.eclipse.reqcycle.traceability.storage.ITraceabilityStorage;
 import org.eclipse.reqcycle.traceability.types.ITypesConfigurationProvider;
 import org.eclipse.reqcycle.traceability.types.RelationBasedType;
 import org.eclipse.reqcycle.traceability.types.RelationUtils;
-import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Attribute;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Configuration;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Relation;
 import org.eclipse.reqcycle.traceability.types.impl.TraceabilityAttributesManager;
@@ -44,8 +43,14 @@ public class AttributesConfigurationBuildingDecoration extends
 
 	protected Set<Reachable> allTraceabilityWithProperties = new HashSet<Reachable>();
 
+	private Configuration defaultConfiguration = null;
+
 	@Override
 	public void startBuild(IBuilderCallBack callBack, Reachable reachable) {
+		defaultConfiguration = provider.getDefaultConfiguration();
+		if (defaultConfiguration == null) {
+			return;
+		}
 		ReachableObject object;
 		try {
 			object = manager.getHandlerFromReachable(reachable)
@@ -80,6 +85,7 @@ public class AttributesConfigurationBuildingDecoration extends
 			currentStorage.dispose();
 			currentStorage = null;
 		}
+		defaultConfiguration = null;
 	}
 
 	@Override
@@ -90,9 +96,8 @@ public class AttributesConfigurationBuildingDecoration extends
 			// prevent recursive call
 			return true;
 		}
-		Configuration configuration = provider.getDefaultConfiguration();
 		// in case of no configuration registered the elements are not modified
-		if (configuration == null) {
+		if (defaultConfiguration == null) {
 			return true;
 		}
 		Reachable reachableSource = getReachable(source);
@@ -101,7 +106,7 @@ public class AttributesConfigurationBuildingDecoration extends
 		for (Object t : targets) {
 			Reachable reachableTarget = getReachable(t);
 			Iterable<Relation> relations = RelationUtils
-					.getAgregatingRelations(kind, configuration,
+					.getAgregatingRelations(kind, defaultConfiguration,
 							reachableSource, reachableTarget, DIRECTION.UPWARD);
 			for (Relation r : relations) {
 				newOne = false;
@@ -112,13 +117,6 @@ public class AttributesConfigurationBuildingDecoration extends
 					currentStorage.addUpdateProperty(reachableTrac,
 							TraceabilityAttributesManager.RELATION_NAME,
 							r.getKind());
-					for (Attribute a : r.getAttributes()) {
-						if (currentStorage.getProperty(reachableTrac,
-								a.getName()) == null) {
-							currentStorage.addUpdateProperty(reachableTrac,
-									a.getName(), null);
-						}
-					}
 				}
 			}
 		}
