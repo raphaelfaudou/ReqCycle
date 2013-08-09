@@ -143,10 +143,12 @@ public class GraphStorage implements ITraceabilityStorage {
 		for (Vertex trac : tracVertexes) {
 			Vertex target = graphUtils.getTraceabilityTarget(trac,
 					graphDirection);
-			Reachable rTarget = getReachable((String) target.getId());
-			Link link = new Link(getReachable((String) trac.getId()),
-					graphUtils.getKind(trac), r, rTarget);
-			result.add(new Pair<Link, Reachable>(link, rTarget));
+			if (target != null) {
+				Reachable rTarget = getReachable((String) target.getId());
+				Link link = new Link(getReachable((String) trac.getId()),
+						graphUtils.getKind(trac), r, rTarget);
+				result.add(new Pair<Link, Reachable>(link, rTarget));
+			}
 		}
 		return result;
 	}

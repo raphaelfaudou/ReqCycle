@@ -80,7 +80,22 @@ public class EMFVisitable implements IVisitable, IAdaptable {
 	@Override
 	public void dispose() {
 		if (resource != null) {
-			resource.unload();
+
+			ResourceSet set = resource.getResourceSet();
+			if (set != null) {
+				for (int i = 0; i < set.getResources().size(); i++) {
+					try {
+						set.getResources().get(i).unload();
+					} catch (Exception e) {
+					}
+					set.getResources().clear();
+				}
+			} else {
+				try {
+					resource.unload();
+				} catch (Exception e) {
+				}
+			}
 		}
 	}
 
