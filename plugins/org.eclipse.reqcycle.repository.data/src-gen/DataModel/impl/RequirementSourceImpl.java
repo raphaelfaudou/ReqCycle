@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.reqcycle.repository.data.util.DataUtil;
 import org.eclipse.reqcycle.repository.data.util.RepositoryConstants;
 
 import DataModel.Contained;
@@ -383,6 +384,11 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
 				return arg0.getTargetElement();
 			}
 		});
+	}
+	
+	@Override
+	public String toString() {
+		return DataUtil.getLabel(this);
 	}
 	
 } //RequirementSourceImpl
