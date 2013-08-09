@@ -28,6 +28,9 @@ import org.eclipse.reqcycle.types.ITypesManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -56,6 +59,7 @@ public abstract class AbstractPreferencePage extends PreferencePage implements
 	protected ComposedAdapterFactory factory;
 	protected Button btnAdd;
 	protected Button btnRemove;
+	private Tree tree;
 
 	public AbstractPreferencePage() {
 	}
@@ -81,13 +85,18 @@ public abstract class AbstractPreferencePage extends PreferencePage implements
 		top.setLayout(new GridLayout(2, false));
 
 		Composite composite = new Composite(top, SWT.NONE);
-		composite.setLayout(new GridLayout(1, false));
+		composite.setLayout(new FormLayout());
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1,
 				1));
 
 		treeViewer = new TreeViewer(composite, SWT.BORDER);
-		Tree tree = treeViewer.getTree();
-		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		tree = treeViewer.getTree();
+		FormData fd_tree = new FormData();
+		fd_tree.bottom = new FormAttachment(75);
+		fd_tree.right = new FormAttachment(100);
+		fd_tree.top = new FormAttachment(0, 5);
+		fd_tree.left = new FormAttachment(0, 5);
+		tree.setLayoutData(fd_tree);
 
 		addProperties(composite);
 
@@ -154,9 +163,13 @@ public abstract class AbstractPreferencePage extends PreferencePage implements
 
 	protected void addProperties(Composite composite) {
 		Group grpProperties = new Group(composite, SWT.NONE);
+		FormData fd_grpProperties = new FormData();
+		fd_grpProperties.top = new FormAttachment(tree, 5);
+		fd_grpProperties.bottom = new FormAttachment(100, 5);
+		fd_grpProperties.right = new FormAttachment(100);
+		fd_grpProperties.left = new FormAttachment(0, 5);
+		grpProperties.setLayoutData(fd_grpProperties);
 		grpProperties.setLayout(new GridLayout(1, false));
-		grpProperties.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
-				false, 1, 1));
 		grpProperties.setText("Properties");
 
 		labelProperties = new Label(grpProperties, SWT.NONE | SWT.WRAP);

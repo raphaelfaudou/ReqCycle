@@ -1,54 +1,75 @@
+/*****************************************************************************
+ * Copyright (c) 2013 AtoS.
+ *
+ *    
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Anass RADOUANI (AtoS) anass.radouani@atos.net - Initial API and implementation
+ *
+ *****************************************************************************/
 package org.eclipse.reqcycle.repository.ui.actions;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.reqcycle.predicates.core.api.IPredicate;
 import org.eclipse.reqcycle.predicates.ui.util.PredicatesUIHelper;
-import org.eclipse.reqcycle.repository.ui.providers.DummyInputContentProvider.DummyInput;
-
-import DataModel.RequirementSource;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 
 public class SelectPredicatesFiltersAction extends Action {
 
-    private final TreeViewer treeViewer;
+	protected Collection<IPredicate> predicates;
 
-    public SelectPredicatesFiltersAction(TreeViewer viewer) {
-        this.treeViewer = viewer;
-    }
+	protected Set<Listener> listeners = new HashSet<Listener>();
 
-    @Override
-    public void run() {
-        super.run();
-        Collection<IPredicate> selectedPredicates = new ArrayList<IPredicate>();
-        //FIXME : use the result of openPredicatesChooser
-        PredicatesUIHelper.openPredicatesChooser(selectedPredicates);
-        final Collection<DummyInput> dummyInputs = new ArrayList<DummyInput>();
-        @SuppressWarnings("unchecked")
-        Collection<DummyInput> input = (Collection<DummyInput>) this.treeViewer.getInput();
-        if (input != null && !input.isEmpty()) {
-            for (Iterator<DummyInput> iterator = input.iterator(); iterator.hasNext();) {
-                DummyInput dummyInput = (DummyInput) iterator.next();
-                if (dummyInput != null) {
-                    Collection<RequirementSource> realInput = dummyInput.getInput();
-                    for (Iterator<IPredicate> iterator2 = selectedPredicates.iterator(); iterator2.hasNext();) {
-                        IPredicate p = (IPredicate) iterator2.next();
-                        DummyInput newDummyInput = new DummyInput(realInput);
-                        newDummyInput.setPredicate(p);
-                        dummyInputs.add(newDummyInput);
-                    }
-                    if (dummyInputs.isEmpty()) {
-                        dummyInputs.add(new DummyInput(realInput));
-                    }
-                    this.treeViewer.setInput(dummyInputs);
-                    this.treeViewer.refresh();
-                    break;
-                }
-            }
-        }
-    }
+	public SelectPredicatesFiltersAction() {
+	}
+
+	public void setInitialSelection(Collection<IPredicate> predicates) {
+		this.predicates = predicates;
+	}
+
+	@Override
+	public void run() {
+
+		Collection<IPredicate> selection = PredicatesUIHelper.openPredicatesChooser(predicates);
+		PredicatesChangeEvent event = new PredicatesChangeEvent(selection);
+		notifyListeners(event);
+
+	}
+
+	public void addListener(Listener listener) {
+		listeners.add(listener);
+	}
+
+	public void removeListener(Listener listener) {
+		listeners.remove(listener);
+	}
+
+	protected void notifyListeners(Event event) {
+		for(Listener listener : listeners) {
+			listener.handleEvent(event);
+		}
+	}
+
+	public class PredicatesChangeEvent extends Event {
+
+		public PredicatesChangeEvent(Collection<IPredicate> predicates) {
+			this.predicates = predicates;
+		}
+
+		protected Collection<IPredicate> predicates;
+
+		public Collection<IPredicate> getPredicates() {
+			return predicates;
+		}
+	}
 
 }

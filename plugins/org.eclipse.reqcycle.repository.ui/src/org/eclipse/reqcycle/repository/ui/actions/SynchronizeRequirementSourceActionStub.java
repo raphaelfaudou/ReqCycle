@@ -26,8 +26,9 @@ import org.eclipse.reqcycle.core.ILogger;
  */
 public class SynchronizeRequirementSourceActionStub extends Action {
 
-	@Inject ILogger logger;
-	
+	@Inject
+	ILogger logger;
+
 	/** Requirement repositories TreeViewer */
 	private TreeViewer viewer;
 

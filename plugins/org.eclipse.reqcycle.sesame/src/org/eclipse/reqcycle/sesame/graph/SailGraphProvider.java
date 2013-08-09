@@ -38,7 +38,7 @@ public class SailGraphProvider implements ISpecificGraphProvider {
 
 	public Graph getGraph(String path, RDFFormat format) {
 		if (!path.endsWith(format.getDefaultFileExtension())) {
-			path = path.concat(format.getDefaultFileExtension());
+			path = path.concat("." + format.getDefaultFileExtension());
 		}
 		MemoryStore store = new MemoryStore();
 		store.setPersist(false);

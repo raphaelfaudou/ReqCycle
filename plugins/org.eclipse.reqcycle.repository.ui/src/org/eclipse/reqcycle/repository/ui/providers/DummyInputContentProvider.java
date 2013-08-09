@@ -108,7 +108,7 @@ public class DummyInputContentProvider extends AdapterFactoryContentProvider {
 
 	public static class DummyInput {
 
-		private final Collection<RequirementSource> input;
+		private Collection<RequirementSource> input;
 
 		private IPredicate predicate;
 
@@ -118,6 +118,10 @@ public class DummyInputContentProvider extends AdapterFactoryContentProvider {
 
 		public Collection<RequirementSource> getInput() {
 			return this.input;
+		}
+
+		public void setInput(Collection<RequirementSource> input) {
+			this.input = input;
 		}
 
 		public IPredicate getPredicate() {
@@ -156,6 +160,7 @@ public class DummyInputContentProvider extends AdapterFactoryContentProvider {
 			return predicate;
 		}
 
+		@SuppressWarnings("rawtypes")
 		@Override
 		public Object getAdapter(Class adapter) {
 			if(adapter == null) {

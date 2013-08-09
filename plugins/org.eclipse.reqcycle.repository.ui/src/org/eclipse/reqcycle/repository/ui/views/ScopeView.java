@@ -10,7 +10,7 @@
  * Contributors:
  *  Anass RADOUANI (AtoS) anass.radouani@atos.net - Initial API and implementation
  *
-  *****************************************************************************/
+ *****************************************************************************/
 package org.eclipse.reqcycle.repository.ui.views;
 
 
@@ -51,10 +51,10 @@ import DataModel.Scope;
 public class ScopeView extends ViewPart {
 
 	private IDataModelManager dataManager = ZigguratInject.make(IDataModelManager.class);
-	
+
 	/** Selected Scope */
 	private Scope scope;
-	
+
 	private Collection<Contained> requirements = new ArrayList<Contained>();
 
 	/** Requirement Viewer */
@@ -65,20 +65,20 @@ public class ScopeView extends ViewPart {
 
 	/** refresh view button */
 	private Button refreshBtn;
-	
+
 	private Collection<Scope> scopes = new ArrayList<Scope>();
-	
+
 	public ScopeView() {
 	}
 
 	@Override
 	public void createPartControl(Composite parent) {
-		
+
 		scopes.addAll(dataManager.getAllScopes());
-		
+
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new GridLayout(3, false));
-		
+
 		Label lblScope = new Label(composite, SWT.NONE);
 		lblScope.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblScope.setText("Scope :");
@@ -86,9 +86,10 @@ public class ScopeView extends ViewPart {
 		comboViewer = new ComboViewer(composite, SWT.NONE);
 		comboViewer.getCombo().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		comboViewer.setContentProvider(ArrayContentProvider.getInstance());
-		
+
 		//TODO : use scope generated label provider 
-		comboViewer.setLabelProvider(new LabelProvider(){
+		comboViewer.setLabelProvider(new LabelProvider() {
+
 			@Override
 			public String getText(Object element) {
 				return DataUtil.getLabel(element);
@@ -96,68 +97,69 @@ public class ScopeView extends ViewPart {
 		});
 
 		comboViewer.setInput(scopes);
-		
+
 		refreshBtn = new Button(composite, SWT.PUSH);
 		refreshBtn.setImage(Activator.getImageDescriptor("icons/refresh.gif").createImage());
-		
+
 		refreshBtn.setToolTipText("Refresh View");
-		
+
 		viewer = new TreeViewer(composite, SWT.BORDER);
 		viewer.getTree().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
 		viewer.setContentProvider(new ITreeContentProvider() {
-			
+
 			@Override
 			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			}
-			
+
 			@Override
 			public void dispose() {
 			}
-			
+
 			@Override
 			public boolean hasChildren(Object element) {
 				return false;
 			}
-			
+
 			@Override
 			public Object getParent(Object element) {
 				return null;
 			}
-			
+
 			@Override
 			public Object[] getElements(Object inputElement) {
 				return ArrayContentProvider.getInstance().getElements(inputElement);
 			}
-			
+
 			@Override
 			public Object[] getChildren(Object parentElement) {
 				return null;
 			}
 		});
-		viewer.setLabelProvider(new LabelProvider(){
+		viewer.setLabelProvider(new LabelProvider() {
+
 			@Override
 			public String getText(Object element) {
 				return DataUtil.getLabel(element);
 			}
 		});
 		viewer.setInput(requirements);
-		
+
 		int dndOperations = DND.DROP_COPY | DND.DROP_MOVE;
 
 		Transfer[] transfers;
-		transfers = new Transfer[] { PluginTransfer.getInstance() };
+		transfers = new Transfer[]{ PluginTransfer.getInstance() };
 
 		DragRequirementSourceAdapter listener = new DragRequirementSourceAdapter(viewer);
 		ZigguratInject.inject(listener);
-		viewer.addDragSupport(dndOperations, transfers,
-				listener);
+		viewer.addDragSupport(dndOperations, transfers, listener);
 		getViewSite().setSelectionProvider(viewer);
-		
+
 		hookListeners();
 	}
 
 	private void hookListeners() {
 		comboViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				ISelection selection = event.getSelection();
@@ -172,11 +174,12 @@ public class ScopeView extends ViewPart {
 				}
 			}
 		});
-		
+
 		refreshBtn.addSelectionListener(new SelectionAdapter() {
+
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (viewer != null) {
+				if(viewer != null) {
 					requirements.clear();
 					scopes.clear();
 					scopes.addAll(dataManager.getAllScopes());
@@ -186,7 +189,7 @@ public class ScopeView extends ViewPart {
 			}
 		});
 	}
-	
+
 	@Override
 	public void setFocus() {
 		viewer.getControl().setFocus();

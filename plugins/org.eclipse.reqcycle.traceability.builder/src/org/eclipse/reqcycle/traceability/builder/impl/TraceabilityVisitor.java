@@ -1,24 +1,28 @@
 package org.eclipse.reqcycle.traceability.builder.impl;
 
-import java.util.ArrayDeque;
 import java.util.Collection;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtensionRegistry;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.reqcycle.traceability.builder.Activator;
+import org.eclipse.reqcycle.traceability.builder.ITraceabilityAnalyserDisabler;
 import org.eclipse.reqcycle.traceability.builder.ITraceabilityBuilder.IBuilderCallBack;
+import org.eclipse.reqcycle.traceability.builder.LabelledVisitor;
 import org.eclipse.reqcycle.uri.visitors.CompositeVisitor;
 import org.eclipse.reqcycle.uri.visitors.IVisitor;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Lists;
+
+import static com.google.common.collect.Iterables.filter;
+
 public class TraceabilityVisitor extends CompositeVisitor implements IAdaptable {
 
+	// the {@link ITraceabilityAnalyserDisabler} is used at cosntruction so
+	// @Inject can not be used
+	// the default implementation is not provided so this attribute can be NULL
+	private static ITraceabilityAnalyserDisabler disabler = ZigguratInject
+			.make(ITraceabilityAnalyserDisabler.class);
 	private IBuilderCallBack callBack;
-	private static String EXT_POINT = "traceabilityAnalyser";
-	static IExtensionRegistry registry = Platform.getExtensionRegistry();
 
 	public TraceabilityVisitor(IBuilderCallBack callBack) {
 		super(getTraceabilityVisitors());
@@ -26,23 +30,19 @@ public class TraceabilityVisitor extends CompositeVisitor implements IAdaptable 
 	}
 
 	private static Collection<IVisitor> getTraceabilityVisitors() {
-		Collection<IVisitor> tmp = getRegisteredVisitors();
-		return tmp;
-	}
+		Iterable<IVisitor> tmp = filter(
+				LabelledVisitor.getRegisteredVisitors(), IVisitor.class);
+		return Lists.newArrayList(filter(tmp, new Predicate<IVisitor>() {
 
-	private static Collection<IVisitor> getRegisteredVisitors() {
-		Collection<IVisitor> result = new ArrayDeque<IVisitor>();
-		for (IConfigurationElement e : registry.getConfigurationElementsFor(
-				Activator.PLUGIN_ID, EXT_POINT)) {
-			try {
-				IVisitor v = (IVisitor) e.createExecutableExtension("visitor");
-				ZigguratInject.inject(v);
-				result.add(v);
-			} catch (CoreException e1) {
-				e1.printStackTrace();
+			@Override
+			public boolean apply(IVisitor arg0) {
+				Class<? extends IVisitor> classToCheck = arg0.getClass();
+				if (arg0 instanceof LabelledVisitor) {
+					classToCheck = ((LabelledVisitor) arg0).getVisitorClass();
+				}
+				return disabler == null || !disabler.isDisabled(classToCheck);
 			}
-		}
-		return result;
+		}));
 	}
 
 	@Override

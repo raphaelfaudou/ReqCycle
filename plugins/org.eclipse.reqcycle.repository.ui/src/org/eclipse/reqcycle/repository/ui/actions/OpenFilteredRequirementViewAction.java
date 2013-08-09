@@ -21,44 +21,44 @@ import DataModel.RequirementSource;
 
 public class OpenFilteredRequirementViewAction extends Action {
 
-    @Inject
-    ILogger            logger = ZigguratInject.make(ILogger.class);
+	@Inject
+	ILogger logger = ZigguratInject.make(ILogger.class);
 
-    private TreeViewer viewer;
+	private TreeViewer viewer;
 
-    public OpenFilteredRequirementViewAction(TreeViewer viewer) {
-        this.viewer = viewer;
-    }
+	public OpenFilteredRequirementViewAction(TreeViewer viewer) {
+		this.viewer = viewer;
+	}
 
-    @Override
-    public void run() {
-        ISelection selection = viewer.getSelection();
-        if (selection instanceof IStructuredSelection) {
+	@Override
+	public void run() {
+		ISelection selection = viewer.getSelection();
+		if(selection instanceof IStructuredSelection) {
 
-            Collection<Object> selectedObj = new ArrayList<Object>();
-            for (Iterator<?> iterator = ((IStructuredSelection) selection).iterator(); iterator.hasNext();) {
-                selectedObj.add(iterator.next());
-            }
+			Collection<Object> selectedObj = new ArrayList<Object>();
+			for(Iterator<?> iterator = ((IStructuredSelection)selection).iterator(); iterator.hasNext();) {
+				selectedObj.add(iterator.next());
+			}
 
-            Collection<RequirementSource> input = new ArrayList<RequirementSource>();
-            for (Iterator<Object> iterator = selectedObj.iterator(); iterator.hasNext();) {
-                Object obj = iterator.next();
-                input.addAll(DataUtil.getRepositories(obj));
-            }
+			Collection<RequirementSource> input = new ArrayList<RequirementSource>();
+			for(Iterator<Object> iterator = selectedObj.iterator(); iterator.hasNext();) {
+				Object obj = iterator.next();
+				input.addAll(DataUtil.getRepositories(obj));
+			}
 
-			if (!input.isEmpty()) {
+			if(!input.isEmpty()) {
 				try {
-					Collection<IPredicate> selectedPredicates = new ArrayList<IPredicate>();
-					if (PredicatesUIHelper.openPredicatesChooser(selectedPredicates)) {
+					Collection<IPredicate> selectedPredicates = PredicatesUIHelper.openPredicatesChooser(null);
+					if(selectedPredicates != null) {
 						RequirementView.openNewFilteredRequirementView(input, selectedPredicates);
 					}
 				} catch (Exception e) {
-                    e.printStackTrace();
-                    logger.error("Unable to open the View of filtered requirements : " + e.getMessage());
-                    logger.error(e.toString());
-                }
-            }
-        }
-    }
+					e.printStackTrace();
+					logger.error("Unable to open the View of filtered requirements : " + e.getMessage());
+					logger.error(e.toString());
+				}
+			}
+		}
+	}
 
 }

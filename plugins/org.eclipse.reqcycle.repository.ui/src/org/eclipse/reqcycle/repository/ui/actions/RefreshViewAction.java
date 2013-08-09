@@ -32,9 +32,9 @@ public class RefreshViewAction extends Action {
 
 	@Override
 	public void run() {
-		if (viewer != null) {
+		if(viewer != null) {
 			viewer.refresh();
 		}
 	}
-	
+
 }

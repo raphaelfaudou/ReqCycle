@@ -29,69 +29,69 @@ import DataModel.RequirementSource;
 
 public class OpenPredicatesEditorAction extends Action {
 
-    private final ComposedAdapterFactory      adapterFactory       = new ComposedAdapterFactory(
-                                                                           ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+	private final ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 
-    private final AdapterFactoryLabelProvider adapterLabelProvider = new AdapterFactoryLabelProvider(adapterFactory);
+	private final AdapterFactoryLabelProvider adapterLabelProvider = new AdapterFactoryLabelProvider(adapterFactory);
 
-    /** Requirement repositories TreeViewer. */
-    private final TreeViewer                  viewer;
+	/** Requirement repositories TreeViewer. */
+	private final TreeViewer viewer;
 
-    @Inject
-    private ILogger                           logger               = ZigguratInject.make(ILogger.class);
+	@Inject
+	private ILogger logger = ZigguratInject.make(ILogger.class);
 
-    public OpenPredicatesEditorAction(final TreeViewer treeViewer) {
-        this.viewer = treeViewer;
-    }
+	public OpenPredicatesEditorAction(final TreeViewer treeViewer) {
+		this.viewer = treeViewer;
+	}
 
-    @Override
-    public void run() {
-        ISelection selection = viewer.getSelection();
-        if (selection instanceof IStructuredSelection) {
+	@Override
+	public void run() {
+		ISelection selection = viewer.getSelection();
+		if(selection instanceof IStructuredSelection) {
 
-            final Collection<RequirementSource> selectedReqSources = new ArrayList<RequirementSource>();
-            for (Iterator<?> iterator = ((IStructuredSelection) selection).iterator(); iterator.hasNext();) {
-                Object obj = iterator.next();
-                if (obj instanceof RequirementSource) {
-                    selectedReqSources.add((RequirementSource) obj);
-                }
-            }
-            // The set of EClass to pass to the Predicates Editor.
-            final Set<EClass> eClasses = new HashSet<EClass>();
-            for (Iterator<RequirementSource> iterator = selectedReqSources.iterator(); iterator.hasNext();) {
-                RequirementSource reqSource = (RequirementSource) iterator.next();
-                eClasses.addAll(((RequirementSource) reqSource).getTargetEPackage());
-            }
+			final Collection<RequirementSource> selectedReqSources = new ArrayList<RequirementSource>();
+			for(Iterator<?> iterator = ((IStructuredSelection)selection).iterator(); iterator.hasNext();) {
+				Object obj = iterator.next();
+				if(obj instanceof RequirementSource) {
+					selectedReqSources.add((RequirementSource)obj);
+				}
+			}
+			// The set of EClass to pass to the Predicates Editor.
+			final Set<EClass> eClasses = new HashSet<EClass>();
+			for(Iterator<RequirementSource> iterator = selectedReqSources.iterator(); iterator.hasNext();) {
+				RequirementSource reqSource = (RequirementSource)iterator.next();
+				eClasses.addAll(((RequirementSource)reqSource).getTargetEPackage());
+			}
 
-            try {
-                IPredicate selectedPredicate = selectRootPredicate();
-                if (selectedPredicate != null) {
-                    PredicatesEditor.openEditor(eClasses, selectedPredicate);
-                }
+			try {
+				IPredicate selectedPredicate = selectRootPredicate();
+				if(selectedPredicate != null) {
+					PredicatesEditor.openEditor(eClasses, selectedPredicate);
+				}
 
-            } catch (Exception e) {
-                e.printStackTrace();
-                logger.error("Unable to open the Predicates Editor : " + e.toString());
-                logger.error(e.toString());
-            }
-        }
-    }
+			} catch (Exception e) {
+				e.printStackTrace();
+				logger.error("Unable to open the Predicates Editor : " + e.toString());
+				logger.error(e.toString());
+			}
+		}
+	}
 
-    private IPredicate selectRootPredicate() {
-        Display display = Display.getCurrent();
-        if (display == null) display = Display.getDefault();
-        ComboInputDialog dialog = new ComboInputDialog(display.getActiveShell(), "Root Predicate",
-                "Select a root predicate", PredicatesUtil.getDefaultPredicates(), null);
-        dialog.setComboLabelProvider(new LabelProvider() {
-            @Override
-            public String getText(Object element) {
-                return adapterLabelProvider.getText(element);
-            }
-        });
-        if (Window.OK == dialog.open()) {
-            return (IPredicate) dialog.getSelectedItem();
-        }
-        return null;
-    }
+	private IPredicate selectRootPredicate() {
+		Display display = Display.getCurrent();
+		if(display == null)
+			display = Display.getDefault();
+		ComboInputDialog dialog = new ComboInputDialog(display.getActiveShell(), "Root Predicate", "Select a root predicate", PredicatesUtil.getDefaultPredicates(), null);
+		dialog.setComboLabelProvider(new LabelProvider() {
+
+			@Override
+			public String getText(Object element) {
+				return adapterLabelProvider.getText(element);
+			}
+		});
+		if(Window.OK == dialog.open()) {
+			return (IPredicate)dialog.getSelectedItem();
+		}
+		return null;
+	}
 
 }

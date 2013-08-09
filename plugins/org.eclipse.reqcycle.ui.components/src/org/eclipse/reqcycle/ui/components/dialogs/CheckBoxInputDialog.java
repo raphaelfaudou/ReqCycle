@@ -32,10 +32,13 @@ public class CheckBoxInputDialog extends AbstractCustomDialog {
 
     private final List<Object>  selectedItems;
 
+	private Collection<Object> initialSelection;
+
     public CheckBoxInputDialog(Shell parentShell, String dialogTitle, String dialogMessage, Object initialInput,
-            IInputValidator validator) {
+            IInputValidator validator, Collection<Object> initialSelection) {
         super(parentShell, dialogTitle, dialogMessage, initialInput, validator);
         this.selectedItems = new ArrayList<Object>();
+        this.initialSelection = initialSelection;
     }
 
     @Override
@@ -58,6 +61,9 @@ public class CheckBoxInputDialog extends AbstractCustomDialog {
         this.checkboxTableViewer.setContentProvider(this.contentProvider);
         this.checkboxTableViewer.setLabelProvider(this.labelProvider);
         this.checkboxTableViewer.setInput(getInput());
+        if(initialSelection != null && !initialSelection.isEmpty()) {
+        	this.checkboxTableViewer.setCheckedElements(initialSelection.toArray());
+		}
     }
 
     private ITableLabelProvider getDefaultLabelProvider() {

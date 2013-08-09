@@ -35,7 +35,7 @@ public class DeleteRequirementSourceAction extends Action {
 	/** Requirement Source Manager */
 	@Inject
 	IRequirementSourceManager requirementSourceManager;
-	
+
 	@Inject
 	IConnectorManager connectorManager;
 
@@ -51,19 +51,17 @@ public class DeleteRequirementSourceAction extends Action {
 
 	@Override
 	public void run() {
-		
+
 		ISelection selection = viewer.getSelection();
 		if(selection instanceof IStructuredSelection) {
 			Object obj = ((IStructuredSelection)selection).getFirstElement();
-			
+
 			if(obj instanceof RequirementSource) {
 				requirementSourceManager.removeRequirementSource((RequirementSource)obj);
-			}
-			else if (obj instanceof String && connectorManager.get((String)obj) != null)
-			{
+			} else if(obj instanceof String && connectorManager.get((String)obj) != null) {
 				requirementSourceManager.removeConnectorRepositories((String)obj);
 			}
-			
+
 			viewer.refresh();
 		}
 	}
