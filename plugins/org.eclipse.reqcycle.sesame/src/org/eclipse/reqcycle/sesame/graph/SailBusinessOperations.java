@@ -47,8 +47,22 @@ public class SailBusinessOperations implements
 	public Vertex getVertex(Graph graph, Reachable reachable) {
 		String id = reachable.toString();
 		Vertex v = graph.getVertex(id);
-		removeProperties(graph, v);
-		addProperties(graph, v, reachable);
+		Map<String, String> propertiesFromGraph = getProperties(v);
+		Map<String, String> propertiesFromGraphCopy = new HashMap<String, String>(
+				propertiesFromGraph);
+		Map<String, String> propertiesFromReachable = reachable.getProperties();
+		for (String s : propertiesFromReachable.keySet()) {
+			propertiesFromGraphCopy.remove(s);
+		}
+		for (String s : propertiesFromGraphCopy.keySet()) {
+			removeProperty(graph, v, s);
+		}
+		for (String s : propertiesFromReachable.keySet()) {
+			if (!propertiesFromReachable.get(s).equals(
+					propertiesFromGraph.get(s))) {
+				addProperty(graph, v, s, propertiesFromReachable.get(s));
+			}
+		}
 		return v;
 	}
 
@@ -177,8 +191,11 @@ public class SailBusinessOperations implements
 	public Vertex getTraceabilityTarget(Vertex trac, Direction direction) {
 		String label = direction == Direction.IN ? VERTEX_OUTGOING
 				: TRACE_TARGET;
-		return trac.getEdges(direction, label).iterator().next()
-				.getVertex(invert(direction));
+		Iterator<Edge> iterator = trac.getEdges(direction, label).iterator();
+		if (iterator.hasNext()) {
+			return iterator.next().getVertex(invert(direction));
+		}
+		return null;
 	}
 
 	public TType getKind(Vertex trac) {
