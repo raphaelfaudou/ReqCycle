@@ -4,6 +4,8 @@
    <extension
          point="org.eclipse.reqcycle.traceability.builder.traceabilityAnalyser">
       <Analyser
+            description="analyse UML and SysML files to detect : satisfy, trace, copy, derive, verify, and allocate"
+            label="UML and SysML Analyser"
             visitor="org.eclipse.reqcycle.emf.traceability.sysml.handler.SysMLTraceabilityVisitor">
       </Analyser>
    </extension>

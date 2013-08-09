@@ -29,6 +29,10 @@
             impl="org.eclipse.reqcycle.traceability.types.impl.TraceTypesManager"
             interface="org.eclipse.reqcycle.traceability.types.ITraceTypesManager">
       </binding>
+      <binding
+            impl="org.eclipse.reqcycle.traceability.types.impl.TraceabilityAttributesManager"
+            interface="org.eclipse.reqcycle.traceability.types.ITraceabilityAttributesManager">
+      </binding>
    </extension>
    <extension
          point="org.eclipse.reqcycle.traceability.builder.newUpwardDecoration">

@@ -22,6 +22,7 @@ import org.eclipse.reqcycle.traceability.types.RelationUtils;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Attribute;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Configuration;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Relation;
+import org.eclipse.reqcycle.traceability.types.impl.TraceabilityAttributesManager;
 import org.eclipse.reqcycle.uri.IReachableManager;
 import org.eclipse.reqcycle.uri.exceptions.IReachableHandlerException;
 import org.eclipse.reqcycle.uri.model.IObjectHandler;
@@ -64,7 +65,8 @@ public class AttributesConfigurationBuildingDecoration extends
 	}
 
 	private ITraceabilityStorage getStorage(IProject p) {
-		IFile file = p.getFile(new Path("./.t-attributes.rdf"));
+		IFile file = p.getFile(new Path(
+				TraceabilityAttributesManager.STORAGE_PATH));
 		// get the storage for the file path
 		String uri = file.getLocationURI().getPath();
 		ITraceabilityStorage storage = storageProvider.getStorage(uri);
@@ -107,6 +109,9 @@ public class AttributesConfigurationBuildingDecoration extends
 				callBack.newUpwardRelation(traceability, resource, source,
 						targets, relBasedType);
 				if (currentStorage != null) {
+					currentStorage.addUpdateProperty(reachableTrac,
+							TraceabilityAttributesManager.RELATION_NAME,
+							r.getKind());
 					for (Attribute a : r.getAttributes()) {
 						if (currentStorage.getProperty(reachableTrac,
 								a.getName()) == null) {

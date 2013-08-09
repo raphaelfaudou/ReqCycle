@@ -2,13 +2,17 @@ package org.eclipse.reqcycle.traceability.ui.providers;
 
 import java.util.Collection;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.reqcycle.traceability.model.Link;
+import org.eclipse.reqcycle.traceability.ui.views.LinkPropertySource;
 import org.eclipse.ui.progress.IDeferredWorkbenchAdapter;
 import org.eclipse.ui.progress.IElementCollector;
+import org.eclipse.ui.views.properties.IPropertySource;
 
-public class BusinessDeffered implements IDeferredWorkbenchAdapter {
+public class BusinessDeffered implements IDeferredWorkbenchAdapter, IAdaptable {
 	private Object businessElement;
 	private RequestContentProvider requestContentProvider;
 	RequestLabelProvider lp = new RequestLabelProvider();
@@ -101,6 +105,16 @@ public class BusinessDeffered implements IDeferredWorkbenchAdapter {
 
 	public int getLevel() {
 		return level;
+	}
+
+	@Override
+	public Object getAdapter(Class adapter) {
+		if (getBusinessElement() instanceof Link) {
+			if (adapter == IPropertySource.class) {
+				return new LinkPropertySource((Link) getBusinessElement());
+			}
+		}
+		return null;
 	}
 
 }

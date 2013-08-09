@@ -11,7 +11,7 @@ import org.eclipse.core.runtime.IAdaptable;
 
 public class CompositeVisitor implements IVisitor {
 
-	Queue<IVisitor> visitors = null;
+	protected Queue<IVisitor> visitors = null;
 	Map<IVisitor, Boolean> status = new HashMap<IVisitor, Boolean>();
 
 	public CompositeVisitor(IVisitor... visitors) {

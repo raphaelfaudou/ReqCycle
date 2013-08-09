@@ -10,6 +10,7 @@ import java.util.Set;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -62,6 +63,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.Widget;
@@ -86,6 +88,7 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 
 	private static final String PLUGIN_ID = Activator.PLUGIN_ID;
 	public static final String ID = "org.eclipse.reqcycle.traceability.ui.views.TraceabilityViewer"; //$NON-NLS-1$
+	public static final String MENU_ID = ID + ".menu"; //$NON-NLS-1$
 	private final FormToolkit formToolkit = new FormToolkit(
 			Display.getDefault());
 	private Text targetText;
@@ -100,7 +103,6 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 	private ITypesManager manager = ZigguratInject.make(ITypesManager.class);
 	private IReachableManager reachManager = ZigguratInject
 			.make(IReachableManager.class);
-	private Tree listOfTypes;
 	private Action delete_action;
 	private Action refresh_action;
 	private Action plus_action;
@@ -167,6 +169,7 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 
 		traceabilityTreeViewer = new TreeViewer(composite_1, SWT.BORDER
 				| SWT.VIRTUAL);
+		getSite().setSelectionProvider(traceabilityTreeViewer);
 		createDropTarget(traceabilityTreeViewer.getTree());
 		traceabilityTreeViewer.setUseHashlookup(true);
 		traceabilityTreeViewer.setContentProvider(contentProvider);
@@ -193,6 +196,29 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 		gd_treeTraceability.heightHint = 286;
 		treeTraceability.setLayoutData(gd_treeTraceability);
 		formToolkit.paintBordersFor(treeTraceability);
+
+		MenuManager menuManager = new MenuManager();
+		menuManager.add(new Action("Show Properties view", ResourceManager
+				.getPluginImageDescriptor(
+						"org.eclipse.reqcycle.traceability.ui",
+						"icons/properties-1.gif")) {
+			@Override
+			public void run() {
+				try {
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+							.getActivePage()
+							.showView("org.eclipse.ui.views.PropertySheet");
+				} catch (PartInitException e1) {
+					e1.printStackTrace();
+				}
+			}
+
+		});
+		Menu menu = menuManager.createContextMenu(treeTraceability);
+		getSite().registerContextMenu(MENU_ID, menuManager,
+				traceabilityTreeViewer);
+		treeTraceability.setMenu(menu);
+
 		traceabilityTreeViewer
 				.addSelectionChangedListener(new ISelectionChangedListener() {
 
@@ -349,7 +375,6 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 		listOfTypesViewer
 				.setContentProvider(new IterableOfTypesContentProvider());
 		listOfTypesViewer.setLabelProvider(new TypeLabelProvider());
-		listOfTypes = listOfTypesViewer.getTree();
 		createActions();
 		initializeToolBar();
 		initializeMenu();
@@ -703,13 +728,15 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 
 	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-		this.selection = selection;
-		if (isSyncToSelection()) {
-			sources.clear();
-			handleCurrentSelection(new SourceSetter());
-			setInput();
+		if (part != this) {
+			this.selection = selection;
 			if (isSyncToSelection()) {
-				traceabilityTreeViewer.expandToLevel(TreeViewer.ALL_LEVELS);
+				sources.clear();
+				handleCurrentSelection(new SourceSetter());
+				setInput();
+				if (isSyncToSelection()) {
+					traceabilityTreeViewer.expandToLevel(TreeViewer.ALL_LEVELS);
+				}
 			}
 		}
 	}
