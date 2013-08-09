@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.reqcycle.repository.connector.connectorCore">
+      <connectorCore
+            class="org.eclipse.reqcycle.ocl.ui.OCLConnector"
+            id="org.eclipse.reqcycle.ocl.ui.OCLConnector"
+            name="OCL Connector">
+      </connectorCore>
+   </extension>
+
+</plugin>
