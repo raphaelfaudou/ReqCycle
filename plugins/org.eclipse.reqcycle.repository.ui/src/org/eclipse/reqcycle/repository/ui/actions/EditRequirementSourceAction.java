@@ -45,13 +45,13 @@ public class EditRequirementSourceAction extends Action {
 
 	@Inject
 	IConnectorManager connectorManager;
-	
+
 	@Inject
 	IDataModelManager dataModelManager;
 
 	@Inject
 	ILogger logger;
-	
+
 	@Inject
 	IRequirementSourceManager requirementSourceManager;
 
@@ -71,17 +71,17 @@ public class EditRequirementSourceAction extends Action {
 			if(element instanceof RequirementSource) {
 				try {
 					RequirementSource requirementSource = (RequirementSource)element;
-					
+
 					//Gets and init the connector 
 					String connectorID = requirementSource.getConnectorId();
 					ConnectorDescriptor connectorDescriptor = connectorManager.get(connectorID);
 					connector = connectorDescriptor.createConnector();
 					connector.initializeWithRequirementSource(requirementSource);
-					
+
 					Callable<RequirementSource> callable = null;
-					
+
 					if(connector instanceof IConnectorWizard) {
-						WizardDialog wd = new WizardDialog(Display.getDefault().getActiveShell(), (IConnectorWizard) connector);
+						WizardDialog wd = new WizardDialog(Display.getDefault().getActiveShell(), (IConnectorWizard)connector);
 						wd.setHelpAvailable(false);
 						if(wd.open() == Window.OK) {
 							callable = this.connector.createRequirementSource();
@@ -89,22 +89,22 @@ public class EditRequirementSourceAction extends Action {
 					} else {
 						callable = this.connector.createRequirementSource();
 					}
-					
-					if (callable != null){
+
+					if(callable != null) {
 						callable.call();
-						
-						
-//						EList<ElementMapping> mappings = requirementSource.getMappings();
-//						
-//						ResourceSet rs = new ResourceSetImpl();
-//						for(ElementMapping elementMapping : mappings) {
-//							rs.getResources().add(elementMapping.getTargetElement().eResource());
-//							for(AttributeMapping attributeMapping : elementMapping.getAttributes()) {
-//								rs.getResources().add(attributeMapping.getTargetAttribute().eResource());
-//							}
-//						}
+
+
+						//						EList<ElementMapping> mappings = requirementSource.getMappings();
+						//						
+						//						ResourceSet rs = new ResourceSetImpl();
+						//						for(ElementMapping elementMapping : mappings) {
+						//							rs.getResources().add(elementMapping.getTargetElement().eResource());
+						//							for(AttributeMapping attributeMapping : elementMapping.getAttributes()) {
+						//								rs.getResources().add(attributeMapping.getTargetAttribute().eResource());
+						//							}
+						//						}
 						requirementSourceManager.addRepository(requirementSource);
-						
+
 					}
 				} catch (CoreException e) {
 					logger.log(e.getStatus());

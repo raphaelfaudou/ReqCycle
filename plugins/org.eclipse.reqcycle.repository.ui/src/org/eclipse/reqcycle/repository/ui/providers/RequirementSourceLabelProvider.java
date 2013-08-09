@@ -42,12 +42,13 @@ public class RequirementSourceLabelProvider extends LabelProvider {
 	/** Repository icon */
 	protected static final String ICONS_STATUS_UNSYNCHRONIZED = Messages.YELLOW_STATUS_ICON;
 
-	
-	private @Inject IConnectorManager repositoryConnectorManager = ZigguratInject.make(IConnectorManager.class);
-	
+
+	private @Inject
+	IConnectorManager repositoryConnectorManager = ZigguratInject.make(IConnectorManager.class);
+
 
 	public String getText(Object obj) {
-		if(obj instanceof String){
+		if(obj instanceof String) {
 			ConnectorDescriptor connectorDescriptor = repositoryConnectorManager.get((String)obj);
 			return connectorDescriptor.getName();
 		}
@@ -58,12 +59,12 @@ public class RequirementSourceLabelProvider extends LabelProvider {
 	}
 
 	public Image getImage(Object obj) {
-		
+
 		if(obj instanceof String) {
 			ConnectorDescriptor connectorDescriptor = repositoryConnectorManager.get((String)obj);
-			return	ConnectorLabelProvider.createImage(connectorDescriptor, 16, 16);
+			return ConnectorLabelProvider.createImage(connectorDescriptor, 16, 16);
 		}
-		
+
 		return Activator.getImageDescriptor(ICONS_STATUS_OFFLINE).createImage();
 	}
 }

@@ -29,7 +29,6 @@ import org.eclipse.reqcycle.repository.ui.wizard.pages.SelectConnectorPage;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.RequirementSource;
-import DataModel.Scope;
 
 public class NewRequirementSourceWizard extends Wizard implements IWizard {
 
@@ -54,9 +53,9 @@ public class NewRequirementSourceWizard extends Wizard implements IWizard {
 	@Override
 	public boolean performFinish() {
 		IConnector connector = getConnector();
-		if (connector instanceof IConnectorWizard){
+		if(connector instanceof IConnectorWizard) {
 			boolean finish = ((IConnectorWizard)connector).performFinish();
-			if (! finish){
+			if(!finish) {
 				return false;
 			}
 		}
@@ -93,7 +92,7 @@ public class NewRequirementSourceWizard extends Wizard implements IWizard {
 			}
 			return startingPage;
 		}
-		
+
 		if(connector instanceof IConnectorWizard) {
 			IWizardPage nextPage = ((IConnectorWizard)connector).getNextPage(page);
 			if(nextPage != null) {
@@ -118,13 +117,13 @@ public class NewRequirementSourceWizard extends Wizard implements IWizard {
 		return null;
 	}
 
-//	public Scope getScope() {
-//		if(selectConnectorPage != null) {
-//			return selectConnectorPage.getScope();
-//		}
-//		//FIXME call
-//		return null;
-//	}
+	//	public Scope getScope() {
+	//		if(selectConnectorPage != null) {
+	//			return selectConnectorPage.getScope();
+	//		}
+	//		//FIXME call
+	//		return null;
+	//	}
 
 	public String getSourceName() {
 		if(selectConnectorPage != null) {

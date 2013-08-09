@@ -27,9 +27,10 @@ import DataModel.RequirementSource;
 
 public class RequirementSourceContentProvider implements ITreeContentProvider, IStructuredContentProvider {
 
-	
-	private @Inject IRequirementSourceManager requirementSourceManager = ZigguratInject.make(IRequirementSourceManager.class);
-	
+
+	private @Inject
+	IRequirementSourceManager requirementSourceManager = ZigguratInject.make(IRequirementSourceManager.class);
+
 	public void inputChanged(Viewer v, Object oldInput, Object newInput) {
 	}
 
@@ -53,7 +54,7 @@ public class RequirementSourceContentProvider implements ITreeContentProvider, I
 	}
 
 	public boolean hasChildren(Object parent) {
-		
+
 		if(parent instanceof String) {
 			return !requirementSourceManager.getRepositories((String)parent).isEmpty();
 		}

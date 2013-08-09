@@ -46,28 +46,28 @@ import org.eclipse.swt.widgets.Text;
 public class SelectConnectorPage extends WizardPage {
 
 	private ConnectorDescriptor connectorDescriptor;
-	
+
 	private IConnector connector;
 
 	@Inject
 	private IConnectorManager connectorManager;
 
-//	@Inject
-//	private IScopeManager scopeManager;
-	
-	@Inject 
+	//	@Inject
+	//	private IScopeManager scopeManager;
+
+	@Inject
 	private ILogger logger;
-	
+
 	private TableViewer viewer;
 
 	private Text requirementSourceNameText;
 
-//	private ComboViewer scopeComboViewer;
-//	
-//	private Scope scope;
+	//	private ComboViewer scopeComboViewer;
+	//	
+	//	private Scope scope;
 
 	private String sourceName;
-	
+
 
 
 	public SelectConnectorPage() {
@@ -102,22 +102,22 @@ public class SelectConnectorPage extends WizardPage {
 		requirementSourceNameText = new Text(infoComposite, SWT.BORDER);
 		requirementSourceNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 
-//		Label lblScope = new Label(infoComposite, SWT.NONE);
-//		lblScope.setText("Scope :");
+		//		Label lblScope = new Label(infoComposite, SWT.NONE);
+		//		lblScope.setText("Scope :");
 
-//		scopeComboViewer = new ComboViewer(infoComposite);
-//		scopeComboViewer.getCombo().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-//		scopeComboViewer.setContentProvider(new ArrayContentProvider());
-//		scopeComboViewer.setLabelProvider(new LabelProvider() {
-//
-//			@Override
-//			public String getText(Object element) {
-//				return DataUtil.getLabel(element);
-//			}
-//		});
+		//		scopeComboViewer = new ComboViewer(infoComposite);
+		//		scopeComboViewer.getCombo().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		//		scopeComboViewer.setContentProvider(new ArrayContentProvider());
+		//		scopeComboViewer.setLabelProvider(new LabelProvider() {
+		//
+		//			@Override
+		//			public String getText(Object element) {
+		//				return DataUtil.getLabel(element);
+		//			}
+		//		});
 
 		//FIXME : call data type manager to retrieve scope
-//		scopeComboViewer.setInput(scopeManager.getAllScopes());
+		//		scopeComboViewer.setInput(scopeManager.getAllScopes());
 
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(viewer.getControl());
 		Dialog.applyDialogFont(container);
@@ -164,35 +164,35 @@ public class SelectConnectorPage extends WizardPage {
 			}
 		});
 
-//		scopeComboViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-//
-//			@Override
-//			public void selectionChanged(SelectionChangedEvent event) {
-//				ISelection selection = event.getSelection();
-//				if(selection instanceof IStructuredSelection) {
-//					Object fElement = ((IStructuredSelection)selection).getFirstElement();
-//					if(fElement instanceof Scope) {
-//						scope = (Scope) fElement;
-//						getWizard().getContainer().updateButtons();
-//					}
-//				}
-//			}
-//		});
+		//		scopeComboViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+		//
+		//			@Override
+		//			public void selectionChanged(SelectionChangedEvent event) {
+		//				ISelection selection = event.getSelection();
+		//				if(selection instanceof IStructuredSelection) {
+		//					Object fElement = ((IStructuredSelection)selection).getFirstElement();
+		//					if(fElement instanceof Scope) {
+		//						scope = (Scope) fElement;
+		//						getWizard().getContainer().updateButtons();
+		//					}
+		//				}
+		//			}
+		//		});
 	}
-	
-//	public Scope getScope(){
-//		return scope;
-//	}
+
+	//	public Scope getScope(){
+	//		return scope;
+	//	}
 
 	public ConnectorDescriptor getConnectorDescriptor() {
 		return connectorDescriptor;
 	}
-	
-	public String getSourceName(){
+
+	public String getSourceName() {
 		return sourceName;
 	}
-	
-	public IConnector getConnector(){
+
+	public IConnector getConnector() {
 		return connector;
 	}
 

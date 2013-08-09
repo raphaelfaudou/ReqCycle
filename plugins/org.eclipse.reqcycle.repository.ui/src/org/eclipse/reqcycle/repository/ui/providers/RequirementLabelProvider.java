@@ -10,7 +10,7 @@
  * Contributors:
  *  Anass RADOUANI (AtoS) anass.radouani@atos.net - Initial API and implementation
  *
-  *****************************************************************************/
+ *****************************************************************************/
 
 package org.eclipse.reqcycle.repository.ui.providers;
 
@@ -23,45 +23,49 @@ import DataModel.Contained;
 import DataModel.RequirementSource;
 
 public class RequirementLabelProvider extends LabelProvider {
-	
-	
-	/* (non-Javadoc)
+
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.viewers.LabelProvider#getText(java.lang.Object)
 	 */
 	@Override
 	public String getText(Object element) {
-		
+
 		if(element instanceof RequirementSource) {
-			return ((RequirementSource)element).getRepositoryLabel() + " (" +  ((RequirementSource)element).getRepositoryUri() + " )";
+			return ((RequirementSource)element).getRepositoryLabel() + " (" + ((RequirementSource)element).getRepositoryUri() + " )";
 		}
-		
+
 		if(element instanceof Contained) {
 			String name = ((Contained)element).getName();
 			EList<EStructuralFeature> structuralFeatures = ((Contained)element).eClass().getEStructuralFeatures();
 			String attr = " [ id : " + ((Contained)element).getId() + " ]" + "[ name : " + ((Contained)element).getName() + " ]";
-			
+
 			for(EStructuralFeature eStructuralFeature : structuralFeatures) {
 				attr += "[ " + eStructuralFeature.getName() + " : " + ((Contained)element).eGet(eStructuralFeature) + "]";
 			}
 			return name + attr;
 		}
-		
+
 		return super.getText(element);
 	}
-	
-	
-	/* (non-Javadoc)
+
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.viewers.LabelProvider#getImage(java.lang.Object)
 	 */
 	@Override
 	public Image getImage(Object element) {
-		
-//		if(element instanceof RequirementSource) {
-//			String connectorId = ((RequirementSource)element).getConnectorID();
-//			return manager.getImage(connectorId, 20, 20);
-//		}
-//		
+
+		//		if(element instanceof RequirementSource) {
+		//			String connectorId = ((RequirementSource)element).getConnectorID();
+		//			return manager.getImage(connectorId, 20, 20);
+		//		}
+		//		
 		return super.getImage(element);
 	}
-	
+
 }

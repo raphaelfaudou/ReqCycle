@@ -62,12 +62,12 @@ public class AddRequirementSourceAction extends Action {
 
 	@Override
 	public void run() {
-		
+
 		NewRequirementSourceWizard wizard = new NewRequirementSourceWizard();
 		ZigguratInject.inject(wizard);
-		
+
 		Shell shell = Display.getDefault().getActiveShell();
-		
+
 		//TODO : Create a custom wizard dialog
 		WizardDialog wd = new WizardDialog(shell, wizard);
 
@@ -82,24 +82,24 @@ public class AddRequirementSourceAction extends Action {
 			RequirementSource source;
 			try {
 				source = createRequirementSource.call();
-				
+
 				ConnectorDescriptor connector = wizard.getConnectorDescriptor();
 				source.setConnectorId(connector.getId());
-				
+
 				String sourceName = wizard.getSourceName();
 				source.setName(sourceName);
-				
-//				EList<ElementMapping> mappings = source.getMappings();
-//				
-//				ResourceSet rs = new ResourceSetImpl();
-//				for(ElementMapping elementMapping : mappings) {
-//					rs.getResources().add(elementMapping.getTargetElement().eResource());
-//					for(AttributeMapping attributeMapping : elementMapping.getAttributes()) {
-//						rs.getResources().add(attributeMapping.getTargetAttribute().eResource());
-//					}
-//				}
+
+				//				EList<ElementMapping> mappings = source.getMappings();
+				//				
+				//				ResourceSet rs = new ResourceSetImpl();
+				//				for(ElementMapping elementMapping : mappings) {
+				//					rs.getResources().add(elementMapping.getTargetElement().eResource());
+				//					for(AttributeMapping attributeMapping : elementMapping.getAttributes()) {
+				//						rs.getResources().add(attributeMapping.getTargetAttribute().eResource());
+				//					}
+				//				}
 				requirementSourceManager.addRepository(source);
-				
+
 				if(viewer != null) {
 					viewer.refresh();
 				}
