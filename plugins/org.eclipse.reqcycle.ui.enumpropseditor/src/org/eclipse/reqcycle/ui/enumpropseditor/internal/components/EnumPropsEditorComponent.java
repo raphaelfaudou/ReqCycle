@@ -1,3 +1,16 @@
+/*****************************************************************************
+ * Copyright (c) 2013 AtoS.
+ *
+ *    
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Papa Issa DIAKHATE (AtoS) papa-issa.diakhate@atos.net - Initial API and implementation
+ *
+ *****************************************************************************/
 package org.eclipse.reqcycle.ui.enumpropseditor.internal.components;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -17,38 +30,38 @@ import org.eclipse.swt.widgets.Label;
 
 public class EnumPropsEditorComponent extends AbstractPropsEditorComponent<Enum<?>> {
 
-    private ComboViewer comboViewer;
+	private ComboViewer comboViewer;
 
-    public EnumPropsEditorComponent(EAttribute attribute, Composite parent, int style) {
+	public EnumPropsEditorComponent(EAttribute attribute, Composite parent, int style) {
 
-        super(attribute, parent, style);
-        setLayout(new GridLayout(2, false));
+		super(attribute, parent, style);
+		setLayout(new GridLayout(2, false));
 
-        Label lblName = new Label(this, SWT.NONE);
-        lblName.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-        lblName.setText(attribute.getName());
+		Label lblName = new Label(this, SWT.NONE);
+		lblName.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		lblName.setText(attribute.getName());
 
-        comboViewer = new ComboViewer(this, SWT.READ_ONLY);
-        Combo combo = comboViewer.getCombo();
-        combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-        comboViewer.setContentProvider(ArrayContentProvider.getInstance());
-        comboViewer.setLabelProvider(new LabelProvider() {
-            @Override
-            public String getText(Object element) {
-                if (element instanceof EEnumLiteral) {
-                    return ((EEnumLiteral) element).getLiteral();
-                }
-                return super.getText(element);
-            }
-        });
-        final EEnum eEnum = (EEnum) attribute.getEType();
-        comboViewer.setInput(eEnum.getELiterals().toArray());
-    }
+		comboViewer = new ComboViewer(this, SWT.READ_ONLY);
+		Combo combo = comboViewer.getCombo();
+		combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		comboViewer.setContentProvider(ArrayContentProvider.getInstance());
+		comboViewer.setLabelProvider(new LabelProvider() {
 
-    @Override
-    public boolean isValid() {
-        final IStructuredSelection selectedLiteral = (IStructuredSelection) ((IStructuredSelection) comboViewer
-                .getSelection()).getFirstElement();
-        return selectedLiteral != null;
-    }
+			@Override
+			public String getText(Object element) {
+				if(element instanceof EEnumLiteral) {
+					return ((EEnumLiteral)element).getLiteral();
+				}
+				return super.getText(element);
+			}
+		});
+		final EEnum eEnum = (EEnum)attribute.getEType();
+		comboViewer.setInput(eEnum.getELiterals().toArray());
+	}
+
+	@Override
+	public boolean isValid() {
+		final IStructuredSelection selectedLiteral = (IStructuredSelection)((IStructuredSelection)comboViewer.getSelection()).getFirstElement();
+		return selectedLiteral != null;
+	}
 }

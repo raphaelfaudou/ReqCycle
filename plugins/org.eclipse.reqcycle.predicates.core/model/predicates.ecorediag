@@ -54,7 +54,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_frbkLePkEeKMqoDRJMFwDg" fontColor="4210752" fontName="Microsoft Sans Serif" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="predicates.ecore#//CustomPredicate"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_frbkLuPkEeKMqoDRJMFwDg" x="300" y="425"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_frbkLuPkEeKMqoDRJMFwDg" x="195" y="435"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_frbkOOPkEeKMqoDRJMFwDg" type="1001">
     <children xmi:type="notation:Node" xmi:id="_frbkO-PkEeKMqoDRJMFwDg" type="4001"/>
@@ -78,7 +78,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_frbkOePkEeKMqoDRJMFwDg" fontColor="4210752" fontName="Microsoft Sans Serif" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="predicates.ecore#//EqualPredicate"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_frbkOuPkEeKMqoDRJMFwDg" x="485" y="425"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_frbkOuPkEeKMqoDRJMFwDg" x="370" y="435"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_frbkSOPkEeKMqoDRJMFwDg" type="1001">
     <children xmi:type="notation:Node" xmi:id="_frbkS-PkEeKMqoDRJMFwDg" type="4001"/>
@@ -126,7 +126,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_frbkYePkEeKMqoDRJMFwDg" fontColor="4210752" fontName="Microsoft Sans Serif" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="predicates.ecore#//EnumEqualPredicate"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_frbkYuPkEeKMqoDRJMFwDg" x="440" y="570"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_frbkYuPkEeKMqoDRJMFwDg" x="530" y="445"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_frbkbOPkEeKMqoDRJMFwDg" type="1001">
     <children xmi:type="notation:Node" xmi:id="_frbkb-PkEeKMqoDRJMFwDg" type="4001"/>
@@ -460,13 +460,13 @@
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_fseF8OPkEeKMqoDRJMFwDg" id="(0.4965034965034965,0.0)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_fseF8ePkEeKMqoDRJMFwDg" id="(0.32867132867132864,1.0)"/>
   </edges>
-  <edges xmi:type="notation:Edge" xmi:id="_frkuR-PkEeKMqoDRJMFwDg" type="3003" source="_frbkYOPkEeKMqoDRJMFwDg" target="_frbkOOPkEeKMqoDRJMFwDg">
+  <edges xmi:type="notation:Edge" xmi:id="_frkuR-PkEeKMqoDRJMFwDg" type="3003" source="_frbkYOPkEeKMqoDRJMFwDg" target="_frbk9OPkEeKMqoDRJMFwDg">
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_frkuSOPkEeKMqoDRJMFwDg" routing="Rectilinear" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_frkuSePkEeKMqoDRJMFwDg" fontName="Microsoft Sans Serif"/>
     <element xsi:nil="true"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_frkuSuPkEeKMqoDRJMFwDg" points="[0, 0, 0, 76]$[0, -76, 0, 0]"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_frkuSuPkEeKMqoDRJMFwDg" points="[0, 0, -169, 232]$[0, -103, -169, 129]$[87, -103, -82, 129]$[87, -224, -82, 8]$[147, -224, -22, 8]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_fseF_uPkEeKMqoDRJMFwDg" id="(0.777027027027027,0.0)"/>
-    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_fseF_-PkEeKMqoDRJMFwDg" id="(0.4965034965034965,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_fseF_-PkEeKMqoDRJMFwDg" id="(0.20535714285714285,0.3333333333333333)"/>
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_frkuS-PkEeKMqoDRJMFwDg" type="3003" source="_frbkbOPkEeKMqoDRJMFwDg" target="_frbkOOPkEeKMqoDRJMFwDg">
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_frkuTOPkEeKMqoDRJMFwDg" routing="Rectilinear" lineColor="4210752"/>

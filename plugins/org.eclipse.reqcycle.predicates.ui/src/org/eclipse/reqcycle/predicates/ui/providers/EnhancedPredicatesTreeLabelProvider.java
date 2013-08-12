@@ -12,67 +12,67 @@ import org.eclipse.swt.graphics.Image;
 
 public class EnhancedPredicatesTreeLabelProvider implements ILabelProvider {
 
-    private final AdapterFactoryLabelProvider labelProvider;
+	private final AdapterFactoryLabelProvider labelProvider;
 
-    public EnhancedPredicatesTreeLabelProvider(AdapterFactory adapterFactory) {
-        this.labelProvider = new AdapterFactoryLabelProvider(adapterFactory);
-    }
+	public EnhancedPredicatesTreeLabelProvider(AdapterFactory adapterFactory) {
+		this.labelProvider = new AdapterFactoryLabelProvider(adapterFactory);
+	}
 
-    @Override
-    public void addListener(ILabelProviderListener listener) {
-        labelProvider.addListener(listener);
-    }
+	@Override
+	public void addListener(ILabelProviderListener listener) {
+		labelProvider.addListener(listener);
+	}
 
-    @Override
-    public void dispose() {
-        labelProvider.dispose();
-    }
+	@Override
+	public void dispose() {
+		labelProvider.dispose();
+	}
 
-    @Override
-    public boolean isLabelProperty(Object element, String property) {
-        return labelProvider.isLabelProperty(element, property);
-    }
+	@Override
+	public boolean isLabelProperty(Object element, String property) {
+		return labelProvider.isLabelProperty(element, property);
+	}
 
-    @Override
-    public void removeListener(ILabelProviderListener listener) {
-        labelProvider.removeListener(listener);
-    }
+	@Override
+	public void removeListener(ILabelProviderListener listener) {
+		labelProvider.removeListener(listener);
+	}
 
-    @Override
-    public Image getImage(Object element) {
-        return labelProvider.getImage(element);
-    }
+	@Override
+	public Image getImage(Object element) {
+		return labelProvider.getImage(element);
+	}
 
-    @Override
-    public String getText(Object element) {
-        if (element instanceof IPredicate) {
-            IPredicate predicate = (IPredicate) element;
-            String displayName = predicate.getDisplayName();
-            if (displayName != null) {
-                EObject firstContent = this.getFirstElement(predicate.eResource());
-                if (predicate.equals(firstContent)) {
-                    return labelProvider.getText(element);
-                }
-                return displayName;
-            }
-        } else if (element instanceof Resource) {
-            EObject firstContent = this.getFirstElement((Resource) element);
-            if (firstContent instanceof IPredicate) {
-                String displayName = ((IPredicate) firstContent).getDisplayName();
-                return displayName == null ? "[New predicate] *" : displayName; //$NON-NLS-1$
-            }
-        }
-        return labelProvider.getText(element);
-    }
+	@Override
+	public String getText(Object element) {
+		if(element instanceof IPredicate) {
+			IPredicate predicate = (IPredicate)element;
+			String displayName = predicate.getDisplayName();
+			if(displayName != null) {
+				EObject firstContent = this.getFirstElement(predicate.eResource());
+				if(predicate.equals(firstContent)) {
+					return labelProvider.getText(element);
+				}
+				return displayName;
+			}
+		} else if(element instanceof Resource) {
+			EObject firstContent = this.getFirstElement((Resource)element);
+			if(firstContent instanceof IPredicate) {
+				String displayName = ((IPredicate)firstContent).getDisplayName();
+				return displayName == null ? "[New predicate] *" : displayName; //$NON-NLS-1$
+			}
+		}
+		return labelProvider.getText(element);
+	}
 
-    private EObject getFirstElement(final Resource resource) {
-        if (resource != null) {
-            EList<EObject> contents = resource.getContents();
-            if (!contents.isEmpty()) {
-                return contents.get(0);
-            }
-        }
-        return null;
-    }
+	private EObject getFirstElement(final Resource resource) {
+		if(resource != null) {
+			EList<EObject> contents = resource.getContents();
+			if(!contents.isEmpty()) {
+				return contents.get(0);
+			}
+		}
+		return null;
+	}
 
 }

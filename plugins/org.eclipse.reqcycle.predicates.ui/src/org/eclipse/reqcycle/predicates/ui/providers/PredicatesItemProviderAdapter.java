@@ -5,8 +5,8 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
 public class PredicatesItemProviderAdapter extends ItemProviderAdapter {
 
-    public PredicatesItemProviderAdapter(AdapterFactory adapterFactory) {
-        super(adapterFactory);
-    }
+	public PredicatesItemProviderAdapter(AdapterFactory adapterFactory) {
+		super(adapterFactory);
+	}
 
 }

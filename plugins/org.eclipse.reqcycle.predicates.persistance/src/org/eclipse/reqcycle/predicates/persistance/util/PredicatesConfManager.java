@@ -1,3 +1,16 @@
+/*****************************************************************************
+ * Copyright (c) 2013 AtoS.
+ *
+ *    
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Papa Issa DIAKHATE (AtoS) papa-issa.diakhate@atos.net - Initial API and implementation
+ *
+ *****************************************************************************/
 package org.eclipse.reqcycle.predicates.persistance.util;
 
 import java.io.IOException;
@@ -5,9 +18,9 @@ import java.util.Collection;
 import java.util.Collections;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.reqcycle.predicates.core.api.IPredicate;
 import org.eclipse.reqcycle.predicates.persistance.PredicatesConfFactory;
 import org.eclipse.reqcycle.predicates.persistance.api.PredicatesConf;
@@ -18,8 +31,8 @@ import org.eclipse.ziggurat.configuration.IConfigurationManager;
  * 
  * @author Papa Issa DIAKHATE
  */
-public class PredicatesConfManager {
-	
+public class PredicatesConfManager implements IPredicatesConfManager {
+
 	/**
 	 * The id of the configuration file which contains the name of the stored predicates.
 	 */
@@ -28,18 +41,21 @@ public class PredicatesConfManager {
 	@Inject
 	private IConfigurationManager confManager;
 
-	protected ResourceSet rs;
+	@Inject
+	@Named("confResourceSet")
+	ResourceSet rs;
 
-	public PredicatesConfManager() {
-		this(null);
-	}
-
-	public PredicatesConfManager(ResourceSet rs) {
-		if(rs == null) {
-			rs = new ResourceSetImpl();
-		}
+	@Inject
+	public PredicatesConfManager(@Named("confResourceSet") ResourceSet rs) {
 		this.rs = rs;
 	}
+
+	//	public PredicatesConfManager(ResourceSet rs) {
+	//		if(rs == null) {
+	//			rs = new ResourceSetImpl();
+	//		}
+	//		this.rs = rs;
+	//	}
 
 	/**
 	 * Stores a new predicate into the workspace.
@@ -60,7 +76,7 @@ public class PredicatesConfManager {
 				predicatesConf = PredicatesConfFactory.eINSTANCE.createPredicatesConf();
 			}
 			added = predicatesConf.getPredicates().add(predicate);
-			confManager.saveConfiguration(predicatesConf, null, null, PREDICATES_ENTRIES_CONF_ID);
+			confManager.saveConfiguration(predicatesConf, null, null, PREDICATES_ENTRIES_CONF_ID, rs);
 
 		} catch (IOException ioe) {
 			// TODO log ...
@@ -132,7 +148,7 @@ public class PredicatesConfManager {
 					removed = conf.getPredicates().remove(p);
 					if(removed) {
 						try {
-							confManager.saveConfiguration(conf, null, null, PREDICATES_ENTRIES_CONF_ID);
+							confManager.saveConfiguration(conf, null, null, PREDICATES_ENTRIES_CONF_ID, rs);
 						} catch (IOException e) {
 							// TODO : log ...
 							e.printStackTrace();
@@ -147,7 +163,7 @@ public class PredicatesConfManager {
 	}
 
 	private PredicatesConf getConf() {
-		return (PredicatesConf)confManager.getConfiguration(null, null, PREDICATES_ENTRIES_CONF_ID, false);
+		return (PredicatesConf)confManager.getConfiguration(null, null, PREDICATES_ENTRIES_CONF_ID, rs, true);
 	}
 
 }

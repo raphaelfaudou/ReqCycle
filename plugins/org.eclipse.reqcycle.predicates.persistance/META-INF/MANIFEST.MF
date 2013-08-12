@@ -17,5 +17,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.reqcycle.predicates.core;visibility:=reexport,
  org.eclipse.ziggurat.configuration;bundle-version="1.0.0";visibility:=reexport,
  org.eclipse.core.resources;bundle-version="3.8.100";visibility:=reexport,
- javax.inject
+ javax.inject,
+ org.eclipse.ziggurat.inject
 Bundle-ActivationPolicy: lazy

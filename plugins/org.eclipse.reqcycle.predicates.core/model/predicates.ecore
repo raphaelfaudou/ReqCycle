@@ -49,7 +49,7 @@
       <details key="inputType" value="org.eclipse.emf.common.util.Enumerator"/>
     </eAnnotations>
     <eGenericSuperTypes eClassifier="#//EqualPredicate">
-      <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEnumerator"/>
+      <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BooleanEqualPredicate">
@@ -91,10 +91,10 @@
   <eClassifiers xsi:type="ecore:EClass" name="EnumIntoPredicate">
     <eAnnotations source="www.eclipse.org/reqcycle/predicates/input_javaclass_type">
       <details key="inputType" value="java.util.Collection"/>
-      <details key="objectType" value="org.eclipse.emf.common.util.Enumerator"/>
+      <details key="objectType" value="java.lang.String"/>
     </eAnnotations>
     <eGenericSuperTypes eClassifier="#//IntoPredicate">
-      <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEnumerator"/>
+      <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AndPredicate" eSuperTypes="#//CompositePredicate"/>

@@ -1,3 +1,16 @@
+/*****************************************************************************
+ * Copyright (c) 2013 AtoS.
+ *
+ *    
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Papa Issa DIAKHATE (AtoS) papa-issa.diakhate@atos.net - Initial API and implementation
+ *
+ *****************************************************************************/
 package org.eclipse.reqcycle.ui.components.dialogs;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -17,57 +30,56 @@ import org.eclipse.swt.widgets.Table;
 
 public class TestDialog extends Dialog {
 
-    /**
-     * Create the dialog.
-     * 
-     * @param parentShell
-     */
-    public TestDialog(Shell parentShell) {
-        super(parentShell);
-    }
+	/**
+	 * Create the dialog.
+	 * 
+	 * @param parentShell
+	 */
+	public TestDialog(Shell parentShell) {
+		super(parentShell);
+	}
 
-    /**
-     * Create contents of the dialog.
-     * 
-     * @param parent
-     */
-    @Override
-    protected Control createDialogArea(Composite parent) {
-        Composite container = (Composite) super.createDialogArea(parent);
-        container.setLayout(new GridLayout(1, false));
+	/**
+	 * Create contents of the dialog.
+	 * 
+	 * @param parent
+	 */
+	@Override
+	protected Control createDialogArea(Composite parent) {
+		Composite container = (Composite)super.createDialogArea(parent);
+		container.setLayout(new GridLayout(1, false));
 
-        CheckboxTableViewer checkboxTableViewer = CheckboxTableViewer.newCheckList(container, SWT.BORDER
-                | SWT.FULL_SELECTION | SWT.MULTI);
-        Table tableOfCustomPredicates = checkboxTableViewer.getTable();
-        tableOfCustomPredicates.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		CheckboxTableViewer checkboxTableViewer = CheckboxTableViewer.newCheckList(container, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
+		Table tableOfCustomPredicates = checkboxTableViewer.getTable();
+		tableOfCustomPredicates.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
-        TableLayout tableLayout = new TableLayout();
-        tableLayout.addColumnData(new ColumnWeightData(3, 100, true));
-        tableOfCustomPredicates.setLayout(tableLayout);
+		TableLayout tableLayout = new TableLayout();
+		tableLayout.addColumnData(new ColumnWeightData(3, 100, true));
+		tableOfCustomPredicates.setLayout(tableLayout);
 
-        TableViewerColumn column = new TableViewerColumn(checkboxTableViewer, SWT.None);
-        column.getColumn().setResizable(true);
+		TableViewerColumn column = new TableViewerColumn(checkboxTableViewer, SWT.None);
+		column.getColumn().setResizable(true);
 
-        return container;
-    }
+		return container;
+	}
 
-    /**
-     * Create contents of the button bar.
-     * 
-     * @param parent
-     */
-    @Override
-    protected void createButtonsForButtonBar(Composite parent) {
-        createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
-        createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
-    }
+	/**
+	 * Create contents of the button bar.
+	 * 
+	 * @param parent
+	 */
+	@Override
+	protected void createButtonsForButtonBar(Composite parent) {
+		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
+		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
+	}
 
-    /**
-     * Return the initial size of the dialog.
-     */
-    @Override
-    protected Point getInitialSize() {
-        return new Point(450, 300);
-    }
+	/**
+	 * Return the initial size of the dialog.
+	 */
+	@Override
+	protected Point getInitialSize() {
+		return new Point(450, 300);
+	}
 
 }

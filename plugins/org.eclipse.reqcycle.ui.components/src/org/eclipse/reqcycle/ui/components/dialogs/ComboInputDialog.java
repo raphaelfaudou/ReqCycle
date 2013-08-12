@@ -1,3 +1,16 @@
+/*****************************************************************************
+ * Copyright (c) 2013 AtoS.
+ *
+ *    
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Papa Issa DIAKHATE (AtoS) papa-issa.diakhate@atos.net - Initial API and implementation
+ *
+ *****************************************************************************/
 package org.eclipse.reqcycle.ui.components.dialogs;
 
 import java.util.Arrays;
@@ -29,148 +42,149 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class ComboInputDialog extends AbstractCustomDialog {
 
-    /** Sets whether or not the ComboBox is editable or not */
-    private final boolean    readOnly;
+	/** Sets whether or not the ComboBox is editable or not */
+	private final boolean readOnly;
 
-    /** Combo viewer. */
-    private ComboViewer      comboViewer;
+	/** Combo viewer. */
+	private ComboViewer comboViewer;
 
-    /**
-     * The selected item when the OK button is pressed, <code>null</code> otherwise (no selection, or when cancel button
-     * is pressed instead.
-     */
-    private Object           selectedItem;
+	/**
+	 * The selected item when the OK button is pressed, <code>null</code> otherwise (no selection, or when cancel button
+	 * is pressed instead.
+	 */
+	private Object selectedItem;
 
-    private IContentProvider comboContentProvider;
+	private IContentProvider comboContentProvider;
 
-    private ILabelProvider   comboILabelProvider;
+	private ILabelProvider comboILabelProvider;
 
-    /**
-     * Create the dialog with a read-only ComboViewer.
-     * 
-     * @param parentShell
-     * @param dialogTitle
-     * @param dialogMessage
-     * @param initialInput
-     * @param validator
-     * @wbp.parser.constructor
-     */
-    public ComboInputDialog(Shell parentShell, String dialogTitle, String dialogMessage, Object initialInput,
-            IInputValidator validator) {
-        this(parentShell, dialogTitle, dialogMessage, initialInput, validator, true);
-    }
+	/**
+	 * Create the dialog with a read-only ComboViewer.
+	 * 
+	 * @param parentShell
+	 * @param dialogTitle
+	 * @param dialogMessage
+	 * @param initialInput
+	 * @param validator
+	 * @wbp.parser.constructor
+	 */
+	public ComboInputDialog(Shell parentShell, String dialogTitle, String dialogMessage, Object initialInput, IInputValidator validator) {
+		this(parentShell, dialogTitle, dialogMessage, initialInput, validator, true);
+	}
 
-    /**
-     * Create the dialog.
-     * 
-     * @param parentShell
-     * @param dialogTitle
-     * @param dialogMessage
-     * @param initialInput
-     * @param validator
-     * @param readOnly
-     */
-    public ComboInputDialog(Shell parentShell, String dialogTitle, String dialogMessage, Object initialInput,
-            IInputValidator validator, boolean readOnly) {
+	/**
+	 * Create the dialog.
+	 * 
+	 * @param parentShell
+	 * @param dialogTitle
+	 * @param dialogMessage
+	 * @param initialInput
+	 * @param validator
+	 * @param readOnly
+	 */
+	public ComboInputDialog(Shell parentShell, String dialogTitle, String dialogMessage, Object initialInput, IInputValidator validator, boolean readOnly) {
 
-        super(parentShell, dialogTitle, dialogMessage, initialInput, validator);
-        this.readOnly = readOnly;
-    }
+		super(parentShell, dialogTitle, dialogMessage, initialInput, validator);
+		this.readOnly = readOnly;
+	}
 
-    @Override
-    protected void createCustomDialogArea(Composite parent) {
+	@Override
+	protected void createCustomDialogArea(Composite parent) {
 
-        this.comboViewer = this.readOnly ? new ComboViewer(parent, SWT.READ_ONLY) : new ComboViewer(parent);
-        Combo combo = comboViewer.getCombo();
-        combo.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL));
-        if (!readOnly) {
-            combo.addModifyListener(new ModifyListener() {
-                public void modifyText(ModifyEvent e) {
-                    validateInput();
-                }
-            });
-        }
-        if (this.comboContentProvider == null) this.comboContentProvider = ArrayContentProvider.getInstance();
-        if (this.comboILabelProvider == null) this.comboILabelProvider = new LabelProvider();
-        this.comboViewer.setContentProvider(this.comboContentProvider);
-        this.comboViewer.setLabelProvider(this.comboILabelProvider);
-        this.comboViewer.setInput(getInput());
-        combo.addListener(SWT.Selection, this);
-    }
+		this.comboViewer = this.readOnly ? new ComboViewer(parent, SWT.READ_ONLY) : new ComboViewer(parent);
+		Combo combo = comboViewer.getCombo();
+		combo.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL));
+		if(!readOnly) {
+			combo.addModifyListener(new ModifyListener() {
 
-    protected void validateInput() {
-        String errorMessage = null;
-        if (getValidator() != null) {
-            errorMessage = getValidator().isValid(this.comboViewer.getCombo().getText());
-        }
-        setErrorMessage(errorMessage);
-    }
+				public void modifyText(ModifyEvent e) {
+					validateInput();
+				}
+			});
+		}
+		if(this.comboContentProvider == null)
+			this.comboContentProvider = ArrayContentProvider.getInstance();
+		if(this.comboILabelProvider == null)
+			this.comboILabelProvider = new LabelProvider();
+		this.comboViewer.setContentProvider(this.comboContentProvider);
+		this.comboViewer.setLabelProvider(this.comboILabelProvider);
+		this.comboViewer.setInput(getInput());
+		combo.addListener(SWT.Selection, this);
+	}
 
-    @Override
-    protected void buttonPressed(int buttonId) {
-        if (buttonId == IDialogConstants.OK_ID) {
-            this.selectedItem = ((IStructuredSelection) this.comboViewer.getSelection()).getFirstElement();
-        } else {
-            this.selectedItem = null;
-        }
-        super.buttonPressed(buttonId);
-    }
+	protected void validateInput() {
+		String errorMessage = null;
+		if(getValidator() != null) {
+			errorMessage = getValidator().isValid(this.comboViewer.getCombo().getText());
+		}
+		setErrorMessage(errorMessage);
+	}
 
-    /**
-     * 
-     * @return The selected item when the OK button is pressed, <code>null</code> otherwise (no selection, or when
-     *         cancel button is pressed instead.
-     */
-    public Object getSelectedItem() {
-        Iterator<Object> iter = this.getSelectedItems().iterator();
-        if (iter.hasNext()) {
-            return iter.next();
-        }
-        return null;
-    }
+	@Override
+	protected void buttonPressed(int buttonId) {
+		if(buttonId == IDialogConstants.OK_ID) {
+			this.selectedItem = ((IStructuredSelection)this.comboViewer.getSelection()).getFirstElement();
+		} else {
+			this.selectedItem = null;
+		}
+		super.buttonPressed(buttonId);
+	}
 
-    @Override
-    public Collection<Object> getSelectedItems() {
-        return Arrays.asList(new Object[] { this.selectedItem });
-    }
+	/**
+	 * 
+	 * @return The selected item when the OK button is pressed, <code>null</code> otherwise (no selection, or when
+	 *         cancel button is pressed instead.
+	 */
+	public Object getSelectedItem() {
+		Iterator<Object> iter = this.getSelectedItems().iterator();
+		if(iter.hasNext()) {
+			return iter.next();
+		}
+		return null;
+	}
 
-    /**
-     * When this method is never called, the default content provider which is used is {@link ArrayContentProvider}.
-     * 
-     * @param contentProvider
-     */
-    public void setComboContentProvider(IContentProvider contentProvider) {
-        this.comboContentProvider = contentProvider;
-    }
+	@Override
+	public Collection<Object> getSelectedItems() {
+		return Arrays.asList(new Object[]{ this.selectedItem });
+	}
 
-    /**
-     * When this method is never called, the default content provider which is used is {@link LabelProvider}.
-     * 
-     * @param labelProvider
-     */
-    public void setComboLabelProvider(ILabelProvider labelProvider) {
-        this.comboILabelProvider = labelProvider;
-    }
+	/**
+	 * When this method is never called, the default content provider which is used is {@link ArrayContentProvider}.
+	 * 
+	 * @param contentProvider
+	 */
+	public void setComboContentProvider(IContentProvider contentProvider) {
+		this.comboContentProvider = contentProvider;
+	}
 
-    protected ComboViewer getComboViewer() {
-        return this.comboViewer;
-    }
+	/**
+	 * When this method is never called, the default content provider which is used is {@link LabelProvider}.
+	 * 
+	 * @param labelProvider
+	 */
+	public void setComboLabelProvider(ILabelProvider labelProvider) {
+		this.comboILabelProvider = labelProvider;
+	}
 
-    @Override
-    protected Button createButton(Composite parent, int id, String label, boolean defaultButton) {
-        Button btn = super.createButton(parent, id, label, defaultButton);
-        if (OK == id && btn != null) {
-            btn.setEnabled(false);
-        }
-        return btn;
-    }
+	protected ComboViewer getComboViewer() {
+		return this.comboViewer;
+	}
 
-    @Override
-    public void handleEvent(Event event) {
-        if (comboViewer == null) {
-            return;
-        }
-        enableOkButton(comboViewer.getSelection() != null);
-    }
+	@Override
+	protected Button createButton(Composite parent, int id, String label, boolean defaultButton) {
+		Button btn = super.createButton(parent, id, label, defaultButton);
+		if(OK == id && btn != null) {
+			btn.setEnabled(false);
+		}
+		return btn;
+	}
+
+	@Override
+	public void handleEvent(Event event) {
+		if(comboViewer == null) {
+			return;
+		}
+		enableOkButton(comboViewer.getSelection() != null);
+	}
 
 }

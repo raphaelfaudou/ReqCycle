@@ -8,7 +8,6 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.edit.provider.ChangeNotifier;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
@@ -22,7 +21,6 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-
 import org.eclipse.reqcycle.predicates.core.util.PredicatesAdapterFactory;
 
 /**
@@ -32,412 +30,460 @@ import org.eclipse.reqcycle.predicates.core.util.PredicatesAdapterFactory;
  * Note that most of the adapters are shared among multiple instances.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class PredicatesItemProviderAdapterFactory extends PredicatesAdapterFactory implements ComposeableAdapterFactory, IChangeNotifier, IDisposable {
-    /**
-     * This keeps track of the root adapter factory that delegates to this adapter factory.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected ComposedAdapterFactory parentAdapterFactory;
 
-    /**
-     * This is used to implement {@link org.eclipse.emf.edit.provider.IChangeNotifier}.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected IChangeNotifier changeNotifier = new ChangeNotifier();
+	/**
+	 * This keeps track of the root adapter factory that delegates to this adapter factory.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected ComposedAdapterFactory parentAdapterFactory;
 
-    /**
-     * This keeps track of all the supported types checked by {@link #isFactoryForType isFactoryForType}.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected Collection<Object> supportedTypes = new ArrayList<Object>();
+	/**
+	 * This is used to implement {@link org.eclipse.emf.edit.provider.IChangeNotifier}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected IChangeNotifier changeNotifier = new ChangeNotifier();
 
-    /**
-     * This constructs an instance.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public PredicatesItemProviderAdapterFactory() {
-        supportedTypes.add(IEditingDomainItemProvider.class);
-        supportedTypes.add(IStructuredItemContentProvider.class);
-        supportedTypes.add(ITreeItemContentProvider.class);
-        supportedTypes.add(IItemLabelProvider.class);
-        supportedTypes.add(IItemPropertySource.class);
-        supportedTypes.add(IItemColorProvider.class);
-        supportedTypes.add(IItemFontProvider.class);
-    }
+	/**
+	 * This keeps track of all the supported types checked by {@link #isFactoryForType isFactoryForType}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected Collection<Object> supportedTypes = new ArrayList<Object>();
 
-    /**
-     * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.predicates.core.api.StringEqualPredicate} instances.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected StringEqualPredicateItemProvider stringEqualPredicateItemProvider;
+	/**
+	 * This constructs an instance.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public PredicatesItemProviderAdapterFactory() {
+		supportedTypes.add(IEditingDomainItemProvider.class);
+		supportedTypes.add(IStructuredItemContentProvider.class);
+		supportedTypes.add(ITreeItemContentProvider.class);
+		supportedTypes.add(IItemLabelProvider.class);
+		supportedTypes.add(IItemPropertySource.class);
+		supportedTypes.add(IItemColorProvider.class);
+		supportedTypes.add(IItemFontProvider.class);
+	}
 
-    /**
-     * This creates an adapter for a {@link org.eclipse.reqcycle.predicates.core.api.StringEqualPredicate}.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public Adapter createStringEqualPredicateAdapter() {
-        if (stringEqualPredicateItemProvider == null) {
-            stringEqualPredicateItemProvider = new StringEqualPredicateItemProvider(this);
-        }
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.predicates.core.api.StringEqualPredicate} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected StringEqualPredicateItemProvider stringEqualPredicateItemProvider;
 
-        return stringEqualPredicateItemProvider;
-    }
+	/**
+	 * This creates an adapter for a {@link org.eclipse.reqcycle.predicates.core.api.StringEqualPredicate}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public Adapter createStringEqualPredicateAdapter() {
+		if(stringEqualPredicateItemProvider == null) {
+			stringEqualPredicateItemProvider = new StringEqualPredicateItemProvider(this);
+		}
 
-    /**
-     * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.predicates.core.api.DateEqualPredicate} instances.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected DateEqualPredicateItemProvider dateEqualPredicateItemProvider;
+		return stringEqualPredicateItemProvider;
+	}
 
-    /**
-     * This creates an adapter for a {@link org.eclipse.reqcycle.predicates.core.api.DateEqualPredicate}.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public Adapter createDateEqualPredicateAdapter() {
-        if (dateEqualPredicateItemProvider == null) {
-            dateEqualPredicateItemProvider = new DateEqualPredicateItemProvider(this);
-        }
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.predicates.core.api.DateEqualPredicate} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected DateEqualPredicateItemProvider dateEqualPredicateItemProvider;
 
-        return dateEqualPredicateItemProvider;
-    }
+	/**
+	 * This creates an adapter for a {@link org.eclipse.reqcycle.predicates.core.api.DateEqualPredicate}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public Adapter createDateEqualPredicateAdapter() {
+		if(dateEqualPredicateItemProvider == null) {
+			dateEqualPredicateItemProvider = new DateEqualPredicateItemProvider(this);
+		}
 
-    /**
-     * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.predicates.core.api.EnumEqualPredicate} instances.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected EnumEqualPredicateItemProvider enumEqualPredicateItemProvider;
+		return dateEqualPredicateItemProvider;
+	}
 
-    /**
-     * This creates an adapter for a {@link org.eclipse.reqcycle.predicates.core.api.EnumEqualPredicate}.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public Adapter createEnumEqualPredicateAdapter() {
-        if (enumEqualPredicateItemProvider == null) {
-            enumEqualPredicateItemProvider = new EnumEqualPredicateItemProvider(this);
-        }
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.predicates.core.api.EnumEqualPredicate} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected EnumEqualPredicateItemProvider enumEqualPredicateItemProvider;
 
-        return enumEqualPredicateItemProvider;
-    }
+	/**
+	 * This creates an adapter for a {@link org.eclipse.reqcycle.predicates.core.api.EnumEqualPredicate}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public Adapter createEnumEqualPredicateAdapter() {
+		if(enumEqualPredicateItemProvider == null) {
+			enumEqualPredicateItemProvider = new EnumEqualPredicateItemProvider(this);
+		}
 
-    /**
-     * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.predicates.core.api.BooleanEqualPredicate} instances.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected BooleanEqualPredicateItemProvider booleanEqualPredicateItemProvider;
+		return enumEqualPredicateItemProvider;
+	}
 
-    /**
-     * This creates an adapter for a {@link org.eclipse.reqcycle.predicates.core.api.BooleanEqualPredicate}.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public Adapter createBooleanEqualPredicateAdapter() {
-        if (booleanEqualPredicateItemProvider == null) {
-            booleanEqualPredicateItemProvider = new BooleanEqualPredicateItemProvider(this);
-        }
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.predicates.core.api.BooleanEqualPredicate} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected BooleanEqualPredicateItemProvider booleanEqualPredicateItemProvider;
 
-        return booleanEqualPredicateItemProvider;
-    }
+	/**
+	 * This creates an adapter for a {@link org.eclipse.reqcycle.predicates.core.api.BooleanEqualPredicate}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public Adapter createBooleanEqualPredicateAdapter() {
+		if(booleanEqualPredicateItemProvider == null) {
+			booleanEqualPredicateItemProvider = new BooleanEqualPredicateItemProvider(this);
+		}
 
-    /**
-     * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.predicates.core.api.ContainsPatternPredicate} instances.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected ContainsPatternPredicateItemProvider containsPatternPredicateItemProvider;
+		return booleanEqualPredicateItemProvider;
+	}
 
-    /**
-     * This creates an adapter for a {@link org.eclipse.reqcycle.predicates.core.api.ContainsPatternPredicate}.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public Adapter createContainsPatternPredicateAdapter() {
-        if (containsPatternPredicateItemProvider == null) {
-            containsPatternPredicateItemProvider = new ContainsPatternPredicateItemProvider(this);
-        }
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.predicates.core.api.ContainsPatternPredicate} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected ContainsPatternPredicateItemProvider containsPatternPredicateItemProvider;
 
-        return containsPatternPredicateItemProvider;
-    }
+	/**
+	 * This creates an adapter for a {@link org.eclipse.reqcycle.predicates.core.api.ContainsPatternPredicate}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public Adapter createContainsPatternPredicateAdapter() {
+		if(containsPatternPredicateItemProvider == null) {
+			containsPatternPredicateItemProvider = new ContainsPatternPredicateItemProvider(this);
+		}
 
-    /**
-     * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.predicates.core.api.StringIntoPredicate} instances.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected StringIntoPredicateItemProvider stringIntoPredicateItemProvider;
+		return containsPatternPredicateItemProvider;
+	}
 
-    /**
-     * This creates an adapter for a {@link org.eclipse.reqcycle.predicates.core.api.StringIntoPredicate}.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public Adapter createStringIntoPredicateAdapter() {
-        if (stringIntoPredicateItemProvider == null) {
-            stringIntoPredicateItemProvider = new StringIntoPredicateItemProvider(this);
-        }
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.predicates.core.api.StringIntoPredicate} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected StringIntoPredicateItemProvider stringIntoPredicateItemProvider;
 
-        return stringIntoPredicateItemProvider;
-    }
+	/**
+	 * This creates an adapter for a {@link org.eclipse.reqcycle.predicates.core.api.StringIntoPredicate}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public Adapter createStringIntoPredicateAdapter() {
+		if(stringIntoPredicateItemProvider == null) {
+			stringIntoPredicateItemProvider = new StringIntoPredicateItemProvider(this);
+		}
 
-    /**
-     * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.predicates.core.api.EnumIntoPredicate} instances.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected EnumIntoPredicateItemProvider enumIntoPredicateItemProvider;
+		return stringIntoPredicateItemProvider;
+	}
 
-    /**
-     * This creates an adapter for a {@link org.eclipse.reqcycle.predicates.core.api.EnumIntoPredicate}.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public Adapter createEnumIntoPredicateAdapter() {
-        if (enumIntoPredicateItemProvider == null) {
-            enumIntoPredicateItemProvider = new EnumIntoPredicateItemProvider(this);
-        }
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.predicates.core.api.EnumIntoPredicate} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected EnumIntoPredicateItemProvider enumIntoPredicateItemProvider;
 
-        return enumIntoPredicateItemProvider;
-    }
+	/**
+	 * This creates an adapter for a {@link org.eclipse.reqcycle.predicates.core.api.EnumIntoPredicate}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public Adapter createEnumIntoPredicateAdapter() {
+		if(enumIntoPredicateItemProvider == null) {
+			enumIntoPredicateItemProvider = new EnumIntoPredicateItemProvider(this);
+		}
 
-    /**
-     * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.predicates.core.api.AndPredicate} instances.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected AndPredicateItemProvider andPredicateItemProvider;
+		return enumIntoPredicateItemProvider;
+	}
 
-    /**
-     * This creates an adapter for a {@link org.eclipse.reqcycle.predicates.core.api.AndPredicate}.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public Adapter createAndPredicateAdapter() {
-        if (andPredicateItemProvider == null) {
-            andPredicateItemProvider = new AndPredicateItemProvider(this);
-        }
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.predicates.core.api.AndPredicate} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected AndPredicateItemProvider andPredicateItemProvider;
 
-        return andPredicateItemProvider;
-    }
+	/**
+	 * This creates an adapter for a {@link org.eclipse.reqcycle.predicates.core.api.AndPredicate}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public Adapter createAndPredicateAdapter() {
+		if(andPredicateItemProvider == null) {
+			andPredicateItemProvider = new AndPredicateItemProvider(this);
+		}
 
-    /**
-     * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.predicates.core.api.OrPredicate} instances.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected OrPredicateItemProvider orPredicateItemProvider;
+		return andPredicateItemProvider;
+	}
 
-    /**
-     * This creates an adapter for a {@link org.eclipse.reqcycle.predicates.core.api.OrPredicate}.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public Adapter createOrPredicateAdapter() {
-        if (orPredicateItemProvider == null) {
-            orPredicateItemProvider = new OrPredicateItemProvider(this);
-        }
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.predicates.core.api.OrPredicate} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected OrPredicateItemProvider orPredicateItemProvider;
 
-        return orPredicateItemProvider;
-    }
+	/**
+	 * This creates an adapter for a {@link org.eclipse.reqcycle.predicates.core.api.OrPredicate}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public Adapter createOrPredicateAdapter() {
+		if(orPredicateItemProvider == null) {
+			orPredicateItemProvider = new OrPredicateItemProvider(this);
+		}
 
-    /**
-     * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.predicates.core.api.CompareNumberPredicate} instances.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected CompareNumberPredicateItemProvider compareNumberPredicateItemProvider;
+		return orPredicateItemProvider;
+	}
 
-    /**
-     * This creates an adapter for a {@link org.eclipse.reqcycle.predicates.core.api.CompareNumberPredicate}.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public Adapter createCompareNumberPredicateAdapter() {
-        if (compareNumberPredicateItemProvider == null) {
-            compareNumberPredicateItemProvider = new CompareNumberPredicateItemProvider(this);
-        }
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.predicates.core.api.CompareNumberPredicate} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected CompareNumberPredicateItemProvider compareNumberPredicateItemProvider;
 
-        return compareNumberPredicateItemProvider;
-    }
+	/**
+	 * This creates an adapter for a {@link org.eclipse.reqcycle.predicates.core.api.CompareNumberPredicate}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public Adapter createCompareNumberPredicateAdapter() {
+		if(compareNumberPredicateItemProvider == null) {
+			compareNumberPredicateItemProvider = new CompareNumberPredicateItemProvider(this);
+		}
 
-    /**
-     * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.predicates.core.api.NotPredicate} instances.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected NotPredicateItemProvider notPredicateItemProvider;
+		return compareNumberPredicateItemProvider;
+	}
 
-    /**
-     * This creates an adapter for a {@link org.eclipse.reqcycle.predicates.core.api.NotPredicate}.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public Adapter createNotPredicateAdapter() {
-        if (notPredicateItemProvider == null) {
-            notPredicateItemProvider = new NotPredicateItemProvider(this);
-        }
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.predicates.core.api.NotPredicate} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected NotPredicateItemProvider notPredicateItemProvider;
 
-        return notPredicateItemProvider;
-    }
+	/**
+	 * This creates an adapter for a {@link org.eclipse.reqcycle.predicates.core.api.NotPredicate}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public Adapter createNotPredicateAdapter() {
+		if(notPredicateItemProvider == null) {
+			notPredicateItemProvider = new NotPredicateItemProvider(this);
+		}
 
-    /**
-     * This returns the root adapter factory that contains this factory.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public ComposeableAdapterFactory getRootAdapterFactory() {
-        return parentAdapterFactory == null ? this : parentAdapterFactory.getRootAdapterFactory();
-    }
+		return notPredicateItemProvider;
+	}
 
-    /**
-     * This sets the composed adapter factory that contains this factory.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void setParentAdapterFactory(ComposedAdapterFactory parentAdapterFactory) {
-        this.parentAdapterFactory = parentAdapterFactory;
-    }
+	/**
+	 * This returns the root adapter factory that contains this factory.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public ComposeableAdapterFactory getRootAdapterFactory() {
+		return parentAdapterFactory == null ? this : parentAdapterFactory.getRootAdapterFactory();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public boolean isFactoryForType(Object type) {
-        return supportedTypes.contains(type) || super.isFactoryForType(type);
-    }
+	/**
+	 * This sets the composed adapter factory that contains this factory.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public void setParentAdapterFactory(ComposedAdapterFactory parentAdapterFactory) {
+		this.parentAdapterFactory = parentAdapterFactory;
+	}
 
-    /**
-     * This implementation substitutes the factory itself as the key for the adapter.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public Adapter adapt(Notifier notifier, Object type) {
-        return super.adapt(notifier, this);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public boolean isFactoryForType(Object type) {
+		return supportedTypes.contains(type) || super.isFactoryForType(type);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public Object adapt(Object object, Object type) {
-        if (isFactoryForType(type)) {
-            Object adapter = super.adapt(object, type);
-            if (!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter))) {
-                return adapter;
-            }
-        }
+	/**
+	 * This implementation substitutes the factory itself as the key for the adapter.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public Adapter adapt(Notifier notifier, Object type) {
+		return super.adapt(notifier, this);
+	}
 
-        return null;
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public Object adapt(Object object, Object type) {
+		if(isFactoryForType(type)) {
+			Object adapter = super.adapt(object, type);
+			if(!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter))) {
+				return adapter;
+			}
+		}
 
-    /**
-     * This adds a listener.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void addListener(INotifyChangedListener notifyChangedListener) {
-        changeNotifier.addListener(notifyChangedListener);
-    }
+		return null;
+	}
 
-    /**
-     * This removes a listener.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void removeListener(INotifyChangedListener notifyChangedListener) {
-        changeNotifier.removeListener(notifyChangedListener);
-    }
+	/**
+	 * This adds a listener.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public void addListener(INotifyChangedListener notifyChangedListener) {
+		changeNotifier.addListener(notifyChangedListener);
+	}
 
-    /**
-     * This delegates to {@link #changeNotifier} and to {@link #parentAdapterFactory}.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void fireNotifyChanged(Notification notification) {
-        changeNotifier.fireNotifyChanged(notification);
+	/**
+	 * This removes a listener.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public void removeListener(INotifyChangedListener notifyChangedListener) {
+		changeNotifier.removeListener(notifyChangedListener);
+	}
 
-        if (parentAdapterFactory != null) {
-            parentAdapterFactory.fireNotifyChanged(notification);
-        }
-    }
+	/**
+	 * This delegates to {@link #changeNotifier} and to {@link #parentAdapterFactory}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public void fireNotifyChanged(Notification notification) {
+		changeNotifier.fireNotifyChanged(notification);
 
-    /**
-     * This disposes all of the item providers created by this factory. 
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void dispose() {
-        if (stringEqualPredicateItemProvider != null) stringEqualPredicateItemProvider.dispose();
-        if (dateEqualPredicateItemProvider != null) dateEqualPredicateItemProvider.dispose();
-        if (enumEqualPredicateItemProvider != null) enumEqualPredicateItemProvider.dispose();
-        if (booleanEqualPredicateItemProvider != null) booleanEqualPredicateItemProvider.dispose();
-        if (containsPatternPredicateItemProvider != null) containsPatternPredicateItemProvider.dispose();
-        if (stringIntoPredicateItemProvider != null) stringIntoPredicateItemProvider.dispose();
-        if (enumIntoPredicateItemProvider != null) enumIntoPredicateItemProvider.dispose();
-        if (andPredicateItemProvider != null) andPredicateItemProvider.dispose();
-        if (orPredicateItemProvider != null) orPredicateItemProvider.dispose();
-        if (notPredicateItemProvider != null) notPredicateItemProvider.dispose();
-        if (compareNumberPredicateItemProvider != null) compareNumberPredicateItemProvider.dispose();
-    }
+		if(parentAdapterFactory != null) {
+			parentAdapterFactory.fireNotifyChanged(notification);
+		}
+	}
+
+	/**
+	 * This disposes all of the item providers created by this factory.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public void dispose() {
+		if(stringEqualPredicateItemProvider != null)
+			stringEqualPredicateItemProvider.dispose();
+		if(dateEqualPredicateItemProvider != null)
+			dateEqualPredicateItemProvider.dispose();
+		if(enumEqualPredicateItemProvider != null)
+			enumEqualPredicateItemProvider.dispose();
+		if(booleanEqualPredicateItemProvider != null)
+			booleanEqualPredicateItemProvider.dispose();
+		if(containsPatternPredicateItemProvider != null)
+			containsPatternPredicateItemProvider.dispose();
+		if(stringIntoPredicateItemProvider != null)
+			stringIntoPredicateItemProvider.dispose();
+		if(enumIntoPredicateItemProvider != null)
+			enumIntoPredicateItemProvider.dispose();
+		if(andPredicateItemProvider != null)
+			andPredicateItemProvider.dispose();
+		if(orPredicateItemProvider != null)
+			orPredicateItemProvider.dispose();
+		if(notPredicateItemProvider != null)
+			notPredicateItemProvider.dispose();
+		if(compareNumberPredicateItemProvider != null)
+			compareNumberPredicateItemProvider.dispose();
+	}
 
 }

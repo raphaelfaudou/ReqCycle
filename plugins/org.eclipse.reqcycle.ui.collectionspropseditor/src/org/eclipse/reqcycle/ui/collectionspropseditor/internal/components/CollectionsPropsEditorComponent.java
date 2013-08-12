@@ -1,3 +1,17 @@
+/*****************************************************************************
+ * Copyright (c) 2013 AtoS.
+ *
+ *    
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Papa Issa DIAKHATE (AtoS) papa-issa.diakhate@atos.net - Initial API and implementation
+ *  Anass RADOUANI (Atos) anass.radouani@atos.net - Use Literal Value for EEnumLiterals
+ *
+ *****************************************************************************/
 package org.eclipse.reqcycle.ui.collectionspropseditor.internal.components;
 
 import java.util.ArrayList;
@@ -40,273 +54,280 @@ import org.eclipse.swt.widgets.TableColumn;
 
 public class CollectionsPropsEditorComponent extends AbstractPropsEditorComponent<Collection<Object>> {
 
-    private TableViewer                  tableViewer;
+	private TableViewer tableViewer;
 
-    private final List<Object>           enteredValues = new ArrayList<Object>();
+	private final List<Object> enteredValues = new ArrayList<Object>();
 
-    private final CustomViewerComparator comparator;
+	private final CustomViewerComparator comparator;
 
-    public CollectionsPropsEditorComponent(EAttribute attribute, Composite parent, int style) {
+	public CollectionsPropsEditorComponent(EAttribute attribute, Composite parent, int style) {
 
-        super(attribute, parent, style);
+		super(attribute, parent, style);
 
-        final Label lblName = new Label(this, SWT.NONE);
-        lblName.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
-        lblName.setText(attribute.getName());
+		final Label lblName = new Label(this, SWT.NONE);
+		lblName.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
+		lblName.setText(attribute.getName());
 
-        final EClassifier eType = attribute.getEType();
+		final EClassifier eType = attribute.getEType();
 
-        if (eType instanceof EEnum) {
-            setLayout(new GridLayout(2, false));
-            this.initTableViewerForEEnum(parent, (EEnum) eType);
+		if(eType instanceof EEnum) {
+			setLayout(new GridLayout(2, false));
+			this.initTableViewerForEEnum(parent, (EEnum)eType);
 
-        } else {
-            setLayout(new GridLayout(4, false));
-            this.initSimpleTableViewer(parent);
-        }
+		} else {
+			setLayout(new GridLayout(4, false));
+			this.initSimpleTableViewer(parent);
+		}
 
-        tableViewer.setLabelProvider(new DefaultTableLabelProvider());
-        this.comparator = new CustomViewerComparator();
-        tableViewer.setComparator(comparator);
+		tableViewer.setLabelProvider(new DefaultTableLabelProvider());
+		this.comparator = new CustomViewerComparator();
+		tableViewer.setComparator(comparator);
 
-        final Table table = tableViewer.getTable();
+		final Table table = tableViewer.getTable();
 
-        table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-        table.setHeaderVisible(true);
-        table.setLinesVisible(true);
-        table.setSize(200, 0);
+		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
+		table.setSize(200, 0);
 
-        final TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
-        tableViewerColumn.setLabelProvider(new CellLabelProvider() {
+		final TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
+		tableViewerColumn.setLabelProvider(new CellLabelProvider() {
 
-            @Override
-            public void update(ViewerCell cell) {
-                Object obj = cell.getElement();
-                if (obj instanceof ItemValue) {
-                    cell.setText(obj.toString());
-                } else if (obj instanceof Enumerator) {
-                    cell.setText(((Enumerator) obj).getLiteral());
-                } else {
-                    throw new IllegalArgumentException("Cannot update the cell label, unknown content type ...");
-                }
-            }
-        });
-        tableViewerColumn.setEditingSupport(new ItemValueEditingSupport(tableViewer));
+			@Override
+			public void update(ViewerCell cell) {
+				Object obj = cell.getElement();
+				if(obj instanceof ItemValue) {
+					cell.setText(obj.toString());
+				} else if(obj instanceof Enumerator) {
+					cell.setText(((Enumerator)obj).getLiteral());
+				} else {
+					throw new IllegalArgumentException("Cannot update the cell label, unknown content type ...");
+				}
+			}
+		});
+		tableViewerColumn.setEditingSupport(new ItemValueEditingSupport(tableViewer));
 
-        final TableColumn valuesColumn = tableViewerColumn.getColumn();
-        valuesColumn.setText("values");
-        valuesColumn.setResizable(true);
-        valuesColumn.setMoveable(true);
-        valuesColumn.setWidth(table.getSize().x);
-        valuesColumn.addSelectionListener(getSelectionAdapter(valuesColumn));
-    }
+		final TableColumn valuesColumn = tableViewerColumn.getColumn();
+		valuesColumn.setText("values");
+		valuesColumn.setResizable(true);
+		valuesColumn.setMoveable(true);
+		valuesColumn.setWidth(table.getSize().x);
+		valuesColumn.addSelectionListener(getSelectionAdapter(valuesColumn));
+	}
 
-    private void initSimpleTableViewer(final Composite parent) {
+	private void initSimpleTableViewer(final Composite parent) {
 
-        tableViewer = new TableViewer(this, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
-        tableViewer.setContentProvider(ArrayContentProvider.getInstance());
-        tableViewer.setInput(this.enteredValues);
+		tableViewer = new TableViewer(this, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
+		tableViewer.setContentProvider(ArrayContentProvider.getInstance());
+		tableViewer.setInput(this.enteredValues);
 
-        this.initTableMenu(this.tableViewer.getTable());
+		this.initTableMenu(this.tableViewer.getTable());
 
-        Composite buttonsComposite = new Composite(this, SWT.NONE);
-        buttonsComposite.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
-        buttonsComposite.setLayout(new FillLayout(SWT.VERTICAL));
+		Composite buttonsComposite = new Composite(this, SWT.NONE);
+		buttonsComposite.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
+		buttonsComposite.setLayout(new FillLayout(SWT.VERTICAL));
 
-        Button btnAdd = new Button(buttonsComposite, SWT.NONE);
-        btnAdd.setText("Add");
-        btnAdd.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                addNewItem();
-            }
-        });
+		Button btnAdd = new Button(buttonsComposite, SWT.NONE);
+		btnAdd.setText("Add");
+		btnAdd.addSelectionListener(new SelectionAdapter() {
 
-        Button btnDelete = new Button(buttonsComposite, SWT.NONE);
-        btnDelete.setText("Delete");
-        btnDelete.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                removeSelectedItems();
-            }
-        });
-    }
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				addNewItem();
+			}
+		});
 
-    private void initTableViewerForEEnum(Composite parent, EEnum eType) {
-        tableViewer = CheckboxTableViewer.newCheckList(parent, SWT.BORDER | SWT.MULTI);
-        Table table = tableViewer.getTable();
-        table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-        tableViewer.setContentProvider(new IStructuredContentProvider() {
+		Button btnDelete = new Button(buttonsComposite, SWT.NONE);
+		btnDelete.setText("Delete");
+		btnDelete.addSelectionListener(new SelectionAdapter() {
 
-            @Override
-            public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-            }
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				removeSelectedItems();
+			}
+		});
+	}
 
-            @Override
-            public void dispose() {
-            }
+	private void initTableViewerForEEnum(Composite parent, EEnum eType) {
+		tableViewer = CheckboxTableViewer.newCheckList(parent, SWT.BORDER | SWT.MULTI);
+		Table table = tableViewer.getTable();
+		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		tableViewer.setContentProvider(new IStructuredContentProvider() {
 
-            @Override
-            public Object[] getElements(Object inputElement) {
-                return (Object[]) inputElement;
-            }
-        });
-        ((CheckboxTableViewer) tableViewer).addCheckStateListener(new ICheckStateListener() {
+			@Override
+			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+			}
 
-            @Override
-            public void checkStateChanged(CheckStateChangedEvent event) {
-                Object obj = event.getElement();
-                if (obj instanceof EEnumLiteral) {
-                    if (event.getChecked()) {
-                        enteredValues.add(((EEnumLiteral) obj).getInstance());
-                    } else {
-                        enteredValues.remove(((EEnumLiteral) obj).getInstance());
-                    }
-                }
-            }
-        });
-        tableViewer.setInput(eType.getELiterals().toArray());
-    }
+			@Override
+			public void dispose() {
+			}
 
-    private void initTableMenu(final Table table) {
-        Menu menu = new Menu(table);
-        table.setMenu(menu);
+			@Override
+			public Object[] getElements(Object inputElement) {
+				return (Object[])inputElement;
+			}
+		});
+		((CheckboxTableViewer)tableViewer).addCheckStateListener(new ICheckStateListener() {
 
-        MenuItem menuItemAdd = new MenuItem(menu, SWT.NONE);
-        menuItemAdd.setText("Add");
-        menuItemAdd.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                addNewItem();
-            }
-        });
+			@Override
+			public void checkStateChanged(CheckStateChangedEvent event) {
+				Object obj = event.getElement();
+				if(obj instanceof EEnumLiteral) {
+					if(event.getChecked()) {
+						enteredValues.add(((EEnumLiteral)obj).getInstance());
+					} else {
+						enteredValues.remove(((EEnumLiteral)obj).getInstance());
+					}
+				}
+			}
+		});
+		tableViewer.setInput(eType.getELiterals().toArray());
+	}
 
-        MenuItem menuItemRemove = new MenuItem(menu, SWT.NONE);
-        menuItemRemove.setText("Remove");
-        menuItemRemove.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                removeSelectedItems();
-            }
-        });
-    }
+	private void initTableMenu(final Table table) {
+		Menu menu = new Menu(table);
+		table.setMenu(menu);
 
-    private void addNewItem() {
-        ItemValue<?> newValue = new CharSequenceValue("<enter a value>");
-        this.enteredValues.add(newValue);
-        this.tableViewer.refresh();
-    }
+		MenuItem menuItemAdd = new MenuItem(menu, SWT.NONE);
+		menuItemAdd.setText("Add");
+		menuItemAdd.addSelectionListener(new SelectionAdapter() {
 
-    private void removeSelectedItems() {
-        Table t = tableViewer.getTable();
-        for (int i : t.getSelectionIndices()) {
-            Object obj = tableViewer.getElementAt(i);
-            this.enteredValues.remove(obj);
-        }
-        tableViewer.refresh();
-    }
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				addNewItem();
+			}
+		});
 
-    @SuppressWarnings("rawtypes")
-    @Override
-    public Collection<Object> getValue() {
-        Collection<Object> result = new ArrayList<Object>();
-        for (Object item : this.enteredValues) {
-            if (item instanceof ItemValue) {
-                result.add(((ItemValue) item).getValue());
-            } else {
-                result.add(item);
-            }
-        }
-        return result;
-    }
+		MenuItem menuItemRemove = new MenuItem(menu, SWT.NONE);
+		menuItemRemove.setText("Remove");
+		menuItemRemove.addSelectionListener(new SelectionAdapter() {
 
-    @Override
-    public boolean isValid() {
-        return true;
-    }
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				removeSelectedItems();
+			}
+		});
+	}
 
-    private SelectionAdapter getSelectionAdapter(final TableColumn column) {
-        SelectionAdapter selectionAdapter = new SelectionAdapter() {
+	private void addNewItem() {
+		ItemValue<?> newValue = new CharSequenceValue("<enter a value>");
+		this.enteredValues.add(newValue);
+		this.tableViewer.refresh();
+	}
 
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                comparator.changeOrder();
-                int dir = comparator.getDirection();
-                tableViewer.getTable().setSortDirection(dir);
-                tableViewer.getTable().setSortColumn(column);
-                tableViewer.refresh();
-            }
-        };
-        return selectionAdapter;
-    }
+	private void removeSelectedItems() {
+		Table t = tableViewer.getTable();
+		for(int i : t.getSelectionIndices()) {
+			Object obj = tableViewer.getElementAt(i);
+			this.enteredValues.remove(obj);
+		}
+		tableViewer.refresh();
+	}
 
-    private class DefaultTableLabelProvider implements ITableLabelProvider {
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Collection<Object> getValue() {
+		Collection<Object> result = new ArrayList<Object>();
+		for(Object item : this.enteredValues) {
+			if(item instanceof ItemValue) {
+				result.add(((ItemValue)item).getValue());
+			} else if(item instanceof EEnumLiteral) {
+				result.add(((EEnumLiteral)item).getLiteral());
+			} else {
+				result.add(item);
+			}
+		}
+		return result;
+	}
 
-        @Override
-        public void removeListener(ILabelProviderListener listener) {
-        }
+	@Override
+	public boolean isValid() {
+		return true;
+	}
 
-        @Override
-        public boolean isLabelProperty(Object element, String property) {
-            return false;
-        }
+	private SelectionAdapter getSelectionAdapter(final TableColumn column) {
+		SelectionAdapter selectionAdapter = new SelectionAdapter() {
 
-        @Override
-        public void dispose() {
-        }
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				comparator.changeOrder();
+				int dir = comparator.getDirection();
+				tableViewer.getTable().setSortDirection(dir);
+				tableViewer.getTable().setSortColumn(column);
+				tableViewer.refresh();
+			}
+		};
+		return selectionAdapter;
+	}
 
-        @Override
-        public void addListener(ILabelProviderListener listener) {
-        }
+	private class DefaultTableLabelProvider implements ITableLabelProvider {
 
-        @Override
-        public String getColumnText(Object element, int columnIndex) {
-            if (element instanceof EEnumLiteral) {
-                return ((EEnumLiteral) element).getLiteral();
-            }
-            return element.toString();
-        }
+		@Override
+		public void removeListener(ILabelProviderListener listener) {
+		}
 
-        @Override
-        public Image getColumnImage(Object element, int columnIndex) {
-            return null;
-        }
-    }
+		@Override
+		public boolean isLabelProperty(Object element, String property) {
+			return false;
+		}
 
-    private class CustomViewerComparator extends ViewerComparator {
+		@Override
+		public void dispose() {
+		}
 
-        private static final int DESCENDING = 1;
-        private int              direction  = DESCENDING;
+		@Override
+		public void addListener(ILabelProviderListener listener) {
+		}
 
-        public CustomViewerComparator() {
-            direction = DESCENDING;
-        }
+		@Override
+		public String getColumnText(Object element, int columnIndex) {
+			if(element instanceof EEnumLiteral) {
+				return ((EEnumLiteral)element).getLiteral();
+			}
+			return element.toString();
+		}
 
-        public int getDirection() {
-            return direction == 1 ? SWT.DOWN : SWT.UP;
-        }
+		@Override
+		public Image getColumnImage(Object element, int columnIndex) {
+			return null;
+		}
+	}
 
-        public void changeOrder() {
-            // we only have one column.
-            direction = 1 - direction;
-        }
+	private class CustomViewerComparator extends ViewerComparator {
 
-        @Override
-        public int compare(Viewer viewer, Object e1, Object e2) {
+		private static final int DESCENDING = 1;
 
-            int rc = 0;
+		private int direction = DESCENDING;
 
-            if (e1 instanceof EEnumLiteral && e2 instanceof EEnumLiteral) {
-                rc = ((EEnumLiteral) e1).getLiteral().compareTo(((EEnumLiteral) e2).getLiteral());
-            } else {
-                rc = super.compare(viewer, e1, e2);
-            }
+		public CustomViewerComparator() {
+			direction = DESCENDING;
+		}
 
-            // If descending order, flip the direction
-            if (direction == DESCENDING) {
-                rc = -rc;
-            }
-            return rc;
-        }
-    }
+		public int getDirection() {
+			return direction == 1 ? SWT.DOWN : SWT.UP;
+		}
+
+		public void changeOrder() {
+			// we only have one column.
+			direction = 1 - direction;
+		}
+
+		@Override
+		public int compare(Viewer viewer, Object e1, Object e2) {
+
+			int rc = 0;
+
+			if(e1 instanceof EEnumLiteral && e2 instanceof EEnumLiteral) {
+				rc = ((EEnumLiteral)e1).getLiteral().compareTo(((EEnumLiteral)e2).getLiteral());
+			} else {
+				rc = super.compare(viewer, e1, e2);
+			}
+
+			// If descending order, flip the direction
+			if(direction == DESCENDING) {
+				rc = -rc;
+			}
+			return rc;
+		}
+	}
 }
