@@ -27,5 +27,13 @@
 		</toolbar>
 	</menuContribution>
     </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="org.eclipse.reqcycle.core.ui.perspective.ReqCyclePerspective"
+            id="org.eclipse.reqcycle.core.ui.ReqCyclePerspective"
+            name="ReqCycle">
+      </perspective>
+   </extension>
     
 </plugin>
