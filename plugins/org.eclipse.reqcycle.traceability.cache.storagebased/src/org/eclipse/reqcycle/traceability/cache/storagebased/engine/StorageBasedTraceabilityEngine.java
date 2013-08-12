@@ -2,8 +2,15 @@ package org.eclipse.reqcycle.traceability.cache.storagebased.engine;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -33,6 +40,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 
 import static com.google.common.collect.Iterables.filter;
 
@@ -131,59 +139,80 @@ public class StorageBasedTraceabilityEngine extends
 			Reachable source, StopCondition condition, DIRECTION direction,
 			Predicate<Pair<Link, Reachable>> scope) {
 		ArrayDeque<Pair<Link, Reachable>> result = new ArrayDeque<Pair<Link, Reachable>>();
-		ArrayDeque<Pair<Link, Reachable>> current = new ArrayDeque<Pair<Link, Reachable>>();
+		Set<Reachable> visited = new HashSet<Reachable>();
 		if (source != null && condition != null) {
 			IPicker picker = new GetTraceabilityPicker(direction, storage,
 					scope);
 			ZigguratInject.inject(picker);
-			Iterable<IPicker> pickers = Arrays.asList(new IPicker[] { picker });
-			IteratorFactory f = new IteratorFactory(pickers);
-			f.activateWidthWisdom();
-			f.activateRedundancyAwareness();
-			Iterable<Object> iterable = f.createIterable(source);
-			Iterator<Object> i = iterable.iterator();
-			if (checkPath((Reachable) i.next(), condition, i, result, current)) {
-				result.addAll(current);
+			List<? extends Pair<Link, Reachable>> tmp = search(source,
+					condition, picker, visited);
+			// drop double entries and keep the order
+			final Map<Pair<Link, Reachable>, Integer> map = new HashMap<Pair<Link, Reachable>, Integer>();
+			Set<Pair<Link, Reachable>> set = new HashSet<Pair<Link, Reachable>>();
+			for (int i = 0; i < tmp.size(); i++) {
+				Pair<Link, Reachable> pair = tmp.get(i);
+				map.put(pair, i);
+				set.add(pair);
 			}
+			return Ordering.from(new Comparator<Pair<Link, Reachable>>() {
 
+				@Override
+				public int compare(Pair<Link, Reachable> o1,
+						Pair<Link, Reachable> o2) {
+					return map.get(o1).compareTo(map.get(o2));
+				}
+			}).sortedCopy(set).iterator();
 		}
 		return result.iterator();
 	}
 
-	private boolean checkPath(Reachable s, StopCondition cond,
-			Iterator<Object> i, ArrayDeque<Pair<Link, Reachable>> result,
-			ArrayDeque<Pair<Link, Reachable>> current) {
-		boolean found = false;
-		Reachable source = s;
-
-		while (i.hasNext()) {
-			Object o = i.next();
-			if (o instanceof Pair) {
-				Pair<Link, Reachable> pair = (Pair<Link, Reachable>) o;
-				if (cond.apply(pair.getSecond())) {
-					found = true;
-					current.add(pair);
-					break;
-				} else {
-					if (checkPath(pair.getFirst().getTargets().iterator()
-							.next(), cond, i, result, current)) {
-						current.add(pair);
-						found = true;
-						break;
-						// result.addAll(current);
+	/**
+	 * Search if one path exist between source and node satisfying the condition
+	 * 
+	 * @param source
+	 *            the reachable source
+	 * @param condition
+	 *            the stopping condition
+	 * @param picker
+	 *            used to determine next of current element
+	 * @param visited
+	 *            the elements already visited to prevent cycles
+	 * @param mapForOrder
+	 *            use to not add double entries and improve the contains
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private List<? extends Pair<Link, Reachable>> search(Reachable source,
+			StopCondition condition, IPicker picker, Set<Reachable> visited) {
+		List<Pair<Link, Reachable>> result = new LinkedList<Pair<Link, Reachable>>();
+		if (!visited.contains(source)) {
+			visited.add(source);
+			try {
+				Iterable<?> nexts = picker.getNexts(source);
+				for (Object o : nexts) {
+					if (o instanceof Pair) {
+						Pair<Link, Reachable> pair = (Pair<Link, Reachable>) o;
+						if (condition.apply(pair)) {
+							result.add(pair);
+						}
 					}
 				}
-				// else {
-				// if (cond.apply(pair.getSecond())) {
-				// current.add(pair);
-				// found = true;
-				// break;
-				// }
-				// }
+				for (Object o : nexts) {
+					if (o instanceof Pair) {
+						Pair<Link, Reachable> pair = (Pair<Link, Reachable>) o;
+						Collection<? extends Pair<Link, Reachable>> tmp = search(
+								pair.getSecond(), condition, picker, visited);
+						if (!tmp.isEmpty()) {
+							result.add(pair);
+							result.addAll(tmp);
+						}
+					}
+				}
+			} catch (PickerExecutionException e) {
+				e.printStackTrace();
 			}
 		}
-		return found;
-
+		return result;
 	}
 
 	protected Iterable<Reachable> getEntriesFor(Reachable reachable) {

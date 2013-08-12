@@ -1,5 +1,7 @@
 package org.eclipse.reqcycle.traceability.utils;
 
+import org.eclipse.reqcycle.traceability.model.Link;
+import org.eclipse.reqcycle.traceability.model.Pair;
 import org.eclipse.reqcycle.traceability.model.StopCondition;
 import org.eclipse.reqcycle.traceability.model.StopCondition.ScopedStopCondition;
 import org.eclipse.reqcycle.traceability.model.scopes.IScope;
@@ -15,7 +17,7 @@ public class Conditions {
 		return new StopCondition() {
 
 			@Override
-			public boolean apply(Reachable reachable) {
+			public boolean apply(Pair<Link, Reachable> reachable) {
 				return true;
 			}
 		};
@@ -29,8 +31,8 @@ public class Conditions {
 		}
 
 		@Override
-		public boolean apply(Reachable reachable) {
-			return toCheck.equals(reachable);
+		public boolean apply(Pair<Link, Reachable> pair) {
+			return toCheck.equals(pair.getSecond());
 		}
 
 		@Override

@@ -218,31 +218,51 @@ public class RequestContentProvider extends DeferredContentProvider implements
 			Reachable reachable = (Reachable) parentElement;
 			Collection<Link> c = links.get(reachable);
 			if (c.isEmpty()) {
-				Request r = new Request()
-						.addProperty(
-								IBuildingTraceabilityEngine.OPTION_CHECK_CACHE,
-								false)
+				if (baseRequest.getDepth() == DEPTH.INFINITE) {
+					// an infinite request is computed one time
+					if (!Boolean.TRUE.equals(baseRequest
+							.getProperty("COMPUTED"))) {
+						try {
+							Iterator<Pair<Link, Reachable>> traceIterator = getTraceability(baseRequest);
+							links.putAll(EngineUtils
+									.toFollowingMap(traceIterator));
+							c = links.get(reachable);
+							baseRequest.addProperty("COMPUTED", true);
+						} catch (EngineException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 
-						.setDepth(DEPTH.ONE)
-						.setDirection(baseRequest.getDirection())
-						.setScope(baseRequest.getScope())
-						.addProperty(CONF_KEY,
-								baseRequest.getProperty(CONF_KEY));
-				ArrayList<Couple> listOfCouples = Lists
-						.newArrayList(baseRequest.getCouples());
-				for (Couple cTmp : listOfCouples) {
-					r.addSourceAndCondition(reachable, cTmp.getStopCondition());
-					if (cTmp.getStopCondition() != null) {
-						r.setDepth(DEPTH.INFINITE);
 					}
-				}
-				try {
-					Iterator<Pair<Link, Reachable>> traceIterator = getTraceability(r);
-					links.putAll(EngineUtils.toFollowingMap(traceIterator));
-					c = links.get(reachable);
-				} catch (EngineException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				} else {
+					// for DEPTH ONE request, a request is created each time
+					Request r = new Request()
+							.addProperty(
+									IBuildingTraceabilityEngine.OPTION_CHECK_CACHE,
+									false)
+
+							.setDepth(DEPTH.ONE)
+							.setDirection(baseRequest.getDirection())
+							.setScope(baseRequest.getScope())
+							.addProperty(CONF_KEY,
+									baseRequest.getProperty(CONF_KEY));
+					ArrayList<Couple> listOfCouples = Lists
+							.newArrayList(baseRequest.getCouples());
+					for (Couple cTmp : listOfCouples) {
+						r.addSourceAndCondition(reachable,
+								cTmp.getStopCondition());
+						if (cTmp.getStopCondition() != null) {
+							r.setDepth(DEPTH.INFINITE);
+						}
+					}
+					try {
+						Iterator<Pair<Link, Reachable>> traceIterator = getTraceability(r);
+						links.putAll(EngineUtils.toFollowingMap(traceIterator));
+						c = links.get(reachable);
+					} catch (EngineException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 			result.addAll(c);

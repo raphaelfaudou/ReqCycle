@@ -508,6 +508,7 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 								TypeConditions.is((IType) target));
 					}
 				}
+				request.setDepth(DEPTH.INFINITE);
 			}
 			traceabilityTreeViewer.setInput(request);
 		}
