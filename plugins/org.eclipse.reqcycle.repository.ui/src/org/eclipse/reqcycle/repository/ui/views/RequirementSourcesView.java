@@ -35,6 +35,7 @@ import org.eclipse.reqcycle.repository.connector.ConnectorDescriptor;
 import org.eclipse.reqcycle.repository.connector.IConnector;
 import org.eclipse.reqcycle.repository.connector.IConnectorManager;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
+import org.eclipse.reqcycle.repository.data.IListener;
 import org.eclipse.reqcycle.repository.data.IRequirementSourceManager;
 import org.eclipse.reqcycle.repository.ui.Activator;
 import org.eclipse.reqcycle.repository.ui.Messages;
@@ -64,7 +65,7 @@ import DataModel.RequirementSource;
 /**
  * The view for connected requirement resources
  */
-public class RequirementSourcesView extends ViewPart {
+public class RequirementSourcesView extends ViewPart implements IListener {
 
 	/** The ID of the view as specified by the extension. */
 	public static final String ID = Messages.REQ_RESOURCE_VIEW_ID;
@@ -77,9 +78,6 @@ public class RequirementSourcesView extends ViewPart {
 
 	/** Removes requirement repository Action */
 	private Action deleteRequirementSourceAction;
-
-	/** Opens requirement view action */
-	//	private Action openRequirementViewAction;
 
 	/** Changes the repository mapping Action */
 	private Action editMappingAction;
@@ -128,6 +126,7 @@ public class RequirementSourcesView extends ViewPart {
 		connectorManager = ZigguratInject.make(IConnectorManager.class);
 		logger = ZigguratInject.make(ILogger.class);
 		requirementSourceManager = ZigguratInject.make(IRequirementSourceManager.class);
+		requirementSourceManager.addListener(this);
 	}
 
 	/**
@@ -186,9 +185,6 @@ public class RequirementSourcesView extends ViewPart {
 		if(deleteRequirementSourceAction != null) {
 			deleteRequirementSourceAction.setEnabled(selectedElement != null);
 		}
-		//		if(openRequirementViewAction != null) {
-		//			openRequirementViewAction.setEnabled(selectedElement!=null);
-		//		}
 		if(editMappingAction != null) {
 			editMappingAction.setEnabled(selectedElement instanceof RequirementSource ? canEditSource((RequirementSource)selectedElement) : false);
 		}
@@ -321,7 +317,7 @@ public class RequirementSourcesView extends ViewPart {
 	 * Creates the View Actions
 	 */
 	private void makeActions() {
-		addRepoAction = new AddRequirementSourceAction(viewer);
+		addRepoAction = new AddRequirementSourceAction();
 		ZigguratInject.inject(addRepoAction);
 		addRepoAction.setText(Messages.ADD_RESOURCE_TEXT);
 		addRepoAction.setToolTipText(Messages.ADD_RESOURCE_TEXT);
@@ -343,13 +339,6 @@ public class RequirementSourcesView extends ViewPart {
 		openPredicatesViewAction.setText("Open Filtered Requirements View");
 		openPredicatesViewAction.setToolTipText("Open Filtered Requirements View");
 		openPredicatesViewAction.setImageDescriptor(Activator.getImageDescriptor(ICON_OPEN)); // TODO: replace icon
-
-		//		openRequirementViewAction = new OpenRequirementViewAction(viewer);
-		//		ZigguratInject.inject(openRequirementViewAction);
-		//		openRequirementViewAction.setText("Open Requirement View");
-		//		openRequirementViewAction.setToolTipText("Open Requirement View");
-		//		openRequirementViewAction.setImageDescriptor(Activator.getImageDescriptor(ICON_OPEN));
-		//		openRequirementViewAction.setEnabled(false);
 
 		synchResourceAction = new SynchronizeRequirementSourceActionStub(viewer);
 		ZigguratInject.inject(synchResourceAction);
@@ -378,4 +367,19 @@ public class RequirementSourcesView extends ViewPart {
 	public void setFocus() {
 		viewer.getControl().setFocus();
 	}
+
+	@Override
+	public void dispose() {
+		requirementSourceManager.removeListener(this);
+		super.dispose();
+	}
+
+	@Override
+	public void handleChange(Class<?> clazz) {
+		if(clazz.isInstance(requirementSourceManager)) {
+			if(viewer != null) {
+				viewer.refresh();
+			}
+		}
+	};
 }

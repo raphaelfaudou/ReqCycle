@@ -7,7 +7,6 @@ import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.internal.ErrorViewPart;
 
 
 public class ReqCyclePerspective implements IPerspectiveFactory {
@@ -18,7 +17,7 @@ public class ReqCyclePerspective implements IPerspectiveFactory {
 	 * Creates the initial layout for a page.
 	 */
 	public void createInitialLayout(IPageLayout layout) {
-		String editorArea = layout.getEditorArea();
+//		String editorArea = layout.getEditorArea();
 		addFastViews(layout);
 		addViewShortcuts(layout);
 		addPerspectiveShortcuts(layout);
@@ -48,8 +47,7 @@ public class ReqCyclePerspective implements IPerspectiveFactory {
 			} catch (PartInitException e) {
 			}
 		}
-		//FIXME : check that the view exists
-		if (viewRef != null && !(viewRef.getView(false) instanceof ErrorViewPart)){
+		if (viewRef != null){
 			folderLayout.addView(viewId);
 		}
 	}

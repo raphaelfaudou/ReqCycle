@@ -18,13 +18,17 @@ import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.IContentProvider;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
@@ -61,6 +65,8 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 
 	@Inject
 	private IDataModelManager dataTypeManage;
+
+	private URI initFileUri;
 
 	public RMFConnector() {
 	}
@@ -112,7 +118,7 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 			mappingPage = createMappingPage(specTypes, eClassifiers, mapping);
 			addPage(mappingPage);
 		} else {
-			settingPage = new RMFSettingPage("ReqIF Setting", "");
+			settingPage = new RMFSettingPage("ReqIF Setting", "", initFileUri != null ? initFileUri.toString() : null);
 			settingPageBean = settingPage.getBean();
 			addPage(settingPage);
 		}
@@ -220,5 +226,15 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 	public void initializeWithRequirementSource(RequirementSource requirementSource) {
 		initSource = requirementSource;
 		edition = true;
+	}
+
+	@Override
+	public void init(ISelection selection) {
+		if(selection instanceof IStructuredSelection) {
+			Object obj = ((IStructuredSelection)selection).getFirstElement();
+			if(obj instanceof IFile) {
+				initFileUri = URI.createPlatformResourceURI(((IFile)obj).getFullPath().toPortableString(), true);
+			}
+		}
 	}
 }
