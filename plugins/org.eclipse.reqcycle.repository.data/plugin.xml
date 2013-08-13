@@ -27,14 +27,6 @@
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated ScopeModel -->
-      <package
-            uri="http://www.eclipse.org/ReqCycle/ScopeModel"
-            class="ScopeModel.ScopeModelPackage"
-            genModel="model/ScopeModel.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated RequirementSourcesConf -->
       <package
             uri="http://www.eclipse.org/ReqCycle/RequirementSourcesConf"
@@ -48,24 +40,7 @@
             type="requirementsourcesconf"
             class="RequirementSourcesConf.util.RequirementSourcesConfResourceFactoryImpl"/>
    </extension>
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated ScopesConf -->
-      <package
-            uri="http://www.eclipse.org/ReqCycle/ScopesConf"
-            class="ScopesConf.ScopesConfPackage"
-            genModel="model/ScopesConf.genmodel"/>
-   </extension>
 
-   <extension point="org.eclipse.emf.ecore.extension_parser">
-      <!-- @generated ScopesConf -->
-      <parser
-            type="scopesconf"
-            class="ScopesConf.util.ScopesConfResourceFactoryImpl"/>
-      <parser
-            class="RequirementSourcesConf.util.RequirementSourcesConfResourceFactoryImpl"
-            type="requirementSourcesconf">
-      </parser>
-   </extension>
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated MappingModel -->
       <package
