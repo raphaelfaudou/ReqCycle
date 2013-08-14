@@ -21,9 +21,17 @@ import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.predicates.core.api.IPredicate;
 import org.eclipse.reqcycle.predicates.core.util.PredicatesUtil;
 import org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditor;
+import org.eclipse.reqcycle.repository.data.IDataModelManager;
+import org.eclipse.reqcycle.repository.data.types.DataType;
+import org.eclipse.reqcycle.repository.data.types.DataTypePackage;
+import org.eclipse.reqcycle.repository.data.types.RequirementType;
+import org.eclipse.reqcycle.repository.data.types.internal.RequirementTypeImpl;
 import org.eclipse.reqcycle.ui.components.dialogs.ComboInputDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ziggurat.inject.ZigguratInject;
+
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
 
 import DataModel.RequirementSource;
 
@@ -37,7 +45,11 @@ public class OpenPredicatesEditorAction extends Action {
 	private final TreeViewer viewer;
 
 	@Inject
-	private ILogger logger = ZigguratInject.make(ILogger.class);
+	ILogger logger;
+	
+	@Inject
+	IDataModelManager dataManager;
+	
 
 	public OpenPredicatesEditorAction(final TreeViewer treeViewer) {
 		this.viewer = treeViewer;
@@ -59,7 +71,15 @@ public class OpenPredicatesEditorAction extends Action {
 			final Set<EClass> eClasses = new HashSet<EClass>();
 			for(Iterator<RequirementSource> iterator = selectedReqSources.iterator(); iterator.hasNext();) {
 				RequirementSource reqSource = (RequirementSource)iterator.next();
-				eClasses.addAll(((RequirementSource)reqSource).getTargetEPackage());
+				DataTypePackage model = dataManager.getDataTypePackage(reqSource.getProperty("DataModel_NAME"));
+				if(model != null) {
+					Collection<EClass> types = Collections2.transform(model.getDataTypes(), new Function<RequirementType, EClass>() {
+						public EClass apply(RequirementType arg0) {
+							return ((RequirementTypeImpl)arg0).getEClass();
+						};
+					});
+					eClasses.addAll(types);
+				}
 			}
 
 			try {

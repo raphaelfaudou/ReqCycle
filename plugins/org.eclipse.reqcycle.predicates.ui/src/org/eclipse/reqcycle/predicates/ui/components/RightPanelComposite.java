@@ -26,6 +26,8 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -50,6 +52,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.reqcycle.predicates.core.api.IEAttrPredicate;
 import org.eclipse.reqcycle.predicates.core.api.IPredicate;
+import org.eclipse.reqcycle.predicates.core.api.ITypedPredicate;
 import org.eclipse.reqcycle.predicates.core.util.PredicatesUtil;
 import org.eclipse.reqcycle.predicates.persistance.util.IPredicatesConfManager;
 import org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditor;
@@ -372,21 +375,16 @@ public class RightPanelComposite extends Composite {
 		// FIXME : retrieve correctly the complete list of EClass of the model to which this predicate is going to be
 		// applied.
 		final Set<EClass> input = new HashSet<EClass>();
-		for(Iterator<EObject> iter = predicate.eAllContents(); iter.hasNext();) {
-			EObject content = iter.next();
-			if(content instanceof IEAttrPredicate) {
-				IEAttrPredicate eAttrPredicate = (IEAttrPredicate)content;
-				Object obj = eAttrPredicate.eGet(eAttrPredicate.eClass().getEStructuralFeature("typedElement"));
-				if(obj instanceof EStructuralFeature) {
-					EObject eContainer = ((EStructuralFeature)obj).eContainer();
-					if(eContainer instanceof EClass) {
-						EList<EClassifier> eClassifiers = ((EClass)eContainer).getEPackage().getEClassifiers();
-						for(EClassifier eClassifier : eClassifiers) {
-							if(eClassifier instanceof EClass) {
-								input.add((EClass)eClassifier);
-							}
+		if(predicate instanceof ITypedPredicate<?>) {
+			Object obj = ((ITypedPredicate)predicate).getTypedElement();
+			if(obj instanceof EStructuralFeature) {
+				EObject eContainer = ((EStructuralFeature)obj).eContainer();
+				if(eContainer instanceof EClass) {
+					EList<EClassifier> eClassifiers = ((EClass)eContainer).getEPackage().getEClassifiers();
+					for(EClassifier eClassifier : eClassifiers) {
+						if(eClassifier instanceof EClass) {
+							input.add((EClass)eClassifier);
 						}
-						break;
 					}
 				}
 			}

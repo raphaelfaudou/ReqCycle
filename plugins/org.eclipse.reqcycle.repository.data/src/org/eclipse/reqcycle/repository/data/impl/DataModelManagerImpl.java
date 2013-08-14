@@ -251,15 +251,22 @@ public class DataModelManagerImpl implements IDataModelManager {
 	}
 
 	@Override
-	public Scope getScope(String name) {
-		for(DataTypePackage p : getAllDataTypePackages()) {
-			for(Scope s : p.getScopes()) {
-				if (name.equals(s.getName())) {
-					return s;
-				}
-			}
+	public Scope getScope(String DataModelName, String ScopeName) {
+		DataTypePackage model = getDataTypePackage(DataModelName);
+		if(model == null) {
+			return null;
 		}
-		return null;
+		
+		return model.getScope(ScopeName);
+	}
+	
+	@Override
+	public Collection<Scope> getScopes(String name) {
+		ArrayList<Scope> scopes = new ArrayList<Scope>();
+		for(DataTypePackage p : getAllDataTypePackages()) {
+			scopes.add(p.getScope(name));
+		}
+		return scopes;
 	}
 
 	@Override

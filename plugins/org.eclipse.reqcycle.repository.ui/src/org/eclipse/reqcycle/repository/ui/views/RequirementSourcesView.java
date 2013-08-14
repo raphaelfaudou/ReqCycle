@@ -331,6 +331,7 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 		deleteRequirementSourceAction.setEnabled(false);
 
 		openPredicatesEditorAction = new OpenPredicatesEditorAction(viewer);
+		ZigguratInject.inject(openPredicatesEditorAction);
 		openPredicatesEditorAction.setText("Open Predicates Editor");
 		openPredicatesEditorAction.setToolTipText("Open Predicates Editor");
 		openPredicatesEditorAction.setImageDescriptor(Activator.getImageDescriptor(ICON_OPEN)); // TODO: replace icon

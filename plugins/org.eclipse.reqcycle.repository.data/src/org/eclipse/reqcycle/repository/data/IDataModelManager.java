@@ -51,7 +51,9 @@ public interface IDataModelManager {
 	
 	public Scope getScope(DataTypePackage dataTypePackage, String name);
 	
-	public Scope getScope(String name);
+	public Scope getScope(String DataModelName, String ScopeName);
+	
+	public Collection<Scope> getScopes(String name);
 
 	public Collection<Scope> getScopes(DataTypePackage dataTypePackage);
 	
