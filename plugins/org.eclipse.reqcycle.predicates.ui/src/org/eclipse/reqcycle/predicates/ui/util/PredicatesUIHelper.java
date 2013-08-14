@@ -48,7 +48,7 @@ public class PredicatesUIHelper {
 			display = Display.getDefault();
 
 
-		Collection<IPredicate> storedPredicates = predicatesConfManager.getStoredPredicates();
+		Collection<IPredicate> storedPredicates = predicatesConfManager.getPredicates(false);
 		final CheckBoxInputDialog dialog = new CheckBoxInputDialog(display.getActiveShell(), "Requirement filtering", //$NON-NLS-1$
 		"Select a predicate to apply or press OK to continue without filtering.", storedPredicates, null, (Collection)init); //$NON-NLS-1$
 

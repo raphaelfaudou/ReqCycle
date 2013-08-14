@@ -23,19 +23,20 @@ public interface IPredicatesConfManager {
 	/**
 	 * Stores a new predicate into the workspace.
 	 * 
-	 * @param predicateName
 	 * @param predicate
 	 * 
 	 * @return <code>true</code> if the persisting operation is done correctly, <code>false</code> otherwise.
 	 * 
 	 * @see #isPredicateNameAlreadyUsed(String)
 	 */
-	public boolean storePredicate(final String predicateName, final IPredicate predicate);
+	public boolean storePredicate(final IPredicate predicate);
 
 	/**
-	 * @return The stored predicates.
+	 * Gets the stored predicates
+	 * 
+	 * @return The stored of predicates
 	 */
-	public Collection<IPredicate> getStoredPredicates();
+	public Collection<IPredicate> getPredicates(boolean reload);
 
 	/**
 	 * @param predicateName
@@ -52,14 +53,25 @@ public interface IPredicatesConfManager {
 	public IPredicate getPredicateByName(final String predicateName);
 
 	/**
-	 * Remove the first stored predicate having the specified name.
+	 * Removes the first predicate having the specified name.
 	 * 
 	 * @return <code>true</code> if the removal operation is done correctly, <code>false</code> otherwise.
 	 * 
 	 * @param predicateName
-	 *        - The name of the predicate to remove.
+	 *   
 	 */
-	public boolean removeStoredPredicate(String predicateName);
+	public boolean removePredicate(String predicateName);
+	
+	/**
+	 * Removes the predicate
+	 * 
+	 * @return <code>true</code> if the removal operation is done correctly, <code>false</code> otherwise.
+	 * 
+	 * @param predicate the predicate to remove
+	 *   
+	 */
+	public boolean removePredicate(IPredicate predicate);
+	
 
 
 }

@@ -266,12 +266,12 @@ public class RightPanelComposite extends Composite {
 
 			@Override
 			public Object[] getElements(Object inputElement) {
-				return predicatesConfManager.getStoredPredicates().toArray();
+				return predicatesConfManager.getPredicates(false).toArray();
 			}
 		});
 		tableViewerOfCustomPredicates.setLabelProvider(new PredicatesTableLabelProvider());
 
-		tableViewerOfCustomPredicates.setInput(predicatesConfManager.getStoredPredicates());
+		tableViewerOfCustomPredicates.setInput(predicatesConfManager.getPredicates(false));
 
 		final Transfer[] transferTypes = new Transfer[]{ LocalTransfer.getInstance() };
 		final int dndOperations = DND.DROP_COPY | DND.DROP_MOVE;
@@ -296,7 +296,8 @@ public class RightPanelComposite extends Composite {
 				if(openInputDialog() == Window.OK) {
 					String predicateName = savePredicateDialog.getValue();
 					IPredicate newPredicate = EcoreUtil.copy(predicatesEditor.getEditedPredicate());
-					boolean added = predicatesConfManager.storePredicate(predicateName, newPredicate);
+					newPredicate.setDisplayName(predicateName);
+					boolean added = predicatesConfManager.storePredicate(newPredicate);
 					if(added) {
 						tableViewerOfCustomPredicates.add(newPredicate);
 					} else {
@@ -336,7 +337,7 @@ public class RightPanelComposite extends Composite {
 						boolean confirmRemoval = MessageDialog.openConfirm(getShell(), "Remove predicates", confirmMessage.toString());
 						if(confirmRemoval) {
 							for(IPredicate p : predicatesToRemove) {
-								boolean removed = predicatesConfManager.removeStoredPredicate(p.getDisplayName());
+								boolean removed = predicatesConfManager.removePredicate(p);
 								if(removed) {
 									tableViewerOfCustomPredicates.remove(p);
 								} else {
