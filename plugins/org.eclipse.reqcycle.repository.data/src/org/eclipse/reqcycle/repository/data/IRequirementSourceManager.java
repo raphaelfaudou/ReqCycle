@@ -76,5 +76,9 @@ public interface IRequirementSourceManager {
 	 * @param connectorId the connector id
 	 */
 	public void removeConnectorRepositories(String connectorId);
+	
+	public void addListener(IListener listener);
+
+	public void removeListener(IListener listener);
 
 }

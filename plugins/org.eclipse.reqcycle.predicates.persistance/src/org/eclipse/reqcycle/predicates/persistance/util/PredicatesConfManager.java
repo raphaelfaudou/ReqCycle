@@ -9,17 +9,22 @@
  *
  * Contributors:
  *  Papa Issa DIAKHATE (AtoS) papa-issa.diakhate@atos.net - Initial API and implementation
+ *  Anass RADOUANI (AtoS) anass.radouani@atos.net - Use a container object instead of retrieving data 
+ *  												from the configuration at each get
+ *  											  - Singleton Manager
  *
  *****************************************************************************/
 package org.eclipse.reqcycle.predicates.persistance.util;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.LinkedList;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Singleton;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.reqcycle.predicates.core.api.IPredicate;
 import org.eclipse.reqcycle.predicates.persistance.PredicatesConfFactory;
@@ -31,53 +36,48 @@ import org.eclipse.ziggurat.configuration.IConfigurationManager;
  * 
  * @author Papa Issa DIAKHATE
  */
+@Singleton
 public class PredicatesConfManager implements IPredicatesConfManager {
 
 	/**
 	 * The id of the configuration file which contains the name of the stored predicates.
 	 */
 	public static final String PREDICATES_ENTRIES_CONF_ID = "org.eclipse.reqcycle.predicates.entries";
-
+	
+	public PredicatesConf predicates;
+	
 	@Inject
-	private IConfigurationManager confManager;
+	IConfigurationManager confManager;
 
 	@Inject
 	@Named("confResourceSet")
 	ResourceSet rs;
 
 	@Inject
-	public PredicatesConfManager(@Named("confResourceSet") ResourceSet rs) {
+	public PredicatesConfManager(@Named("confResourceSet") ResourceSet rs, IConfigurationManager confManager) {
 		this.rs = rs;
-	}
+		this.confManager = confManager;
 
-	//	public PredicatesConfManager(ResourceSet rs) {
-	//		if(rs == null) {
-	//			rs = new ResourceSetImpl();
-	//		}
-	//		this.rs = rs;
-	//	}
+		predicates = getConf();
+		if(predicates == null) {
+			predicates = PredicatesConfFactory.eINSTANCE.createPredicatesConf();
+		}
+	}
 
 	/**
 	 * Stores a new predicate into the workspace.
 	 * 
-	 * @param predicateName
 	 * @param predicate
 	 * 
 	 * @return <code>true</code> if the persisting operation is done correctly, <code>false</code> otherwise.
 	 * 
 	 * @see #isPredicateNameAlreadyUsed(String)
 	 */
-	public boolean storePredicate(final String predicateName, final IPredicate predicate) {
+	public boolean storePredicate(final IPredicate predicate) {
 		boolean added = false;
 		try {
-			predicate.setDisplayName(predicateName);
-			PredicatesConf predicatesConf = this.getConf();
-			if(predicatesConf == null) {
-				predicatesConf = PredicatesConfFactory.eINSTANCE.createPredicatesConf();
-			}
-			added = predicatesConf.getPredicates().add(predicate);
-			confManager.saveConfiguration(predicatesConf, null, null, PREDICATES_ENTRIES_CONF_ID, rs);
-
+			added = predicates.getPredicates().add(predicate);
+			confManager.saveConfiguration(predicates, null, null, PREDICATES_ENTRIES_CONF_ID, rs);
 		} catch (IOException ioe) {
 			// TODO log ...
 			ioe.printStackTrace();
@@ -89,11 +89,24 @@ public class PredicatesConfManager implements IPredicatesConfManager {
 	/**
 	 * @return The stored predicates.
 	 */
-	public Collection<IPredicate> getStoredPredicates() {
-		PredicatesConf conf = this.getConf();
-		if(conf == null)
-			return Collections.emptyList();
-		return conf.getPredicates();
+	protected Collection<IPredicate> getStoredPredicates() {
+			try {
+				predicates = this.getConf();
+				if(predicates == null) {
+					predicates = PredicatesConfFactory.eINSTANCE.createPredicatesConf();
+					confManager.saveConfiguration(predicates, null, null, PREDICATES_ENTRIES_CONF_ID, rs);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		return predicates.getPredicates();
+	}
+	
+	public Collection<IPredicate> getPredicates(boolean reload) {
+		if(reload) {
+			return  getStoredPredicates();
+		} 
+		return predicates != null ? predicates.getPredicates() : new LinkedList<IPredicate>();
 	}
 
 	/**
@@ -102,9 +115,8 @@ public class PredicatesConfManager implements IPredicatesConfManager {
 	 */
 	public boolean isPredicateNameAlreadyUsed(final String predicateName) {
 		boolean alreadyUsed = false;
-		PredicatesConf conf = this.getConf();
-		if(predicateName != null && conf != null) {
-			for(IPredicate p : conf.getPredicates()) {
+		if(predicateName != null && predicates != null) {
+			for(IPredicate p : predicates.getPredicates()) {
 				if(predicateName.equals(p.getDisplayName())) {
 					alreadyUsed = true;
 					break;
@@ -122,7 +134,7 @@ public class PredicatesConfManager implements IPredicatesConfManager {
 	 */
 	public IPredicate getPredicateByName(final String predicateName) {
 		if(predicateName != null) {
-			for(IPredicate p : getStoredPredicates()) {
+			for(IPredicate p : getPredicates(false)) {
 				if(predicateName.equals(p.getDisplayName())) {
 					return p;
 				}
@@ -130,40 +142,44 @@ public class PredicatesConfManager implements IPredicatesConfManager {
 		}
 		return null;
 	}
-
+	
 	/**
-	 * Remove the first stored predicate having the specified name.
+	 * Removes the first predicate having the specified name.
 	 * 
 	 * @return <code>true</code> if the removal operation is done correctly, <code>false</code> otherwise.
 	 * 
 	 * @param predicateName
-	 *        - The name of the predicate to remove.
+	 *   
 	 */
-	public boolean removeStoredPredicate(String predicateName) {
-		boolean removed = false;
-		PredicatesConf conf = this.getConf();
-		if(predicateName != null && conf != null) {
-			for(IPredicate p : conf.getPredicates()) {
-				if(predicateName.equals(p.getDisplayName())) {
-					removed = conf.getPredicates().remove(p);
-					if(removed) {
-						try {
-							confManager.saveConfiguration(conf, null, null, PREDICATES_ENTRIES_CONF_ID, rs);
-						} catch (IOException e) {
-							// TODO : log ...
-							e.printStackTrace();
-							removed = false;
-						}
-						break;
-					}
-				}
-			}
+	public boolean removePredicate(String predicateName) {
+		IPredicate predicate = getPredicateByName(predicateName);
+		if(predicate != null) {
+			return removePredicate(predicate);
 		}
-		return removed;
+		return false;
+	}
+	
+	/**
+	 * Removes the predicate
+	 * 
+	 * @return <code>true</code> if the removal operation is done correctly, <code>false</code> otherwise.
+	 * 
+	 * @param predicate the predicate to remove
+	 *   
+	 */
+	public boolean removePredicate(IPredicate predicate) {
+		if(predicates != null) {
+			return predicates.getPredicates().remove(predicate);
+		}
+		return false;
 	}
 
-	private PredicatesConf getConf() {
-		return (PredicatesConf)confManager.getConfiguration(null, null, PREDICATES_ENTRIES_CONF_ID, rs, true);
+	protected PredicatesConf getConf() {
+		EObject conf = confManager.getConfiguration(null, null, PREDICATES_ENTRIES_CONF_ID, rs, true);
+		if(conf instanceof PredicatesConf) {
+			return (PredicatesConf)conf;
+		}
+		return null;
 	}
 
 }

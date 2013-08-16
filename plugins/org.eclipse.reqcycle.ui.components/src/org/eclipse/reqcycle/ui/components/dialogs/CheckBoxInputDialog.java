@@ -115,7 +115,7 @@ public class CheckBoxInputDialog extends AbstractCustomDialog {
 	@Override
 	protected void buttonPressed(int buttonId) {
 		if(buttonId == IDialogConstants.OK_ID) {
-			this.selectedItems.addAll(new ArrayList<Object>(Arrays.asList(this.checkboxTableViewer.getCheckedElements())));
+			this.selectedItems.addAll(Arrays.asList(this.checkboxTableViewer.getCheckedElements()));
 		} else {
 			this.selectedItems.removeAll(selectedItems);
 		}

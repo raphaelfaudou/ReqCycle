@@ -19,24 +19,40 @@ package org.eclipse.reqcycle.repository.ui.wizard;
 
 import java.util.concurrent.Callable;
 
-import org.eclipse.jface.wizard.IWizard;
+import javax.inject.Inject;
+
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.reqcycle.repository.connector.ConnectorDescriptor;
 import org.eclipse.reqcycle.repository.connector.IConnector;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
+import org.eclipse.reqcycle.repository.data.IRequirementSourceManager;
 import org.eclipse.reqcycle.repository.ui.wizard.pages.SelectConnectorPage;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.RequirementSource;
 
-public class NewRequirementSourceWizard extends Wizard implements IWizard {
+public class NewRequirementSourceWizard extends Wizard implements IWorkbenchWizard {
 
 	/** connector selection wizard page */
 	private SelectConnectorPage selectConnectorPage;
 
 	private Callable<RequirementSource> createRequirementSource = null;
 
+	private IStructuredSelection selection;
+
+	@Inject
+	IRequirementSourceManager requirementSourceManager;
+
+	@Inject
+	public NewRequirementSourceWizard(IRequirementSourceManager requirementSourceManager) {
+		this();
+		this.requirementSourceManager = requirementSourceManager;
+	}
+	
 	public NewRequirementSourceWizard() {
 		setForcePreviousAndNextButtons(true);
 		setNeedsProgressMonitor(true);
@@ -50,6 +66,13 @@ public class NewRequirementSourceWizard extends Wizard implements IWizard {
 		addPage(selectConnectorPage);
 	}
 
+	private IRequirementSourceManager getRequirementSourceManager() {
+		if(requirementSourceManager == null) {
+			requirementSourceManager =  ZigguratInject.make(IRequirementSourceManager.class);
+		}
+		return requirementSourceManager;
+	}
+	
 	@Override
 	public boolean performFinish() {
 		IConnector connector = getConnector();
@@ -60,6 +83,24 @@ public class NewRequirementSourceWizard extends Wizard implements IWizard {
 			}
 		}
 		createRequirementSource = connector.createRequirementSource();
+		if(createRequirementSource == null) {
+			//FIXME : Exception
+		}
+		
+		RequirementSource source;
+		try {
+			source = createRequirementSource.call();
+			ConnectorDescriptor connectorDescriptor = getConnectorDescriptor();
+			source.setConnectorId(connectorDescriptor.getId());
+			String sourceName = getSourceName();
+			source.setName(sourceName);
+			getRequirementSourceManager().addRepository(source);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		return createRequirementSource != null;
 	}
 
@@ -83,6 +124,9 @@ public class NewRequirementSourceWizard extends Wizard implements IWizard {
 		IConnector connector = getConnector();
 		if(page instanceof SelectConnectorPage && connector instanceof IConnectorWizard) {
 			IConnectorWizard connectorWizard = (IConnectorWizard)connector;
+			if(selection != null) {
+				connectorWizard.init(selection);
+			}
 			if(connectorWizard.getPageCount() == 0) {
 				connectorWizard.addPages();
 			}
@@ -117,14 +161,6 @@ public class NewRequirementSourceWizard extends Wizard implements IWizard {
 		return null;
 	}
 
-	//	public Scope getScope() {
-	//		if(selectConnectorPage != null) {
-	//			return selectConnectorPage.getScope();
-	//		}
-	//		//FIXME call
-	//		return null;
-	//	}
-
 	public String getSourceName() {
 		if(selectConnectorPage != null) {
 			return selectConnectorPage.getSourceName();
@@ -134,6 +170,11 @@ public class NewRequirementSourceWizard extends Wizard implements IWizard {
 
 	public Callable<RequirementSource> getResult() {
 		return createRequirementSource;
+	}
+
+	@Override
+	public void init(IWorkbench workbench, IStructuredSelection selection) {
+		this.selection = selection;
 	}
 
 }

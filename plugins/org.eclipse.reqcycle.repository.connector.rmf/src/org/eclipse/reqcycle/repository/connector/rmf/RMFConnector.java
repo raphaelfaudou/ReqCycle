@@ -18,13 +18,17 @@ import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.IContentProvider;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
@@ -33,6 +37,7 @@ import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFSettingPage;
 import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFSettingPage.RMFSettingPageBean;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
+import org.eclipse.reqcycle.repository.data.types.DataTypePackage;
 import org.eclipse.reqcycle.repository.data.types.RequirementType;
 import org.eclipse.reqcycle.repository.data.util.RepositoryConstants;
 import org.eclipse.rmf.reqif10.SpecType;
@@ -62,6 +67,8 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 	@Inject
 	private IDataModelManager dataTypeManage;
 
+	private URI initFileUri;
+
 	public RMFConnector() {
 	}
 
@@ -74,6 +81,7 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 
 				RequirementSource requirementSource;
 				Scope scope = null;
+				DataTypePackage model = null;
 
 				if(edition) {
 					requirementSource = initSource;
@@ -82,6 +90,8 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 					requirementSource = DataModelFactory.eINSTANCE.createRequirementSource();
 					if(settingPageBean != null) {
 						scope = settingPageBean.getScope();
+						model = settingPageBean.getDataPackage();
+						requirementSource.setProperty("DataModel_NAME", model.getName());
 						requirementSource.setProperty("SCOPE_NAME", scope.getName());
 						requirementSource.setProperty(RepositoryConstants.PROPERTY_URL, settingPageBean.getUri());
 					}
@@ -112,7 +122,7 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 			mappingPage = createMappingPage(specTypes, eClassifiers, mapping);
 			addPage(mappingPage);
 		} else {
-			settingPage = new RMFSettingPage("ReqIF Setting", "");
+			settingPage = new RMFSettingPage("ReqIF Setting", "", initFileUri != null ? initFileUri.toString() : null);
 			settingPageBean = settingPage.getBean();
 			addPage(settingPage);
 		}
@@ -220,5 +230,15 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 	public void initializeWithRequirementSource(RequirementSource requirementSource) {
 		initSource = requirementSource;
 		edition = true;
+	}
+
+	@Override
+	public void init(ISelection selection) {
+		if(selection instanceof IStructuredSelection) {
+			Object obj = ((IStructuredSelection)selection).getFirstElement();
+			if(obj instanceof IFile) {
+				initFileUri = URI.createPlatformResourceURI(((IFile)obj).getFullPath().toPortableString(), true);
+			}
+		}
 	}
 }
