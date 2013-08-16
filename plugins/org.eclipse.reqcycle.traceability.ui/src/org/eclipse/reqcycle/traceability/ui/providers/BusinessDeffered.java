@@ -111,7 +111,7 @@ public class BusinessDeffered implements IDeferredWorkbenchAdapter, IAdaptable {
 	public Object getAdapter(Class adapter) {
 		if (getBusinessElement() instanceof Link) {
 			if (adapter == IPropertySource.class) {
-				return new LinkPropertySource((Link) getBusinessElement());
+				return new LinkPropertySource((Link) getBusinessElement(), this);
 			}
 		}
 		return null;

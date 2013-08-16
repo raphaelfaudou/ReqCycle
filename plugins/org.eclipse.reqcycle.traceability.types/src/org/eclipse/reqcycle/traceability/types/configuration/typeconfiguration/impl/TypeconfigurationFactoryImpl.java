@@ -72,6 +72,8 @@ public class TypeconfigurationFactoryImpl extends EFactoryImpl implements Typeco
 			case TypeconfigurationPackage.ENTRY: return createEntry();
 			case TypeconfigurationPackage.REGISTERED_ATTRIBUTE: return createRegisteredAttribute();
 			case TypeconfigurationPackage.STD_ATTRIBUTE: return createStdAttribute();
+			case TypeconfigurationPackage.RELATIONS_PREDICATES_MAPPING: return createRelationsPredicatesMapping();
+			case TypeconfigurationPackage.DECORATION_PREDICATE: return createDecorationPredicate();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -193,6 +195,26 @@ public class TypeconfigurationFactoryImpl extends EFactoryImpl implements Typeco
 	public StdAttribute createStdAttribute() {
 		StdAttributeImpl stdAttribute = new StdAttributeImpl();
 		return stdAttribute;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RelationsPredicatesMapping createRelationsPredicatesMapping() {
+		RelationsPredicatesMappingImpl relationsPredicatesMapping = new RelationsPredicatesMappingImpl();
+		return relationsPredicatesMapping;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DecorationPredicate createDecorationPredicate() {
+		DecorationPredicateImpl decorationPredicate = new DecorationPredicateImpl();
+		return decorationPredicate;
 	}
 
 	/**

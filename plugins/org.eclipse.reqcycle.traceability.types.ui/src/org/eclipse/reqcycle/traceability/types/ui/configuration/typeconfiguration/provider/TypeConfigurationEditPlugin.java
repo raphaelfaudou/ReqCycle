@@ -4,6 +4,7 @@ package org.eclipse.reqcycle.traceability.types.ui.configuration.typeconfigurati
 
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.reqcycle.predicates.ui.PredicatesUIPlugin;
 
 /**
  * This is the central singleton for the TypeConfiguration edit plugin.
@@ -37,6 +38,7 @@ public final class TypeConfigurationEditPlugin extends EMFPlugin {
 	public TypeConfigurationEditPlugin() {
 		super
 		  (new ResourceLocator [] {
+		     PredicatesUIPlugin.INSTANCE,
 		   });
 	}
 

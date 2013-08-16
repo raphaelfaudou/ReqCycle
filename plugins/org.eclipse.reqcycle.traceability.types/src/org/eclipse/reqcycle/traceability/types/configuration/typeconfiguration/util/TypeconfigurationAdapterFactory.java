@@ -108,6 +108,18 @@ public class TypeconfigurationAdapterFactory extends AdapterFactoryImpl {
 				return createStdAttributeAdapter();
 			}
 			@Override
+			public Adapter caseRelationsPredicatesMapping(RelationsPredicatesMapping object) {
+				return createRelationsPredicatesMappingAdapter();
+			}
+			@Override
+			public Adapter caseDecorationPredicate(DecorationPredicate object) {
+				return createDecorationPredicateAdapter();
+			}
+			@Override
+			public Adapter caseIPredicateLink(IPredicateLink object) {
+				return createIPredicateLinkAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -250,6 +262,48 @@ public class TypeconfigurationAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createStdAttributeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.RelationsPredicatesMapping <em>Relations Predicates Mapping</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.RelationsPredicatesMapping
+	 * @generated
+	 */
+	public Adapter createRelationsPredicatesMappingAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.DecorationPredicate <em>Decoration Predicate</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.DecorationPredicate
+	 * @generated
+	 */
+	public Adapter createDecorationPredicateAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.IPredicateLink <em>IPredicate Link</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.IPredicateLink
+	 * @generated
+	 */
+	public Adapter createIPredicateLinkAdapter() {
 		return null;
 	}
 

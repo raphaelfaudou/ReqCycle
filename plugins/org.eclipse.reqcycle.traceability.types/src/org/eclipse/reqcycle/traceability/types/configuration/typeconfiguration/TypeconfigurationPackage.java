@@ -95,13 +95,22 @@ public interface TypeconfigurationPackage extends EPackage {
 	int TYPE_CONFIG_CONTAINER__DEFAULT_CONFIGURATION = 2;
 
 	/**
+	 * The feature id for the '<em><b>Mappings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPE_CONFIG_CONTAINER__MAPPINGS = 3;
+
+	/**
 	 * The number of structural features of the '<em>Type Config Container</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_CONFIG_CONTAINER_FEATURE_COUNT = 3;
+	int TYPE_CONFIG_CONTAINER_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeImpl <em>Type</em>}' class.
@@ -511,6 +520,117 @@ public interface TypeconfigurationPackage extends EPackage {
 	int REGISTERED_ATTRIBUTE_FEATURE_COUNT = STD_ATTRIBUTE_FEATURE_COUNT + 1;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.RelationsPredicatesMappingImpl <em>Relations Predicates Mapping</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.RelationsPredicatesMappingImpl
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeconfigurationPackageImpl#getRelationsPredicatesMapping()
+	 * @generated
+	 */
+	int RELATIONS_PREDICATES_MAPPING = 9;
+
+	/**
+	 * The feature id for the '<em><b>Relation</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONS_PREDICATES_MAPPING__RELATION = 0;
+
+	/**
+	 * The feature id for the '<em><b>Decorations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONS_PREDICATES_MAPPING__DECORATIONS = 1;
+
+	/**
+	 * The number of structural features of the '<em>Relations Predicates Mapping</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONS_PREDICATES_MAPPING_FEATURE_COUNT = 2;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.IPredicateLinkImpl <em>IPredicate Link</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.IPredicateLinkImpl
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeconfigurationPackageImpl#getIPredicateLink()
+	 * @generated
+	 */
+	int IPREDICATE_LINK = 11;
+
+	/**
+	 * The feature id for the '<em><b>Predicate</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPREDICATE_LINK__PREDICATE = 0;
+
+	/**
+	 * The number of structural features of the '<em>IPredicate Link</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPREDICATE_LINK_FEATURE_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.DecorationPredicateImpl <em>Decoration Predicate</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.DecorationPredicateImpl
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeconfigurationPackageImpl#getDecorationPredicate()
+	 * @generated
+	 */
+	int DECORATION_PREDICATE = 10;
+
+	/**
+	 * The feature id for the '<em><b>Predicate</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DECORATION_PREDICATE__PREDICATE = IPREDICATE_LINK__PREDICATE;
+
+	/**
+	 * The feature id for the '<em><b>Style</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DECORATION_PREDICATE__STYLE = IPREDICATE_LINK_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Color</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DECORATION_PREDICATE__COLOR = IPREDICATE_LINK_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Decoration Predicate</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DECORATION_PREDICATE_FEATURE_COUNT = IPREDICATE_LINK_FEATURE_COUNT + 2;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.AttributeType <em>Attribute Type</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -518,7 +638,7 @@ public interface TypeconfigurationPackage extends EPackage {
 	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeconfigurationPackageImpl#getAttributeType()
 	 * @generated
 	 */
-	int ATTRIBUTE_TYPE = 9;
+	int ATTRIBUTE_TYPE = 12;
 
 	/**
 	 * The meta object id for the '<em>IType</em>' data type.
@@ -528,7 +648,7 @@ public interface TypeconfigurationPackage extends EPackage {
 	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeconfigurationPackageImpl#getIType()
 	 * @generated
 	 */
-	int ITYPE = 10;
+	int ITYPE = 13;
 
 
 	/**
@@ -539,7 +659,7 @@ public interface TypeconfigurationPackage extends EPackage {
 	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeconfigurationPackageImpl#getTType()
 	 * @generated
 	 */
-	int TTYPE = 11;
+	int TTYPE = 14;
 
 
 	/**
@@ -584,6 +704,17 @@ public interface TypeconfigurationPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getTypeConfigContainer_DefaultConfiguration();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeConfigContainer#getMappings <em>Mappings</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Mappings</em>'.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeConfigContainer#getMappings()
+	 * @see #getTypeConfigContainer()
+	 * @generated
+	 */
+	EReference getTypeConfigContainer_Mappings();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Type <em>Type</em>}'.
@@ -897,6 +1028,91 @@ public interface TypeconfigurationPackage extends EPackage {
 	EAttribute getStdAttribute_Type();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.RelationsPredicatesMapping <em>Relations Predicates Mapping</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Relations Predicates Mapping</em>'.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.RelationsPredicatesMapping
+	 * @generated
+	 */
+	EClass getRelationsPredicatesMapping();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.RelationsPredicatesMapping#getRelation <em>Relation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Relation</em>'.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.RelationsPredicatesMapping#getRelation()
+	 * @see #getRelationsPredicatesMapping()
+	 * @generated
+	 */
+	EReference getRelationsPredicatesMapping_Relation();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.RelationsPredicatesMapping#getDecorations <em>Decorations</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Decorations</em>'.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.RelationsPredicatesMapping#getDecorations()
+	 * @see #getRelationsPredicatesMapping()
+	 * @generated
+	 */
+	EReference getRelationsPredicatesMapping_Decorations();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.DecorationPredicate <em>Decoration Predicate</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Decoration Predicate</em>'.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.DecorationPredicate
+	 * @generated
+	 */
+	EClass getDecorationPredicate();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.DecorationPredicate#getStyle <em>Style</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Style</em>'.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.DecorationPredicate#getStyle()
+	 * @see #getDecorationPredicate()
+	 * @generated
+	 */
+	EAttribute getDecorationPredicate_Style();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.DecorationPredicate#getColor <em>Color</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Color</em>'.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.DecorationPredicate#getColor()
+	 * @see #getDecorationPredicate()
+	 * @generated
+	 */
+	EAttribute getDecorationPredicate_Color();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.IPredicateLink <em>IPredicate Link</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>IPredicate Link</em>'.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.IPredicateLink
+	 * @generated
+	 */
+	EClass getIPredicateLink();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.IPredicateLink#getPredicate <em>Predicate</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Predicate</em>'.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.IPredicateLink#getPredicate()
+	 * @see #getIPredicateLink()
+	 * @generated
+	 */
+	EReference getIPredicateLink_Predicate();
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.AttributeType <em>Attribute Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -983,6 +1199,14 @@ public interface TypeconfigurationPackage extends EPackage {
 		 * @generated
 		 */
 		EReference TYPE_CONFIG_CONTAINER__DEFAULT_CONFIGURATION = eINSTANCE.getTypeConfigContainer_DefaultConfiguration();
+
+		/**
+		 * The meta object literal for the '<em><b>Mappings</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TYPE_CONFIG_CONTAINER__MAPPINGS = eINSTANCE.getTypeConfigContainer_Mappings();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeImpl <em>Type</em>}' class.
@@ -1231,6 +1455,76 @@ public interface TypeconfigurationPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute STD_ATTRIBUTE__TYPE = eINSTANCE.getStdAttribute_Type();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.RelationsPredicatesMappingImpl <em>Relations Predicates Mapping</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.RelationsPredicatesMappingImpl
+		 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeconfigurationPackageImpl#getRelationsPredicatesMapping()
+		 * @generated
+		 */
+		EClass RELATIONS_PREDICATES_MAPPING = eINSTANCE.getRelationsPredicatesMapping();
+
+		/**
+		 * The meta object literal for the '<em><b>Relation</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RELATIONS_PREDICATES_MAPPING__RELATION = eINSTANCE.getRelationsPredicatesMapping_Relation();
+
+		/**
+		 * The meta object literal for the '<em><b>Decorations</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RELATIONS_PREDICATES_MAPPING__DECORATIONS = eINSTANCE.getRelationsPredicatesMapping_Decorations();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.DecorationPredicateImpl <em>Decoration Predicate</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.DecorationPredicateImpl
+		 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeconfigurationPackageImpl#getDecorationPredicate()
+		 * @generated
+		 */
+		EClass DECORATION_PREDICATE = eINSTANCE.getDecorationPredicate();
+
+		/**
+		 * The meta object literal for the '<em><b>Style</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DECORATION_PREDICATE__STYLE = eINSTANCE.getDecorationPredicate_Style();
+
+		/**
+		 * The meta object literal for the '<em><b>Color</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DECORATION_PREDICATE__COLOR = eINSTANCE.getDecorationPredicate_Color();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.IPredicateLinkImpl <em>IPredicate Link</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.IPredicateLinkImpl
+		 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeconfigurationPackageImpl#getIPredicateLink()
+		 * @generated
+		 */
+		EClass IPREDICATE_LINK = eINSTANCE.getIPredicateLink();
+
+		/**
+		 * The meta object literal for the '<em><b>Predicate</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference IPREDICATE_LINK__PREDICATE = eINSTANCE.getIPredicateLink_Predicate();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.AttributeType <em>Attribute Type</em>}' enum.

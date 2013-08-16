@@ -125,4 +125,13 @@ public class RelationUtils {
 			return r.getDownstreamType();
 		}
 	}
+
+	public static Relation getRelation(String kind, Configuration conf) {
+		for (Relation r : conf.getRelations()) {
+			if (r.getKind().equals(kind)) {
+				return r;
+			}
+		}
+		return null;
+	}
 }

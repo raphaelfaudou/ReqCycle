@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeConfigContainer#getTypes <em>Types</em>}</li>
  *   <li>{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeConfigContainer#getConfigurations <em>Configurations</em>}</li>
  *   <li>{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeConfigContainer#getDefaultConfiguration <em>Default Configuration</em>}</li>
+ *   <li>{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeConfigContainer#getMappings <em>Mappings</em>}</li>
  * </ul>
  * </p>
  *
@@ -83,5 +84,21 @@ public interface TypeConfigContainer extends EObject {
 	 * @generated
 	 */
 	void setDefaultConfiguration(Configuration value);
+
+	/**
+	 * Returns the value of the '<em><b>Mappings</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.RelationsPredicatesMapping}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Mappings</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Mappings</em>' containment reference list.
+	 * @see org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeconfigurationPackage#getTypeConfigContainer_Mappings()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<RelationsPredicatesMapping> getMappings();
 
 } // TypeConfigContainer

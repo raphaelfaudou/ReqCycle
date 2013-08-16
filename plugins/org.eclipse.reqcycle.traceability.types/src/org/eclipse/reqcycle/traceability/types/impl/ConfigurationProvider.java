@@ -190,4 +190,5 @@ public class ConfigurationProvider implements ITypesConfigurationProvider,
 				});
 
 	}
+
 }

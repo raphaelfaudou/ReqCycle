@@ -94,6 +94,24 @@ public interface TypeconfigurationFactory extends EFactory {
 	StdAttribute createStdAttribute();
 
 	/**
+	 * Returns a new object of class '<em>Relations Predicates Mapping</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Relations Predicates Mapping</em>'.
+	 * @generated
+	 */
+	RelationsPredicatesMapping createRelationsPredicatesMapping();
+
+	/**
+	 * Returns a new object of class '<em>Decoration Predicate</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Decoration Predicate</em>'.
+	 * @generated
+	 */
+	DecorationPredicate createDecorationPredicate();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -93,6 +93,7 @@ public class TypeConfigContainerItemProvider extends ItemProviderAdapter
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(TypeconfigurationPackage.Literals.TYPE_CONFIG_CONTAINER__TYPES);
 			childrenFeatures.add(TypeconfigurationPackage.Literals.TYPE_CONFIG_CONTAINER__CONFIGURATIONS);
+			childrenFeatures.add(TypeconfigurationPackage.Literals.TYPE_CONFIG_CONTAINER__MAPPINGS);
 		}
 		return childrenFeatures;
 	}
@@ -145,6 +146,7 @@ public class TypeConfigContainerItemProvider extends ItemProviderAdapter
 		switch (notification.getFeatureID(TypeConfigContainer.class)) {
 			case TypeconfigurationPackage.TYPE_CONFIG_CONTAINER__TYPES:
 			case TypeconfigurationPackage.TYPE_CONFIG_CONTAINER__CONFIGURATIONS:
+			case TypeconfigurationPackage.TYPE_CONFIG_CONTAINER__MAPPINGS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -177,6 +179,11 @@ public class TypeConfigContainerItemProvider extends ItemProviderAdapter
 			(createChildParameter
 				(TypeconfigurationPackage.Literals.TYPE_CONFIG_CONTAINER__CONFIGURATIONS,
 				 TypeconfigurationFactory.eINSTANCE.createConfiguration()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(TypeconfigurationPackage.Literals.TYPE_CONFIG_CONTAINER__MAPPINGS,
+				 TypeconfigurationFactory.eINSTANCE.createRelationsPredicatesMapping()));
 	}
 
 	/**

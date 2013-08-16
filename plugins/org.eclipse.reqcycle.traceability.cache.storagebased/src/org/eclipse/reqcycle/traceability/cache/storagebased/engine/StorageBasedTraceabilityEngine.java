@@ -251,7 +251,8 @@ public class StorageBasedTraceabilityEngine extends
 	}
 
 	private void handleRevision(Reachable container) {
-		if (container.get(OPTION_CHECK_CACHE) == null) {
+		String val = container.get(OPTION_CHECK_CACHE);
+		if (val == null || Boolean.TRUE.equals(val)) {
 			IReachableHandler uriHandler = null;
 			try {
 				uriHandler = manager.getHandlerFromReachable(container);
@@ -275,6 +276,8 @@ public class StorageBasedTraceabilityEngine extends
 	@Override
 	public void endBuild(Reachable reachable) {
 		super.endBuild(reachable);
+		handleRevision(reachable);
+		storage.addUpdateProperty(reachable, REVISION, reachable.get(REVISION));
 		storage.commit();
 	}
 

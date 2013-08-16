@@ -23,7 +23,8 @@
 	<menuContribution
             locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
         <toolbar
-               id="org.eclipse.reqcycle.core.ui.toolbar">
+              id="org.eclipse.reqcycle.core.ui.toolbar"
+              label="ReqCycle">
 		</toolbar>
 	</menuContribution>
     </extension>

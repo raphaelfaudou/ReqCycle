@@ -8,6 +8,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="configurations" upperBound="-1"
         eType="#//Configuration" containment="true" eOpposite="#//Configuration/parent"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="defaultConfiguration" eType="#//Configuration"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mappings" upperBound="-1"
+        eType="#//RelationsPredicatesMapping" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Type">
     <eOperations name="getIType" eType="#//IType"/>
@@ -67,5 +69,17 @@
     <eLiterals name="String"/>
     <eLiterals name="Boolean" value="1"/>
     <eLiterals name="Int" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RelationsPredicatesMapping">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relation" eType="#//Relation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="decorations" upperBound="-1"
+        eType="#//DecorationPredicate" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DecorationPredicate" eSuperTypes="#//IPredicateLink">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="style" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IPredicateLink" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="predicate" eType="ecore:EClass ../../org.eclipse.reqcycle.predicates.core/model/predicates.ecore#//IPredicate"/>
   </eClassifiers>
 </ecore:EPackage>
