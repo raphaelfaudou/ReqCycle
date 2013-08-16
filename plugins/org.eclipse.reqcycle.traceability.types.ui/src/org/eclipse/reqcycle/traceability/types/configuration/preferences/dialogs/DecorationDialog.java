@@ -123,7 +123,7 @@ public class DecorationDialog extends TitleAreaDialog {
 		comboViewer.setLabelProvider(new AdapterFactoryLabelProvider(
 				new ComposedAdapterFactory(
 						ComposedAdapterFactory.Descriptor.Registry.INSTANCE)));
-		comboViewer.setInput(predicateManager.getStoredPredicates());
+		comboViewer.setInput(predicateManager.getPredicates(true));
 		comboViewer
 				.addSelectionChangedListener(new ISelectionChangedListener() {
 
