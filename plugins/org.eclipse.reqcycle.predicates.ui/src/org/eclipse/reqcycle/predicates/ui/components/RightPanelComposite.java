@@ -15,6 +15,7 @@ package org.eclipse.reqcycle.predicates.ui.components;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -23,13 +24,15 @@ import java.util.regex.Pattern;
 
 import org.eclipse.emf.common.ui.dialogs.ResourceDialog;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.presentation.EcoreActionBarContributor.ExtendedLoadResourceAction.RegisteredPackageDialog;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -50,7 +53,6 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
-import org.eclipse.reqcycle.predicates.core.api.IEAttrPredicate;
 import org.eclipse.reqcycle.predicates.core.api.IPredicate;
 import org.eclipse.reqcycle.predicates.core.api.ITypedPredicate;
 import org.eclipse.reqcycle.predicates.core.util.PredicatesUtil;
@@ -72,6 +74,9 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ziggurat.inject.ZigguratInject;
+
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
 
 public class RightPanelComposite extends Composite {
 
@@ -190,8 +195,73 @@ public class RightPanelComposite extends Composite {
 			btnUseExtendedFeature.setVisible(false); // TODO : make it visible whenever the editor supports editions of
 														// EReferences.
 		}
+		new Label(compositeButtons, SWT.NONE);
+		new Label(compositeButtons, SWT.NONE);
+		
+		Button btnLoadResources = new Button(compositeButtons, SWT.NONE);
+		btnLoadResources.setText("load resources");
+		btnLoadResources.addSelectionListener(new SelectionAdapter() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				RegisteredPackageDialog registeredPackageDialog = new RegisteredPackageDialog(getShell());
+				registeredPackageDialog.open();
+				Object [] result = registeredPackageDialog.getResult();
+				if (result != null) {
+					Collection<EClass> eclasses = new ArrayList<EClass>();
+					for (Object object : result) {
+						Object obj = Registry.INSTANCE.get(object);
+						if (obj instanceof EPackage) {
+							EList<EClassifier> eclassifiers = ((EPackage) obj).getEClassifiers();
+							Collection<EClass> filtered = Collections2.transform(eclassifiers, new Function<EClassifier, EClass>() {
+								@Override
+								public EClass apply(EClassifier arg0) {
+									if (arg0 instanceof EClass) {
+										return (EClass)arg0;
+									}
+									return null;
+								}
+							});
+							eclasses.addAll(filtered);
+						}
+					}
+					predicatesEditor.getInput().addAll(eclasses);
+				}
+			}
+		});
+		
+		new Label(compositeButtons, SWT.NONE);
+		new Label(compositeButtons, SWT.NONE);
 	}
 
+	protected Collection<EPackage> getAllPackages(Resource resource)
+    {
+      List<EPackage> result = new ArrayList<EPackage>();
+      for (TreeIterator<?> j =
+             new EcoreUtil.ContentTreeIterator<Object>(resource.getContents())
+             {
+               private static final long serialVersionUID = 1L;
+
+               @Override
+               protected Iterator<? extends EObject> getEObjectChildren(EObject eObject)
+               {
+                 return
+                   eObject instanceof EPackage ?
+                     ((EPackage)eObject).getESubpackages().iterator() :
+                       Collections.<EObject>emptyList().iterator();
+               }
+             };
+           j.hasNext(); )
+      {
+        Object content = j.next();
+        if (content instanceof EPackage)
+        {
+          result.add((EPackage)content);
+        }
+      }
+      return result;
+    }
+	
 	private void createGroupOfDefaultPredicates() {
 
 		final Group grpDefaultPredicates = new Group(this, SWT.NONE);

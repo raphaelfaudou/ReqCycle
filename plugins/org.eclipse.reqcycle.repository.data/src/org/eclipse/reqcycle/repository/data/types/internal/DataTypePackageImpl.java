@@ -122,6 +122,9 @@ public class DataTypePackageImpl implements DataTypePackage {
 
 	@Override
 	public DataTypePackage getDataTypePackage(String name) {
+		if (name == null) {
+			return null;
+		}
 		for(DataTypePackage p : subPackages) {
 			if(name.equals(p.getName())) {
 				return p;

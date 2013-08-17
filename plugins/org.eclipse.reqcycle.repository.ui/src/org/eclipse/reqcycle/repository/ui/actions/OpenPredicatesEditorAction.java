@@ -2,6 +2,7 @@ package org.eclipse.reqcycle.repository.ui.actions;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -42,7 +43,7 @@ public class OpenPredicatesEditorAction extends Action {
 	private final AdapterFactoryLabelProvider adapterLabelProvider = new AdapterFactoryLabelProvider(adapterFactory);
 
 	/** Requirement repositories TreeViewer. */
-	private final TreeViewer viewer;
+//	private final TreeViewer viewer;
 
 	@Inject
 	ILogger logger;
@@ -51,41 +52,40 @@ public class OpenPredicatesEditorAction extends Action {
 	IDataModelManager dataManager;
 	
 
-	public OpenPredicatesEditorAction(final TreeViewer treeViewer) {
-		this.viewer = treeViewer;
+	public OpenPredicatesEditorAction() {
 	}
 
 	@Override
 	public void run() {
-		ISelection selection = viewer.getSelection();
-		if(selection instanceof IStructuredSelection) {
+//		ISelection selection = viewer.getSelection();
+//		if(selection instanceof IStructuredSelection) {
 
-			final Collection<RequirementSource> selectedReqSources = new ArrayList<RequirementSource>();
-			for(Iterator<?> iterator = ((IStructuredSelection)selection).iterator(); iterator.hasNext();) {
-				Object obj = iterator.next();
-				if(obj instanceof RequirementSource) {
-					selectedReqSources.add((RequirementSource)obj);
-				}
-			}
+//			final Collection<RequirementSource> selectedReqSources = new ArrayList<RequirementSource>();
+//			for(Iterator<?> iterator = ((IStructuredSelection)selection).iterator(); iterator.hasNext();) {
+//				Object obj = iterator.next();
+//				if(obj instanceof RequirementSource) {
+//					selectedReqSources.add((RequirementSource)obj);
+//				}
+//			}
 			// The set of EClass to pass to the Predicates Editor.
-			final Set<EClass> eClasses = new HashSet<EClass>();
-			for(Iterator<RequirementSource> iterator = selectedReqSources.iterator(); iterator.hasNext();) {
-				RequirementSource reqSource = (RequirementSource)iterator.next();
-				DataTypePackage model = dataManager.getDataTypePackage(reqSource.getProperty("DataModel_NAME"));
-				if(model != null) {
-					Collection<EClass> types = Collections2.transform(model.getDataTypes(), new Function<RequirementType, EClass>() {
-						public EClass apply(RequirementType arg0) {
-							return ((RequirementTypeImpl)arg0).getEClass();
-						};
-					});
-					eClasses.addAll(types);
-				}
-			}
+//			final Set<EClass> eClasses = new HashSet<EClass>();
+//			for(Iterator<RequirementSource> iterator = selectedReqSources.iterator(); iterator.hasNext();) {
+//				RequirementSource reqSource = (RequirementSource)iterator.next();
+//				DataTypePackage model = dataManager.getDataTypePackage(reqSource.getProperty("DataModel_NAME"));
+//				if(model != null) {
+//					Collection<EClass> types = Collections2.transform(model.getDataTypes(), new Function<RequirementType, EClass>() {
+//						public EClass apply(RequirementType arg0) {
+//							return ((RequirementTypeImpl)arg0).getEClass();
+//						};
+//					});
+//					eClasses.addAll(types);
+//				}
+//			}
 
 			try {
 				IPredicate selectedPredicate = selectRootPredicate();
 				if(selectedPredicate != null) {
-					PredicatesEditor.openEditor(eClasses, selectedPredicate);
+					PredicatesEditor.openEditor(Collections.emptyList(), selectedPredicate);
 				}
 
 			} catch (Exception e) {
@@ -93,7 +93,7 @@ public class OpenPredicatesEditorAction extends Action {
 				logger.error("Unable to open the Predicates Editor : " + e.toString());
 				logger.error(e.toString());
 			}
-		}
+//		}
 	}
 
 	private IPredicate selectRootPredicate() {

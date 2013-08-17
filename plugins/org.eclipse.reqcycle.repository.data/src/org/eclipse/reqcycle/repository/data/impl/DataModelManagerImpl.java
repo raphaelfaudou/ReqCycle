@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.types.DataType;
@@ -67,6 +68,15 @@ public class DataModelManagerImpl implements IDataModelManager {
 		} else {
 			dataTypePackage = new DataTypePackageImpl("DataTypes");
 			save();
+		}
+		addPackages(dataTypePackage);
+	}
+
+	private void addPackages(DataTypePackage dataTypePackage) {
+		EPackage epackage = ((DataTypePackageImpl)dataTypePackage).getEPackage();
+		Registry.INSTANCE.put(epackage.getNsURI(), epackage);
+		for (DataTypePackage model : dataTypePackage.getDataTypePackages()) {
+			addPackages(model);
 		}
 	}
 
