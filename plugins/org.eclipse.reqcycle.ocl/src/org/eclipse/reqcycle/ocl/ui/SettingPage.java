@@ -10,6 +10,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.ui.dialogs.WorkspaceResourceDialog;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ViewerProperties;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -23,6 +24,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.reqcycle.emf.utils.EMFUtils;
 import org.eclipse.reqcycle.ocl.ReqcycleOCLPlugin;
 import org.eclipse.reqcycle.ocl.ui.OCLConnector.SettingBean;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
@@ -138,6 +140,22 @@ public class SettingPage extends WizardPage {
 		setControl(containerComposite);
 	}
 
+	@Override
+	public boolean isPageComplete() {
+		String uriString = bean.getUri();
+		if(uriString != null && !uriString.isEmpty()) {
+			URI uri = URI.createPlatformResourceURI(uriString, true);
+			if(!EMFUtils.isEMF(uri)) {
+				setErrorMessage("Selected .uml file is not an EMF resource");
+				return false;
+			}
+		} else {
+			return false;
+		}
+		setErrorMessage(null); 
+		return bean.getDataPackage() != null && bean.getScope() != null;
+	}
+
 
 	/**
 	 * Label provider for the workspace resource dialog.
@@ -176,12 +194,6 @@ public class SettingPage extends WizardPage {
 			return new Status(IStatus.ERROR, ReqcycleOCLPlugin.PLUGIN_ID, "Select a single UML file");
 		}
 	};
-
-	@Override
-	public boolean canFlipToNextPage() {
-		return bean.getUri() != null && bean.getDataPackage() != null && bean.getScope() != null;
-	}
-
 
 	protected void hookListeners() {
 

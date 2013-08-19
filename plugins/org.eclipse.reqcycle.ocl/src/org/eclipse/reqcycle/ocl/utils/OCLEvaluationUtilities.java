@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.ocl.SemanticException;
 import org.eclipse.ocl.examples.pivot.Element;
 import org.eclipse.ocl.examples.pivot.utilities.BaseResource;
 import org.eclipse.ocl.examples.xtext.completeocl.completeOCLCST.ClassifierContextDeclCS;
@@ -43,7 +44,12 @@ public class OCLEvaluationUtilities {
 		EClassifier classifier = evaluator.lookupEClassifier(Arrays.asList(split));
 		String[] defNameExpression = operationCS.toString().split("def:", 0);
 		String defExpression = defNameExpression[1];
-		evaluator.compileOperation(defExpression, classifier);
+		try {
+			evaluator.compileOperation(defExpression, classifier);
+		} catch (SemanticException e) {
+			String message = "Semantic error : " + operationCS.getName() + " - " + e.getMessage();
+			throw new Exception(message);
+		}
 	}
 
 
@@ -68,18 +74,18 @@ public class OCLEvaluationUtilities {
 				return result;
 			} else {
 				Object converted = convertResult(result, attribute);
-				if (attribute.getType().isInstance(converted)) {
+				if(attribute.getType().isInstance(converted)) {
 					return converted;
 				}
 			}
 		}
 		return null;
 	}
-	
-	protected static Object convertResult(Object result, RequirementTypeAttribute attribute){
+
+	protected static Object convertResult(Object result, RequirementTypeAttribute attribute) {
 		String instanceClass = attribute.getType().getInstanceClassName();
-		if ("float".equalsIgnoreCase(instanceClass) && result instanceof Double){ //$NON-NLS-1$
-			return ((Double) result).floatValue();
+		if("float".equalsIgnoreCase(instanceClass) && result instanceof Double) { //$NON-NLS-1$
+			return ((Double)result).floatValue();
 		}
 		return null;
 	}

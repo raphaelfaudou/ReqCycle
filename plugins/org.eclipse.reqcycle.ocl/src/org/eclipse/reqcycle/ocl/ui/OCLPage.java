@@ -198,7 +198,7 @@ public class OCLPage extends WizardPage implements Listener {
 			setErrorMessage("Could not compile ocl file : " + e.getMessage());
 			return false;
 		}
-		setErrorMessage("");
+		setErrorMessage(null);
 		return true;
 	}
 	
@@ -313,10 +313,9 @@ public class OCLPage extends WizardPage implements Listener {
 					IFile iFile = dialog.getSelectedFiles()[0];
 					String location = iFile.getFullPath().toOSString();
 					URI oclURI = URI.createPlatformResourceURI(location, true);
-					tFile.setText(location);
-
 					ResourceSet resourceSet = new ResourceSetImpl();
 					OCLPage.this.resource = OCLSourceUtilities.loadOCLResource(resourceSet, oclURI);
+					tFile.setText(location);
 					tvTypes.refresh();
 					tvAttributes.refresh();
 				}
