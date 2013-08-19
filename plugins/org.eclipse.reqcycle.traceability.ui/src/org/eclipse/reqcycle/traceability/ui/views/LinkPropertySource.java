@@ -6,6 +6,9 @@ import java.util.Map;
 import org.eclipse.reqcycle.traceability.model.Link;
 import org.eclipse.reqcycle.traceability.types.ITraceabilityAttributesManager;
 import org.eclipse.reqcycle.traceability.types.ITraceabilityAttributesManager.EditableAttribute;
+import org.eclipse.ui.IViewReference;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource2;
 import org.eclipse.ziggurat.inject.ZigguratInject;
@@ -18,8 +21,10 @@ public class LinkPropertySource implements IPropertySource2 {
 	private ITraceabilityAttributesManager attributesManager = ZigguratInject
 			.make(ITraceabilityAttributesManager.class);
 	Map<String, EditableAttribute> attributes = null;
+	private Object businessObject;
 
-	public LinkPropertySource(Link link) {
+	public LinkPropertySource(Link link, Object businessObject) {
+		this.businessObject = businessObject;
 		attributes = Maps.uniqueIndex(
 				attributesManager.getAttributes(link.getId()),
 				new Function<EditableAttribute, String>() {
@@ -64,6 +69,18 @@ public class LinkPropertySource implements IPropertySource2 {
 	public void setPropertyValue(Object id, Object value) {
 		EditableAttribute att = attributes.get(id);
 		att.setValue(value);
+		for (IViewReference vr : PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getActivePage().getViewReferences()) {
+			if (vr.getId().equals(TraceabilityViewer.ID)) {
+				IWorkbenchPart part = vr.getPart(false);
+				if (part != null
+						&& PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+								.getActivePage().isPartVisible(part)) {
+					TraceabilityViewer v = (TraceabilityViewer) part;
+					v.refreshElement(businessObject);
+				}
+			}
+		}
 	}
 
 	@Override

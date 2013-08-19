@@ -214,7 +214,7 @@ public class GraphStorage implements ITraceabilityStorage {
 			final DIRECTION direction) {
 		Iterable<Vertex> allVertices = graphUtils
 				.getAllTraceabilityVertices(graph);
-		return transform(allVertices,
+		return Lists.newArrayList(transform(allVertices,
 				new Function<Vertex, Pair<Link, Reachable>>() {
 
 					@Override
@@ -236,7 +236,7 @@ public class GraphStorage implements ITraceabilityStorage {
 						return new Pair<Link, Reachable>(link, link
 								.getTargets().iterator().next());
 					}
-				});
+				}));
 
 	}
 

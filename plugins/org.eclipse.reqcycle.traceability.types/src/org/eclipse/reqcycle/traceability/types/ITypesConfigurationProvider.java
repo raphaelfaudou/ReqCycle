@@ -32,9 +32,9 @@ public interface ITypesConfigurationProvider {
 	void setDefaultConfiguration(Configuration conf);
 
 	/**
-	 * All the objects returned by the {@link ITypesConfigurationProvider} are copys
-	 * so it is needed to save modifications Save a given object in parameter
-	 * Supports : {@link TypeConfigContainer}, {@link Configuration}
+	 * All the objects returned by the {@link ITypesConfigurationProvider} are
+	 * copys so it is needed to save modifications Save a given object in
+	 * parameter Supports : {@link TypeConfigContainer}, {@link Configuration}
 	 * 
 	 * @param eobject
 	 */

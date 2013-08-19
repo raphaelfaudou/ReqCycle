@@ -129,6 +129,25 @@ public class TypeconfigurationSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case TypeconfigurationPackage.RELATIONS_PREDICATES_MAPPING: {
+				RelationsPredicatesMapping relationsPredicatesMapping = (RelationsPredicatesMapping)theEObject;
+				T result = caseRelationsPredicatesMapping(relationsPredicatesMapping);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TypeconfigurationPackage.DECORATION_PREDICATE: {
+				DecorationPredicate decorationPredicate = (DecorationPredicate)theEObject;
+				T result = caseDecorationPredicate(decorationPredicate);
+				if (result == null) result = caseIPredicateLink(decorationPredicate);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TypeconfigurationPackage.IPREDICATE_LINK: {
+				IPredicateLink iPredicateLink = (IPredicateLink)theEObject;
+				T result = caseIPredicateLink(iPredicateLink);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -265,6 +284,51 @@ public class TypeconfigurationSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseStdAttribute(StdAttribute object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Relations Predicates Mapping</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Relations Predicates Mapping</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRelationsPredicatesMapping(RelationsPredicatesMapping object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Decoration Predicate</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Decoration Predicate</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseDecorationPredicate(DecorationPredicate object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>IPredicate Link</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>IPredicate Link</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIPredicateLink(IPredicateLink object) {
 		return null;
 	}
 

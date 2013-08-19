@@ -105,6 +105,7 @@ public class ConfigurationManagerImpl implements IConfigurationManager {
 			}
 		} catch (Throwable e) {
 			//DO NOTHING
+			e.printStackTrace();
 		}
 
 		return null;

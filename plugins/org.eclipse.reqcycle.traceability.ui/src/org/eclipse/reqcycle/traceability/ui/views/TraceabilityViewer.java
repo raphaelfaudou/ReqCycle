@@ -81,6 +81,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.part.PluginTransfer;
 import org.eclipse.ui.part.PluginTransferData;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
@@ -378,6 +379,7 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 		createActions();
 		initializeToolBar();
 		initializeMenu();
+
 	}
 
 	private void createDropTarget(Control control) {
@@ -508,6 +510,7 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 								TypeConditions.is((IType) target));
 					}
 				}
+				request.setDepth(DEPTH.INFINITE);
 			}
 			traceabilityTreeViewer.setInput(request);
 		}
@@ -728,7 +731,7 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 
 	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-		if (part != this) {
+		if (part != this && (!(part instanceof PropertySheet))) {
 			this.selection = selection;
 			if (isSyncToSelection()) {
 				sources.clear();
@@ -780,5 +783,13 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 		sync_action.setChecked(enabled);
 		traceabilityTreeViewer.setData(RequestContentProvider.EXPAND_ALL,
 				String.valueOf(enabled));
+	}
+
+	public void refresh() {
+		traceabilityTreeViewer.refresh(true);
+	}
+
+	public void refreshElement(Object o) {
+		traceabilityTreeViewer.update(o, null);
 	}
 }

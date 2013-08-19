@@ -254,6 +254,52 @@ public class TypeconfigurationItemProviderAdapterFactory extends Typeconfigurati
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.RelationsPredicatesMapping} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected RelationsPredicatesMappingItemProvider relationsPredicatesMappingItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.RelationsPredicatesMapping}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createRelationsPredicatesMappingAdapter() {
+		if (relationsPredicatesMappingItemProvider == null) {
+			relationsPredicatesMappingItemProvider = new RelationsPredicatesMappingItemProvider(this);
+		}
+
+		return relationsPredicatesMappingItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.DecorationPredicate} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected DecorationPredicateItemProvider decorationPredicateItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.DecorationPredicate}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createDecorationPredicateAdapter() {
+		if (decorationPredicateItemProvider == null) {
+			decorationPredicateItemProvider = new DecorationPredicateItemProvider(this);
+		}
+
+		return decorationPredicateItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -360,6 +406,8 @@ public class TypeconfigurationItemProviderAdapterFactory extends Typeconfigurati
 		if (entryItemProvider != null) entryItemProvider.dispose();
 		if (registeredAttributeItemProvider != null) registeredAttributeItemProvider.dispose();
 		if (stdAttributeItemProvider != null) stdAttributeItemProvider.dispose();
+		if (relationsPredicatesMappingItemProvider != null) relationsPredicatesMappingItemProvider.dispose();
+		if (decorationPredicateItemProvider != null) decorationPredicateItemProvider.dispose();
 	}
 
 }

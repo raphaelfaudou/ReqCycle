@@ -12,32 +12,35 @@ import org.eclipse.reqcycle.predicates.core.api.NotPredicate;
  * <!-- end-user-doc -->
  * <p>
  * </p>
- *
+ * 
  * @generated
  */
 public class NotPredicateImpl extends CompositePredicateImpl implements NotPredicate {
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected NotPredicateImpl() {
-        super();
-    }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    protected EClass eStaticClass() {
-        return PredicatesPackage.Literals.NOT_PREDICATE;
-    }
-    
-    @Override
-    public boolean match(Object input) {
-        return !this.getPredicates().get(0).match(input);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected NotPredicateImpl() {
+		super();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+		return PredicatesPackage.Literals.NOT_PREDICATE;
+	}
+
+	@Override
+	public boolean match(Object input) {
+		return !this.getPredicates().get(0).match(input);
+	}
 
 } //NotPredicateImpl

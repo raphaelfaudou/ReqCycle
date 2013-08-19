@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Configuration;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.RelationsPredicatesMapping;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Type;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeConfigContainer;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeconfigurationPackage;
@@ -29,6 +30,7 @@ import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.T
  *   <li>{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeConfigContainerImpl#getTypes <em>Types</em>}</li>
  *   <li>{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeConfigContainerImpl#getConfigurations <em>Configurations</em>}</li>
  *   <li>{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeConfigContainerImpl#getDefaultConfiguration <em>Default Configuration</em>}</li>
+ *   <li>{@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.impl.TypeConfigContainerImpl#getMappings <em>Mappings</em>}</li>
  * </ul>
  * </p>
  *
@@ -64,6 +66,16 @@ public class TypeConfigContainerImpl extends EObjectImpl implements TypeConfigCo
 	 * @ordered
 	 */
 	protected Configuration defaultConfiguration;
+
+	/**
+	 * The cached value of the '{@link #getMappings() <em>Mappings</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMappings()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<RelationsPredicatesMapping> mappings;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -151,6 +163,18 @@ public class TypeConfigContainerImpl extends EObjectImpl implements TypeConfigCo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<RelationsPredicatesMapping> getMappings() {
+		if (mappings == null) {
+			mappings = new EObjectContainmentEList<RelationsPredicatesMapping>(RelationsPredicatesMapping.class, this, TypeconfigurationPackage.TYPE_CONFIG_CONTAINER__MAPPINGS);
+		}
+		return mappings;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -173,6 +197,8 @@ public class TypeConfigContainerImpl extends EObjectImpl implements TypeConfigCo
 				return ((InternalEList<?>)getTypes()).basicRemove(otherEnd, msgs);
 			case TypeconfigurationPackage.TYPE_CONFIG_CONTAINER__CONFIGURATIONS:
 				return ((InternalEList<?>)getConfigurations()).basicRemove(otherEnd, msgs);
+			case TypeconfigurationPackage.TYPE_CONFIG_CONTAINER__MAPPINGS:
+				return ((InternalEList<?>)getMappings()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -192,6 +218,8 @@ public class TypeConfigContainerImpl extends EObjectImpl implements TypeConfigCo
 			case TypeconfigurationPackage.TYPE_CONFIG_CONTAINER__DEFAULT_CONFIGURATION:
 				if (resolve) return getDefaultConfiguration();
 				return basicGetDefaultConfiguration();
+			case TypeconfigurationPackage.TYPE_CONFIG_CONTAINER__MAPPINGS:
+				return getMappings();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -216,6 +244,10 @@ public class TypeConfigContainerImpl extends EObjectImpl implements TypeConfigCo
 			case TypeconfigurationPackage.TYPE_CONFIG_CONTAINER__DEFAULT_CONFIGURATION:
 				setDefaultConfiguration((Configuration)newValue);
 				return;
+			case TypeconfigurationPackage.TYPE_CONFIG_CONTAINER__MAPPINGS:
+				getMappings().clear();
+				getMappings().addAll((Collection<? extends RelationsPredicatesMapping>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -237,6 +269,9 @@ public class TypeConfigContainerImpl extends EObjectImpl implements TypeConfigCo
 			case TypeconfigurationPackage.TYPE_CONFIG_CONTAINER__DEFAULT_CONFIGURATION:
 				setDefaultConfiguration((Configuration)null);
 				return;
+			case TypeconfigurationPackage.TYPE_CONFIG_CONTAINER__MAPPINGS:
+				getMappings().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -255,6 +290,8 @@ public class TypeConfigContainerImpl extends EObjectImpl implements TypeConfigCo
 				return configurations != null && !configurations.isEmpty();
 			case TypeconfigurationPackage.TYPE_CONFIG_CONTAINER__DEFAULT_CONFIGURATION:
 				return defaultConfiguration != null;
+			case TypeconfigurationPackage.TYPE_CONFIG_CONTAINER__MAPPINGS:
+				return mappings != null && !mappings.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

@@ -157,7 +157,7 @@ public abstract class AbstractCachedTraceabilityEngine implements
 						requestPredicate);
 			}
 			Iterable<Couple> couples = request.getCouples();
-			if (!couples.iterator().hasNext()){
+			if (!couples.iterator().hasNext()) {
 				if (request.getDepth() == DEPTH.ONE) {
 					throw new EngineException(
 							"for a couple with source equals to null the request shall be infinite");
@@ -400,7 +400,7 @@ public abstract class AbstractCachedTraceabilityEngine implements
 		}
 
 		public boolean apply(Pair<Link, Reachable> pair) {
-			return condition.apply(pair.getSecond());
+			return condition.apply(pair);
 		}
 	}
 

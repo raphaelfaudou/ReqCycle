@@ -16,7 +16,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.reqcycle.traceability.types;bundle-version="1.0.0",
  org.eclipse.reqcycle.dnd;bundle-version="1.0.0",
  org.eclipse.ziggurat.inject,
- org.eclipse.ui.views.properties.tabbed;bundle-version="3.6.0"
+ org.eclipse.ui.views.properties.tabbed;bundle-version="3.6.0",
+ org.eclipse.reqcycle.traceability.types.ui;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: javax.inject;version="1.0.0"

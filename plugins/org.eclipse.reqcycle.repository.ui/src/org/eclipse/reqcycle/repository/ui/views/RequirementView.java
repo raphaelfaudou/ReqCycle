@@ -19,6 +19,7 @@ import java.util.Collections;
 
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -71,6 +72,8 @@ public class RequirementView extends ViewPart implements Listener {
 	protected Collection<RequirementSource> sources = Collections.emptyList();
 
 	protected Collection<DummyInput> input = new ArrayList<DummyInput>();
+	
+	protected Action newInstanceAction;
 
 	public RequirementView() {
 	}
@@ -253,6 +256,7 @@ public class RequirementView extends ViewPart implements Listener {
 	protected void fillLocalToolBar(IToolBarManager manager) {
 		manager.add(selectPredicatesFilterAction);
 		manager.add(selectRequirementSourcesAction);
+		manager.add(newInstanceAction);
 		manager.add(new Separator());
 	}
 
@@ -270,6 +274,15 @@ public class RequirementView extends ViewPart implements Listener {
 		selectRequirementSourcesAction.setToolTipText("Select requirement sources to filter");
 		selectRequirementSourcesAction.setImageDescriptor(Activator.getImageDescriptor("/icons/editRepoList.png"));
 		selectRequirementSourcesAction.addListener(this);
+
+		newInstanceAction = new Action("New Instance") {
+
+			@Override
+			public void run() {
+				createNewView();
+			}
+		};
+		newInstanceAction.setImageDescriptor(Activator.getImageDescriptor("icons/newView.gif"));
 	}
 
 	/**

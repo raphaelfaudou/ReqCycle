@@ -29,6 +29,8 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.reqcycle.repository.data.IDataModelManager;
+import org.eclipse.reqcycle.repository.data.IListener;
 import org.eclipse.reqcycle.repository.data.IRequirementSourceManager;
 import org.eclipse.ziggurat.configuration.IConfigurationManager;
 
@@ -46,21 +48,27 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 
 	@Inject
 	IConfigurationManager confManager;
-
+	
 	public static final String ID = "org.eclipse.reqcycle.repositories";
 
 	@Inject
 	@Named("confResourceSet")
 	private ResourceSet rs;
+
+	@Inject
+	IDataModelManager dataManager;
+
+	public Set<IListener> listeners = new HashSet<IListener>();
 	
 	
 	/**
 	 * Constructor
 	 */
 	@Inject
-	RequirementSourceManagerImpl(@Named("confResourceSet") ResourceSet rs, IConfigurationManager confManager) {
+	RequirementSourceManagerImpl(@Named("confResourceSet") ResourceSet rs, IConfigurationManager confManager, IDataModelManager dataManager) {
 		this.rs = rs;
 		this.confManager = confManager;
+		this.dataManager = dataManager;
 		
 		EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, ID, rs, true);
 
@@ -100,6 +108,7 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 
 		try {
 			confManager.saveConfiguration(sources, null, null, ID, rs);
+			notifyListeners();
 		} catch (IOException e) {
 			//FIXME : use Logger
 			e.printStackTrace();
@@ -115,6 +124,7 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 			EcoreUtil.delete(repository, true);
 			try {
 				confManager.saveConfiguration(sources, null, null, ID, rs);
+				notifyListeners();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -127,6 +137,7 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 			sources.removeRequirementSource(reqSource);
 			try {
 				confManager.saveConfiguration(sources, null, null, ID, rs);
+				notifyListeners();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -170,5 +181,20 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 		}
 		return res;
 	}
+	
+	
+	public void addListener(IListener listener) {
+		listeners.add(listener);
+	}
 
+	public void removeListener(IListener listener) {
+		listeners.remove(listener);
+	}
+	
+	protected void notifyListeners() {
+		for(IListener listener : listeners) {
+			listener.handleChange(this.getClass());
+		}
+	}
+	
 }

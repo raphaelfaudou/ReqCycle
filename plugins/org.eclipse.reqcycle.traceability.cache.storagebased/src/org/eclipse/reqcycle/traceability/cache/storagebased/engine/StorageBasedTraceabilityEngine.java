@@ -1,9 +1,13 @@
 package org.eclipse.reqcycle.traceability.cache.storagebased.engine;
 
-import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -117,7 +121,7 @@ public class StorageBasedTraceabilityEngine extends
 						public Pair<Link, Reachable> apply(Object o) {
 							return (Pair<Link, Reachable>) o;
 						}
-					}), TraceabilityPredicates;
+					});
 			return iterator;
 		} catch (PickerExecutionException e) {
 			// TODO Auto-generated catch block
@@ -130,60 +134,64 @@ public class StorageBasedTraceabilityEngine extends
 	protected Iterator<Pair<Link, Reachable>> doGetTraceability(
 			Reachable source, StopCondition condition, DIRECTION direction,
 			Predicate<Pair<Link, Reachable>> scope) {
-		ArrayDeque<Pair<Link, Reachable>> result = new ArrayDeque<Pair<Link, Reachable>>();
-		ArrayDeque<Pair<Link, Reachable>> current = new ArrayDeque<Pair<Link, Reachable>>();
+		Set<Pair<Link, Reachable>> result = new LinkedHashSet<Pair<Link, Reachable>>();
+		Set<Reachable> visited = new HashSet<Reachable>();
 		if (source != null && condition != null) {
 			IPicker picker = new GetTraceabilityPicker(direction, storage,
 					scope);
 			ZigguratInject.inject(picker);
-			Iterable<IPicker> pickers = Arrays.asList(new IPicker[] { picker });
-			IteratorFactory f = new IteratorFactory(pickers);
-			f.activateWidthWisdom();
-			f.activateRedundancyAwareness();
-			Iterable<Object> iterable = f.createIterable(source);
-			Iterator<Object> i = iterable.iterator();
-			if (checkPath((Reachable) i.next(), condition, i, result, current)) {
-				result.addAll(current);
-			}
-
+			result.addAll(search(source, condition, picker, visited));
 		}
 		return result.iterator();
 	}
 
-	private boolean checkPath(Reachable s, StopCondition cond,
-			Iterator<Object> i, ArrayDeque<Pair<Link, Reachable>> result,
-			ArrayDeque<Pair<Link, Reachable>> current) {
-		boolean found = false;
-		Reachable source = s;
-
-		while (i.hasNext()) {
-			Object o = i.next();
-			if (o instanceof Pair) {
-				Pair<Link, Reachable> pair = (Pair<Link, Reachable>) o;
-				if (cond.apply(pair.getSecond())) {
-					found = true;
-					current.add(pair);
-					break;
-				} else {
-					if (checkPath(pair.getFirst().getTargets().iterator()
-							.next(), cond, i, result, current)) {
-						current.add(pair);
-						found = true;
-						break;
-						// result.addAll(current);
+	/**
+	 * Search if one path exist between source and node satisfying the condition
+	 * 
+	 * @param source
+	 *            the reachable source
+	 * @param condition
+	 *            the stopping condition
+	 * @param picker
+	 *            used to determine next of current element
+	 * @param visited
+	 *            the elements already visited to prevent cycles
+	 * @param mapForOrder
+	 *            use to not add double entries and improve the contains
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private List<? extends Pair<Link, Reachable>> search(Reachable source,
+			StopCondition condition, IPicker picker, Set<Reachable> visited) {
+		List<Pair<Link, Reachable>> result = new LinkedList<Pair<Link, Reachable>>();
+		if (!visited.contains(source)) {
+			visited.add(source);
+			try {
+				Iterable<?> nexts = picker.getNexts(source);
+				for (Object o : nexts) {
+					if (o instanceof Pair) {
+						Pair<Link, Reachable> pair = (Pair<Link, Reachable>) o;
+						if (condition.apply(pair)) {
+							result.add(pair);
+						}
 					}
 				}
-				// else {
-				// if (cond.apply(pair.getSecond())) {
-				// current.add(pair);
-				// found = true;
-				// break;
-				// }
-				// }
+				for (Object o : nexts) {
+					if (o instanceof Pair) {
+						Pair<Link, Reachable> pair = (Pair<Link, Reachable>) o;
+						Collection<? extends Pair<Link, Reachable>> tmp = search(
+								pair.getSecond(), condition, picker, visited);
+						if (!tmp.isEmpty()) {
+							result.add(pair);
+							result.addAll(tmp);
+						}
+					}
+				}
+			} catch (PickerExecutionException e) {
+				e.printStackTrace();
 			}
 		}
-		return found;
-
+		return result;
 	}
 
 	protected Iterable<Reachable> getEntriesFor(Reachable reachable) {
@@ -243,7 +251,8 @@ public class StorageBasedTraceabilityEngine extends
 	}
 
 	private void handleRevision(Reachable container) {
-		if (container.get(OPTION_CHECK_CACHE) == null) {
+		String val = container.get(OPTION_CHECK_CACHE);
+		if (val == null || Boolean.TRUE.equals(val)) {
 			IReachableHandler uriHandler = null;
 			try {
 				uriHandler = manager.getHandlerFromReachable(container);
@@ -267,6 +276,8 @@ public class StorageBasedTraceabilityEngine extends
 	@Override
 	public void endBuild(Reachable reachable) {
 		super.endBuild(reachable);
+		handleRevision(reachable);
+		storage.addUpdateProperty(reachable, REVISION, reachable.get(REVISION));
 		storage.commit();
 	}
 

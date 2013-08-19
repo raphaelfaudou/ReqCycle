@@ -15,39 +15,37 @@ import org.eclipse.swt.graphics.Image;
  */
 public class PredicatesTableLabelProvider implements ITableLabelProvider {
 
-    private final ComposedAdapterFactory      adapterFactory              = new ComposedAdapterFactory(
-                                                                                  ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+	private final ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 
-    private final AdapterFactoryLabelProvider adapterFactoryLabelProvider = new AdapterFactoryLabelProvider(
-                                                                                  adapterFactory);
+	private final AdapterFactoryLabelProvider adapterFactoryLabelProvider = new AdapterFactoryLabelProvider(adapterFactory);
 
-    @Override
-    public void addListener(ILabelProviderListener listener) {
-    }
+	@Override
+	public void addListener(ILabelProviderListener listener) {
+	}
 
-    @Override
-    public void dispose() {
-    }
+	@Override
+	public void dispose() {
+	}
 
-    @Override
-    public boolean isLabelProperty(Object element, String property) {
-        return true;
-    }
+	@Override
+	public boolean isLabelProperty(Object element, String property) {
+		return true;
+	}
 
-    @Override
-    public void removeListener(ILabelProviderListener listener) {
-    }
+	@Override
+	public void removeListener(ILabelProviderListener listener) {
+	}
 
-    @Override
-    public Image getColumnImage(Object element, int columnIndex) {
-        return adapterFactoryLabelProvider.getColumnImage(element, columnIndex);
-    }
+	@Override
+	public Image getColumnImage(Object element, int columnIndex) {
+		return adapterFactoryLabelProvider.getColumnImage(element, columnIndex);
+	}
 
-    @Override
-    public String getColumnText(Object element, int columnIndex) {
-        if (element instanceof IPredicate) {
-            return ((IPredicate) element).getDisplayName();
-        }
-        return adapterFactoryLabelProvider.getColumnText(element, columnIndex);
-    }
+	@Override
+	public String getColumnText(Object element, int columnIndex) {
+		if(element instanceof IPredicate) {
+			return ((IPredicate)element).getDisplayName();
+		}
+		return adapterFactoryLabelProvider.getColumnText(element, columnIndex);
+	}
 }

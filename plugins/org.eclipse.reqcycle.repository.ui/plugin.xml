@@ -33,4 +33,12 @@
             restorable="true">
       </view>
    </extension>
+  <extension
+        point="org.eclipse.ui.importWizards">
+     <wizard
+           class="org.eclipse.reqcycle.repository.ui.wizard.NewRequirementSourceWizard"
+           id="org.eclipse.reqcycle.repository.ui.wizard1org.eclipse.reqcycle.repository.NewRequirementSource"
+           name="Create New Requirement Source">
+     </wizard>
+  </extension>
 </plugin>

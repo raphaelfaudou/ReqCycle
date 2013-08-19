@@ -9,14 +9,19 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.eclipse.reqcycle.predicates.core.PredicatesPackage;
 import org.eclipse.reqcycle.traceability.model.TType;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Attribute;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.AttributeType;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Configuration;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.CustomType;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.DecorationPredicate;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Entry;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.IPredicateLink;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.RegisteredAttribute;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Relation;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.RelationsPredicatesMapping;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.SelectionPredicate;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.StdAttribute;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Type;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeConfigContainer;
@@ -99,6 +104,27 @@ public class TypeconfigurationPackageImpl extends EPackageImpl implements Typeco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass relationsPredicatesMappingEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass decorationPredicateEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass iPredicateLinkEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum attributeTypeEEnum = null;
 
 	/**
@@ -161,6 +187,9 @@ public class TypeconfigurationPackageImpl extends EPackageImpl implements Typeco
 
 		isInited = true;
 
+		// Initialize simple dependencies
+		PredicatesPackage.eINSTANCE.eClass();
+
 		// Create package meta-data objects
 		theTypeconfigurationPackage.createPackageContents();
 
@@ -210,6 +239,15 @@ public class TypeconfigurationPackageImpl extends EPackageImpl implements Typeco
 	 */
 	public EReference getTypeConfigContainer_DefaultConfiguration() {
 		return (EReference)typeConfigContainerEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTypeConfigContainer_Mappings() {
+		return (EReference)typeConfigContainerEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -478,6 +516,78 @@ public class TypeconfigurationPackageImpl extends EPackageImpl implements Typeco
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getRelationsPredicatesMapping() {
+		return relationsPredicatesMappingEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRelationsPredicatesMapping_Relation() {
+		return (EReference)relationsPredicatesMappingEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRelationsPredicatesMapping_Decorations() {
+		return (EReference)relationsPredicatesMappingEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getDecorationPredicate() {
+		return decorationPredicateEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDecorationPredicate_Style() {
+		return (EAttribute)decorationPredicateEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDecorationPredicate_Color() {
+		return (EAttribute)decorationPredicateEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getIPredicateLink() {
+		return iPredicateLinkEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getIPredicateLink_Predicate() {
+		return (EReference)iPredicateLinkEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getAttributeType() {
 		return attributeTypeEEnum;
 	}
@@ -532,6 +642,7 @@ public class TypeconfigurationPackageImpl extends EPackageImpl implements Typeco
 		createEReference(typeConfigContainerEClass, TYPE_CONFIG_CONTAINER__TYPES);
 		createEReference(typeConfigContainerEClass, TYPE_CONFIG_CONTAINER__CONFIGURATIONS);
 		createEReference(typeConfigContainerEClass, TYPE_CONFIG_CONTAINER__DEFAULT_CONFIGURATION);
+		createEReference(typeConfigContainerEClass, TYPE_CONFIG_CONTAINER__MAPPINGS);
 
 		typeEClass = createEClass(TYPE);
 		createEAttribute(typeEClass, TYPE__TYPE_ID);
@@ -570,6 +681,17 @@ public class TypeconfigurationPackageImpl extends EPackageImpl implements Typeco
 		createEAttribute(stdAttributeEClass, STD_ATTRIBUTE__POSSIBLE_VALUES);
 		createEAttribute(stdAttributeEClass, STD_ATTRIBUTE__TYPE);
 
+		relationsPredicatesMappingEClass = createEClass(RELATIONS_PREDICATES_MAPPING);
+		createEReference(relationsPredicatesMappingEClass, RELATIONS_PREDICATES_MAPPING__RELATION);
+		createEReference(relationsPredicatesMappingEClass, RELATIONS_PREDICATES_MAPPING__DECORATIONS);
+
+		decorationPredicateEClass = createEClass(DECORATION_PREDICATE);
+		createEAttribute(decorationPredicateEClass, DECORATION_PREDICATE__STYLE);
+		createEAttribute(decorationPredicateEClass, DECORATION_PREDICATE__COLOR);
+
+		iPredicateLinkEClass = createEClass(IPREDICATE_LINK);
+		createEReference(iPredicateLinkEClass, IPREDICATE_LINK__PREDICATE);
+
 		// Create enums
 		attributeTypeEEnum = createEEnum(ATTRIBUTE_TYPE);
 
@@ -601,6 +723,9 @@ public class TypeconfigurationPackageImpl extends EPackageImpl implements Typeco
 		setNsPrefix(eNS_PREFIX);
 		setNsURI(eNS_URI);
 
+		// Obtain other dependent packages
+		PredicatesPackage thePredicatesPackage = (PredicatesPackage)EPackage.Registry.INSTANCE.getEPackage(PredicatesPackage.eNS_URI);
+
 		// Create type parameters
 
 		// Set bounds for type parameters
@@ -609,12 +734,14 @@ public class TypeconfigurationPackageImpl extends EPackageImpl implements Typeco
 		customTypeEClass.getESuperTypes().add(this.getType());
 		registeredAttributeEClass.getESuperTypes().add(this.getStdAttribute());
 		stdAttributeEClass.getESuperTypes().add(this.getAttribute());
+		decorationPredicateEClass.getESuperTypes().add(this.getIPredicateLink());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(typeConfigContainerEClass, TypeConfigContainer.class, "TypeConfigContainer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTypeConfigContainer_Types(), this.getType(), null, "types", null, 0, -1, TypeConfigContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTypeConfigContainer_Configurations(), this.getConfiguration(), this.getConfiguration_Parent(), "configurations", null, 0, -1, TypeConfigContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTypeConfigContainer_DefaultConfiguration(), this.getConfiguration(), null, "defaultConfiguration", null, 0, 1, TypeConfigContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTypeConfigContainer_Mappings(), this.getRelationsPredicatesMapping(), null, "mappings", null, 0, -1, TypeConfigContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(typeEClass, Type.class, "Type", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getType_TypeId(), ecorePackage.getEString(), "typeId", null, 0, 1, Type.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -662,6 +789,17 @@ public class TypeconfigurationPackageImpl extends EPackageImpl implements Typeco
 		initEAttribute(getStdAttribute_Name(), ecorePackage.getEString(), "name", null, 0, 1, StdAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStdAttribute_PossibleValues(), ecorePackage.getEString(), "possibleValues", null, 0, -1, StdAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStdAttribute_Type(), this.getAttributeType(), "type", null, 0, 1, StdAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(relationsPredicatesMappingEClass, RelationsPredicatesMapping.class, "RelationsPredicatesMapping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getRelationsPredicatesMapping_Relation(), this.getRelation(), null, "relation", null, 0, 1, RelationsPredicatesMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRelationsPredicatesMapping_Decorations(), this.getDecorationPredicate(), null, "decorations", null, 0, -1, RelationsPredicatesMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(decorationPredicateEClass, DecorationPredicate.class, "DecorationPredicate", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getDecorationPredicate_Style(), ecorePackage.getEString(), "style", null, 0, 1, DecorationPredicate.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDecorationPredicate_Color(), ecorePackage.getEString(), "color", null, 0, 1, DecorationPredicate.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(iPredicateLinkEClass, IPredicateLink.class, "IPredicateLink", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getIPredicateLink_Predicate(), thePredicatesPackage.getIPredicate(), null, "predicate", null, 0, 1, IPredicateLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(attributeTypeEEnum, AttributeType.class, "AttributeType");

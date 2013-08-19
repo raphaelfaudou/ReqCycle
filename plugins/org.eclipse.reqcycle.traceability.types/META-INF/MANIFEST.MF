@@ -16,6 +16,7 @@ Export-Package: org.eclipse.reqcycle.traceability.types,
  org.eclipse.reqcycle.traceability.types.scopes
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.reqcycle.predicates.core;visibility:=reexport,
  org.eclipse.ui;bundle-version="3.104.0",
  org.eclipse.reqcycle.traceability;bundle-version="1.0.0",
  org.eclipse.reqcycle.uri;bundle-version="1.0.0",

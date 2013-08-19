@@ -40,9 +40,10 @@ public class SelectPredicatesFiltersAction extends Action {
 	public void run() {
 
 		Collection<IPredicate> selection = PredicatesUIHelper.openPredicatesChooser(predicates);
-		PredicatesChangeEvent event = new PredicatesChangeEvent(selection);
-		notifyListeners(event);
-
+		if(selection != null) {
+			PredicatesChangeEvent event = new PredicatesChangeEvent(selection);
+			notifyListeners(event);
+		}
 	}
 
 	public void addListener(Listener listener) {

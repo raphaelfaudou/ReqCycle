@@ -23,9 +23,18 @@
 	<menuContribution
             locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
         <toolbar
-               id="org.eclipse.reqcycle.core.ui.toolbar">
+              id="org.eclipse.reqcycle.core.ui.toolbar"
+              label="ReqCycle">
 		</toolbar>
 	</menuContribution>
     </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="org.eclipse.reqcycle.core.ui.perspective.ReqCyclePerspective"
+            id="org.eclipse.reqcycle.core.ui.ReqCyclePerspective"
+            name="ReqCycle">
+      </perspective>
+   </extension>
     
 </plugin>

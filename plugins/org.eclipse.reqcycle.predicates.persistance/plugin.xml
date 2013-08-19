@@ -20,4 +20,11 @@
             type="predicatesconf"
             class="org.eclipse.reqcycle.predicates.persistance.util.PredicatesConfResourceFactoryImpl"/>
    </extension>
+   <extension
+         point="org.eclipse.ziggurat.inject.binding">
+      <binding
+            impl="org.eclipse.reqcycle.predicates.persistance.util.PredicatesConfManager"
+            interface="org.eclipse.reqcycle.predicates.persistance.util.IPredicatesConfManager">
+      </binding>
+   </extension>
 </plugin>

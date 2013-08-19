@@ -32,10 +32,6 @@ public class Messages extends NLS {
 
 	public static String SYNC_RESOURCE_TEXT;
 
-	public static String UNSYNC_RESOURCE_ICON;
-
-	public static String UNSYNC_RESOURCE_TEXT;
-
 	public static String YELLOW_STATUS_ICON;
 	static {
 		// initialize resource bundle

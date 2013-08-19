@@ -9,8 +9,8 @@ import org.eclipse.emf.ecore.EAttribute;
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>IE Attr Predicate</b></em>'.
  * <!-- end-user-doc -->
- *
- *
+ * 
+ * 
  * @see org.eclipse.reqcycle.predicates.core.PredicatesPackage#getIEAttrPredicate()
  * @model abstract="true"
  * @generated
