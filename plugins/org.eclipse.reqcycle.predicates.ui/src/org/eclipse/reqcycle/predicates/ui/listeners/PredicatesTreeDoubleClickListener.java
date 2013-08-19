@@ -30,10 +30,13 @@ import org.eclipse.reqcycle.predicates.core.api.CompositePredicate;
 import org.eclipse.reqcycle.predicates.core.api.IEAttrPredicate;
 import org.eclipse.reqcycle.predicates.core.api.ITypedPredicate;
 import org.eclipse.reqcycle.predicates.core.util.PredicatesUtil;
+import org.eclipse.reqcycle.predicates.persistance.util.IPredicatesConfManager;
+import org.eclipse.reqcycle.predicates.persistance.util.PredicatesConfManager;
 import org.eclipse.reqcycle.predicates.ui.dialogs.IEAttrPredicatesNodeEditorDialog;
 import org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditor;
 import org.eclipse.reqcycle.ui.eattrpropseditor.api.IEditionResult;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class PredicatesTreeDoubleClickListener implements IDoubleClickListener {
 
@@ -42,6 +45,8 @@ public class PredicatesTreeDoubleClickListener implements IDoubleClickListener {
 	private Collection<EClass> eClasses;
 
 	private boolean useExtendedFeature;
+	
+	IPredicatesConfManager manager = ZigguratInject.make(IPredicatesConfManager.class);
 
 	/**
 	 * @param editor
@@ -64,8 +69,10 @@ public class PredicatesTreeDoubleClickListener implements IDoubleClickListener {
 			MessageDialog.openInformation(parent, "Info", "Unable to edit a Composite Predicate.");
 			return; // quit
 		}
+		manager.getPredicates(false);
 		if(this.eClasses == null || this.eClasses.isEmpty()) {
 			MessageDialog.openError(parent, "Error", "You must load a model to edit.");
+			manager.getPredicates(false);
 			return; // quit
 		}
 		if(selection.getFirstElement() instanceof ITypedPredicate) {

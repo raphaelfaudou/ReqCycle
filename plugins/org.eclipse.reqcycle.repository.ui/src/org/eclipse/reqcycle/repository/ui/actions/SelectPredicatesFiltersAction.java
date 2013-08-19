@@ -38,8 +38,7 @@ public class SelectPredicatesFiltersAction extends Action {
 
 	@Override
 	public void run() {
-
-		Collection<IPredicate> selection = PredicatesUIHelper.openPredicatesChooser(predicates);
+		Collection<IPredicate> selection = PredicatesUIHelper.openPredicatesChooser(predicates, "Requirement filtering", "Select a predicate to apply or press OK to continue without filtering.", true);
 		if(selection != null) {
 			PredicatesChangeEvent event = new PredicatesChangeEvent(selection);
 			notifyListeners(event);

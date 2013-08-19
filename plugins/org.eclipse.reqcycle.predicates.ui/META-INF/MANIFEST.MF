@@ -24,7 +24,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.reqcycle.predicates.persistance;bundle-version="0.1.0";visibility:=reexport,
  org.eclipse.reqcycle.core;bundle-version="1.0.0";visibility:=reexport,
  org.eclipse.ziggurat.inject;bundle-version="1.0.0";visibility:=reexport,
- org.eclipse.reqcycle.ui.components;bundle-version="1.0.0";visibility:=reexport,
  org.eclipse.emf.ecore.editor;bundle-version="2.9.0"
 Bundle-ActivationPolicy: lazy
 Import-Package: javax.inject;version="1.0.0"

@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.reqcycle.repository.data.types.DataType;
-import org.eclipse.reqcycle.repository.data.types.DataTypePackage;
+import org.eclipse.reqcycle.repository.data.types.DataModel;
 import org.eclipse.reqcycle.repository.data.types.EnumerationType;
 import org.eclipse.reqcycle.repository.data.types.RequirementType;
 
@@ -20,11 +20,11 @@ import DataModel.RequirementSection;
 import DataModel.Scope;
 
 
-public class DataTypePackageImpl implements DataTypePackage {
+public class DataModelImpl implements DataModel {
 	
 	protected EPackage ePackage;
 	
-	protected Collection<DataTypePackage> subPackages = new ArrayList<DataTypePackage>();
+	protected Collection<DataModel> subPackages = new ArrayList<DataModel>();
 	
 	protected Collection<Scope> scopes = new ArrayList<Scope>();
 	
@@ -32,9 +32,9 @@ public class DataTypePackageImpl implements DataTypePackage {
 	
 	protected Collection<EnumerationType> enumerationTypes = new ArrayList<EnumerationType>();
 	
-	protected static final String NS_URI = "http://www.eclipse.org/ReqCycle/DataType";
+	protected static final String NS_URI = "http://www.eclipse.org/ReqCycle/CustomDataModels";
 	
-	public DataTypePackageImpl() {
+	public DataModelImpl() {
 		ePackage = EcoreFactory.eINSTANCE.createEPackage();
 		ePackage.setName("");
 		ePackage.setName("");
@@ -42,7 +42,7 @@ public class DataTypePackageImpl implements DataTypePackage {
 		ePackage.setNsURI(NS_URI);
 	}
 
-	public DataTypePackageImpl(String name) {
+	public DataModelImpl(String name) {
 		ePackage = EcoreFactory.eINSTANCE.createEPackage();
 		ePackage.setName(name);
 		ePackage.setName(name);
@@ -50,7 +50,7 @@ public class DataTypePackageImpl implements DataTypePackage {
 		ePackage.setNsURI(NS_URI + "/" + name);
 	}
 	
-	public DataTypePackageImpl(EPackage ePackage) {
+	public DataModelImpl(EPackage ePackage) {
 		this.ePackage = ePackage;
 		
 		for(EClassifier classifier : ePackage.getEClassifiers()) {
@@ -62,7 +62,7 @@ public class DataTypePackageImpl implements DataTypePackage {
 		}
 		
 		for(EPackage subPackage : ePackage.getESubpackages()) {
-			subPackages.add(new DataTypePackageImpl(subPackage));
+			subPackages.add(new DataModelImpl(subPackage));
 		}
 		
 		EAnnotation scopeEAnnotation = ePackage.getEAnnotation("SCOPES");
@@ -89,19 +89,19 @@ public class DataTypePackageImpl implements DataTypePackage {
 	public RequirementSection create(RequirementType dataType) {
 //		return (RequirementSection)createFactoryInstance().create(((RequirementTypeImpl)dataType).getEClass());
 		EClass eclass = ((RequirementTypeImpl)dataType).getEClass();
-		for(DataTypePackage p : getDataTypePackages()) {
-			EPackage pac = ((DataTypePackageImpl)p).getEPackage();
+		for(DataModel p : getSubDataModels()) {
+			EPackage pac = ((DataModelImpl)p).getEPackage();
 			if (pac.getEClassifiers().contains(eclass)){
-				return (RequirementSection)((DataTypePackageImpl)p).getEPackage().getEFactoryInstance().create(eclass);
+				return (RequirementSection)((DataModelImpl)p).getEPackage().getEFactoryInstance().create(eclass);
 			}
 		}
 		return null;
 	}
 
 	@Override
-	public void add(DataTypePackage dataTypePackage) {
-		ePackage.getESubpackages().add(((DataTypePackageImpl)dataTypePackage).getEPackage());
-		subPackages.add(dataTypePackage);
+	public void add(DataModel dataModel) {
+		ePackage.getESubpackages().add(((DataModelImpl)dataModel).getEPackage());
+		subPackages.add(dataModel);
 	}
 	
 	@Override
@@ -121,11 +121,11 @@ public class DataTypePackageImpl implements DataTypePackage {
 	}
 
 	@Override
-	public DataTypePackage getDataTypePackage(String name) {
+	public DataModel getDataTypePackage(String name) {
 		if (name == null) {
 			return null;
 		}
-		for(DataTypePackage p : subPackages) {
+		for(DataModel p : subPackages) {
 			if(name.equals(p.getName())) {
 				return p;
 			}
@@ -134,7 +134,7 @@ public class DataTypePackageImpl implements DataTypePackage {
 	}
 	
 	@Override
-	public Collection<DataTypePackage> getDataTypePackages() {
+	public Collection<DataModel> getSubDataModels() {
 		return subPackages;
 	}
 

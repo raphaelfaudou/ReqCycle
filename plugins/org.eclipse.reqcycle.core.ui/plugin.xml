@@ -35,5 +35,12 @@
             name="ReqCycle">
       </perspective>
    </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            id="org.eclipse.reqcycle.core.ui.category"
+            name="ReqCycle Category">
+      </category>
+   </extension>
     
 </plugin>

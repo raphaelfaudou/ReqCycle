@@ -139,27 +139,6 @@ import org.eclipse.ziggurat.inject.ZigguratInject;
  */
 public class PredicatesEditor extends MultiPageEditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider, IGotoMarker, IPropertyChangeListener {
 
-	/** The id of this editor. */
-	public static final String ID = "org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditorID";
-
-	@Inject
-	private static ILogger logger = ZigguratInject.make(ILogger.class);
-
-	/** Represents the dirtiness status of the editor. */
-	private boolean dirty;
-
-	/** The collection of models to which to apply the predicates. */
-	private Collection<EClass> input;
-
-	/** The double click listener added to the tree model editor. */
-	private PredicatesTreeDoubleClickListener treeDoubleClickListener;
-
-	/** The right side panel of the editor. */
-	private RightPanelComposite rightPanel;
-
-	/** The resource object of the Predicate in edition. */
-	private Resource resource;
-
 	/**
 	 * This keeps track of the editing domain that is used to track all changes to the model. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -295,6 +274,27 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 	 */
 	protected MarkerHelper markerHelper = new EditUIMarkerHelper();
 
+	
+	/** The id of this editor. */
+	public static final String ID = "org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditorID";
+
+	/** Represents the dirtiness status of the editor. */
+	private boolean dirty;
+
+	/** The collection of models to which to apply the predicates. */
+	private Collection<EClass> input;
+
+	/** The double click listener added to the tree model editor. */
+	private PredicatesTreeDoubleClickListener treeDoubleClickListener;
+
+	/** The right side panel of the editor. */
+	private RightPanelComposite rightPanel;
+
+	/** The resource object of the Predicate in edition. */
+	private Resource resource;
+	
+	
+	
 	/**
 	 * This listens for when the outline becomes active <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -1692,54 +1692,4 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 		return this.selectionViewer;
 	}
 
-	/**
-	 * Opens a new predicates editor.
-	 * 
-	 * @param input
-	 *        - The input of the editor. Typically a Collection of EClass objects. (The EClass of the model to
-	 *        edit/to which the predicates are to applied).
-	 * @param rootPredicate
-	 *        - The root predicate of the tree.
-	 */
-	public static void openEditor(final Object input, final IPredicate rootPredicate) {
-		try {
-			final File f = File.createTempFile("predicate", ".predicates");
-			Runtime.getRuntime().addShutdownHook(new ShutDownHook(f));
-
-			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-			PredicatesEditor editor = (PredicatesEditor)IDE.openEditor(page, f.toURI(), PredicatesEditor.ID, true);
-			editor.setRootPredicate(rootPredicate);
-			editor.setInput(input);
-			editor.hideButtonLoadModel();
-
-		} catch (PartInitException e) {
-			e.printStackTrace();
-			logger.error("Unable to open the predicates Editor : " + e.getMessage());
-			logger.error(e.toString());
-
-		} catch (IOException e) {
-			e.printStackTrace();
-			logger.error("Unable to create the predicates temporary file : " + e.getMessage());
-			logger.error(e.toString());
-		}
-	}
-
-	private static class ShutDownHook extends Thread {
-
-		private final File file;
-
-		public ShutDownHook(File file) {
-			super();
-			this.file = file;
-		}
-
-		@Override
-		public void run() {
-			try {
-				if(this.file.exists())
-					this.file.delete();
-			} catch (Exception e) {
-			}
-		}
-	}
 }

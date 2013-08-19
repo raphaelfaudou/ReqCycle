@@ -110,14 +110,14 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 	private static final String ICON_OPEN = "icons/open.png";
 
 	/** Requirement Source Manager */
-	private @Inject
+	@Inject
 	IRequirementSourceManager requirementSourceManager;
 
 	@Inject
-	private IConnectorManager connectorManager;
+	IConnectorManager connectorManager;
 
 	@Inject
-	private ILogger logger;
+	ILogger logger;
 
 	/**
 	 * The constructor.

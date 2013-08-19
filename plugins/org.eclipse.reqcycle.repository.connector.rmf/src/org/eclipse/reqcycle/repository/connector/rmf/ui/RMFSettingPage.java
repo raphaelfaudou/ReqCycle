@@ -36,7 +36,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
-import org.eclipse.reqcycle.repository.data.types.DataTypePackage;
+import org.eclipse.reqcycle.repository.data.types.DataModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -150,14 +150,14 @@ public class RMFSettingPage extends WizardPage implements Listener {
 		cvDataModel.setLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(Object element) {
-				if(element instanceof DataTypePackage) {
-					return ((DataTypePackage)element).getName();
+				if(element instanceof DataModel) {
+					return ((DataModel)element).getName();
 					
 				}
 				return super.getText(element);
 			}
 		});
-		cvDataModel.setInput(dataManager.getAllDataTypePackages());
+		cvDataModel.setInput(dataManager.getAllDataModels());
 		
 		Label lblScope = new Label(compositeContainer, SWT.NONE);
 		lblScope.setText("Scope :");
@@ -241,9 +241,9 @@ public class RMFSettingPage extends WizardPage implements Listener {
 				ISelection selection = event.getSelection();
 				if(selection instanceof IStructuredSelection) {
 					Object obj = ((IStructuredSelection)selection).getFirstElement();
-					if(obj instanceof DataTypePackage) {
+					if(obj instanceof DataModel) {
 						cScope.setEnabled(true);
-						inputScope.addAll(((DataTypePackage)obj).getScopes());
+						inputScope.addAll(((DataModel)obj).getScopes());
 					}
 					
 				}
@@ -306,7 +306,7 @@ public class RMFSettingPage extends WizardPage implements Listener {
 		
 		private String uri = "";
 		
-		private DataTypePackage dataPackage;
+		private DataModel dataPackage;
 		
 		private Scope scope;
 		
@@ -339,11 +339,11 @@ public class RMFSettingPage extends WizardPage implements Listener {
 			listener.handleEvent(new Event());
 		}
 
-		public DataTypePackage getDataPackage() {
+		public DataModel getDataPackage() {
 			return dataPackage;
 		}
 
-		public void setDataPackage(DataTypePackage dataPackage) {
+		public void setDataPackage(DataModel dataPackage) {
 			this.dataPackage = dataPackage;
 		}
 

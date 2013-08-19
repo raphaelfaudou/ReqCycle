@@ -48,7 +48,7 @@
       </editor>
    </extension>
 
-   <extension
+<!--    <extension
          point="org.eclipse.ui.editors">
       <editor
             class="org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditor"
@@ -58,7 +58,7 @@
             id="org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditorID"
             name="%_UI_PredicatesEditor_label">
       </editor>
-   </extension>
+   </extension> -->
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective

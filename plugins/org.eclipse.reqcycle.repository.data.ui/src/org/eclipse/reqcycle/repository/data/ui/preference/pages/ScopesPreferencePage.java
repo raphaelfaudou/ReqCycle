@@ -27,7 +27,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.window.Window;
-import org.eclipse.reqcycle.repository.data.types.DataTypePackage;
+import org.eclipse.reqcycle.repository.data.types.DataModel;
 import org.eclipse.reqcycle.repository.data.ui.dialog.NameDialog;
 import org.eclipse.reqcycle.repository.data.ui.preference.PreferenceUiUtil;
 import org.eclipse.swt.SWT;
@@ -52,7 +52,7 @@ public class ScopesPreferencePage extends DataModelsPreferencePage {
 	protected TableViewerColumn tvcScopesNames;
 	
 	/** Selected Model */
-	protected DataTypePackage selectedModel;
+	protected DataModel selectedModel;
 
 	/** Scopes Table Input */
 	protected Collection<Scope> inputScopes = new ArrayList<Scope>();
@@ -95,8 +95,8 @@ public class ScopesPreferencePage extends DataModelsPreferencePage {
 				ISelection selection = event.getSelection();
 				if(selection instanceof IStructuredSelection) {
 					Object obj = ((IStructuredSelection)selection).getFirstElement();
-					if(obj instanceof DataTypePackage) {
-						selectedModel = (DataTypePackage)obj;
+					if(obj instanceof DataModel) {
+						selectedModel = (DataModel)obj;
 						btnAddScope.setEnabled(true);
 						inputScopes.addAll(selectedModel.getScopes());
 					}

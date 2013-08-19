@@ -59,6 +59,7 @@ import org.eclipse.reqcycle.predicates.core.util.PredicatesUtil;
 import org.eclipse.reqcycle.predicates.persistance.util.IPredicatesConfManager;
 import org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditor;
 import org.eclipse.reqcycle.predicates.ui.providers.PredicatesTableLabelProvider;
+import org.eclipse.reqcycle.predicates.ui.util.PredicatesUIHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
@@ -74,9 +75,6 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ziggurat.inject.ZigguratInject;
-
-import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
 
 public class RightPanelComposite extends Composite {
 
@@ -212,17 +210,8 @@ public class RightPanelComposite extends Composite {
 					for (Object object : result) {
 						Object obj = Registry.INSTANCE.get(object);
 						if (obj instanceof EPackage) {
-							EList<EClassifier> eclassifiers = ((EPackage) obj).getEClassifiers();
-							Collection<EClass> filtered = Collections2.transform(eclassifiers, new Function<EClassifier, EClass>() {
-								@Override
-								public EClass apply(EClassifier arg0) {
-									if (arg0 instanceof EClass) {
-										return (EClass)arg0;
-									}
-									return null;
-								}
-							});
-							eclasses.addAll(filtered);
+							Collection<EClass> classes = getAllEClasses((EPackage)obj);
+							eclasses.addAll(classes);
 						}
 					}
 					predicatesEditor.getInput().addAll(eclasses);
@@ -232,6 +221,22 @@ public class RightPanelComposite extends Composite {
 		
 		new Label(compositeButtons, SWT.NONE);
 		new Label(compositeButtons, SWT.NONE);
+	}
+
+	protected Collection<EClass> getAllEClasses(EPackage obj) {
+		Collection<EClass> result = new ArrayList<EClass>();
+		
+		for(EClassifier eClassifier : obj.getEClassifiers()) {
+			if(eClassifier instanceof EClass) {
+				result.add((EClass)eClassifier);
+			}
+		}
+		
+		for(EPackage ePackage : obj.getESubpackages()) {
+			result.addAll(getAllEClasses(ePackage));
+		}
+		
+		return result;
 	}
 
 	protected Collection<EPackage> getAllPackages(Resource resource)
@@ -428,9 +433,9 @@ public class RightPanelComposite extends Composite {
 		Menu menu = new Menu(table);
 		table.setMenu(menu);
 
-		MenuItem menuItemAdd = new MenuItem(menu, SWT.NONE);
-		menuItemAdd.setText("Edit");
-		menuItemAdd.addSelectionListener(new SelectionAdapter() {
+		MenuItem menuItemEdit = new MenuItem(menu, SWT.NONE);
+		menuItemEdit.setText("Edit");
+		menuItemEdit.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -442,24 +447,24 @@ public class RightPanelComposite extends Composite {
 	}
 
 	private void openPredicateForEdition(IPredicate predicate) {
-		// FIXME : retrieve correctly the complete list of EClass of the model to which this predicate is going to be
-		// applied.
-		final Set<EClass> input = new HashSet<EClass>();
-		if(predicate instanceof ITypedPredicate<?>) {
-			Object obj = ((ITypedPredicate)predicate).getTypedElement();
-			if(obj instanceof EStructuralFeature) {
-				EObject eContainer = ((EStructuralFeature)obj).eContainer();
-				if(eContainer instanceof EClass) {
-					EList<EClassifier> eClassifiers = ((EClass)eContainer).getEPackage().getEClassifiers();
-					for(EClassifier eClassifier : eClassifiers) {
-						if(eClassifier instanceof EClass) {
-							input.add((EClass)eClassifier);
-						}
-					}
-				}
-			}
-		}
-		PredicatesEditor.openEditor(input, predicate);
+//		// FIXME : retrieve correctly the complete list of EClass of the model to which this predicate is going to be
+//		// applied.
+//		final Set<EClass> input = new HashSet<EClass>();
+//		if(predicate instanceof ITypedPredicate<?>) {
+//			Object obj = ((ITypedPredicate)predicate).getTypedElement();
+//			if(obj instanceof EStructuralFeature) {
+//				EObject eContainer = ((EStructuralFeature)obj).eContainer();
+//				if(eContainer instanceof EClass) {
+//					EList<EClassifier> eClassifiers = ((EClass)eContainer).getEPackage().getEClassifiers();
+//					for(EClassifier eClassifier : eClassifiers) {
+//						if(eClassifier instanceof EClass) {
+//							input.add((EClass)eClassifier);
+//						}
+//					}
+//				}
+//			}
+//		}
+		PredicatesUIHelper.openEditor(null, predicate);
 	}
 
 	private int openInputDialog() {
