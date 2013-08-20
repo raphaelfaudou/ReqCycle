@@ -112,6 +112,31 @@ public class RightPanelComposite extends Composite {
 		compositeButtons.setToolTipText("Whether or not to expand the model by showing all references and features.");
 		compositeButtons.setLayout(new GridLayout(3, false));
 		compositeButtons.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Button btnLoadResources = new Button(compositeButtons, SWT.NONE);
+		btnLoadResources.setText("load resources");
+		btnLoadResources.addSelectionListener(new SelectionAdapter() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				RegisteredPackageDialog registeredPackageDialog = new RegisteredPackageDialog(getShell());
+				registeredPackageDialog.open();
+				Object [] result = registeredPackageDialog.getResult();
+				if (result != null) {
+					Collection<EClass> eclasses = new ArrayList<EClass>();
+					for (Object object : result) {
+						Object obj = Registry.INSTANCE.get(object);
+						if (obj instanceof EPackage) {
+							Collection<EClass> classes = getAllEClasses((EPackage)obj);
+							eclasses.addAll(classes);
+						}
+					}
+					predicatesEditor.setInput(eclasses);
+				}
+			}
+		});
+		new Label(compositeButtons, SWT.NONE);
+		new Label(compositeButtons, SWT.NONE);
 
 		this.expandCustomPredicatesButton = new Button(compositeButtons, SWT.CHECK);
 		this.expandCustomPredicatesButton.setText("Allow expand of custom predicates");
@@ -188,32 +213,6 @@ public class RightPanelComposite extends Composite {
 			btnUseExtendedFeature.setVisible(false); // TODO : make it visible whenever the editor supports editions of
 														// EReferences.
 		}
-		new Label(compositeButtons, SWT.NONE);
-		new Label(compositeButtons, SWT.NONE);
-		
-		Button btnLoadResources = new Button(compositeButtons, SWT.NONE);
-		btnLoadResources.setText("load resources");
-		btnLoadResources.addSelectionListener(new SelectionAdapter() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				RegisteredPackageDialog registeredPackageDialog = new RegisteredPackageDialog(getShell());
-				registeredPackageDialog.open();
-				Object [] result = registeredPackageDialog.getResult();
-				if (result != null) {
-					Collection<EClass> eclasses = new ArrayList<EClass>();
-					for (Object object : result) {
-						Object obj = Registry.INSTANCE.get(object);
-						if (obj instanceof EPackage) {
-							Collection<EClass> classes = getAllEClasses((EPackage)obj);
-							eclasses.addAll(classes);
-						}
-					}
-					predicatesEditor.setInput(eclasses);
-				}
-			}
-		});
-		
 		new Label(compositeButtons, SWT.NONE);
 		new Label(compositeButtons, SWT.NONE);
 	}
@@ -368,8 +367,11 @@ public class RightPanelComposite extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 				if(openInputDialog() == Window.OK) {
 					String predicateName = savePredicateDialog.getValue();
+					IPredicate predicate = predicatesEditor.getEditedPredicate();
+					predicatesEditor.setPageTitle(predicateName);
+					predicatesEditor.setDirty(false);
+					predicate.setDisplayName(predicateName);
 					IPredicate newPredicate = EcoreUtil.copy(predicatesEditor.getEditedPredicate());
-					newPredicate.setDisplayName(predicateName);
 					boolean added = predicatesConfManager.storePredicate(newPredicate);
 					if(added) {
 						tableViewerOfCustomPredicates.add(newPredicate);
