@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Traceability
+Bundle-SymbolicName: org.eclipse.reqcycle.ocl.traceability;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.eclipse.reqcycle.ocl.traceability.OCLTraceabilityPlugin
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources;bundle-version="3.8.100",
+ org.eclipse.ziggurat.ocl;bundle-version="0.0.1",
+ com.airbus.tamore.reqcycle.traceability;bundle-version="1.0.0",
+ org.eclipse.reqcycle.uri;bundle-version="1.0.0",
+ org.eclipse.reqcycle.traceability.builder,
+ org.eclipse.ocl.examples.pivot;bundle-version="3.3.0",
+ com.google.guava
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy

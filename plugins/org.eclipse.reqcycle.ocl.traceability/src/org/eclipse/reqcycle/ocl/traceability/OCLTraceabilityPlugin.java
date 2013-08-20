@@ -8,7 +8,7 @@
  * Contributors:
  *     Atos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.reqcycle.ocl;
+package org.eclipse.reqcycle.ocl.traceability;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -16,18 +16,18 @@ import org.osgi.framework.BundleContext;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class ReqcycleOCLPlugin extends AbstractUIPlugin {
+public class OCLTraceabilityPlugin extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.eclipse.reqcycle.ocl"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "org.eclipse.reqcycle.ocl.traceability"; //$NON-NLS-1$
 
 	// The shared instance
-	private static ReqcycleOCLPlugin plugin;
+	private static OCLTraceabilityPlugin plugin;
 	
 	/**
 	 * The constructor
 	 */
-	public ReqcycleOCLPlugin() {
+	public OCLTraceabilityPlugin() {
 	}
 
 	/*
@@ -53,7 +53,7 @@ public class ReqcycleOCLPlugin extends AbstractUIPlugin {
 	 *
 	 * @return the shared instance
 	 */
-	public static ReqcycleOCLPlugin getDefault() {
+	public static OCLTraceabilityPlugin getDefault() {
 		return plugin;
 	}
 
