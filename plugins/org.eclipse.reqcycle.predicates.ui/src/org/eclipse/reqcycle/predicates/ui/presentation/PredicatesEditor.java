@@ -73,12 +73,10 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -86,9 +84,7 @@ import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.reqcycle.predicates.core.api.IPredicate;
-import org.eclipse.reqcycle.predicates.core.util.PredicatesResourceImpl;
 import org.eclipse.reqcycle.predicates.persistance.util.IPredicatesConfManager;
 import org.eclipse.reqcycle.predicates.ui.PredicatesUIPlugin;
 import org.eclipse.reqcycle.predicates.ui.components.PredicatesTreeViewer;
@@ -958,24 +954,6 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 						composite.setLayout(new GridLayout());
 						Tree tree = new Tree(composite, SWT.MULTI);
 						TreeViewer predicatesTreeViewer = new PredicatesTreeViewer(tree);
-						ViewerFilter viewerFilter = new ViewerFilter() {
-							
-							@Override
-							public boolean select(Viewer viewer, Object parentElement, Object element) {
-//								if (!(element instanceof PredicatesResourceImpl)) {
-									return true;
-//								}
-//								
-//								if (viewer instanceof TreeViewer) {
-//									if (!((TreeViewer) viewer).getExpandedState(element)) {
-//										((TreeViewer) viewer).setExpandedState(element, true);//expandToLevel(((ITreeContentProvider) contentProvider).getChildren(element), 0);
-//									}
-//									
-//								}
-//								return false;
-							}
-						};
-						predicatesTreeViewer.setFilters(new ViewerFilter[]{viewerFilter});
 						return predicatesTreeViewer;
 					}
 
@@ -1711,12 +1689,12 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 		}
 	}
 
-	/**
-	 * Hides the "Button Load Model" of the editor.
-	 */
-	public void hideButtonLoadModel() {
-		rightPanel.hideButtonLoadModel();
-	}
+//	/**
+//	 * Hides the "Button Load Model" of the editor.
+//	 */
+//	public void hideButtonLoadModel() {
+//		rightPanel.hideButtonLoadModel();
+//	}
 
 	public void setUseExtendedFeature(final boolean useExtendedFeature) {
 		this.treeDoubleClickListener.setUseExtendedFeature(useExtendedFeature);

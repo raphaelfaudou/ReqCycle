@@ -64,6 +64,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
@@ -81,7 +82,7 @@ public class RightPanelComposite extends Composite {
 
 	private TableViewer tableViewerOfCustomPredicates;
 
-	private Button btnLoadModel;
+//	private Button btnLoadModel;
 
 	private final boolean showButtonLoadModel;
 
@@ -119,7 +120,7 @@ public class RightPanelComposite extends Composite {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				RegisteredPackageDialog registeredPackageDialog = new RegisteredPackageDialog(getShell());
+				RuntimeRegisteredPackageDialog registeredPackageDialog = new RuntimeRegisteredPackageDialog(getShell());
 				registeredPackageDialog.open();
 				Object [] result = registeredPackageDialog.getResult();
 				if (result != null) {
@@ -164,39 +165,39 @@ public class RightPanelComposite extends Composite {
 		});
 		this.expandCustomPredicatesButton.setSelection(false);
 
-		this.btnLoadModel = new Button(compositeButtons, SWT.NONE);
-		this.btnLoadModel.setText("Load Base Model");
-		this.btnLoadModel.setVisible(this.showButtonLoadModel);
+//		this.btnLoadModel = new Button(compositeButtons, SWT.NONE);
+//		this.btnLoadModel.setText("Load Base Model");
+//		this.btnLoadModel.setVisible(this.showButtonLoadModel);
 
 		final Label lblCurrentModel = new Label(compositeButtons, SWT.NONE);
 		lblCurrentModel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		lblCurrentModel.setVisible(false);
 
-		this.btnLoadModel.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				ResourceDialog dialog = new ResourceDialog(getShell(), "Browse", SWT.NONE);
-				if(dialog.open() == Window.OK) {
-					final String uriText = dialog.getURIText();
-					final URI uri = URI.createURI(uriText);
-					final ResourceSet rSet = new ResourceSetImpl();
-					final Resource rs = rSet.getResource(uri, true);
-
-					final EClass eclass = rs.getContents().get(0).eClass();
-					Collection<EClass> eClasses = new ArrayList<EClass>();
-					eClasses.add(eclass);
-					predicatesEditor.setInput(eClasses);
-
-					btnLoadModel.setText("Change Base Model");
-
-					lblCurrentModel.setVisible(eclass != null);
-					lblCurrentModel.setText("Current model : " + eclass.getName());
-
-					lblCurrentModel.getParent().layout();
-				}
-			}
-		});
+//		this.btnLoadModel.addSelectionListener(new SelectionAdapter() {
+//
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				ResourceDialog dialog = new ResourceDialog(getShell(), "Browse", SWT.NONE);
+//				if(dialog.open() == Window.OK) {
+//					final String uriText = dialog.getURIText();
+//					final URI uri = URI.createURI(uriText);
+//					final ResourceSet rSet = new ResourceSetImpl();
+//					final Resource rs = rSet.getResource(uri, true);
+//
+//					final EClass eclass = rs.getContents().get(0).eClass();
+//					Collection<EClass> eClasses = new ArrayList<EClass>();
+//					eClasses.add(eclass);
+//					predicatesEditor.setInput(eClasses);
+//
+//					btnLoadModel.setText("Change Base Model");
+//
+//					lblCurrentModel.setVisible(eclass != null);
+//					lblCurrentModel.setText("Current model : " + eclass.getName());
+//
+//					lblCurrentModel.getParent().layout();
+//				}
+//			}
+//		});
 
 		{
 			final Button btnUseExtendedFeature = new Button(compositeButtons, SWT.CHECK);
@@ -481,8 +482,8 @@ public class RightPanelComposite extends Composite {
 		return this.savePredicateDialog.open();
 	}
 
-	public void hideButtonLoadModel() {
-		this.btnLoadModel.setVisible(false);
-	}
+//	public void hideButtonLoadModel() {
+//		this.btnLoadModel.setVisible(false);
+//	}
 
 }

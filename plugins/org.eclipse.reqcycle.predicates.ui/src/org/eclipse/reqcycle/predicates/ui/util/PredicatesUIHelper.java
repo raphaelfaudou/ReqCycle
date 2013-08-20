@@ -164,14 +164,12 @@ public class PredicatesUIHelper {
 
 			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 			PredicatesEditor editor = (PredicatesEditor)IDE.openEditor(page, f.toURI(), PredicatesEditor.ID, true);
-			if(name != null) {
-				editor.setPageTitle(name);
-			}
+			editor.setPageTitle(name!=null?name:"New Predicate");
 			editor.setRootPredicate(EcoreUtil.copy(rootPredicate));
 			if (input != null) {
 				editor.setInput(input);
 			}
-			editor.hideButtonLoadModel();
+//			editor.hideButtonLoadModel();
 
 		} catch (PartInitException e) {
 			e.printStackTrace();
