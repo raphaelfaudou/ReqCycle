@@ -2,7 +2,6 @@
  */
 package org.eclipse.reqcycle.predicates.ui.presentation;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -15,8 +14,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.inject.Inject;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -44,6 +41,7 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
@@ -72,7 +70,6 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -87,8 +84,8 @@ import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.predicates.core.api.IPredicate;
+import org.eclipse.reqcycle.predicates.persistance.util.IPredicatesConfManager;
 import org.eclipse.reqcycle.predicates.ui.PredicatesUIPlugin;
 import org.eclipse.reqcycle.predicates.ui.components.PredicatesTreeViewer;
 import org.eclipse.reqcycle.predicates.ui.components.RightPanelComposite;
@@ -114,13 +111,9 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IPartListener;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
-import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
@@ -292,6 +285,8 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 
 	/** The resource object of the Predicate in edition. */
 	private Resource resource;
+	
+	IPredicatesConfManager predicateManager = ZigguratInject.make(IPredicatesConfManager.class);
 	
 	
 	
@@ -1231,11 +1226,7 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 	 */
 	@Override
 	public boolean isDirty() {
-		try {
-			return this.dirty || ((BasicCommandStack)editingDomain.getCommandStack()).isSaveNeeded();
-		} finally {
-			this.dirty = false;
-		}
+		return this.dirty || ((BasicCommandStack)editingDomain.getCommandStack()).isSaveNeeded();
 	}
 
 	public void setDirty(boolean dirty) {
@@ -1247,61 +1238,83 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 	 * This is for implementing {@link IEditorPart} and simply saves the model file. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public void doSave(IProgressMonitor progressMonitor) {
-		// Save only resources that have actually changed.
-		//
-		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
-		saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
-		saveOptions.put(Resource.OPTION_LINE_DELIMITER, Resource.OPTION_LINE_DELIMITER_UNSPECIFIED);
-
-		// Do the work within an operation because this is a long running activity that modifies the workbench.
-		//
-		WorkspaceModifyOperation operation = new WorkspaceModifyOperation() {
-
-			// This is the method that gets invoked when the operation runs.
-			//
-			@Override
-			public void execute(IProgressMonitor monitor) {
-				// Save the resources to the file system.
-				//
-				boolean first = true;
-				for(Resource resource : editingDomain.getResourceSet().getResources()) {
-					if((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource)) {
-						try {
-							long timeStamp = resource.getTimeStamp();
-							resource.save(saveOptions);
-							if(resource.getTimeStamp() != timeStamp) {
-								savedResources.add(resource);
-							}
-						} catch (Exception exception) {
-							resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
-						}
-						first = false;
-					}
-				}
-			}
-		};
-
-		updateProblemIndication = false;
-		try {
-			// This runs the options, and shows progress.
-			//
-			new ProgressMonitorDialog(getSite().getShell()).run(true, false, operation);
-
-			// Refresh the necessary state.
-			//
-			((BasicCommandStack)editingDomain.getCommandStack()).saveIsDone();
-			firePropertyChange(IEditorPart.PROP_DIRTY);
-		} catch (Exception exception) {
-			// Something went wrong that shouldn't.
-			//
-			PredicatesUIPlugin.INSTANCE.log(exception);
+		
+		if(resource == null || resource.getContents() == null || resource.getContents().isEmpty()) {
+			return;
 		}
-		updateProblemIndication = true;
-		updateProblemIndication();
+		
+		EObject obj = resource.getContents().get(0);
+		if(obj instanceof IPredicate) {
+			IPredicate newPredicate = (IPredicate)obj;
+			String displayName = newPredicate.getDisplayName();
+			if(displayName != null && !displayName.isEmpty()) {
+				IPredicate p = predicateManager.getPredicateByName(displayName);
+				if(p != null) {
+					EcoreUtil.replace(p, EcoreUtil.copy(newPredicate));
+					predicateManager.save();
+				} else {
+					predicateManager.storePredicate(newPredicate);
+				}
+				setDirty(false);
+			}
+			
+		}
+		
+//		// Save only resources that have actually changed.
+//		//
+//		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
+//		saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+//		saveOptions.put(Resource.OPTION_LINE_DELIMITER, Resource.OPTION_LINE_DELIMITER_UNSPECIFIED);
+//
+//		// Do the work within an operation because this is a long running activity that modifies the workbench.
+//		//
+//		WorkspaceModifyOperation operation = new WorkspaceModifyOperation() {
+//
+//			// This is the method that gets invoked when the operation runs.
+//			//
+//			@Override
+//			public void execute(IProgressMonitor monitor) {
+//				// Save the resources to the file system.
+//				//
+//				boolean first = true;
+//				for(Resource resource : editingDomain.getResourceSet().getResources()) {
+//					if((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource)) {
+//						try {
+//							long timeStamp = resource.getTimeStamp();
+//							resource.save(saveOptions);
+//							if(resource.getTimeStamp() != timeStamp) {
+//								savedResources.add(resource);
+//							}
+//						} catch (Exception exception) {
+//							resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
+//						}
+//						first = false;
+//					}
+//				}
+//			}
+//		};
+//
+//		updateProblemIndication = false;
+//		try {
+//			// This runs the options, and shows progress.
+//			//
+//			new ProgressMonitorDialog(getSite().getShell()).run(true, false, operation);
+//
+//			// Refresh the necessary state.
+//			//
+//			((BasicCommandStack)editingDomain.getCommandStack()).saveIsDone();
+//			firePropertyChange(IEditorPart.PROP_DIRTY);
+//		} catch (Exception exception) {
+//			// Something went wrong that shouldn't.
+//			//
+//			PredicatesUIPlugin.INSTANCE.log(exception);
+//		}
+//		updateProblemIndication = true;
+//		updateProblemIndication();
 	}
 
 	/**
@@ -1333,6 +1346,8 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 	@Override
 	public boolean isSaveAsAllowed() {
 		return true;
+//		return resource != null && !resource.getContents().isEmpty() && resource.getContents().get(0) instanceof IPredicate 
+//			&& ((IPredicate)resource.getContents().get(0)).getDisplayName() != null && !((IPredicate)resource.getContents().get(0)).getDisplayName().isEmpty();
 	}
 
 	/**
@@ -1690,6 +1705,10 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 	 */
 	public PredicatesTreeViewer getPredicatesTreeViewer() {
 		return this.selectionViewer;
+	}
+	
+	public void setPageTitle(String title) {
+		setPartName(title);
 	}
 
 }

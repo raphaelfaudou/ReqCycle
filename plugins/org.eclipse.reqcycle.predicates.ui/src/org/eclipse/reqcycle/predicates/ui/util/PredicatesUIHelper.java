@@ -21,6 +21,7 @@ import java.util.Collections;
 
 import javax.inject.Inject;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -152,13 +153,26 @@ public class PredicatesUIHelper {
 	 */
 	public static void openEditor(final Object input, final IPredicate rootPredicate) {
 		try {
-			final File f = File.createTempFile("predicate", ".predicates");
+			String prefix = "predicate";
+			String name = null;
+			if(rootPredicate != null && rootPredicate.getDisplayName() != null) {
+				name = rootPredicate.getDisplayName();
+				prefix = name + "_" + prefix;
+			}
+			
+			final File f = File.createTempFile(prefix, ".predicates");
+
 			Runtime.getRuntime().addShutdownHook(new ShutDownHook(f));
 
 			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 			PredicatesEditor editor = (PredicatesEditor)IDE.openEditor(page, f.toURI(), PredicatesEditor.ID, true);
-			editor.setRootPredicate(rootPredicate);
-			editor.setInput(input);
+			if(name != null) {
+				editor.setPageTitle(name);
+			}
+			editor.setRootPredicate(EcoreUtil.copy(rootPredicate));
+			if (input != null) {
+				editor.setInput(input);
+			}
 			editor.hideButtonLoadModel();
 
 		} catch (PartInitException e) {

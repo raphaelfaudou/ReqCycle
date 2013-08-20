@@ -58,7 +58,7 @@ public class PredicatesConfManager implements IPredicatesConfManager {
 		this.rs = rs;
 		this.confManager = confManager;
 
-		predicates = getConf(false);
+		predicates = getConf(true);
 		if(predicates == null) {
 			predicates = PredicatesConfFactory.eINSTANCE.createPredicatesConf();
 		}
@@ -84,6 +84,15 @@ public class PredicatesConfManager implements IPredicatesConfManager {
 			added = false;
 		}
 		return added;
+	}
+	
+	public void save() {
+		try {
+			confManager.saveConfiguration(predicates, null, null, PREDICATES_ENTRIES_CONF_ID, rs);
+		} catch (IOException e) {
+			//TODO log...
+			e.printStackTrace();
+		}
 	}
 
 	/**

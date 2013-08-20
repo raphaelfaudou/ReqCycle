@@ -69,10 +69,8 @@ public class PredicatesTreeDoubleClickListener implements IDoubleClickListener {
 			MessageDialog.openInformation(parent, "Info", "Unable to edit a Composite Predicate.");
 			return; // quit
 		}
-		manager.getPredicates(false);
 		if(this.eClasses == null || this.eClasses.isEmpty()) {
 			MessageDialog.openError(parent, "Error", "You must load a model to edit.");
-			manager.getPredicates(false);
 			return; // quit
 		}
 		if(selection.getFirstElement() instanceof ITypedPredicate) {
