@@ -35,6 +35,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -225,20 +226,7 @@ public class RightPanelComposite extends Composite {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if(openInputDialog() == Window.OK) {
-					String predicateName = savePredicateDialog.getValue();
-					IPredicate predicate = predicatesEditor.getEditedPredicate();
-					predicatesEditor.setPageTitle(predicateName);
-					predicatesEditor.setDirty(false);
-					predicate.setDisplayName(predicateName);
-					IPredicate newPredicate = EcoreUtil.copy(predicatesEditor.getEditedPredicate());
-					boolean added = predicatesConfManager.storePredicate(newPredicate);
-					if(added) {
-						tableViewerOfCustomPredicates.add(newPredicate);
-					} else {
-						MessageDialog.openError(getShell(), "Error adding predicate", "Unable to add the predicate : " + newPredicate.getDisplayName());
-					}
-				}
+					predicatesEditor.savePredicate();
 			}
 		});
 
@@ -307,21 +295,11 @@ public class RightPanelComposite extends Composite {
 		PredicatesUIHelper.openEditor(null, predicate);
 	}
 
-	private int openInputDialog() {
-		this.savePredicateDialog = new InputDialog(getShell(), "Predicate name", "Enter the name of the new predicate", null, new IInputValidator() {
-
-			@Override
-			public String isValid(String newText) {
-				final String regex = "\\w+[-\\w]*";
-				if(!Pattern.compile(regex, Pattern.CASE_INSENSITIVE).matcher(newText).matches()) {
-					return "The name of the predicate is not valid.";
-				} else if(predicatesConfManager.isPredicateNameAlreadyUsed(newText)) {
-					return "This predicate's name is already used.";
-				}
-				return null;
-			}
-		});
-		return this.savePredicateDialog.open();
+	public void addPredicate(IPredicate newPredicate) {
+		if (tableViewerOfCustomPredicates != null) {
+			tableViewerOfCustomPredicates.add(newPredicate);
+			tableViewerOfCustomPredicates.setSelection(new StructuredSelection(newPredicate));
+		}
 	}
 
 }

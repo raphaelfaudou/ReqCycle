@@ -18,10 +18,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.regex.Pattern;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.jface.dialogs.IInputValidator;
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
 import org.eclipse.reqcycle.core.ILogger;
@@ -34,6 +37,7 @@ import org.eclipse.reqcycle.predicates.ui.dialogs.ComboInputDialog;
 import org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditor;
 import org.eclipse.reqcycle.predicates.ui.providers.PredicatesTableLabelProvider;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -164,6 +168,7 @@ public class PredicatesUIHelper {
 
 			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 			PredicatesEditor editor = (PredicatesEditor)IDE.openEditor(page, f.toURI(), PredicatesEditor.ID, true);
+			editor.setDirty(name == null);
 			editor.setPageTitle(name!=null?name:"New Predicate");
 			editor.setRootPredicate(EcoreUtil.copy(rootPredicate));
 			if (input != null) {
@@ -199,6 +204,32 @@ public class PredicatesUIHelper {
 					this.file.delete();
 			} catch (Exception e) {
 			}
+		}
+	}
+	
+	/**
+	 * @param shell
+	 * @return Entered String or null if cancelled
+	 */
+	public static String openInputDialog(Shell shell) {
+		InputDialog savePredicateDialog = new InputDialog(shell, "Predicate name", "Enter the name of the new predicate", null, new IInputValidator() {
+
+			@Override
+			public String isValid(String newText) {
+				final String regex = "\\w+[-\\w]*";
+				if(!Pattern.compile(regex, Pattern.CASE_INSENSITIVE).matcher(newText).matches()) {
+					return "The name of the predicate is not valid.";
+				} else if(predicatesConfManager.isPredicateNameAlreadyUsed(newText)) {
+					return "This predicate's name is already used.";
+				}
+				return null;
+			}
+		});
+		
+		if (savePredicateDialog.open() == Window.OK) {
+			return savePredicateDialog.getValue();
+		} else {
+			return null;
 		}
 	}
 	

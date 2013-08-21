@@ -102,5 +102,11 @@
             priority="10">
       </reachableHandler>
    </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="org.eclipse.reqcycle.repository.data.impl.internal.InitManagers">
+      </startup>
+   </extension>
 
 </plugin>
