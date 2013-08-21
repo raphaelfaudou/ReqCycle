@@ -20,18 +20,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import org.eclipse.emf.common.ui.dialogs.ResourceDialog;
 import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EPackage.Registry;
-import org.eclipse.emf.ecore.presentation.EcoreActionBarContributor.ExtendedLoadResourceAction.RegisteredPackageDialog;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
@@ -46,16 +38,17 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.reqcycle.predicates.core.api.IPredicate;
 import org.eclipse.reqcycle.predicates.core.util.PredicatesUtil;
 import org.eclipse.reqcycle.predicates.persistance.util.IPredicatesConfManager;
+import org.eclipse.reqcycle.predicates.ui.listeners.CustomPredicatesTreeViewerDragAdapter;
 import org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditor;
 import org.eclipse.reqcycle.predicates.ui.providers.PredicatesTableLabelProvider;
 import org.eclipse.reqcycle.predicates.ui.util.PredicatesUIHelper;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -64,9 +57,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
@@ -81,158 +72,26 @@ public class RightPanelComposite extends Composite {
 	private TableViewer tableViewerOfDefautPredicates;
 
 	private TableViewer tableViewerOfCustomPredicates;
-
-//	private Button btnLoadModel;
-
-	private final boolean showButtonLoadModel;
-
+	
 	private InputDialog savePredicateDialog;
 
 	IPredicatesConfManager predicatesConfManager = ZigguratInject.make(IPredicatesConfManager.class);
 
-	private Button expandCustomPredicatesButton;
+	public RightPanelComposite(Composite parent, PredicatesEditor editor) {
 
-	public RightPanelComposite(Composite parent, PredicatesEditor editor, boolean showButtonLoadModel) {
-
-		super(parent, SWT.NONE);
+		super(parent, SWT.None);
 		setLayout(new GridLayout(1, false));
 
 		this.predicatesEditor = editor;
-		this.showButtonLoadModel = showButtonLoadModel;
-
-		this.createButtonsComposite();
-
-		this.createGroupOfDefaultPredicates();
-
-		this.createGroupOfCustomPredicates();
+		
+		SashForm form = new SashForm(this, SWT.VERTICAL);
+		form.setLayout(new GridLayout());
+		form.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		this.createGroupOfDefaultPredicates(form);
+		this.createGroupOfCustomPredicates(form);
+		
 	}
 
-	private void createButtonsComposite() {
-
-		final Composite compositeButtons = new Composite(this, SWT.NONE);
-		compositeButtons.setToolTipText("Whether or not to expand the model by showing all references and features.");
-		compositeButtons.setLayout(new GridLayout(3, false));
-		compositeButtons.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
-		Button btnLoadResources = new Button(compositeButtons, SWT.NONE);
-		btnLoadResources.setText("load resources");
-		btnLoadResources.addSelectionListener(new SelectionAdapter() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				RuntimeRegisteredPackageDialog registeredPackageDialog = new RuntimeRegisteredPackageDialog(getShell());
-				registeredPackageDialog.open();
-				Object [] result = registeredPackageDialog.getResult();
-				if (result != null) {
-					Collection<EClass> eclasses = new ArrayList<EClass>();
-					for (Object object : result) {
-						Object obj = Registry.INSTANCE.get(object);
-						if (obj instanceof EPackage) {
-							Collection<EClass> classes = getAllEClasses((EPackage)obj);
-							eclasses.addAll(classes);
-						}
-					}
-					predicatesEditor.setInput(eclasses);
-				}
-			}
-		});
-		new Label(compositeButtons, SWT.NONE);
-		new Label(compositeButtons, SWT.NONE);
-
-		this.expandCustomPredicatesButton = new Button(compositeButtons, SWT.CHECK);
-		this.expandCustomPredicatesButton.setText("Allow expand of custom predicates");
-		this.expandCustomPredicatesButton.setToolTipText("Show or hide custom predicates contents from the tree viewer.");
-		this.expandCustomPredicatesButton.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				PredicatesTreeViewer predicatesTreeViewer = predicatesEditor.getPredicatesTreeViewer();
-				boolean mayExpandCustomPredicates = expandCustomPredicatesButton.getSelection();
-				predicatesTreeViewer.setMayExpandCustomPredicates(mayExpandCustomPredicates);
-				if(!mayExpandCustomPredicates) {
-					// collapse all custom predicates.
-					Object[] expandedElements = predicatesTreeViewer.getExpandedElements();
-					for(Object expandedElement : expandedElements) {
-						if(expandedElement instanceof IPredicate) {
-							if(((IPredicate)expandedElement).getDisplayName() != null) {
-								predicatesTreeViewer.collapseToLevel(expandedElement, TreeViewer.ALL_LEVELS);
-							}
-						}
-					}
-				}
-				predicatesTreeViewer.refresh();
-			}
-		});
-		this.expandCustomPredicatesButton.setSelection(false);
-
-//		this.btnLoadModel = new Button(compositeButtons, SWT.NONE);
-//		this.btnLoadModel.setText("Load Base Model");
-//		this.btnLoadModel.setVisible(this.showButtonLoadModel);
-
-		final Label lblCurrentModel = new Label(compositeButtons, SWT.NONE);
-		lblCurrentModel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		lblCurrentModel.setVisible(false);
-
-//		this.btnLoadModel.addSelectionListener(new SelectionAdapter() {
-//
-//			@Override
-//			public void widgetSelected(SelectionEvent e) {
-//				ResourceDialog dialog = new ResourceDialog(getShell(), "Browse", SWT.NONE);
-//				if(dialog.open() == Window.OK) {
-//					final String uriText = dialog.getURIText();
-//					final URI uri = URI.createURI(uriText);
-//					final ResourceSet rSet = new ResourceSetImpl();
-//					final Resource rs = rSet.getResource(uri, true);
-//
-//					final EClass eclass = rs.getContents().get(0).eClass();
-//					Collection<EClass> eClasses = new ArrayList<EClass>();
-//					eClasses.add(eclass);
-//					predicatesEditor.setInput(eClasses);
-//
-//					btnLoadModel.setText("Change Base Model");
-//
-//					lblCurrentModel.setVisible(eclass != null);
-//					lblCurrentModel.setText("Current model : " + eclass.getName());
-//
-//					lblCurrentModel.getParent().layout();
-//				}
-//			}
-//		});
-
-		{
-			final Button btnUseExtendedFeature = new Button(compositeButtons, SWT.CHECK);
-			btnUseExtendedFeature.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-			btnUseExtendedFeature.setText("Use extended feature");
-			btnUseExtendedFeature.setToolTipText("Whether or not to expand the model in order to show all references and features.");
-			btnUseExtendedFeature.addSelectionListener(new SelectionAdapter() {
-
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					predicatesEditor.setUseExtendedFeature(btnUseExtendedFeature.getSelection());
-				}
-			});
-			btnUseExtendedFeature.setVisible(false); // TODO : make it visible whenever the editor supports editions of
-														// EReferences.
-		}
-		new Label(compositeButtons, SWT.NONE);
-		new Label(compositeButtons, SWT.NONE);
-	}
-
-	protected Collection<EClass> getAllEClasses(EPackage obj) {
-		Collection<EClass> result = new ArrayList<EClass>();
-		
-		for(EClassifier eClassifier : obj.getEClassifiers()) {
-			if(eClassifier instanceof EClass) {
-				result.add((EClass)eClassifier);
-			}
-		}
-		
-		for(EPackage ePackage : obj.getESubpackages()) {
-			result.addAll(getAllEClasses(ePackage));
-		}
-		
-		return result;
-	}
 
 	protected Collection<EPackage> getAllPackages(Resource resource)
     {
@@ -262,9 +121,9 @@ public class RightPanelComposite extends Composite {
       return result;
     }
 	
-	private void createGroupOfDefaultPredicates() {
+	private void createGroupOfDefaultPredicates(Composite parent) {
 
-		final Group grpDefaultPredicates = new Group(this, SWT.NONE);
+		final Group grpDefaultPredicates = new Group(parent, SWT.NONE);
 		grpDefaultPredicates.setText("Default Predicates");
 		grpDefaultPredicates.setLayout(new GridLayout(1, false));
 		grpDefaultPredicates.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
@@ -309,9 +168,9 @@ public class RightPanelComposite extends Composite {
 
 	}
 
-	private void createGroupOfCustomPredicates() {
+	private void createGroupOfCustomPredicates(Composite parent) {
 
-		final Group grpCustomPredicates = new Group(this, SWT.NONE);
+		final Group grpCustomPredicates = new Group(parent, SWT.NONE);
 		grpCustomPredicates.setLayout(new GridLayout(1, false));
 		grpCustomPredicates.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		grpCustomPredicates.setText("Custom Predicates");
@@ -349,7 +208,7 @@ public class RightPanelComposite extends Composite {
 		final Transfer[] transferTypes = new Transfer[]{ LocalTransfer.getInstance() };
 		final int dndOperations = DND.DROP_COPY | DND.DROP_MOVE;
 
-		tableViewerOfCustomPredicates.addDragSupport(dndOperations, transferTypes, new ViewerDragAdapter(tableViewerOfCustomPredicates) {
+		tableViewerOfCustomPredicates.addDragSupport(dndOperations, transferTypes, new CustomPredicatesTreeViewerDragAdapter(tableViewerOfCustomPredicates) {
 		});
 
 		this.initTableMenuOfCustomPredicates(tableOfCustomPredicates);
@@ -445,23 +304,6 @@ public class RightPanelComposite extends Composite {
 	}
 
 	private void openPredicateForEdition(IPredicate predicate) {
-//		// FIXME : retrieve correctly the complete list of EClass of the model to which this predicate is going to be
-//		// applied.
-//		final Set<EClass> input = new HashSet<EClass>();
-//		if(predicate instanceof ITypedPredicate<?>) {
-//			Object obj = ((ITypedPredicate)predicate).getTypedElement();
-//			if(obj instanceof EStructuralFeature) {
-//				EObject eContainer = ((EStructuralFeature)obj).eContainer();
-//				if(eContainer instanceof EClass) {
-//					EList<EClassifier> eClassifiers = ((EClass)eContainer).getEPackage().getEClassifiers();
-//					for(EClassifier eClassifier : eClassifiers) {
-//						if(eClassifier instanceof EClass) {
-//							input.add((EClass)eClassifier);
-//						}
-//					}
-//				}
-//			}
-//		}
 		PredicatesUIHelper.openEditor(null, predicate);
 	}
 
@@ -481,9 +323,5 @@ public class RightPanelComposite extends Composite {
 		});
 		return this.savePredicateDialog.open();
 	}
-
-//	public void hideButtonLoadModel() {
-//		this.btnLoadModel.setVisible(false);
-//	}
 
 }

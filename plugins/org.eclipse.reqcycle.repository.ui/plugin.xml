@@ -41,44 +41,4 @@
            name="Create New Requirement Source">
      </wizard>
   </extension>
-  <extension
-        point="org.eclipse.ui.commands">
-     <command
-           categoryId="org.eclipse.reqcycle.core.ui.category"
-           id="org.eclipse.reqcycle.repository.ui.commands.newPredicateCommand"
-           name="New Predicate">
-     </command>
-     <command
-           categoryId="org.eclipse.reqcycle.core.ui.category"
-           id="org.eclipse.reqcycle.repository.ui.commands.editPredicateCommand"
-           name="Edit Predicate">
-     </command>
-  </extension>
-  <extension
-        point="org.eclipse.ui.handlers">
-     <handler
-           class="org.eclipse.reqcycle.repository.ui.handlers.NewPredicateHandler"
-           commandId="org.eclipse.reqcycle.repository.ui.commands.newPredicateCommand">
-     </handler>
-     <handler
-           class="org.eclipse.reqcycle.repository.ui.handlers.EditPredicateHandler"
-           commandId="org.eclipse.reqcycle.repository.ui.commands.editPredicateCommand">
-     </handler>
-  </extension>
-  <extension
-        point="org.eclipse.ui.menus">
-     <menuContribution
-           locationURI="menu:org.eclipse.reqcycle.core.ui.menu">
-        <command
-              commandId="org.eclipse.reqcycle.repository.ui.commands.newPredicateCommand"
-              id="org.eclipse.reqcycle.repository.ui.menus.newPredicateCommand"
-              mnemonic="S">
-        </command>
-        <command
-              commandId="org.eclipse.reqcycle.repository.ui.commands.editPredicateCommand"
-              id="org.eclipse.reqcycle.repository.ui.menus.editPredicateCommand"
-              mnemonic="S">
-        </command>
-     </menuContribution>
-  </extension>
 </plugin>

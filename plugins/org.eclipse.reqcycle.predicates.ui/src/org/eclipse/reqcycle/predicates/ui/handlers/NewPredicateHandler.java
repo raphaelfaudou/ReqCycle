@@ -1,4 +1,4 @@
-package org.eclipse.reqcycle.repository.ui.handlers;
+package org.eclipse.reqcycle.predicates.ui.handlers;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;

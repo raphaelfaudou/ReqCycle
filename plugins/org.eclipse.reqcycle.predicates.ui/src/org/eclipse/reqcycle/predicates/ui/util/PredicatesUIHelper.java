@@ -51,7 +51,7 @@ public class PredicatesUIHelper {
 	static IPredicatesConfManager predicatesConfManager = ZigguratInject.make(IPredicatesConfManager.class);
 	
 	static ILogger logger = ZigguratInject.make(ILogger.class);
-
+	
 	private PredicatesUIHelper() {
 	}
 

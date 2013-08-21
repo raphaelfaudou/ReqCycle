@@ -31,6 +31,7 @@ import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.ui.MarkerHelper;
@@ -41,7 +42,10 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
@@ -53,10 +57,10 @@ import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
+import org.eclipse.emf.edit.provider.resource.ResourceSetItemProvider;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 import org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTreeEditor;
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
-import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
@@ -85,24 +89,31 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.reqcycle.predicates.core.api.IPredicate;
+import org.eclipse.reqcycle.predicates.core.util.PredicatesResourceImpl;
 import org.eclipse.reqcycle.predicates.persistance.util.IPredicatesConfManager;
 import org.eclipse.reqcycle.predicates.ui.PredicatesUIPlugin;
 import org.eclipse.reqcycle.predicates.ui.components.PredicatesTreeViewer;
 import org.eclipse.reqcycle.predicates.ui.components.RightPanelComposite;
+import org.eclipse.reqcycle.predicates.ui.components.RuntimeRegisteredPackageDialog;
 import org.eclipse.reqcycle.predicates.ui.listeners.PredicatesTreeDoubleClickListener;
+import org.eclipse.reqcycle.predicates.ui.listeners.CustomPredicatesTreeViewerDragAdapter;
 import org.eclipse.reqcycle.predicates.ui.listeners.PredicatesTreeViewerDropAdapter;
 import org.eclipse.reqcycle.predicates.ui.providers.EnhancedPredicatesTreeLabelProvider;
 import org.eclipse.reqcycle.predicates.ui.providers.PredicatesItemProviderAdapterFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.FileTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Tree;
@@ -114,9 +125,11 @@ import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.dialogs.SaveAsDialog;
+import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.ui.views.contentoutline.ContentOutline;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
@@ -648,7 +661,24 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 		//
 		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 
-		adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory() {
+			@Override
+			public Adapter createResourceSetAdapter() {
+				return new ResourceSetItemProvider(this){
+					@Override
+					public Collection<?> getChildren(Object object) {
+						Collection<Object> result = new ArrayList<Object>();
+						for(Object child : super.getChildren(object)) {
+							if(child instanceof PredicatesResourceImpl) {
+								result.addAll(((PredicatesResourceImpl)child).getContents());
+							}
+						}
+						return result;
+					}
+				};
+			}
+		});
+		
 		adapterFactory.addAdapterFactory(new PredicatesItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 
@@ -883,7 +913,9 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 
 		int dndOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK;
 		Transfer[] transfers = new Transfer[]{ LocalTransfer.getInstance(), LocalSelectionTransfer.getTransfer(), FileTransfer.getInstance() };
-		viewer.addDragSupport(dndOperations, transfers, new ViewerDragAdapter(viewer));
+		viewer.addDragSupport(dndOperations, transfers, new CustomPredicatesTreeViewerDragAdapter(viewer) {
+			
+		});
 		viewer.addDropSupport(dndOperations, transfers, new PredicatesTreeViewerDropAdapter(editingDomain, viewer));
 	}
 
@@ -962,21 +994,17 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 						super.requestActivation();
 						setCurrentViewerPane(this);
 					}
+					
 				};
 				viewerPane.createControl(getContainer());
+				viewerPane.setTitle("Predicates Editor", AbstractUIPlugin.imageDescriptorFromPlugin(PredicatesUIPlugin.PLUGIN_ID, "/icons/full/obj16/PredicatesEditorIcon_16.png").createImage());
+
+				EnhancedPredicatesTreeLabelProvider predicatesLabelProvider = new EnhancedPredicatesTreeLabelProvider(adapterFactory);
+
 				selectionViewer = (PredicatesTreeViewer)viewerPane.getViewer();
 				selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-
-				// AdapterFactoryLabelProvider.ColorProvider colorLabelProvider = new
-				// AdapterFactoryLabelProvider.ColorProvider(
-				// adapterFactory, selectionViewer);
-				// selectionViewer.setLabelProvider(colorLabelProvider);
-				EnhancedPredicatesTreeLabelProvider predicatesLabelProvider = new EnhancedPredicatesTreeLabelProvider(adapterFactory);
 				selectionViewer.setLabelProvider(predicatesLabelProvider);
-
 				selectionViewer.setInput(editingDomain.getResourceSet());
-				selectionViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
-				viewerPane.setTitle(editingDomain.getResourceSet());
 
 				new AdapterFactoryTreeEditor(selectionViewer.getTree(), adapterFactory);
 
@@ -1406,6 +1434,7 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 		site.setSelectionProvider(this);
 		site.getPage().addPartListener(partListener);
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
+		PredicatesTreeViewer p = getPredicatesTreeViewer();
 	}
 
 	/**
@@ -1419,6 +1448,12 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 			currentViewerPane.setFocus();
 		} else {
 			getControl(getActivePage()).setFocus();
+		}
+		
+		PredicatesTreeViewer p = getPredicatesTreeViewer();
+		
+		if(p != null) {
+			p.refresh();
 		}
 	}
 
@@ -1606,20 +1641,112 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 
 	@Override
 	protected Composite createPageContainer(Composite parent) {
-		parent.setLayout(new GridLayout(2, false));
-		Composite newParent = new Composite(parent, SWT.BORDER);
-		newParent.setLayout(new GridLayout(1, false));
-		newParent.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
-		createRightPanel(parent);
-		return newParent;
+		
+		SashForm sashForm = new SashForm(parent, SWT.None);
+		sashForm.setLayout(new GridLayout(2, false));
+		
+		Composite leftComposite = new Composite(sashForm, SWT.BORDER);
+		leftComposite.setLayout(new GridLayout(1, false));
+		leftComposite.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
+		
+		Composite editorComposite = new Composite(leftComposite, SWT.BORDER);
+		editorComposite.setLayout(new GridLayout());
+		editorComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
+		Composite btnComposite = new Composite(leftComposite, SWT.BORDER);
+		btnComposite.setLayout(new GridLayout());
+		btnComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		
+		createParametersSection(btnComposite);
+		
+		createRightPanel(sashForm);
+		
+		return editorComposite;
 	}
 
+	private void createParametersSection(Composite btnComposite) {
+		Section section = new Section(btnComposite, Section.COMPACT | Section.TWISTIE | SWT.BORDER);
+		section.setText("Parameters");
+		
+		Composite compositeButtons = new Composite(section, SWT.None);
+		section.setClient(compositeButtons);
+		compositeButtons.setToolTipText("Whether or not to expand the model by showing all references and features.");
+		compositeButtons.setLayout(new GridLayout(1, false));
+		compositeButtons.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		
+		Button btnLoadResources = new Button(compositeButtons, SWT.NONE);
+		btnLoadResources.setText("load resources");
+		btnLoadResources.addSelectionListener(new SelectionAdapter() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				RuntimeRegisteredPackageDialog registeredPackageDialog = new RuntimeRegisteredPackageDialog(getSite().getShell());
+				registeredPackageDialog.open();
+				Object [] result = registeredPackageDialog.getResult();
+				if (result != null) {
+					Collection<EClass> eclasses = new ArrayList<EClass>();
+					for (Object object : result) {
+						Object obj = Registry.INSTANCE.get(object);
+						if (obj instanceof EPackage) {
+							Collection<EClass> classes = getAllEClasses((EPackage)obj);
+							eclasses.addAll(classes);
+						}
+					}
+					setInput(eclasses);
+				}
+			}
+		});
+
+		final Button expandCustomPredicatesButton = new Button(compositeButtons, SWT.CHECK);
+		expandCustomPredicatesButton.setText("Allow expand of custom predicates");
+		expandCustomPredicatesButton.setToolTipText("Show or hide custom predicates contents from the tree viewer.");
+		expandCustomPredicatesButton.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				PredicatesTreeViewer predicatesTreeViewer = getPredicatesTreeViewer();
+				boolean mayExpandCustomPredicates = expandCustomPredicatesButton.getSelection();
+				predicatesTreeViewer.setMayExpandCustomPredicates(mayExpandCustomPredicates);
+				if(!mayExpandCustomPredicates) {
+					// collapse all custom predicates.
+					Object[] expandedElements = predicatesTreeViewer.getExpandedElements();
+					for(Object expandedElement : expandedElements) {
+						if(expandedElement instanceof IPredicate) {
+							if(((IPredicate)expandedElement).getDisplayName() != null) {
+								predicatesTreeViewer.collapseToLevel(expandedElement, TreeViewer.ALL_LEVELS);
+							}
+						}
+					}
+				}
+				predicatesTreeViewer.refresh();
+			}
+		});
+		expandCustomPredicatesButton.setSelection(false);
+
+	}
+
+	protected Collection<EClass> getAllEClasses(EPackage obj) {
+		Collection<EClass> result = new ArrayList<EClass>();
+		
+		for(EClassifier eClassifier : obj.getEClassifiers()) {
+			if(eClassifier instanceof EClass) {
+				result.add((EClass)eClassifier);
+			}
+		}
+		
+		for(EPackage ePackage : obj.getESubpackages()) {
+			result.addAll(getAllEClasses(ePackage));
+		}
+		
+		return result;
+	}
+	
 	private void createRightPanel(Composite newParent) {
-		Composite rightComposite = new Composite(newParent, SWT.BORDER);
+		SashForm rightComposite = new SashForm(newParent, SWT.BORDER);
 		rightComposite.setLayout(new GridLayout(1, false));
 		rightComposite.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true, 1, 1));
-		boolean showButtonLoadModel = getInput() == null; // || getInput().isEmpty();
-		rightPanel = new RightPanelComposite(rightComposite, this, showButtonLoadModel);
+//		boolean showButtonLoadModel = getInput() == null; // || getInput().isEmpty();
+		rightPanel = new RightPanelComposite(rightComposite, this);
 		rightPanel.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true, 1, 1));
 	}
 
