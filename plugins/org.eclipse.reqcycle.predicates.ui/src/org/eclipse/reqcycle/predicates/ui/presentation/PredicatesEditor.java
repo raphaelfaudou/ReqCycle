@@ -1675,7 +1675,7 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 		compositeButtons.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		
 		Button btnLoadResources = new Button(compositeButtons, SWT.NONE);
-		btnLoadResources.setText("load resources");
+		btnLoadResources.setText("Load Model");
 		btnLoadResources.addSelectionListener(new SelectionAdapter() {
 			
 			@Override

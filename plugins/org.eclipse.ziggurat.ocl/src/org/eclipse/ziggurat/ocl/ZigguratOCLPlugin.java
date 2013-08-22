@@ -33,6 +33,7 @@ import org.osgi.framework.BundleContext;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
+
 public class ZigguratOCLPlugin implements BundleActivator {
 
 	private static BundleContext context;
