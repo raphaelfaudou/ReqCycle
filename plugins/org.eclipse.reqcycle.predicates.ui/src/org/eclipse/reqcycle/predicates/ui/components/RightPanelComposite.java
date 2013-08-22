@@ -64,8 +64,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
@@ -252,7 +250,7 @@ public class RightPanelComposite extends Composite {
 		tableViewerOfCustomPredicates.addDragSupport(dndOperations, transferTypes, new CustomPredicatesTreeViewerDragAdapter(tableViewerOfCustomPredicates) {
 		});
 
-		this.initTableMenuOfCustomPredicates(tableOfCustomPredicates);
+//		this.initTableMenuOfCustomPredicates(tableOfCustomPredicates);
 
 		Composite compositeButtons = new Composite(grpCustomPredicates, SWT.NONE);
 		compositeButtons.setLayout(new GridLayout(5, false));
@@ -423,22 +421,22 @@ public class RightPanelComposite extends Composite {
 		
 	}
 
-	private void initTableMenuOfCustomPredicates(final Table table) {
-		Menu menu = new Menu(table);
-		table.setMenu(menu);
-
-		MenuItem menuItemEdit = new MenuItem(menu, SWT.NONE);
-		menuItemEdit.setText("Edit");
-		menuItemEdit.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				int selectionIndex = tableViewerOfCustomPredicates.getTable().getSelectionIndex();
-				IPredicate predicateToEdit = (IPredicate)tableViewerOfCustomPredicates.getElementAt(selectionIndex);
-				openPredicateForEdition(predicateToEdit);
-			}
-		});
-	}
+//	private void initTableMenuOfCustomPredicates(final Table table) {
+//		Menu menu = new Menu(table);
+//		table.setMenu(menu);
+//
+//		MenuItem menuItemEdit = new MenuItem(menu, SWT.NONE);
+//		menuItemEdit.setText("Edit");
+//		menuItemEdit.addSelectionListener(new SelectionAdapter() {
+//
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				int selectionIndex = tableViewerOfCustomPredicates.getTable().getSelectionIndex();
+//				IPredicate predicateToEdit = (IPredicate)tableViewerOfCustomPredicates.getElementAt(selectionIndex);
+//				openPredicateForEdition(predicateToEdit);
+//			}
+//		});
+//	}
 
 	private void openPredicateForEdition(IPredicate predicate) {
 		PredicatesUIHelper.openEditor(null, predicate);
