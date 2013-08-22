@@ -88,6 +88,7 @@ import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.reqcycle.predicates.core.api.IPredicate;
 import org.eclipse.reqcycle.predicates.core.util.PredicatesResourceImpl;
 import org.eclipse.reqcycle.predicates.persistance.util.IPredicatesConfManager;
@@ -100,6 +101,7 @@ import org.eclipse.reqcycle.predicates.ui.listeners.CustomPredicatesTreeViewerDr
 import org.eclipse.reqcycle.predicates.ui.listeners.PredicatesTreeViewerDropAdapter;
 import org.eclipse.reqcycle.predicates.ui.providers.EnhancedPredicatesTreeLabelProvider;
 import org.eclipse.reqcycle.predicates.ui.providers.PredicatesItemProviderAdapterFactory;
+import org.eclipse.reqcycle.predicates.ui.util.PredicatesUIHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.SashForm;
@@ -1288,6 +1290,8 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 					predicateManager.storePredicate(newPredicate);
 				}
 				setDirty(false);
+			} else if(rightPanel != null) {
+				savePredicate();
 			}
 			
 		}
@@ -1373,7 +1377,7 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 	 */
 	@Override
 	public boolean isSaveAsAllowed() {
-		return true;
+		return false;
 //		return resource != null && !resource.getContents().isEmpty() && resource.getContents().get(0) instanceof IPredicate 
 //			&& ((IPredicate)resource.getContents().get(0)).getDisplayName() != null && !((IPredicate)resource.getContents().get(0)).getDisplayName().isEmpty();
 	}
@@ -1836,6 +1840,23 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 	
 	public void setPageTitle(String title) {
 		setPartName(title);
+	}
+
+	public void savePredicate() {
+		String result = PredicatesUIHelper.openInputDialog(getSite().getShell());
+		if(result != null) {
+			IPredicate predicate = getEditedPredicate();
+			setPageTitle(result);
+			setDirty(false);
+			predicate.setDisplayName(result);
+			IPredicate newPredicate = EcoreUtil.copy(predicate);
+			boolean added = predicateManager.storePredicate(newPredicate);
+			if(added && rightPanel != null) {
+					rightPanel.addPredicate(newPredicate);
+			} else if (!added) {
+				MessageDialog.openError(getSite().getShell(), "Error adding predicate", "Unable to add the predicate : " + newPredicate.getDisplayName());
+			}
+		}
 	}
 
 }
