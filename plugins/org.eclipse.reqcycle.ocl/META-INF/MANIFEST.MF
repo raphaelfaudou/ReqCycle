@@ -19,6 +19,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.databinding.beans,
  org.eclipse.ocl.examples.pivot,
  org.eclipse.ocl.examples.xtext.completeocl,
- com.google.guava
+ com.google.guava,
+ org.eclipse.reqcycle.emf
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

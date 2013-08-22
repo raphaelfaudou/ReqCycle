@@ -5,10 +5,12 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.reqcycle.traceability.types.configuration.predicates.ReqCycleDynamicPackage;
 import org.eclipse.reqcycle.traceability.types.configuration.preferences.dialogs.NewAttributeDialog;
 import org.eclipse.reqcycle.traceability.types.configuration.preferences.dialogs.NewRelationDialog;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Configuration;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Relation;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.RelationsPredicatesMapping;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Type;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeConfigContainer;
 import org.eclipse.ziggurat.inject.ZigguratInject;
@@ -24,7 +26,8 @@ public class TraceabilityTypePreferencePage extends AbstractPreferencePage {
 			@Override
 			public boolean select(Viewer viewer, Object parentElement,
 					Object element) {
-				return !(element instanceof Type);
+				return !(element instanceof Type)
+						&& !(element instanceof RelationsPredicatesMapping);
 			}
 		};
 	}
@@ -71,6 +74,15 @@ public class TraceabilityTypePreferencePage extends AbstractPreferencePage {
 		if (dialog.open() == NewAttributeDialog.OK) {
 			relation.getAttributes().add(EcoreUtil.copy(dialog.getAttribute()));
 		}
+	}
+
+	@Override
+	public boolean performOk() {
+		boolean result = super.performOk();
+		if (result) {
+			ReqCycleDynamicPackage.reinitURIPackage();
+		}
+		return result;
 	}
 
 	@Override
