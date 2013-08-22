@@ -88,7 +88,6 @@ import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.window.Window;
 import org.eclipse.reqcycle.predicates.core.api.IPredicate;
 import org.eclipse.reqcycle.predicates.core.util.PredicatesResourceImpl;
 import org.eclipse.reqcycle.predicates.persistance.util.IPredicatesConfManager;
@@ -96,8 +95,8 @@ import org.eclipse.reqcycle.predicates.ui.PredicatesUIPlugin;
 import org.eclipse.reqcycle.predicates.ui.components.PredicatesTreeViewer;
 import org.eclipse.reqcycle.predicates.ui.components.RightPanelComposite;
 import org.eclipse.reqcycle.predicates.ui.components.RuntimeRegisteredPackageDialog;
-import org.eclipse.reqcycle.predicates.ui.listeners.PredicatesTreeDoubleClickListener;
 import org.eclipse.reqcycle.predicates.ui.listeners.CustomPredicatesTreeViewerDragAdapter;
+import org.eclipse.reqcycle.predicates.ui.listeners.PredicatesTreeDoubleClickListener;
 import org.eclipse.reqcycle.predicates.ui.listeners.PredicatesTreeViewerDropAdapter;
 import org.eclipse.reqcycle.predicates.ui.providers.EnhancedPredicatesTreeLabelProvider;
 import org.eclipse.reqcycle.predicates.ui.providers.PredicatesItemProviderAdapterFactory;
@@ -517,6 +516,8 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 			}
 		}
 	};
+
+	private ViewerPane viewerPane;
 
 	/**
 	 * Handles activation of the editor or it's associated views. <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -981,7 +982,7 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 			//
 			getContainer().setLayout(new GridLayout());
 			{
-				ViewerPane viewerPane = new ViewerPane(getSite().getPage(), PredicatesEditor.this) {
+				viewerPane = new ViewerPane(getSite().getPage(), PredicatesEditor.this) {
 
 					@Override
 					public Viewer createViewer(Composite composite) {
@@ -999,7 +1000,7 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 					
 				};
 				viewerPane.createControl(getContainer());
-				viewerPane.setTitle("Predicates Editor", AbstractUIPlugin.imageDescriptorFromPlugin(PredicatesUIPlugin.PLUGIN_ID, "/icons/full/obj16/PredicatesEditorIcon_16.png").createImage());
+//				viewerPane.setTitle("Predicates Editor", AbstractUIPlugin.imageDescriptorFromPlugin(PredicatesUIPlugin.PLUGIN_ID, "/icons/full/obj16/PredicatesEditorIcon_16.png").createImage());
 
 				EnhancedPredicatesTreeLabelProvider predicatesLabelProvider = new EnhancedPredicatesTreeLabelProvider(adapterFactory);
 
@@ -1373,7 +1374,7 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 	/**
 	 * This always returns true because it is not currently supported. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public boolean isSaveAsAllowed() {
@@ -1403,12 +1404,12 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	protected void doSaveAs(URI uri, IEditorInput editorInput) {
 		(editingDomain.getResourceSet().getResources().get(0)).setURI(uri);
 		setInputWithNotify(editorInput);
-		setPartName(editorInput.getName());
+		setPartName("Predicates Editor");
 		IProgressMonitor progressMonitor = getActionBars().getStatusLineManager() != null ? getActionBars().getStatusLineManager().getProgressMonitor() : new NullProgressMonitor();
 		doSave(progressMonitor);
 	}
@@ -1428,17 +1429,16 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 	/**
 	 * This is called during startup. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public void init(IEditorSite site, IEditorInput editorInput) {
 		setSite(site);
 		setInputWithNotify(editorInput);
-		setPartName(editorInput.getName());
+		setPartName("Predicates Editor");
 		site.setSelectionProvider(this);
 		site.getPage().addPartListener(partListener);
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
-		PredicatesTreeViewer p = getPredicatesTreeViewer();
 	}
 
 	/**
@@ -1810,14 +1810,25 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 	 * 
 	 * @param rootPredicate
 	 */
-	public void setRootPredicate(IPredicate rootPredicate) {
-		if(rootPredicate == null)
-			return;
+	public boolean setRootPredicate(IPredicate rootPredicate) {
 		if(resource == null)
 			initResource();
-		if(resource.getContents().isEmpty()) {
+		if (isDirty() && !MessageDialog.openQuestion(getSite().getShell(), "Unsaved Changes", "There is unsaved changes. Continue and discard them")){
+			return false;
+		}
+		if (!resource.getContents().isEmpty()) {
+			resource.getContents().clear();
+		}
+		if (rootPredicate != null) {
 			resource.getContents().add(rootPredicate);
 		}
+		
+		Viewer viewer = getViewer();
+		if (viewer != null) {
+			viewer.refresh();
+		}
+		setDirty(false);
+		return true;
 	}
 
 //	/**
@@ -1838,15 +1849,19 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 		return this.selectionViewer;
 	}
 	
-	public void setPageTitle(String title) {
-		setPartName(title);
+	public void setEditorTitle(String title) {
+		if(viewerPane != null) {
+			if(title != null) {
+				viewerPane.setTitle(title,title!=null && !title.isEmpty() ? AbstractUIPlugin.imageDescriptorFromPlugin(PredicatesUIPlugin.PLUGIN_ID, "/icons/full/obj16/PredicatesEditorIcon_16.png").createImage() : null);
+			}
+		}
 	}
 
 	public void savePredicate() {
 		String result = PredicatesUIHelper.openInputDialog(getSite().getShell());
 		if(result != null) {
 			IPredicate predicate = getEditedPredicate();
-			setPageTitle(result);
+			setEditorTitle(result);
 			setDirty(false);
 			predicate.setDisplayName(result);
 			IPredicate newPredicate = EcoreUtil.copy(predicate);

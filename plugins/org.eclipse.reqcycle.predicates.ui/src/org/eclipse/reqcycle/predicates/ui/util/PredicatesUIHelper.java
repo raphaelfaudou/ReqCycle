@@ -34,6 +34,7 @@ import org.eclipse.reqcycle.predicates.persistance.util.IPredicatesConfManager;
 import org.eclipse.reqcycle.predicates.ui.dialogs.AbstractCustomDialog;
 import org.eclipse.reqcycle.predicates.ui.dialogs.CheckBoxInputDialog;
 import org.eclipse.reqcycle.predicates.ui.dialogs.ComboInputDialog;
+import org.eclipse.reqcycle.predicates.ui.dialogs.NewPredicateDialog;
 import org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditor;
 import org.eclipse.reqcycle.predicates.ui.providers.PredicatesTableLabelProvider;
 import org.eclipse.swt.widgets.Display;
@@ -168,8 +169,8 @@ public class PredicatesUIHelper {
 
 			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 			PredicatesEditor editor = (PredicatesEditor)IDE.openEditor(page, f.toURI(), PredicatesEditor.ID, true);
-			editor.setDirty(name == null);
-			editor.setPageTitle(name!=null?name:"New Predicate");
+			editor.setDirty(false);
+//			editor.setPageTitle("Predicates Editor");
 			editor.setRootPredicate(EcoreUtil.copy(rootPredicate));
 			if (input != null) {
 				editor.setInput(input);

@@ -62,4 +62,13 @@ public class StringEqualPredicateImpl extends EqualPredicateImpl<String> impleme
 		super.setExpectedObject(newExpectedObject);
 	}
 
+	@Override
+	public boolean match(Object input) {
+		Object val = this.getInputValueFromEObject(input);
+		if (!(val instanceof String) && val != null) {
+			val = val.toString();
+		}
+		return input != null && input.equals(val);
+	}
+
 } //StringEqualPredicateImpl

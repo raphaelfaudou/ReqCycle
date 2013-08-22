@@ -43,7 +43,6 @@ import org.eclipse.reqcycle.repository.ui.actions.AddRequirementSourceAction;
 import org.eclipse.reqcycle.repository.ui.actions.DeleteRequirementSourceAction;
 import org.eclipse.reqcycle.repository.ui.actions.EditRequirementSourceAction;
 import org.eclipse.reqcycle.repository.ui.actions.OpenFilteredRequirementViewAction;
-import org.eclipse.reqcycle.repository.ui.actions.OpenPredicatesEditorAction;
 import org.eclipse.reqcycle.repository.ui.actions.RefreshViewAction;
 import org.eclipse.reqcycle.repository.ui.actions.SynchronizeRequirementSourceActionStub;
 import org.eclipse.reqcycle.repository.ui.providers.RequirementSourceContentProvider;
@@ -92,7 +91,7 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 	private Action synchResourceAction;
 
 	/** Open Predicates Editor Action */
-	private OpenPredicatesEditorAction openPredicatesEditorAction;
+//	private OpenPredicatesEditorAction openPredicatesEditorAction;
 
 	/** Open Predicates View Action */
 	private OpenFilteredRequirementViewAction openPredicatesViewAction;
@@ -271,8 +270,8 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 		//		manager.add(openRequirementViewAction);
 		manager.add(new Separator());
 		manager.add(synchResourceAction);
-		manager.add(new Separator());
-		manager.add(openPredicatesEditorAction);
+//		manager.add(new Separator());
+//		manager.add(openPredicatesEditorAction);
 		manager.add(new Separator());
 		manager.add(openPredicatesViewAction);
 	}
@@ -289,7 +288,7 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 		//		manager.add(openRequirementViewAction);
 		manager.add(synchResourceAction);
 		manager.add(editMappingAction);
-		manager.add(openPredicatesEditorAction);
+//		manager.add(openPredicatesEditorAction);
 		manager.add(openPredicatesViewAction);
 		manager.add(new Separator());
 		drillDownAdapter.addNavigationActions(manager);
@@ -330,11 +329,11 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 		deleteRequirementSourceAction.setImageDescriptor(Activator.getImageDescriptor(ICON_DELETE_LOCATION));
 		deleteRequirementSourceAction.setEnabled(false);
 
-		openPredicatesEditorAction = new OpenPredicatesEditorAction();
-		ZigguratInject.inject(openPredicatesEditorAction);
-		openPredicatesEditorAction.setText("Open Predicates Editor");
-		openPredicatesEditorAction.setToolTipText("Open Predicates Editor");
-		openPredicatesEditorAction.setImageDescriptor(Activator.getImageDescriptor(ICON_OPEN)); // TODO: replace icon
+//		openPredicatesEditorAction = new OpenPredicatesEditorAction();
+//		ZigguratInject.inject(openPredicatesEditorAction);
+//		openPredicatesEditorAction.setText("Open Predicates Editor");
+//		openPredicatesEditorAction.setToolTipText("Open Predicates Editor");
+//		openPredicatesEditorAction.setImageDescriptor(Activator.getImageDescriptor(ICON_OPEN)); // TODO: replace icon
 
 		openPredicatesViewAction = new OpenFilteredRequirementViewAction(viewer);
 		openPredicatesViewAction.setText("Open Filtered Requirements View");

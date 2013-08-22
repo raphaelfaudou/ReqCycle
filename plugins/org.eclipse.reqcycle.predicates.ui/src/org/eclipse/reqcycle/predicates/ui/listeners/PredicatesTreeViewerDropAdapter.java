@@ -48,12 +48,7 @@ public class PredicatesTreeViewerDropAdapter extends EditingDomainViewerDropAdap
 	}
 
 	protected boolean validateDrop(Object target) {
-		if(target instanceof IPredicate) {
-			if(((IPredicate)target).getDisplayName() != null) {
-				return false;
-			}
-		}
-		return true;
+		return target instanceof IPredicate;
 	}
 
 }
