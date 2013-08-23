@@ -19,13 +19,11 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.ui.dialogs.WorkspaceResourceDialog;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
-import org.eclipse.reqcycle.traceability.storage.IStorageProvider;
-import org.eclipse.reqcycle.traceability.table.TraceabilityRow;
 import org.eclipse.reqcycle.traceability.table.TraceabilityTablePlugin;
-import org.eclipse.reqcycle.traceability.table.utils.TableUtils;
-import org.eclipse.reqcycle.traceability.table.utils.TraceabilityTableBuilder;
+import org.eclipse.reqcycle.traceability.table.model.TableController;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
@@ -35,30 +33,25 @@ import org.eclipse.ui.model.BaseWorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.progress.UIJob;
 
-import ca.odell.glazedlists.EventList;
-
-import com.google.common.collect.Iterables;
-
 
 public class ExplicitLinksAction extends Action {
 
-	private TraceabilityTableBuilder tableBuilder;
+	private TableViewer viewer;
 
-	private IStorageProvider provider;
+	private TableController control;
 
-
-	public ExplicitLinksAction(IStorageProvider provider, TraceabilityTableBuilder builder) {
+	public ExplicitLinksAction(TableViewer viewer, TableController control) {
 		super();
-		setText("Explicit links");
+		setText("Reqcycle links");
 		setToolTipText("Select the project from which explicit traceability should will be retrieved");
-		this.tableBuilder = builder;
-		this.provider = provider;
+		this.viewer = viewer;
+		this.control = control;
 	}
 
 
 	@Override
 	public void run() {
-		Shell shell = tableBuilder.getNatTable().getShell();
+		Shell shell = viewer.getTable().getShell(); 
 		BaseWorkbenchContentProvider contentProvider = new BaseWorkbenchContentProvider();
 		WorkspaceResourceDialog dialog = new WorkspaceResourceDialog(shell, labelProvider, contentProvider);
 		dialog.addFilter(projectFilter);
@@ -82,14 +75,6 @@ public class ExplicitLinksAction extends Action {
 				@Override
 				public IStatus runInUIThread(IProgressMonitor monitor) {
 					monitor.beginTask("Fetching traceability links", 100);
-					Iterable<TraceabilityRow> requirementRows = TableUtils.createRequirementRows(project, provider, tableBuilder);
-					EventList<TraceabilityRow> eventList = tableBuilder.getEventList();
-					eventList.getReadWriteLock().writeLock().lock();
-					eventList.clear();
-					Iterables.addAll(eventList, requirementRows);
-					tableBuilder.getNatTable().refresh();
-					eventList.getReadWriteLock().writeLock().unlock();
-					monitor.done();
 					return Status.OK_STATUS;
 				}
 			}.schedule();
