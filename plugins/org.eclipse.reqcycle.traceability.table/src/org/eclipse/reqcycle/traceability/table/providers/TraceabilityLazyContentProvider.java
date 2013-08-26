@@ -81,4 +81,8 @@ public class TraceabilityLazyContentProvider<T> implements ILazyContentProvider 
 	public static <T> TraceabilityLazyContentProvider<T> create(Class<T> clazz, TableViewer viewer) {
 		return new TraceabilityLazyContentProvider<T>(clazz, viewer);
 	}
+	
+	public void clearCache(){
+		cache.invalidateAll();
+	}
 }

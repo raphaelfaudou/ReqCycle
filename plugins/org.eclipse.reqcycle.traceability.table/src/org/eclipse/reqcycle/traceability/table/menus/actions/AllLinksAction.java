@@ -14,7 +14,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.reqcycle.traceability.table.model.TableController;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.progress.UIJob;
@@ -22,14 +21,12 @@ import org.eclipse.ui.progress.UIJob;
 
 public class AllLinksAction extends Action {
 
-	private TableViewer viewer;
 	private TableController control;
 
-	public AllLinksAction(TableViewer viewer, TableController control) {
+	public AllLinksAction(TableController control) {
 		super();
 		setText("All links");
 		setToolTipText("Display all traceability links");
-		this.viewer = viewer;
 		this.control = control;
 	}
 
@@ -41,6 +38,7 @@ public class AllLinksAction extends Action {
 			@Override
 			public IStatus runInUIThread(IProgressMonitor monitor) {
 				monitor.beginTask("Fetching traceability links", 100);
+				control.displayAllLinks();
 				return Status.OK_STATUS;
 			}
 		}.schedule();

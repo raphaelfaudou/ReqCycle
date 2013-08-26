@@ -43,7 +43,7 @@ public class ExplicitLinksAction extends Action {
 	public ExplicitLinksAction(TableViewer viewer, TableController control) {
 		super();
 		setText("Reqcycle links");
-		setToolTipText("Select the project from which explicit traceability should will be retrieved");
+		setToolTipText("Select the project from which transverse links should will be retrieved");
 		this.viewer = viewer;
 		this.control = control;
 	}
@@ -54,6 +54,8 @@ public class ExplicitLinksAction extends Action {
 		Shell shell = viewer.getTable().getShell(); 
 		BaseWorkbenchContentProvider contentProvider = new BaseWorkbenchContentProvider();
 		WorkspaceResourceDialog dialog = new WorkspaceResourceDialog(shell, labelProvider, contentProvider);
+		dialog.setTitle("Project selection");
+		dialog.setMessage("Select the project from which transverse links will be retrieved");
 		dialog.addFilter(projectFilter);
 		dialog.setAllowMultiple(false);
 		dialog.setInput(ResourcesPlugin.getWorkspace().getRoot());
@@ -75,6 +77,7 @@ public class ExplicitLinksAction extends Action {
 				@Override
 				public IStatus runInUIThread(IProgressMonitor monitor) {
 					monitor.beginTask("Fetching traceability links", 100);
+					ExplicitLinksAction.this.control.displayExplicitLinks(project);
 					return Status.OK_STATUS;
 				}
 			}.schedule();

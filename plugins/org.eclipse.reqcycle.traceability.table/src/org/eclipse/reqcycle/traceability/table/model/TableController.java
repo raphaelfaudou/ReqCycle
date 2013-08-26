@@ -20,6 +20,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.reqcycle.traceability.engine.ITraceabilityEngine;
 import org.eclipse.reqcycle.traceability.engine.ITraceabilityEngine.DIRECTION;
 import org.eclipse.reqcycle.traceability.engine.Request;
@@ -31,10 +32,12 @@ import org.eclipse.reqcycle.traceability.model.scopes.CompositeScope;
 import org.eclipse.reqcycle.traceability.model.scopes.Scopes;
 import org.eclipse.reqcycle.traceability.storage.IStorageProvider;
 import org.eclipse.reqcycle.traceability.storage.ITraceabilityStorage;
+import org.eclipse.reqcycle.traceability.table.providers.TraceabilityLazyContentProvider;
 import org.eclipse.reqcycle.traceability.types.scopes.ConfigurationScope;
 import org.eclipse.reqcycle.uri.model.Reachable;
 
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
@@ -60,9 +63,12 @@ public class TableController {
 
 	public void displayAllLinks() {
 		Iterable<Link> linksFromEngine = getLinksFromEngine();
-		viewer.setInput(linksFromEngine);
-		viewer.setItemCount(Iterables.size(linksFromEngine));
-		viewer.refresh();
+		setViewerInput(linksFromEngine);
+	}
+	
+	public void displayExplicitLinks(IProject project){
+		Iterable<Link> linksFromEngine = getLinksFromProject(project);
+		setViewerInput(linksFromEngine);
 	}
 
 	protected Iterable<Link> getLinksFromEngine() {
@@ -134,6 +140,38 @@ public class TableController {
 			return provider.getStorage(uri);
 		}
 		return null;
+	}
+	
+	
+	/**
+	 * Filters and sets the viewer's input.
+	 * @param input
+	 */
+	protected void setViewerInput(Iterable<?> input){
+		Predicate<Object> filter = new Predicate<Object>(){
+			@Override
+			public boolean apply(Object arg0) {
+				ViewerFilter[] filters = TableController.this.viewer.getFilters();
+				for(int i = 0 ; i < filters.length ; i ++ ){
+					ViewerFilter filter = filters[i];
+					if (!filter.select(viewer, null, arg0)){
+						return false; 
+					}
+				}
+				return true;
+			}
+		};
+		Iterable<?> filtered = Iterables.filter(input, filter);
+		viewer.setInput(filtered);
+		viewer.setItemCount(Iterables.size(filtered));
+		viewer.refresh();
+	}
+
+	public void refreshViewer(){
+		TraceabilityLazyContentProvider<?> contentProvider = (TraceabilityLazyContentProvider<?>) viewer.getContentProvider();
+		viewer.setItemCount(Iterables.size((Iterable<?>) viewer.getInput()));
+		contentProvider.clearCache();
+		viewer.refresh();
 	}
 	
 }

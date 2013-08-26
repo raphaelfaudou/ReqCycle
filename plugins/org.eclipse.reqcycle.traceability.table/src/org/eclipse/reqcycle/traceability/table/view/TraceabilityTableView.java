@@ -11,28 +11,38 @@
 package org.eclipse.reqcycle.traceability.table.view;
 
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.reqcycle.traceability.engine.ITraceabilityEngine;
 import org.eclipse.reqcycle.traceability.model.Link;
 import org.eclipse.reqcycle.traceability.storage.IStorageProvider;
+import org.eclipse.reqcycle.traceability.table.filters.TableFilter;
+import org.eclipse.reqcycle.traceability.table.menus.actions.AllLinksAction;
+import org.eclipse.reqcycle.traceability.table.menus.actions.ExplicitLinksAction;
 import org.eclipse.reqcycle.traceability.table.model.TableController;
 import org.eclipse.reqcycle.traceability.table.providers.TraceabilityLazyContentProvider;
 import org.eclipse.reqcycle.traceability.ui.TraceabilityUtils;
 import org.eclipse.reqcycle.uri.model.Reachable;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.internal.PartSite;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ziggurat.inject.ZigguratInject;
@@ -55,6 +65,8 @@ public class TraceabilityTableView extends ViewPart {
 
 	protected TableController tableControl;
 
+	protected Text filterText;
+
 	public TraceabilityTableView() {
 		ZigguratInject.inject(this);
 	}
@@ -62,7 +74,14 @@ public class TraceabilityTableView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 
-		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER | SWT.VIRTUAL);
+		Composite composite = new Composite(parent, SWT.NONE);
+		composite.setLayout(new GridLayout(1, false));
+
+		filterText = new Text(composite, SWT.BORDER);
+		filterText.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false));
+
+		viewer = new TableViewer(composite, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER | SWT.VIRTUAL);
+		viewer.getTable().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		TraceabilityLazyContentProvider<Link> provider = TraceabilityLazyContentProvider.create(Link.class, viewer);
 		viewer.setContentProvider(provider);
 
@@ -80,15 +99,26 @@ public class TraceabilityTableView extends ViewPart {
 		//Creating the columns.
 		createModel();
 
-		// A menu should react on the selection in the table.
-		MenuManager menuManager = new MenuManager(null, VIEW_ID);
-		menuManager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
-		getSite().setSelectionProvider(viewer);
-		getSite().registerContextMenu(menuManager, viewer);
+		hookMenu(table);
 		hookActions();
+		hookListeners();
 
 		//Setting the input.
 		tableControl.displayAllLinks();
+	}
+
+	private void hookListeners() {
+		TableFilter filter = new TableFilter();
+		viewer.addFilter(filter);
+		filterText.addModifyListener(new ModifyListenerImplementation(filter));;
+	}
+
+	private void hookMenu(final Table table) {
+		MenuManager popupMenu = new MenuManager(null, VIEW_ID);
+		Menu menu = popupMenu.createContextMenu(table);
+		table.setMenu(menu);
+		getSite().setSelectionProvider(viewer);
+		getSite().registerContextMenu(popupMenu, viewer);
 	}
 
 	private void createModel() {
@@ -136,11 +166,11 @@ public class TraceabilityTableView extends ViewPart {
 
 	private void hookActions() {
 		IActionBars bars = ((PartSite)getSite()).getActionBars();
-		//		ExplicitLinksAction explicitAction = new ExplicitLinksAction(provider, builder);
-		//		ImplicitLinksAction implicitAction = new ImplicitLinksAction(engine, builder);
-		//		ZigguratInject.inject(explicitAction, implicitAction);
-		//		bars.getToolBarManager().add(explicitAction);
-		//		bars.getToolBarManager().add(implicitAction);
+		ExplicitLinksAction explicitAction = new ExplicitLinksAction(viewer, tableControl);
+		AllLinksAction implicitAction = new AllLinksAction(tableControl);
+		ZigguratInject.inject(explicitAction, implicitAction);
+		bars.getToolBarManager().add(explicitAction);
+		bars.getToolBarManager().add(implicitAction);
 	}
 
 	@Override
@@ -156,6 +186,51 @@ public class TraceabilityTableView extends ViewPart {
 		column.setResizable(true);
 		column.setMoveable(false);
 		return viewerColumn;
+	}
+
+	/**
+	 * Search is performed after a delay (avoids computation every time the user presses a key)
+	 * 
+	 * @author omelois
+	 */
+	private final class ModifyListenerImplementation implements ModifyListener {
+
+		Timer t = new Timer();
+
+		TimerTask tt;
+
+		TableFilter filter;
+
+		ModifyListenerImplementation(TableFilter filter) {
+			this.filter = filter;
+		}
+
+		@Override
+		public void modifyText(ModifyEvent e) {
+			if(tt != null) {
+				tt.cancel(); //This cancels the timer as well.
+				t.purge();
+				tt = null;
+			}
+
+			tt = new TimerTask() {
+
+				//The timer thread will yield to the display thread to apply the filter.
+				@Override
+				public void run() {
+					Display.getDefault().syncExec(new Runnable() {
+
+						public void run() {
+							String searchText = TraceabilityTableView.this.filterText.getText();
+							ModifyListenerImplementation.this.filter.setSearchText(searchText);
+							TraceabilityTableView.this.tableControl.refreshViewer();
+						}
+					});
+				}
+			};
+
+			t.schedule(tt, 800);
+		}
 	}
 
 }
