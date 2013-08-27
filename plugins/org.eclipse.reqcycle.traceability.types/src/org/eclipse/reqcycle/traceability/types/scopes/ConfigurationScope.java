@@ -6,9 +6,9 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.eclipse.reqcycle.traceability.model.scopes.IScope;
-import org.eclipse.reqcycle.traceability.types.Activator;
 import org.eclipse.reqcycle.uri.IReachableCreator;
 import org.eclipse.reqcycle.uri.model.Reachable;
+import org.eclipse.ziggurat.configuration.Activator;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
 /**

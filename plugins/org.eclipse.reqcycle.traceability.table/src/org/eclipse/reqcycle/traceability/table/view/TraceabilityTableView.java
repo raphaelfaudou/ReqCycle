@@ -10,37 +10,44 @@
  ******************************************************************************/
 package org.eclipse.reqcycle.traceability.table.view;
 
-import java.util.List;
+import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.viewers.ISelectionProvider;
-import org.eclipse.nebula.widgets.nattable.NatTable;
-import org.eclipse.nebula.widgets.nattable.data.ListDataProvider;
-import org.eclipse.nebula.widgets.nattable.extension.builder.layers.BodyLayerStack;
-import org.eclipse.nebula.widgets.nattable.selection.RowSelectionProvider;
-import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.reqcycle.traceability.engine.ITraceabilityEngine;
+import org.eclipse.reqcycle.traceability.model.Link;
 import org.eclipse.reqcycle.traceability.storage.IStorageProvider;
-import org.eclipse.reqcycle.traceability.table.TraceabilityRow;
+import org.eclipse.reqcycle.traceability.table.filters.TableFilter;
+import org.eclipse.reqcycle.traceability.table.menus.actions.AllLinksAction;
 import org.eclipse.reqcycle.traceability.table.menus.actions.ExplicitLinksAction;
-import org.eclipse.reqcycle.traceability.table.menus.actions.ImplicitLinksAction;
-import org.eclipse.reqcycle.traceability.table.menus.conf.PopupMenuConfiguration;
-import org.eclipse.reqcycle.traceability.table.utils.TraceabilityTableBuilder;
+import org.eclipse.reqcycle.traceability.table.model.TableController;
+import org.eclipse.reqcycle.traceability.table.providers.TraceabilityLazyContentProvider;
+import org.eclipse.reqcycle.traceability.ui.TraceabilityUtils;
+import org.eclipse.reqcycle.uri.model.Reachable;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.internal.PartSite;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import ca.odell.glazedlists.EventList;
-import ca.odell.glazedlists.GlazedLists;
-
-import com.google.common.collect.Lists;
+import com.google.common.collect.Iterables;
 
 @SuppressWarnings("restriction")
 public class TraceabilityTableView extends ViewPart {
@@ -54,7 +61,11 @@ public class TraceabilityTableView extends ViewPart {
 	@Named("RDF")
 	protected IStorageProvider provider;
 
-	protected TraceabilityTableBuilder builder;
+	protected TableViewer viewer;
+
+	protected TableController tableControl;
+
+	protected Text filterText;
 
 	public TraceabilityTableView() {
 		ZigguratInject.inject(this);
@@ -63,36 +74,100 @@ public class TraceabilityTableView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 
-		List<TraceabilityRow> list = Lists.newArrayList();
-		EventList<TraceabilityRow> eventList = GlazedLists.eventList(list);
-		this.builder = new TraceabilityTableBuilder(parent, eventList);
-		NatTable natTable = builder.setupLayerStacks();
+		Composite composite = new Composite(parent, SWT.NONE);
+		composite.setLayout(new GridLayout(1, false));
 
-		BodyLayerStack<TraceabilityRow> bodyLayerStack = builder.getBodyLayerStack();
-		ListDataProvider<TraceabilityRow> dataProvider = bodyLayerStack.getDataProvider();
-		SelectionLayer selectionLayer = bodyLayerStack.getSelectionLayer();
+		filterText = new Text(composite, SWT.BORDER);
+		filterText.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false));
 
-		/*
-		 * Hooking extendable menus.
-		 */
-		ISelectionProvider selectionProvider = new RowSelectionProvider<TraceabilityRow>(selectionLayer, dataProvider, false);
-		MenuManager menuManager = new MenuManager(null, VIEW_ID);
-		menuManager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
-		getSite().setSelectionProvider(selectionProvider);
-		getSite().registerContextMenu(menuManager, selectionProvider);
-		natTable.addConfiguration(new PopupMenuConfiguration(natTable, menuManager));
-		builder.build();
+		viewer = new TableViewer(composite, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER | SWT.VIRTUAL);
+		viewer.getTable().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		TraceabilityLazyContentProvider<Link> provider = TraceabilityLazyContentProvider.create(Link.class, viewer);
+		viewer.setContentProvider(provider);
 
-		/*
-		 * Hooking actions in the action bar.
-		 */
-		hookActions(builder);
+		//Creating the control.
+		tableControl = new TableController(viewer);
+		ZigguratInject.inject(tableControl);
+
+		// special settings for the lazy Content provider
+		viewer.setUseHashlookup(true);
+
+		final Table table = viewer.getTable();
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
+
+		//Creating the columns.
+		createModel();
+
+		hookMenu(table);
+		hookActions();
+		hookListeners();
+
+		//Setting the input.
+		tableControl.displayAllLinks();
 	}
 
-	private void hookActions(TraceabilityTableBuilder builder) {
+	private void hookListeners() {
+		TableFilter filter = new TableFilter();
+		viewer.addFilter(filter);
+		filterText.addModifyListener(new ModifyListenerImplementation(filter));;
+	}
+
+	private void hookMenu(final Table table) {
+		MenuManager popupMenu = new MenuManager(null, VIEW_ID);
+		Menu menu = popupMenu.createContextMenu(table);
+		table.setMenu(menu);
+		getSite().setSelectionProvider(viewer);
+		getSite().registerContextMenu(popupMenu, viewer);
+	}
+
+	private void createModel() {
+		createTableViewerColumn("Link type", 50, 0).setLabelProvider(new ColumnLabelProvider() {
+
+			@Override
+			public String getText(Object element) {
+				if(element instanceof Link) {
+					return ((Link)element).getKind().getLabel();
+				}
+				return super.getText(element);
+			}
+		});
+
+		createTableViewerColumn("Upstream", 200, 1).setLabelProvider(new ColumnLabelProvider() {
+
+			@Override
+			public String getText(Object element) {
+				if(element instanceof Link) {
+					Set<Reachable> set = ((Link)element).getSources();
+					if(set != null && set.size() == 1) {
+						Reachable reachable = Iterables.get(set, 0);
+						return TraceabilityUtils.getText(reachable);
+					}
+				}
+				return super.getText(element);
+			}
+		});
+
+		createTableViewerColumn("Downstream", 200, 2).setLabelProvider(new ColumnLabelProvider() {
+
+			@Override
+			public String getText(Object element) {
+				if(element instanceof Link) {
+					Set<Reachable> set = ((Link)element).getTargets();
+					if(set != null && set.size() == 1) {
+						Reachable reachable = Iterables.get(set, 0);
+						return TraceabilityUtils.getText(reachable);
+					}
+				}
+				return super.getText(element);
+			}
+		});
+	}
+
+	private void hookActions() {
 		IActionBars bars = ((PartSite)getSite()).getActionBars();
-		ExplicitLinksAction explicitAction = new ExplicitLinksAction(provider, builder);
-		ImplicitLinksAction implicitAction = new ImplicitLinksAction(engine, builder);
+		ExplicitLinksAction explicitAction = new ExplicitLinksAction(viewer, tableControl);
+		AllLinksAction implicitAction = new AllLinksAction(tableControl);
 		ZigguratInject.inject(explicitAction, implicitAction);
 		bars.getToolBarManager().add(explicitAction);
 		bars.getToolBarManager().add(implicitAction);
@@ -100,6 +175,62 @@ public class TraceabilityTableView extends ViewPart {
 
 	@Override
 	public void setFocus() {
+		viewer.getControl().setFocus();
+	}
+
+	private TableViewerColumn createTableViewerColumn(String title, int bound, final int colNumber) {
+		final TableViewerColumn viewerColumn = new TableViewerColumn(viewer, SWT.NONE);
+		final TableColumn column = viewerColumn.getColumn();
+		column.setText(title);
+		column.setWidth(bound);
+		column.setResizable(true);
+		column.setMoveable(false);
+		return viewerColumn;
+	}
+
+	/**
+	 * Search is performed after a delay (avoids computation every time the user presses a key)
+	 * 
+	 * @author omelois
+	 */
+	private final class ModifyListenerImplementation implements ModifyListener {
+
+		Timer t = new Timer();
+
+		TimerTask tt;
+
+		TableFilter filter;
+
+		ModifyListenerImplementation(TableFilter filter) {
+			this.filter = filter;
+		}
+
+		@Override
+		public void modifyText(ModifyEvent e) {
+			if(tt != null) {
+				tt.cancel(); //This cancels the timer as well.
+				t.purge();
+				tt = null;
+			}
+
+			tt = new TimerTask() {
+
+				//The timer thread will yield to the display thread to apply the filter.
+				@Override
+				public void run() {
+					Display.getDefault().syncExec(new Runnable() {
+
+						public void run() {
+							String searchText = TraceabilityTableView.this.filterText.getText();
+							ModifyListenerImplementation.this.filter.setSearchText(searchText);
+							TraceabilityTableView.this.tableControl.refreshViewer();
+						}
+					});
+				}
+			};
+
+			t.schedule(tt, 800);
+		}
 	}
 
 }
