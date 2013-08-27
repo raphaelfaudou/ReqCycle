@@ -8,6 +8,7 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.databinding.viewers.ViewerProperties;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -34,41 +35,51 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ziggurat.inject.ZigguratInject;
-import org.eclipse.jface.databinding.viewers.ViewerProperties;
 
 
 public class NewPredicateDialog extends TitleAreaDialog {
+
 	private DataBindingContext m_bindingContext;
 
 	private Text text;
+
 	private ComboViewer comboViewer;
+
 	private IContentProvider comboContentProvider;
+
 	private ILabelProvider comboILabelProvider;
+
 	private IInputValidator validator;
+
 	private PredicateBean bean = new PredicateBean();
 
 	IPredicatesConfManager predicatesConfManager = ZigguratInject.make(IPredicatesConfManager.class);
+
 	private Combo combo;
 
 	static class PredicateBean {
-		
+
 		private String name;
+
 		private IPredicate rootPredicate;
-		
+
 		public String getName() {
 			return name;
 		}
+
 		public void setName(String name) {
 			this.name = name;
 		}
+
 		public IPredicate getRootPredicate() {
 			return rootPredicate;
 		}
+
 		public void setRootPredicate(IPredicate rootPredicate) {
 			this.rootPredicate = rootPredicate;
 		}
 	}
-	
+
 
 	public NewPredicateDialog(Shell parentShell) {
 		super(parentShell);
@@ -88,36 +99,37 @@ public class NewPredicateDialog extends TitleAreaDialog {
 			}
 		};
 	}
-	
-	
+
+
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		// create composite
-        Composite control = (Composite) super.createDialogArea(parent);
-        
-        Composite composite = new Composite(control, SWT.WRAP);
-        composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-        composite.setLayout(new GridLayout(2, false));
-        
-        // create message
+		Composite control = (Composite)super.createDialogArea(parent);
+
+		Composite composite = new Composite(control, SWT.WRAP);
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		composite.setLayout(new GridLayout(2, false));
+
+		// create message
 		Label label = new Label(composite, SWT.None);
 		label.setText("Predicate name");
 		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 		label.setFont(parent.getFont());
-		
-        text = new Text(composite, SWT.BORDER);
-        text.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-        text.addModifyListener(new ModifyListener() {
-            public void modifyText(ModifyEvent e) {
-                validateInput();
-            }
-        });
-        
-        label = new Label(composite, SWT.WRAP);
+
+		text = new Text(composite, SWT.BORDER);
+		text.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		text.addModifyListener(new ModifyListener() {
+
+			public void modifyText(ModifyEvent e) {
+				validateInput();
+			}
+		});
+
+		label = new Label(composite, SWT.WRAP);
 		label.setText("Root Predicate");
 		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 		label.setFont(parent.getFont());
-        
+
 		comboViewer = new ComboViewer(composite, SWT.READ_ONLY);
 		combo = comboViewer.getCombo();
 		combo.setLayout(new GridLayout());
@@ -130,14 +142,14 @@ public class NewPredicateDialog extends TitleAreaDialog {
 		comboViewer.setLabelProvider(comboILabelProvider);
 		comboViewer.setInput(PredicatesUtil.getDefaultPredicates());
 		comboViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			
+
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				validateInput();
 			}
 		});
-		
-		
+
+
 		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		final AdapterFactoryLabelProvider adapterLabelProvider = new AdapterFactoryLabelProvider(adapterFactory);
 
@@ -148,16 +160,16 @@ public class NewPredicateDialog extends TitleAreaDialog {
 				return adapterLabelProvider.getText(element);
 			}
 		});
-		
-        // Set the error message text
-        // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=66292
-//        setErrorMessage(errorMessage);
 
-        applyDialogFont(composite);
-        new Label(composite, SWT.NONE);
-        new Label(composite, SWT.NONE);
-        m_bindingContext = initDataBindings();
-        return composite;
+		// Set the error message text
+		// See https://bugs.eclipse.org/bugs/show_bug.cgi?id=66292
+		//        setErrorMessage(errorMessage);
+
+		applyDialogFont(composite);
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
+		m_bindingContext = initDataBindings();
+		return composite;
 	}
 
 
@@ -165,12 +177,12 @@ public class NewPredicateDialog extends TitleAreaDialog {
 
 		String errorMessage = null;
 		if(validator != null && text != null) {
-	        errorMessage = validator.isValid(text.getText());
+			errorMessage = validator.isValid(text.getText());
 		}
-		
+
 		if(comboViewer != null && comboViewer.getSelection().isEmpty()) {
 			String msg = "Select a root predicate";
-			errorMessage = errorMessage != null && !errorMessage.isEmpty()? errorMessage + "\n" + msg : msg;
+			errorMessage = errorMessage != null && !errorMessage.isEmpty() ? errorMessage + "\n" + msg : msg;
 		}
 
 		setErrorMessage(errorMessage);
@@ -179,26 +191,26 @@ public class NewPredicateDialog extends TitleAreaDialog {
 			okButton.setEnabled(errorMessage == null);
 		}
 	}
-	
+
 	@Override
 	protected Button createButton(Composite parent, int id, String label, boolean defaultButton) {
 		Button btn = super.createButton(parent, id, label, defaultButton);
-		
+
 		if(Window.OK == id && btn != null) {
 			btn.setEnabled(false);
 		}
-		
+
 		return btn;
 	}
-	
+
 	public String getName() {
 		return bean != null ? bean.getName() : null;
 	}
-	
+
 	public IPredicate getRootPredicate() {
 		return bean != null ? bean.getRootPredicate() : null;
 	}
-	
+
 	protected DataBindingContext initDataBindings() {
 		DataBindingContext bindingContext = new DataBindingContext();
 		//

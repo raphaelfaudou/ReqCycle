@@ -34,7 +34,6 @@ import org.eclipse.reqcycle.predicates.persistance.util.IPredicatesConfManager;
 import org.eclipse.reqcycle.predicates.ui.dialogs.AbstractCustomDialog;
 import org.eclipse.reqcycle.predicates.ui.dialogs.CheckBoxInputDialog;
 import org.eclipse.reqcycle.predicates.ui.dialogs.ComboInputDialog;
-import org.eclipse.reqcycle.predicates.ui.dialogs.NewPredicateDialog;
 import org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditor;
 import org.eclipse.reqcycle.predicates.ui.providers.PredicatesTableLabelProvider;
 import org.eclipse.swt.widgets.Display;
@@ -54,16 +53,17 @@ import org.eclipse.ziggurat.inject.ZigguratInject;
 public class PredicatesUIHelper {
 
 	static IPredicatesConfManager predicatesConfManager = ZigguratInject.make(IPredicatesConfManager.class);
-	
+
 	static ILogger logger = ZigguratInject.make(ILogger.class);
-	
+
 	private PredicatesUIHelper() {
 	}
 
 	/**
 	 * Opens a dialog which proposes to select a predicate to apply for filtering.
 	 * 
-	 * @param preSelection predicates to preselect
+	 * @param preSelection
+	 *        predicates to preselect
 	 * 
 	 * @return The selected predicates or an empty list if nothing is selected and null if cancelled.
 	 */
@@ -82,6 +82,7 @@ public class PredicatesUIHelper {
 		} else {
 			dialog = new ComboInputDialog(display.getActiveShell(), title, msg, storedPredicates, null, true);
 			((ComboInputDialog)dialog).setLabelProvider(new LabelProvider() {
+
 				@Override
 				public String getText(Object element) {
 					if(element instanceof IPredicate) {
@@ -102,7 +103,7 @@ public class PredicatesUIHelper {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Gets root predicate
 	 * 
@@ -137,14 +138,14 @@ public class PredicatesUIHelper {
 			openEditor(Collections.emptyList(), selectedPredicate);
 		}
 	}
-	
+
 	public static void editPredicate() {
-		Collection<IPredicate> predicates = openPredicatesChooser(null,"","", false);
+		Collection<IPredicate> predicates = openPredicatesChooser(null, "", "", false);
 		if(predicates != null && !predicates.isEmpty()) {
 			openEditor(null, predicates.iterator().next());
 		}
 	}
-	
+
 	/**
 	 * Opens a new predicates editor.
 	 * 
@@ -162,7 +163,7 @@ public class PredicatesUIHelper {
 				name = rootPredicate.getDisplayName();
 				prefix = name + "_" + prefix;
 			}
-			
+
 			final File f = File.createTempFile(prefix, ".predicates");
 
 			Runtime.getRuntime().addShutdownHook(new ShutDownHook(f));
@@ -170,12 +171,12 @@ public class PredicatesUIHelper {
 			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 			PredicatesEditor editor = (PredicatesEditor)IDE.openEditor(page, f.toURI(), PredicatesEditor.ID, true);
 			editor.setDirty(false);
-//			editor.setPageTitle("Predicates Editor");
+			//			editor.setPageTitle("Predicates Editor");
 			editor.setRootPredicate(EcoreUtil.copy(rootPredicate));
-			if (input != null) {
+			if(input != null) {
 				editor.setInput(input);
 			}
-//			editor.hideButtonLoadModel();
+			//			editor.hideButtonLoadModel();
 
 		} catch (PartInitException e) {
 			e.printStackTrace();
@@ -188,7 +189,7 @@ public class PredicatesUIHelper {
 			logger.error(e.toString());
 		}
 	}
-	
+
 	private static class ShutDownHook extends Thread {
 
 		private final File file;
@@ -207,7 +208,7 @@ public class PredicatesUIHelper {
 			}
 		}
 	}
-	
+
 	/**
 	 * @param shell
 	 * @return Entered String or null if cancelled
@@ -226,12 +227,12 @@ public class PredicatesUIHelper {
 				return null;
 			}
 		});
-		
-		if (savePredicateDialog.open() == Window.OK) {
+
+		if(savePredicateDialog.open() == Window.OK) {
 			return savePredicateDialog.getValue();
 		} else {
 			return null;
 		}
 	}
-	
+
 }

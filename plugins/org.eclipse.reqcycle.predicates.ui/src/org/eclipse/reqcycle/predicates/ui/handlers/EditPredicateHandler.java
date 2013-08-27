@@ -7,10 +7,10 @@ import org.eclipse.reqcycle.predicates.ui.util.PredicatesUIHelper;
 
 public class EditPredicateHandler extends AbstractHandler {
 
-	
+
 	public EditPredicateHandler() {
 	}
-	
+
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		PredicatesUIHelper.editPredicate();

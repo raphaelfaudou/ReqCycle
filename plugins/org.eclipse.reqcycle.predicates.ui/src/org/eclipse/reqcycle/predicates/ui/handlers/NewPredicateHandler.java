@@ -6,6 +6,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.reqcycle.predicates.ui.util.PredicatesUIHelper;
 
 public class NewPredicateHandler extends AbstractHandler {
+
 	/**
 	 * The constructor.
 	 */

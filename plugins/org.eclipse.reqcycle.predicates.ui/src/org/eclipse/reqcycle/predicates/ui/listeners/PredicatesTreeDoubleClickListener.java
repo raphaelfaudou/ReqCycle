@@ -31,7 +31,6 @@ import org.eclipse.reqcycle.predicates.core.api.IEAttrPredicate;
 import org.eclipse.reqcycle.predicates.core.api.ITypedPredicate;
 import org.eclipse.reqcycle.predicates.core.util.PredicatesUtil;
 import org.eclipse.reqcycle.predicates.persistance.util.IPredicatesConfManager;
-import org.eclipse.reqcycle.predicates.persistance.util.PredicatesConfManager;
 import org.eclipse.reqcycle.predicates.ui.dialogs.IEAttrPredicatesNodeEditorDialog;
 import org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditor;
 import org.eclipse.reqcycle.ui.eattrpropseditor.api.IEditionResult;
@@ -45,7 +44,7 @@ public class PredicatesTreeDoubleClickListener implements IDoubleClickListener {
 	private Collection<EClass> eClasses;
 
 	private boolean useExtendedFeature;
-	
+
 	IPredicatesConfManager manager = ZigguratInject.make(IPredicatesConfManager.class);
 
 	/**

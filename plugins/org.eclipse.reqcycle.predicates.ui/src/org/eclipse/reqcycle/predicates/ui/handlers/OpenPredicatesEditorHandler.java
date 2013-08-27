@@ -10,15 +10,15 @@ public class OpenPredicatesEditorHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-//		NewPredicateDialog dialog = new NewPredicateDialog(HandlerUtil.getActiveShell(event));
-//		if(Window.OK == dialog.open()) {
-//			String name = dialog.getName();
-//			IPredicate rootPredicate = dialog.getRootPredicate();
-//			
-//		}
-		
+		//		NewPredicateDialog dialog = new NewPredicateDialog(HandlerUtil.getActiveShell(event));
+		//		if(Window.OK == dialog.open()) {
+		//			String name = dialog.getName();
+		//			IPredicate rootPredicate = dialog.getRootPredicate();
+		//			
+		//		}
+
 		PredicatesUIHelper.openEditor(null, null);
-		
+
 		return null;
 	}
 

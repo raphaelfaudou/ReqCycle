@@ -51,7 +51,6 @@ import org.eclipse.reqcycle.predicates.ui.dialogs.NewPredicateDialog;
 import org.eclipse.reqcycle.predicates.ui.listeners.CustomPredicatesTreeViewerDragAdapter;
 import org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditor;
 import org.eclipse.reqcycle.predicates.ui.providers.PredicatesTableLabelProvider;
-import org.eclipse.reqcycle.predicates.ui.util.PredicatesUIHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.dnd.DND;
@@ -64,8 +63,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
@@ -81,7 +78,7 @@ public class RightPanelComposite extends Composite {
 	private TableViewer tableViewerOfDefautPredicates;
 
 	private TableViewer tableViewerOfCustomPredicates;
-	
+
 	private InputDialog savePredicateDialog;
 
 	IPredicatesConfManager predicatesConfManager = ZigguratInject.make(IPredicatesConfManager.class);
@@ -106,44 +103,35 @@ public class RightPanelComposite extends Composite {
 		setLayout(new GridLayout(1, false));
 
 		this.predicatesEditor = editor;
-		
+
 		SashForm form = new SashForm(this, SWT.VERTICAL);
 		form.setLayout(new GridLayout());
 		form.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		this.createGroupOfDefaultPredicates(form);
 		this.createGroupOfCustomPredicates(form);
-		
+
 	}
 
 
-	protected Collection<EPackage> getAllPackages(Resource resource)
-    {
-      List<EPackage> result = new ArrayList<EPackage>();
-      for (TreeIterator<?> j =
-             new EcoreUtil.ContentTreeIterator<Object>(resource.getContents())
-             {
-               private static final long serialVersionUID = 1L;
+	protected Collection<EPackage> getAllPackages(Resource resource) {
+		List<EPackage> result = new ArrayList<EPackage>();
+		for(TreeIterator<?> j = new EcoreUtil.ContentTreeIterator<Object>(resource.getContents()) {
 
-               @Override
-               protected Iterator<? extends EObject> getEObjectChildren(EObject eObject)
-               {
-                 return
-                   eObject instanceof EPackage ?
-                     ((EPackage)eObject).getESubpackages().iterator() :
-                       Collections.<EObject>emptyList().iterator();
-               }
-             };
-           j.hasNext(); )
-      {
-        Object content = j.next();
-        if (content instanceof EPackage)
-        {
-          result.add((EPackage)content);
-        }
-      }
-      return result;
-    }
-	
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected Iterator<? extends EObject> getEObjectChildren(EObject eObject) {
+				return eObject instanceof EPackage ? ((EPackage)eObject).getESubpackages().iterator() : Collections.<EObject> emptyList().iterator();
+			}
+		}; j.hasNext();) {
+			Object content = j.next();
+			if(content instanceof EPackage) {
+				result.add((EPackage)content);
+			}
+		}
+		return result;
+	}
+
 	private void createGroupOfDefaultPredicates(Composite parent) {
 
 		final Group grpDefaultPredicates = new Group(parent, SWT.NONE);
@@ -228,7 +216,7 @@ public class RightPanelComposite extends Composite {
 
 		tableViewerOfCustomPredicates.setInput(predicatesConfManager.getPredicates(false));
 		tableViewerOfCustomPredicates.addSelectionChangedListener(new ISelectionChangedListener() {
-			
+
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				if(!editionMode) {
@@ -252,13 +240,13 @@ public class RightPanelComposite extends Composite {
 		tableViewerOfCustomPredicates.addDragSupport(dndOperations, transferTypes, new CustomPredicatesTreeViewerDragAdapter(tableViewerOfCustomPredicates) {
 		});
 
-		this.initTableMenuOfCustomPredicates(tableOfCustomPredicates);
+		//		this.initTableMenuOfCustomPredicates(tableOfCustomPredicates);
 
 		Composite compositeButtons = new Composite(grpCustomPredicates, SWT.NONE);
 		compositeButtons.setLayout(new GridLayout(5, false));
 		compositeButtons.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 
-		
+
 		buttonAdd = new Button(compositeButtons, SWT.NONE);
 		buttonAdd.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
 		buttonAdd.setToolTipText("Add new predicate");
@@ -267,19 +255,19 @@ public class RightPanelComposite extends Composite {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-					if(!createNewPredicate(getShell())) {
-						return;
-					}
-					editionMode = true;
-					buttonAdd.setEnabled(false);
-					if(buttonRemove != null)
-						buttonRemove.setEnabled(false);
-					if(buttonEdit != null)
-						buttonEdit.setEnabled(false);
-					if(buttonSave != null)
-						buttonSave.setEnabled(true);
-					if(buttonFinish != null)
-						buttonFinish.setEnabled(true);
+				if(!createNewPredicate(getShell())) {
+					return;
+				}
+				editionMode = true;
+				buttonAdd.setEnabled(false);
+				if(buttonRemove != null)
+					buttonRemove.setEnabled(false);
+				if(buttonEdit != null)
+					buttonEdit.setEnabled(false);
+				if(buttonSave != null)
+					buttonSave.setEnabled(true);
+				if(buttonFinish != null)
+					buttonFinish.setEnabled(true);
 			}
 		});
 
@@ -305,7 +293,7 @@ public class RightPanelComposite extends Composite {
 								predicatesToRemove.add(predicate);
 							}
 						}
-						
+
 						final StringBuilder confirmMessage = new StringBuilder("Do you really want to remove the following predicates :");
 						final String lineSeparator = System.getProperty("line.separator");
 						confirmMessage.append(lineSeparator).append(lineSeparator);
@@ -328,15 +316,16 @@ public class RightPanelComposite extends Composite {
 				}
 			}
 		});
-		
-		
-		
+
+
+
 		buttonEdit = new Button(compositeButtons, SWT.NONE);
 		buttonEdit.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
 		buttonEdit.setToolTipText("Edit the selected predicate");
 		buttonEdit.setImage(AbstractUIPlugin.imageDescriptorFromPlugin(PredicatesUIPlugin.PLUGIN_ID, "/icons/full/obj16/edit_obj.png").createImage());
 		buttonEdit.setEnabled(false);
 		buttonEdit.addSelectionListener(new SelectionAdapter() {
+
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				TableItem item = tableViewerOfCustomPredicates.getTable().getItem(tableViewerOfCustomPredicates.getTable().getSelectionIndex());
@@ -344,8 +333,8 @@ public class RightPanelComposite extends Composite {
 				tableViewerOfCustomPredicates.refresh();
 				editedItem = item;
 				Object data = item.getData();
-				if (predicatesEditor != null && data instanceof IPredicate) {
-					if (predicatesEditor.setRootPredicate(EcoreUtil.copy((IPredicate)data))) {
+				if(predicatesEditor != null && data instanceof IPredicate) {
+					if(predicatesEditor.setRootPredicate(EcoreUtil.copy((IPredicate)data))) {
 						predicatesEditor.setEditorTitle(((IPredicate)data).getDisplayName());
 						editionMode = true;
 						buttonEdit.setEnabled(false);
@@ -355,28 +344,29 @@ public class RightPanelComposite extends Composite {
 							buttonRemove.setEnabled(false);
 						if(buttonSave != null)
 							buttonSave.setEnabled(true);
-						if (buttonFinish != null)
+						if(buttonFinish != null)
 							buttonFinish.setEnabled(true);
 					}
 
-				} 
+				}
 			}
 		});
-		
+
 		buttonSave = new Button(compositeButtons, SWT.NONE);
 		buttonSave.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
 		buttonSave.setToolTipText("Save the edited predicate");
 		buttonSave.setImage(AbstractUIPlugin.imageDescriptorFromPlugin(PredicatesUIPlugin.PLUGIN_ID, "/icons/full/obj16/Save_obj.gif").createImage());
 		buttonSave.setEnabled(false);
 		buttonSave.addSelectionListener(new SelectionAdapter() {
+
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (editedItem != null) {
-					editedItem.setBackground(new Color (getDisplay(), 255, 255, 255));
+				if(editedItem != null) {
+					editedItem.setBackground(new Color(getDisplay(), 255, 255, 255));
 					editedItem = null;
 					tableViewerOfCustomPredicates.refresh();
 				}
-				
+
 				//FIXME : set a real null progress monitor
 				predicatesEditor.doSave(new NullProgressMonitor());
 
@@ -385,23 +375,24 @@ public class RightPanelComposite extends Composite {
 					buttonAdd.setEnabled(false);
 				if(buttonRemove != null)
 					buttonRemove.setEnabled(false);
-				if (buttonEdit != null)
+				if(buttonEdit != null)
 					buttonEdit.setEnabled(false);
-				if (buttonFinish != null)
+				if(buttonFinish != null)
 					buttonFinish.setEnabled(true);
 			}
 		});
-		
+
 		buttonFinish = new Button(compositeButtons, SWT.NONE);
 		buttonFinish.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
 		buttonFinish.setToolTipText("Finish the current edition and clear the editor");
 		buttonFinish.setImage(AbstractUIPlugin.imageDescriptorFromPlugin(PredicatesUIPlugin.PLUGIN_ID, "/icons/full/obj16/clear_obj.png").createImage());
 		buttonFinish.setEnabled(false);
 		buttonFinish.addSelectionListener(new SelectionAdapter() {
+
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (predicatesEditor != null) {
-					if (predicatesEditor.setRootPredicate(null)) {
+				if(predicatesEditor != null) {
+					if(predicatesEditor.setRootPredicate(null)) {
 						predicatesEditor.setEditorTitle("");
 						editionMode = false;
 						buttonFinish.setEnabled(false);
@@ -414,43 +405,43 @@ public class RightPanelComposite extends Composite {
 						if(buttonSave != null)
 							buttonSave.setEnabled(false);
 					}
-					
-					
+
+
 				}
 			}
 		});
-		
-		
+
+
 	}
 
-	private void initTableMenuOfCustomPredicates(final Table table) {
-		Menu menu = new Menu(table);
-		table.setMenu(menu);
+	//	private void initTableMenuOfCustomPredicates(final Table table) {
+	//		Menu menu = new Menu(table);
+	//		table.setMenu(menu);
+	//
+	//		MenuItem menuItemEdit = new MenuItem(menu, SWT.NONE);
+	//		menuItemEdit.setText("Edit");
+	//		menuItemEdit.addSelectionListener(new SelectionAdapter() {
+	//
+	//			@Override
+	//			public void widgetSelected(SelectionEvent e) {
+	//				int selectionIndex = tableViewerOfCustomPredicates.getTable().getSelectionIndex();
+	//				IPredicate predicateToEdit = (IPredicate)tableViewerOfCustomPredicates.getElementAt(selectionIndex);
+	//				openPredicateForEdition(predicateToEdit);
+	//			}
+	//		});
+	//	}
 
-		MenuItem menuItemEdit = new MenuItem(menu, SWT.NONE);
-		menuItemEdit.setText("Edit");
-		menuItemEdit.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				int selectionIndex = tableViewerOfCustomPredicates.getTable().getSelectionIndex();
-				IPredicate predicateToEdit = (IPredicate)tableViewerOfCustomPredicates.getElementAt(selectionIndex);
-				openPredicateForEdition(predicateToEdit);
-			}
-		});
-	}
-
-	private void openPredicateForEdition(IPredicate predicate) {
-		PredicatesUIHelper.openEditor(null, predicate);
-	}
+	//	private void openPredicateForEdition(IPredicate predicate) {
+	//		PredicatesUIHelper.openEditor(null, predicate);
+	//	}
 
 	public void addPredicate(IPredicate newPredicate) {
-		if (tableViewerOfCustomPredicates != null) {
+		if(tableViewerOfCustomPredicates != null) {
 			tableViewerOfCustomPredicates.add(newPredicate);
 			tableViewerOfCustomPredicates.setSelection(new StructuredSelection(newPredicate));
 		}
 	}
-	
+
 	public boolean createNewPredicate(Shell shell) {
 		NewPredicateDialog dialog = new NewPredicateDialog(shell);
 		boolean added = false;
@@ -464,7 +455,7 @@ public class RightPanelComposite extends Composite {
 			added = predicatesConfManager.storePredicate(newPredicate);
 			if(added) {
 				addPredicate(newPredicate);
-			} else if (!added) {
+			} else if(!added) {
 				MessageDialog.openError(shell, "Error adding predicate", "Unable to add the predicate : " + newPredicate.getDisplayName());
 			}
 		}

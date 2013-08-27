@@ -24,12 +24,12 @@ public class CustomPredicatesTreeViewerDragAdapter extends ViewerDragAdapter {
 			Object element = ((IStructuredSelection)s).getFirstElement();
 			if(element instanceof IPredicate) {
 				selection = new StructuredSelection(EcoreUtil.copy((IPredicate)element));
-				
+
 			}
 		}
-		
+
 		LocalSelectionTransfer.getTransfer().setSelection(selection);
-	    LocalSelectionTransfer.getTransfer().setSelectionSetTime(System.currentTimeMillis());
+		LocalSelectionTransfer.getTransfer().setSelectionSetTime(System.currentTimeMillis());
 	}
-	
+
 }

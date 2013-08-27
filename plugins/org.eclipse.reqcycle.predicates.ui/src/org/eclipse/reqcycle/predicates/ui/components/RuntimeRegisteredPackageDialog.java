@@ -15,40 +15,34 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
 public class RuntimeRegisteredPackageDialog extends ElementListSelectionDialog {
 
-      public RuntimeRegisteredPackageDialog(Shell parent)
-      {
-        super
-          (parent,
-           new LabelProvider()
-           {
-             @Override
-            public Image getImage(Object element)
-             {
-               return ExtendedImageRegistry.getInstance().getImage(EcoreEditPlugin.INSTANCE.getImage("full/obj16/EPackage"));
-             }
-           });
+	public RuntimeRegisteredPackageDialog(Shell parent) {
+		super(parent, new LabelProvider() {
 
-        setMultipleSelection(true);
-        setMessage(EcoreEditorPlugin.INSTANCE.getString("_UI_SelectRegisteredPackageURI"));
-        setFilter("*");
-        setTitle(EcoreEditorPlugin.INSTANCE.getString("_UI_PackageSelection_label"));
-      }
+			@Override
+			public Image getImage(Object element) {
+				return ExtendedImageRegistry.getInstance().getImage(EcoreEditPlugin.INSTANCE.getImage("full/obj16/EPackage"));
+			}
+		});
 
-      protected void updateElements()
-      {
-          Object [] result = EPackage.Registry.INSTANCE.keySet().toArray(new Object[EPackage.Registry.INSTANCE.size()]);
-          Arrays.sort(result);
-          setListElements(result);
-      }
+		setMultipleSelection(true);
+		setMessage(EcoreEditorPlugin.INSTANCE.getString("_UI_SelectRegisteredPackageURI"));
+		setFilter("*");
+		setTitle(EcoreEditorPlugin.INSTANCE.getString("_UI_PackageSelection_label"));
+	}
 
-      @Override
-      protected Control createDialogArea(Composite parent)
-      {
-        Composite result = (Composite)super.createDialogArea(parent);
+	protected void updateElements() {
+		Object[] result = EPackage.Registry.INSTANCE.keySet().toArray(new Object[EPackage.Registry.INSTANCE.size()]);
+		Arrays.sort(result);
+		setListElements(result);
+	}
 
-        updateElements();
+	@Override
+	protected Control createDialogArea(Composite parent) {
+		Composite result = (Composite)super.createDialogArea(parent);
 
-        return result;
-      }
-	
+		updateElements();
+
+		return result;
+	}
+
 }

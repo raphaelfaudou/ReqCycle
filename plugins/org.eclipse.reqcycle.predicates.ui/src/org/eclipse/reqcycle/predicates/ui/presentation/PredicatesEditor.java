@@ -281,7 +281,7 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 	 */
 	protected MarkerHelper markerHelper = new EditUIMarkerHelper();
 
-	
+
 	/** The id of this editor. */
 	public static final String ID = "org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditorID";
 
@@ -299,11 +299,11 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 
 	/** The resource object of the Predicate in edition. */
 	private Resource resource;
-	
+
 	IPredicatesConfManager predicateManager = ZigguratInject.make(IPredicatesConfManager.class);
-	
-	
-	
+
+
+
 	/**
 	 * This listens for when the outline becomes active <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -665,9 +665,11 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 
 		adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory() {
+
 			@Override
 			public Adapter createResourceSetAdapter() {
-				return new ResourceSetItemProvider(this){
+				return new ResourceSetItemProvider(this) {
+
 					@Override
 					public Collection<?> getChildren(Object object) {
 						Collection<Object> result = new ArrayList<Object>();
@@ -681,7 +683,7 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 				};
 			}
 		});
-		
+
 		adapterFactory.addAdapterFactory(new PredicatesItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 
@@ -917,7 +919,7 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 		int dndOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK;
 		Transfer[] transfers = new Transfer[]{ LocalTransfer.getInstance(), LocalSelectionTransfer.getTransfer(), FileTransfer.getInstance() };
 		viewer.addDragSupport(dndOperations, transfers, new CustomPredicatesTreeViewerDragAdapter(viewer) {
-			
+
 		});
 		viewer.addDropSupport(dndOperations, transfers, new PredicatesTreeViewerDropAdapter(editingDomain, viewer));
 	}
@@ -997,10 +999,10 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 						super.requestActivation();
 						setCurrentViewerPane(this);
 					}
-					
+
 				};
 				viewerPane.createControl(getContainer());
-//				viewerPane.setTitle("Predicates Editor", AbstractUIPlugin.imageDescriptorFromPlugin(PredicatesUIPlugin.PLUGIN_ID, "/icons/full/obj16/PredicatesEditorIcon_16.png").createImage());
+				//				viewerPane.setTitle("Predicates Editor", AbstractUIPlugin.imageDescriptorFromPlugin(PredicatesUIPlugin.PLUGIN_ID, "/icons/full/obj16/PredicatesEditorIcon_16.png").createImage());
 
 				EnhancedPredicatesTreeLabelProvider predicatesLabelProvider = new EnhancedPredicatesTreeLabelProvider(adapterFactory);
 
@@ -1273,11 +1275,11 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 	 */
 	@Override
 	public void doSave(IProgressMonitor progressMonitor) {
-		
+
 		if(resource == null || resource.getContents() == null || resource.getContents().isEmpty()) {
 			return;
 		}
-		
+
 		EObject obj = resource.getContents().get(0);
 		if(obj instanceof IPredicate) {
 			IPredicate newPredicate = (IPredicate)obj;
@@ -1294,60 +1296,60 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 			} else if(rightPanel != null) {
 				savePredicate();
 			}
-			
+
 		}
-		
-//		// Save only resources that have actually changed.
-//		//
-//		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
-//		saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
-//		saveOptions.put(Resource.OPTION_LINE_DELIMITER, Resource.OPTION_LINE_DELIMITER_UNSPECIFIED);
-//
-//		// Do the work within an operation because this is a long running activity that modifies the workbench.
-//		//
-//		WorkspaceModifyOperation operation = new WorkspaceModifyOperation() {
-//
-//			// This is the method that gets invoked when the operation runs.
-//			//
-//			@Override
-//			public void execute(IProgressMonitor monitor) {
-//				// Save the resources to the file system.
-//				//
-//				boolean first = true;
-//				for(Resource resource : editingDomain.getResourceSet().getResources()) {
-//					if((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource)) {
-//						try {
-//							long timeStamp = resource.getTimeStamp();
-//							resource.save(saveOptions);
-//							if(resource.getTimeStamp() != timeStamp) {
-//								savedResources.add(resource);
-//							}
-//						} catch (Exception exception) {
-//							resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
-//						}
-//						first = false;
-//					}
-//				}
-//			}
-//		};
-//
-//		updateProblemIndication = false;
-//		try {
-//			// This runs the options, and shows progress.
-//			//
-//			new ProgressMonitorDialog(getSite().getShell()).run(true, false, operation);
-//
-//			// Refresh the necessary state.
-//			//
-//			((BasicCommandStack)editingDomain.getCommandStack()).saveIsDone();
-//			firePropertyChange(IEditorPart.PROP_DIRTY);
-//		} catch (Exception exception) {
-//			// Something went wrong that shouldn't.
-//			//
-//			PredicatesUIPlugin.INSTANCE.log(exception);
-//		}
-//		updateProblemIndication = true;
-//		updateProblemIndication();
+
+		//		// Save only resources that have actually changed.
+		//		//
+		//		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
+		//		saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+		//		saveOptions.put(Resource.OPTION_LINE_DELIMITER, Resource.OPTION_LINE_DELIMITER_UNSPECIFIED);
+		//
+		//		// Do the work within an operation because this is a long running activity that modifies the workbench.
+		//		//
+		//		WorkspaceModifyOperation operation = new WorkspaceModifyOperation() {
+		//
+		//			// This is the method that gets invoked when the operation runs.
+		//			//
+		//			@Override
+		//			public void execute(IProgressMonitor monitor) {
+		//				// Save the resources to the file system.
+		//				//
+		//				boolean first = true;
+		//				for(Resource resource : editingDomain.getResourceSet().getResources()) {
+		//					if((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource)) {
+		//						try {
+		//							long timeStamp = resource.getTimeStamp();
+		//							resource.save(saveOptions);
+		//							if(resource.getTimeStamp() != timeStamp) {
+		//								savedResources.add(resource);
+		//							}
+		//						} catch (Exception exception) {
+		//							resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
+		//						}
+		//						first = false;
+		//					}
+		//				}
+		//			}
+		//		};
+		//
+		//		updateProblemIndication = false;
+		//		try {
+		//			// This runs the options, and shows progress.
+		//			//
+		//			new ProgressMonitorDialog(getSite().getShell()).run(true, false, operation);
+		//
+		//			// Refresh the necessary state.
+		//			//
+		//			((BasicCommandStack)editingDomain.getCommandStack()).saveIsDone();
+		//			firePropertyChange(IEditorPart.PROP_DIRTY);
+		//		} catch (Exception exception) {
+		//			// Something went wrong that shouldn't.
+		//			//
+		//			PredicatesUIPlugin.INSTANCE.log(exception);
+		//		}
+		//		updateProblemIndication = true;
+		//		updateProblemIndication();
 	}
 
 	/**
@@ -1379,8 +1381,8 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 	@Override
 	public boolean isSaveAsAllowed() {
 		return false;
-//		return resource != null && !resource.getContents().isEmpty() && resource.getContents().get(0) instanceof IPredicate 
-//			&& ((IPredicate)resource.getContents().get(0)).getDisplayName() != null && !((IPredicate)resource.getContents().get(0)).getDisplayName().isEmpty();
+		//		return resource != null && !resource.getContents().isEmpty() && resource.getContents().get(0) instanceof IPredicate 
+		//			&& ((IPredicate)resource.getContents().get(0)).getDisplayName() != null && !((IPredicate)resource.getContents().get(0)).getDisplayName().isEmpty();
 	}
 
 	/**
@@ -1453,9 +1455,9 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 		} else {
 			getControl(getActivePage()).setFocus();
 		}
-		
+
 		PredicatesTreeViewer p = getPredicatesTreeViewer();
-		
+
 		if(p != null) {
 			p.refresh();
 		}
@@ -1645,14 +1647,14 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 
 	@Override
 	protected Composite createPageContainer(Composite parent) {
-		
+
 		SashForm sashForm = new SashForm(parent, SWT.None);
 		sashForm.setLayout(new GridLayout(2, false));
-		
+
 		Composite leftComposite = new Composite(sashForm, SWT.BORDER);
 		leftComposite.setLayout(new GridLayout(1, false));
 		leftComposite.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
-		
+
 		Composite editorComposite = new Composite(leftComposite, SWT.BORDER);
 		editorComposite.setLayout(new GridLayout());
 		editorComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -1660,38 +1662,38 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 		Composite btnComposite = new Composite(leftComposite, SWT.BORDER);
 		btnComposite.setLayout(new GridLayout());
 		btnComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		
+
 		createParametersSection(btnComposite);
-		
+
 		createRightPanel(sashForm);
-		
+
 		return editorComposite;
 	}
 
 	private void createParametersSection(Composite btnComposite) {
 		Section section = new Section(btnComposite, Section.COMPACT | Section.TWISTIE | SWT.BORDER);
 		section.setText("Parameters");
-		
+
 		Composite compositeButtons = new Composite(section, SWT.None);
 		section.setClient(compositeButtons);
 		compositeButtons.setToolTipText("Whether or not to expand the model by showing all references and features.");
 		compositeButtons.setLayout(new GridLayout(1, false));
 		compositeButtons.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-		
+
 		Button btnLoadResources = new Button(compositeButtons, SWT.NONE);
 		btnLoadResources.setText("Load Model");
 		btnLoadResources.addSelectionListener(new SelectionAdapter() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				RuntimeRegisteredPackageDialog registeredPackageDialog = new RuntimeRegisteredPackageDialog(getSite().getShell());
 				registeredPackageDialog.open();
-				Object [] result = registeredPackageDialog.getResult();
-				if (result != null) {
+				Object[] result = registeredPackageDialog.getResult();
+				if(result != null) {
 					Collection<EClass> eclasses = new ArrayList<EClass>();
-					for (Object object : result) {
+					for(Object object : result) {
 						Object obj = Registry.INSTANCE.get(object);
-						if (obj instanceof EPackage) {
+						if(obj instanceof EPackage) {
 							Collection<EClass> classes = getAllEClasses((EPackage)obj);
 							eclasses.addAll(classes);
 						}
@@ -1731,25 +1733,25 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 
 	protected Collection<EClass> getAllEClasses(EPackage obj) {
 		Collection<EClass> result = new ArrayList<EClass>();
-		
+
 		for(EClassifier eClassifier : obj.getEClassifiers()) {
 			if(eClassifier instanceof EClass) {
 				result.add((EClass)eClassifier);
 			}
 		}
-		
+
 		for(EPackage ePackage : obj.getESubpackages()) {
 			result.addAll(getAllEClasses(ePackage));
 		}
-		
+
 		return result;
 	}
-	
+
 	private void createRightPanel(Composite newParent) {
 		SashForm rightComposite = new SashForm(newParent, SWT.BORDER);
 		rightComposite.setLayout(new GridLayout(1, false));
 		rightComposite.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true, 1, 1));
-//		boolean showButtonLoadModel = getInput() == null; // || getInput().isEmpty();
+		//		boolean showButtonLoadModel = getInput() == null; // || getInput().isEmpty();
 		rightPanel = new RightPanelComposite(rightComposite, this);
 		rightPanel.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true, 1, 1));
 	}
@@ -1813,30 +1815,30 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 	public boolean setRootPredicate(IPredicate rootPredicate) {
 		if(resource == null)
 			initResource();
-		if (isDirty() && !MessageDialog.openQuestion(getSite().getShell(), "Unsaved Changes", "There is unsaved changes. Continue and discard them")){
+		if(isDirty() && !MessageDialog.openQuestion(getSite().getShell(), "Unsaved Changes", "There is unsaved changes. Continue and discard them")) {
 			return false;
 		}
-		if (!resource.getContents().isEmpty()) {
+		if(!resource.getContents().isEmpty()) {
 			resource.getContents().clear();
 		}
-		if (rootPredicate != null) {
+		if(rootPredicate != null) {
 			resource.getContents().add(rootPredicate);
 		}
-		
+
 		Viewer viewer = getViewer();
-		if (viewer != null) {
+		if(viewer != null) {
 			viewer.refresh();
 		}
 		setDirty(false);
 		return true;
 	}
 
-//	/**
-//	 * Hides the "Button Load Model" of the editor.
-//	 */
-//	public void hideButtonLoadModel() {
-//		rightPanel.hideButtonLoadModel();
-//	}
+	//	/**
+	//	 * Hides the "Button Load Model" of the editor.
+	//	 */
+	//	public void hideButtonLoadModel() {
+	//		rightPanel.hideButtonLoadModel();
+	//	}
 
 	public void setUseExtendedFeature(final boolean useExtendedFeature) {
 		this.treeDoubleClickListener.setUseExtendedFeature(useExtendedFeature);
@@ -1848,11 +1850,11 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 	public PredicatesTreeViewer getPredicatesTreeViewer() {
 		return this.selectionViewer;
 	}
-	
+
 	public void setEditorTitle(String title) {
 		if(viewerPane != null) {
 			if(title != null) {
-				viewerPane.setTitle(title,title!=null && !title.isEmpty() ? AbstractUIPlugin.imageDescriptorFromPlugin(PredicatesUIPlugin.PLUGIN_ID, "/icons/full/obj16/PredicatesEditorIcon_16.png").createImage() : null);
+				viewerPane.setTitle(title, title != null && !title.isEmpty() ? AbstractUIPlugin.imageDescriptorFromPlugin(PredicatesUIPlugin.PLUGIN_ID, "/icons/full/obj16/PredicatesEditorIcon_16.png").createImage() : null);
 			}
 		}
 	}
@@ -1867,8 +1869,8 @@ public class PredicatesEditor extends MultiPageEditorPart implements IEditingDom
 			IPredicate newPredicate = EcoreUtil.copy(predicate);
 			boolean added = predicateManager.storePredicate(newPredicate);
 			if(added && rightPanel != null) {
-					rightPanel.addPredicate(newPredicate);
-			} else if (!added) {
+				rightPanel.addPredicate(newPredicate);
+			} else if(!added) {
 				MessageDialog.openError(getSite().getShell(), "Error adding predicate", "Unable to add the predicate : " + newPredicate.getDisplayName());
 			}
 		}
