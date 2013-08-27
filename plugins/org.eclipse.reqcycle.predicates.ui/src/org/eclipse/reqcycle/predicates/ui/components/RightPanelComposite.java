@@ -240,7 +240,6 @@ public class RightPanelComposite extends Composite {
 		tableViewerOfCustomPredicates.addDragSupport(dndOperations, transferTypes, new CustomPredicatesTreeViewerDragAdapter(tableViewerOfCustomPredicates) {
 		});
 
-		//		this.initTableMenuOfCustomPredicates(tableOfCustomPredicates);
 
 		Composite compositeButtons = new Composite(grpCustomPredicates, SWT.NONE);
 		compositeButtons.setLayout(new GridLayout(5, false));
@@ -413,27 +412,6 @@ public class RightPanelComposite extends Composite {
 
 
 	}
-
-	//	private void initTableMenuOfCustomPredicates(final Table table) {
-	//		Menu menu = new Menu(table);
-	//		table.setMenu(menu);
-	//
-	//		MenuItem menuItemEdit = new MenuItem(menu, SWT.NONE);
-	//		menuItemEdit.setText("Edit");
-	//		menuItemEdit.addSelectionListener(new SelectionAdapter() {
-	//
-	//			@Override
-	//			public void widgetSelected(SelectionEvent e) {
-	//				int selectionIndex = tableViewerOfCustomPredicates.getTable().getSelectionIndex();
-	//				IPredicate predicateToEdit = (IPredicate)tableViewerOfCustomPredicates.getElementAt(selectionIndex);
-	//				openPredicateForEdition(predicateToEdit);
-	//			}
-	//		});
-	//	}
-
-	//	private void openPredicateForEdition(IPredicate predicate) {
-	//		PredicatesUIHelper.openEditor(null, predicate);
-	//	}
 
 	public void addPredicate(IPredicate newPredicate) {
 		if(tableViewerOfCustomPredicates != null) {
