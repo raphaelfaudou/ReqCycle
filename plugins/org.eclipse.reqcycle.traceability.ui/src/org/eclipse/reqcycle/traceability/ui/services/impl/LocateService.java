@@ -142,7 +142,6 @@ public class LocateService implements ILocateService {
 					.openEditor(page, marker, OpenStrategy.activateOnOpen());
 		} catch (PartInitException e) {
 		}
-		marker.delete();
 		if (editor instanceof IGotoMarker) {
 			((IGotoMarker) editor).gotoMarker(marker);
 		}

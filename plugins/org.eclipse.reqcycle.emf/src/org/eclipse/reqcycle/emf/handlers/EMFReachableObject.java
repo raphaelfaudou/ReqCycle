@@ -1,5 +1,8 @@
 package org.eclipse.reqcycle.emf.handlers;
 
+import java.util.Collections;
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import org.eclipse.core.resources.IFile;
@@ -69,15 +72,118 @@ public class EMFReachableObject implements ReachableObject {
 	@Override
 	public Object getAdapter(Class adapter) {
 		if (IMarker.class.equals(adapter)) {
-			IFile f = (IFile) getAdapter(IFile.class);
+			final IFile f = (IFile) getAdapter(IFile.class);
 			if (f != null) {
-				try {
-					IMarker marker = f.createMarker(EValidator.MARKER);
-					marker.setAttribute(EValidator.URI_ATTRIBUTE, URI
-							.createURI(t.toString()).toString());
-					return marker;
-				} catch (CoreException e) {
-				}
+				IMarker marker = new IMarker() {
+					@Override
+					public Object getAdapter(Class adapter) {
+						return null;
+					}
+
+					@Override
+					public void setAttributes(String[] attributeNames,
+							Object[] values) throws CoreException {
+					}
+
+					@Override
+					public void setAttributes(
+							Map<String, ? extends Object> attributes)
+							throws CoreException {
+					}
+
+					@Override
+					public void setAttribute(String attributeName, boolean value)
+							throws CoreException {
+					}
+
+					@Override
+					public void setAttribute(String attributeName, Object value)
+							throws CoreException {
+					}
+
+					@Override
+					public void setAttribute(String attributeName, int value)
+							throws CoreException {
+					}
+
+					@Override
+					public boolean isSubtypeOf(String superType)
+							throws CoreException {
+						return false;
+					}
+
+					@Override
+					public String getType() throws CoreException {
+						return EValidator.MARKER;
+					}
+
+					@Override
+					public IResource getResource() {
+						return f;
+					}
+
+					@Override
+					public long getId() {
+						return 0;
+					}
+
+					@Override
+					public long getCreationTime() throws CoreException {
+						return 0;
+					}
+
+					@Override
+					public Object[] getAttributes(String[] attributeNames)
+							throws CoreException {
+						return new Object[] {};
+					}
+
+					@Override
+					public Map<String, Object> getAttributes()
+							throws CoreException {
+						return Collections.emptyMap();
+					}
+
+					@Override
+					public boolean getAttribute(String attributeName,
+							boolean defaultValue) {
+						return false;
+					}
+
+					@Override
+					public String getAttribute(String attributeName,
+							String defaultValue) {
+						if (EValidator.URI_ATTRIBUTE.equals(attributeName)) {
+							return t.toString();
+						}
+						return null;
+					}
+
+					@Override
+					public int getAttribute(String attributeName,
+							int defaultValue) {
+						return 0;
+					}
+
+					@Override
+					public Object getAttribute(String attributeName)
+							throws CoreException {
+						if (EValidator.URI_ATTRIBUTE.equals(attributeName)) {
+							return t.toString();
+						}
+						return null;
+					}
+
+					@Override
+					public boolean exists() {
+						return true;
+					}
+
+					@Override
+					public void delete() throws CoreException {
+					}
+				};
+				return marker;
 			}
 		}
 		if (IResource.class.equals(adapter) || IFile.class.equals(adapter)) {

@@ -767,6 +767,9 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 					traceabilityTreeViewer.expandToLevel(TreeViewer.ALL_LEVELS);
 				}
 			}
+		} else if (part == this) {
+			locateAction.setEnabled(locateService
+					.isOpenable(getSelectedReachable()));
 		}
 	}
 
