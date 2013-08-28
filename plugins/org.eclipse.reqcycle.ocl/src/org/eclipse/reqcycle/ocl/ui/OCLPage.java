@@ -43,9 +43,9 @@ import org.eclipse.ocl.examples.pivot.utilities.BaseResource;
 import org.eclipse.reqcycle.ocl.ReqcycleOCLPlugin;
 import org.eclipse.reqcycle.ocl.ui.OCLConnector.SettingBean;
 import org.eclipse.reqcycle.ocl.utils.OCLUtilities;
+import org.eclipse.reqcycle.repository.data.types.DataModel;
 import org.eclipse.reqcycle.repository.data.types.DataType;
 import org.eclipse.reqcycle.repository.data.types.DataTypeAttribute;
-import org.eclipse.reqcycle.repository.data.types.DataTypePackage;
 import org.eclipse.reqcycle.repository.data.types.EnumeratorType;
 import org.eclipse.reqcycle.repository.data.types.RequirementType;
 import org.eclipse.reqcycle.repository.data.types.RequirementTypeAttribute;
@@ -107,7 +107,7 @@ public class OCLPage extends WizardPage implements Listener {
 	private Collection<DataTypeAttribute> inputAttributes = new ArrayList<DataTypeAttribute>();
 
 	/** Viewers Selected Items */
-	protected DataTypePackage selectedModel;
+	protected DataModel selectedModel;
 
 	protected DataType selectedType;
 
@@ -361,7 +361,7 @@ public class OCLPage extends WizardPage implements Listener {
 	}
 
 	private void updateDataTypes() {
-		DataTypePackage dataPackage = bean.getDataPackage();
+		DataModel dataPackage = bean.getDataPackage();
 		if(dataPackage != null) {
 			Collection<RequirementType> dataTypes = dataPackage.getDataTypes();
 			inputTypes.clear();

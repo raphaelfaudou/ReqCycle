@@ -39,6 +39,10 @@ public class DataModelUiManager implements IDataModelUiManager {
 	@Inject
 	public DataModelUiManager(IDataModelManager dataModelManager) {
 		this.dataModelManager = dataModelManager;
+	}
+
+
+	private void initInput(IDataModelManager dataModelManager) {
 		inputModels = new ArrayList<DataModel>();
 		inputModels.addAll(dataModelManager.getAllDataModels());
 	}
@@ -67,6 +71,7 @@ public class DataModelUiManager implements IDataModelUiManager {
 		});
 		packagesTVLayout.setColumnData(tvcModelsNames.getColumn(), new ColumnWeightData(20, 100, true));
 
+		initInput(dataModelManager);
 		tvModels.setInput(inputModels);
 
 		viewers.add(tvModels);

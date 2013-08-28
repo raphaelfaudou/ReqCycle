@@ -98,7 +98,7 @@ public class TableController {
 		};
 	}
 
-	protected Iterable<Link> getLinksFromProject(IProject project) {
+	protected Iterable<Link> getLinksFromProject(final IProject project) {
 		IFile file = project.getFile(new Path(RDF_FILE));
 		if(file != null && file.exists()) {
 			// get the storage for the file path
@@ -110,26 +110,42 @@ public class TableController {
 
 				@Override
 				public Link apply(Pair<Link, Reachable> arg0) {
-					return arg0.getFirst();
+					return new TransverseLink(arg0.getFirst(), project);
 				}
 			});
 		}
 		return Lists.newArrayList();
 	}
 
-	public void deleteTraceabilityLink(IProject project, Link link) {
-		ITraceabilityStorage storage = getStorage(project, provider);
-		storage.startTransaction();
+	public void deleteTraceabilityLinks(Iterator<TransverseLink> links) {
+		ITraceabilityStorage storage = null;
+		IProject project = null;
 		try {
-			Reachable source = Iterables.get(link.getSources(), 0);
-			Reachable target = Iterables.get(link.getTargets(), 0);
-			storage.removeUpwardRelationShip(link.getKind(), null, source, target);
-			storage.commit();
+			while (links.hasNext()){
+				TransverseLink link = links.next();
+				if (storage == null){
+					project = link.getProject();
+					storage = getStorage(project, provider);
+					storage.startTransaction();
+				}
+				Reachable source = Iterables.get(link.getSources(), 0);
+				Reachable target = Iterables.get(link.getTargets(), 0);
+				if (storage != null)
+					storage.removeUpwardRelationShip(link.getKind(), null, target, source);
+			}
+			if (storage != null){
+				storage.commit();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			storage.rollback();
 		} finally {
 			storage.save();
+			try{
+				setViewerInput(getLinksFromProject(project));
+			} catch (Exception e){
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -162,8 +178,8 @@ public class TableController {
 			}
 		};
 		Iterable<?> filtered = Iterables.filter(input, filter);
-		viewer.setInput(filtered);
 		viewer.setItemCount(Iterables.size(filtered));
+		viewer.setInput(filtered);
 		viewer.refresh();
 	}
 
@@ -173,5 +189,7 @@ public class TableController {
 		contentProvider.clearCache();
 		viewer.refresh();
 	}
+	
+	
 	
 }
