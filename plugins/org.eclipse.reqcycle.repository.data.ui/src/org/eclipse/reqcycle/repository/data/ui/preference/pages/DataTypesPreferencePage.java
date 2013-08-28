@@ -33,11 +33,12 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.window.Window;
 import org.eclipse.reqcycle.repository.data.types.DataType;
 import org.eclipse.reqcycle.repository.data.types.DataTypeAttribute;
-import org.eclipse.reqcycle.repository.data.types.DataTypePackage;
+import org.eclipse.reqcycle.repository.data.types.DataModel;
 import org.eclipse.reqcycle.repository.data.types.EnumerationType;
 import org.eclipse.reqcycle.repository.data.types.EnumeratorType;
 import org.eclipse.reqcycle.repository.data.types.RequirementType;
 import org.eclipse.reqcycle.repository.data.types.RequirementTypeAttribute;
+import org.eclipse.reqcycle.repository.data.ui.Activator;
 import org.eclipse.reqcycle.repository.data.ui.dialog.AddAttributeDialog;
 import org.eclipse.reqcycle.repository.data.ui.dialog.AddTypeDialog;
 import org.eclipse.reqcycle.repository.data.ui.dialog.NameDialog;
@@ -85,8 +86,10 @@ public class DataTypesPreferencePage extends DataModelsPreferencePage {
 	protected Collection<DataTypeAttribute> inputAttributes = new ArrayList<DataTypeAttribute>();
 
 	/** Viewers Selected Items */
-	protected DataTypePackage selectedModel;
+	protected DataModel selectedModel;
 	protected DataType selectedType;
+	private Button btnDeleteAttribute;
+	private Button btnDeleteType;
 	
 	
 	public DataTypesPreferencePage() {
@@ -181,11 +184,14 @@ public class DataTypesPreferencePage extends DataModelsPreferencePage {
 		btnComposite.setLayout(new GridLayout());
 		btnComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 		
-		btnAddAttribute = PreferenceUiUtil.createAddButton(btnComposite, "Add Attribute");
+		btnAddAttribute = PreferenceUiUtil.createButton(btnComposite, "Add Attribute", Activator.getImageDescriptor("/icons/add.gif").createImage());
 		btnAddAttribute.setEnabled(false);
 		
-		btnEditAttribute = PreferenceUiUtil.createEditButton(btnComposite, "Edit Attribute");
+		btnEditAttribute = PreferenceUiUtil.createButton(btnComposite, "Edit Attribute", Activator.getImageDescriptor("/icons/edit.png").createImage());
 		btnEditAttribute.setEnabled(false);
+		
+		btnDeleteAttribute = PreferenceUiUtil.createButton(btnComposite, "Delete Attribute", Activator.getImageDescriptor("/icons/delete.gif").createImage());
+		btnDeleteAttribute.setEnabled(false);
 	}
 
 	
@@ -243,11 +249,14 @@ public class DataTypesPreferencePage extends DataModelsPreferencePage {
 		btnComposite.setLayout(new GridLayout());
 		btnComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 		
-		btnAddType = PreferenceUiUtil.createAddButton(btnComposite, "Add Data Type");
+		btnAddType = PreferenceUiUtil.createButton(btnComposite, "Add Data Type", Activator.getImageDescriptor("/icons/add.gif").createImage());
 		btnAddType.setEnabled(false);
 		
-		btnEditType = PreferenceUiUtil.createEditButton(btnComposite, "Edit Data Type");
+		btnEditType = PreferenceUiUtil.createButton(btnComposite, "Edit Data Type", Activator.getImageDescriptor("/icons/edit.png").createImage());
 		btnEditType.setEnabled(false);
+		
+		btnDeleteType = PreferenceUiUtil.createButton(btnComposite, "Delete Data Type", Activator.getImageDescriptor("/icons/delete.gif").createImage());
+		btnDeleteType.setEnabled(false);
 	}
 
 	@Override
@@ -267,8 +276,8 @@ public class DataTypesPreferencePage extends DataModelsPreferencePage {
 				ISelection selection = event.getSelection();
 				if(selection instanceof IStructuredSelection) {
 					Object obj = ((IStructuredSelection)selection).getFirstElement();
-					if(obj instanceof DataTypePackage) {
-						selectedModel = (DataTypePackage)obj;
+					if(obj instanceof DataModel) {
+						selectedModel = (DataModel)obj;
 						btnAddType.setEnabled(true);
 						inputTypes.addAll(dataModelManager.getDataTypes(selectedModel));
 						inputTypes.addAll(dataModelManager.getEnumerationTypes(selectedModel));

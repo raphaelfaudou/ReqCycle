@@ -48,7 +48,7 @@ public class OpenFilteredRequirementViewAction extends Action {
 
 			if(!input.isEmpty()) {
 				try {
-					Collection<IPredicate> selectedPredicates = PredicatesUIHelper.openPredicatesChooser(null);
+					Collection<IPredicate> selectedPredicates = PredicatesUIHelper.openPredicatesChooser(null, "Requirement filtering","Select a predicate to apply or press OK to continue without filtering.", true);
 					if(selectedPredicates != null) {
 						RequirementView.openNewFilteredRequirementView(input, selectedPredicates);
 					}

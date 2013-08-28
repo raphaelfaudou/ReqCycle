@@ -73,5 +73,6 @@ public interface IPredicatesConfManager {
 	public boolean removePredicate(IPredicate predicate);
 	
 
+	public void save();
 
 }

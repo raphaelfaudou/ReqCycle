@@ -6,13 +6,13 @@ import org.eclipse.emf.ecore.EObject;
 
 import DataModel.Scope;
 
-public interface DataTypePackage {
+public interface DataModel {
 
 	public String getName();
 
 	public EObject create(RequirementType type);
 
-	public void add(DataTypePackage dataTypePackage);
+	public void add(DataModel dataTypePackage);
 
 	public void add(Scope scope);
 
@@ -22,9 +22,9 @@ public interface DataTypePackage {
 
 	public void add(DataType type);
 
-	public DataTypePackage getDataTypePackage(String name);
+	public DataModel getDataTypePackage(String name);
 
-	public Collection<DataTypePackage> getDataTypePackages();
+	public Collection<DataModel> getSubDataModels();
 
 	public EnumerationType getEnumerationType(String name);
 
@@ -37,5 +37,5 @@ public interface DataTypePackage {
 	public Collection<EnumerationType> getEnumerationTypes();
 
 	public Collection<Scope> getScopes();
-
+	
 }
