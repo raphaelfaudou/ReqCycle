@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2013 Atos.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Atos - initial API and implementation
+ ******************************************************************************/
 package org.eclipse.reqcycle.ocl.ui;
 
 import java.util.ArrayList;
@@ -32,8 +42,7 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.ocl.examples.pivot.utilities.BaseResource;
 import org.eclipse.reqcycle.ocl.ReqcycleOCLPlugin;
 import org.eclipse.reqcycle.ocl.ui.OCLConnector.SettingBean;
-import org.eclipse.reqcycle.ocl.utils.OCLEvaluationUtilities;
-import org.eclipse.reqcycle.ocl.utils.OCLSourceUtilities;
+import org.eclipse.reqcycle.ocl.utils.OCLUtilities;
 import org.eclipse.reqcycle.repository.data.types.DataType;
 import org.eclipse.reqcycle.repository.data.types.DataTypeAttribute;
 import org.eclipse.reqcycle.repository.data.types.DataTypePackage;
@@ -58,6 +67,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 import org.eclipse.ui.model.BaseWorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
+import org.eclipse.ziggurat.ocl.ZigguratOCLPlugin;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -174,7 +184,7 @@ public class OCLPage extends WizardPage implements Listener {
 					if(resource == null) {
 						return "An ocl file has to be selected and must compile";
 					}
-					IStatus testPresentForDataType = OCLSourceUtilities.isOperationPresent((RequirementType)element, resource);
+					IStatus testPresentForDataType = OCLUtilities.isOperationPresent((RequirementType)element, resource);
 					return testPresentForDataType.getMessage();
 				}
 				return "No need for an operation";
@@ -193,12 +203,12 @@ public class OCLPage extends WizardPage implements Listener {
 			return false;
 		}
 		try {
-			OCLEvaluationUtilities.compileOCL(resource);
+			ZigguratOCLPlugin.compileOCL(resource);
 		} catch (Exception e) {
 			setErrorMessage("Could not compile ocl file : " + e.getMessage());
 			return false;
 		}
-		setErrorMessage("");
+		setErrorMessage(null);
 		return true;
 	}
 	
@@ -247,7 +257,7 @@ public class OCLPage extends WizardPage implements Listener {
 						return "An ocl file has to be selected and must compile";
 					}
 					RequirementTypeAttribute attribute = (RequirementTypeAttribute)element;
-					IStatus testPresentForDataType = OCLSourceUtilities.isOperationPresent(attribute, resource);
+					IStatus testPresentForDataType = OCLUtilities.isOperationPresent(attribute, resource);
 					return testPresentForDataType.getMessage();
 				}
 				if(element instanceof EnumeratorType) {
@@ -313,10 +323,9 @@ public class OCLPage extends WizardPage implements Listener {
 					IFile iFile = dialog.getSelectedFiles()[0];
 					String location = iFile.getFullPath().toOSString();
 					URI oclURI = URI.createPlatformResourceURI(location, true);
-					tFile.setText(location);
-
 					ResourceSet resourceSet = new ResourceSetImpl();
-					OCLPage.this.resource = OCLSourceUtilities.loadOCLResource(resourceSet, oclURI);
+					OCLPage.this.resource = OCLUtilities.loadOCLResource(resourceSet, oclURI);
+					tFile.setText(location);
 					tvTypes.refresh();
 					tvAttributes.refresh();
 				}

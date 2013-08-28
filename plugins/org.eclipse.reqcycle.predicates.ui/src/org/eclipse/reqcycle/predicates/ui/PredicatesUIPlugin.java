@@ -16,6 +16,8 @@ import org.osgi.framework.BundleContext;
  */
 public final class PredicatesUIPlugin extends EMFPlugin {
 
+	public static final String PLUGIN_ID = "org.eclipse.reqcycle.predicates.ui";
+
 	/**
 	 * Keep track of the singleton.
 	 * <!-- begin-user-doc -->

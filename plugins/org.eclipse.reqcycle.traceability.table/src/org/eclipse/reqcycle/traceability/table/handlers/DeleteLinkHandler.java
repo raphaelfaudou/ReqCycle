@@ -19,8 +19,8 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.reqcycle.traceability.model.Link;
 import org.eclipse.reqcycle.traceability.storage.IStorageProvider;
-import org.eclipse.reqcycle.traceability.table.MutableTraceabilityRow;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -45,8 +45,7 @@ public class DeleteLinkHandler extends AbstractHandler {
 		ISelection currentSelection = HandlerUtil.getCurrentSelection(event);
 		if (currentSelection instanceof IStructuredSelection){
 			Object firstElement = ((IStructuredSelection)currentSelection).getFirstElement();
-			if (firstElement instanceof MutableTraceabilityRow){
-				((MutableTraceabilityRow)firstElement).deleteTraceabilityLink();
+			if (firstElement instanceof Link){
 			}
 		}
 		return null;
@@ -56,9 +55,9 @@ public class DeleteLinkHandler extends AbstractHandler {
 	public boolean isEnabled() {
 		ISelection selection = getSelection();
 		if (selection instanceof IStructuredSelection){
-			return ((IStructuredSelection)selection).getFirstElement() instanceof MutableTraceabilityRow;
+			return false;
 		}
-		return true;
+		return false;
 	}
 	
 	@Override

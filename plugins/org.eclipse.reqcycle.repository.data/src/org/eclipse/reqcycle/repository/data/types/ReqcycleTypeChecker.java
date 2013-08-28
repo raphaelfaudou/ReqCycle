@@ -66,7 +66,7 @@ public class ReqcycleTypeChecker implements IInjectedTypeChecker {
 					Requirement type = (Requirement)o;
 					for(Scope s : type.getScopes()) {
 						if(requirementScope.equalsIgnoreCase(s.eClass().getName()) 
-							&& dataModelManager.getDataModel(s).equals(dataModelManager.getDataTypePackage(dataModel))) {
+							&& dataModelManager.getDataModel(s).equals(dataModelManager.getDataModel(dataModel))) {
 							return true;
 						}
 					}

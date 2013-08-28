@@ -13,7 +13,7 @@ import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
-import org.eclipse.reqcycle.repository.data.types.DataTypePackage;
+import org.eclipse.reqcycle.repository.data.types.DataModel;
 import org.eclipse.reqcycle.repository.data.ui.preference.PreferenceUiUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Table;
 public class DataModelUiManager implements IDataModelUiManager {
 
 	protected Listener listener;
-	protected Collection<DataTypePackage> inputModels;
+	protected Collection<DataModel> inputModels;
 	protected Button btnAddModel;
 	protected Button btnEditModel;
 	protected Collection<Listener> listeners = new ArrayList<Listener>();
@@ -39,8 +39,8 @@ public class DataModelUiManager implements IDataModelUiManager {
 	@Inject
 	public DataModelUiManager(IDataModelManager dataModelManager) {
 		this.dataModelManager = dataModelManager;
-		inputModels = new ArrayList<DataTypePackage>();
-		inputModels.addAll(dataModelManager.getAllDataTypePackages());
+		inputModels = new ArrayList<DataModel>();
+		inputModels.addAll(dataModelManager.getAllDataModels());
 	}
 	
 	
@@ -59,8 +59,8 @@ public class DataModelUiManager implements IDataModelUiManager {
 
 			@Override
 			public String getText(Object element) {
-				if(element instanceof DataTypePackage) {
-					return ((DataTypePackage)element).getName();
+				if(element instanceof DataModel) {
+					return ((DataModel)element).getName();
 				}
 				return super.getText(element);
 			}
@@ -84,8 +84,8 @@ public class DataModelUiManager implements IDataModelUiManager {
 		listeners.remove(listener);
 	}
 
-	public void addDataModels(DataTypePackage... models) {
-		for(DataTypePackage model : models) {
+	public void addDataModels(DataModel... models) {
+		for(DataModel model : models) {
 			inputModels.add(model);
 		}
 		notifyListeners(new Event());

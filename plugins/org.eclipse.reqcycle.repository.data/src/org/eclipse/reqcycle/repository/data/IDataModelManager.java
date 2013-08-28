@@ -6,7 +6,7 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.reqcycle.repository.data.types.RequirementTypeAttribute;
 import org.eclipse.reqcycle.repository.data.types.DataType;
-import org.eclipse.reqcycle.repository.data.types.DataTypePackage;
+import org.eclipse.reqcycle.repository.data.types.DataModel;
 import org.eclipse.reqcycle.repository.data.types.EnumerationType;
 import org.eclipse.reqcycle.repository.data.types.EnumeratorType;
 import org.eclipse.reqcycle.repository.data.types.RequirementType;
@@ -19,43 +19,43 @@ public interface IDataModelManager {
 
 	public void save();
 
-	public void addDataTypePackage(DataTypePackage dataTypePackage);
+	public void addDataModel(DataModel dataModel);
 	
-	public DataTypePackage createDataTypePackage(String name);
+	public DataModel createDataModel(String name);
 	
 	public Scope createScope(String name);
 	
-	public void addRequirementTypes(DataTypePackage dataTypePackage, RequirementType... dataTypes);
+	public void addRequirementTypes(DataModel dataModel, RequirementType... dataTypes);
 	
-	public void addEnumerationTypes(DataTypePackage dataTypePackage, EnumerationType... enumerationTypes);
+	public void addEnumerationTypes(DataModel dataModel, EnumerationType... enumerationTypes);
 	
-	public void addScopes(DataTypePackage dataTypePackage, Scope... scopes);
+	public void addScopes(DataModel dataModel, Scope... scopes);
 	
-	public void addDataTypes(DataTypePackage dataTypePackage, DataType... types);
+	public void addDataTypes(DataModel dataModel, DataType... types);
 
-	public DataTypePackage getDataTypePackage(String name);
+	public DataModel getDataModel(String name);
 	
-	public Collection<DataTypePackage> getAllDataTypePackages();
+	public Collection<DataModel> getAllDataModels();
 	
-	public RequirementType getDataType(DataTypePackage dataTypePackage, String name);
+	public RequirementType getDataType(DataModel dataModel, String name);
 
-	public Collection<RequirementType> getDataTypes(DataTypePackage dataTypePackage);
+	public Collection<RequirementType> getDataTypes(DataModel dataModel);
 
 	public Collection<RequirementType> getAllDataTypes();
 	
-	public EnumerationType getEnumerationType(DataTypePackage dataTypePackage, String name);
+	public EnumerationType getEnumerationType(DataModel dataModel, String name);
 	
-	public Collection<EnumerationType> getEnumerationTypes(DataTypePackage dataTypePackage);
+	public Collection<EnumerationType> getEnumerationTypes(DataModel dataModel);
 	
 	public Collection<EnumerationType> getAllEnumerationTypes();
 	
-	public Scope getScope(DataTypePackage dataTypePackage, String name);
+	public Scope getScope(DataModel dataModel, String name);
 	
 	public Scope getScope(String DataModelName, String ScopeName);
 	
 	public Collection<Scope> getScopes(String name);
 
-	public Collection<Scope> getScopes(DataTypePackage dataTypePackage);
+	public Collection<Scope> getScopes(DataModel dataModel);
 	
 	public Collection<Scope> getAllScopes();
 	
@@ -71,7 +71,7 @@ public interface IDataModelManager {
 	
 	public RequirementTypeAttribute createAttributeType(String name, EnumerationType type);
 
-	public DataTypePackage getDataModel(Scope s);
+	public DataModel getDataModel(Scope s);
 
 	public Scope getAnalysisScope();
 	

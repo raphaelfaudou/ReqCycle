@@ -20,9 +20,9 @@
                org.eclipse.emf.edit.provider.IItemColorProvider"/>
    </extension>
 
-   <extension point="org.eclipse.ui.newWizards">
+  <!-- <extension point="org.eclipse.ui.newWizards">-->
       <!-- @generated predicates -->
-      <category
+      <!--<category
             id="org.eclipse.emf.ecore.Wizard.category.ID"
             name="%_UI_Wizard_category"/>
       <wizard
@@ -34,7 +34,7 @@
          <description>%_UI_PredicatesModelWizard_description</description>
          <selection class="org.eclipse.core.resources.IResource"/>
       </wizard>
-   </extension>
+   </extension>-->
 
    <extension point="org.eclipse.ui.editors">
       <!-- @generated predicates -->
@@ -48,7 +48,7 @@
       </editor>
    </extension>
 
-   <extension
+<!--    <extension
          point="org.eclipse.ui.editors">
       <editor
             class="org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditor"
@@ -58,7 +58,7 @@
             id="org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditorID"
             name="%_UI_PredicatesEditor_label">
       </editor>
-   </extension>
+   </extension> -->
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
@@ -71,18 +71,37 @@
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
-            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
-         <menu
-               label="Predicates">
-         </menu>
+            locationURI="menu:org.eclipse.reqcycle.core.ui.menu">
+         <separator
+               name="org.eclipse.reqcycle.predicates.ui.menu.start"
+               visible="true">
+         </separator>
       </menuContribution>
    </extension>
    <extension
-         point="org.eclipse.ui.views">
-      <category
-            id="org.eclipse.reqcycle.predicates.ui.views.ReqCycleCategory"
-            name="ReqCycle">
-      </category>
-   </extension>
-
+        point="org.eclipse.ui.commands">
+     <command
+           categoryId="org.eclipse.reqcycle.core.ui.category"
+           id="org.eclipse.reqcycle.repository.ui.commands.OpenPredicatesEditorCommand"
+           name="Open Predicates Editor">
+     </command>
+  </extension>
+  <extension
+        point="org.eclipse.ui.handlers">
+     <handler
+           class="org.eclipse.reqcycle.predicates.ui.handlers.OpenPredicatesEditorHandler"
+           commandId="org.eclipse.reqcycle.repository.ui.commands.OpenPredicatesEditorCommand">
+     </handler>
+  </extension>
+  <extension
+        point="org.eclipse.ui.menus">
+     <menuContribution
+           locationURI="menu:org.eclipse.reqcycle.core.ui.menu?after=org.eclipse.reqcycle.predicates.ui.menu.start">
+        <command
+              commandId="org.eclipse.reqcycle.repository.ui.commands.OpenPredicatesEditorCommand"
+              id="org.eclipse.reqcycle.repository.ui.menus.openPredicatesEditorCommand"
+              mnemonic="S">
+        </command>
+     </menuContribution>
+  </extension>
 </plugin>

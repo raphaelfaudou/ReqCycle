@@ -58,7 +58,7 @@ public class PredicatesConfManager implements IPredicatesConfManager {
 		this.rs = rs;
 		this.confManager = confManager;
 
-		predicates = getConf();
+		predicates = getConf(true);
 		if(predicates == null) {
 			predicates = PredicatesConfFactory.eINSTANCE.createPredicatesConf();
 		}
@@ -85,13 +85,22 @@ public class PredicatesConfManager implements IPredicatesConfManager {
 		}
 		return added;
 	}
+	
+	public void save() {
+		try {
+			confManager.saveConfiguration(predicates, null, null, PREDICATES_ENTRIES_CONF_ID, rs);
+		} catch (IOException e) {
+			//TODO log...
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * @return The stored predicates.
 	 */
 	protected Collection<IPredicate> getStoredPredicates() {
 			try {
-				predicates = this.getConf();
+				predicates = this.getConf(true);
 				if(predicates == null) {
 					predicates = PredicatesConfFactory.eINSTANCE.createPredicatesConf();
 					confManager.saveConfiguration(predicates, null, null, PREDICATES_ENTRIES_CONF_ID, rs);
@@ -174,8 +183,8 @@ public class PredicatesConfManager implements IPredicatesConfManager {
 		return false;
 	}
 
-	protected PredicatesConf getConf() {
-		EObject conf = confManager.getConfiguration(null, null, PREDICATES_ENTRIES_CONF_ID, rs, true);
+	protected PredicatesConf getConf(boolean reload) {
+		EObject conf = confManager.getConfiguration(null, null, PREDICATES_ENTRIES_CONF_ID, rs, reload);
 		if(conf instanceof PredicatesConf) {
 			return (PredicatesConf)conf;
 		}

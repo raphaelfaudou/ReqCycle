@@ -3,6 +3,7 @@ package org.eclipse.reqcycle.core.ui.perspective;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
+import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -17,7 +18,7 @@ public class ReqCyclePerspective implements IPerspectiveFactory {
 	 * Creates the initial layout for a page.
 	 */
 	public void createInitialLayout(IPageLayout layout) {
-//		String editorArea = layout.getEditorArea();
+		String editorArea = layout.getEditorArea();
 		addFastViews(layout);
 		addViewShortcuts(layout);
 		addPerspectiveShortcuts(layout);
@@ -42,7 +43,7 @@ public class ReqCyclePerspective implements IPerspectiveFactory {
 		IViewReference viewRef = activePage.findViewReference(viewId);
 		if(viewRef == null) {
 			try {
-				activePage.showView(viewId);
+				activePage.showView(viewId, null, IWorkbenchPage.VIEW_ACTIVATE);
 				viewRef = activePage.findViewReference(viewId);
 			} catch (PartInitException e) {
 			}

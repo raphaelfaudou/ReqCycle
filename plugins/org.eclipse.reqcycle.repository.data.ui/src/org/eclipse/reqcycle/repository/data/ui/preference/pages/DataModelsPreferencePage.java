@@ -21,7 +21,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
-import org.eclipse.reqcycle.repository.data.types.DataTypePackage;
+import org.eclipse.reqcycle.repository.data.types.DataModel;
 import org.eclipse.reqcycle.repository.data.ui.Activator;
 import org.eclipse.reqcycle.repository.data.ui.IDataModelUiManager;
 import org.eclipse.reqcycle.repository.data.ui.dialog.NameDialog;
@@ -91,8 +91,8 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 		dataModelManager.discardUnsavedChanges();
 
 		viewerManager.clear();
-		Collection<DataTypePackage> models = dataModelManager.getAllDataTypePackages();
-		viewerManager.addDataModels((DataTypePackage[])models.toArray(new DataTypePackage[models.size()]));
+		Collection<DataModel> models = dataModelManager.getAllDataModels();
+		viewerManager.addDataModels((DataModel[])models.toArray(new DataModel[models.size()]));
 		
 		handleEvent(new Event());
 	}
@@ -221,7 +221,7 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 				if(dialog.open() == Window.OK) {
 					String name = dialog.getName();
 //					inputModels.add(dataModelManager.createDataTypePackage(name));
-					viewerManager.addDataModels(dataModelManager.createDataTypePackage(name));
+					viewerManager.addDataModels(dataModelManager.createDataModel(name));
 					tvModels.refresh();
 				}
 			}

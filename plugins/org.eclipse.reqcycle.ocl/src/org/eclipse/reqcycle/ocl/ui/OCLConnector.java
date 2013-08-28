@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2013 Atos.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Atos - initial API and implementation
+ ******************************************************************************/
 package org.eclipse.reqcycle.ocl.ui;
 
 import java.util.Collection;
@@ -15,7 +25,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.reqcycle.ocl.utils.OCLEvaluationUtilities;
+import org.eclipse.reqcycle.ocl.utils.OCLUtilities;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.IRequirementCreator;
@@ -27,6 +37,7 @@ import org.eclipse.reqcycle.repository.data.util.RepositoryConstants;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ziggurat.ocl.OCLEvaluator;
+import org.eclipse.ziggurat.ocl.ZigguratOCLPlugin;
 
 import DataModel.Contained;
 import DataModel.DataModelFactory;
@@ -89,7 +100,7 @@ public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 
 		Resource resource = resourceSet.getResource(
 				URI.createPlatformResourceURI(repositoryUri, true), true);
-		OCLEvaluator evaluator = OCLEvaluationUtilities.compileOCL(resourceSet,
+		OCLEvaluator evaluator = ZigguratOCLPlugin.compileOCL(resourceSet,
 				URI.createPlatformResourceURI(bean.getOclUri(), true));
 
 		TreeIterator<EObject> contents = resource.getAllContents();
@@ -99,7 +110,7 @@ public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 		while (contents.hasNext()) {
 			EObject eObject = contents.next();
 			for (RequirementType reqType : requirementTypes) {
-				if (OCLEvaluationUtilities.isDataType(evaluator, eObject,
+				if (OCLUtilities.isDataType(evaluator, eObject,
 						reqType)) {
 					Contained requirement = createRequirement(evaluator,
 							mapping, eObject, reqType);
@@ -115,7 +126,7 @@ public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 		Contained contained = (Contained) manager.createInstance(reqType);
 		for (RequirementTypeAttribute attribute : Iterables.filter(
 				reqType.getAttributes(), RequirementTypeAttribute.class)) {
-			Object value = OCLEvaluationUtilities.getAttributeValue(evaluator,
+			Object value = OCLUtilities.getAttributeValue(evaluator,
 					eObject, attribute);
 			if (value != null) {
 				EAttribute eAttribute = ((RequirementTypeAttributeImpl) attribute)

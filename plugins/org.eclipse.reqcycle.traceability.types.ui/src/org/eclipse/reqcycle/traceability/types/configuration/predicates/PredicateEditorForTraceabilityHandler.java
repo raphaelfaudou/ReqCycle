@@ -1,5 +1,7 @@
 package org.eclipse.reqcycle.traceability.types.configuration.predicates;
 
+import static com.google.common.collect.Iterables.filter;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -8,12 +10,10 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.reqcycle.predicates.core.PredicatesFactory;
 import org.eclipse.reqcycle.predicates.core.api.IPredicate;
 import org.eclipse.reqcycle.predicates.persistance.util.IPredicatesConfManager;
-import org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditor;
+import org.eclipse.reqcycle.predicates.ui.util.PredicatesUIHelper;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import com.google.common.collect.Lists;
-
-import static com.google.common.collect.Iterables.filter;
 
 public class PredicateEditorForTraceabilityHandler extends AbstractHandler {
 
@@ -25,7 +25,7 @@ public class PredicateEditorForTraceabilityHandler extends AbstractHandler {
 		IPredicate predicate = PredicatesFactory.eINSTANCE.createOrPredicate();
 		EPackage epackage = EPackage.Registry.INSTANCE
 				.getEPackage(ReqCycleDynamicPackage.URI);
-		PredicatesEditor.openEditor(Lists.newArrayList(filter(
+		PredicatesUIHelper.openEditor(Lists.newArrayList(filter(
 				epackage.getEClassifiers(), EClass.class)), predicate);
 		return null;
 	}

@@ -29,4 +29,30 @@
           interface="org.eclipse.reqcycle.repository.data.ui.IDataModelUiManager">
     </binding>
  </extension>
+ <extension
+       point="org.eclipse.ui.handlers">
+    <handler
+          class="org.eclipse.reqcycle.repository.data.ui.handlers.InitCustomDataHandler"
+          commandId="org.eclipse.reqcycle.repository.data.ui.commands.initCustomData">
+    </handler>
+ </extension>
+ <extension
+       point="org.eclipse.ui.menus">
+    <menuContribution
+          locationURI="menu:org.eclipse.reqcycle.core.ui.menu">
+       <command
+             commandId="org.eclipse.reqcycle.repository.data.ui.commands.initCustomData"
+             id="org.eclipse.reqcycle.repository.data.ui.menus.initCustomData"
+             mnemonic="S">
+       </command>
+    </menuContribution>
+ </extension>
+ <extension
+       point="org.eclipse.ui.commands">
+    <command
+          categoryId="org.eclipse.reqcycle.core.ui.category"
+          id="org.eclipse.reqcycle.repository.data.ui.commands.initCustomData"
+          name="Load Custom Data Model">
+    </command>
+ </extension>
 </plugin>
