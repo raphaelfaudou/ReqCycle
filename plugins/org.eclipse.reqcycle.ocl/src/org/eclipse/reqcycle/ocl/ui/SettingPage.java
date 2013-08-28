@@ -38,7 +38,7 @@ import org.eclipse.reqcycle.emf.utils.EMFUtils;
 import org.eclipse.reqcycle.ocl.ReqcycleOCLPlugin;
 import org.eclipse.reqcycle.ocl.ui.OCLConnector.SettingBean;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
-import org.eclipse.reqcycle.repository.data.types.DataTypePackage;
+import org.eclipse.reqcycle.repository.data.types.DataModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -117,13 +117,13 @@ public class SettingPage extends WizardPage {
 
 			@Override
 			public String getText(Object element) {
-				if(element instanceof DataTypePackage) {
-					return ((DataTypePackage)element).getName();
+				if(element instanceof DataModel) {
+					return ((DataModel)element).getName();
 				}
 				return super.getText(element);
 			}
 		});
-		cvDataModel.setInput(dataManager.getAllDataTypePackages());
+		cvDataModel.setInput(dataManager.getAllDataModels());
 
 		Label lblScope = new Label(containerComposite, SWT.NONE);
 		lblScope.setText("Scope :");
@@ -216,9 +216,9 @@ public class SettingPage extends WizardPage {
 				ISelection selection = event.getSelection();
 				if(selection instanceof IStructuredSelection) {
 					Object obj = ((IStructuredSelection)selection).getFirstElement();
-					if(obj instanceof DataTypePackage) {
+					if(obj instanceof DataModel) {
 						cScope.setEnabled(true);
-						inputScope.addAll(((DataTypePackage)obj).getScopes());
+						inputScope.addAll(((DataModel)obj).getScopes());
 					}
 
 				}

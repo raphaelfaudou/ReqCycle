@@ -29,7 +29,7 @@ import org.eclipse.reqcycle.ocl.utils.OCLUtilities;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.IRequirementCreator;
-import org.eclipse.reqcycle.repository.data.types.DataTypePackage;
+import org.eclipse.reqcycle.repository.data.types.DataModel;
 import org.eclipse.reqcycle.repository.data.types.RequirementType;
 import org.eclipse.reqcycle.repository.data.types.RequirementTypeAttribute;
 import org.eclipse.reqcycle.repository.data.types.internal.RequirementTypeAttributeImpl;
@@ -154,7 +154,7 @@ public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 
 		private String oclUri = "";
 
-		private DataTypePackage dataPackage;
+		private DataModel dataPackage;
 
 		private Scope scope;
 
@@ -179,11 +179,11 @@ public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 			notifyChange();
 		}
 
-		public DataTypePackage getDataPackage() {
+		public DataModel getDataPackage() {
 			return dataPackage;
 		}
 
-		public void setDataPackage(DataTypePackage dataPackage) {
+		public void setDataPackage(DataModel dataPackage) {
 			this.dataPackage = dataPackage;
 			notifyChange();
 		}
