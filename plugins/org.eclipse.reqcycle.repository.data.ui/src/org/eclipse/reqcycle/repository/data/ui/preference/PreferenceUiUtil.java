@@ -15,8 +15,8 @@ package org.eclipse.reqcycle.repository.data.ui.preference;
 
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.reqcycle.repository.data.ui.Activator;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -58,26 +58,15 @@ public class PreferenceUiUtil {
 	}
 	
 	/**
-	 * Creates an Add Button
+	 * Creates a Button
 	 * @param parent Parent Composite
-	 * @param toolTip The Button toolTip
-	 * @return Add Button
+	 * @param toolTip The button toolTip
+	 * @param image The button image
+	 * @return
 	 */
-	public static Button createAddButton(Composite parent, String toolTip) {
-		Button btn = createButton(parent, toolTip);
-		btn.setImage(Activator.getImageDescriptor("/icons/add.gif").createImage());
-		return btn;
-	}
-	
-	/**
-	 * Creates an Edit Button
-	 * @param parent Parent Composite
-	 * @param toolTip The Button toolTip
-	 * @return Edit Button
-	 */
-	public static Button createEditButton(Composite parent, String toolTip) {
-		Button btn = createButton(parent, toolTip);
-		btn.setImage(Activator.getImageDescriptor("/icons/edit.png").createImage());
+	public static Button createButton(Composite parent, String toolTip, Image image) {
+		Button btn = createButton(parent,  toolTip);
+		btn.setImage(image);
 		return btn;
 	}
 

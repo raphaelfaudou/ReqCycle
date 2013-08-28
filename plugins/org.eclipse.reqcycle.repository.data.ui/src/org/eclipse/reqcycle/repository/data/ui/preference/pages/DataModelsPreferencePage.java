@@ -22,6 +22,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.types.DataTypePackage;
+import org.eclipse.reqcycle.repository.data.ui.Activator;
 import org.eclipse.reqcycle.repository.data.ui.IDataModelUiManager;
 import org.eclipse.reqcycle.repository.data.ui.dialog.NameDialog;
 import org.eclipse.reqcycle.repository.data.ui.preference.PreferenceUiUtil;
@@ -66,7 +67,9 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 	/** Edit Model Button */
 	protected Button btnEditModel;
 	
-	protected IDataModelUiManager viewerManager = ZigguratInject.make(IDataModelUiManager.class); 
+	protected IDataModelUiManager viewerManager = ZigguratInject.make(IDataModelUiManager.class);
+
+	private Button btnDeleteModel; 
 	
 	/**
 	 * @wbp.parser.constructor
@@ -195,9 +198,13 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 		btnComposite.setLayout(new GridLayout());
 		btnComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 		
-		btnAddModel = PreferenceUiUtil.createAddButton(btnComposite, "Add Data Model");
-		btnEditModel = PreferenceUiUtil.createEditButton(btnComposite, "Edit Data Model");
+		btnAddModel = PreferenceUiUtil.createButton(btnComposite, "Add Data Model", Activator.getImageDescriptor("/icons/add.gif").createImage());
+		
+		btnEditModel = PreferenceUiUtil.createButton(btnComposite, "Edit Data Model", Activator.getImageDescriptor("/icons/edit.png").createImage());
 		btnEditModel.setEnabled(false);
+		
+		btnDeleteModel = PreferenceUiUtil.createButton(btnComposite, "Delete Data Model", Activator.getImageDescriptor("/icons/delete.gif").createImage());
+		btnDeleteModel.setEnabled(false);
 	}
 	
 	
