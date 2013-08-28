@@ -55,12 +55,6 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 	/** Models table */
 	protected Table tModels;
 	
-//	/** Models table viewer column */
-//	protected TableViewerColumn tvcModelsNames;
-	
-//	/** Models table viewer input */
-//	protected static Collection<DataTypePackage> inputModels = new ArrayList<DataTypePackage>();
-	
 	/** Add Model Button */
 	protected Button btnAddModel;
 	
@@ -87,14 +81,6 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 	
 	@Override
 	protected void performDefaults() {
-		super.performDefaults();
-		dataModelManager.discardUnsavedChanges();
-
-		viewerManager.clear();
-		Collection<DataModel> models = dataModelManager.getAllDataModels();
-		viewerManager.addDataModels((DataModel[])models.toArray(new DataModel[models.size()]));
-		
-		handleEvent(new Event());
 	}
 	
 	
@@ -104,15 +90,11 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 		Button defaultButton = getDefaultsButton();
 		if(defaultButton != null) {
 			//Rename Default Button to Load Backup
-			defaultButton.setText("Load Backup");
-		}
-		Button applyButton = getApplyButton();
-		if(applyButton != null) {
-			//Rename Apply Button to Save 
-			applyButton.setText("Save");
+			defaultButton.setVisible(false);
+			defaultButton.setEnabled(false);
 		}
 	}
-
+	
 	@Override
 	public boolean performOk() {
 		dataModelManager.save();
@@ -168,28 +150,6 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 		TableColumnLayout packagesTVLayout = new TableColumnLayout();
 		viewerComposite.setLayout(packagesTVLayout);
 
-//		tvModels = new TableViewer(viewerComposite);
-//		tvModels.setContentProvider(ArrayContentProvider.getInstance());
-//		tModels = tvModels.getTable();
-//		tModels.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-//		tModels.setLinesVisible(true);
-//
-//		//Columns
-//		tvcModelsNames = PreferenceUiUtil.createTableViewerColumn(tvModels, "Name", SWT.None);
-//		tvcModelsNames.setLabelProvider(new ColumnLabelProvider() {
-//
-//			@Override
-//			public String getText(Object element) {
-//				if(element instanceof DataTypePackage) {
-//					return ((DataTypePackage)element).getName();
-//				}
-//				return super.getText(element);
-//			}
-//		});
-//		packagesTVLayout.setColumnData(tvcModelsNames.getColumn(), new ColumnWeightData(20, 100, true));
-//
-//		tvModels.setInput(inputModels);
-		
 		viewerManager.addListener(this);
 		tvModels = viewerManager.createDataModelTableViewer(viewerComposite, packagesTVLayout);
 		tModels = tvModels.getTable();
@@ -220,7 +180,6 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 				NameDialog dialog = new NameDialog(e.display.getActiveShell(), "Add Data Model");
 				if(dialog.open() == Window.OK) {
 					String name = dialog.getName();
-//					inputModels.add(dataModelManager.createDataTypePackage(name));
 					viewerManager.addDataModels(dataModelManager.createDataModel(name));
 					tvModels.refresh();
 				}
@@ -243,7 +202,6 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 
 	@Override
 	public void init(IWorkbench workbench) {
-		
 	}
 	
 }
