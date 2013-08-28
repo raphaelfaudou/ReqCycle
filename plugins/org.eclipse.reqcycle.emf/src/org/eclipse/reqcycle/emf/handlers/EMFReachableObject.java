@@ -3,10 +3,13 @@ package org.eclipse.reqcycle.emf.handlers;
 import javax.inject.Inject;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -65,6 +68,18 @@ public class EMFReachableObject implements ReachableObject {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public Object getAdapter(Class adapter) {
+		if (IMarker.class.equals(adapter)) {
+			IFile f = (IFile) getAdapter(IFile.class);
+			if (f != null) {
+				try {
+					IMarker marker = f.createMarker(EValidator.MARKER);
+					marker.setAttribute(EValidator.URI_ATTRIBUTE, URI
+							.createURI(t.toString()).toString());
+					return marker;
+				} catch (CoreException e) {
+				}
+			}
+		}
 		if (IResource.class.equals(adapter) || IFile.class.equals(adapter)) {
 			try {
 				return WorkspaceSynchronizer

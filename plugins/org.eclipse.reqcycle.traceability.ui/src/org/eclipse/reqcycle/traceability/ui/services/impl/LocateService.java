@@ -11,6 +11,7 @@ import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.util.OpenStrategy;
@@ -52,6 +53,10 @@ public class LocateService implements ILocateService {
 			IReachableHandler handler = reachableManager
 					.getHandlerFromReachable(reachable);
 			ReachableObject fromReachable = handler.getFromReachable(reachable);
+			IMarker marker = getMarker(fromReachable);
+			if (marker != null) {
+				return true;
+			}
 			IFile file = getFile(fromReachable);
 			if (file != null) {
 				return true;
@@ -82,6 +87,11 @@ public class LocateService implements ILocateService {
 			IReachableHandler handler = reachableManager
 					.getHandlerFromReachable(reachable);
 			ReachableObject fromReachable = handler.getFromReachable(reachable);
+			IMarker marker = getMarker(fromReachable);
+			if (marker != null) {
+				openIFileEditor(marker);
+				marker.delete();
+			}
 			IFile file = getFile(fromReachable);
 			if (file != null) {
 				openIFileEditor(file);
@@ -90,14 +100,13 @@ public class LocateService implements ILocateService {
 			if (f != null) {
 				openFileEditor(f);
 			}
-
 		} catch (IReachableHandlerException e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	private void openFileEditor(File f) throws Exception {
+	protected void openFileEditor(File f) throws Exception {
 		IWorkbenchPage page = PlatformUI.getWorkbench()
 				.getActiveWorkbenchWindow().getActivePage();
 		IFileStore fileStore = EFS.getLocalFileSystem().getStore(
@@ -105,34 +114,41 @@ public class LocateService implements ILocateService {
 		IDE.openEditorOnFileStore(page, fileStore);
 	}
 
-	private void openIFileEditor(IFile file) throws Exception {
+	protected void openIFileEditor(IFile file) throws Exception {
 		IMarker marker = file.createMarker("LOCATION");
+		openIFileEditor(marker);
+	}
+
+	protected void openIFileEditor(IMarker marker) throws PartInitException,
+			CoreException {
 		IWorkbenchPage page = PlatformUI.getWorkbench()
 				.getActiveWorkbenchWindow().getActivePage();
+		IEditorPart editor = null;
 		for (IEditorReference ref : page.getEditorReferences()) {
 			IEditorInput input = ref.getEditorInput();
 			IFile fileFromEditor = ResourceUtil.getFile(input);
 			if (fileFromEditor != null) {
 				if (marker.getResource().equals(fileFromEditor)
 						&& OpenStrategy.activateOnOpen()) {
-					IEditorPart editor = ref.getEditor(true);
+					editor = ref.getEditor(true);
 					page.activate(editor);
-					if (editor instanceof IGotoMarker) {
-						((IGotoMarker) editor).gotoMarker(marker);
-					}
+
 				}
 			}
 		}
-
 		// the same as the first part of the code, but the first is optimized
 		try {
-			IDE.openEditor(page, marker, OpenStrategy.activateOnOpen());
+			editor = IDE
+					.openEditor(page, marker, OpenStrategy.activateOnOpen());
 		} catch (PartInitException e) {
 		}
 		marker.delete();
+		if (editor instanceof IGotoMarker) {
+			((IGotoMarker) editor).gotoMarker(marker);
+		}
 	}
 
-	private void openBrowser(Reachable reachable) throws Exception {
+	protected void openBrowser(Reachable reachable) throws Exception {
 		IWorkbenchBrowserSupport browserSupport = PlatformUI.getWorkbench()
 				.getBrowserSupport();
 		IWebBrowser browser;
@@ -164,6 +180,15 @@ public class LocateService implements ILocateService {
 		if (res == null) {
 			res = (File) Platform.getAdapterManager().getAdapter(reachable,
 					File.class);
+		}
+		return res;
+	}
+
+	protected IMarker getMarker(ReachableObject reachable) {
+		IMarker res = (IMarker) reachable.getAdapter(IMarker.class);
+		if (res == null) {
+			res = (IMarker) Platform.getAdapterManager().getAdapter(reachable,
+					IMarker.class);
 		}
 		return res;
 	}
