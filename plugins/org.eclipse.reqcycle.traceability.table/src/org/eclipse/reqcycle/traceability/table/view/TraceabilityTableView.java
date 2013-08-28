@@ -18,17 +18,19 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.reqcycle.traceability.engine.ITraceabilityEngine;
 import org.eclipse.reqcycle.traceability.model.Link;
+import org.eclipse.reqcycle.traceability.model.TType;
 import org.eclipse.reqcycle.traceability.storage.IStorageProvider;
 import org.eclipse.reqcycle.traceability.table.filters.TableFilter;
 import org.eclipse.reqcycle.traceability.table.menus.actions.AllLinksAction;
 import org.eclipse.reqcycle.traceability.table.menus.actions.ExplicitLinksAction;
 import org.eclipse.reqcycle.traceability.table.model.TableController;
+import org.eclipse.reqcycle.traceability.table.providers.LinkLabelProvider;
 import org.eclipse.reqcycle.traceability.table.providers.TraceabilityLazyContentProvider;
+import org.eclipse.reqcycle.traceability.types.ui.IStylePredicateProvider;
 import org.eclipse.reqcycle.traceability.ui.TraceabilityUtils;
 import org.eclipse.reqcycle.uri.model.Reachable;
 import org.eclipse.swt.SWT;
@@ -60,6 +62,9 @@ public class TraceabilityTableView extends ViewPart {
 	@Inject
 	@Named("RDF")
 	protected IStorageProvider provider;
+
+	@Inject
+	protected IStylePredicateProvider styleProvider;
 
 	protected TableViewer viewer;
 
@@ -122,18 +127,24 @@ public class TraceabilityTableView extends ViewPart {
 	}
 
 	private void createModel() {
-		createTableViewerColumn("Link type", 50, 0).setLabelProvider(new ColumnLabelProvider() {
+		createTableViewerColumn("Link type", 50, 0).setLabelProvider(new LinkLabelProvider(styleProvider) {
 
 			@Override
 			public String getText(Object element) {
 				if(element instanceof Link) {
-					return ((Link)element).getKind().getLabel();
+					TType kind = ((Link)element).getKind();
+					StringBuilder builder = new StringBuilder(kind.getLabel());
+					TType superKind = kind.getSuperType();
+					if(superKind != null) {
+						builder.append(String.format(" [Transverse : %s]", superKind.getLabel()));
+					}
+					return builder.toString();
 				}
 				return super.getText(element);
 			}
 		});
 
-		createTableViewerColumn("Upstream", 200, 1).setLabelProvider(new ColumnLabelProvider() {
+		createTableViewerColumn("Upstream", 200, 1).setLabelProvider(new LinkLabelProvider(styleProvider) {
 
 			@Override
 			public String getText(Object element) {
@@ -148,7 +159,7 @@ public class TraceabilityTableView extends ViewPart {
 			}
 		});
 
-		createTableViewerColumn("Downstream", 200, 2).setLabelProvider(new ColumnLabelProvider() {
+		createTableViewerColumn("Downstream", 200, 2).setLabelProvider(new LinkLabelProvider(styleProvider) {
 
 			@Override
 			public String getText(Object element) {
@@ -233,4 +244,8 @@ public class TraceabilityTableView extends ViewPart {
 		}
 	}
 
+	public TableController getController(){
+		return this.tableControl;
+	}
+	
 }

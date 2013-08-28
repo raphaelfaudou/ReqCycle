@@ -58,7 +58,9 @@ public class TraceabilityLazyContentProvider<T> implements ILazyContentProvider 
 						lastArg = -1;
 					} 
 					for (int i = lastArg; i < arg0; i++){
-						value = clazz.cast(iterator.next());
+						if (iterator.hasNext()){
+							value = clazz.cast(iterator.next());
+						}
 					}
 					lastArg = arg0;
 					return value ;

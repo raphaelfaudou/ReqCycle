@@ -42,7 +42,7 @@ public class ExplicitLinksAction extends Action {
 
 	public ExplicitLinksAction(TableViewer viewer, TableController control) {
 		super();
-		setText("Reqcycle links");
+		setText("Transverse links");
 		setToolTipText("Select the project from which transverse links should will be retrieved");
 		this.viewer = viewer;
 		this.control = control;

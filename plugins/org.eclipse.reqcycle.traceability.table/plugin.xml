@@ -34,12 +34,5 @@
          </command>
       </menuContribution>
    </extension>
-   <extension
-         point="org.eclipse.ui.handlers">
-      <handler
-            class="org.eclipse.reqcycle.traceability.table.handlers.DeleteLinkHandler"
-            commandId="org.eclipse.reqcycle.traceability.table.deleteLinkCommand">
-      </handler>
-   </extension>
 
 </plugin>

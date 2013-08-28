@@ -11,42 +11,40 @@
 package org.eclipse.reqcycle.traceability.table.handlers;
 
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import java.util.Iterator;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.reqcycle.traceability.model.Link;
-import org.eclipse.reqcycle.traceability.storage.IStorageProvider;
+import org.eclipse.reqcycle.traceability.table.model.TableController;
+import org.eclipse.reqcycle.traceability.table.model.TransverseLink;
+import org.eclipse.reqcycle.traceability.table.view.TraceabilityTableView;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+
+import com.google.common.base.Predicates;
+import com.google.common.collect.Iterators;
+import com.google.common.collect.UnmodifiableIterator;
 
 
 public class DeleteLinkHandler extends AbstractHandler {
 	
-	@Inject
-	@Named("RDF")
-	protected IStorageProvider provider;
 	
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		if (provider == null)
-			ZigguratInject.inject(this);
-		if (provider == null)
-			return null;
-
 		ISelection currentSelection = HandlerUtil.getCurrentSelection(event);
-		if (currentSelection instanceof IStructuredSelection){
-			Object firstElement = ((IStructuredSelection)currentSelection).getFirstElement();
-			if (firstElement instanceof Link){
-			}
+		IWorkbenchPart activePart = HandlerUtil.getActivePart(event);
+		if (activePart instanceof TraceabilityTableView){
+			TableController controller = ((TraceabilityTableView)activePart).getController();
+			Iterator<?> iterator = ((IStructuredSelection)currentSelection).iterator();
+			UnmodifiableIterator<TransverseLink> links = Iterators.filter(iterator, TransverseLink.class);
+			controller.deleteTraceabilityLinks(links);
 		}
 		return null;
 	}
@@ -55,7 +53,8 @@ public class DeleteLinkHandler extends AbstractHandler {
 	public boolean isEnabled() {
 		ISelection selection = getSelection();
 		if (selection instanceof IStructuredSelection){
-			return false;
+			Iterator<?> iterator = ((IStructuredSelection)selection).iterator();
+			return Iterators.all(iterator, Predicates.instanceOf(TransverseLink.class));
 		}
 		return false;
 	}
