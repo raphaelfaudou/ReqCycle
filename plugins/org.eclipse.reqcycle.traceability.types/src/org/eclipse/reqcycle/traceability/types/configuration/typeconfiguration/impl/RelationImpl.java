@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.reqcycle.traceability.model.TType;
+import org.eclipse.reqcycle.traceability.types.RelationBasedType;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Attribute;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Relation;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Type;
@@ -397,7 +398,7 @@ public class RelationImpl extends EObjectImpl implements Relation {
 	 * @generated NOT
 	 */
 	public TType getTType() {
-		return new TType(getKind(), getKind());
+		return new RelationBasedType(this);
 	}
 
 	/**
