@@ -7,10 +7,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -36,6 +39,7 @@ import org.eclipse.reqcycle.traceability.ui.TraceabilityUtils;
 import org.eclipse.reqcycle.traceability.ui.providers.BusinessDeffered;
 import org.eclipse.reqcycle.traceability.ui.providers.RequestContentProvider;
 import org.eclipse.reqcycle.traceability.ui.providers.RequestLabelProvider;
+import org.eclipse.reqcycle.traceability.ui.services.ILocateService;
 import org.eclipse.reqcycle.types.IType;
 import org.eclipse.reqcycle.types.ITypesManager;
 import org.eclipse.reqcycle.types.ui.providers.IterableOfTypesContentProvider;
@@ -104,6 +108,8 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 	private ITypesManager manager = ZigguratInject.make(ITypesManager.class);
 	private IReachableManager reachManager = ZigguratInject
 			.make(IReachableManager.class);
+	private ILocateService locateService = ZigguratInject
+			.make(ILocateService.class);
 	private Action delete_action;
 	private Action refresh_action;
 	private Action plus_action;
@@ -111,6 +117,7 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 	private Action new_instance;
 	private Action changeViewName;
 	private Button btnFilterOnCurrent;
+	private Action locateAction;
 
 	public TraceabilityViewer() {
 		setTitleImage(ResourceManager.getPluginImage(
@@ -199,6 +206,25 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 		formToolkit.paintBordersFor(treeTraceability);
 
 		MenuManager menuManager = new MenuManager();
+		locateAction = new Action("Locate",
+				ResourceManager.getPluginImageDescriptor(
+						"org.eclipse.reqcycle.traceability.ui",
+						"icons/locate.gif")) {
+			@Override
+			public void run() {
+				Reachable reachable = getSelectedReachable();
+				try {
+					locateService.open(reachable);
+				} catch (Exception e) {
+					ErrorDialog.openError(
+							Display.getDefault().getActiveShell(), "Error",
+							e.getMessage(), Status.OK_STATUS);
+				}
+			}
+
+		};
+		menuManager.add(locateAction);
+		menuManager.add(new Separator());
 		menuManager.add(new Action("Show Properties view", ResourceManager
 				.getPluginImageDescriptor(
 						"org.eclipse.reqcycle.traceability.ui",
@@ -741,6 +767,9 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 					traceabilityTreeViewer.expandToLevel(TreeViewer.ALL_LEVELS);
 				}
 			}
+		} else if (part == this) {
+			locateAction.setEnabled(locateService
+					.isOpenable(getSelectedReachable()));
 		}
 	}
 
@@ -791,5 +820,21 @@ public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 
 	public void refreshElement(Object o) {
 		traceabilityTreeViewer.update(o, null);
+	}
+
+	private Reachable getSelectedReachable() {
+		ISelection selec = traceabilityTreeViewer.getSelection();
+		if (selec instanceof IStructuredSelection) {
+			IStructuredSelection structured = (IStructuredSelection) selec;
+			if (structured.getFirstElement() instanceof BusinessDeffered) {
+				BusinessDeffered busi = (BusinessDeffered) structured
+						.getFirstElement();
+				if (busi.getBusinessElement() instanceof Reachable) {
+					Reachable reach = (Reachable) busi.getBusinessElement();
+					return reach;
+				}
+			}
+		}
+		return null;
 	}
 }

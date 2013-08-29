@@ -761,6 +761,8 @@ public class TypeconfigurationPackageImpl extends EPackageImpl implements Typeco
 
 		addEOperation(relationEClass, this.getTType(), "getAgregated", 0, -1, IS_UNIQUE, IS_ORDERED);
 
+		addEOperation(relationEClass, this.getTType(), "getTType", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		initEClass(configurationEClass, Configuration.class, "Configuration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getConfiguration_Relations(), this.getRelation(), null, "relations", null, 0, -1, Configuration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getConfiguration_Name(), ecorePackage.getEString(), "name", null, 0, 1, Configuration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

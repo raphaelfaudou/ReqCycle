@@ -131,7 +131,7 @@ public class ConfigurationItemProvider extends ItemProviderAdapter implements
 		Configuration configuration = (Configuration) object;
 		String label = configuration.getName();
 		if (configuration.getParent().getDefaultConfiguration() == configuration) {
-			label += " (default)";
+			label += " (current)";
 		}
 		return label;
 	}

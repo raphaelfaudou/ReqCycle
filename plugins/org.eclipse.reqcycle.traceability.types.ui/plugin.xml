@@ -20,10 +20,10 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            category="org.eclipse.reqcycle.traceability.types.ui.traceabilityPage"
+            category="org.eclipse.reqycle.core.ui.pref.reqcycle"
             class="org.eclipse.reqcycle.traceability.types.configuration.preferences.ElementTypeConfigurationPage"
             id="org.eclipse.reqcycle.traceability.types.ui.elementtype"
-            name="Element Types">
+            name="Reachable Data">
       </page>
       <page
             category="org.eclipse.reqcycle.traceability.types.ui.traceabilityPage"

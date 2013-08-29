@@ -91,9 +91,7 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 		ECrossReferenceAdapter c = ECrossReferenceAdapter.getCrossReferenceAdapter(this);
 		
 		if (c == null) {
-			c = new ECrossReferenceAdapter() {
-			};
-			
+			c = new ECrossReferenceAdapter();
 			Resource r = this.eResource();
 			if (r != null) {
 				ResourceSet rs = r.getResourceSet();
@@ -106,6 +104,7 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 				c.setTarget(this);
 			}
 		}
+		
 		
 		EList<EObject> res = new BasicEList<EObject>();
 		Collection<Setting> settings = c.getInverseReferences(this, true);

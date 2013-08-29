@@ -22,6 +22,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Relation">
     <eOperations name="getAgregated" upperBound="-1" eType="#//TType"/>
+    <eOperations name="getTType" eType="#//TType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="upstreamType" eType="#//Type"
         eOpposite="#//Type/outgoings"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="downstreamType" eType="#//Type"

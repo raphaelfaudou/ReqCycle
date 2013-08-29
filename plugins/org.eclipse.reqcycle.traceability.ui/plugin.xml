@@ -22,5 +22,12 @@
             name="Traceability">
       </view>-->
    </extension>
+   <extension
+         point="org.eclipse.ziggurat.inject.binding">
+      <binding
+            impl="org.eclipse.reqcycle.traceability.ui.services.impl.LocateService"
+            interface="org.eclipse.reqcycle.traceability.ui.services.ILocateService">
+      </binding>
+   </extension>
 
 </plugin>
