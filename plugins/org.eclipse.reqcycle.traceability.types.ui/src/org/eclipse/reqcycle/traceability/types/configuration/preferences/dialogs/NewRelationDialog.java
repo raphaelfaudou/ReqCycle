@@ -123,10 +123,14 @@ public class NewRelationDialog extends TitleAreaDialog {
 		btnSource.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				set((Type) ((IStructuredSelection) treeViewer.getSelection())
-						.getFirstElement(),
-						textSource,
-						TypeconfigurationPackage.Literals.RELATION__UPSTREAM_TYPE);
+				Object firstElement = ((IStructuredSelection) treeViewer
+						.getSelection()).getFirstElement();
+				if (firstElement instanceof Type) {
+					Type type = (Type) firstElement;
+					set(type,
+							textSource,
+							TypeconfigurationPackage.Literals.RELATION__UPSTREAM_TYPE);
+				}
 			}
 		});
 		btnSource.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false,

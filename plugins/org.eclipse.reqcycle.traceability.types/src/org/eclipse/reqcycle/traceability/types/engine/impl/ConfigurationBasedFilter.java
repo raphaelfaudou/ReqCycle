@@ -9,6 +9,7 @@ import org.eclipse.reqcycle.traceability.model.Pair;
 import org.eclipse.reqcycle.traceability.types.ITraceTypesManager;
 import org.eclipse.reqcycle.traceability.types.RelationBasedType;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Configuration;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Relation;
 import org.eclipse.reqcycle.types.ITypesManager;
 import org.eclipse.reqcycle.uri.model.Reachable;
 
@@ -33,7 +34,17 @@ public class ConfigurationBasedFilter implements Filter {
 		// RelationUtils.getMatchingRelations(pair,
 		// direction, config);
 		// return relations.iterator().hasNext();
-		return pair.getFirst().getKind() instanceof RelationBasedType;
+		boolean result = pair.getFirst().getKind() instanceof RelationBasedType;
+		if (result) {
+			result = false;
+			RelationBasedType relb = (RelationBasedType) pair.getFirst()
+					.getKind();
+			for (Relation r : config.getRelations()) {
+				// fix me improve the id check
+				result |= (r != null && r.getKind().equals(relb.getLabel()));
+			}
+		}
+		return result;
 	}
 
 }

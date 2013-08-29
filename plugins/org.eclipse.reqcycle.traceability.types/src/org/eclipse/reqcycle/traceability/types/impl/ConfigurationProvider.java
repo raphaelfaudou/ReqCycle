@@ -27,6 +27,7 @@ import org.eclipse.ziggurat.configuration.IConfigurationManager;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 
@@ -177,6 +178,9 @@ public class ConfigurationProvider implements ITypesConfigurationProvider,
 		final TypeConfigContainer container = (TypeConfigContainer) confManager
 				.getConfiguration(null, null,
 						ITypesConfigurationProvider.CONF_PREF_ID, false);
+		if (container == null) {
+			return ImmutableList.of();
+		}
 		return Iterables.transform(
 				Iterables.filter(container.getTypes(), CustomType.class),
 				new Function<CustomType, IType>() {
