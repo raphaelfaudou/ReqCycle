@@ -27,7 +27,7 @@ public class JDTReachableHandler implements IReachableHandler, IObjectHandler,
 
 	@Override
 	public boolean handlesReachable(Reachable t) {
-		return t.getPath().endsWith("java");
+		return t != null && t.getPath() !=null && t.getPath().endsWith("java");
 	}
 
 	@Override

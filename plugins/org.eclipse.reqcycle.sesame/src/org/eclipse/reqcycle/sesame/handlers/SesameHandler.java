@@ -82,7 +82,7 @@ public class SesameHandler implements IObjectHandler, IReachableHandler {
 
 	@Override
 	public boolean handlesReachable(Reachable t) {
-		return RDFWriterRegistry.getInstance().getFileFormatForFileName(
+		return t.getPath() != null && RDFWriterRegistry.getInstance().getFileFormatForFileName(
 				t.getPath()) != null;
 	}
 
