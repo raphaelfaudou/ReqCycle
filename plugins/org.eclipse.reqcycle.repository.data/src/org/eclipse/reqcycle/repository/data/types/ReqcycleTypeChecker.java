@@ -14,6 +14,7 @@ import org.eclipse.reqcycle.uri.model.Reachable;
 import org.eclipse.reqcycle.uri.model.ReachableObject;
 import org.eclipse.reqcycle.uri.visitors.IVisitor;
 
+import DataModel.Contained;
 import DataModel.Requirement;
 import DataModel.Scope;
 
@@ -58,20 +59,18 @@ public class ReqcycleTypeChecker implements IInjectedTypeChecker {
 		}
 
 		public boolean visit(Object o, IAdaptable adaptable) {
- 			found = o instanceof EObject;
-			if (found){
-				EObject eobj = (EObject)o;
-				
-				if(found && requirementScope != null) {
-					Requirement type = (Requirement)o;
+			//FIXME : Scope can't be resolved, fixe this after fixing scope bug
+ 			found = o instanceof Contained;
+				if(o instanceof Contained && requirementScope != null && dataModel != null) {
+					Contained type = (Contained)o;
 					for(Scope s : type.getScopes()) {
 						if(requirementScope.equalsIgnoreCase(s.eClass().getName()) 
 							&& dataModelManager.getDataModel(s).equals(dataModelManager.getDataModel(dataModel))) {
+							found = true;
 							return true;
 						}
 					}
 				}
-			}
 			return found;
 		}
 
