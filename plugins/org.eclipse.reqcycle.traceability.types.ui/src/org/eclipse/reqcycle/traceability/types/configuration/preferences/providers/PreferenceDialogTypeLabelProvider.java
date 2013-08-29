@@ -8,6 +8,7 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.reqcycle.traceability.types.configuration.preferences.ElementTypeConfigurationPage;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.CustomType;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Type;
+import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeConfigContainer;
 import org.eclipse.reqcycle.types.ITypesManager;
 import org.eclipse.reqcycle.types.ui.providers.TypeLabelProvider;
 import org.eclipse.swt.graphics.Image;
@@ -35,6 +36,8 @@ public class PreferenceDialogTypeLabelProvider extends
 				text += " (can be extended)";
 			}
 
+		} else if (object instanceof TypeConfigContainer) {
+			text = "Types";
 		}
 		return text;
 	}

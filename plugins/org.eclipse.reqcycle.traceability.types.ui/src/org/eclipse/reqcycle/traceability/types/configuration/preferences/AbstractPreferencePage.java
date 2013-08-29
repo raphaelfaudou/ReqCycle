@@ -1,6 +1,7 @@
 package org.eclipse.reqcycle.traceability.types.configuration.preferences;
 
 import java.util.Collection;
+import java.util.Comparator;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -19,6 +20,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.reqcycle.traceability.types.ITypesConfigurationProvider;
 import org.eclipse.reqcycle.traceability.types.configuration.preferences.dialogs.NewConfigurationDialog;
@@ -46,6 +48,7 @@ import org.eclipse.ziggurat.inject.ZigguratInject;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Ordering;
 
 public abstract class AbstractPreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage {
@@ -145,7 +148,17 @@ public abstract class AbstractPreferencePage extends PreferencePage implements
 		});
 
 		doLoad();
-		treeViewer.setLabelProvider(getLabelProvider());
+		final ILabelProvider labelProvider = getLabelProvider();
+		treeViewer.setLabelProvider(labelProvider);
+		treeViewer.setComparator(new ViewerComparator(new Comparator<Object>() {
+
+			@Override
+			public int compare(Object o1, Object o2) {
+				String s1 = o1.toString();
+				String s2 = o2.toString();
+				return Ordering.natural().compare(s1, s2);
+			}
+		}));
 		treeViewer.setContentProvider(getContentProvider());
 		setInput();
 		return top;
@@ -189,7 +202,7 @@ public abstract class AbstractPreferencePage extends PreferencePage implements
 		Button defaultButton = new Button(composite_1, SWT.NONE);
 		defaultButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
 				false, 1, 1));
-		defaultButton.setText("Enable");
+		defaultButton.setText("set current");
 		defaultButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
