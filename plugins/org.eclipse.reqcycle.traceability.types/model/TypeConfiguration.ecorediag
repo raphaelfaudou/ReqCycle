@@ -68,6 +68,10 @@
         <element xmi:type="ecore:EOperation" href="TypeConfiguration.ecore#//Relation/getAgregated"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_onXV8fOeEeKfB71PkMdS9Q"/>
       </children>
+      <children xmi:type="notation:Node" xmi:id="_5v_JkBCDEeO7ou7FX-D_xQ" type="2002">
+        <element xmi:type="ecore:EOperation" href="TypeConfiguration.ecore#//Relation/getTType"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_5v_JkRCDEeO7ou7FX-D_xQ"/>
+      </children>
       <styles xmi:type="notation:DrawerStyle" xmi:id="_353IgcIuEeKkjfiQUcItSg"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_353IgsIuEeKkjfiQUcItSg"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_353Ig8IuEeKkjfiQUcItSg"/>

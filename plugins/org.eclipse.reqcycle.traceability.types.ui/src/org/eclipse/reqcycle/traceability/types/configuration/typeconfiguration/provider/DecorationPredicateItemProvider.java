@@ -22,10 +22,8 @@ import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.D
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeconfigurationPackage;
 
 /**
- * This is the item provider adapter for a
- * {@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.DecorationPredicate}
- * object. <!-- begin-user-doc --> <!-- end-user-doc -->
- * 
+ * This is the item provider adapter for a {@link org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.DecorationPredicate} object.
+ * <!-- begin-user-doc --> <!-- end-user-doc -->
  * @generated
  */
 public class DecorationPredicateItemProvider extends IPredicateLinkItemProvider
@@ -65,17 +63,19 @@ public class DecorationPredicateItemProvider extends IPredicateLinkItemProvider
 	 * @generated
 	 */
 	protected void addColorPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_DecorationPredicate_color_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_DecorationPredicate_color_feature",
-						"_UI_DecorationPredicate_type"),
-				TypeconfigurationPackage.Literals.DECORATION_PREDICATE__COLOR,
-				true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_DecorationPredicate_color_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_DecorationPredicate_color_feature", "_UI_DecorationPredicate_type"),
+				 TypeconfigurationPackage.Literals.DECORATION_PREDICATE__COLOR,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -85,17 +85,19 @@ public class DecorationPredicateItemProvider extends IPredicateLinkItemProvider
 	 * @generated
 	 */
 	protected void addStylePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_DecorationPredicate_style_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_DecorationPredicate_style_feature",
-						"_UI_DecorationPredicate_type"),
-				TypeconfigurationPackage.Literals.DECORATION_PREDICATE__STYLE,
-				true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_DecorationPredicate_style_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_DecorationPredicate_style_feature", "_UI_DecorationPredicate_type"),
+				 TypeconfigurationPackage.Literals.DECORATION_PREDICATE__STYLE,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -127,11 +129,10 @@ public class DecorationPredicateItemProvider extends IPredicateLinkItemProvider
 	}
 
 	/**
-	 * This handles model notifications by calling {@link #updateChildren} to
-	 * update any cached children and by creating a viewer notification, which
-	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
+	 * This handles model notifications by calling {@link #updateChildren} to update any cached
+	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -139,11 +140,10 @@ public class DecorationPredicateItemProvider extends IPredicateLinkItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(DecorationPredicate.class)) {
-		case TypeconfigurationPackage.DECORATION_PREDICATE__STYLE:
-		case TypeconfigurationPackage.DECORATION_PREDICATE__COLOR:
-			fireNotifyChanged(new ViewerNotification(notification,
-					notification.getNotifier(), false, true));
-			return;
+			case TypeconfigurationPackage.DECORATION_PREDICATE__STYLE:
+			case TypeconfigurationPackage.DECORATION_PREDICATE__COLOR:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
 		}
 		super.notifyChanged(notification);
 	}

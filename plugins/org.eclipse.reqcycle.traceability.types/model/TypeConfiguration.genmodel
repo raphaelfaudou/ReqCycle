@@ -38,6 +38,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TypeConfiguration.ecore#//Relation/icon"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TypeConfiguration.ecore#//Relation/attributes"/>
       <genOperations ecoreOperation="TypeConfiguration.ecore#//Relation/getAgregated"/>
+      <genOperations ecoreOperation="TypeConfiguration.ecore#//Relation/getTType"/>
     </genClasses>
     <genClasses ecoreClass="TypeConfiguration.ecore#//Configuration">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TypeConfiguration.ecore#//Configuration/relations"/>

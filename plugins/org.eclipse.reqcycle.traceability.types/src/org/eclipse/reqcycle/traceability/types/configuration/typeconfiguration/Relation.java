@@ -176,4 +176,12 @@ public interface Relation extends EObject {
 	 */
 	EList<TType> getAgregated();
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" dataType="org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TType"
+	 * @generated
+	 */
+	TType getTType();
+
 } // Relation
