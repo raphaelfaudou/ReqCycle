@@ -12,12 +12,15 @@ package org.eclipse.reqcycle.traceability.table.model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.ViewerFilter;
@@ -42,7 +45,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 
-
 public class TableController {
 
 	private static final String RDF_FILE = "./.traceability.rdf"; //$NON-NLS-1$
@@ -56,19 +58,32 @@ public class TableController {
 
 	protected TableViewer viewer;
 
+	protected Callable<Iterable<?>> callable;
 
 	public TableController(TableViewer viewer) {
 		this.viewer = viewer;
 	}
 
 	public void displayAllLinks() {
-		Iterable<Link> linksFromEngine = getLinksFromEngine();
-		setViewerInput(linksFromEngine);
+		callable = new Callable<Iterable<?>>() {
+
+			@Override
+			public Iterable<?> call() throws Exception {
+				return getLinksFromEngine();
+			}
+		};
+		refreshViewerData();
 	}
-	
-	public void displayExplicitLinks(IProject project){
-		Iterable<Link> linksFromEngine = getLinksFromProject(project);
-		setViewerInput(linksFromEngine);
+
+	public void displayExplicitLinks(final IProject project) {
+		callable = new Callable<Iterable<?>>() {
+
+			@Override
+			public Iterable<?> call() throws Exception {
+				return getLinksFromProject(project);
+			}
+		};
+		refreshViewerData();
 	}
 
 	protected Iterable<Link> getLinksFromEngine() {
@@ -121,19 +136,19 @@ public class TableController {
 		ITraceabilityStorage storage = null;
 		IProject project = null;
 		try {
-			while (links.hasNext()){
+			while(links.hasNext()) {
 				TransverseLink link = links.next();
-				if (storage == null){
+				if(storage == null) {
 					project = link.getProject();
 					storage = getStorage(project, provider);
 					storage.startTransaction();
 				}
 				Reachable source = Iterables.get(link.getSources(), 0);
 				Reachable target = Iterables.get(link.getTargets(), 0);
-				if (storage != null)
+				if(storage != null)
 					storage.removeUpwardRelationShip(link.getKind(), null, target, source);
 			}
-			if (storage != null){
+			if(storage != null) {
 				storage.commit();
 			}
 		} catch (Exception e) {
@@ -141,10 +156,12 @@ public class TableController {
 			storage.rollback();
 		} finally {
 			storage.save();
-			try{
-				setViewerInput(getLinksFromProject(project));
-			} catch (Exception e){
-				e.printStackTrace();
+			refreshViewerData();
+			IFile file = project.getFile(new Path(RDF_FILE));
+			try {
+				file.refreshLocal(0, new NullProgressMonitor());
+			} catch (CoreException e) {
+				//DO NOTHING
 			}
 		}
 	}
@@ -157,39 +174,44 @@ public class TableController {
 		}
 		return null;
 	}
-	
-	
+
+
 	/**
-	 * Filters and sets the viewer's input.
-	 * @param input
+	 * Refreshes the viewer's data.
 	 */
-	protected void setViewerInput(Iterable<?> input){
-		Predicate<Object> filter = new Predicate<Object>(){
+	public void refreshViewerData() {
+		Predicate<Object> filter = new Predicate<Object>() {
+
 			@Override
 			public boolean apply(Object arg0) {
 				ViewerFilter[] filters = TableController.this.viewer.getFilters();
-				for(int i = 0 ; i < filters.length ; i ++ ){
+				for(int i = 0; i < filters.length; i++) {
 					ViewerFilter filter = filters[i];
-					if (!filter.select(viewer, null, arg0)){
-						return false; 
+					if(!filter.select(viewer, null, arg0)) {
+						return false;
 					}
 				}
 				return true;
 			}
 		};
-		Iterable<?> filtered = Iterables.filter(input, filter);
-		viewer.setItemCount(Iterables.size(filtered));
-		viewer.setInput(filtered);
-		viewer.refresh();
+		Iterable<?> input;
+		try {
+			input = callable.call();
+			Iterable<?> filtered = Iterables.filter(input, filter);
+			viewer.setItemCount(Iterables.size(filtered));
+			viewer.setInput(filtered);
+			viewer.refresh();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void refreshViewer(){
-		TraceabilityLazyContentProvider<?> contentProvider = (TraceabilityLazyContentProvider<?>) viewer.getContentProvider();
-		viewer.setItemCount(Iterables.size((Iterable<?>) viewer.getInput()));
+	public void refreshViewerVisuals() {
+		TraceabilityLazyContentProvider<?> contentProvider = (TraceabilityLazyContentProvider<?>)viewer.getContentProvider();
+		viewer.setItemCount(Iterables.size((Iterable<?>)viewer.getInput()));
 		contentProvider.clearCache();
 		viewer.refresh();
 	}
-	
-	
-	
+
+
 }

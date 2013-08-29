@@ -17,6 +17,8 @@ import java.util.TimerTask;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -24,6 +26,7 @@ import org.eclipse.reqcycle.traceability.engine.ITraceabilityEngine;
 import org.eclipse.reqcycle.traceability.model.Link;
 import org.eclipse.reqcycle.traceability.model.TType;
 import org.eclipse.reqcycle.traceability.storage.IStorageProvider;
+import org.eclipse.reqcycle.traceability.storage.ITraceabilityStorageTopics;
 import org.eclipse.reqcycle.traceability.table.filters.TableFilter;
 import org.eclipse.reqcycle.traceability.table.menus.actions.AllLinksAction;
 import org.eclipse.reqcycle.traceability.table.menus.actions.ExplicitLinksAction;
@@ -72,8 +75,22 @@ public class TraceabilityTableView extends ViewPart {
 
 	protected Text filterText;
 
+	protected Refresher refresher = new Refresher();
+	
 	public TraceabilityTableView() {
 		ZigguratInject.inject(this);
+	}
+
+	@Inject
+	@Optional
+	void reactOnNewTraceaLinkCreation(@UIEventTopic(ITraceabilityStorageTopics.NEW) Reachable object) {
+		refresher.scheduleRefresh();
+	}
+
+	@Inject
+	@Optional
+	void reactOnTraceaLinkRemoval(@UIEventTopic(ITraceabilityStorageTopics.REMOVE) Reachable object) {
+		refresher.scheduleRefresh();
 	}
 
 	@Override
@@ -234,7 +251,7 @@ public class TraceabilityTableView extends ViewPart {
 						public void run() {
 							String searchText = TraceabilityTableView.this.filterText.getText();
 							ModifyListenerImplementation.this.filter.setSearchText(searchText);
-							TraceabilityTableView.this.tableControl.refreshViewer();
+							TraceabilityTableView.this.tableControl.refreshViewerVisuals();
 						}
 					});
 				}
@@ -242,10 +259,42 @@ public class TraceabilityTableView extends ViewPart {
 
 			t.schedule(tt, 800);
 		}
-	}
-
-	public TableController getController(){
-		return this.tableControl;
+	
 	}
 	
+	private final class Refresher{ 
+		Timer t = new Timer(); 
+		TimerTask tt;
+		
+		public void scheduleRefresh(){
+			if(tt != null) {
+				tt.cancel(); //This cancels the timer as well.
+				t.purge();
+				tt = null;
+			}
+			tt = new TimerTask() {
+
+				//The timer thread will yield to the display thread to apply the filter.
+				@Override
+				public void run() {
+					Display display = getSite().getShell().getDisplay();
+					display.syncExec(new Runnable() {
+						public void run() {
+							tableControl.refreshViewerData();
+						}
+					});
+				}
+			};
+
+			t.schedule(tt, 1500);
+			
+		}
+		
+	}
+	
+
+	public TableController getController() {
+		return this.tableControl;
+	}
+
 }

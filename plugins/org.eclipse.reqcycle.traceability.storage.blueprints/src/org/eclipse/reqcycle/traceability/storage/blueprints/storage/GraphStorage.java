@@ -1,5 +1,7 @@
 package org.eclipse.reqcycle.traceability.storage.blueprints.storage;
 
+import static com.google.common.collect.Iterables.transform;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.LinkedList;
@@ -14,7 +16,7 @@ import org.eclipse.reqcycle.traceability.model.Pair;
 import org.eclipse.reqcycle.traceability.model.TType;
 import org.eclipse.reqcycle.traceability.storage.IStorageProvider;
 import org.eclipse.reqcycle.traceability.storage.ITraceabilityStorage;
-import org.eclipse.reqcycle.traceability.storage.ITraceabilityStorageListener.Event;
+import org.eclipse.reqcycle.traceability.storage.ITraceabilityStorageTopics;
 import org.eclipse.reqcycle.traceability.storage.blueprints.graph.ISpecificGraphProvider;
 import org.eclipse.reqcycle.uri.IReachableCreator;
 import org.eclipse.reqcycle.uri.model.Reachable;
@@ -26,8 +28,6 @@ import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.TransactionalGraph;
 import com.tinkerpop.blueprints.Vertex;
-
-import static com.google.common.collect.Iterables.transform;
 
 public class GraphStorage implements ITraceabilityStorage {
 
@@ -60,7 +60,7 @@ public class GraphStorage implements ITraceabilityStorage {
 	@Override
 	public void save() {
 		if (graph instanceof TransactionalGraph) {
-			provider.notifyChanged(this, Event.SAVE, null);
+			provider.notifyChanged(ITraceabilityStorageTopics.SAVE, this);
 			TransactionalGraph tGraph = (TransactionalGraph) graph;
 			tGraph.commit();
 		}
@@ -96,7 +96,7 @@ public class GraphStorage implements ITraceabilityStorage {
 			graphUtils.addChildrenRelation(graph,
 					graphUtils.getVertex(graph, container), vertex);
 		}
-		provider.notifyChanged(this, Event.NEW_UPWARD, tracea);
+		provider.notifyChanged(ITraceabilityStorageTopics.NEW, tracea);
 	}
 
 	private Reachable getReachable(Vertex vertex) {
@@ -155,7 +155,7 @@ public class GraphStorage implements ITraceabilityStorage {
 
 	@Override
 	public void dispose() {
-		provider.notifyChanged(this, Event.DISPOSE, null);
+		provider.notifyChanged(ITraceabilityStorageTopics.DISPOSE, this);
 		graph.shutdown();
 	}
 
@@ -166,7 +166,7 @@ public class GraphStorage implements ITraceabilityStorage {
 	@Override
 	public void commit() {
 		if (graph instanceof TransactionalGraph) {
-			provider.notifyChanged(this, Event.COMMIT, null);
+			provider.notifyChanged(ITraceabilityStorageTopics.COMMIT, this);
 			TransactionalGraph tGraph = (TransactionalGraph) graph;
 			tGraph.commit();
 		}
@@ -206,7 +206,7 @@ public class GraphStorage implements ITraceabilityStorage {
 
 	private void deleteTraceability(Reachable reachable, Vertex v) {
 		graphUtils.delete(v);
-		provider.notifyChanged(this, Event.REMOVE_TRACEABILITY, reachable);
+		provider.notifyChanged(ITraceabilityStorageTopics.REMOVE, reachable);
 	}
 
 	@Override
@@ -270,7 +270,7 @@ public class GraphStorage implements ITraceabilityStorage {
 					if (aKind != null && aKind.equals(oldLink.getKind())) {
 						handleTraceability(oldLink, source, target, newLink,
 								vSource, vTarget, vTrac, direction);
-						provider.notifyChanged(this, Event.UPDATE_TRACEABILITY,
+						provider.notifyChanged(ITraceabilityStorageTopics.UPDATE,
 								newLink);
 						break;
 					}
