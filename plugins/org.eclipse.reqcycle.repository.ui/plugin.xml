@@ -25,6 +25,7 @@
             restorable="true">
       </view>
       <view
+            allowMultiple="true"
             category="org.eclipse.reqcycle"
             class="org.eclipse.reqcycle.repository.ui.views.ScopeView"
             icon="icons/open.png"
