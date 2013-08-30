@@ -8,6 +8,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.reqcycle.repository.data,
  org.eclipse.reqcycle.repository.ui,
- org.eclipse.reqcycle.repository.connector
+ org.eclipse.reqcycle.repository.connector,
+ org.eclipse.ziggurat.inject
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

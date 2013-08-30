@@ -114,7 +114,7 @@ public class DataModelManagerImpl implements IDataModelManager {
 		dataModel.add(p);
 	}
 
-	private void registerModel(DataModel dataModel) {
+	protected void registerModel(DataModel dataModel) {
 		EPackage p = ((DataModelImpl)dataModel).getEPackage();
 		if(p != null && p.getNsURI() != null) {
 			Registry.INSTANCE.put(p.getNsURI(), p);
