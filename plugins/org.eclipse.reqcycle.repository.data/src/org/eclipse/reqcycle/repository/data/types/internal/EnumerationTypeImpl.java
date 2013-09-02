@@ -3,6 +3,7 @@ package org.eclipse.reqcycle.repository.data.types.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
@@ -11,7 +12,7 @@ import org.eclipse.reqcycle.repository.data.types.EnumerationType;
 import org.eclipse.reqcycle.repository.data.types.EnumeratorType;
 
 
-public class EnumerationTypeImpl implements EnumerationType {
+public class EnumerationTypeImpl implements EnumerationType, IAdaptable {
 
 	protected EEnum eEnum;
 	
@@ -31,8 +32,14 @@ public class EnumerationTypeImpl implements EnumerationType {
 	
 	@Override
 	public void addEnumeratorType(EnumeratorType enumerator) {
-		eEnum.getELiterals().add(((EnumeratorTypeImpl)enumerator).getEEnumLiteral());
-		enumerators.add(enumerator);
+		EEnumLiteral eEnumLiteral = null;
+		if(enumerator instanceof IAdaptable) {
+			eEnumLiteral = (EEnumLiteral)((IAdaptable)enumerator).getAdapter(EEnumLiteral.class);
+		}
+		if(eEnumLiteral != null) {
+			eEnum.getELiterals().add(eEnumLiteral);
+			enumerators.add(enumerator);
+		}
 	}
 
 	@Override
@@ -49,8 +56,20 @@ public class EnumerationTypeImpl implements EnumerationType {
 		return eEnum.getEPackage()!=null?eEnum.getEPackage().getNsURI():null;	
 	}
 
+	/**
+	 * @deprecated use getAdapter
+	 */
 	@Override
 	public EDataType getEDataType() {
 		return eEnum;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Object getAdapter(Class adapter) {
+		if(adapter == EEnum.class) {
+			return eEnum;
+		}
+		return null;
 	}
 }

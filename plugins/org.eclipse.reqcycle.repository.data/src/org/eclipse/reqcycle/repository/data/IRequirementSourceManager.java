@@ -13,6 +13,7 @@
   *****************************************************************************/
 package org.eclipse.reqcycle.repository.data;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
@@ -80,5 +81,7 @@ public interface IRequirementSourceManager {
 	public void addListener(IListener listener);
 
 	public void removeListener(IListener listener);
+	
+	public void save() throws IOException;
 
 }

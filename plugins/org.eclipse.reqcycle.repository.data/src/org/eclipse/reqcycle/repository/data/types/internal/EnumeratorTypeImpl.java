@@ -1,11 +1,12 @@
 package org.eclipse.reqcycle.repository.data.types.internal;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.reqcycle.repository.data.types.EnumeratorType;
 
 
-public class EnumeratorTypeImpl implements EnumeratorType {
+public class EnumeratorTypeImpl implements EnumeratorType, IAdaptable {
 
 	protected EEnumLiteral eEnumLiteral;
 	
@@ -23,8 +24,20 @@ public class EnumeratorTypeImpl implements EnumeratorType {
 		return eEnumLiteral.getName();
 	}
 
+	/**
+	 * @deprecated use getAdapter
+	 */
 	protected EEnumLiteral getEEnumLiteral() {
 		return eEnumLiteral;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Object getAdapter(Class adapter) {
+		if(adapter == EEnumLiteral.class) {
+			return eEnumLiteral;
+		}
+		return null;
 	}
 	
 }

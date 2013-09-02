@@ -1,12 +1,13 @@
 package org.eclipse.reqcycle.repository.data.types.internal;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.reqcycle.repository.data.types.RequirementTypeAttribute;
 
 
-public class RequirementTypeAttributeImpl implements RequirementTypeAttribute {
+public class RequirementTypeAttributeImpl implements RequirementTypeAttribute, IAdaptable {
 	
 	protected EAttribute eAttribute;
 	
@@ -21,6 +22,9 @@ public class RequirementTypeAttributeImpl implements RequirementTypeAttribute {
 		this.eAttribute = eAttribute;
 	}
 	
+	/**
+	 * @deprecated use getAdapter
+	 */
 	public EAttribute getEAttribute() {
 		return eAttribute;
 	}
@@ -41,6 +45,15 @@ public class RequirementTypeAttributeImpl implements RequirementTypeAttribute {
 			return true;
 		}
 		return false;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Object getAdapter(Class adapter) {
+		if(adapter == EAttribute.class) {
+			return eAttribute;
+		}
+		return null;
 	}
 	
 }

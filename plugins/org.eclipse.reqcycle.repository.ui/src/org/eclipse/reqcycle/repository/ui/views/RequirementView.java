@@ -20,10 +20,17 @@ import java.util.Collections;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.viewers.IPostSelectionProvider;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.ISelectionProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.dnd.DragRequirementSourceAdapter;
@@ -42,12 +49,15 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewReference;
+import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.DrillDownAdapter;
 import org.eclipse.ui.part.PluginTransfer;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ziggurat.inject.ZigguratInject;
@@ -74,6 +84,10 @@ public class RequirementView extends ViewPart implements Listener {
 	protected Collection<DummyInput> input = new ArrayList<DummyInput>();
 	
 	protected Action newInstanceAction;
+
+	private DrillDownAdapter drillDownAdapter;
+
+	private ISelectionProvider selectionProvider;
 
 	public RequirementView() {
 	}
@@ -106,6 +120,8 @@ public class RequirementView extends ViewPart implements Listener {
 		});
 
 		getViewer().setInput(input);
+		
+		drillDownAdapter = new DrillDownAdapter(viewer);
 
 		int dndOperations = DND.DROP_COPY | DND.DROP_MOVE;
 
@@ -114,20 +130,91 @@ public class RequirementView extends ViewPart implements Listener {
 
 		DragRequirementSourceAdapter listener = new DragRequirementSourceAdapter(getViewer());
 		ZigguratInject.inject(listener);
-		getViewer().addSelectionChangedListener(new ISelectionChangedListener() {
-
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				// TODO Auto-generated method stub
-				event.toString();
-			}
-		});
 		getViewer().addDragSupport(dndOperations, transfers, listener);
 		getViewSite().setSelectionProvider(getViewer());
 
+		makeSelectionProvider();
 		makeActions();
+		hookContextMenu();
 		contributeToActionBars();
 		hookListeners();
+	}
+	
+	/**
+	 * Create The context menu
+	 */
+	protected void hookContextMenu() {
+		MenuManager menuMgr = new MenuManager("#PopupMenu"); //$NON-NLS-1$
+		menuMgr.setRemoveAllWhenShown(true);
+		menuMgr.addMenuListener(new IMenuListener() {
+
+			public void menuAboutToShow(IMenuManager manager) {
+				fillContextMenu(manager);
+			}
+		});
+		Menu menu = menuMgr.createContextMenu(viewer.getControl());
+		viewer.getControl().setMenu(menu);
+		
+		getSite().registerContextMenu(menuMgr, selectionProvider != null ? selectionProvider : viewer);
+	}
+
+	protected void makeSelectionProvider() {
+		if(viewer == null) {
+			return;
+		}
+		selectionProvider = new IPostSelectionProvider() {
+
+			@Override
+			public void addSelectionChangedListener(ISelectionChangedListener listener) {
+				((IPostSelectionProvider)viewer).addSelectionChangedListener(listener);
+			}
+
+			@Override
+			public ISelection getSelection() {
+				ISelection selection = ((IPostSelectionProvider)viewer).getSelection();
+				if(selection instanceof IStructuredSelection) {
+					Object element = ((IStructuredSelection)selection).getFirstElement();
+					if(element instanceof DummyObject) {
+						return new StructuredSelection(((DummyObject)element).getEobj());
+					}
+				}
+				return selection;
+			}
+
+			@Override
+			public void removeSelectionChangedListener(ISelectionChangedListener listener) {
+				((IPostSelectionProvider)viewer).removeSelectionChangedListener(listener);
+			}
+
+			@Override
+			public void setSelection(ISelection selection) {
+				((IPostSelectionProvider)viewer).setSelection(selection);
+			}
+
+			@Override
+			public void addPostSelectionChangedListener(ISelectionChangedListener listener) {
+				((IPostSelectionProvider)viewer).addPostSelectionChangedListener(listener);
+			}
+
+			@Override
+			public void removePostSelectionChangedListener(ISelectionChangedListener listener) {
+				((IPostSelectionProvider)viewer).removePostSelectionChangedListener(listener);
+			}
+			
+		};
+		getSite().setSelectionProvider(selectionProvider);
+	}
+	
+	/**
+	 * Fills the context menu
+	 * 
+	 * @param manager
+	 *        the context menu manager
+	 */
+	protected void fillContextMenu(IMenuManager manager) {
+		drillDownAdapter.addNavigationActions(manager);
+		// Other plug-ins can contribute there actions here
+		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
 	@Override

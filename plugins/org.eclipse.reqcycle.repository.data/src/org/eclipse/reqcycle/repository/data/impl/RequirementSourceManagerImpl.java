@@ -107,7 +107,7 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 		}
 
 		try {
-			confManager.saveConfiguration(sources, null, null, ID, rs);
+			save();
 			notifyListeners();
 		} catch (IOException e) {
 			//FIXME : use Logger
@@ -123,7 +123,7 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 			repository.getRequirements().clear();
 			EcoreUtil.delete(repository, true);
 			try {
-				confManager.saveConfiguration(sources, null, null, ID, rs);
+				save();
 				notifyListeners();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -131,12 +131,16 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 		}
 	}
 
+	public void save() throws IOException {
+		confManager.saveConfiguration(sources, null, null, ID, rs);
+	}
+
 	public void removeConnectorRepositories(String connectorId) {
 		Set<RequirementSource> repositories = repositoryMap.get(connectorId);
 		for(RequirementSource reqSource : repositories) {
 			sources.removeRequirementSource(reqSource);
 			try {
-				confManager.saveConfiguration(sources, null, null, ID, rs);
+				save();
 				notifyListeners();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -181,6 +185,7 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 		}
 		return res;
 	}
+	
 	
 	
 	public void addListener(IListener listener) {

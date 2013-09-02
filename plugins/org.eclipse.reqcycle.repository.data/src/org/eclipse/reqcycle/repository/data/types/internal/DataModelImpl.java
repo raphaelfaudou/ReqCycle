@@ -3,6 +3,7 @@ package org.eclipse.reqcycle.repository.data.types.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -11,8 +12,8 @@ import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.reqcycle.repository.data.types.DataType;
 import org.eclipse.reqcycle.repository.data.types.DataModel;
+import org.eclipse.reqcycle.repository.data.types.DataType;
 import org.eclipse.reqcycle.repository.data.types.EnumerationType;
 import org.eclipse.reqcycle.repository.data.types.RequirementType;
 
@@ -20,7 +21,7 @@ import DataModel.RequirementSection;
 import DataModel.Scope;
 
 
-public class DataModelImpl implements DataModel {
+public class DataModelImpl implements DataModel, IAdaptable {
 	
 	protected EPackage ePackage;
 	
@@ -88,11 +89,22 @@ public class DataModelImpl implements DataModel {
 	@Override
 	public RequirementSection create(RequirementType dataType) {
 //		return (RequirementSection)createFactoryInstance().create(((RequirementTypeImpl)dataType).getEClass());
-		EClass eclass = ((RequirementTypeImpl)dataType).getEClass();
+		EClass eclass = null;
+		if(dataType instanceof IAdaptable) {
+			eclass = (EClass)((IAdaptable)dataType).getAdapter(EClass.class);
+		}
+		
+		if(eclass == null) {
+			return null;
+		}
+		
 		for(DataModel p : getSubDataModels()) {
-			EPackage pac = ((DataModelImpl)p).getEPackage();
-			if (pac.getEClassifiers().contains(eclass)){
-				return (RequirementSection)((DataModelImpl)p).getEPackage().getEFactoryInstance().create(eclass);
+			EPackage pac = null;
+			if(p instanceof IAdaptable) {
+				pac = (EPackage)((IAdaptable)p).getAdapter(EPackage.class);
+			}
+			if (pac != null && pac.getEClassifiers().contains(eclass)){
+				return (RequirementSection)pac.getEFactoryInstance().create(eclass);
 			}
 		}
 		return null;
@@ -100,16 +112,32 @@ public class DataModelImpl implements DataModel {
 
 	@Override
 	public void add(DataModel dataModel) {
-		ePackage.getESubpackages().add(((DataModelImpl)dataModel).getEPackage());
-		subPackages.add(dataModel);
+		EPackage ePackage = null;
+		if(dataModel instanceof IAdaptable) {
+			ePackage = (EPackage)((IAdaptable)dataModel).getAdapter(EPackage.class);
+		}
+		if(ePackage != null) {
+			ePackage.getESubpackages().add(ePackage);
+			subPackages.add(dataModel);
+		}
 	}
 	
 	@Override
 	public void add(RequirementType dataType) {
-		ePackage.getEClassifiers().add(((RequirementTypeImpl)dataType).getEClass());
-		dataTypes.add(dataType);
+		EClass eClass = null;
+		if(dataType instanceof IAdaptable) {
+			eClass = (EClass)((IAdaptable)dataType).getAdapter(EClass.class);
+		}
+		if(eClass != null) {
+			ePackage.getEClassifiers().add(eClass);
+			dataTypes.add(dataType);
+		}
 	}
 	
+	/**
+	 * @deprecated use getAdapter
+	 */
+	@Deprecated
 	public EPackage getEPackage() {
 		return ePackage;
 	}
@@ -203,6 +231,15 @@ public class DataModelImpl implements DataModel {
 		} else if (type instanceof EnumerationType) {
 			add((EnumerationType)type);
 		}
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Object getAdapter(Class adapter) {
+		if(adapter == EPackage.class) {
+			return ePackage;
+		}
+		return null;
 	}
 	
 }

@@ -3,6 +3,7 @@ package org.eclipse.reqcycle.repository.data.types.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -14,7 +15,7 @@ import DataModel.DataModelPackage;
 import DataModel.RequirementSection;
 
 
-public class RequirementTypeImpl implements RequirementType {
+public class RequirementTypeImpl implements RequirementType, IAdaptable {
 
 	protected EClass eClass;
 	
@@ -38,8 +39,14 @@ public class RequirementTypeImpl implements RequirementType {
 	
 	@Override
 	public void addAttributeType(RequirementTypeAttribute attributeType) {
-		attributes.add(attributeType);
-		eClass.getEStructuralFeatures().add(((RequirementTypeAttributeImpl)attributeType).getEAttribute());
+		EAttribute eAttribute = null;
+		if(attributeType instanceof IAdaptable) {
+			eAttribute = (EAttribute)((IAdaptable)attributeType).getAdapter(EAttribute.class);
+		}
+		if(eAttribute != null) {
+			attributes.add(attributeType);
+			eClass.getEStructuralFeatures().add(eAttribute);
+		}
 	}
 
 	@Override
@@ -47,6 +54,9 @@ public class RequirementTypeImpl implements RequirementType {
 		return eClass.getName();
 	}
 	
+	/**
+	 * @deprecated use getAdapter
+	 */
 	public EClass getEClass(){
 		return eClass;
 	}
@@ -61,6 +71,15 @@ public class RequirementTypeImpl implements RequirementType {
 		EPackage ePackage = eClass.getEPackage();
 		if(ePackage != null) {
 			return (RequirementSection)ePackage.getEFactoryInstance().create(eClass);
+		}
+		return null;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Object getAdapter(Class adapter) {
+		if(adapter == EClass.class) {
+			return eClass;
 		}
 		return null;
 	}

@@ -239,7 +239,7 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 		menuMgr.addMenuListener(new IMenuListener() {
 
 			public void menuAboutToShow(IMenuManager manager) {
-				RequirementSourcesView.this.fillContextMenu(manager);
+				fillContextMenu(manager);
 			}
 		});
 		Menu menu = menuMgr.createContextMenu(viewer.getControl());
