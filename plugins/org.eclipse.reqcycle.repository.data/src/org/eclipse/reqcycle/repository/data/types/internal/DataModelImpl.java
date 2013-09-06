@@ -1,3 +1,16 @@
+/*****************************************************************************
+ * Copyright (c) 2013 AtoS.
+ *
+ *    
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Anass RADOUANI (AtoS) anass.radouani@atos.net - Initial API and implementation
+ *
+ *****************************************************************************/
 package org.eclipse.reqcycle.repository.data.types.internal;
 
 import java.util.ArrayList;
@@ -12,29 +25,38 @@ import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.reqcycle.repository.data.types.DataModel;
-import org.eclipse.reqcycle.repository.data.types.DataType;
-import org.eclipse.reqcycle.repository.data.types.EnumerationType;
-import org.eclipse.reqcycle.repository.data.types.RequirementType;
+import org.eclipse.reqcycle.repository.data.types.IDataModel;
+import org.eclipse.reqcycle.repository.data.types.IEnumerationType;
+import org.eclipse.reqcycle.repository.data.types.IRequirementType;
 
-import DataModel.RequirementSection;
 import DataModel.Scope;
 
+/**
+ * The Class DataModelImpl.
+ */
+public class DataModelImpl implements IDataModel, IAdaptable {
 
-public class DataModelImpl implements DataModel, IAdaptable {
-	
+	/** The ePackage. */
 	protected EPackage ePackage;
-	
-	protected Collection<DataModel> subPackages = new ArrayList<DataModel>();
-	
+
+	/** The subPackages. */
+	protected Collection<IDataModel> subPackages = new ArrayList<IDataModel>();
+
+	/** The scopes. */
 	protected Collection<Scope> scopes = new ArrayList<Scope>();
-	
-	protected Collection<RequirementType> dataTypes = new ArrayList<RequirementType>();
-	
-	protected Collection<EnumerationType> enumerationTypes = new ArrayList<EnumerationType>();
-	
+
+	/** The requirement types. */
+	protected Collection<IRequirementType> requirementTypes = new ArrayList<IRequirementType>();
+
+	/** The enumeration types. */
+	protected Collection<IEnumerationType> enumerationTypes = new ArrayList<IEnumerationType>();
+
+	/** The Constant NS_URI. */
 	protected static final String NS_URI = "http://www.eclipse.org/ReqCycle/CustomDataModels";
-	
+
+	/**
+	 * Instantiates a new data model.
+	 */
 	public DataModelImpl() {
 		ePackage = EcoreFactory.eINSTANCE.createEPackage();
 		ePackage.setName("");
@@ -43,6 +65,12 @@ public class DataModelImpl implements DataModel, IAdaptable {
 		ePackage.setNsURI(NS_URI);
 	}
 
+	/**
+	 * Instantiates a new data model.
+	 * 
+	 * @param name
+	 *        the data model name
+	 */
 	public DataModelImpl(String name) {
 		ePackage = EcoreFactory.eINSTANCE.createEPackage();
 		ePackage.setName(name);
@@ -50,22 +78,28 @@ public class DataModelImpl implements DataModel, IAdaptable {
 		ePackage.setNsPrefix(name);
 		ePackage.setNsURI(NS_URI + "/" + name);
 	}
-	
+
+	/**
+	 * Instantiates a new data model.
+	 * 
+	 * @param ePackage
+	 *        the ePackage
+	 */
 	public DataModelImpl(EPackage ePackage) {
 		this.ePackage = ePackage;
-		
+
 		for(EClassifier classifier : ePackage.getEClassifiers()) {
 			if(classifier instanceof EClass) {
-				dataTypes.add(new RequirementTypeImpl((EClass)classifier));
-			} else if (classifier instanceof EEnum) {
+				requirementTypes.add(new RequirementTypeImpl((EClass)classifier));
+			} else if(classifier instanceof EEnum) {
 				enumerationTypes.add(new EnumerationTypeImpl((EEnum)classifier));
 			}
 		}
-		
+
 		for(EPackage subPackage : ePackage.getESubpackages()) {
 			subPackages.add(new DataModelImpl(subPackage));
 		}
-		
+
 		EAnnotation scopeEAnnotation = ePackage.getEAnnotation("SCOPES");
 		if(scopeEAnnotation != null) {
 			for(EObject content : scopeEAnnotation.getContents()) {
@@ -76,42 +110,64 @@ public class DataModelImpl implements DataModel, IAdaptable {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.reqcycle.repository.data.types.IDataModel#getName()
+	 */
 	@Override
 	public String getName() {
-		return ePackage!=null?ePackage.getName():null;
+		return ePackage != null ? ePackage.getName() : null;
 	}
 
-	EFactory createFactoryInstance() {
+	/**
+	 * Gets the factory instance.
+	 * 
+	 * @return the factory instance
+	 */
+	EFactory getFactoryInstance() {
 		return ePackage.getEFactoryInstance();
 	}
 
-	//FIXME : Continue
-	@Override
-	public RequirementSection create(RequirementType dataType) {
-//		return (RequirementSection)createFactoryInstance().create(((RequirementTypeImpl)dataType).getEClass());
-		EClass eclass = null;
-		if(dataType instanceof IAdaptable) {
-			eclass = (EClass)((IAdaptable)dataType).getAdapter(EClass.class);
-		}
-		
-		if(eclass == null) {
-			return null;
-		}
-		
-		for(DataModel p : getSubDataModels()) {
-			EPackage pac = null;
-			if(p instanceof IAdaptable) {
-				pac = (EPackage)((IAdaptable)p).getAdapter(EPackage.class);
-			}
-			if (pac != null && pac.getEClassifiers().contains(eclass)){
-				return (RequirementSection)pac.getEFactoryInstance().create(eclass);
-			}
-		}
-		return null;
-	}
+	//	//FIXME : Continue
+	//	/**
+	//	 * Creates the.
+	//	 * 
+	//	 * @param dataType
+	//	 *        the data type
+	//	 * @return the requirement section
+	//	 */
+	//	@Override
+	//	public RequirementSection create(IRequirementType dataType) {
+	//		//		return (RequirementSection)createFactoryInstance().create(((RequirementTypeImpl)dataType).getEClass());
+	//		EClass eclass = null;
+	//		if(dataType instanceof IAdaptable) {
+	//			eclass = (EClass)((IAdaptable)dataType).getAdapter(EClass.class);
+	//		}
+	//
+	//		if(eclass == null) {
+	//			return null;
+	//		}
+	//
+	//		for(IDataModel p : getSubDataModels()) {
+	//			EPackage pac = null;
+	//			if(p instanceof IAdaptable) {
+	//				pac = (EPackage)((IAdaptable)p).getAdapter(EPackage.class);
+	//			}
+	//			if(pac != null && pac.getEClassifiers().contains(eclass)) {
+	//				return (RequirementSection)pac.getEFactoryInstance().create(eclass);
+	//			}
+	//		}
+	//		return null;
+	//	}
 
-	@Override
-	public void add(DataModel dataModel) {
+	/**
+	 * Adds the data model.
+	 * 
+	 * @param dataModel
+	 *        the data model to add
+	 */
+	public void addDataModel(IDataModel dataModel) {
 		EPackage ePackage = null;
 		if(dataModel instanceof IAdaptable) {
 			ePackage = (EPackage)((IAdaptable)dataModel).getAdapter(EPackage.class);
@@ -121,20 +177,11 @@ public class DataModelImpl implements DataModel, IAdaptable {
 			subPackages.add(dataModel);
 		}
 	}
-	
-	@Override
-	public void add(RequirementType dataType) {
-		EClass eClass = null;
-		if(dataType instanceof IAdaptable) {
-			eClass = (EClass)((IAdaptable)dataType).getAdapter(EClass.class);
-		}
-		if(eClass != null) {
-			ePackage.getEClassifiers().add(eClass);
-			dataTypes.add(dataType);
-		}
-	}
-	
+
 	/**
+	 * Gets the e package.
+	 * 
+	 * @return the e package
 	 * @deprecated use getAdapter
 	 */
 	@Deprecated
@@ -142,33 +189,76 @@ public class DataModelImpl implements DataModel, IAdaptable {
 		return ePackage;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.reqcycle.repository.data.types.IDataModel#addRequirementType(org.eclipse.reqcycle.repository.data.types.IRequirementType)
+	 */
 	@Override
-	public void add(EnumerationType enumerationType) {
-		ePackage.getEClassifiers().add(enumerationType.getEDataType());
-		enumerationTypes.add(enumerationType);
+	public void addRequirementType(IRequirementType dataType) {
+		EClass eClass = null;
+		if(dataType instanceof IAdaptable) {
+			eClass = (EClass)((IAdaptable)dataType).getAdapter(EClass.class);
+		}
+		if(eClass != null) {
+			ePackage.getEClassifiers().add(eClass);
+			requirementTypes.add(dataType);
+		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.reqcycle.repository.data.types.DataModel#add(org.eclipse.reqcycle.repository.data.types.EnumerationType)
+	 */
 	@Override
-	public DataModel getDataTypePackage(String name) {
-		if (name == null) {
+	public void addEnumerationType(IEnumerationType enumerationType) {
+		EEnum eEnum = null;
+		if(enumerationType instanceof IAdaptable) {
+			eEnum = (EEnum)((IAdaptable)enumerationType).getAdapter(EEnum.class);
+		}
+		if(eEnum != null) {
+			ePackage.getEClassifiers().add(eEnum);
+			enumerationTypes.add(enumerationType);
+		}
+	}
+
+	/**
+	 * Gets the data model.
+	 * 
+	 * @param name
+	 *        the name
+	 * @return the data model
+	 */
+	public IDataModel getSubDataModel(String name) {
+		if(name == null) {
 			return null;
 		}
-		for(DataModel p : subPackages) {
+		for(IDataModel p : subPackages) {
 			if(name.equals(p.getName())) {
 				return p;
 			}
 		}
 		return null;
 	}
-	
-	@Override
-	public Collection<DataModel> getSubDataModels() {
+
+	/**
+	 * Gets the sub data models.
+	 * 
+	 * @return the sub data models
+	 */
+	public Collection<IDataModel> getSubDataModels() {
 		return subPackages;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.reqcycle.repository.data.types.IDataModel#getEnumerationType(java.lang.String)
+	 */
 	@Override
-	public EnumerationType getEnumerationType(String name) {
-		for(EnumerationType enumerationType : enumerationTypes) {
+	public IEnumerationType getEnumerationType(String name) {
+		for(IEnumerationType enumerationType : enumerationTypes) {
 			if(name.equals(enumerationType.getName())) {
 				return enumerationType;
 			}
@@ -176,9 +266,14 @@ public class DataModelImpl implements DataModel, IAdaptable {
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.reqcycle.repository.data.types.IDataModel#getRequirementType(java.lang.String)
+	 */
 	@Override
-	public RequirementType getDataType(String name) {
-		for(RequirementType dataType : dataTypes) {
+	public IRequirementType getRequirementType(String name) {
+		for(IRequirementType dataType : requirementTypes) {
 			if(name.equals(dataType.getName())) {
 				return dataType;
 			}
@@ -186,19 +281,34 @@ public class DataModelImpl implements DataModel, IAdaptable {
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.reqcycle.repository.data.types.IDataModel#getRequirementTypes()
+	 */
 	@Override
-	public Collection<RequirementType> getDataTypes() {
-		return dataTypes;
+	public Collection<IRequirementType> getRequirementTypes() {
+		return requirementTypes;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.reqcycle.repository.data.types.IDataModel#getEnumerationTypes()
+	 */
 	@Override
-	public Collection<EnumerationType> getEnumerationTypes() {
+	public Collection<IEnumerationType> getEnumerationTypes() {
 		return enumerationTypes;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.reqcycle.repository.data.types.IDataModel#addScope(DataModel.Scope)
+	 */
 	@Override
-	public void add(Scope scope) {
-		
+	public void addScope(Scope scope) {
+
 		EAnnotation scopeEAnnotation = ePackage.getEAnnotation("SCOPES");
 		if(scopeEAnnotation == null) {
 			scopeEAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
@@ -209,6 +319,11 @@ public class DataModelImpl implements DataModel, IAdaptable {
 		scopeEAnnotation.getContents().add(scope);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.reqcycle.repository.data.types.IDataModel#getScope(java.lang.String)
+	 */
 	@Override
 	public Scope getScope(String name) {
 		for(Scope scope : scopes) {
@@ -219,20 +334,36 @@ public class DataModelImpl implements DataModel, IAdaptable {
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.reqcycle.repository.data.types.IDataModel#getScopes()
+	 */
 	@Override
 	public Collection<Scope> getScopes() {
 		return scopes;
 	}
 
-	@Override
-	public void add(DataType type) {
-		if(type instanceof RequirementType) {
-			add((RequirementType)type);
-		} else if (type instanceof EnumerationType) {
-			add((EnumerationType)type);
-		}
-	}
+	//	/**
+	//	 * Adds the data type.
+	//	 * 
+	//	 * @param type
+	//	 *        the type
+	//	 */
+	//	public void addDataType(DataType type) {
+	//		if(type instanceof IRequirementType) {
+	//			addRequirementType((IRequirementType)type);
+	//		} else if(type instanceof IEnumerationType) {
+	//			addEnumerationType((IEnumerationType)type);
+	//		}
+	//	}
 
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
+	 */
 	@SuppressWarnings("rawtypes")
 	@Override
 	public Object getAdapter(Class adapter) {
@@ -241,5 +372,5 @@ public class DataModelImpl implements DataModel, IAdaptable {
 		}
 		return null;
 	}
-	
+
 }

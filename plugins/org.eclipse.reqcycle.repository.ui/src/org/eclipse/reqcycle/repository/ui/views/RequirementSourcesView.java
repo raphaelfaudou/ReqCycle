@@ -35,13 +35,14 @@ import org.eclipse.reqcycle.repository.connector.ConnectorDescriptor;
 import org.eclipse.reqcycle.repository.connector.IConnector;
 import org.eclipse.reqcycle.repository.connector.IConnectorManager;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
+import org.eclipse.reqcycle.repository.data.IDataManager;
 import org.eclipse.reqcycle.repository.data.IListener;
-import org.eclipse.reqcycle.repository.data.IRequirementSourceManager;
 import org.eclipse.reqcycle.repository.ui.Activator;
 import org.eclipse.reqcycle.repository.ui.Messages;
 import org.eclipse.reqcycle.repository.ui.actions.AddRequirementSourceAction;
 import org.eclipse.reqcycle.repository.ui.actions.DeleteRequirementSourceAction;
-import org.eclipse.reqcycle.repository.ui.actions.EditRequirementSourceAction;
+import org.eclipse.reqcycle.repository.ui.actions.EditMappingAction;
+import org.eclipse.reqcycle.repository.ui.actions.EditRequiementsAction;
 import org.eclipse.reqcycle.repository.ui.actions.OpenFilteredRequirementViewAction;
 import org.eclipse.reqcycle.repository.ui.actions.RefreshViewAction;
 import org.eclipse.reqcycle.repository.ui.actions.SynchronizeRequirementSourceActionStub;
@@ -66,6 +67,9 @@ import DataModel.RequirementSource;
  */
 public class RequirementSourcesView extends ViewPart implements IListener {
 
+	//FIXME : Use manager or local connector to retrieve this ID
+	public final static String LOCAL_CONNECTOR_ID = "org.eclipse.reqcycle.repository.connector.local.connectorCore";
+
 	/** The ID of the view as specified by the extension. */
 	public static final String ID = Messages.REQ_RESOURCE_VIEW_ID;
 
@@ -84,6 +88,9 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 	/** Refreshes the view Action */
 	private Action refreshViewAction;
 
+	/** Refreshes the view Action */
+	private Action editRequiementSourceAction;
+
 	/** Navigation bar adapter for the tree viewer */
 	private DrillDownAdapter drillDownAdapter;
 
@@ -91,7 +98,7 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 	private Action synchResourceAction;
 
 	/** Open Predicates Editor Action */
-//	private OpenPredicatesEditorAction openPredicatesEditorAction;
+	//	private OpenPredicatesEditorAction openPredicatesEditorAction;
 
 	/** Open Predicates View Action */
 	private OpenFilteredRequirementViewAction openPredicatesViewAction;
@@ -110,7 +117,7 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 
 	/** Requirement Source Manager */
 	@Inject
-	IRequirementSourceManager requirementSourceManager;
+	IDataManager requirementSourceManager;
 
 	@Inject
 	IConnectorManager connectorManager;
@@ -124,13 +131,14 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 	public RequirementSourcesView() {
 		connectorManager = ZigguratInject.make(IConnectorManager.class);
 		logger = ZigguratInject.make(ILogger.class);
-		requirementSourceManager = ZigguratInject.make(IRequirementSourceManager.class);
+		requirementSourceManager = ZigguratInject.make(IDataManager.class);
 		requirementSourceManager.addListener(this);
 	}
 
 	/**
 	 * This is a callback that will allow us to create the viewer and initialize it.
 	 */
+	@Override
 	public void createPartControl(Composite parent) {
 		viewer = new TreeViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.MULTI) {
 
@@ -187,6 +195,9 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 		if(editMappingAction != null) {
 			editMappingAction.setEnabled(selectedElement instanceof RequirementSource ? canEditSource((RequirementSource)selectedElement) : false);
 		}
+		if(editRequiementSourceAction != null) {
+			editRequiementSourceAction.setEnabled(selectedElement instanceof RequirementSource ? LOCAL_CONNECTOR_ID.equals(((RequirementSource)selectedElement).getConnectorId()) : false);
+		}
 	}
 
 	//TODO move to requirement source util class
@@ -194,7 +205,7 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 		if(!(source instanceof RequirementSource)) {
 			return false;
 		}
-		String connectorID = ((RequirementSource)source).getConnectorId();
+		String connectorID = source.getConnectorId();
 		if(connectorID == null) {
 			return false;
 		}
@@ -238,6 +249,7 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
 
+			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				fillContextMenu(manager);
 			}
@@ -270,8 +282,8 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 		//		manager.add(openRequirementViewAction);
 		manager.add(new Separator());
 		manager.add(synchResourceAction);
-//		manager.add(new Separator());
-//		manager.add(openPredicatesEditorAction);
+		//		manager.add(new Separator());
+		//		manager.add(openPredicatesEditorAction);
 		manager.add(new Separator());
 		manager.add(openPredicatesViewAction);
 	}
@@ -288,7 +300,8 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 		//		manager.add(openRequirementViewAction);
 		manager.add(synchResourceAction);
 		manager.add(editMappingAction);
-//		manager.add(openPredicatesEditorAction);
+		manager.add(editRequiementSourceAction);
+		//		manager.add(openPredicatesEditorAction);
 		manager.add(openPredicatesViewAction);
 		manager.add(new Separator());
 		drillDownAdapter.addNavigationActions(manager);
@@ -329,11 +342,11 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 		deleteRequirementSourceAction.setImageDescriptor(Activator.getImageDescriptor(ICON_DELETE_LOCATION));
 		deleteRequirementSourceAction.setEnabled(false);
 
-//		openPredicatesEditorAction = new OpenPredicatesEditorAction();
-//		ZigguratInject.inject(openPredicatesEditorAction);
-//		openPredicatesEditorAction.setText("Open Predicates Editor");
-//		openPredicatesEditorAction.setToolTipText("Open Predicates Editor");
-//		openPredicatesEditorAction.setImageDescriptor(Activator.getImageDescriptor(ICON_OPEN)); // TODO: replace icon
+		//		openPredicatesEditorAction = new OpenPredicatesEditorAction();
+		//		ZigguratInject.inject(openPredicatesEditorAction);
+		//		openPredicatesEditorAction.setText("Open Predicates Editor");
+		//		openPredicatesEditorAction.setToolTipText("Open Predicates Editor");
+		//		openPredicatesEditorAction.setImageDescriptor(Activator.getImageDescriptor(ICON_OPEN)); // TODO: replace icon
 
 		openPredicatesViewAction = new OpenFilteredRequirementViewAction(viewer);
 		openPredicatesViewAction.setText("Open Filtered Requirements View");
@@ -347,13 +360,18 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 		synchResourceAction.setImageDescriptor(Activator.getImageDescriptor(ICON_SYNCHRONIZE));
 		synchResourceAction.setEnabled(false);
 
-		editMappingAction = new EditRequirementSourceAction(viewer);
+		editMappingAction = new EditMappingAction(viewer);
 		ZigguratInject.inject(editMappingAction);
-		editMappingAction.setText(Messages.EDIT_RESOURCE_TEXT);
-		editMappingAction.setToolTipText(Messages.EDIT_RESOURCE_TEXT);
+		editMappingAction.setText("Edit Requirement Source");
+		editMappingAction.setToolTipText("Edit Requiement Source");
 		// TODO : add image change mapping
 		//		editMappingAction.setImageDescriptor();
 		editMappingAction.setEnabled(false);
+
+		editRequiementSourceAction = new EditRequiementsAction(viewer);
+		editRequiementSourceAction.setToolTipText("Edit Requiements");
+		editRequiementSourceAction.setText("Edit Requirements");
+		editRequiementSourceAction.setEnabled(false);
 
 		refreshViewAction = new RefreshViewAction(viewer);
 		refreshViewAction.setToolTipText("Refresh View");
@@ -364,6 +382,7 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 	/**
 	 * Passing the focus request to the viewer's control.
 	 */
+	@Override
 	public void setFocus() {
 		viewer.getControl().setFocus();
 	}

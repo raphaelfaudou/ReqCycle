@@ -36,7 +36,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
-import org.eclipse.reqcycle.repository.data.types.DataModel;
+import org.eclipse.reqcycle.repository.data.types.IDataModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -150,8 +150,8 @@ public class RMFSettingPage extends WizardPage implements Listener {
 		cvDataModel.setLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(Object element) {
-				if(element instanceof DataModel) {
-					return ((DataModel)element).getName();
+				if(element instanceof IDataModel) {
+					return ((IDataModel)element).getName();
 					
 				}
 				return super.getText(element);
@@ -241,9 +241,9 @@ public class RMFSettingPage extends WizardPage implements Listener {
 				ISelection selection = event.getSelection();
 				if(selection instanceof IStructuredSelection) {
 					Object obj = ((IStructuredSelection)selection).getFirstElement();
-					if(obj instanceof DataModel) {
+					if(obj instanceof IDataModel) {
 						cScope.setEnabled(true);
-						inputScope.addAll(((DataModel)obj).getScopes());
+						inputScope.addAll(((IDataModel)obj).getScopes());
 					}
 					
 				}
@@ -306,7 +306,7 @@ public class RMFSettingPage extends WizardPage implements Listener {
 		
 		private String uri = "";
 		
-		private DataModel dataPackage;
+		private IDataModel dataPackage;
 		
 		private Scope scope;
 		
@@ -339,11 +339,11 @@ public class RMFSettingPage extends WizardPage implements Listener {
 			listener.handleEvent(new Event());
 		}
 
-		public DataModel getDataPackage() {
+		public IDataModel getDataPackage() {
 			return dataPackage;
 		}
 
-		public void setDataPackage(DataModel dataPackage) {
+		public void setDataPackage(IDataModel dataPackage) {
 			this.dataPackage = dataPackage;
 		}
 

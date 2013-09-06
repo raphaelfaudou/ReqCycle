@@ -33,7 +33,7 @@ import org.eclipse.reqcycle.repository.connector.IConnectorManager;
 import org.eclipse.reqcycle.repository.connector.ui.Activator;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
-import org.eclipse.reqcycle.repository.data.IRequirementSourceManager;
+import org.eclipse.reqcycle.repository.data.IDataManager;
 import org.eclipse.swt.widgets.Display;
 
 import DataModel.RequirementSource;
@@ -41,7 +41,7 @@ import DataModel.RequirementSource;
 /**
  * Action to change the requirementSourceMapping mapping
  */
-public class EditRequirementSourceAction extends Action {
+public class EditMappingAction extends Action {
 
 	@Inject
 	IConnectorManager connectorManager;
@@ -53,13 +53,13 @@ public class EditRequirementSourceAction extends Action {
 	ILogger logger;
 
 	@Inject
-	IRequirementSourceManager requirementSourceManager;
+	IDataManager requirementSourceManager;
 
 	private IConnector connector;
 
 	private TreeViewer viewer;
 
-	public EditRequirementSourceAction(TreeViewer viewer) {
+	public EditMappingAction(TreeViewer viewer) {
 		this.viewer = viewer;
 	}
 
@@ -103,7 +103,7 @@ public class EditRequirementSourceAction extends Action {
 						//								rs.getResources().add(attributeMapping.getTargetAttribute().eResource());
 						//							}
 						//						}
-						requirementSourceManager.addRepository(requirementSource);
+						requirementSourceManager.addRequirementSource(requirementSource);
 
 					}
 				} catch (CoreException e) {

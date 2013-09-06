@@ -18,7 +18,10 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.reqcycle.predicates.ui;bundle-version="1.0.0",
  org.eclipse.reqcycle.ui.components;bundle-version="1.0.0",
  org.eclipse.core.commands,
- org.eclipse.ui.workbench
+ org.eclipse.ui.workbench,
+ org.eclipse.jface.text,
+ org.eclipse.ui.editors,
+ org.eclipse.reqcycle.repository.data.editor
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: javax.annotation;version="1.0.0",

@@ -38,7 +38,7 @@ import org.eclipse.reqcycle.emf.utils.EMFUtils;
 import org.eclipse.reqcycle.ocl.ReqcycleOCLPlugin;
 import org.eclipse.reqcycle.ocl.ui.OCLConnector.SettingBean;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
-import org.eclipse.reqcycle.repository.data.types.DataModel;
+import org.eclipse.reqcycle.repository.data.types.IDataModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -117,8 +117,8 @@ public class SettingPage extends WizardPage {
 
 			@Override
 			public String getText(Object element) {
-				if(element instanceof DataModel) {
-					return ((DataModel)element).getName();
+				if(element instanceof IDataModel) {
+					return ((IDataModel)element).getName();
 				}
 				return super.getText(element);
 			}
@@ -216,9 +216,9 @@ public class SettingPage extends WizardPage {
 				ISelection selection = event.getSelection();
 				if(selection instanceof IStructuredSelection) {
 					Object obj = ((IStructuredSelection)selection).getFirstElement();
-					if(obj instanceof DataModel) {
+					if(obj instanceof IDataModel) {
 						cScope.setEnabled(true);
-						inputScope.addAll(((DataModel)obj).getScopes());
+						inputScope.addAll(((IDataModel)obj).getScopes());
 					}
 
 				}

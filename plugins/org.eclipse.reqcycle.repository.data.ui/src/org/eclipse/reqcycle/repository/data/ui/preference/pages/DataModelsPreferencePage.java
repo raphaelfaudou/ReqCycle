@@ -10,10 +10,8 @@
  * Contributors:
  *  Anass RADOUANI (AtoS) anass.radouani@atos.net - Initial API and implementation
  *
-  *****************************************************************************/
+ *****************************************************************************/
 package org.eclipse.reqcycle.repository.data.ui.preference.pages;
-
-import java.util.Collection;
 
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.preference.PreferencePage;
@@ -21,7 +19,6 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
-import org.eclipse.reqcycle.repository.data.types.DataModel;
 import org.eclipse.reqcycle.repository.data.ui.Activator;
 import org.eclipse.reqcycle.repository.data.ui.IDataModelUiManager;
 import org.eclipse.reqcycle.repository.data.ui.dialog.NameDialog;
@@ -48,29 +45,29 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 
 	//TODO : Use e4 Injection instead of make method
 	IDataModelManager dataModelManager = ZigguratInject.make(IDataModelManager.class);
-	
+
 	/** Models table viewer */
 	protected TableViewer tvModels;
-	
+
 	/** Models table */
 	protected Table tModels;
-	
+
 	/** Add Model Button */
 	protected Button btnAddModel;
-	
+
 	/** Edit Model Button */
 	protected Button btnEditModel;
-	
+
 	protected IDataModelUiManager viewerManager = ZigguratInject.make(IDataModelUiManager.class);
 
-	private Button btnDeleteModel; 
-	
+	private Button btnDeleteModel;
+
 	/**
 	 * @wbp.parser.constructor
 	 */
 	public DataModelsPreferencePage() {
 	}
-	
+
 	public DataModelsPreferencePage(String title) {
 		super(title);
 	}
@@ -78,69 +75,72 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 	public DataModelsPreferencePage(String title, ImageDescriptor image) {
 		super(title, image);
 	}
-	
+
 	@Override
 	protected void performDefaults() {
 	}
-	
-	
+
+
 	@Override
 	public void createControl(Composite parent) {
 		super.createControl(parent);
 		Button defaultButton = getDefaultsButton();
+		//Disable default button
 		if(defaultButton != null) {
-			//Rename Default Button to Load Backup
 			defaultButton.setVisible(false);
 			defaultButton.setEnabled(false);
 		}
 	}
-	
+
 	@Override
 	public boolean performOk() {
 		dataModelManager.save();
 		return super.performOk();
 	}
-	
-	@Override
-	public void applyData(Object data) {
-		dataModelManager.save();
-		viewerManager.notifyListeners(new Event());
-	}
+
+	//	@Override
+	//	public void applyData(Object data) {
+	//		dataModelManager.save();
+	//		viewerManager.notifyListeners(new Event());
+	//	}
 
 	@Override
 	public boolean performCancel() {
 		dataModelManager.discardUnsavedChanges();
 		return super.performCancel();
 	}
-	
+
 
 	@Override
 	protected Control createContents(Composite parent) {
 		SashForm control = new SashForm(parent, SWT.VERTICAL);
 		control.setLayout(new GridLayout(1, false));
 		control.setLayoutData(new GridData());
-		
+
 		//Data type Packages group
 		Group packagesGrp = PreferenceUiUtil.createGroup(control, "Data Models");
 		createModelsUi(packagesGrp);
-		
+
 		doCreateContents(control);
-		
+
 		hookListeners();
 		return control;
 	}
 
 	/**
 	 * Override this method to add element UI
+	 * 
 	 * @param control
 	 */
 	public void doCreateContents(Composite control) {
 	}
 
-	
+
 	/**
 	 * Create Model Viewer UI
-	 * @param parent Composite parent
+	 * 
+	 * @param parent
+	 *        Composite parent
 	 */
 	protected void createModelsUi(Composite parent) {
 		//Table Viewer
@@ -157,19 +157,19 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 		Composite btnComposite = new Composite(parent, SWT.None);
 		btnComposite.setLayout(new GridLayout());
 		btnComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
-		
+
 		btnAddModel = PreferenceUiUtil.createButton(btnComposite, "Add Data Model", Activator.getImageDescriptor("/icons/add.gif").createImage());
-		
+
 		btnEditModel = PreferenceUiUtil.createButton(btnComposite, "Edit Data Model", Activator.getImageDescriptor("/icons/edit.png").createImage());
 		btnEditModel.setEnabled(false);
-		
+
 		btnDeleteModel = PreferenceUiUtil.createButton(btnComposite, "Delete Data Model", Activator.getImageDescriptor("/icons/delete.gif").createImage());
 		btnDeleteModel.setEnabled(false);
 	}
-	
-	
+
+
 	/**
-	 * Add Listeners 
+	 * Add Listeners
 	 */
 	public void hookListeners() {
 
@@ -203,5 +203,5 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 	@Override
 	public void init(IWorkbench workbench) {
 	}
-	
+
 }

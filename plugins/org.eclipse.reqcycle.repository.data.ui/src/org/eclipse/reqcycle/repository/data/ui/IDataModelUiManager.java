@@ -2,7 +2,7 @@ package org.eclipse.reqcycle.repository.data.ui;
 
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.reqcycle.repository.data.types.DataModel;
+import org.eclipse.reqcycle.repository.data.types.IDataModel;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -16,7 +16,7 @@ public interface IDataModelUiManager {
 		
 	public void removeListener(Listener listener);
 
-	public void addDataModels(DataModel... models);
+	public void addDataModels(IDataModel... models);
 
 	public void notifyListeners(Event event);
 

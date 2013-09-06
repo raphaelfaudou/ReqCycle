@@ -15,6 +15,7 @@ import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
@@ -29,10 +30,10 @@ import org.eclipse.reqcycle.ocl.utils.OCLUtilities;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.IRequirementCreator;
-import org.eclipse.reqcycle.repository.data.types.DataModel;
-import org.eclipse.reqcycle.repository.data.types.RequirementType;
-import org.eclipse.reqcycle.repository.data.types.RequirementTypeAttribute;
-import org.eclipse.reqcycle.repository.data.types.internal.RequirementTypeAttributeImpl;
+import org.eclipse.reqcycle.repository.data.types.IDataModel;
+import org.eclipse.reqcycle.repository.data.types.IRequirementType;
+import org.eclipse.reqcycle.repository.data.types.IAttribute;
+import org.eclipse.reqcycle.repository.data.types.internal.AttributeImpl;
 import org.eclipse.reqcycle.repository.data.util.RepositoryConstants;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -104,12 +105,12 @@ public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 				URI.createPlatformResourceURI(bean.getOclUri(), true));
 
 		TreeIterator<EObject> contents = resource.getAllContents();
-		Collection<RequirementType> requirementTypes = bean.getDataPackage()
-				.getDataTypes();
+		Collection<IRequirementType> requirementTypes = bean.getDataPackage()
+				.getRequirementTypes();
 		;
 		while (contents.hasNext()) {
 			EObject eObject = contents.next();
-			for (RequirementType reqType : requirementTypes) {
+			for (IRequirementType reqType : requirementTypes) {
 				if (OCLUtilities.isDataType(evaluator, eObject,
 						reqType)) {
 					Contained requirement = createRequirement(evaluator,
@@ -122,16 +123,19 @@ public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 
 	protected Contained createRequirement(OCLEvaluator evaluator,
 			Collection<ElementMapping> mappings, EObject eObject,
-			RequirementType reqType) throws Exception {
-		Contained contained = (Contained) manager.createInstance(reqType);
-		for (RequirementTypeAttribute attribute : Iterables.filter(
-				reqType.getAttributes(), RequirementTypeAttribute.class)) {
+			IRequirementType reqType) throws Exception {
+		Contained contained = (Contained) reqType.createInstance();
+		for (IAttribute attribute : Iterables.filter(
+				reqType.getAttributes(), IAttribute.class)) {
 			Object value = OCLUtilities.getAttributeValue(evaluator,
 					eObject, attribute);
 			if (value != null) {
-				EAttribute eAttribute = ((RequirementTypeAttributeImpl) attribute)
-						.getEAttribute();
-				creator.addAttribute(contained, eAttribute, value);
+				if(attribute instanceof IAdaptable) {
+					EAttribute eAttribute = (EAttribute)((IAdaptable)attribute).getAdapter(EAttribute.class);
+					if(eAttribute != null) {
+						creator.addAttribute(contained, eAttribute, value);
+					}
+				}
 			}
 		}
 		return contained;
@@ -154,7 +158,7 @@ public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 
 		private String oclUri = "";
 
-		private DataModel dataPackage;
+		private IDataModel dataPackage;
 
 		private Scope scope;
 
@@ -179,11 +183,11 @@ public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 			notifyChange();
 		}
 
-		public DataModel getDataPackage() {
+		public IDataModel getDataPackage() {
 			return dataPackage;
 		}
 
-		public void setDataPackage(DataModel dataPackage) {
+		public void setDataPackage(IDataModel dataPackage) {
 			this.dataPackage = dataPackage;
 			notifyChange();
 		}

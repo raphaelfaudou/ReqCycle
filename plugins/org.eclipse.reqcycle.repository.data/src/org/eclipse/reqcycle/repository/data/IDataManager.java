@@ -10,7 +10,7 @@
  * Contributors:
  *  Anass RADOUANI (AtoS) anass.radouani@atos.net - Initial API and implementation
  *
-  *****************************************************************************/
+ *****************************************************************************/
 package org.eclipse.reqcycle.repository.data;
 
 import java.io.IOException;
@@ -20,22 +20,22 @@ import java.util.Set;
 import DataModel.RequirementSource;
 
 
-public interface IRequirementSourceManager {
+public interface IDataManager {
 
 	/**
 	 * Adds a newly created repository to repositories list
 	 * 
-	 * @param repository
+	 * @param requirementSource
 	 *        the repository to add
 	 */
-	public void addRepository(final RequirementSource repository);
+	public void addRequirementSource(final RequirementSource requirementSource);
 
 	/**
 	 * Remove a repository from repositories list
 	 * 
-	 * @param repository
+	 * @param requirementSource
 	 */
-	public void removeRequirementSource(final RequirementSource repository);
+	public void removeRequirementSource(final RequirementSource requirementSource);
 
 	/**
 	 * Gets an existing repository
@@ -46,7 +46,7 @@ public interface IRequirementSourceManager {
 	 *        the repository url
 	 * @return
 	 */
-	public RequirementSource getRepository(String kind, String urlString);
+	public RequirementSource getRequirementSource(String kind, String urlString);
 
 	/**
 	 * Gets repositories for a connector Id
@@ -55,33 +55,40 @@ public interface IRequirementSourceManager {
 	 *        the connector Id
 	 * @return Set of repositories
 	 */
-	public Set<RequirementSource> getRepositories(String connectorId);
+	public Set<RequirementSource> getRequirementSources(String connectorId);
 
 	/**
 	 * Gets all repositories
 	 * 
 	 * @return Repositories collection
 	 */
-	public Set<RequirementSource> getRepositories();
-	
+	public Set<RequirementSource> getRequirementSource();
+
 	/**
 	 * Gets Connector id to repositories map
 	 * 
 	 * @return map Connector id to repositories
 	 */
 	public Map<String, Set<RequirementSource>> getRepositoryMap();
-	
+
 	/**
-	 * Removes a connector repositories 
+	 * Removes a connector repositories
 	 * 
-	 * @param connectorId the connector id
+	 * @param connectorId
+	 *        the connector id
 	 */
-	public void removeConnectorRepositories(String connectorId);
-	
+	public void removeRequirementSources(String connectorId);
+
 	public void addListener(IListener listener);
 
 	public void removeListener(IListener listener);
-	
+
+	/**
+	 * Save the Data Model
+	 * 
+	 * @throws IOException
+	 *         Signals that an I/O exception has occurred.
+	 */
 	public void save() throws IOException;
 
 }

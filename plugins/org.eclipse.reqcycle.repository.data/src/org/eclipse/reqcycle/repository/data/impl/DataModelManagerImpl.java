@@ -1,3 +1,16 @@
+/*****************************************************************************
+ * Copyright (c) 2013 AtoS.
+ *
+ *    
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Anass RADOUANI (AtoS) anass.radouani@atos.net - Initial API and implementation
+ *
+ *****************************************************************************/
 package org.eclipse.reqcycle.repository.data.impl;
 
 import java.io.IOException;
@@ -9,23 +22,23 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EAnnotation;
-import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
-import org.eclipse.reqcycle.repository.data.types.DataType;
-import org.eclipse.reqcycle.repository.data.types.DataModel;
-import org.eclipse.reqcycle.repository.data.types.EnumerationType;
-import org.eclipse.reqcycle.repository.data.types.EnumeratorType;
-import org.eclipse.reqcycle.repository.data.types.RequirementType;
-import org.eclipse.reqcycle.repository.data.types.RequirementTypeAttribute;
+import org.eclipse.reqcycle.repository.data.types.IAttribute;
+import org.eclipse.reqcycle.repository.data.types.IAttributeType;
+import org.eclipse.reqcycle.repository.data.types.IDataModel;
+import org.eclipse.reqcycle.repository.data.types.IEnumerationType;
+import org.eclipse.reqcycle.repository.data.types.IEnumerator;
+import org.eclipse.reqcycle.repository.data.types.IRequirementType;
+import org.eclipse.reqcycle.repository.data.types.internal.AttributeImpl;
 import org.eclipse.reqcycle.repository.data.types.internal.DataModelImpl;
 import org.eclipse.reqcycle.repository.data.types.internal.EnumerationTypeImpl;
-import org.eclipse.reqcycle.repository.data.types.internal.EnumeratorTypeImpl;
-import org.eclipse.reqcycle.repository.data.types.internal.RequirementTypeAttributeImpl;
+import org.eclipse.reqcycle.repository.data.types.internal.EnumeratorImpl;
 import org.eclipse.reqcycle.repository.data.types.internal.RequirementTypeImpl;
 import org.eclipse.ziggurat.configuration.IConfigurationManager;
 
@@ -36,7 +49,7 @@ import DataModel.Scope;
 public class DataModelManagerImpl implements IDataModelManager {
 
 	/** EPackage containing possible data types */
-	protected DataModel dataModel;
+	protected IDataModel dataModel;
 
 	/** Configuration Manager */
 	@Inject
@@ -56,12 +69,12 @@ public class DataModelManagerImpl implements IDataModelManager {
 	DataModelManagerImpl(@Named("confResourceSet") ResourceSet rs, IConfigurationManager confManager) {
 		this.rs = rs;
 		this.confManager = confManager;
-		
+
 		initTypes();
 	}
 
 	protected void initTypes() {
-		
+
 		EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, CONF_ID, rs, true);
 		if(conf instanceof EPackage) {
 			dataModel = new DataModelImpl((EPackage)conf);
@@ -69,10 +82,10 @@ public class DataModelManagerImpl implements IDataModelManager {
 			dataModel = new DataModelImpl();
 			save();
 		}
-		
+
 		registerModel(dataModel);
-		
-		for (DataModel model : dataModel.getSubDataModels()) {
+
+		for(IDataModel model : ((DataModelImpl)dataModel).getSubDataModels()) {
 			registerModel(model);
 		}
 	}
@@ -85,7 +98,12 @@ public class DataModelManagerImpl implements IDataModelManager {
 	@Override
 	public void save() {
 		try {
-			EPackage ePackage = ((DataModelImpl)dataModel).getEPackage();
+			EPackage ePackage = null;
+
+			if(dataModel instanceof IAdaptable) {
+				ePackage = (EPackage)((IAdaptable)dataModel).getAdapter(EPackage.class);
+			}
+
 			confManager.saveConfiguration(ePackage, null, IConfigurationManager.Scope.WORKSPACE, CONF_ID, rs);
 		} catch (IOException e) {
 			// FIXME : use logger
@@ -94,133 +112,111 @@ public class DataModelManagerImpl implements IDataModelManager {
 	}
 
 	@Override
-	public EObject createInstance(RequirementType dataType) {
-		return dataModel.create(dataType);
-	}
-
-	@Override
-	public DataModel createDataModel(String name) {
-		DataModel dataModel = new DataModelImpl(name);
+	public IDataModel createDataModel(String name) {
+		IDataModel dataModel = new DataModelImpl(name);
 		addDataModel(dataModel);
 		return dataModel;
 	}
 
 	@Override
-	public void addDataModel(DataModel p) {
+	public void addDataModel(IDataModel p) {
 		if(p == null) {
 			return;
 		}
 		registerModel(p);
-		dataModel.add(p);
+		((DataModelImpl)dataModel).addDataModel(p);
 	}
 
-	protected void registerModel(DataModel dataModel) {
-		EPackage p = ((DataModelImpl)dataModel).getEPackage();
-		if(p != null && p.getNsURI() != null) {
-			Registry.INSTANCE.put(p.getNsURI(), p);
+	protected void registerModel(IDataModel dataModel) {
+		EPackage ePackage = null;
+		if(dataModel instanceof IAdaptable) {
+			ePackage = (EPackage)((IAdaptable)dataModel).getAdapter(EPackage.class);
+		}
+
+		if(ePackage != null && ePackage.getNsURI() != null) {
+			Registry.INSTANCE.put(ePackage.getNsURI(), ePackage);
 		}
 	}
 
 	@Override
-	public void addDataTypes(DataModel dataModel, DataType... types){
-		for(DataType type : types) {
-			dataModel.add(type);
-		}
-	}
-	
-	@Override
-	public void addRequirementTypes(DataModel dataModel, RequirementType... types) {
-		for(RequirementType dataType : types) {
-			dataModel.add(dataType);
+	public void addRequirementTypes(IDataModel dataModel, IRequirementType... types) {
+		for(IRequirementType type : types) {
+			dataModel.addRequirementType(type);
 		}
 	}
 
 	@Override
-	public void addEnumerationTypes(DataModel dataModel, EnumerationType... enumerationTypes) {
-		for(EnumerationType enumerationType : enumerationTypes) {
-			dataModel.add(enumerationType);
+	public void addEnumerationTypes(IDataModel dataModel, IEnumerationType... enumerationTypes) {
+		for(IEnumerationType enumerationType : enumerationTypes) {
+			dataModel.addEnumerationType(enumerationType);
 		}
 	}
 
 	@Override
-	public DataModel getDataModel(String name) {
+	public IDataModel getDataModel(String name) {
 		Assert.isNotNull(dataModel);
-		return dataModel.getDataTypePackage(name);
+		return ((DataModelImpl)dataModel).getSubDataModel(name);
 	}
 
 	@Override
-	public Collection<DataModel> getAllDataModels() {
+	public Collection<IDataModel> getAllDataModels() {
 		Assert.isNotNull(dataModel);
-		return dataModel.getSubDataModels();
+		return ((DataModelImpl)dataModel).getSubDataModels();
 	}
 
 	@Override
-	public RequirementType getDataType(DataModel dataModel, String name) {
-		return dataModel.getDataType(name);
-	}
-
-	@Override
-	public Collection<RequirementType> getDataTypes(DataModel dataModel) {
-		return dataModel.getDataTypes();
-	}
-
-	@Override
-	public Collection<RequirementType> getAllDataTypes() {
+	public Collection<IRequirementType> getAllRequirementTypes() {
 		Assert.isNotNull(dataModel);
-		Collection<RequirementType> types = new ArrayList<RequirementType>();
-		for(DataModel p : getAllDataModels()) {
-			types.addAll(getDataTypes(p));
+		Collection<IRequirementType> types = new ArrayList<IRequirementType>();
+		for(IDataModel dataModel : getAllDataModels()) {
+			types.addAll(dataModel.getRequirementTypes());
 		}
 		return types;
 	}
 
 	@Override
-	public EnumerationType getEnumerationType(DataModel dataModel, String name) {
-		return dataModel.getEnumerationType(name);
-	}
-
-	@Override
-	public Collection<EnumerationType> getEnumerationTypes(DataModel dataModel) {
-		return dataModel.getEnumerationTypes();
-	}
-
-	@Override
-	public Collection<EnumerationType> getAllEnumerationTypes() {
-		Collection<EnumerationType> enums = new ArrayList<EnumerationType>();
-		for(DataModel p : getAllDataModels()) {
-			enums.addAll(getEnumerationTypes(p));
+	public Collection<IEnumerationType> getAllEnumerationTypes() {
+		Collection<IEnumerationType> enums = new ArrayList<IEnumerationType>();
+		for(IDataModel dataModel : getAllDataModels()) {
+			enums.addAll(dataModel.getEnumerationTypes());
 		}
 		return enums;
 	}
 
 	@Override
-	public RequirementType createRequirementType(String name) {
-		RequirementType element = new RequirementTypeImpl(name);
+	public IRequirementType createRequirementType(String name) {
+		IRequirementType element = new RequirementTypeImpl(name);
 		return element;
 	}
 
 	@Override
-	public EnumerationType createEnumerationType(String name) {
-		EnumerationType element = new EnumerationTypeImpl(name);
+	public IEnumerationType createEnumerationType(String name) {
+		IEnumerationType element = new EnumerationTypeImpl(name);
 		return element;
 	}
 
 	@Override
-	public EnumeratorType createEnumeratorType(String name) {
-		EnumeratorType enumeratorType = new EnumeratorTypeImpl(name);
+	public IEnumerator createEnumerator(String name) {
+		IEnumerator enumeratorType = new EnumeratorImpl(name);
 		return enumeratorType;
 	}
 
 	@Override
-	public RequirementTypeAttribute createAttributeType(String name, EDataType type) {
-		RequirementTypeAttribute attributeType = new RequirementTypeAttributeImpl(name, type);
-		return attributeType;
+	public IAttribute createAttribute(String name, IAttributeType type) {
+		return new AttributeImpl(name, type);
 	}
 
-	public RequirementTypeAttribute createAttributeType(String name, EnumerationType type) {
-		return createAttributeType(name, type.getEDataType());
+	@Override
+	public IAttribute createAttribute(String name, IEnumerationType enumerationType) {
+		IAttributeType attributeType = null;
+
+		if(enumerationType instanceof IAdaptable) {
+			attributeType = (IAttributeType)((IAdaptable)enumerationType).getAdapter(IAttributeType.class);
+		}
+
+		return new AttributeImpl(name, attributeType);
 	}
-	
+
 	@Override
 	public Scope createScope(String name) {
 		Scope scope = DataModelFactory.eINSTANCE.createScope();
@@ -229,33 +225,23 @@ public class DataModelManagerImpl implements IDataModelManager {
 	}
 
 	@Override
-	public void addScopes(DataModel dataModel, Scope... scopes) {
+	public void addScopes(IDataModel dataModel, Scope... scopes) {
 		for(Scope scope : scopes) {
-			dataModel.add(scope);
+			dataModel.addScope(scope);
 		}
-	}
-
-	@Override
-	public Scope getScope(DataModel dataModel, String name) {
-		return dataModel.getScope(name);
-	}
-
-	@Override
-	public Collection<Scope> getScopes(DataModel dataModel) {
-		return dataModel.getScopes();
 	}
 
 	@Override
 	public Collection<Scope> getAllScopes() {
 		Collection<Scope> scopes = new ArrayList<Scope>();
-		for(DataModel p : getAllDataModels()) {
-			scopes.addAll(getScopes(p));
+		for(IDataModel dataModel : getAllDataModels()) {
+			scopes.addAll(dataModel.getScopes());
 		}
 		return scopes;
 	}
 
 	@Override
-	public DataModel getDataModel(Scope scope) {
+	public IDataModel getDataModel(Scope scope) {
 		EObject container = scope.eContainer();
 		if(container instanceof EAnnotation) {
 			EAnnotation annotation = (EAnnotation)container;
@@ -269,19 +255,9 @@ public class DataModelManagerImpl implements IDataModelManager {
 	}
 
 	@Override
-	public Scope getScope(String DataModelName, String ScopeName) {
-		DataModel model = getDataModel(DataModelName);
-		if(model == null) {
-			return null;
-		}
-		
-		return model.getScope(ScopeName);
-	}
-	
-	@Override
 	public Collection<Scope> getScopes(String name) {
 		ArrayList<Scope> scopes = new ArrayList<Scope>();
-		for(DataModel p : getAllDataModels()) {
+		for(IDataModel p : getAllDataModels()) {
 			scopes.add(p.getScope(name));
 		}
 		return scopes;
@@ -292,7 +268,7 @@ public class DataModelManagerImpl implements IDataModelManager {
 		Scope scope = dataModel.getScope("Analysis");
 		if(scope == null) {
 			scope = createScope("Analysis");
-			dataModel.add(scope);
+			dataModel.addScope(scope);
 			save();
 		}
 		return scope;

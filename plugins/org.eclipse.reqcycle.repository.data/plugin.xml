@@ -64,8 +64,8 @@
    <extension
          point="org.eclipse.ziggurat.inject.binding">
       <binding
-            impl="org.eclipse.reqcycle.repository.data.impl.RequirementSourceManagerImpl"
-            interface="org.eclipse.reqcycle.repository.data.IRequirementSourceManager">
+            impl="org.eclipse.reqcycle.repository.data.impl.DataManagerImpl"
+            interface="org.eclipse.reqcycle.repository.data.IDataManager">
       </binding>
       <binding
             impl="org.eclipse.reqcycle.repository.data.impl.RequirementCreatorImpl"

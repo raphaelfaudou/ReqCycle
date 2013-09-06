@@ -151,7 +151,7 @@ public class RequirementSourcesImpl extends MinimalEObjectImpl.Container impleme
 		Assert.isNotNull(requirementSource);
 		Iterator<RequirementSource> iterator = requirementSources.iterator();
 		while(iterator.hasNext()) {
-			RequirementSource requirementSourceRepository = (RequirementSource)iterator.next();
+			RequirementSource requirementSourceRepository = iterator.next();
 			if(requirementSource == requirementSourceRepository) {
 				iterator.remove();
 				return;

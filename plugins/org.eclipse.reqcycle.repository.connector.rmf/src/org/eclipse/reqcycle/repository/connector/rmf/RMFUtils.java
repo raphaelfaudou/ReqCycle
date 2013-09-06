@@ -1,3 +1,16 @@
+/*****************************************************************************
+ * Copyright (c) 2013 AtoS.
+ *
+ *    
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Anass RADOUANI (AtoS) anass.radouani@atos.net - Initial API and implementation
+ *
+ *****************************************************************************/
 package org.eclipse.reqcycle.repository.connector.rmf;
 
 import java.util.ArrayList;
@@ -19,6 +32,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.IRequirementCreator;
+import org.eclipse.reqcycle.repository.data.types.IRequirementType;
 import org.eclipse.reqcycle.repository.data.types.internal.RequirementTypeImpl;
 import org.eclipse.reqcycle.repository.data.util.DataUtil;
 import org.eclipse.rmf.reqif10.AttributeValue;
@@ -52,9 +66,9 @@ public class RMFUtils {
 	static ILogger logger = ZigguratInject.make(ILogger.class);
 
 	static IRequirementCreator creator = ZigguratInject.make(IRequirementCreator.class);
-	
+
 	static IDataModelManager dataTypeManager = ZigguratInject.make(IDataModelManager.class);
-	
+
 	public static Collection<SpecType> getReqIFTypes(ResourceSet resourceSet, String fileLocation) {
 		URI uriReqIf = URI.createURI(fileLocation, false);
 		Resource reqIfResource = resourceSet.getResource(uriReqIf, true);
@@ -103,7 +117,7 @@ public class RMFUtils {
 					EList<SpecHierarchy> specHierarchies = specification.getChildren();
 					Collection<Contained> children = createChildren(specHierarchies, mapping, scope);
 
-//					ElementMapping elementMapping = DataUtil.getElementMapping(mapping, specification.getType().getIdentifier());
+					//					ElementMapping elementMapping = DataUtil.getElementMapping(mapping, specification.getType().getIdentifier());
 
 					String id = specification.getLongName();//getID(elementMapping, specification);
 					String name = specification.getDesc();//getName(elementMapping, specification);
@@ -114,10 +128,10 @@ public class RMFUtils {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					
+
 					if(section != null) {
 						requirementSource.getRequirements().add(section);
-//						addAttributes(elementMapping, specification.getValues(), section);
+						//						addAttributes(elementMapping, specification.getValues(), section);
 					}
 
 					if(children != null && !children.isEmpty()) {
@@ -216,8 +230,9 @@ public class RMFUtils {
 		Contained createdObject = null;
 		if(elementMapping != null) {
 			try {
-//				createdObject = creator.addObject(elementMapping.getTargetElement(), id, name, id);
-				createdObject = (Contained)dataTypeManager.createInstance(new RequirementTypeImpl(elementMapping.getTargetElement()));
+				//FIXME : use IRequirementType in the mapping dialog
+				IRequirementType type = new RequirementTypeImpl(elementMapping.getTargetElement());
+				createdObject = type.createInstance();
 				createdObject.setId(id);
 				createdObject.setName(name);
 				createdObject.setUri(id);
@@ -230,19 +245,17 @@ public class RMFUtils {
 		return createdObject;
 	}
 
-	
+
 	protected static void addAttributes(ElementMapping elementMapping, Collection<AttributeValue> values, Contained element) {
 		for(AttributeValue attributeValue : values) {
-			
+
 			AttributeMapping attributeMapping = DataUtil.getAttributeMapping(elementMapping, ReqIF10Util.getAttributeDefinition(attributeValue).getIdentifier());
-			
-			if(attributeMapping == null 
-				|| "id".equalsIgnoreCase(attributeMapping.getTargetAttribute().getName()) 
-				|| "name".equalsIgnoreCase(attributeMapping.getTargetAttribute().getName())) {
-				
+
+			if(attributeMapping == null || "id".equalsIgnoreCase(attributeMapping.getTargetAttribute().getName()) || "name".equalsIgnoreCase(attributeMapping.getTargetAttribute().getName())) {
+
 				continue;
 			}
-			
+
 			try {
 				if(attributeValue instanceof AttributeValueEnumeration) {
 					for(EnumValue enumValue : ((AttributeValueEnumeration)attributeValue).getValues()) {

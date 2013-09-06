@@ -34,7 +34,7 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.reqcycle.dnd.DragRequirementSourceAdapter;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
-import org.eclipse.reqcycle.repository.data.types.DataModel;
+import org.eclipse.reqcycle.repository.data.types.IDataModel;
 import org.eclipse.reqcycle.repository.data.util.DataUtil;
 import org.eclipse.reqcycle.repository.ui.Activator;
 import org.eclipse.swt.SWT;
@@ -57,7 +57,7 @@ import org.eclipse.ziggurat.inject.ZigguratInject;
 import DataModel.Contained;
 import DataModel.Scope;
 
-public class ScopeView extends ViewPart {
+public class RequirementScopeView extends ViewPart {
 
 	private static final String VIEW_ID = "org.eclipse.reqcycle.repository.ui.views.requirement.scope";
 
@@ -65,12 +65,12 @@ public class ScopeView extends ViewPart {
 
 	private Collection<Scope> scopes = new ArrayList<Scope>();
 
-	private Collection<DataModel> dataModels = new ArrayList<DataModel>();
+	private Collection<IDataModel> dataModels = new ArrayList<IDataModel>();
 	
 	/** Selected Scope */
 	private Scope scope;
 	
-	private DataModel dataModel;
+	private IDataModel dataModel;
 
 	private Collection<Contained> requirements = new ArrayList<Contained>();
 
@@ -89,7 +89,7 @@ public class ScopeView extends ViewPart {
 
 	private Action refreshAction;
 
-	public ScopeView() {
+	public RequirementScopeView() {
 	}
 
 	@Override
@@ -114,8 +114,8 @@ public class ScopeView extends ViewPart {
 
 			@Override
 			public String getText(Object element) {
-				if (element instanceof DataModel) {
-					return ((DataModel) element).getName();
+				if (element instanceof IDataModel) {
+					return ((IDataModel) element).getName();
 				}
 				return "";
 			}
@@ -237,8 +237,8 @@ public class ScopeView extends ViewPart {
 				ISelection selection = event.getSelection();
 				if (selection instanceof IStructuredSelection) {
 					Object firstElement = ((IStructuredSelection) selection).getFirstElement();
-					if (firstElement instanceof DataModel) {
-						DataModel selectedDataModel = (DataModel) firstElement;
+					if (firstElement instanceof IDataModel) {
+						IDataModel selectedDataModel = (IDataModel) firstElement;
 						if (selectedDataModel != dataModel) {
 							dataModel = selectedDataModel;
 							scope = null;
@@ -288,7 +288,7 @@ public class ScopeView extends ViewPart {
 		}
 	}
 
-	private void setDataModels(Collection<DataModel> allDataModels) {
+	private void setDataModels(Collection<IDataModel> allDataModels) {
 		dataModels.clear();
 		dataModels.addAll(allDataModels);
 		if (cvDataModel != null) {

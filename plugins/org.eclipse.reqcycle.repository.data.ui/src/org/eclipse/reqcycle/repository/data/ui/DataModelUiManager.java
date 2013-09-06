@@ -13,7 +13,7 @@ import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
-import org.eclipse.reqcycle.repository.data.types.DataModel;
+import org.eclipse.reqcycle.repository.data.types.IDataModel;
 import org.eclipse.reqcycle.repository.data.ui.preference.PreferenceUiUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Table;
 public class DataModelUiManager implements IDataModelUiManager {
 
 	protected Listener listener;
-	protected Collection<DataModel> inputModels;
+	protected Collection<IDataModel> inputModels;
 	protected Button btnAddModel;
 	protected Button btnEditModel;
 	protected Collection<Listener> listeners = new ArrayList<Listener>();
@@ -43,7 +43,7 @@ public class DataModelUiManager implements IDataModelUiManager {
 
 
 	private void initInput(IDataModelManager dataModelManager) {
-		inputModels = new ArrayList<DataModel>();
+		inputModels = new ArrayList<IDataModel>();
 		inputModels.addAll(dataModelManager.getAllDataModels());
 	}
 	
@@ -63,8 +63,8 @@ public class DataModelUiManager implements IDataModelUiManager {
 
 			@Override
 			public String getText(Object element) {
-				if(element instanceof DataModel) {
-					return ((DataModel)element).getName();
+				if(element instanceof IDataModel) {
+					return ((IDataModel)element).getName();
 				}
 				return super.getText(element);
 			}
@@ -89,8 +89,8 @@ public class DataModelUiManager implements IDataModelUiManager {
 		listeners.remove(listener);
 	}
 
-	public void addDataModels(DataModel... models) {
-		for(DataModel model : models) {
+	public void addDataModels(IDataModel... models) {
+		for(IDataModel model : models) {
 			inputModels.add(model);
 		}
 		notifyListeners(new Event());

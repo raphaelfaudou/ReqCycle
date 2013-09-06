@@ -15,6 +15,8 @@ import org.eclipse.ziggurat.inject.ZigguratInject;
 @Singleton
 public class ConfResourceSet extends ResourceSetImpl {
 	
+	
+	
 	@Inject
 	IConfigurationManager confManager = ZigguratInject.make(IConfigurationManager.class);
 
@@ -39,4 +41,5 @@ public class ConfResourceSet extends ResourceSetImpl {
 
 		});
 	}
+	
 }

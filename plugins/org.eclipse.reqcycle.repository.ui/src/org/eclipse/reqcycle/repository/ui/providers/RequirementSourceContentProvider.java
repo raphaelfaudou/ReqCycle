@@ -20,7 +20,7 @@ import javax.inject.Inject;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.reqcycle.repository.data.IRequirementSourceManager;
+import org.eclipse.reqcycle.repository.data.IDataManager;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.RequirementSource;
@@ -29,7 +29,7 @@ public class RequirementSourceContentProvider implements ITreeContentProvider, I
 
 
 	private @Inject
-	IRequirementSourceManager requirementSourceManager = ZigguratInject.make(IRequirementSourceManager.class);
+	IDataManager requirementSourceManager = ZigguratInject.make(IDataManager.class);
 
 	public void inputChanged(Viewer v, Object oldInput, Object newInput) {
 	}
@@ -49,14 +49,14 @@ public class RequirementSourceContentProvider implements ITreeContentProvider, I
 	}
 
 	public Object[] getChildren(Object parent) {
-		Set<RequirementSource> repositories = requirementSourceManager.getRepositories((String)parent);
+		Set<RequirementSource> repositories = requirementSourceManager.getRequirementSources((String)parent);
 		return repositories.toArray();
 	}
 
 	public boolean hasChildren(Object parent) {
 
 		if(parent instanceof String) {
-			return !requirementSourceManager.getRepositories((String)parent).isEmpty();
+			return !requirementSourceManager.getRequirementSources((String)parent).isEmpty();
 		}
 		return false;
 	}

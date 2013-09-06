@@ -11,10 +11,10 @@ import org.eclipse.jface.action.ContributionItem;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.reqcycle.repository.data.IDataManager;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.IRequirementCreator;
-import org.eclipse.reqcycle.repository.data.IRequirementSourceManager;
-import org.eclipse.reqcycle.repository.data.types.RequirementType;
+import org.eclipse.reqcycle.repository.data.types.IRequirementType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -39,8 +39,8 @@ public class ReqCycleContributionItem extends CompoundContributionItem {
 	IRequirementCreator reqCreator = ZigguratInject.make(IRequirementCreator.class);
 
 	IDataModelManager dataManager = ZigguratInject.make(IDataModelManager.class);
-	
-	IRequirementSourceManager reqManager = ZigguratInject.make(IRequirementSourceManager.class);
+
+	IDataManager reqManager = ZigguratInject.make(IDataManager.class);
 
 	protected EObject selectedElement;
 
@@ -56,21 +56,21 @@ public class ReqCycleContributionItem extends CompoundContributionItem {
 				selectedElement = null;
 				if(firstElement instanceof RequirementSource || firstElement instanceof Section) {
 					selectedElement = (EObject)firstElement;
-				}
-				Collection<RequirementType> dataTypes = dataManager.getAllDataTypes();
-				classes.addAll(Collections2.transform(dataTypes, new Function<RequirementType, EClass>() {
-					
-					@Override
-					public EClass apply(RequirementType arg0) {
-						if(arg0 instanceof IAdaptable) {
-							return (EClass)((IAdaptable)arg0).getAdapter(EClass.class);
+					Collection<IRequirementType> dataTypes = dataManager.getAllRequirementTypes();
+					classes.addAll(Collections2.transform(dataTypes, new Function<IRequirementType, EClass>() {
+
+						@Override
+						public EClass apply(IRequirementType arg0) {
+							if(arg0 instanceof IAdaptable) {
+								return (EClass)((IAdaptable)arg0).getAdapter(EClass.class);
+							}
+							return null;
 						}
-						return null;
-					}
-				}));
-				
-				classes.add(DataModelPackage.Literals.SECTION);
-				classes.add(DataModelPackage.Literals.REQUIREMENT_SECTION);
+					}));
+
+					classes.add(DataModelPackage.Literals.SECTION);
+					classes.add(DataModelPackage.Literals.REQUIREMENT_SECTION);
+				}
 			}
 		}
 
@@ -89,25 +89,25 @@ public class ReqCycleContributionItem extends CompoundContributionItem {
 
 							@Override
 							public void widgetSelected(SelectionEvent e) {
-								
+
 								try {
-									
+
 									Contained element = reqCreator.addObject(arg0, "toto", "toto", "toto");
-									
-									
+
+
 									if(selectedElement instanceof RequirementSource) {
 										((RequirementSource)selectedElement).getRequirements().add(element);
 									}
-									
+
 									if(selectedElement instanceof Section) {
 										((Section)selectedElement).getChildren().add(element);
 									}
 									reqManager.save();
-									
+
 								} catch (Exception e1) {
 									e1.printStackTrace();
 								}
-								
+
 							}
 						});
 					}

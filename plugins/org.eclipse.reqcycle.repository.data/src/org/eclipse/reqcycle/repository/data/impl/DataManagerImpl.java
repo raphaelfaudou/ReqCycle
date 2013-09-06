@@ -31,7 +31,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.IListener;
-import org.eclipse.reqcycle.repository.data.IRequirementSourceManager;
+import org.eclipse.reqcycle.repository.data.IDataManager;
 import org.eclipse.ziggurat.configuration.IConfigurationManager;
 
 import DataModel.RequirementSource;
@@ -39,7 +39,7 @@ import RequirementSourcesConf.RequirementSources;
 import RequirementSourcesConf.RequirementSourcesConfFactory;
 
 @Singleton
-public class RequirementSourceManagerImpl implements IRequirementSourceManager {
+public class DataManagerImpl implements IDataManager {
 
 	/** Connector id to repositories */
 	private Map<String, Set<RequirementSource>> repositoryMap = new HashMap<String, Set<RequirementSource>>();
@@ -65,7 +65,7 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 	 * Constructor
 	 */
 	@Inject
-	RequirementSourceManagerImpl(@Named("confResourceSet") ResourceSet rs, IConfigurationManager confManager, IDataModelManager dataManager) {
+	DataManagerImpl(@Named("confResourceSet") ResourceSet rs, IConfigurationManager confManager, IDataModelManager dataManager) {
 		this.rs = rs;
 		this.confManager = confManager;
 		this.dataManager = dataManager;
@@ -90,7 +90,7 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 		}
 	}
 
-	public void addRepository(final RequirementSource repository) {
+	public void addRequirementSource(final RequirementSource repository) {
 		Set<RequirementSource> repositories;
 		repositories = repositoryMap.get(repository.getConnectorId());
 		if(repositories == null) {
@@ -135,7 +135,7 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 		confManager.saveConfiguration(sources, null, null, ID, rs);
 	}
 
-	public void removeConnectorRepositories(String connectorId) {
+	public void removeRequirementSources(String connectorId) {
 		Set<RequirementSource> repositories = repositoryMap.get(connectorId);
 		for(RequirementSource reqSource : repositories) {
 			sources.removeRequirementSource(reqSource);
@@ -149,7 +149,7 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 		repositoryMap.remove(connectorId);
 	}
 
-	public RequirementSource getRepository(String connectorId, String repositoryUri) {
+	public RequirementSource getRequirementSource(String connectorId, String repositoryUri) {
 		Assert.isNotNull(connectorId);
 		Assert.isNotNull(repositoryUri);
 		if(repositoryMap.containsKey(connectorId)) {
@@ -162,7 +162,7 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 		return null;
 	}
 
-	public Set<RequirementSource> getRepositories(String connectorId) {
+	public Set<RequirementSource> getRequirementSources(String connectorId) {
 		Assert.isNotNull(connectorId);
 		Set<RequirementSource> result;
 		result = repositoryMap.get(connectorId);
@@ -177,7 +177,7 @@ public class RequirementSourceManagerImpl implements IRequirementSourceManager {
 	}
 
 	@Override
-	public Set<RequirementSource> getRepositories() {
+	public Set<RequirementSource> getRequirementSource() {
 		Collection<Set<RequirementSource>> values = repositoryMap.values();
 		Set<RequirementSource> res = new HashSet<RequirementSource>();
 		for(Set<RequirementSource> sources : values) {

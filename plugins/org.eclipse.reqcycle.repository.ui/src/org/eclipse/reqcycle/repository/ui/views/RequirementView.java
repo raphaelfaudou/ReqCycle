@@ -66,16 +66,18 @@ import DataModel.RequirementSource;
 
 public class RequirementView extends ViewPart implements Listener {
 
+	
+	/** View ID	 */
 	public static final String VIEW_ID = "org.eclipse.reqcycle.repository.ui.views.requirements";
 
 	ILogger logger = ZigguratInject.make(ILogger.class);
 
+	/** Requirement repositories TreeViewer */
+	protected TreeViewer viewer;
+
 	protected SelectPredicatesFiltersAction selectPredicatesFilterAction;
 
 	protected SelectRequirementSourcesAction selectRequirementSourcesAction;
-
-	/** Requirement repositories TreeViewer */
-	protected TreeViewer viewer;
 
 	protected Collection<IPredicate> predicates;
 
@@ -85,9 +87,9 @@ public class RequirementView extends ViewPart implements Listener {
 	
 	protected Action newInstanceAction;
 
-	private DrillDownAdapter drillDownAdapter;
+	protected DrillDownAdapter drillDownAdapter;
 
-	private ISelectionProvider selectionProvider;
+	protected ISelectionProvider selectionProvider;
 
 	public RequirementView() {
 	}

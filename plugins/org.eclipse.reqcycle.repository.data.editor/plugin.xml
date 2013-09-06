@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated DataModel -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="DataModel.presentation.DataModelModelWizardID"
+            name="%_UI_DataModelModelWizard_label"
+            class="DataModel.presentation.DataModelModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/DataModelModelFile.gif">
+         <description>%_UI_DataModelModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated DataModel -->
+      <editor
+            id="DataModel.presentation.DataModelEditorID"
+            name="%_UI_DataModelEditor_label"
+            icon="icons/full/obj16/DataModelModelFile.gif"
+            extensions="datamodel"
+            class="org.eclipse.reqcycle.repository.data.editor.RequirementsEditor"
+            contributorClass="DataModel.presentation.DataModelActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>
