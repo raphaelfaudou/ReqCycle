@@ -2,21 +2,12 @@
  */
 package DataModel.presentation;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
-
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
-
-import org.eclipse.emf.edit.ui.action.ControlAction;
-import org.eclipse.emf.edit.ui.action.CreateChildAction;
-import org.eclipse.emf.edit.ui.action.CreateSiblingAction;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
-import org.eclipse.emf.edit.ui.action.LoadResourceAction;
-import org.eclipse.emf.edit.ui.action.ValidateAction;
-
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
@@ -28,14 +19,12 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.SubContributionItem;
-
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
-
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 
@@ -146,13 +135,13 @@ public class DataModelActionBarContributor
 	 * This creates an instance of the contributor.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public DataModelActionBarContributor() {
 		super(ADDITIONS_LAST_STYLE);
-		loadResourceAction = new LoadResourceAction();
-		validateAction = new ValidateAction();
-		controlAction = new ControlAction();
+//		loadResourceAction = new LoadResourceAction();
+//		validateAction = new ValidateAction();
+//		controlAction = new ControlAction();
 	}
 
 	/**
@@ -291,16 +280,17 @@ public class DataModelActionBarContributor
 	 * and returns the collection of these actions.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated not
 	 */
 	protected Collection<IAction> generateCreateChildActions(Collection<?> descriptors, ISelection selection) {
-		Collection<IAction> actions = new ArrayList<IAction>();
-		if (descriptors != null) {
-			for (Object descriptor : descriptors) {
-				actions.add(new CreateChildAction(activeEditorPart, selection, descriptor));
-			}
-		}
-		return actions;
+//		Collection<IAction> actions = new ArrayList<IAction>();
+//		if (descriptors != null) {
+//			for (Object descriptor : descriptors) {
+//				actions.add(new CreateChildAction(activeEditorPart, selection, descriptor));
+//			}
+//		}
+//		return actions;
+		return null;
 	}
 
 	/**
@@ -311,13 +301,14 @@ public class DataModelActionBarContributor
 	 * @generated
 	 */
 	protected Collection<IAction> generateCreateSiblingActions(Collection<?> descriptors, ISelection selection) {
-		Collection<IAction> actions = new ArrayList<IAction>();
-		if (descriptors != null) {
-			for (Object descriptor : descriptors) {
-				actions.add(new CreateSiblingAction(activeEditorPart, selection, descriptor));
-			}
-		}
-		return actions;
+//		Collection<IAction> actions = new ArrayList<IAction>();
+//		if (descriptors != null) {
+//			for (Object descriptor : descriptors) {
+//				actions.add(new CreateSiblingAction(activeEditorPart, selection, descriptor));
+//			}
+//		}
+//		return actions;
+		return null;
 	}
 
 	/**
@@ -376,20 +367,33 @@ public class DataModelActionBarContributor
 	 * This populates the pop-up menu before it appears.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public void menuAboutToShow(IMenuManager menuManager) {
-		super.menuAboutToShow(menuManager);
-		MenuManager submenuManager = null;
+		// Add our standard marker.
+	    //
+	    if ((style & ADDITIONS_LAST_STYLE) == 0)
+	    {
+	      menuManager.add(new Separator("additions"));
+	    }
+	    menuManager.add(new Separator("edit"));
 
-		submenuManager = new MenuManager(DataModelEditorPlugin.INSTANCE.getString("_UI_CreateChild_menu_item"));
-		populateManager(submenuManager, createChildActions, null);
-		menuManager.insertBefore("edit", submenuManager);
+	    // Add the edit menu actions.
+	    //
+	    menuManager.add(new ActionContributionItem(deleteAction));
+	    menuManager.add(new Separator());
 
-		submenuManager = new MenuManager(DataModelEditorPlugin.INSTANCE.getString("_UI_CreateSibling_menu_item"));
-		populateManager(submenuManager, createSiblingActions, null);
-		menuManager.insertBefore("edit", submenuManager);
+	    if ((style & ADDITIONS_LAST_STYLE) != 0)
+	    {
+	      menuManager.add(new Separator("additions"));
+	      menuManager.add(new Separator());
+	    }
+	    // Add our other standard marker.
+	    //
+	    menuManager.add(new Separator("additions-end"));
+
+	    addGlobalActions(menuManager);
 	}
 
 	/**
@@ -419,5 +423,5 @@ public class DataModelActionBarContributor
 	protected boolean removeAllReferencesOnDelete() {
 		return true;
 	}
-
+	
 }

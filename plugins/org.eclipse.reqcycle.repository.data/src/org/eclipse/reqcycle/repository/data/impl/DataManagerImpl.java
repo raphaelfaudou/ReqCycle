@@ -29,9 +29,9 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.reqcycle.repository.data.IDataManager;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.IListener;
-import org.eclipse.reqcycle.repository.data.IDataManager;
 import org.eclipse.ziggurat.configuration.IConfigurationManager;
 
 import DataModel.RequirementSource;
@@ -48,7 +48,7 @@ public class DataManagerImpl implements IDataManager {
 
 	@Inject
 	IConfigurationManager confManager;
-	
+
 	public static final String ID = "org.eclipse.reqcycle.repositories";
 
 	@Inject
@@ -59,8 +59,8 @@ public class DataManagerImpl implements IDataManager {
 	IDataModelManager dataManager;
 
 	public Set<IListener> listeners = new HashSet<IListener>();
-	
-	
+
+
 	/**
 	 * Constructor
 	 */
@@ -69,7 +69,7 @@ public class DataManagerImpl implements IDataManager {
 		this.rs = rs;
 		this.confManager = confManager;
 		this.dataManager = dataManager;
-		
+
 		EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, ID, rs, true);
 
 		if(conf instanceof RequirementSources) {
@@ -90,6 +90,7 @@ public class DataManagerImpl implements IDataManager {
 		}
 	}
 
+	@Override
 	public void addRequirementSource(final RequirementSource repository) {
 		Set<RequirementSource> repositories;
 		repositories = repositoryMap.get(repository.getConnectorId());
@@ -97,7 +98,7 @@ public class DataManagerImpl implements IDataManager {
 			repositories = new HashSet<RequirementSource>();
 			repositoryMap.put(repository.getConnectorId(), repositories);
 		}
-		
+
 		if(!repositories.contains(repository)) {
 			repositories.add(repository);
 		}
@@ -115,6 +116,7 @@ public class DataManagerImpl implements IDataManager {
 		}
 	}
 
+	@Override
 	public void removeRequirementSource(final RequirementSource repository) {
 		Set<RequirementSource> repositories = repositoryMap.get(repository.getConnectorId());
 		if(repositories != null) {
@@ -131,10 +133,12 @@ public class DataManagerImpl implements IDataManager {
 		}
 	}
 
+	@Override
 	public void save() throws IOException {
 		confManager.saveConfiguration(sources, null, null, ID, rs);
 	}
 
+	@Override
 	public void removeRequirementSources(String connectorId) {
 		Set<RequirementSource> repositories = repositoryMap.get(connectorId);
 		for(RequirementSource reqSource : repositories) {
@@ -149,6 +153,7 @@ public class DataManagerImpl implements IDataManager {
 		repositoryMap.remove(connectorId);
 	}
 
+	@Override
 	public RequirementSource getRequirementSource(String connectorId, String repositoryUri) {
 		Assert.isNotNull(connectorId);
 		Assert.isNotNull(repositoryUri);
@@ -162,6 +167,7 @@ public class DataManagerImpl implements IDataManager {
 		return null;
 	}
 
+	@Override
 	public Set<RequirementSource> getRequirementSources(String connectorId) {
 		Assert.isNotNull(connectorId);
 		Set<RequirementSource> result;
@@ -172,6 +178,7 @@ public class DataManagerImpl implements IDataManager {
 		return new HashSet<RequirementSource>(result);
 	}
 
+	@Override
 	public Map<String, Set<RequirementSource>> getRepositoryMap() {
 		return repositoryMap;
 	}
@@ -185,21 +192,23 @@ public class DataManagerImpl implements IDataManager {
 		}
 		return res;
 	}
-	
-	
-	
+
+
+
+	@Override
 	public void addListener(IListener listener) {
 		listeners.add(listener);
 	}
 
+	@Override
 	public void removeListener(IListener listener) {
 		listeners.remove(listener);
 	}
-	
+
 	protected void notifyListeners() {
 		for(IListener listener : listeners) {
 			listener.handleChange(this.getClass());
 		}
 	}
-	
+
 }

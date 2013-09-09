@@ -25,7 +25,7 @@
    <extension point="org.eclipse.ui.editors">
       <!-- @generated DataModel -->
       <editor
-            id="DataModel.presentation.DataModelEditorID"
+            id="org.eclipse.reqcycle.repository.presentation.DataModelEditorID"
             name="%_UI_DataModelEditor_label"
             icon="icons/full/obj16/DataModelModelFile.gif"
             extensions="datamodel"

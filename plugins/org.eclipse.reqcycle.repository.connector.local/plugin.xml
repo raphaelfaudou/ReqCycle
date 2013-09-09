@@ -12,7 +12,7 @@
 	<extension
          point="org.eclipse.ui.menus">
 		<menuContribution
-	            locationURI="popup:org.eclipse.ui.popup.any">
+	            locationURI="popup:org.eclipse.reqcycle.repository.presentation.DataModelEditorID?before=edit">
 	         <menu
 	         		id="org.eclipse.reqcycle.repository.connector.local.create.menu"
 	               label="New Child">

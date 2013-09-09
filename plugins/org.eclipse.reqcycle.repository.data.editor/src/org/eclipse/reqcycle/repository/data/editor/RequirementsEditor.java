@@ -39,7 +39,7 @@ import RequirementSourcesConf.RequirementSources;
 public class RequirementsEditor extends DataModelEditor {
 	
 	/** The Constant EDITOR ID. */
-	public static final String EDITOR_ID = "DataModel.presentation.DataModelEditorID";
+	public static final String EDITOR_ID = "org.eclipse.reqcycle.repository.presentation.DataModelEditorID";
 	protected static RequirementSource selectedRequirementSource;
 
 	/**

@@ -92,7 +92,7 @@ public class ReqCycleContributionItem extends CompoundContributionItem {
 
 								try {
 
-									Contained element = reqCreator.addObject(arg0, "toto", "toto", "toto");
+									Contained element = reqCreator.addObject(arg0, "", "", "");
 
 
 									if(selectedElement instanceof RequirementSource) {
