@@ -102,5 +102,13 @@
             priority="10">
       </reachableHandler>
    </extension>
+   <extension
+         point="org.eclipse.ui.importWizards">
+      <wizard
+            class="org.eclipse.reqcycle.repository.data.ImportDataModel"
+            id="org.eclipse.reqcycle.repository.data.types.import"
+            name="Import Data Model">
+      </wizard>
+   </extension>
 
 </plugin>

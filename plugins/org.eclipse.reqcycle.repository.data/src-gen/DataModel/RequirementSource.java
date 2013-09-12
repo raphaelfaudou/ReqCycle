@@ -16,32 +16,33 @@ import MappingModel.ElementMapping;
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Requirement Source</b></em>'.
  * <!-- end-user-doc -->
- *
+ * 
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link DataModel.RequirementSource#getRequirements <em>Requirements</em>}</li>
- *   <li>{@link DataModel.RequirementSource#getName <em>Name</em>}</li>
- *   <li>{@link DataModel.RequirementSource#getProperties <em>Properties</em>}</li>
- *   <li>{@link DataModel.RequirementSource#getConnectorId <em>Connector Id</em>}</li>
- *   <li>{@link DataModel.RequirementSource#getMappings <em>Mappings</em>}</li>
+ * <li>{@link DataModel.RequirementSource#getRequirements <em>Requirements</em>}</li>
+ * <li>{@link DataModel.RequirementSource#getName <em>Name</em>}</li>
+ * <li>{@link DataModel.RequirementSource#getProperties <em>Properties</em>}</li>
+ * <li>{@link DataModel.RequirementSource#getConnectorId <em>Connector Id</em>}</li>
+ * <li>{@link DataModel.RequirementSource#getMappings <em>Mappings</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @see DataModel.DataModelPackage#getRequirementSource()
  * @model
  * @generated
  */
 public interface RequirementSource extends EObject {
+
 	/**
 	 * Returns the value of the '<em><b>Requirements</b></em>' containment reference list.
 	 * The list contents are of type {@link DataModel.Contained}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Requirements</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
+	 * If the meaning of the '<em>Requirements</em>' containment reference list isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Requirements</em>' containment reference list.
 	 * @see DataModel.DataModelPackage#getRequirementSource_Requirements()
 	 * @model containment="true"
@@ -53,10 +54,10 @@ public interface RequirementSource extends EObject {
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
+	 * If the meaning of the '<em>Name</em>' attribute isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
 	 * @see DataModel.DataModelPackage#getRequirementSource_Name()
@@ -69,7 +70,9 @@ public interface RequirementSource extends EObject {
 	 * Sets the value of the '{@link DataModel.RequirementSource#getName <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Name</em>' attribute.
+	 * 
+	 * @param value
+	 *        the new value of the '<em>Name</em>' attribute.
 	 * @see #getName()
 	 * @generated
 	 */
@@ -81,10 +84,10 @@ public interface RequirementSource extends EObject {
 	 * and the value is of type {@link java.lang.String},
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Properties</em>' map isn't clear,
-	 * there really should be more of a description here...
+	 * If the meaning of the '<em>Properties</em>' map isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Properties</em>' map.
 	 * @see DataModel.DataModelPackage#getRequirementSource_Properties()
 	 * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>"
@@ -96,10 +99,10 @@ public interface RequirementSource extends EObject {
 	 * Returns the value of the '<em><b>Connector Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Connector Id</em>' attribute isn't clear,
-	 * there really should be more of a description here...
+	 * If the meaning of the '<em>Connector Id</em>' attribute isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Connector Id</em>' attribute.
 	 * @see #setConnectorId(String)
 	 * @see DataModel.DataModelPackage#getRequirementSource_ConnectorId()
@@ -112,7 +115,9 @@ public interface RequirementSource extends EObject {
 	 * Sets the value of the '{@link DataModel.RequirementSource#getConnectorId <em>Connector Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Connector Id</em>' attribute.
+	 * 
+	 * @param value
+	 *        the new value of the '<em>Connector Id</em>' attribute.
 	 * @see #getConnectorId()
 	 * @generated
 	 */
@@ -123,10 +128,10 @@ public interface RequirementSource extends EObject {
 	 * The list contents are of type {@link MappingModel.ElementMapping}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Mappings</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
+	 * If the meaning of the '<em>Mappings</em>' containment reference list isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Mappings</em>' containment reference list.
 	 * @see DataModel.DataModelPackage#getRequirementSource_Mappings()
 	 * @model containment="true"
@@ -135,7 +140,7 @@ public interface RequirementSource extends EObject {
 	EList<ElementMapping> getMappings();
 
 	public void setProperty(String property, String newValue) throws Exception;
-	
+
 	public String getRepositoryLabel();
 
 	public String getRepositoryUri();
@@ -149,11 +154,13 @@ public interface RequirementSource extends EObject {
 	public void removeChangeListeners(PropertyChangeListener listener);
 
 	public void addChangeListeners(PropertyChangeListener listener);
-	
+
 	public void store();
 
 	public void dispose();
 
 	public Collection<EClass> getTargetEPackage();
+
+	public boolean contains(Contained eContainer);
 
 } // RequirementSource

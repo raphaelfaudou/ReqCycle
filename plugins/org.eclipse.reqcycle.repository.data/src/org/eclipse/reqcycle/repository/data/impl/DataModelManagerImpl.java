@@ -23,10 +23,14 @@ import javax.inject.Singleton;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
+import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.types.IAttribute;
@@ -79,7 +83,11 @@ public class DataModelManagerImpl implements IDataModelManager {
 		if(conf instanceof EPackage) {
 			dataModel = new DataModelImpl((EPackage)conf);
 		} else {
-			dataModel = new DataModelImpl();
+			EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
+			ePackage.setName("DataModels");
+			ePackage.setNsPrefix("DataModels");
+			ePackage.setNsURI(NS_URI);
+			dataModel = new DataModelImpl(ePackage);
 			save();
 		}
 
@@ -272,6 +280,30 @@ public class DataModelManagerImpl implements IDataModelManager {
 			save();
 		}
 		return scope;
+	}
+
+	@Override
+	public Collection<IDataModel> getDataModel(URI uri) {
+
+		Collection<IDataModel> dataModels = new ArrayList<IDataModel>();
+		Resource resource = rs.getResource(uri, true);
+		EList<EObject> content = resource.getContents();
+		for(EObject eObject : content) {
+			if(eObject instanceof EPackage) {
+				EList<EPackage> eSubpackages = ((EPackage)eObject).getESubpackages();
+				if(eSubpackages != null && !eSubpackages.isEmpty()) {
+					for(EPackage ePackage : eSubpackages) {
+						dataModels.add(new DataModelImpl(ePackage));
+					}
+				} else {
+					dataModels.add(new DataModelImpl((EPackage)eObject));
+				}
+			}
+		}
+
+		resource.unload();
+
+		return dataModels;
 	}
 
 }

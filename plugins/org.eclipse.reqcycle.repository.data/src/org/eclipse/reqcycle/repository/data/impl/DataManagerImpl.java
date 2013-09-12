@@ -16,6 +16,7 @@ package org.eclipse.reqcycle.repository.data.impl;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EventListener;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -26,6 +27,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -58,7 +60,15 @@ public class DataManagerImpl implements IDataManager {
 	@Inject
 	IDataModelManager dataManager;
 
+	//FIXME : remove this set, use eventListeners instead
 	public Set<IListener> listeners = new HashSet<IListener>();
+
+	@Inject
+	IEventBroker broker;
+
+
+
+	public Set<EventListener> eventListeners = new HashSet<EventListener>();
 
 
 	/**
@@ -211,4 +221,16 @@ public class DataManagerImpl implements IDataManager {
 		}
 	}
 
+	public void addEventListener(EventListener eventListener) {
+		eventListeners.add(eventListener);
+	}
+
+	public void removeEventListener(EventListener eventListener) {
+		eventListeners.remove(eventListener);
+	}
+
+	public void notifyChanger(String event, Object data) {
+		//asynchronous publishing
+		broker.post(event, data);
+	}
 }

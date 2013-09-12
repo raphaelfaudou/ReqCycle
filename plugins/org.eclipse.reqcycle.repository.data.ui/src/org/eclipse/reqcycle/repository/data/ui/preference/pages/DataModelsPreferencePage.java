@@ -62,6 +62,8 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 
 	private Button btnDeleteModel;
 
+	//	private Button btnImportModel;
+
 	/**
 	 * @wbp.parser.constructor
 	 */
@@ -165,6 +167,9 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 
 		btnDeleteModel = PreferenceUiUtil.createButton(btnComposite, "Delete Data Model", Activator.getImageDescriptor("/icons/delete.gif").createImage());
 		btnDeleteModel.setEnabled(false);
+
+		//		btnImportModel = PreferenceUiUtil.createButton(btnComposite, "Import Data Model", Activator.getImageDescriptor("/icons/edit.png").createImage());
+		//		btnImportModel.setEnabled(true);
 	}
 
 
@@ -185,6 +190,80 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 				}
 			}
 		});
+
+
+		//		btnImportModel.addSelectionListener(new SelectionAdapter() {
+		//
+		//			@Override
+		//			public void widgetSelected(SelectionEvent e) {
+		//				ResourceDialog dialog = new ResourceDialog(getShell(), "Select Data Model file", SWT.NONE);
+		//				int res = dialog.open();
+		//				if(res == ResourceDialog.OK) {
+		//					List<URI> uris = dialog.getURIs();
+		//					if(!uris.isEmpty() && uris.size() > 0) {
+		//						URI uri = uris.get(0);
+		//
+		//						Collection<IDataModel> models = dataModelManager.getDataModel(uri);
+		//
+		//						Collection<IDataModel> conflictingDataModels = Collections2.filter(models, new Predicate<IDataModel>() {
+		//
+		//							@Override
+		//							public boolean apply(IDataModel arg0) {
+		//								if(dataModelManager.getDataModel(arg0.getName()) != null) {
+		//									return true;
+		//								}
+		//								return false;
+		//							}
+		//						});
+		//
+		//						Collection<IDataModel> importableDataModels = Collections2.filter(models, new Predicate<IDataModel>() {
+		//
+		//							@Override
+		//							public boolean apply(IDataModel arg0) {
+		//								if(dataModelManager.getDataModel(arg0.getName()) == null) {
+		//									return true;
+		//								}
+		//								return false;
+		//							}
+		//						});
+		//
+		//						String errorMessage = "";
+		//
+		//						if(!conflictingDataModels.isEmpty()) {
+		//							errorMessage = "The following Data Models already exists :\n";
+		//							for(IDataModel iDataModel : conflictingDataModels) {
+		//								errorMessage += "- " + iDataModel.getName() + "\n";
+		//							}
+		//							errorMessage += "\n";
+		//						}
+		//
+		//						String importMessage = "Import :\n";
+		//
+		//						if(!importableDataModels.isEmpty()) {
+		//							for(IDataModel iDataModel : importableDataModels) {
+		//								importMessage += "- " + iDataModel.getName() + "\n";
+		//							}
+		//						} else {
+		//							importMessage += "None\n";
+		//						}
+		//
+		//
+		//						String message = errorMessage + importMessage + "\n" + "Would you like to continue ?";
+		//
+		//						if(MessageDialog.openQuestion(Display.getDefault().getActiveShell(), "Import Data Models", message)) {
+		//							for(IDataModel iDataModel : importableDataModels) {
+		//								dataModelManager.addDataModel(iDataModel);
+		//								viewerManager.addDataModels(iDataModel);
+		//							}
+		//							tvModels.refresh();
+		//						}
+		//
+		//					}
+		//				}
+		//			}
+		//
+		//		});
+
 	}
 
 	@Override

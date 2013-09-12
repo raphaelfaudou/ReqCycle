@@ -55,4 +55,12 @@
           name="Load Custom Data Model">
     </command>
  </extension>
+ <extension
+       point="org.eclipse.ui.importWizards">
+    <wizard
+          class="org.eclipse.reqcycle.repository.data.ui.wizard.ImportDataModel"
+          id="org.eclipse.reqcycle.repository.data.ui.import.datamodel"
+          name="Import Data Model">
+    </wizard>
+ </extension>
 </plugin>

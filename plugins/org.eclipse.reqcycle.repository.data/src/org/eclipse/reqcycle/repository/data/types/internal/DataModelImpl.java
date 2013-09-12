@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.types.IDataModel;
 import org.eclipse.reqcycle.repository.data.types.IEnumerationType;
 import org.eclipse.reqcycle.repository.data.types.IRequirementType;
@@ -51,18 +52,14 @@ public class DataModelImpl implements IDataModel, IAdaptable {
 	/** The enumeration types. */
 	protected Collection<IEnumerationType> enumerationTypes = new ArrayList<IEnumerationType>();
 
-	/** The Constant NS_URI. */
-	protected static final String NS_URI = "http://www.eclipse.org/ReqCycle/CustomDataModels";
-
 	/**
 	 * Instantiates a new data model.
 	 */
 	public DataModelImpl() {
 		ePackage = EcoreFactory.eINSTANCE.createEPackage();
 		ePackage.setName("");
-		ePackage.setName("");
 		ePackage.setNsPrefix("");
-		ePackage.setNsURI(NS_URI);
+		ePackage.setNsURI(IDataModelManager.NS_URI);
 	}
 
 	/**
@@ -76,7 +73,7 @@ public class DataModelImpl implements IDataModel, IAdaptable {
 		ePackage.setName(name);
 		ePackage.setName(name);
 		ePackage.setNsPrefix(name);
-		ePackage.setNsURI(NS_URI + "/" + name);
+		ePackage.setNsURI(IDataModelManager.NS_URI + "/" + name);
 	}
 
 	/**
@@ -173,7 +170,7 @@ public class DataModelImpl implements IDataModel, IAdaptable {
 			ePackage = (EPackage)((IAdaptable)dataModel).getAdapter(EPackage.class);
 		}
 		if(ePackage != null) {
-			ePackage.getESubpackages().add(ePackage);
+			this.ePackage.getESubpackages().add(ePackage);
 			subPackages.add(dataModel);
 		}
 	}

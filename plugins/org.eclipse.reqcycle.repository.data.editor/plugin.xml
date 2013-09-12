@@ -6,9 +6,9 @@
 
 <plugin>
 
-   <extension point="org.eclipse.ui.newWizards">
+<!--   <extension point="org.eclipse.ui.newWizards"> -->
       <!-- @generated DataModel -->
-      <category
+<!--      <category
             id="org.eclipse.emf.ecore.Wizard.category.ID"
             name="%_UI_Wizard_category"/>
       <wizard
@@ -21,7 +21,7 @@
          <selection class="org.eclipse.core.resources.IResource"/>
       </wizard>
    </extension>
-
+-->
    <extension point="org.eclipse.ui.editors">
       <!-- @generated DataModel -->
       <editor
@@ -30,7 +30,7 @@
             icon="icons/full/obj16/DataModelModelFile.gif"
             extensions="datamodel"
             class="org.eclipse.reqcycle.repository.data.editor.RequirementsEditor"
-            contributorClass="DataModel.presentation.DataModelActionBarContributor">
+            contributorClass="org.eclipse.reqcycle.repository.data.editor.RequirementsActionBarContributor">
       </editor>
    </extension>
 

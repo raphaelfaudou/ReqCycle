@@ -9,7 +9,7 @@
             name="Local">
       </connectorCore>
    	</extension>
-	<extension
+<!--<extension
          point="org.eclipse.ui.menus">
 		<menuContribution
 	            locationURI="popup:org.eclipse.reqcycle.repository.presentation.DataModelEditorID?before=edit">
@@ -22,5 +22,5 @@
 	               </dynamic>
 	         </menu>
 	      </menuContribution>
-	</extension>
+	</extension>-->
 </plugin>

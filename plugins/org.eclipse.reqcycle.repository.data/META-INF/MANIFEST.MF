@@ -23,7 +23,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.reqcycle.uri,
  org.eclipse.emf.ecore,
  org.eclipse.ziggurat.configuration,
- org.eclipse.ziggurat.inject
+ org.eclipse.ziggurat.inject,
+ org.eclipse.e4.core.services,
+ org.eclipse.ui.ide
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: DataModel,
  DataModel.impl,

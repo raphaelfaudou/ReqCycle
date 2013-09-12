@@ -13,8 +13,6 @@
  *****************************************************************************/
 package org.eclipse.reqcycle.repository.ui.actions;
 
-import java.net.URI;
-
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
@@ -70,8 +68,7 @@ public class EditRequiementsAction extends Action {
 				RequirementSource requirementSource = (RequirementSource)firstElement;
 				String connectorId = requirementSource.getConnectorId();
 				if(LOCAL_CONNECTOR_ID.equals(connectorId)) {
-					URI uri = URI.create(requirementSource.eResource().getURI().toString());
-					RequirementsEditor.openEditor(requirementSource, uri);
+					RequirementsEditor.openEditor(requirementSource, requirementSource.eResource().getURI());
 				}
 
 			}

@@ -27,7 +27,6 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 public class ReqCyclePreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage {
-	private Table table_1;
 	private Table tConfRepos;
 	private TableViewer tvConfRepos;
 	private Label labelProperties;

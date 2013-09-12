@@ -15,6 +15,7 @@ package org.eclipse.reqcycle.repository.data;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.reqcycle.repository.data.types.IAttribute;
 import org.eclipse.reqcycle.repository.data.types.IAttributeType;
 import org.eclipse.reqcycle.repository.data.types.IDataModel;
@@ -28,6 +29,10 @@ import DataModel.Scope;
  * The Interface IDataModelManager.
  */
 public interface IDataModelManager {
+
+
+	/** The Constant NS_URI. */
+	static final String NS_URI = "http://www.eclipse.org/ReqCycle/CustomDataModels";
 
 	/**
 	 * Discard unsaved changes.
@@ -103,6 +108,15 @@ public interface IDataModelManager {
 	 * @return the data model
 	 */
 	public IDataModel getDataModel(String name);
+
+	/**
+	 * Gets the data model.
+	 * 
+	 * @param uri
+	 *        the data model URI
+	 * @return data models
+	 */
+	public Collection<IDataModel> getDataModel(URI uri);
 
 	/**
 	 * Gets all data models.

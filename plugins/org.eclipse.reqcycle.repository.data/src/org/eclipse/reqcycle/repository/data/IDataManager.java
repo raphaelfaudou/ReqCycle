@@ -91,4 +91,14 @@ public interface IDataManager {
 	 */
 	public void save() throws IOException;
 
+	/**
+	 * Notify change.
+	 * 
+	 * @param event
+	 *        the event
+	 * @param data
+	 *        the data
+	 */
+	public void notifyChanger(String event, Object data);
+
 }

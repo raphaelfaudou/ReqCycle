@@ -113,6 +113,7 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.provider.DataModelItemProviderAdapterFactory;
 import MappingModel.provider.MappingModelItemProviderAdapterFactory;
@@ -274,6 +275,8 @@ public class DataModelEditor
 	 * @generated
 	 */
 	protected MarkerHelper markerHelper = new EditUIMarkerHelper();
+	
+	ResourceSet rs = ZigguratInject.make(ResourceSet.class);
 
 	/**
 	 * This listens for when the outline becomes active
@@ -701,7 +704,7 @@ public class DataModelEditor
 
 		// Create the editing domain with a special command stack.
 		//
-		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new HashMap<Resource, Boolean>());
+		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, rs);
 	}
 
 	/**
@@ -911,6 +914,7 @@ public class DataModelEditor
 	 */
 	public void createModel() {
 		URI resourceURI = EditUIUtil.getURI(getEditorInput());
+		
 		Exception exception = null;
 		Resource resource = null;
 		try {
@@ -985,7 +989,7 @@ public class DataModelEditor
 					new ViewerPane(getSite().getPage(), DataModelEditor.this) {
 						@Override
 						public Viewer createViewer(Composite composite) {
-							Tree tree = new Tree(composite, SWT.MULTI);
+							Tree tree = new Tree(composite, SWT.None);
 							TreeViewer newTreeViewer = new TreeViewer(tree);
 							return newTreeViewer;
 						}
@@ -1007,7 +1011,6 @@ public class DataModelEditor
 				selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
 
 				selectionViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
-				selectionViewer.setInput(editingDomain.getResourceSet());
 				selectionViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
 
 				new AdapterFactoryTreeEditor(selectionViewer.getTree(), adapterFactory);
