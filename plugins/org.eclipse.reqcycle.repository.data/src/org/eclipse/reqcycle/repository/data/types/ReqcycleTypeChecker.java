@@ -3,7 +3,6 @@ package org.eclipse.reqcycle.repository.data.types;
 import javax.inject.Inject;
 
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.reqcycle.emf.types.EMFTypeChecker;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.types.IInjectedTypeChecker;
@@ -15,7 +14,6 @@ import org.eclipse.reqcycle.uri.model.ReachableObject;
 import org.eclipse.reqcycle.uri.visitors.IVisitor;
 
 import DataModel.Contained;
-import DataModel.Requirement;
 import DataModel.Scope;
 
 
@@ -26,13 +24,14 @@ public class ReqcycleTypeChecker implements IInjectedTypeChecker {
 
 	@InjectValue
 	String dataModel;
-	
+
 	@InjectValue
 	String requirementScope;
-	
+
 	@Inject
 	IDataModelManager dataModelManager;
 
+	@Override
 	public boolean apply(Reachable reachable) {
 		EMFTypeChecker emfTypeChecker = new EMFTypeChecker();
 		if(emfTypeChecker.apply(reachable)) {
@@ -55,25 +54,27 @@ public class ReqcycleTypeChecker implements IInjectedTypeChecker {
 
 		boolean found = false;
 
+		@Override
 		public void start(IAdaptable adaptable) {
 		}
 
+		@Override
 		public boolean visit(Object o, IAdaptable adaptable) {
 			//FIXME : Scope can't be resolved, fixe this after fixing scope bug
- 			found = o instanceof Contained;
-				if(o instanceof Contained && requirementScope != null && dataModel != null) {
-					Contained type = (Contained)o;
-					for(Scope s : type.getScopes()) {
-						if(requirementScope.equalsIgnoreCase(s.eClass().getName()) 
-							&& dataModelManager.getDataModel(s).equals(dataModelManager.getDataModel(dataModel))) {
-							found = true;
-							return true;
-						}
+			found = o instanceof Contained;
+			if(o instanceof Contained && requirementScope != null && dataModel != null) {
+				Contained type = (Contained)o;
+				for(Scope s : type.getScopes()) {
+					if(requirementScope.equalsIgnoreCase(s.eClass().getName()) && dataModelManager.getDataModel(s).equals(dataModelManager.getDataModel(dataModel))) {
+						found = true;
+						return true;
 					}
 				}
+			}
 			return found;
 		}
 
+		@Override
 		public void end(IAdaptable adaptable) {
 		}
 

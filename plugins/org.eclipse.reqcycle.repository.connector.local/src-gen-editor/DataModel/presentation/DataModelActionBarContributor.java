@@ -4,12 +4,19 @@ package DataModel.presentation;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+
+import org.eclipse.emf.edit.ui.action.ControlAction;
 import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.emf.edit.ui.action.CreateSiblingAction;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
+import org.eclipse.emf.edit.ui.action.LoadResourceAction;
+import org.eclipse.emf.edit.ui.action.ValidateAction;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
@@ -21,12 +28,14 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.SubContributionItem;
+
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
+
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 
@@ -36,8 +45,9 @@ import org.eclipse.ui.PartInitException;
  * <!-- end-user-doc -->
  * @generated
  */
-public class DataModelActionBarContributor extends EditingDomainActionBarContributor implements ISelectionChangedListener {
-
+public class DataModelActionBarContributor
+	extends EditingDomainActionBarContributor
+	implements ISelectionChangedListener {
 	/**
 	 * This keeps track of the active editor.
 	 * <!-- begin-user-doc -->
@@ -60,7 +70,8 @@ public class DataModelActionBarContributor extends EditingDomainActionBarContrib
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected IAction showPropertiesViewAction = new Action(DataModelEditorPlugin.INSTANCE.getString("_UI_ShowPropertiesView_menu_item")) {
+	protected IAction showPropertiesViewAction =
+		new Action(DataModelEditorPlugin.INSTANCE.getString("_UI_ShowPropertiesView_menu_item")) {
 			@Override
 			public void run() {
 				try {
@@ -79,7 +90,8 @@ public class DataModelActionBarContributor extends EditingDomainActionBarContrib
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected IAction refreshViewerAction = new Action(DataModelEditorPlugin.INSTANCE.getString("_UI_RefreshViewer_menu_item")) {
+	protected IAction refreshViewerAction =
+		new Action(DataModelEditorPlugin.INSTANCE.getString("_UI_RefreshViewer_menu_item")) {
 			@Override
 			public boolean isEnabled() {
 				return activeEditorPart instanceof IViewerProvider;
@@ -134,14 +146,13 @@ public class DataModelActionBarContributor extends EditingDomainActionBarContrib
 	 * This creates an instance of the contributor.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
+	 * @generated
 	 */
 	public DataModelActionBarContributor() {
 		super(ADDITIONS_LAST_STYLE);
-		//		loadResourceAction = new LoadResourceAction();
-		//		validateAction = new ValidateAction();
-		//		controlAction = new ControlAction();
+		loadResourceAction = new LoadResourceAction();
+		validateAction = new ValidateAction();
+		controlAction = new ControlAction();
 	}
 
 	/**
@@ -235,7 +246,6 @@ public class DataModelActionBarContributor extends EditingDomainActionBarContrib
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
 		// Remove any menu items for old selection.
 		//
@@ -331,7 +341,7 @@ public class DataModelActionBarContributor extends EditingDomainActionBarContrib
 			}
 		}
 	}
-
+		
 	/**
 	 * This removes from the specified <code>manager</code> all {@link org.eclipse.jface.action.ActionContributionItem}s
 	 * based on the {@link org.eclipse.jface.action.IAction}s contained in the <code>actions</code> collection.

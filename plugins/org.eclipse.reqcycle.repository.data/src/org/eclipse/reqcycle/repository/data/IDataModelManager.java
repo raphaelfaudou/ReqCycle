@@ -31,8 +31,8 @@ import DataModel.Scope;
 public interface IDataModelManager {
 
 
-	/** The Constant NS_URI. */
-	static final String NS_URI = "http://www.eclipse.org/ReqCycle/CustomDataModels";
+	/** The Constant MODEL_NS_URI. */
+	static final String MODEL_NS_URI = "http://www.eclipse.org/ReqCycle/CustomDataModels";
 
 	/**
 	 * Discard unsaved changes.

@@ -42,7 +42,6 @@ import org.eclipse.reqcycle.repository.ui.Messages;
 import org.eclipse.reqcycle.repository.ui.actions.AddRequirementSourceAction;
 import org.eclipse.reqcycle.repository.ui.actions.DeleteRequirementSourceAction;
 import org.eclipse.reqcycle.repository.ui.actions.EditMappingAction;
-import org.eclipse.reqcycle.repository.ui.actions.EditRequiementsAction;
 import org.eclipse.reqcycle.repository.ui.actions.OpenFilteredRequirementViewAction;
 import org.eclipse.reqcycle.repository.ui.actions.RefreshViewAction;
 import org.eclipse.reqcycle.repository.ui.actions.SynchronizeRequirementSourceActionStub;
@@ -87,9 +86,6 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 
 	/** Refreshes the view Action */
 	private Action refreshViewAction;
-
-	/** Refreshes the view Action */
-	private Action editRequiementSourceAction;
 
 	/** Navigation bar adapter for the tree viewer */
 	private DrillDownAdapter drillDownAdapter;
@@ -195,9 +191,6 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 		if(editMappingAction != null) {
 			editMappingAction.setEnabled(selectedElement instanceof RequirementSource ? canEditSource((RequirementSource)selectedElement) : false);
 		}
-		if(editRequiementSourceAction != null) {
-			editRequiementSourceAction.setEnabled(selectedElement instanceof RequirementSource ? LOCAL_CONNECTOR_ID.equals(((RequirementSource)selectedElement).getConnectorId()) : false);
-		}
 	}
 
 	//TODO move to requirement source util class
@@ -300,7 +293,7 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 		//		manager.add(openRequirementViewAction);
 		manager.add(synchResourceAction);
 		manager.add(editMappingAction);
-		manager.add(editRequiementSourceAction);
+		//		manager.add(editRequiementSourceAction);
 		//		manager.add(openPredicatesEditorAction);
 		manager.add(openPredicatesViewAction);
 		manager.add(new Separator());
@@ -367,11 +360,6 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 		// TODO : add image change mapping
 		//		editMappingAction.setImageDescriptor();
 		editMappingAction.setEnabled(false);
-
-		editRequiementSourceAction = new EditRequiementsAction(viewer);
-		editRequiementSourceAction.setToolTipText("Edit Requiements");
-		editRequiementSourceAction.setText("Edit Requirements");
-		editRequiementSourceAction.setEnabled(false);
 
 		refreshViewAction = new RefreshViewAction(viewer);
 		refreshViewAction.setToolTipText("Refresh View");

@@ -11,7 +11,7 @@
  *  Anass RADOUANI (AtoS) anass.radouani@atos.net - Initial API and implementation
  *
  *****************************************************************************/
-package org.eclipse.reqcycle.repository.data.editor.provider;
+package org.eclipse.reqcycle.repository.connector.local.editor.provider;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EPackage;

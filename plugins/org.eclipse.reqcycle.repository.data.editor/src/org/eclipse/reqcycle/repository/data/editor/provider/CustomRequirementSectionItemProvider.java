@@ -69,10 +69,10 @@ public class CustomRequirementSectionItemProvider extends RequirementSectionItem
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		//FIXME : Use element Data Model to get possible children
+		//Gets Dynamic Data Model possible children
 		for(IRequirementType type : manager.getAllRequirementTypes()) {
 			newChildDescriptors.add(createChildParameter(DataModelPackage.Literals.SECTION__CHILDREN, type.createInstance()));
 		}
-
 		newChildDescriptors.add(createChildParameter(DataModelPackage.Literals.SECTION__CHILDREN, DataModelFactory.eINSTANCE.createSection()));
 	}
 }

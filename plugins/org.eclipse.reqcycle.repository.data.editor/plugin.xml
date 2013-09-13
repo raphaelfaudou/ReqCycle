@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 
-<!--
--->
+
 
 <plugin>
 
-<!--   <extension point="org.eclipse.ui.newWizards"> -->
-      <!-- @generated DataModel -->
-<!--      <category
+  <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated not DataModel -->
+     <!-- <category
             id="org.eclipse.emf.ecore.Wizard.category.ID"
             name="%_UI_Wizard_category"/>
       <wizard
@@ -19,18 +18,18 @@
             icon="icons/full/obj16/DataModelModelFile.gif">
          <description>%_UI_DataModelModelWizard_description</description>
          <selection class="org.eclipse.core.resources.IResource"/>
-      </wizard>
+      </wizard> -->
    </extension>
--->
+
    <extension point="org.eclipse.ui.editors">
-      <!-- @generated DataModel -->
+      <!-- @generated not DataModel -->
       <editor
-            id="org.eclipse.reqcycle.repository.presentation.DataModelEditorID"
+            id="DataModel.presentation.DataModelEditorID"
             name="%_UI_DataModelEditor_label"
             icon="icons/full/obj16/DataModelModelFile.gif"
             extensions="datamodel"
-            class="org.eclipse.reqcycle.repository.data.editor.RequirementsEditor"
-            contributorClass="org.eclipse.reqcycle.repository.data.editor.RequirementsActionBarContributor">
+            class="org.eclipse.reqcycle.repository.data.editor.CustomDataModelEditor"
+            contributorClass="org.eclipse.reqcycle.repository.data.editor.CustomDataModelActionBarContributor">
       </editor>
    </extension>
 

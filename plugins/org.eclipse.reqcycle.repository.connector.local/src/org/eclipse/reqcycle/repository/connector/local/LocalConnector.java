@@ -9,6 +9,8 @@ import DataModel.RequirementSource;
 
 public class LocalConnector implements IConnector {
 
+	public final static String LOCAL_CONNECTOR_ID = "org.eclipse.reqcycle.repository.connector.local.connectorCore";
+
 	public LocalConnector() {
 	}
 
@@ -18,7 +20,8 @@ public class LocalConnector implements IConnector {
 
 	@Override
 	public Callable<RequirementSource> createRequirementSource() {
-		return new  Callable<RequirementSource>() {
+		return new Callable<RequirementSource>() {
+
 			@Override
 			public RequirementSource call() throws Exception {
 				return DataModelFactory.eINSTANCE.createRequirementSource();

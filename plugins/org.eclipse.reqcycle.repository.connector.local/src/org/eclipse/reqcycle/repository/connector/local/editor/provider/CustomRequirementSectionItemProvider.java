@@ -11,64 +11,59 @@
  *  Anass RADOUANI (AtoS) anass.radouani@atos.net - Initial API and implementation
  *
  *****************************************************************************/
-package org.eclipse.reqcycle.repository.data.editor.provider;
+package org.eclipse.reqcycle.repository.connector.local.editor.provider;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.types.IRequirementType;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.DataModelFactory;
 import DataModel.DataModelPackage;
-import DataModel.RequirementSource;
-import DataModel.provider.RequirementSourceItemProvider;
+import DataModel.Requirement;
+import DataModel.provider.RequirementSectionItemProvider;
 
 
 /**
- * The Class CustomRequirementSourceItemProvider.
+ * The Class CustomRequirementSectionItemProvider.
  */
-public class CustomRequirementSourceItemProvider extends RequirementSourceItemProvider {
+public class CustomRequirementSectionItemProvider extends RequirementSectionItemProvider {
 
 	IDataModelManager manager = ZigguratInject.make(IDataModelManager.class);
 
 	/**
-	 * Instantiates a new custom requirement source item provider.
+	 * Instantiates a new custom requirement section item provider.
 	 * 
 	 * @param adapterFactory
 	 *        the adapter factory
 	 */
-	public CustomRequirementSourceItemProvider(AdapterFactory adapterFactory) {
+	public CustomRequirementSectionItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
-	}
-
-	@Override
-	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
-		if(childrenFeatures == null) {
-			childrenFeatures = new ArrayList<EStructuralFeature>();
-			childrenFeatures.add(DataModelPackage.Literals.REQUIREMENT_SOURCE__REQUIREMENTS);
-		}
-		return childrenFeatures;
 	}
 
 	@Override
 	public String getText(Object object) {
 		String text = "";
 
-		String label = ((RequirementSource)object).getName();
-		if(label != null && !label.isEmpty()) {
-			text += label;
+		String id = ((Requirement)object).getId();
+		String name = ((Requirement)object).getName();
+
+		if(id != null && !id.isEmpty()) {
+			text += "[ id : " + id;
 		}
 
-		String uri = ((RequirementSource)object).getRepositoryUri();
-		if(uri != null && !uri.isEmpty()) {
-			text += " [ " + uri + " ] ";
+		if(name != null && !name.isEmpty()) {
+			text += text.isEmpty() ? "[ " : " | ";
+			text += "name : " + name;
 		}
 
-		return text;
+		if(!text.isEmpty()) {
+			text += " ]";
+		}
+
+		return "Requirement " + text;
 	}
 
 	@Override
@@ -76,9 +71,8 @@ public class CustomRequirementSourceItemProvider extends RequirementSourceItemPr
 		//FIXME : Use element Data Model to get possible children
 		//Gets Dynamic Data Model possible children
 		for(IRequirementType type : manager.getAllRequirementTypes()) {
-			newChildDescriptors.add(createChildParameter(DataModelPackage.Literals.REQUIREMENT_SOURCE__REQUIREMENTS, type.createInstance()));
+			newChildDescriptors.add(createChildParameter(DataModelPackage.Literals.SECTION__CHILDREN, type.createInstance()));
 		}
-		newChildDescriptors.add(createChildParameter(DataModelPackage.Literals.REQUIREMENT_SOURCE__REQUIREMENTS, DataModelFactory.eINSTANCE.createSection()));
+		newChildDescriptors.add(createChildParameter(DataModelPackage.Literals.SECTION__CHILDREN, DataModelFactory.eINSTANCE.createSection()));
 	}
-
 }

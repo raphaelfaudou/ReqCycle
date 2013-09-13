@@ -59,7 +59,7 @@ public class DataModelImpl implements IDataModel, IAdaptable {
 		ePackage = EcoreFactory.eINSTANCE.createEPackage();
 		ePackage.setName("");
 		ePackage.setNsPrefix("");
-		ePackage.setNsURI(IDataModelManager.NS_URI);
+		ePackage.setNsURI(IDataModelManager.MODEL_NS_URI);
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class DataModelImpl implements IDataModel, IAdaptable {
 		ePackage.setName(name);
 		ePackage.setName(name);
 		ePackage.setNsPrefix(name);
-		ePackage.setNsURI(IDataModelManager.NS_URI + "/" + name);
+		ePackage.setNsURI(IDataModelManager.MODEL_NS_URI + "/" + name);
 	}
 
 	/**

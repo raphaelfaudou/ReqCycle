@@ -86,7 +86,7 @@ public class DataModelManagerImpl implements IDataModelManager {
 			EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
 			ePackage.setName("DataModels");
 			ePackage.setNsPrefix("DataModels");
-			ePackage.setNsURI(NS_URI);
+			ePackage.setNsURI(MODEL_NS_URI);
 			dataModel = new DataModelImpl(ePackage);
 			save();
 		}
