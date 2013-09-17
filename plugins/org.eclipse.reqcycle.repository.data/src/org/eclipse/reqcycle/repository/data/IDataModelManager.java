@@ -125,23 +125,6 @@ public interface IDataModelManager {
 	 */
 	public Collection<IDataModel> getAllDataModels();
 
-	//	/**
-	//	 * Gets the requirement type.
-	//	 *
-	//	 * @param dataModel the data model container
-	//	 * @param name the name 
-	//	 * @return the requirement type
-	//	 */
-	//	public IRequirementType getRequirementType(IDataModel dataModel, String name);
-	//
-	//	/**
-	//	 * Gets the requirement types.
-	//	 *
-	//	 * @param dataModel the data model
-	//	 * @return the requirement types
-	//	 */
-	//	public Collection<IRequirementType> getRequirementTypes(IDataModel dataModel);
-
 	/**
 	 * Gets all requirement types.
 	 * 
@@ -149,54 +132,12 @@ public interface IDataModelManager {
 	 */
 	public Collection<IRequirementType> getAllRequirementTypes();
 
-	//	/**
-	//	 * Gets the enumeration type.
-	//	 * 
-	//	 * @param dataModel
-	//	 *        the data model
-	//	 * @param name
-	//	 *        the name
-	//	 * @return the enumeration type
-	//	 */
-	//	public IEnumerationType getEnumerationType(IDataModel dataModel, String name);
-	//
-	//	/**
-	//	 * Gets the enumeration types.
-	//	 * 
-	//	 * @param dataModel
-	//	 *        the data model
-	//	 * @return the enumeration types
-	//	 */
-	//	public Collection<IEnumerationType> getEnumerationTypes(IDataModel dataModel);
-
 	/**
 	 * Gets all enumeration types.
 	 * 
 	 * @return all enumeration types
 	 */
 	public Collection<IEnumerationType> getAllEnumerationTypes();
-
-	//	/**
-	//	 * Gets the scope.
-	//	 * 
-	//	 * @param dataModel
-	//	 *        the data model
-	//	 * @param name
-	//	 *        the name
-	//	 * @return the scope
-	//	 */
-	//	public Scope getScope(IDataModel dataModel, String name);
-
-	//	/**
-	//	 * Gets the scope.
-	//	 * 
-	//	 * @param DataModelName
-	//	 *        the data model name
-	//	 * @param ScopeName
-	//	 *        the scope name
-	//	 * @return the scope
-	//	 */
-	//	public Scope getScope(String DataModelName, String ScopeName);
 
 	/**
 	 * Gets the scopes.
@@ -206,15 +147,6 @@ public interface IDataModelManager {
 	 * @return the scopes with the given name
 	 */
 	public Collection<Scope> getScopes(String name);
-
-	//	/**
-	//	 * Gets the scopes.
-	//	 * 
-	//	 * @param dataModel
-	//	 *        the data model
-	//	 * @return the scopes
-	//	 */
-	//	public Collection<Scope> getScopes(IDataModel dataModel);
 
 	/**
 	 * Gets all scopes.

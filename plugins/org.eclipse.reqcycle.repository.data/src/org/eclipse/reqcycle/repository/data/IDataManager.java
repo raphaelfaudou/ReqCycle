@@ -17,10 +17,25 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.reqcycle.repository.data.types.IAttribute;
+
+import DataModel.Contained;
 import DataModel.RequirementSource;
+import DataModel.Section;
 
 
 public interface IDataManager {
+
+	/**
+	 * Creates a requirement source.
+	 * 
+	 * @param name
+	 *        the requirement source name
+	 * @param connectorId
+	 *        the requirement source connector id
+	 * @return the requirement source
+	 */
+	public RequirementSource createRequirementSource(String name, String connectorId);
 
 	/**
 	 * Adds a newly created repository to repositories list
@@ -36,6 +51,19 @@ public interface IDataManager {
 	 * @param requirementSource
 	 */
 	public void removeRequirementSource(final RequirementSource requirementSource);
+
+	/**
+	 * Creates a section.
+	 * 
+	 * @param id
+	 *        the section id
+	 * @param name
+	 *        the section name
+	 * @param uri
+	 *        the section uri
+	 * @return the section
+	 */
+	public Section createSection(String id, String name, String uri);
 
 	/**
 	 * Gets an existing repository
@@ -79,10 +107,6 @@ public interface IDataManager {
 	 */
 	public void removeRequirementSources(String connectorId);
 
-	public void addListener(IListener listener);
-
-	public void removeListener(IListener listener);
-
 	/**
 	 * Save the Data Model
 	 * 
@@ -99,6 +123,18 @@ public interface IDataManager {
 	 * @param data
 	 *        the data
 	 */
-	public void notifyChanger(String event, Object data);
+	public void notifyChange(String event, Object data);
+
+	/**
+	 * Adds the attribute to a contained element.
+	 * 
+	 * @param contained
+	 *        the contained element
+	 * @param attribute
+	 *        the attribute to add
+	 * @param value
+	 *        the value to set
+	 */
+	public void addAttribute(Contained contained, IAttribute attribute, Object value);
 
 }

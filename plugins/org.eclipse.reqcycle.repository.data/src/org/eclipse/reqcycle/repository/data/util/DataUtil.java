@@ -22,11 +22,11 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.data.IDataManager;
 import org.eclipse.reqcycle.repository.data.types.IAttributeType;
 import org.eclipse.reqcycle.repository.data.types.internal.AttributeTypeImpl;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import DataModel.Contained;
 import DataModel.RequirementSource;
@@ -41,8 +41,11 @@ import com.google.common.collect.Collections2;
 public class DataUtil {
 
 	/** Requirement Source Manager */
-	private @Inject
-	static IDataManager requirementSourceManager = ZigguratInject.make(IDataManager.class);
+	@Inject
+	static IDataManager requirementSourceManager;
+
+	@Inject
+	static ILogger logger;
 
 	public static final IAttributeType BYTE = new AttributeTypeImpl(EcorePackage.Literals.EBYTE.getName().replaceFirst("E", ""), EcorePackage.Literals.EBYTE);
 
@@ -67,7 +70,6 @@ public class DataUtil {
 	public static final IAttributeType BOOLEAN = new AttributeTypeImpl(EcorePackage.Literals.EBOOLEAN.getName().replaceFirst("E", ""), EcorePackage.Literals.EBOOLEAN);
 
 	public static final Collection<IAttributeType> eDataTypes = Arrays.asList(BYTE, STRING, INT, LONG, BIG_DECIMAL, CHAR, FLOAT, DOUBLE, SHORT, BIG_INTEGER, BOOLEAN);
-
 
 	protected static ComposedAdapterFactory cAdapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 
@@ -103,6 +105,7 @@ public class DataUtil {
 		};
 
 	};
+
 
 	public static String getInformation(Contained object) {
 		String result = "";
@@ -183,7 +186,7 @@ public class DataUtil {
 	 * @return
 	 */
 	public static Collection<EClassifier> getTargetEPackage(ResourceSet resourceSet, String modelLocation) {
-		//TODO : check uri creation
+		//FIXME : check uri creation
 		URI uriAttributeModel = URI.createPlatformPluginURI(modelLocation, false);
 		Resource attributeModelResource = resourceSet.getResource(uriAttributeModel, true);
 		EList<EObject> modelContent = attributeModelResource.getContents();

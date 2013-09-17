@@ -68,10 +68,6 @@
             interface="org.eclipse.reqcycle.repository.data.IDataManager">
       </binding>
       <binding
-            impl="org.eclipse.reqcycle.repository.data.impl.RequirementCreatorImpl"
-            interface="org.eclipse.reqcycle.repository.data.IRequirementCreator">
-      </binding>
-      <binding
             impl="org.eclipse.reqcycle.repository.data.impl.DataModelManagerImpl"
             interface="org.eclipse.reqcycle.repository.data.IDataModelManager">
       </binding>

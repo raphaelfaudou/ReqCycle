@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
@@ -30,8 +32,8 @@ import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.reqcycle.core.ILogger;
+import org.eclipse.reqcycle.repository.data.IDataManager;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
-import org.eclipse.reqcycle.repository.data.IRequirementCreator;
 import org.eclipse.reqcycle.repository.data.types.IRequirementType;
 import org.eclipse.reqcycle.repository.data.types.internal.RequirementTypeImpl;
 import org.eclipse.reqcycle.repository.data.util.DataUtil;
@@ -65,9 +67,9 @@ public class RMFUtils {
 
 	static ILogger logger = ZigguratInject.make(ILogger.class);
 
-	static IRequirementCreator creator = ZigguratInject.make(IRequirementCreator.class);
-
 	static IDataModelManager dataTypeManager = ZigguratInject.make(IDataModelManager.class);
+
+	static IDataManager dataManager = ZigguratInject.make(IDataManager.class);
 
 	public static Collection<SpecType> getReqIFTypes(ResourceSet resourceSet, String fileLocation) {
 		URI uriReqIf = URI.createURI(fileLocation, false);
@@ -123,11 +125,8 @@ public class RMFUtils {
 					String name = specification.getDesc();//getName(elementMapping, specification);
 
 					Contained section = null;
-					try {
-						section = creator.createSection(id, name, ReqIF10Util.getSpecType(specification).getIdentifier());
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+					section = dataManager.createSection(id, name, ReqIF10Util.getSpecType(specification).getIdentifier());
+					//						section = creator.createSection(id, name, ReqIF10Util.getSpecType(specification).getIdentifier());
 
 					if(section != null) {
 						requirementSource.getRequirements().add(section);
@@ -170,11 +169,8 @@ public class RMFUtils {
 				}
 
 			} else {
-				try {
-					createdObject = creator.createSection(specHierarchy.getLongName(), specHierarchy.getDesc(), specHierarchy.getIdentifier());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				//					createdObject = creator.createSection(specHierarchy.getLongName(), specHierarchy.getDesc(), specHierarchy.getIdentifier());
+				createdObject = dataManager.createSection(specHierarchy.getLongName(), specHierarchy.getDesc(), specHierarchy.getIdentifier());
 			}
 
 			if(createdObject != null) {
@@ -237,8 +233,8 @@ public class RMFUtils {
 				createdObject.setName(name);
 				createdObject.setUri(id);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+				logger.log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage()));
 			}
 			addAttributes(elementMapping, specElement.getValues(), createdObject);
 		}
@@ -264,11 +260,13 @@ public class RMFUtils {
 						if(targetAttribute.getEAttributeType() instanceof EEnum) {
 
 							EEnumLiteral enumLiteral = ((EEnum)targetAttribute.getEAttributeType()).getEEnumLiteral(name);
-							creator.addAttribute(attributeMapping, element, enumLiteral);
+							element.eSet(attributeMapping.getTargetAttribute(), enumLiteral);
+							//							creator.addAttribute(attributeMapping, element, enumLiteral);
 						}
 					}
 				}
-				creator.addAttribute(attributeMapping, element, ReqIF10Util.getTheValue(attributeValue));
+				element.eSet(attributeMapping.getTargetAttribute(), ReqIF10Util.getTheValue(attributeValue));
+				//				creator.addAttribute(attributeMapping, element, ReqIF10Util.getTheValue(attributeValue));
 			} catch (Exception e) {
 				logger.error("Can't add the attribute " + ReqIF10Util.getAttributeDefinition(attributeValue).getIdentifier() + " to the element " + element.getName());
 			}

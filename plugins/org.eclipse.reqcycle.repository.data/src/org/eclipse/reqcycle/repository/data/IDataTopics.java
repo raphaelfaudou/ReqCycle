@@ -22,16 +22,52 @@ public interface IDataTopics {
 	/** The Constant ALLTOPICS. */
 	public static final String ALLTOPICS = "TOPIC_REQCYCLE_DATA/*"; //$NON-NLS-1$
 
-	/** The Constant NEW Data Element. */
-	public static final String NEW = "TOPIC_REQCYCLE_DATA/NEW"; //$NON-NLS-1$
+	/** The Constant NEW for all new Elements. */
+	public static final String NEW = "TOPIC_REQCYCLE_DATA/NEW/*";
 
-	/** The Constant REMOVE Data Element. */
-	public static final String REMOVE = "TOPIC_REQCYCLE_DATA/REMOVE"; //$NON-NLS-1$
+	/** The Constant NEW_CONTAINED for all new Contained elements. */
+	public static final String NEW_CONTAINED = "TOPIC_REQCYCLE_DATA/NEW/CONTAINED/*"; //$NON-NLS-1$
 
-	/** The Constant UPDATE Data Element. */
-	public static final String UPDATE = "TOPIC_REQCYCLE_DATA/UPDATE"; //$NON-NLS-1$
+	/** The Constant NEW_REQUIREMENT for new Requirements. */
+	public static final String NEW_REQUIREMENT = "TOPIC_REQCYCLE_DATA/NEW/CONTAINED/REQUIREMENT"; //$NON-NLS-1$
 
-	/** The Constant SAVE Data. */
+	/** The Constant NEW_SECTION for new Sections. */
+	public static final String NEW_SECTION = "TOPIC_REQCYCLE_DATA/NEW/CONTAINED/SECTION"; //$NON-NLS-1$
+
+	/** The Constant NEW_SOURCE for new requirement sources. */
+	public static final String NEW_SOURCE = "TOPIC_REQCYCLE_DATA/NEW/SOURCE"; //$NON-NLS-1$
+
+	/** The Constant REMOVE for all element deletion. */
+	public static final String REMOVE = "TOPIC_REQCYCLE_DATA/REMOVE/*"; //$NON-NLS-1$
+
+	/** The Constant REMOVE_CONTAINED for Contained deletion. */
+	public static final String REMOVE_CONTAINED = "TOPIC_REQCYCLE_DATA/REMOVE/CONTAINED/*"; //$NON-NLS-1$
+
+	/** The Constant REMOVE_REQUIREMENT for Requirements deletion. */
+	public static final String REMOVE_REQUIREMENT = "TOPIC_REQCYCLE_DATA/REMOVE/CONTAINED/REQUIREMENT"; //$NON-NLS-1$
+
+	/** The Constant REMOVE_SECTION for Section deletion. */
+	public static final String REMOVE_SECTION = "TOPIC_REQCYCLE_DATA/REMOVE/CONTAINED/SECTION"; //$NON-NLS-1$
+
+	/** The Constant REMOVE_SOURCE for source deletion. */
+	public static final String REMOVE_SOURCE = "TOPIC_REQCYCLE_DATA/REMOVE/SOURCE"; //$NON-NLS-1$
+
+	/** The Constant UPDATE for all updates. */
+	public static final String UPDATE = "TOPIC_REQCYCLE_DATA/UPDATE/*"; //$NON-NLS-1$
+
+	/** The Constant UPDATE_CONTAINED for all Contained updates. */
+	public static final String UPDATE_CONTAINED = "TOPIC_REQCYCLE_DATA/UPDATE/CONTAINED/*";//$NON-NLS-1$
+
+	/** The Constant UPDATE_REQUIREMENT for Requirements updates. */
+	public static final String UPDATE_REQUIREMENT = "TOPIC_REQCYCLE_DATA/UPDATE/CONTAINED/REQUIREMENT"; //$NON-NLS-1$
+
+	/** The Constant UPDATE_SECTION for Sections updates. */
+	public static final String UPDATE_SECTION = "TOPIC_REQCYCLE_DATA/UPDATE/CONTAINED/SECTION"; //$NON-NLS-1$
+
+	/** The Constant UPDATE_SOURCE for sources updates. */
+	public static final String UPDATE_SOURCE = "TOPIC_REQCYCLE_DATA/UPDATE/SOURCE"; //$NON-NLS-1$
+
+	/** The Constant SAVE for date Saving. */
 	public static final String SAVE = "TOPIC_REQCYCLE_DATA/SAVE"; //$NON-NLS-1$
 
 }

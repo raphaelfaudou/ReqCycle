@@ -15,10 +15,8 @@ import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -28,12 +26,11 @@ import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.reqcycle.ocl.utils.OCLUtilities;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
+import org.eclipse.reqcycle.repository.data.IDataManager;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
-import org.eclipse.reqcycle.repository.data.IRequirementCreator;
+import org.eclipse.reqcycle.repository.data.types.IAttribute;
 import org.eclipse.reqcycle.repository.data.types.IDataModel;
 import org.eclipse.reqcycle.repository.data.types.IRequirementType;
-import org.eclipse.reqcycle.repository.data.types.IAttribute;
-import org.eclipse.reqcycle.repository.data.types.internal.AttributeImpl;
 import org.eclipse.reqcycle.repository.data.util.RepositoryConstants;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -42,13 +39,13 @@ import org.eclipse.ziggurat.ocl.ZigguratOCLPlugin;
 
 import DataModel.Contained;
 import DataModel.DataModelFactory;
+import DataModel.RequirementSection;
 import DataModel.RequirementSource;
 import DataModel.Scope;
 import MappingModel.ElementMapping;
 
 import com.google.common.collect.Iterables;
 
-@SuppressWarnings("restriction")
 public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 
 	protected SettingBean bean = new SettingBean();
@@ -56,10 +53,10 @@ public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 	private RequirementSource requirementSource = null;
 
 	@Inject
-	IRequirementCreator creator;
-
-	@Inject
 	IDataModelManager manager;
+	
+	@Inject
+	IDataManager dataManager;
 
 	@Override
 	public void addPages() {
@@ -124,18 +121,13 @@ public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 	protected Contained createRequirement(OCLEvaluator evaluator,
 			Collection<ElementMapping> mappings, EObject eObject,
 			IRequirementType reqType) throws Exception {
-		Contained contained = (Contained) reqType.createInstance();
+		RequirementSection contained = reqType.createInstance();
 		for (IAttribute attribute : Iterables.filter(
 				reqType.getAttributes(), IAttribute.class)) {
 			Object value = OCLUtilities.getAttributeValue(evaluator,
 					eObject, attribute);
-			if (value != null) {
-				if(attribute instanceof IAdaptable) {
-					EAttribute eAttribute = (EAttribute)((IAdaptable)attribute).getAdapter(EAttribute.class);
-					if(eAttribute != null) {
-						creator.addAttribute(contained, eAttribute, value);
-					}
-				}
+			if(value != null) {
+				dataManager.addAttribute(contained, attribute, value);
 			}
 		}
 		return contained;

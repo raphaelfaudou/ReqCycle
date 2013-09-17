@@ -43,8 +43,8 @@ public class AttributeImpl implements IAttribute, IAdaptable {
 	public AttributeImpl(String name, IAttributeType type) {
 
 		EDataType eDataType = null;
-		if(eDataType instanceof IAdaptable) {
-			eDataType = (EDataType)((IAdaptable)eDataType).getAdapter(EDataType.class);
+		if(type instanceof IAdaptable) {
+			eDataType = (EDataType)((IAdaptable)type).getAdapter(EDataType.class);
 		}
 		EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
 		eAttribute.setEType(eDataType);

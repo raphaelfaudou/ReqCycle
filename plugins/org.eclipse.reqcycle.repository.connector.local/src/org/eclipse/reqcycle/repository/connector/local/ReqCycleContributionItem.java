@@ -14,7 +14,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.reqcycle.repository.data.IDataManager;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.IDataTopics;
-import org.eclipse.reqcycle.repository.data.IRequirementCreator;
 import org.eclipse.reqcycle.repository.data.types.IRequirementType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -36,8 +35,6 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.Sets;
 
 public class ReqCycleContributionItem extends CompoundContributionItem {
-
-	IRequirementCreator reqCreator = ZigguratInject.make(IRequirementCreator.class);
 
 	static IDataModelManager dataManager = ZigguratInject.make(IDataModelManager.class);
 
@@ -79,17 +76,25 @@ public class ReqCycleContributionItem extends CompoundContributionItem {
 
 								try {
 
-									Contained element = reqCreator.addObject(arg0, "", "", "");
+									EObject object = arg0.getEPackage().getEFactoryInstance().create(arg0);
+									Contained contained;
+
+									if(object instanceof Contained) {
+										contained = (Contained)object;
+									} else {
+										throw new Exception("Error while creating a " + arg0.getName() + " element.");
+									}
+
 
 									if(selectedElement instanceof RequirementSource) {
-										((RequirementSource)selectedElement).getRequirements().add(element);
+										((RequirementSource)selectedElement).getRequirements().add(contained);
 									}
 
 									if(selectedElement instanceof Section) {
-										((Section)selectedElement).getChildren().add(element);
+										((Section)selectedElement).getChildren().add(contained);
 									}
 
-									reqManager.notifyChanger(IDataTopics.NEW, element);
+									reqManager.notifyChange(IDataTopics.NEW_CONTAINED, contained);
 
 									// FIXME : set element scope
 
@@ -116,11 +121,14 @@ public class ReqCycleContributionItem extends CompoundContributionItem {
 	 *        the selected element
 	 * @return the data e classes
 	 */
-	public static Set<EClass> getDataEClasses(Object selectedElement) {
+	protected Set<EClass> getDataEClasses(Object selectedElement) {
 		if(!(selectedElement instanceof Section || selectedElement instanceof RequirementSource)) {
 			return Sets.newHashSet();
 		}
+
 		Set<EClass> classes = new HashSet<EClass>();
+
+		//Gets Requirement Types EClasses
 		Collection<IRequirementType> dataTypes = dataManager.getAllRequirementTypes();
 		classes.addAll(Collections2.transform(dataTypes, new Function<IRequirementType, EClass>() {
 
@@ -133,8 +141,8 @@ public class ReqCycleContributionItem extends CompoundContributionItem {
 			}
 		}));
 
+		//Add Section EClass
 		classes.add(DataModelPackage.Literals.SECTION);
-		classes.add(DataModelPackage.Literals.REQUIREMENT_SECTION);
 		return classes;
 	}
 

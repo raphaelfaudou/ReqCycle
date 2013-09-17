@@ -19,6 +19,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -29,6 +31,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.connector.ConnectorDescriptor;
@@ -36,7 +39,7 @@ import org.eclipse.reqcycle.repository.connector.IConnector;
 import org.eclipse.reqcycle.repository.connector.IConnectorManager;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
 import org.eclipse.reqcycle.repository.data.IDataManager;
-import org.eclipse.reqcycle.repository.data.IListener;
+import org.eclipse.reqcycle.repository.data.IDataTopics;
 import org.eclipse.reqcycle.repository.ui.Activator;
 import org.eclipse.reqcycle.repository.ui.Messages;
 import org.eclipse.reqcycle.repository.ui.actions.AddRequirementSourceAction;
@@ -64,7 +67,7 @@ import DataModel.RequirementSource;
 /**
  * The view for connected requirement resources
  */
-public class RequirementSourcesView extends ViewPart implements IListener {
+public class RequirementSourcesView extends ViewPart {
 
 	//FIXME : Use manager or local connector to retrieve this ID
 	public final static String LOCAL_CONNECTOR_ID = "org.eclipse.reqcycle.repository.connector.local.connectorCore";
@@ -125,10 +128,10 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 	 * The constructor.
 	 */
 	public RequirementSourcesView() {
-		connectorManager = ZigguratInject.make(IConnectorManager.class);
-		logger = ZigguratInject.make(ILogger.class);
-		requirementSourceManager = ZigguratInject.make(IDataManager.class);
-		requirementSourceManager.addListener(this);
+		//		connectorManager = ZigguratInject.make(IConnectorManager.class);
+		//		logger = ZigguratInject.make(ILogger.class);
+		//		requirementSourceManager = ZigguratInject.make(IDataManager.class);
+		ZigguratInject.inject(this);
 	}
 
 	/**
@@ -210,7 +213,7 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 		try {
 			connector = connectorDescriptor.createConnector();
 		} catch (CoreException e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			logger.log(e.getStatus());
 		}
 		if(connector instanceof IConnectorWizard) {
@@ -271,12 +274,8 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 		manager.add(addRepoAction);
 		manager.add(new Separator());
 		manager.add(deleteRequirementSourceAction);
-		//		manager.add(new Separator());
-		//		manager.add(openRequirementViewAction);
 		manager.add(new Separator());
 		manager.add(synchResourceAction);
-		//		manager.add(new Separator());
-		//		manager.add(openPredicatesEditorAction);
 		manager.add(new Separator());
 		manager.add(openPredicatesViewAction);
 	}
@@ -290,11 +289,8 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 	private void fillContextMenu(IMenuManager manager) {
 		manager.add(addRepoAction);
 		manager.add(deleteRequirementSourceAction);
-		//		manager.add(openRequirementViewAction);
 		manager.add(synchResourceAction);
 		manager.add(editMappingAction);
-		//		manager.add(editRequiementSourceAction);
-		//		manager.add(openPredicatesEditorAction);
 		manager.add(openPredicatesViewAction);
 		manager.add(new Separator());
 		drillDownAdapter.addNavigationActions(manager);
@@ -311,7 +307,6 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 	private void fillLocalToolBar(IToolBarManager manager) {
 		manager.add(addRepoAction);
 		manager.add(deleteRequirementSourceAction);
-		//		manager.add(openRequirementViewAction);
 		manager.add(synchResourceAction);
 		manager.add(refreshViewAction);
 		manager.add(new Separator());
@@ -357,7 +352,7 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 		ZigguratInject.inject(editMappingAction);
 		editMappingAction.setText("Edit Requirement Source");
 		editMappingAction.setToolTipText("Edit Requiement Source");
-		// TODO : add image change mapping
+		// FIXME : add image change mapping
 		//		editMappingAction.setImageDescriptor();
 		editMappingAction.setEnabled(false);
 
@@ -377,16 +372,20 @@ public class RequirementSourcesView extends ViewPart implements IListener {
 
 	@Override
 	public void dispose() {
-		requirementSourceManager.removeListener(this);
 		super.dispose();
 	}
 
-	@Override
-	public void handleChange(Class<?> clazz) {
-		if(clazz.isInstance(requirementSourceManager)) {
-			if(viewer != null) {
-				viewer.refresh();
-			}
+	@Inject
+	@Optional
+	void reactOnElementAddition(@UIEventTopic(IDataTopics.NEW_SOURCE) RequirementSource object) {
+
+		if(object == null) {
+			return;
 		}
-	};
+
+		if(viewer != null) {
+			viewer.refresh();
+			viewer.setSelection(new StructuredSelection(object));
+		}
+	}
 }
