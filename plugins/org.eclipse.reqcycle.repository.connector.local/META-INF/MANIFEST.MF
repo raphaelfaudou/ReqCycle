@@ -19,8 +19,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.reqcycle.repository.connector,
  org.eclipse.ziggurat.inject,
  org.eclipse.ui.workbench,
- org.eclipse.core.expressions
+ org.eclipse.core.expressions,
+ org.eclipse.reqcycle.core
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: DataModel.presentation
 Bundle-ActivationPolicy: lazy
-Import-Package: org.eclipse.reqcycle.core
