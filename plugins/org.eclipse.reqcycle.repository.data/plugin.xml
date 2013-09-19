@@ -10,7 +10,7 @@
       <package
             uri="http://www.eclipse.org/ReqCycle/DataModel"
             class="DataModel.DataModelPackage"
-            genModel="model/DataModel.genmodel"/>
+            genModel="model/RequirementSourceData.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
@@ -27,18 +27,11 @@
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated RequirementSourcesConf -->
+      <!-- @generated RequirementSourceConf -->
       <package
-            uri="http://www.eclipse.org/ReqCycle/RequirementSourcesConf"
-            class="RequirementSourcesConf.RequirementSourcesConfPackage"
-            genModel="model/RequirementSourcesConf.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.extension_parser">
-      <!-- @generated RequirementSourcesConf -->
-      <parser
-            type="requirementsourcesconf"
-            class="RequirementSourcesConf.util.RequirementSourcesConfResourceFactoryImpl"/>
+            uri="http://www.eclipse.org/ReqCycle/RequirementSourceConf"
+            class="RequirementSourceConf.RequirementSourceConfPackage"
+            genModel="model/RequirementSourceConf.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">

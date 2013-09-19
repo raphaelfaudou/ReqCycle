@@ -22,7 +22,7 @@ import org.eclipse.reqcycle.repository.connector.local.editor.util.CustomDataMod
 
 import RequirementSourceData.RequirementSource;
 import RequirementSourceData.presentation.RequirementSourceDataActionBarContributor;
-import RequirementSourcesConf.RequirementSources;
+import RequirementSourceConf.RequirementSources;
 
 
 /**

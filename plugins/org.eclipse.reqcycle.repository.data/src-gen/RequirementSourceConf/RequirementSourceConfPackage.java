@@ -1,6 +1,6 @@
 /**
  */
-package RequirementSourcesConf;
+package RequirementSourceConf;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -18,18 +18,18 @@ import org.eclipse.emf.ecore.EReference;
  *   <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
- * @see RequirementSourcesConf.RequirementSourcesConfFactory
+ * @see RequirementSourceConf.RequirementSourceConfFactory
  * @model kind="package"
  * @generated
  */
-public interface RequirementSourcesConfPackage extends EPackage {
+public interface RequirementSourceConfPackage extends EPackage {
 	/**
 	 * The package name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNAME = "RequirementSourcesConf";
+	String eNAME = "RequirementSourceConf";
 
 	/**
 	 * The package namespace URI.
@@ -37,7 +37,7 @@ public interface RequirementSourcesConfPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://www.eclipse.org/ReqCycle/RequirementSourcesConf";
+	String eNS_URI = "http://www.eclipse.org/ReqCycle/RequirementSourceConf";
 
 	/**
 	 * The package namespace name.
@@ -45,7 +45,7 @@ public interface RequirementSourcesConfPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_PREFIX = "RequirementSourcesConf";
+	String eNS_PREFIX = "RequirementSourceConf";
 
 	/**
 	 * The singleton instance of the package.
@@ -53,14 +53,14 @@ public interface RequirementSourcesConfPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	RequirementSourcesConfPackage eINSTANCE = RequirementSourcesConf.impl.RequirementSourcesConfPackageImpl.init();
+	RequirementSourceConfPackage eINSTANCE = RequirementSourceConf.impl.RequirementSourceConfPackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link RequirementSourcesConf.impl.RequirementSourcesImpl <em>Requirement Sources</em>}' class.
+	 * The meta object id for the '{@link RequirementSourceConf.impl.RequirementSourcesImpl <em>Requirement Sources</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see RequirementSourcesConf.impl.RequirementSourcesImpl
-	 * @see RequirementSourcesConf.impl.RequirementSourcesConfPackageImpl#getRequirementSources()
+	 * @see RequirementSourceConf.impl.RequirementSourcesImpl
+	 * @see RequirementSourceConf.impl.RequirementSourceConfPackageImpl#getRequirementSources()
 	 * @generated
 	 */
 	int REQUIREMENT_SOURCES = 0;
@@ -94,21 +94,21 @@ public interface RequirementSourcesConfPackage extends EPackage {
 
 
 	/**
-	 * Returns the meta object for class '{@link RequirementSourcesConf.RequirementSources <em>Requirement Sources</em>}'.
+	 * Returns the meta object for class '{@link RequirementSourceConf.RequirementSources <em>Requirement Sources</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Requirement Sources</em>'.
-	 * @see RequirementSourcesConf.RequirementSources
+	 * @see RequirementSourceConf.RequirementSources
 	 * @generated
 	 */
 	EClass getRequirementSources();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link RequirementSourcesConf.RequirementSources#getRequirementSources <em>Requirement Sources</em>}'.
+	 * Returns the meta object for the containment reference list '{@link RequirementSourceConf.RequirementSources#getRequirementSources <em>Requirement Sources</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Requirement Sources</em>'.
-	 * @see RequirementSourcesConf.RequirementSources#getRequirementSources()
+	 * @see RequirementSourceConf.RequirementSources#getRequirementSources()
 	 * @see #getRequirementSources()
 	 * @generated
 	 */
@@ -121,7 +121,7 @@ public interface RequirementSourcesConfPackage extends EPackage {
 	 * @return the factory that creates the instances of the model.
 	 * @generated
 	 */
-	RequirementSourcesConfFactory getRequirementSourcesConfFactory();
+	RequirementSourceConfFactory getRequirementSourceConfFactory();
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -138,11 +138,11 @@ public interface RequirementSourcesConfPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link RequirementSourcesConf.impl.RequirementSourcesImpl <em>Requirement Sources</em>}' class.
+		 * The meta object literal for the '{@link RequirementSourceConf.impl.RequirementSourcesImpl <em>Requirement Sources</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see RequirementSourcesConf.impl.RequirementSourcesImpl
-		 * @see RequirementSourcesConf.impl.RequirementSourcesConfPackageImpl#getRequirementSources()
+		 * @see RequirementSourceConf.impl.RequirementSourcesImpl
+		 * @see RequirementSourceConf.impl.RequirementSourceConfPackageImpl#getRequirementSources()
 		 * @generated
 		 */
 		EClass REQUIREMENT_SOURCES = eINSTANCE.getRequirementSources();
@@ -157,4 +157,4 @@ public interface RequirementSourcesConfPackage extends EPackage {
 
 	}
 
-} //RequirementSourcesConfPackage
+} //RequirementSourceConfPackage

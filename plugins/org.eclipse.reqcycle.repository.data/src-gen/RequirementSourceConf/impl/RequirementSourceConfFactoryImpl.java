@@ -1,16 +1,15 @@
 /**
  */
-package RequirementSourcesConf.impl;
+package RequirementSourceConf.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import RequirementSourcesConf.RequirementSources;
-import RequirementSourcesConf.RequirementSourcesConfFactory;
-import RequirementSourcesConf.RequirementSourcesConfPackage;
+import RequirementSourceConf.RequirementSources;
+import RequirementSourceConf.RequirementSourceConfFactory;
+import RequirementSourceConf.RequirementSourceConfPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -18,24 +17,24 @@ import RequirementSourcesConf.RequirementSourcesConfPackage;
  * <!-- end-user-doc -->
  * @generated
  */
-public class RequirementSourcesConfFactoryImpl extends EFactoryImpl implements RequirementSourcesConfFactory {
+public class RequirementSourceConfFactoryImpl extends EFactoryImpl implements RequirementSourceConfFactory {
 	/**
 	 * Creates the default factory implementation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static RequirementSourcesConfFactory init() {
+	public static RequirementSourceConfFactory init() {
 		try {
-			RequirementSourcesConfFactory theRequirementSourcesConfFactory = (RequirementSourcesConfFactory)EPackage.Registry.INSTANCE.getEFactory(RequirementSourcesConfPackage.eNS_URI);
-			if (theRequirementSourcesConfFactory != null) {
-				return theRequirementSourcesConfFactory;
+			RequirementSourceConfFactory theRequirementSourceConfFactory = (RequirementSourceConfFactory)EPackage.Registry.INSTANCE.getEFactory(RequirementSourceConfPackage.eNS_URI);
+			if (theRequirementSourceConfFactory != null) {
+				return theRequirementSourceConfFactory;
 			}
 		}
 		catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
-		return new RequirementSourcesConfFactoryImpl();
+		return new RequirementSourceConfFactoryImpl();
 	}
 
 	/**
@@ -44,7 +43,7 @@ public class RequirementSourcesConfFactoryImpl extends EFactoryImpl implements R
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RequirementSourcesConfFactoryImpl() {
+	public RequirementSourceConfFactoryImpl() {
 		super();
 	}
 
@@ -56,7 +55,7 @@ public class RequirementSourcesConfFactoryImpl extends EFactoryImpl implements R
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case RequirementSourcesConfPackage.REQUIREMENT_SOURCES: return createRequirementSources();
+			case RequirementSourceConfPackage.REQUIREMENT_SOURCES: return createRequirementSources();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -77,8 +76,8 @@ public class RequirementSourcesConfFactoryImpl extends EFactoryImpl implements R
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RequirementSourcesConfPackage getRequirementSourcesConfPackage() {
-		return (RequirementSourcesConfPackage)getEPackage();
+	public RequirementSourceConfPackage getRequirementSourceConfPackage() {
+		return (RequirementSourceConfPackage)getEPackage();
 	}
 
 	/**
@@ -88,8 +87,8 @@ public class RequirementSourcesConfFactoryImpl extends EFactoryImpl implements R
 	 * @generated
 	 */
 	@Deprecated
-	public static RequirementSourcesConfPackage getPackage() {
-		return RequirementSourcesConfPackage.eINSTANCE;
+	public static RequirementSourceConfPackage getPackage() {
+		return RequirementSourceConfPackage.eINSTANCE;
 	}
 
-} //RequirementSourcesConfFactoryImpl
+} //RequirementSourceConfFactoryImpl

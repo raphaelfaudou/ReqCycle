@@ -1,13 +1,12 @@
 /**
  */
-package RequirementSourcesConf.util;
+package RequirementSourceConf.util;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
-
-import RequirementSourcesConf.RequirementSources;
-import RequirementSourcesConf.RequirementSourcesConfPackage;
+import RequirementSourceConf.RequirementSources;
+import RequirementSourceConf.RequirementSourceConfPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,17 +18,17 @@ import RequirementSourcesConf.RequirementSourcesConfPackage;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see RequirementSourcesConf.RequirementSourcesConfPackage
+ * @see RequirementSourceConf.RequirementSourceConfPackage
  * @generated
  */
-public class RequirementSourcesConfSwitch<T> extends Switch<T> {
+public class RequirementSourceConfSwitch<T> extends Switch<T> {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static RequirementSourcesConfPackage modelPackage;
+	protected static RequirementSourceConfPackage modelPackage;
 
 	/**
 	 * Creates an instance of the switch.
@@ -37,9 +36,9 @@ public class RequirementSourcesConfSwitch<T> extends Switch<T> {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RequirementSourcesConfSwitch() {
+	public RequirementSourceConfSwitch() {
 		if (modelPackage == null) {
-			modelPackage = RequirementSourcesConfPackage.eINSTANCE;
+			modelPackage = RequirementSourceConfPackage.eINSTANCE;
 		}
 	}
 
@@ -66,7 +65,7 @@ public class RequirementSourcesConfSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case RequirementSourcesConfPackage.REQUIREMENT_SOURCES: {
+			case RequirementSourceConfPackage.REQUIREMENT_SOURCES: {
 				RequirementSources requirementSources = (RequirementSources)theEObject;
 				T result = caseRequirementSources(requirementSources);
 				if (result == null) result = defaultCase(theEObject);
@@ -107,4 +106,4 @@ public class RequirementSourcesConfSwitch<T> extends Switch<T> {
 		return null;
 	}
 
-} //RequirementSourcesConfSwitch
+} //RequirementSourceConfSwitch

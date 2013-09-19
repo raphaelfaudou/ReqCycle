@@ -45,8 +45,8 @@ import RequirementSourceData.AbstractElement;
 import RequirementSourceData.RequirementSource;
 import RequirementSourceData.RequirementSourceDataFactory;
 import RequirementSourceData.Section;
-import RequirementSourcesConf.RequirementSources;
-import RequirementSourcesConf.RequirementSourcesConfFactory;
+import RequirementSourceConf.RequirementSources;
+import RequirementSourceConf.RequirementSourceConfFactory;
 
 @Singleton
 public class DataManagerImpl implements IDataManager {
@@ -100,7 +100,7 @@ public class DataManagerImpl implements IDataManager {
 				}
 			}
 		} else {
-			sources = RequirementSourcesConfFactory.eINSTANCE.createRequirementSources();
+			sources = RequirementSourceConfFactory.eINSTANCE.createRequirementSources();
 		}
 	}
 

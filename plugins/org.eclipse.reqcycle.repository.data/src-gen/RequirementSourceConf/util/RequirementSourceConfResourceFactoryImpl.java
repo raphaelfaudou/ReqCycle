@@ -1,6 +1,6 @@
 /**
  */
-package RequirementSourcesConf.util;
+package RequirementSourceConf.util;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -10,17 +10,17 @@ import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
  * <!-- begin-user-doc -->
  * The <b>Resource Factory</b> associated with the package.
  * <!-- end-user-doc -->
- * @see RequirementSourcesConf.util.RequirementSourcesConfResourceImpl
+ * @see RequirementSourceConf.util.RequirementSourceConfResourceImpl
  * @generated
  */
-public class RequirementSourcesConfResourceFactoryImpl extends ResourceFactoryImpl {
+public class RequirementSourceConfResourceFactoryImpl extends ResourceFactoryImpl {
 	/**
 	 * Creates an instance of the resource factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RequirementSourcesConfResourceFactoryImpl() {
+	public RequirementSourceConfResourceFactoryImpl() {
 		super();
 	}
 
@@ -32,8 +32,8 @@ public class RequirementSourcesConfResourceFactoryImpl extends ResourceFactoryIm
 	 */
 	@Override
 	public Resource createResource(URI uri) {
-		Resource result = new RequirementSourcesConfResourceImpl(uri);
+		Resource result = new RequirementSourceConfResourceImpl(uri);
 		return result;
 	}
 
-} //RequirementSourcesConfResourceFactoryImpl
+} //RequirementSourceConfResourceFactoryImpl

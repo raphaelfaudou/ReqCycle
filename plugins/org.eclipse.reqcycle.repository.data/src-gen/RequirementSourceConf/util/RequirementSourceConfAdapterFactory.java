@@ -1,31 +1,30 @@
 /**
  */
-package RequirementSourcesConf.util;
+package RequirementSourceConf.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-
-import RequirementSourcesConf.RequirementSources;
-import RequirementSourcesConf.RequirementSourcesConfPackage;
+import RequirementSourceConf.RequirementSources;
+import RequirementSourceConf.RequirementSourceConfPackage;
 
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see RequirementSourcesConf.RequirementSourcesConfPackage
+ * @see RequirementSourceConf.RequirementSourceConfPackage
  * @generated
  */
-public class RequirementSourcesConfAdapterFactory extends AdapterFactoryImpl {
+public class RequirementSourceConfAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * The cached model package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static RequirementSourcesConfPackage modelPackage;
+	protected static RequirementSourceConfPackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
@@ -33,9 +32,9 @@ public class RequirementSourcesConfAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RequirementSourcesConfAdapterFactory() {
+	public RequirementSourceConfAdapterFactory() {
 		if (modelPackage == null) {
-			modelPackage = RequirementSourcesConfPackage.eINSTANCE;
+			modelPackage = RequirementSourceConfPackage.eINSTANCE;
 		}
 	}
 
@@ -64,8 +63,8 @@ public class RequirementSourcesConfAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected RequirementSourcesConfSwitch<Adapter> modelSwitch =
-		new RequirementSourcesConfSwitch<Adapter>() {
+	protected RequirementSourceConfSwitch<Adapter> modelSwitch =
+		new RequirementSourceConfSwitch<Adapter>() {
 			@Override
 			public Adapter caseRequirementSources(RequirementSources object) {
 				return createRequirementSourcesAdapter();
@@ -91,13 +90,13 @@ public class RequirementSourcesConfAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link RequirementSourcesConf.RequirementSources <em>Requirement Sources</em>}'.
+	 * Creates a new adapter for an object of class '{@link RequirementSourceConf.RequirementSources <em>Requirement Sources</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see RequirementSourcesConf.RequirementSources
+	 * @see RequirementSourceConf.RequirementSources
 	 * @generated
 	 */
 	public Adapter createRequirementSourcesAdapter() {
@@ -116,4 +115,4 @@ public class RequirementSourcesConfAdapterFactory extends AdapterFactoryImpl {
 		return null;
 	}
 
-} //RequirementSourcesConfAdapterFactory
+} //RequirementSourceConfAdapterFactory
