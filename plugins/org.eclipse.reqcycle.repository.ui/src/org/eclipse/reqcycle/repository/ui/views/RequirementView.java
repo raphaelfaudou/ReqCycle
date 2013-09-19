@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -25,6 +26,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.IPostSelectionProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -128,7 +130,7 @@ public class RequirementView extends ViewPart implements Listener {
 		int dndOperations = DND.DROP_COPY | DND.DROP_MOVE;
 
 		Transfer[] transfers;
-		transfers = new Transfer[]{ PluginTransfer.getInstance() };
+		transfers = new Transfer[]{ LocalSelectionTransfer.getTransfer() , PluginTransfer.getInstance() };
 
 		DragRequirementSourceAdapter listener = new DragRequirementSourceAdapter(getViewer());
 		ZigguratInject.inject(listener);

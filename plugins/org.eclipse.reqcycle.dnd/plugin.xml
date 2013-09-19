@@ -8,5 +8,41 @@
             id="org.eclipse.reqcycle.dnd.DropRequirementDelegate">
       </action>
    </extension>
+   <extension
+         point="org.eclipse.papyrus.infra.gmfdiag.dnd.dropStrategy">
+      <strategy
+            strategy="org.eclipse.reqcycle.dnd.ReqCycleDropStrategy">
+      </strategy>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+      <dragAssistant
+            class="org.eclipse.reqcycle.dnd.ReqcycleDragAdapterAssistant"
+            viewerId="org.eclipse.papyrus.views.modelexplorer.modelexplorer">
+      </dragAssistant>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent
+            activeByDefault="false"
+            id="org.eclipse.papyrus.views.modelexplorer.reqCyclenavigatorContent"
+            name="ReqCycle Model Explorer Drop Assistant"
+            priority="low">
+         <dropAssistant
+               class="org.eclipse.reqcycle.dnd.ReqCycleToMEDropAdapterAssistant"
+               id="org.eclipse.reqcycle.dnd.ReqCycleDropAdapterAssistant">
+            <possibleDropTargets>
+               <or>
+                  <instanceof
+                        value="org.eclipse.gmf.runtime.notation.impl.DiagramImpl">
+                  </instanceof>
+                  <adapt
+                        type="org.eclipse.emf.ecore.EObject">
+                  </adapt>
+               </or>
+            </possibleDropTargets>
+         </dropAssistant>
+      </navigatorContent>
+   </extension>
 
 </plugin>

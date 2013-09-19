@@ -11,7 +11,12 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.reqcycle.traceability.types,
  org.eclipse.reqcycle.commands,
  org.eclipse.emf.workspace;bundle-version="1.5.1",
- org.eclipse.ziggurat.inject
+ org.eclipse.ziggurat.inject,
+ org.eclipse.papyrus.infra.gmfdiag.dnd,
+ org.eclipse.papyrus.infra.gmfdiag.dnd,
+ org.eclipse.gef,
+ org.eclipse.emf.edit.ui,
+ org.eclipse.ui.navigator
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Import-Package: javax.annotation;version="1.0.0",
