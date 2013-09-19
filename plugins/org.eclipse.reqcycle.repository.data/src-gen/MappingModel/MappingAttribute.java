@@ -7,23 +7,23 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Attribute Mapping</b></em>'.
+ * A representation of the model object '<em><b>Mapping Attribute</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link MappingModel.AttributeMapping#getTargetAttribute <em>Target Attribute</em>}</li>
- *   <li>{@link MappingModel.AttributeMapping#getDescription <em>Description</em>}</li>
- *   <li>{@link MappingModel.AttributeMapping#getSourceId <em>Source Id</em>}</li>
+ *   <li>{@link MappingModel.MappingAttribute#getTargetAttribute <em>Target Attribute</em>}</li>
+ *   <li>{@link MappingModel.MappingAttribute#getDescription <em>Description</em>}</li>
+ *   <li>{@link MappingModel.MappingAttribute#getSourceId <em>Source Id</em>}</li>
  * </ul>
  * </p>
  *
- * @see MappingModel.MappingModelPackage#getAttributeMapping()
+ * @see MappingModel.MappingModelPackage#getMappingAttribute()
  * @model
  * @generated
  */
-public interface AttributeMapping extends EObject {
+public interface MappingAttribute extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Target Attribute</b></em>' reference.
 	 * <!-- begin-user-doc -->
@@ -34,14 +34,14 @@ public interface AttributeMapping extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Target Attribute</em>' reference.
 	 * @see #setTargetAttribute(EAttribute)
-	 * @see MappingModel.MappingModelPackage#getAttributeMapping_TargetAttribute()
+	 * @see MappingModel.MappingModelPackage#getMappingAttribute_TargetAttribute()
 	 * @model required="true"
 	 * @generated
 	 */
 	EAttribute getTargetAttribute();
 
 	/**
-	 * Sets the value of the '{@link MappingModel.AttributeMapping#getTargetAttribute <em>Target Attribute</em>}' reference.
+	 * Sets the value of the '{@link MappingModel.MappingAttribute#getTargetAttribute <em>Target Attribute</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Target Attribute</em>' reference.
@@ -60,14 +60,14 @@ public interface AttributeMapping extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Description</em>' attribute.
 	 * @see #setDescription(String)
-	 * @see MappingModel.MappingModelPackage#getAttributeMapping_Description()
+	 * @see MappingModel.MappingModelPackage#getMappingAttribute_Description()
 	 * @model
 	 * @generated
 	 */
 	String getDescription();
 
 	/**
-	 * Sets the value of the '{@link MappingModel.AttributeMapping#getDescription <em>Description</em>}' attribute.
+	 * Sets the value of the '{@link MappingModel.MappingAttribute#getDescription <em>Description</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Description</em>' attribute.
@@ -86,14 +86,14 @@ public interface AttributeMapping extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Source Id</em>' attribute.
 	 * @see #setSourceId(String)
-	 * @see MappingModel.MappingModelPackage#getAttributeMapping_SourceId()
+	 * @see MappingModel.MappingModelPackage#getMappingAttribute_SourceId()
 	 * @model
 	 * @generated
 	 */
 	String getSourceId();
 
 	/**
-	 * Sets the value of the '{@link MappingModel.AttributeMapping#getSourceId <em>Source Id</em>}' attribute.
+	 * Sets the value of the '{@link MappingModel.MappingAttribute#getSourceId <em>Source Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Source Id</em>' attribute.
@@ -102,4 +102,4 @@ public interface AttributeMapping extends EObject {
 	 */
 	void setSourceId(String value);
 
-} // AttributeMapping
+} // MappingAttribute

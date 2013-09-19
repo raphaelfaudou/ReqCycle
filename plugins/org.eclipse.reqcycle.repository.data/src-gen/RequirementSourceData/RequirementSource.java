@@ -10,7 +10,7 @@ import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
-import MappingModel.ElementMapping;
+import MappingModel.MappingElement;
 
 /**
  * <!-- begin-user-doc -->
@@ -137,7 +137,7 @@ public interface RequirementSource extends EObject {
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<ElementMapping> getMappings();
+	EList<MappingElement> getMappings();
 
 	public void setProperty(String property, String newValue) throws Exception;
 

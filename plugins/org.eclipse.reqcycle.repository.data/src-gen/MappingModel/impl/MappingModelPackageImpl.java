@@ -8,9 +8,8 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
-import MappingModel.AttributeMapping;
-import MappingModel.ElementMapping;
+import MappingModel.MappingAttribute;
+import MappingModel.MappingElement;
 import MappingModel.MappingModelFactory;
 import MappingModel.MappingModelPackage;
 
@@ -26,14 +25,14 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass elementMappingEClass = null;
+	private EClass mappingElementEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass attributeMappingEClass = null;
+	private EClass mappingAttributeEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -104,8 +103,8 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getElementMapping() {
-		return elementMappingEClass;
+	public EClass getMappingElement() {
+		return mappingElementEClass;
 	}
 
 	/**
@@ -113,8 +112,8 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getElementMapping_Description() {
-		return (EAttribute)elementMappingEClass.getEStructuralFeatures().get(0);
+	public EAttribute getMappingElement_Description() {
+		return (EAttribute)mappingElementEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -122,8 +121,8 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getElementMapping_TargetElement() {
-		return (EReference)elementMappingEClass.getEStructuralFeatures().get(1);
+	public EReference getMappingElement_TargetElement() {
+		return (EReference)mappingElementEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -131,8 +130,8 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getElementMapping_Attributes() {
-		return (EReference)elementMappingEClass.getEStructuralFeatures().get(2);
+	public EReference getMappingElement_Attributes() {
+		return (EReference)mappingElementEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -140,8 +139,8 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getElementMapping_SourceQualifier() {
-		return (EAttribute)elementMappingEClass.getEStructuralFeatures().get(3);
+	public EAttribute getMappingElement_SourceQualifier() {
+		return (EAttribute)mappingElementEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -149,8 +148,8 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getAttributeMapping() {
-		return attributeMappingEClass;
+	public EClass getMappingAttribute() {
+		return mappingAttributeEClass;
 	}
 
 	/**
@@ -158,8 +157,8 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAttributeMapping_TargetAttribute() {
-		return (EReference)attributeMappingEClass.getEStructuralFeatures().get(0);
+	public EReference getMappingAttribute_TargetAttribute() {
+		return (EReference)mappingAttributeEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -167,8 +166,8 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getAttributeMapping_Description() {
-		return (EAttribute)attributeMappingEClass.getEStructuralFeatures().get(1);
+	public EAttribute getMappingAttribute_Description() {
+		return (EAttribute)mappingAttributeEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -176,8 +175,8 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getAttributeMapping_SourceId() {
-		return (EAttribute)attributeMappingEClass.getEStructuralFeatures().get(2);
+	public EAttribute getMappingAttribute_SourceId() {
+		return (EAttribute)mappingAttributeEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -208,16 +207,16 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 		isCreated = true;
 
 		// Create classes and their features
-		elementMappingEClass = createEClass(ELEMENT_MAPPING);
-		createEAttribute(elementMappingEClass, ELEMENT_MAPPING__DESCRIPTION);
-		createEReference(elementMappingEClass, ELEMENT_MAPPING__TARGET_ELEMENT);
-		createEReference(elementMappingEClass, ELEMENT_MAPPING__ATTRIBUTES);
-		createEAttribute(elementMappingEClass, ELEMENT_MAPPING__SOURCE_QUALIFIER);
+		mappingElementEClass = createEClass(MAPPING_ELEMENT);
+		createEAttribute(mappingElementEClass, MAPPING_ELEMENT__DESCRIPTION);
+		createEReference(mappingElementEClass, MAPPING_ELEMENT__TARGET_ELEMENT);
+		createEReference(mappingElementEClass, MAPPING_ELEMENT__ATTRIBUTES);
+		createEAttribute(mappingElementEClass, MAPPING_ELEMENT__SOURCE_QUALIFIER);
 
-		attributeMappingEClass = createEClass(ATTRIBUTE_MAPPING);
-		createEReference(attributeMappingEClass, ATTRIBUTE_MAPPING__TARGET_ATTRIBUTE);
-		createEAttribute(attributeMappingEClass, ATTRIBUTE_MAPPING__DESCRIPTION);
-		createEAttribute(attributeMappingEClass, ATTRIBUTE_MAPPING__SOURCE_ID);
+		mappingAttributeEClass = createEClass(MAPPING_ATTRIBUTE);
+		createEReference(mappingAttributeEClass, MAPPING_ATTRIBUTE__TARGET_ATTRIBUTE);
+		createEAttribute(mappingAttributeEClass, MAPPING_ATTRIBUTE__DESCRIPTION);
+		createEAttribute(mappingAttributeEClass, MAPPING_ATTRIBUTE__SOURCE_ID);
 	}
 
 	/**
@@ -253,16 +252,16 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 		// Add supertypes to classes
 
 		// Initialize classes, features, and operations; add parameters
-		initEClass(elementMappingEClass, ElementMapping.class, "ElementMapping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getElementMapping_Description(), ecorePackage.getEString(), "description", null, 0, 1, ElementMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getElementMapping_TargetElement(), theEcorePackage.getEClass(), null, "targetElement", null, 1, 1, ElementMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getElementMapping_Attributes(), this.getAttributeMapping(), null, "attributes", null, 0, -1, ElementMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getElementMapping_SourceQualifier(), theEcorePackage.getEString(), "sourceQualifier", null, 0, 1, ElementMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(mappingElementEClass, MappingElement.class, "MappingElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getMappingElement_Description(), ecorePackage.getEString(), "description", null, 0, 1, MappingElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMappingElement_TargetElement(), theEcorePackage.getEClass(), null, "targetElement", null, 1, 1, MappingElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMappingElement_Attributes(), this.getMappingAttribute(), null, "attributes", null, 0, -1, MappingElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMappingElement_SourceQualifier(), theEcorePackage.getEString(), "sourceQualifier", null, 0, 1, MappingElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(attributeMappingEClass, AttributeMapping.class, "AttributeMapping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getAttributeMapping_TargetAttribute(), theEcorePackage.getEAttribute(), null, "targetAttribute", null, 1, 1, AttributeMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getAttributeMapping_Description(), theEcorePackage.getEString(), "description", null, 0, 1, AttributeMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getAttributeMapping_SourceId(), theEcorePackage.getEString(), "sourceId", null, 0, 1, AttributeMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(mappingAttributeEClass, MappingAttribute.class, "MappingAttribute", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMappingAttribute_TargetAttribute(), theEcorePackage.getEAttribute(), null, "targetAttribute", null, 1, 1, MappingAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMappingAttribute_Description(), theEcorePackage.getEString(), "description", null, 0, 1, MappingAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMappingAttribute_SourceId(), theEcorePackage.getEString(), "sourceId", null, 0, 1, MappingAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

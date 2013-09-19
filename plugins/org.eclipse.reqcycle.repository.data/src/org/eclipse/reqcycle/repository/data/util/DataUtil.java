@@ -28,8 +28,8 @@ import org.eclipse.reqcycle.repository.data.types.IAttributeType;
 import org.eclipse.reqcycle.repository.data.types.internal.AttributeTypeImpl;
 import org.eclipse.swt.graphics.Image;
 
-import MappingModel.AttributeMapping;
-import MappingModel.ElementMapping;
+import MappingModel.MappingAttribute;
+import MappingModel.MappingElement;
 import RequirementSourceData.AbstractElement;
 import RequirementSourceData.RequirementSource;
 import RequirementSourceData.Scope;
@@ -134,16 +134,16 @@ public class DataUtil {
 	}
 
 	/**
-	 * Retrieves attribute mapping by his ID from an element mapping
+	 * Retrieves attribute mapping by his ID from an element mapping.
 	 * 
-	 * @param elementMapping
-	 *        the element mapping
+	 * @param mappingElement
+	 *        the mapping element
 	 * @param id
 	 *        the attribute mapping ID
 	 * @return the attribute mapping found or null
 	 */
-	public static AttributeMapping getAttributeMapping(ElementMapping elementMapping, String id) {
-		for(AttributeMapping attribute : elementMapping.getAttributes()) {
+	public static MappingAttribute getAttributeMapping(MappingElement mappingElement, String id) {
+		for(MappingAttribute attribute : mappingElement.getAttributes()) {
 			if(id.equals(attribute.getSourceId())) {
 				return attribute;
 			}
@@ -152,7 +152,7 @@ public class DataUtil {
 	}
 
 	/**
-	 * Retrieves element mapping from a mapping by his qualifier
+	 * Retrieves element mapping from a mapping by his qualifier.
 	 * 
 	 * @param mapping
 	 *        the mapping
@@ -160,10 +160,10 @@ public class DataUtil {
 	 *        the source element qualifier
 	 * @return the element mapping found or null
 	 */
-	public static ElementMapping getElementMapping(Collection<ElementMapping> mapping, String qualifier) {
-		for(ElementMapping elementMapping : mapping) {
-			if(qualifier.equals(elementMapping.getSourceQualifier())) {
-				return elementMapping;
+	public static MappingElement getElementMapping(Collection<MappingElement> mapping, String qualifier) {
+		for(MappingElement mappingElement : mapping) {
+			if(qualifier.equals(mappingElement.getSourceQualifier())) {
+				return mappingElement;
 			}
 		}
 		return null;

@@ -2,32 +2,34 @@
  */
 package MappingModel.impl;
 
+import MappingModel.MappingAttribute;
+import MappingModel.MappingModelPackage;
+
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
-import MappingModel.AttributeMapping;
-import MappingModel.MappingModelPackage;
-
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Attribute Mapping</b></em>'.
+ * An implementation of the model object '<em><b>Mapping Attribute</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link MappingModel.impl.AttributeMappingImpl#getTargetAttribute <em>Target Attribute</em>}</li>
- *   <li>{@link MappingModel.impl.AttributeMappingImpl#getDescription <em>Description</em>}</li>
- *   <li>{@link MappingModel.impl.AttributeMappingImpl#getSourceId <em>Source Id</em>}</li>
+ *   <li>{@link MappingModel.impl.MappingAttributeImpl#getTargetAttribute <em>Target Attribute</em>}</li>
+ *   <li>{@link MappingModel.impl.MappingAttributeImpl#getDescription <em>Description</em>}</li>
+ *   <li>{@link MappingModel.impl.MappingAttributeImpl#getSourceId <em>Source Id</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class AttributeMappingImpl extends MinimalEObjectImpl.Container implements AttributeMapping {
+public class MappingAttributeImpl extends MinimalEObjectImpl.Container implements MappingAttribute {
 	/**
 	 * The cached value of the '{@link #getTargetAttribute() <em>Target Attribute</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -83,7 +85,7 @@ public class AttributeMappingImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected AttributeMappingImpl() {
+	protected MappingAttributeImpl() {
 		super();
 	}
 
@@ -94,7 +96,7 @@ public class AttributeMappingImpl extends MinimalEObjectImpl.Container implement
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return MappingModelPackage.Literals.ATTRIBUTE_MAPPING;
+		return MappingModelPackage.Literals.MAPPING_ATTRIBUTE;
 	}
 
 	/**
@@ -108,7 +110,7 @@ public class AttributeMappingImpl extends MinimalEObjectImpl.Container implement
 			targetAttribute = (EAttribute)eResolveProxy(oldTargetAttribute);
 			if (targetAttribute != oldTargetAttribute) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MappingModelPackage.ATTRIBUTE_MAPPING__TARGET_ATTRIBUTE, oldTargetAttribute, targetAttribute));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MappingModelPackage.MAPPING_ATTRIBUTE__TARGET_ATTRIBUTE, oldTargetAttribute, targetAttribute));
 			}
 		}
 		return targetAttribute;
@@ -132,7 +134,7 @@ public class AttributeMappingImpl extends MinimalEObjectImpl.Container implement
 		EAttribute oldTargetAttribute = targetAttribute;
 		targetAttribute = newTargetAttribute;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MappingModelPackage.ATTRIBUTE_MAPPING__TARGET_ATTRIBUTE, oldTargetAttribute, targetAttribute));
+			eNotify(new ENotificationImpl(this, Notification.SET, MappingModelPackage.MAPPING_ATTRIBUTE__TARGET_ATTRIBUTE, oldTargetAttribute, targetAttribute));
 	}
 
 	/**
@@ -153,7 +155,7 @@ public class AttributeMappingImpl extends MinimalEObjectImpl.Container implement
 		String oldDescription = description;
 		description = newDescription;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MappingModelPackage.ATTRIBUTE_MAPPING__DESCRIPTION, oldDescription, description));
+			eNotify(new ENotificationImpl(this, Notification.SET, MappingModelPackage.MAPPING_ATTRIBUTE__DESCRIPTION, oldDescription, description));
 	}
 
 	/**
@@ -174,7 +176,7 @@ public class AttributeMappingImpl extends MinimalEObjectImpl.Container implement
 		String oldSourceId = sourceId;
 		sourceId = newSourceId;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MappingModelPackage.ATTRIBUTE_MAPPING__SOURCE_ID, oldSourceId, sourceId));
+			eNotify(new ENotificationImpl(this, Notification.SET, MappingModelPackage.MAPPING_ATTRIBUTE__SOURCE_ID, oldSourceId, sourceId));
 	}
 
 	/**
@@ -185,12 +187,12 @@ public class AttributeMappingImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case MappingModelPackage.ATTRIBUTE_MAPPING__TARGET_ATTRIBUTE:
+			case MappingModelPackage.MAPPING_ATTRIBUTE__TARGET_ATTRIBUTE:
 				if (resolve) return getTargetAttribute();
 				return basicGetTargetAttribute();
-			case MappingModelPackage.ATTRIBUTE_MAPPING__DESCRIPTION:
+			case MappingModelPackage.MAPPING_ATTRIBUTE__DESCRIPTION:
 				return getDescription();
-			case MappingModelPackage.ATTRIBUTE_MAPPING__SOURCE_ID:
+			case MappingModelPackage.MAPPING_ATTRIBUTE__SOURCE_ID:
 				return getSourceId();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -204,13 +206,13 @@ public class AttributeMappingImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case MappingModelPackage.ATTRIBUTE_MAPPING__TARGET_ATTRIBUTE:
+			case MappingModelPackage.MAPPING_ATTRIBUTE__TARGET_ATTRIBUTE:
 				setTargetAttribute((EAttribute)newValue);
 				return;
-			case MappingModelPackage.ATTRIBUTE_MAPPING__DESCRIPTION:
+			case MappingModelPackage.MAPPING_ATTRIBUTE__DESCRIPTION:
 				setDescription((String)newValue);
 				return;
-			case MappingModelPackage.ATTRIBUTE_MAPPING__SOURCE_ID:
+			case MappingModelPackage.MAPPING_ATTRIBUTE__SOURCE_ID:
 				setSourceId((String)newValue);
 				return;
 		}
@@ -225,13 +227,13 @@ public class AttributeMappingImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case MappingModelPackage.ATTRIBUTE_MAPPING__TARGET_ATTRIBUTE:
+			case MappingModelPackage.MAPPING_ATTRIBUTE__TARGET_ATTRIBUTE:
 				setTargetAttribute((EAttribute)null);
 				return;
-			case MappingModelPackage.ATTRIBUTE_MAPPING__DESCRIPTION:
+			case MappingModelPackage.MAPPING_ATTRIBUTE__DESCRIPTION:
 				setDescription(DESCRIPTION_EDEFAULT);
 				return;
-			case MappingModelPackage.ATTRIBUTE_MAPPING__SOURCE_ID:
+			case MappingModelPackage.MAPPING_ATTRIBUTE__SOURCE_ID:
 				setSourceId(SOURCE_ID_EDEFAULT);
 				return;
 		}
@@ -246,11 +248,11 @@ public class AttributeMappingImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case MappingModelPackage.ATTRIBUTE_MAPPING__TARGET_ATTRIBUTE:
+			case MappingModelPackage.MAPPING_ATTRIBUTE__TARGET_ATTRIBUTE:
 				return targetAttribute != null;
-			case MappingModelPackage.ATTRIBUTE_MAPPING__DESCRIPTION:
+			case MappingModelPackage.MAPPING_ATTRIBUTE__DESCRIPTION:
 				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-			case MappingModelPackage.ATTRIBUTE_MAPPING__SOURCE_ID:
+			case MappingModelPackage.MAPPING_ATTRIBUTE__SOURCE_ID:
 				return SOURCE_ID_EDEFAULT == null ? sourceId != null : !SOURCE_ID_EDEFAULT.equals(sourceId);
 		}
 		return super.eIsSet(featureID);
@@ -274,4 +276,4 @@ public class AttributeMappingImpl extends MinimalEObjectImpl.Container implement
 		return result.toString();
 	}
 
-} //AttributeMappingImpl
+} //MappingAttributeImpl

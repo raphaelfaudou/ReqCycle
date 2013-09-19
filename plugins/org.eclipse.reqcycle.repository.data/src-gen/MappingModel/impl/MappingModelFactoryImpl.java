@@ -2,14 +2,12 @@
  */
 package MappingModel.impl;
 
+import MappingModel.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import MappingModel.AttributeMapping;
-import MappingModel.ElementMapping;
 import MappingModel.MappingModelFactory;
 import MappingModel.MappingModelPackage;
 
@@ -57,8 +55,8 @@ public class MappingModelFactoryImpl extends EFactoryImpl implements MappingMode
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case MappingModelPackage.ELEMENT_MAPPING: return createElementMapping();
-			case MappingModelPackage.ATTRIBUTE_MAPPING: return createAttributeMapping();
+			case MappingModelPackage.MAPPING_ELEMENT: return createMappingElement();
+			case MappingModelPackage.MAPPING_ATTRIBUTE: return createMappingAttribute();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -69,9 +67,9 @@ public class MappingModelFactoryImpl extends EFactoryImpl implements MappingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ElementMapping createElementMapping() {
-		ElementMappingImpl elementMapping = new ElementMappingImpl();
-		return elementMapping;
+	public MappingElement createMappingElement() {
+		MappingElementImpl mappingElement = new MappingElementImpl();
+		return mappingElement;
 	}
 
 	/**
@@ -79,9 +77,9 @@ public class MappingModelFactoryImpl extends EFactoryImpl implements MappingMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AttributeMapping createAttributeMapping() {
-		AttributeMappingImpl attributeMapping = new AttributeMappingImpl();
-		return attributeMapping;
+	public MappingAttribute createMappingAttribute() {
+		MappingAttributeImpl mappingAttribute = new MappingAttributeImpl();
+		return mappingAttribute;
 	}
 
 	/**

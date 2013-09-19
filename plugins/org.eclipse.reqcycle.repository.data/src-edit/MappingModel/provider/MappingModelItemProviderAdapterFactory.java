@@ -71,49 +71,49 @@ public class MappingModelItemProviderAdapterFactory extends MappingModelAdapterF
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link MappingModel.ElementMapping} instances.
+	 * This keeps track of the one adapter used for all {@link MappingModel.MappingElement} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ElementMappingItemProvider elementMappingItemProvider;
+	protected MappingElementItemProvider mappingElementItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link MappingModel.ElementMapping}.
+	 * This creates an adapter for a {@link MappingModel.MappingElement}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createElementMappingAdapter() {
-		if (elementMappingItemProvider == null) {
-			elementMappingItemProvider = new ElementMappingItemProvider(this);
+	public Adapter createMappingElementAdapter() {
+		if (mappingElementItemProvider == null) {
+			mappingElementItemProvider = new MappingElementItemProvider(this);
 		}
 
-		return elementMappingItemProvider;
+		return mappingElementItemProvider;
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link MappingModel.AttributeMapping} instances.
+	 * This keeps track of the one adapter used for all {@link MappingModel.MappingAttribute} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected AttributeMappingItemProvider attributeMappingItemProvider;
+	protected MappingAttributeItemProvider mappingAttributeItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link MappingModel.AttributeMapping}.
+	 * This creates an adapter for a {@link MappingModel.MappingAttribute}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createAttributeMappingAdapter() {
-		if (attributeMappingItemProvider == null) {
-			attributeMappingItemProvider = new AttributeMappingItemProvider(this);
+	public Adapter createMappingAttributeAdapter() {
+		if (mappingAttributeItemProvider == null) {
+			mappingAttributeItemProvider = new MappingAttributeItemProvider(this);
 		}
 
-		return attributeMappingItemProvider;
+		return mappingAttributeItemProvider;
 	}
 
 	/**
@@ -215,8 +215,8 @@ public class MappingModelItemProviderAdapterFactory extends MappingModelAdapterF
 	 * @generated
 	 */
 	public void dispose() {
-		if (elementMappingItemProvider != null) elementMappingItemProvider.dispose();
-		if (attributeMappingItemProvider != null) attributeMappingItemProvider.dispose();
+		if (mappingElementItemProvider != null) mappingElementItemProvider.dispose();
+		if (mappingAttributeItemProvider != null) mappingAttributeItemProvider.dispose();
 	}
 
 }

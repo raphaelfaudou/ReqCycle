@@ -40,7 +40,7 @@ import org.eclipse.ziggurat.ocl.ZigguratOCLPlugin;
 import RequirementSourceData.RequirementSourceDataFactory;
 import RequirementSourceData.Scope;
 import RequirementSourceData.RequirementSource;
-import MappingModel.ElementMapping;
+import MappingModel.MappingElement;
 import RequirementSourceData.AbstractElement;
 import RequirementSourceData.Requirement;
 
@@ -91,7 +91,7 @@ public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 	protected void fillRequirements(RequirementSource requirementSource)
 			throws Exception {
 		requirementSource.getRequirements().clear();
-		Collection<ElementMapping> mapping = requirementSource.getMappings();
+		Collection<MappingElement> mapping = requirementSource.getMappings();
 		ResourceSet resourceSet = new ResourceSetImpl();
 
 		String repositoryUri = requirementSource.getRepositoryUri();
@@ -119,7 +119,7 @@ public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 	}
 
 	protected AbstractElement createRequirement(OCLEvaluator evaluator,
-			Collection<ElementMapping> mappings, EObject eObject,
+			Collection<MappingElement> mappings, EObject eObject,
 			IRequirementType reqType) throws Exception {
 		Requirement requirement = reqType.createInstance();
 		for (IAttribute attribute : Iterables.filter(

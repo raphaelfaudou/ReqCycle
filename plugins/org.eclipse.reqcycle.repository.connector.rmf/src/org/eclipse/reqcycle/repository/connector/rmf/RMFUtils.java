@@ -51,8 +51,8 @@ import org.eclipse.rmf.reqif10.Specification;
 import org.eclipse.rmf.reqif10.common.util.ReqIF10Util;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import MappingModel.AttributeMapping;
-import MappingModel.ElementMapping;
+import MappingModel.MappingAttribute;
+import MappingModel.MappingElement;
 import RequirementSourceData.AbstractElement;
 import RequirementSourceData.Requirement;
 import RequirementSourceData.RequirementSource;
@@ -98,7 +98,7 @@ public class RMFUtils {
 
 	public static void fillRequirements(RequirementSource requirementSource, IProgressMonitor progressMonitor, Scope scope) {
 
-		Collection<ElementMapping> mapping = requirementSource.getMappings();
+		Collection<MappingElement> mapping = requirementSource.getMappings();
 		if(mapping == null) {
 			return;
 		}
@@ -145,7 +145,7 @@ public class RMFUtils {
 		}
 	}
 
-	protected static Collection<AbstractElement> createChildren(EList<SpecHierarchy> specHierarchies, Collection<ElementMapping> mapping, Scope scope) {
+	protected static Collection<AbstractElement> createChildren(EList<SpecHierarchy> specHierarchies, Collection<MappingElement> mapping, Scope scope) {
 
 		Collection<AbstractElement> result = new ArrayList<AbstractElement>();
 
@@ -158,7 +158,7 @@ public class RMFUtils {
 			SpecObject specObject = specHierarchy.getObject();
 			if(specObject != null) {
 
-				ElementMapping elementMapping = DataUtil.getElementMapping(mapping, ReqIF10Util.getSpecType(specObject).getIdentifier());
+				MappingElement elementMapping = DataUtil.getElementMapping(mapping, ReqIF10Util.getSpecType(specObject).getIdentifier());
 				if(elementMapping != null) {
 					String id = getID(elementMapping, specObject);
 					String name = getName(elementMapping, specObject);
@@ -191,9 +191,9 @@ public class RMFUtils {
 		return result;
 	}
 
-	private static String getName(ElementMapping elementMapping, SpecElementWithAttributes element) {
-		EList<AttributeMapping> attributes = elementMapping.getAttributes();
-		for(AttributeMapping attribute : attributes) {
+	private static String getName(MappingElement elementMapping, SpecElementWithAttributes element) {
+		EList<MappingAttribute> attributes = elementMapping.getAttributes();
+		for(MappingAttribute attribute : attributes) {
 			if("name".equalsIgnoreCase(attribute.getTargetAttribute().getName())) {
 				String sourceId = attribute.getSourceId();
 				for(AttributeValue value : element.getValues()) {
@@ -206,9 +206,9 @@ public class RMFUtils {
 		return "";
 	}
 
-	private static String getID(ElementMapping elementMapping, SpecElementWithAttributes element) {
-		EList<AttributeMapping> attributes = elementMapping.getAttributes();
-		for(AttributeMapping attribute : attributes) {
+	private static String getID(MappingElement elementMapping, SpecElementWithAttributes element) {
+		EList<MappingAttribute> attributes = elementMapping.getAttributes();
+		for(MappingAttribute attribute : attributes) {
 			if("id".equalsIgnoreCase(attribute.getTargetAttribute().getName())) {
 				String sourceId = attribute.getSourceId();
 				for(AttributeValue value : element.getValues()) {
@@ -221,8 +221,8 @@ public class RMFUtils {
 		return "";
 	}
 
-	protected static AbstractElement createElement(Collection<ElementMapping> mapping, SpecElementWithAttributes specElement, String sourceQualifier, String id, String name) {
-		ElementMapping elementMapping = DataUtil.getElementMapping(mapping, sourceQualifier);
+	protected static AbstractElement createElement(Collection<MappingElement> mapping, SpecElementWithAttributes specElement, String sourceQualifier, String id, String name) {
+		MappingElement elementMapping = DataUtil.getElementMapping(mapping, sourceQualifier);
 		AbstractElement createdObject = null;
 		if(elementMapping != null) {
 			try {
@@ -242,10 +242,10 @@ public class RMFUtils {
 	}
 
 
-	protected static void addAttributes(ElementMapping elementMapping, Collection<AttributeValue> values, AbstractElement element) {
+	protected static void addAttributes(MappingElement elementMapping, Collection<AttributeValue> values, AbstractElement element) {
 		for(AttributeValue attributeValue : values) {
 
-			AttributeMapping attributeMapping = DataUtil.getAttributeMapping(elementMapping, ReqIF10Util.getAttributeDefinition(attributeValue).getIdentifier());
+			MappingAttribute attributeMapping = DataUtil.getAttributeMapping(elementMapping, ReqIF10Util.getAttributeDefinition(attributeValue).getIdentifier());
 
 			if(attributeMapping == null || "id".equalsIgnoreCase(attributeMapping.getTargetAttribute().getName()) || "name".equalsIgnoreCase(attributeMapping.getTargetAttribute().getName())) {
 

@@ -42,7 +42,7 @@ import org.eclipse.reqcycle.repository.data.types.IRequirementType;
 import org.eclipse.reqcycle.repository.data.util.RepositoryConstants;
 import org.eclipse.rmf.reqif10.SpecType;
 
-import MappingModel.ElementMapping;
+import MappingModel.MappingElement;
 import RequirementSourceData.RequirementSource;
 import RequirementSourceData.RequirementSourceDataFactory;
 import RequirementSourceData.Scope;
@@ -119,7 +119,7 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 			ResourceSet rs = new ResourceSetImpl();
 			Collection<SpecType> specTypes = RMFUtils.getReqIFTypes(rs, initSource.getRepositoryUri());
 			Collection<IRequirementType> eClassifiers = dataTypeManage.getAllRequirementTypes();
-			EList<ElementMapping> mapping = initSource.getMappings();
+			EList<MappingElement> mapping = initSource.getMappings();
 			mappingPage = createMappingPage(specTypes, eClassifiers, mapping);
 			addPage(mappingPage);
 		} else {

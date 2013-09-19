@@ -2,12 +2,10 @@
  */
 package MappingModel.util;
 
+import MappingModel.*;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
-
-import MappingModel.AttributeMapping;
-import MappingModel.ElementMapping;
 import MappingModel.MappingModelPackage;
 
 /**
@@ -67,15 +65,15 @@ public class MappingModelSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case MappingModelPackage.ELEMENT_MAPPING: {
-				ElementMapping elementMapping = (ElementMapping)theEObject;
-				T result = caseElementMapping(elementMapping);
+			case MappingModelPackage.MAPPING_ELEMENT: {
+				MappingElement mappingElement = (MappingElement)theEObject;
+				T result = caseMappingElement(mappingElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MappingModelPackage.ATTRIBUTE_MAPPING: {
-				AttributeMapping attributeMapping = (AttributeMapping)theEObject;
-				T result = caseAttributeMapping(attributeMapping);
+			case MappingModelPackage.MAPPING_ATTRIBUTE: {
+				MappingAttribute mappingAttribute = (MappingAttribute)theEObject;
+				T result = caseMappingAttribute(mappingAttribute);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -84,32 +82,32 @@ public class MappingModelSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Element Mapping</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Mapping Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Element Mapping</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Mapping Element</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseElementMapping(ElementMapping object) {
+	public T caseMappingElement(MappingElement object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Attribute Mapping</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Mapping Attribute</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Attribute Mapping</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Mapping Attribute</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseAttributeMapping(AttributeMapping object) {
+	public T caseMappingAttribute(MappingAttribute object) {
 		return null;
 	}
 

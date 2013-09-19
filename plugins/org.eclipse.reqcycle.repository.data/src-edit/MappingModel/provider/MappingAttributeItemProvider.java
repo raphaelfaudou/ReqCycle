@@ -3,12 +3,17 @@
 package MappingModel.provider;
 
 
+import MappingModel.MappingAttribute;
+import MappingModel.MappingModelPackage;
+
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.common.util.ResourceLocator;
+
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -20,16 +25,13 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import MappingModel.AttributeMapping;
-import MappingModel.MappingModelPackage;
-
 /**
- * This is the item provider adapter for a {@link MappingModel.AttributeMapping} object.
+ * This is the item provider adapter for a {@link MappingModel.MappingAttribute} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class AttributeMappingItemProvider
+public class MappingAttributeItemProvider
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -43,7 +45,7 @@ public class AttributeMappingItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AttributeMappingItemProvider(AdapterFactory adapterFactory) {
+	public MappingAttributeItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -76,9 +78,9 @@ public class AttributeMappingItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_AttributeMapping_targetAttribute_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_AttributeMapping_targetAttribute_feature", "_UI_AttributeMapping_type"),
-				 MappingModelPackage.Literals.ATTRIBUTE_MAPPING__TARGET_ATTRIBUTE,
+				 getString("_UI_MappingAttribute_targetAttribute_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MappingAttribute_targetAttribute_feature", "_UI_MappingAttribute_type"),
+				 MappingModelPackage.Literals.MAPPING_ATTRIBUTE__TARGET_ATTRIBUTE,
 				 true,
 				 false,
 				 true,
@@ -98,9 +100,9 @@ public class AttributeMappingItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_AttributeMapping_description_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_AttributeMapping_description_feature", "_UI_AttributeMapping_type"),
-				 MappingModelPackage.Literals.ATTRIBUTE_MAPPING__DESCRIPTION,
+				 getString("_UI_MappingAttribute_description_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MappingAttribute_description_feature", "_UI_MappingAttribute_type"),
+				 MappingModelPackage.Literals.MAPPING_ATTRIBUTE__DESCRIPTION,
 				 true,
 				 false,
 				 false,
@@ -120,9 +122,9 @@ public class AttributeMappingItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_AttributeMapping_sourceId_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_AttributeMapping_sourceId_feature", "_UI_AttributeMapping_type"),
-				 MappingModelPackage.Literals.ATTRIBUTE_MAPPING__SOURCE_ID,
+				 getString("_UI_MappingAttribute_sourceId_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MappingAttribute_sourceId_feature", "_UI_MappingAttribute_type"),
+				 MappingModelPackage.Literals.MAPPING_ATTRIBUTE__SOURCE_ID,
 				 true,
 				 false,
 				 false,
@@ -132,29 +134,28 @@ public class AttributeMappingItemProvider
 	}
 
 	/**
-	 * This returns AttributeMapping.gif.
+	 * This returns MappingAttribute.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/AttributeMapping"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/MappingAttribute"));
 	}
 
 	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		AttributeMapping attributeMapping = ((AttributeMapping)object);
-		String label = attributeMapping.getDescription();
+		String label = ((MappingAttribute)object).getDescription();
 		return label == null || label.length() == 0 ?
-			getString("_UI_AttributeMapping_type") :
-			attributeMapping.getDescription() + " --> " + attributeMapping.getTargetAttribute().getName();
+			getString("_UI_MappingAttribute_type") :
+			getString("_UI_MappingAttribute_type") + " " + label;
 	}
 
 	/**
@@ -168,9 +169,9 @@ public class AttributeMappingItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(AttributeMapping.class)) {
-			case MappingModelPackage.ATTRIBUTE_MAPPING__DESCRIPTION:
-			case MappingModelPackage.ATTRIBUTE_MAPPING__SOURCE_ID:
+		switch (notification.getFeatureID(MappingAttribute.class)) {
+			case MappingModelPackage.MAPPING_ATTRIBUTE__DESCRIPTION:
+			case MappingModelPackage.MAPPING_ATTRIBUTE__SOURCE_ID:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

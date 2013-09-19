@@ -22,22 +22,22 @@ public interface MappingModelFactory extends EFactory {
 	MappingModelFactory eINSTANCE = MappingModel.impl.MappingModelFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Element Mapping</em>'.
+	 * Returns a new object of class '<em>Mapping Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Element Mapping</em>'.
+	 * @return a new object of class '<em>Mapping Element</em>'.
 	 * @generated
 	 */
-	ElementMapping createElementMapping();
+	MappingElement createMappingElement();
 
 	/**
-	 * Returns a new object of class '<em>Attribute Mapping</em>'.
+	 * Returns a new object of class '<em>Mapping Attribute</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Attribute Mapping</em>'.
+	 * @return a new object of class '<em>Mapping Attribute</em>'.
 	 * @generated
 	 */
-	AttributeMapping createAttributeMapping();
+	MappingAttribute createMappingAttribute();
 
 	/**
 	 * Returns the package supported by this factory.

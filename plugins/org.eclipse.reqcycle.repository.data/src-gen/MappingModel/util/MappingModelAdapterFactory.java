@@ -2,13 +2,11 @@
  */
 package MappingModel.util;
 
+import MappingModel.*;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-
-import MappingModel.AttributeMapping;
-import MappingModel.ElementMapping;
 import MappingModel.MappingModelPackage;
 
 /**
@@ -68,12 +66,12 @@ public class MappingModelAdapterFactory extends AdapterFactoryImpl {
 	protected MappingModelSwitch<Adapter> modelSwitch =
 		new MappingModelSwitch<Adapter>() {
 			@Override
-			public Adapter caseElementMapping(ElementMapping object) {
-				return createElementMappingAdapter();
+			public Adapter caseMappingElement(MappingElement object) {
+				return createMappingElementAdapter();
 			}
 			@Override
-			public Adapter caseAttributeMapping(AttributeMapping object) {
-				return createAttributeMappingAdapter();
+			public Adapter caseMappingAttribute(MappingAttribute object) {
+				return createMappingAttributeAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -96,30 +94,30 @@ public class MappingModelAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link MappingModel.ElementMapping <em>Element Mapping</em>}'.
+	 * Creates a new adapter for an object of class '{@link MappingModel.MappingElement <em>Mapping Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see MappingModel.ElementMapping
+	 * @see MappingModel.MappingElement
 	 * @generated
 	 */
-	public Adapter createElementMappingAdapter() {
+	public Adapter createMappingElementAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link MappingModel.AttributeMapping <em>Attribute Mapping</em>}'.
+	 * Creates a new adapter for an object of class '{@link MappingModel.MappingAttribute <em>Mapping Attribute</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see MappingModel.AttributeMapping
+	 * @see MappingModel.MappingAttribute
 	 * @generated
 	 */
-	public Adapter createAttributeMappingAdapter() {
+	public Adapter createMappingAttributeAdapter() {
 		return null;
 	}
 

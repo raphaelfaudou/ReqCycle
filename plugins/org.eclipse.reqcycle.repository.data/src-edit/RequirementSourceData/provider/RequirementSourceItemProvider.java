@@ -197,7 +197,7 @@ public class RequirementSourceItemProvider extends ItemProviderAdapter implement
 
 		newChildDescriptors.add(createChildParameter(RequirementSourceDataPackage.Literals.REQUIREMENT_SOURCE__PROPERTIES, EcoreFactory.eINSTANCE.create(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY)));
 
-		newChildDescriptors.add(createChildParameter(RequirementSourceDataPackage.Literals.REQUIREMENT_SOURCE__MAPPINGS, MappingModelFactory.eINSTANCE.createElementMapping()));
+		newChildDescriptors.add(createChildParameter(RequirementSourceDataPackage.Literals.REQUIREMENT_SOURCE__MAPPINGS, MappingModelFactory.eINSTANCE.createMappingElement()));
 	}
 
 	/**

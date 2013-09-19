@@ -45,8 +45,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
-import MappingModel.AttributeMapping;
-import MappingModel.ElementMapping;
+import MappingModel.MappingAttribute;
+import MappingModel.MappingElement;
 import MappingModel.MappingModelFactory;
 import RequirementSourceData.RequirementSource;
 
@@ -108,7 +108,7 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements Lis
 		mappingComposite = new MappingComposite(parent, SWT.NONE, this) {
 
 			@Override
-			public ElementMapping linkElements(Object sourceSelection, Object targetSelection) {
+			public MappingElement linkElements(Object sourceSelection, Object targetSelection) {
 				return mapElements(parent, sourceSelection, targetSelection);
 			}
 
@@ -219,7 +219,7 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements Lis
 						}
 					});
 					if(element != null) {
-						ElementMapping elementMapping = MappingModelFactory.eINSTANCE.createElementMapping();
+						MappingElement elementMapping = MappingModelFactory.eINSTANCE.createMappingElement();
 						Collection<IAttribute> allAttributes = element.getAttributes();
 						Collection<IAttribute> filtered = Collections2.filter(allAttributes, new Predicate<IAttribute>() {
 
@@ -244,8 +244,8 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements Lis
 		}
 	}
 
-	private Collection<AttributeMapping> mapAttributes(Collection<AttributeDefinition> source, Collection<IAttribute> target) {
-		Collection<AttributeMapping> result = Sets.newHashSet();
+	private Collection<MappingAttribute> mapAttributes(Collection<AttributeDefinition> source, Collection<IAttribute> target) {
+		Collection<MappingAttribute> result = Sets.newHashSet();
 
 		for(final AttributeDefinition attribute : source) {
 			IAttribute element = Iterators.find(target.iterator(), new Predicate<IAttribute>() {
@@ -265,7 +265,7 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements Lis
 				continue;
 			}
 
-			AttributeMapping attributeMapping = MappingModelFactory.eINSTANCE.createAttributeMapping();
+			MappingAttribute attributeMapping = MappingModelFactory.eINSTANCE.createMappingAttribute();
 			attributeMapping.setTargetAttribute(eAttribute);
 			attributeMapping.setSourceId(attribute.getIdentifier());
 			attributeMapping.setDescription(attribute.getLongName());
@@ -281,7 +281,7 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements Lis
 	 * @param targetSelection
 	 * @return
 	 */
-	private ElementMapping mapElements(final Composite parent, Object sourceSelection, final Object targetSelection) {
+	private MappingElement mapElements(final Composite parent, Object sourceSelection, final Object targetSelection) {
 
 
 		if(targetSelection instanceof IRequirementType && sourceSelection instanceof SpecType) {
@@ -292,7 +292,7 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements Lis
 			MappingDialogPage mappingDialog = new MappingDialogPage(parent.getShell()) {
 
 				@Override
-				protected AttributeMapping linkElements(Object sourceSelection, Object targetSelection) {
+				protected MappingAttribute linkElements(Object sourceSelection, Object targetSelection) {
 					if(sourceSelection instanceof AttributeDefinition && targetSelection instanceof IAttribute) {
 						EAttribute eAttribute = null;
 						if(targetSelection instanceof IAdaptable) {
@@ -301,7 +301,7 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements Lis
 						if(eAttribute == null) {
 							return null;
 						}
-						AttributeMapping attributeMapping = MappingModelFactory.eINSTANCE.createAttributeMapping();
+						MappingAttribute attributeMapping = MappingModelFactory.eINSTANCE.createMappingAttribute();
 						attributeMapping.setTargetAttribute(eAttribute);
 						attributeMapping.setSourceId(((AttributeDefinition)sourceSelection).getIdentifier());
 						attributeMapping.setDescription(((AttributeDefinition)sourceSelection).getLongName());
@@ -383,8 +383,8 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements Lis
 						return null;
 					}
 
-					ElementMapping element = MappingModelFactory.eINSTANCE.createElementMapping();
-					element.getAttributes().addAll((Collection<? extends AttributeMapping>)mappingDialog.getResult());
+					MappingElement element = MappingModelFactory.eINSTANCE.createMappingElement();
+					element.getAttributes().addAll((Collection<? extends MappingAttribute>)mappingDialog.getResult());
 					element.setSourceQualifier(specType.getIdentifier());
 					element.setDescription(specType.getLongName());
 					element.setTargetElement(eClass);
@@ -415,13 +415,13 @@ public abstract class RMFRepositoryMappingPage extends WizardPage implements Lis
 
 	public static class RMFMappingBean {
 
-		private Collection<ElementMapping> mapping;
+		private Collection<MappingElement> mapping;
 
-		public void setMapping(Collection<ElementMapping> mapping) {
+		public void setMapping(Collection<MappingElement> mapping) {
 			this.mapping = mapping;
 		}
 
-		public Collection<ElementMapping> getMapping() {
+		public Collection<MappingElement> getMapping() {
 			return mapping;
 		}
 	}

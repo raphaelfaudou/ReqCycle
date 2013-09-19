@@ -3,13 +3,20 @@
 package MappingModel.provider;
 
 
+import MappingModel.MappingElement;
+import MappingModel.MappingModelFactory;
+import MappingModel.MappingModelPackage;
+
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.common.util.ResourceLocator;
+
 import org.eclipse.emf.ecore.EStructuralFeature;
+
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -21,17 +28,13 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import MappingModel.ElementMapping;
-import MappingModel.MappingModelFactory;
-import MappingModel.MappingModelPackage;
-
 /**
- * This is the item provider adapter for a {@link MappingModel.ElementMapping} object.
+ * This is the item provider adapter for a {@link MappingModel.MappingElement} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class ElementMappingItemProvider
+public class MappingElementItemProvider
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -45,7 +48,7 @@ public class ElementMappingItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ElementMappingItemProvider(AdapterFactory adapterFactory) {
+	public MappingElementItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -78,9 +81,9 @@ public class ElementMappingItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_ElementMapping_description_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ElementMapping_description_feature", "_UI_ElementMapping_type"),
-				 MappingModelPackage.Literals.ELEMENT_MAPPING__DESCRIPTION,
+				 getString("_UI_MappingElement_description_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MappingElement_description_feature", "_UI_MappingElement_type"),
+				 MappingModelPackage.Literals.MAPPING_ELEMENT__DESCRIPTION,
 				 true,
 				 false,
 				 false,
@@ -100,9 +103,9 @@ public class ElementMappingItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_ElementMapping_targetElement_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ElementMapping_targetElement_feature", "_UI_ElementMapping_type"),
-				 MappingModelPackage.Literals.ELEMENT_MAPPING__TARGET_ELEMENT,
+				 getString("_UI_MappingElement_targetElement_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MappingElement_targetElement_feature", "_UI_MappingElement_type"),
+				 MappingModelPackage.Literals.MAPPING_ELEMENT__TARGET_ELEMENT,
 				 true,
 				 false,
 				 true,
@@ -122,9 +125,9 @@ public class ElementMappingItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_ElementMapping_sourceQualifier_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ElementMapping_sourceQualifier_feature", "_UI_ElementMapping_type"),
-				 MappingModelPackage.Literals.ELEMENT_MAPPING__SOURCE_QUALIFIER,
+				 getString("_UI_MappingElement_sourceQualifier_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MappingElement_sourceQualifier_feature", "_UI_MappingElement_type"),
+				 MappingModelPackage.Literals.MAPPING_ELEMENT__SOURCE_QUALIFIER,
 				 true,
 				 false,
 				 false,
@@ -145,7 +148,7 @@ public class ElementMappingItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(MappingModelPackage.Literals.ELEMENT_MAPPING__ATTRIBUTES);
+			childrenFeatures.add(MappingModelPackage.Literals.MAPPING_ELEMENT__ATTRIBUTES);
 		}
 		return childrenFeatures;
 	}
@@ -164,14 +167,14 @@ public class ElementMappingItemProvider
 	}
 
 	/**
-	 * This returns ElementMapping.gif.
+	 * This returns MappingElement.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/ElementMapping"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/MappingElement"));
 	}
 
 	/**
@@ -182,11 +185,10 @@ public class ElementMappingItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		ElementMapping elementMapping = (ElementMapping)object;
-		String label = elementMapping.getDescription();
+		String label = ((MappingElement)object).getDescription();
 		return label == null || label.length() == 0 ?
-			getString("_UI_ElementMapping_type") :
-			elementMapping.getDescription() + "-->" + elementMapping.getTargetElement().getName();
+			getString("_UI_MappingElement_type") :
+			getString("_UI_MappingElement_type") + " " + label;
 	}
 
 	/**
@@ -200,12 +202,12 @@ public class ElementMappingItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(ElementMapping.class)) {
-			case MappingModelPackage.ELEMENT_MAPPING__DESCRIPTION:
-			case MappingModelPackage.ELEMENT_MAPPING__SOURCE_QUALIFIER:
+		switch (notification.getFeatureID(MappingElement.class)) {
+			case MappingModelPackage.MAPPING_ELEMENT__DESCRIPTION:
+			case MappingModelPackage.MAPPING_ELEMENT__SOURCE_QUALIFIER:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			case MappingModelPackage.ELEMENT_MAPPING__ATTRIBUTES:
+			case MappingModelPackage.MAPPING_ELEMENT__ATTRIBUTES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -225,8 +227,8 @@ public class ElementMappingItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(MappingModelPackage.Literals.ELEMENT_MAPPING__ATTRIBUTES,
-				 MappingModelFactory.eINSTANCE.createAttributeMapping()));
+				(MappingModelPackage.Literals.MAPPING_ELEMENT__ATTRIBUTES,
+				 MappingModelFactory.eINSTANCE.createMappingAttribute()));
 	}
 
 	/**

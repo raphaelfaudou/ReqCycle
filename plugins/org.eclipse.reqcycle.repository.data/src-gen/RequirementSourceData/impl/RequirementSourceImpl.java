@@ -26,7 +26,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.reqcycle.repository.data.util.DataUtil;
 import org.eclipse.reqcycle.repository.data.util.RepositoryConstants;
 
-import MappingModel.ElementMapping;
+import MappingModel.MappingElement;
 import RequirementSourceData.AbstractElement;
 import RequirementSourceData.RequirementSource;
 import RequirementSourceData.RequirementSourceDataPackage;
@@ -108,7 +108,7 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<ElementMapping> mappings;
+	protected EList<MappingElement> mappings;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -212,9 +212,9 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
 	 * @generated
 	 */
 	@Override
-	public EList<ElementMapping> getMappings() {
+	public EList<MappingElement> getMappings() {
 		if(mappings == null) {
-			mappings = new EObjectContainmentEList<ElementMapping>(ElementMapping.class, this, RequirementSourceDataPackage.REQUIREMENT_SOURCE__MAPPINGS);
+			mappings = new EObjectContainmentEList<MappingElement>(MappingElement.class, this, RequirementSourceDataPackage.REQUIREMENT_SOURCE__MAPPINGS);
 		}
 		return mappings;
 	}
@@ -289,7 +289,7 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
 			return;
 		case RequirementSourceDataPackage.REQUIREMENT_SOURCE__MAPPINGS:
 			getMappings().clear();
-			getMappings().addAll((Collection<? extends ElementMapping>)newValue);
+			getMappings().addAll((Collection<? extends MappingElement>)newValue);
 			return;
 		}
 		super.eSet(featureID, newValue);
@@ -413,10 +413,10 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
 		if(mappings == null) {
 			return Collections.emptyList();
 		}
-		return Collections2.transform(mappings, new Function<ElementMapping, EClass>() {
+		return Collections2.transform(mappings, new Function<MappingElement, EClass>() {
 
 			@Override
-			public EClass apply(ElementMapping arg0) {
+			public EClass apply(MappingElement arg0) {
 				return arg0.getTargetElement();
 			}
 		});
