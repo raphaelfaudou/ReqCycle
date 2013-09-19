@@ -25,10 +25,10 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.CompoundContributionItem;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import DataModel.Contained;
-import DataModel.DataModelPackage;
-import DataModel.RequirementSource;
-import DataModel.Section;
+import RequirementSourceData.AbstractElement;
+import RequirementSourceData.RequirementSource;
+import RequirementSourceData.RequirementSourceDataPackage;
+import RequirementSourceData.Section;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
@@ -77,24 +77,24 @@ public class ReqCycleContributionItem extends CompoundContributionItem {
 								try {
 
 									EObject object = arg0.getEPackage().getEFactoryInstance().create(arg0);
-									Contained contained;
+									AbstractElement element;
 
-									if(object instanceof Contained) {
-										contained = (Contained)object;
+									if(object instanceof AbstractElement) {
+										element = (AbstractElement)object;
 									} else {
 										throw new Exception("Error while creating a " + arg0.getName() + " element.");
 									}
 
 
 									if(selectedElement instanceof RequirementSource) {
-										((RequirementSource)selectedElement).getRequirements().add(contained);
+										((RequirementSource)selectedElement).getRequirements().add(element);
 									}
 
 									if(selectedElement instanceof Section) {
-										((Section)selectedElement).getChildren().add(contained);
+										((Section)selectedElement).getChildren().add(element);
 									}
 
-									reqManager.notifyChange(IDataTopics.NEW_CONTAINED, contained);
+									reqManager.notifyChange(IDataTopics.NEW_ELEMENT, element);
 
 									// FIXME : set element scope
 
@@ -142,7 +142,7 @@ public class ReqCycleContributionItem extends CompoundContributionItem {
 		}));
 
 		//Add Section EClass
-		classes.add(DataModelPackage.Literals.SECTION);
+		classes.add(RequirementSourceDataPackage.Literals.SECTION);
 		return classes;
 	}
 

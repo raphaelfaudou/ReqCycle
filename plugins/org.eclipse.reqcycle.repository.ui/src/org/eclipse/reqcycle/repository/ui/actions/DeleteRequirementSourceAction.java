@@ -22,7 +22,7 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.reqcycle.repository.connector.IConnectorManager;
 import org.eclipse.reqcycle.repository.data.IDataManager;
 
-import DataModel.RequirementSource;
+import RequirementSourceData.RequirementSource;
 
 /**
  * Action to delete a requirement source

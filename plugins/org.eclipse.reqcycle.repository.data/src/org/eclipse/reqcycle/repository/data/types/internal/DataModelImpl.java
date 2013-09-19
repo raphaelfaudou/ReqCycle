@@ -30,7 +30,7 @@ import org.eclipse.reqcycle.repository.data.types.IDataModel;
 import org.eclipse.reqcycle.repository.data.types.IEnumerationType;
 import org.eclipse.reqcycle.repository.data.types.IRequirementType;
 
-import DataModel.Scope;
+import RequirementSourceData.Scope;
 
 /**
  * The Class DataModelImpl.
@@ -135,8 +135,8 @@ public class DataModelImpl implements IDataModel, IAdaptable {
 	//	 * @return the requirement section
 	//	 */
 	//	@Override
-	//	public RequirementSection create(IRequirementType dataType) {
-	//		//		return (RequirementSection)createFactoryInstance().create(((RequirementTypeImpl)dataType).getEClass());
+	//	public Requirement create(IRequirementType dataType) {
+	//		//		return (Requirement)createFactoryInstance().create(((RequirementTypeImpl)dataType).getEClass());
 	//		EClass eclass = null;
 	//		if(dataType instanceof IAdaptable) {
 	//			eclass = (EClass)((IAdaptable)dataType).getAdapter(EClass.class);
@@ -152,7 +152,7 @@ public class DataModelImpl implements IDataModel, IAdaptable {
 	//				pac = (EPackage)((IAdaptable)p).getAdapter(EPackage.class);
 	//			}
 	//			if(pac != null && pac.getEClassifiers().contains(eclass)) {
-	//				return (RequirementSection)pac.getEFactoryInstance().create(eclass);
+	//				return (Requirement)pac.getEFactoryInstance().create(eclass);
 	//			}
 	//		}
 	//		return null;

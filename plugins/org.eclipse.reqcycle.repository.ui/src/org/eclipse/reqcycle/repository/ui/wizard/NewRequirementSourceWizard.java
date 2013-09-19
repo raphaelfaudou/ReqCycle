@@ -33,7 +33,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import DataModel.RequirementSource;
+import RequirementSourceData.RequirementSource;
 
 public class NewRequirementSourceWizard extends Wizard implements IWorkbenchWizard {
 
@@ -52,7 +52,7 @@ public class NewRequirementSourceWizard extends Wizard implements IWorkbenchWiza
 		this();
 		this.requirementSourceManager = requirementSourceManager;
 	}
-	
+
 	public NewRequirementSourceWizard() {
 		setForcePreviousAndNextButtons(true);
 		setNeedsProgressMonitor(true);
@@ -68,11 +68,11 @@ public class NewRequirementSourceWizard extends Wizard implements IWorkbenchWiza
 
 	private IDataManager getRequirementSourceManager() {
 		if(requirementSourceManager == null) {
-			requirementSourceManager =  ZigguratInject.make(IDataManager.class);
+			requirementSourceManager = ZigguratInject.make(IDataManager.class);
 		}
 		return requirementSourceManager;
 	}
-	
+
 	@Override
 	public boolean performFinish() {
 		IConnector connector = getConnector();
@@ -86,7 +86,7 @@ public class NewRequirementSourceWizard extends Wizard implements IWorkbenchWiza
 		if(createRequirementSource == null) {
 			//FIXME : Exception
 		}
-		
+
 		RequirementSource source;
 		try {
 			source = createRequirementSource.call();
@@ -99,8 +99,8 @@ public class NewRequirementSourceWizard extends Wizard implements IWorkbenchWiza
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		return createRequirementSource != null;
 	}
 

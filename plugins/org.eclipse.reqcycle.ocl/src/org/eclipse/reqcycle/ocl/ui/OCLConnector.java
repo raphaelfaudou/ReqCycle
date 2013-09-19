@@ -37,12 +37,12 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ziggurat.ocl.OCLEvaluator;
 import org.eclipse.ziggurat.ocl.ZigguratOCLPlugin;
 
-import DataModel.Contained;
-import DataModel.DataModelFactory;
-import DataModel.RequirementSection;
-import DataModel.RequirementSource;
-import DataModel.Scope;
+import RequirementSourceData.RequirementSourceDataFactory;
+import RequirementSourceData.Scope;
+import RequirementSourceData.RequirementSource;
 import MappingModel.ElementMapping;
+import RequirementSourceData.AbstractElement;
+import RequirementSourceData.Requirement;
 
 import com.google.common.collect.Iterables;
 
@@ -76,7 +76,7 @@ public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 				if (OCLConnector.this.requirementSource != null) {
 					result = OCLConnector.this.requirementSource;
 				} else {
-					result = DataModelFactory.eINSTANCE
+					result = RequirementSourceDataFactory.eINSTANCE
 							.createRequirementSource();
 				}
 
@@ -110,7 +110,7 @@ public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 			for (IRequirementType reqType : requirementTypes) {
 				if (OCLUtilities.isDataType(evaluator, eObject,
 						reqType)) {
-					Contained requirement = createRequirement(evaluator,
+					AbstractElement requirement = createRequirement(evaluator,
 							mapping, eObject, reqType);
 					requirementSource.getRequirements().add(requirement);
 				}
@@ -118,19 +118,19 @@ public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 		}
 	}
 
-	protected Contained createRequirement(OCLEvaluator evaluator,
+	protected AbstractElement createRequirement(OCLEvaluator evaluator,
 			Collection<ElementMapping> mappings, EObject eObject,
 			IRequirementType reqType) throws Exception {
-		RequirementSection contained = reqType.createInstance();
+		Requirement requirement = reqType.createInstance();
 		for (IAttribute attribute : Iterables.filter(
 				reqType.getAttributes(), IAttribute.class)) {
 			Object value = OCLUtilities.getAttributeValue(evaluator,
 					eObject, attribute);
 			if(value != null) {
-				dataManager.addAttribute(contained, attribute, value);
+				dataManager.addAttribute(requirement, attribute, value);
 			}
 		}
-		return contained;
+		return requirement;
 	}
 
 	@Override

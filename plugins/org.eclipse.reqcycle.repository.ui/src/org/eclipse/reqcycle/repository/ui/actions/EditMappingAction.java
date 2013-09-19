@@ -32,11 +32,11 @@ import org.eclipse.reqcycle.repository.connector.IConnector;
 import org.eclipse.reqcycle.repository.connector.IConnectorManager;
 import org.eclipse.reqcycle.repository.connector.ui.Activator;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
-import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.IDataManager;
+import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.swt.widgets.Display;
 
-import DataModel.RequirementSource;
+import RequirementSourceData.RequirementSource;
 
 /**
  * Action to change the requirementSourceMapping mapping

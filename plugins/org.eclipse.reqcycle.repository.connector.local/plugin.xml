@@ -23,34 +23,7 @@
 	         </menu>
 	      </menuContribution>
 	</extension>-->
-   <extension point="org.eclipse.ui.newWizards">
-      <!-- @generated not DataModel -->
-<!--      <category
-            id="org.eclipse.emf.ecore.Wizard.category.ID"
-            name="%_UI_Wizard_category"/>
-      <wizard
-            id="DataModel.presentation.DataModelModelWizardID"
-            name="%_UI_DataModelModelWizard_label"
-            class="DataModel.presentation.DataModelModelWizard"
-            category="org.eclipse.emf.ecore.Wizard.category.ID"
-            icon="icons/full/obj16/DataModelModelFile.gif">
-         <description>%_UI_DataModelModelWizard_description</description>
-         <selection class="org.eclipse.core.resources.IResource"/>
-      </wizard> -->
-   </extension> 
 
-   <extension point="org.eclipse.ui.editors">
-      <!-- @generated not DataModel -->
-      <editor
-            id="DataModel.presentation.DataModelEditorID"
-            name="%_UI_DataModelEditor_label"
-            icon="icons/full/obj16/DataModelModelFile.gif"
-            class="org.eclipse.reqcycle.repository.connector.local.editor.CustomDataModelEditor"
-            contributorClass="org.eclipse.reqcycle.repository.connector.local.editor.CustomDataModelActionBarContributor">
-      </editor>
-   </extension>
-   
-   
       <extension
          point="org.eclipse.ui.menus">
       <menuContribution
@@ -97,4 +70,31 @@
    </extension>
    
    
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated not RequirementSourceData -->
+<!--      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="RequirementSourceData.presentation.RequirementSourceDataModelWizardID"
+            name="%_UI_RequirementSourceDataModelWizard_label"
+            class="RequirementSourceData.presentation.RequirementSourceDataModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/RequirementSourceDataModelFile.gif">
+         <description>%_UI_RequirementSourceDataModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard> -->
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated not RequirementSourceData -->
+      <editor
+            id="RequirementSourceData.presentation.RequirementSourceDataEditorID"
+            name="%_UI_RequirementSourceDataEditor_label"
+            icon="icons/full/obj16/RequirementSourceDataModelFile.gif"
+            extensions="requirementsourcedata"
+            class="org.eclipse.reqcycle.repository.connector.local.editor.CustomDataModelEditor"
+            contributorClass="org.eclipse.reqcycle.repository.connector.local.editor.CustomDataModelActionBarContributor">
+      </editor>
+   </extension>
 </plugin>

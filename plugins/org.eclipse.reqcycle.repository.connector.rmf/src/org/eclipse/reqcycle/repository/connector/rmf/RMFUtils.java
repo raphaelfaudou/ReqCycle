@@ -51,13 +51,13 @@ import org.eclipse.rmf.reqif10.Specification;
 import org.eclipse.rmf.reqif10.common.util.ReqIF10Util;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import DataModel.Contained;
-import DataModel.RequirementSection;
-import DataModel.RequirementSource;
-import DataModel.Scope;
-import DataModel.Section;
 import MappingModel.AttributeMapping;
 import MappingModel.ElementMapping;
+import RequirementSourceData.AbstractElement;
+import RequirementSourceData.Requirement;
+import RequirementSourceData.RequirementSource;
+import RequirementSourceData.Scope;
+import RequirementSourceData.Section;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
@@ -117,14 +117,14 @@ public class RMFUtils {
 				for(Specification specification : specifications) {
 
 					EList<SpecHierarchy> specHierarchies = specification.getChildren();
-					Collection<Contained> children = createChildren(specHierarchies, mapping, scope);
+					Collection<AbstractElement> children = createChildren(specHierarchies, mapping, scope);
 
 					//					ElementMapping elementMapping = DataUtil.getElementMapping(mapping, specification.getType().getIdentifier());
 
 					String id = specification.getLongName();//getID(elementMapping, specification);
 					String name = specification.getDesc();//getName(elementMapping, specification);
 
-					Contained section = null;
+					AbstractElement section = null;
 					section = dataManager.createSection(id, name, ReqIF10Util.getSpecType(specification).getIdentifier());
 					//						section = creator.createSection(id, name, ReqIF10Util.getSpecType(specification).getIdentifier());
 
@@ -145,15 +145,15 @@ public class RMFUtils {
 		}
 	}
 
-	protected static Collection<Contained> createChildren(EList<SpecHierarchy> specHierarchies, Collection<ElementMapping> mapping, Scope scope) {
+	protected static Collection<AbstractElement> createChildren(EList<SpecHierarchy> specHierarchies, Collection<ElementMapping> mapping, Scope scope) {
 
-		Collection<Contained> result = new ArrayList<Contained>();
+		Collection<AbstractElement> result = new ArrayList<AbstractElement>();
 
 		for(SpecHierarchy specHierarchy : specHierarchies) {
 
-			Collection<Contained> children = createChildren(specHierarchy.getChildren(), mapping, scope);
+			Collection<AbstractElement> children = createChildren(specHierarchy.getChildren(), mapping, scope);
 
-			Contained createdObject = null;
+			AbstractElement createdObject = null;
 
 			SpecObject specObject = specHierarchy.getObject();
 			if(specObject != null) {
@@ -163,7 +163,7 @@ public class RMFUtils {
 					String id = getID(elementMapping, specObject);
 					String name = getName(elementMapping, specObject);
 					createdObject = createElement(mapping, specObject, ReqIF10Util.getSpecType(specObject).getIdentifier(), id, name);
-					if(scope != null && (createdObject instanceof RequirementSection)) {
+					if(scope != null && (createdObject instanceof Requirement)) {
 						createdObject.getScopes().add(scope);
 					}
 				}
@@ -221,9 +221,9 @@ public class RMFUtils {
 		return "";
 	}
 
-	protected static Contained createElement(Collection<ElementMapping> mapping, SpecElementWithAttributes specElement, String sourceQualifier, String id, String name) {
+	protected static AbstractElement createElement(Collection<ElementMapping> mapping, SpecElementWithAttributes specElement, String sourceQualifier, String id, String name) {
 		ElementMapping elementMapping = DataUtil.getElementMapping(mapping, sourceQualifier);
-		Contained createdObject = null;
+		AbstractElement createdObject = null;
 		if(elementMapping != null) {
 			try {
 				//FIXME : use IRequirementType in the mapping dialog
@@ -242,7 +242,7 @@ public class RMFUtils {
 	}
 
 
-	protected static void addAttributes(ElementMapping elementMapping, Collection<AttributeValue> values, Contained element) {
+	protected static void addAttributes(ElementMapping elementMapping, Collection<AttributeValue> values, AbstractElement element) {
 		for(AttributeValue attributeValue : values) {
 
 			AttributeMapping attributeMapping = DataUtil.getAttributeMapping(elementMapping, ReqIF10Util.getAttributeDefinition(attributeValue).getIdentifier());

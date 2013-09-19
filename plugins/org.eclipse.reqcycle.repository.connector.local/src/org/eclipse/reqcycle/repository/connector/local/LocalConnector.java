@@ -4,8 +4,8 @@ import java.util.concurrent.Callable;
 
 import org.eclipse.reqcycle.repository.connector.IConnector;
 
-import DataModel.DataModelFactory;
-import DataModel.RequirementSource;
+import RequirementSourceData.RequirementSource;
+import RequirementSourceData.RequirementSourceDataFactory;
 
 public class LocalConnector implements IConnector {
 
@@ -24,7 +24,7 @@ public class LocalConnector implements IConnector {
 
 			@Override
 			public RequirementSource call() throws Exception {
-				return DataModelFactory.eINSTANCE.createRequirementSource();
+				return RequirementSourceDataFactory.eINSTANCE.createRequirementSource();
 			}
 		};
 	}

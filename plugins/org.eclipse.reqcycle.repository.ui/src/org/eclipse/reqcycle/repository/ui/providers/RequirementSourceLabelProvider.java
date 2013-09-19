@@ -29,7 +29,7 @@ import org.eclipse.reqcycle.repository.ui.Messages;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import DataModel.RequirementSource;
+import RequirementSourceData.RequirementSource;
 
 public class RequirementSourceLabelProvider extends LabelProvider {
 
@@ -47,6 +47,7 @@ public class RequirementSourceLabelProvider extends LabelProvider {
 	IConnectorManager repositoryConnectorManager = ZigguratInject.make(IConnectorManager.class);
 
 
+	@Override
 	public String getText(Object obj) {
 		if(obj instanceof String) {
 			ConnectorDescriptor connectorDescriptor = repositoryConnectorManager.get((String)obj);
@@ -58,6 +59,7 @@ public class RequirementSourceLabelProvider extends LabelProvider {
 		return obj.toString();
 	}
 
+	@Override
 	public Image getImage(Object obj) {
 
 		if(obj instanceof String) {

@@ -21,11 +21,11 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.reqcycle.repository.data.types.IRequirementType;
 import org.eclipse.reqcycle.repository.data.types.IAttribute;
+import org.eclipse.reqcycle.repository.data.types.IRequirementType;
 
-import DataModel.DataModelPackage;
-import DataModel.RequirementSection;
+import RequirementSourceData.Requirement;
+import RequirementSourceData.RequirementSourceDataPackage;
 
 
 public class RequirementTypeImpl implements IRequirementType, IAdaptable {
@@ -37,7 +37,7 @@ public class RequirementTypeImpl implements IRequirementType, IAdaptable {
 	public RequirementTypeImpl(String name) {
 		eClass = EcoreFactory.eINSTANCE.createEClass();
 		eClass.setName(name);
-		eClass.getESuperTypes().add(DataModelPackage.Literals.REQUIREMENT_SECTION);
+		eClass.getESuperTypes().add(RequirementSourceDataPackage.Literals.REQUIREMENT);
 		for(EAttribute eAttribute : eClass.getEAllAttributes()) {
 			attributes.add(new AttributeImpl(eAttribute));
 		}
@@ -84,10 +84,10 @@ public class RequirementTypeImpl implements IRequirementType, IAdaptable {
 	}
 
 	@Override
-	public RequirementSection createInstance() {
+	public Requirement createInstance() {
 		EPackage ePackage = eClass.getEPackage();
 		if(ePackage != null) {
-			return (RequirementSection)ePackage.getEFactoryInstance().create(eClass);
+			return (Requirement)ePackage.getEFactoryInstance().create(eClass);
 		}
 		return null;
 	}

@@ -19,9 +19,9 @@ import java.util.Set;
 
 import org.eclipse.reqcycle.repository.data.types.IAttribute;
 
-import DataModel.Contained;
-import DataModel.RequirementSource;
-import DataModel.Section;
+import RequirementSourceData.AbstractElement;
+import RequirementSourceData.RequirementSource;
+import RequirementSourceData.Section;
 
 
 public interface IDataManager {
@@ -126,15 +126,15 @@ public interface IDataManager {
 	public void notifyChange(String event, Object data);
 
 	/**
-	 * Adds the attribute to a contained element.
+	 * Adds the attribute to the given element.
 	 * 
-	 * @param contained
-	 *        the contained element
+	 * @param element
+	 *        the element
 	 * @param attribute
 	 *        the attribute to add
 	 * @param value
 	 *        the value to set
 	 */
-	public void addAttribute(Contained contained, IAttribute attribute, Object value);
+	public void addAttribute(AbstractElement element, IAttribute attribute, Object value);
 
 }

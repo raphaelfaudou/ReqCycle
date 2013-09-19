@@ -27,6 +27,7 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.common.ui.dialogs.ResourceDialog;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.databinding.viewers.ViewerProperties;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelection;
@@ -52,12 +53,11 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import DataModel.RequirementSource;
-import DataModel.Scope;
-import org.eclipse.jface.databinding.viewers.ViewerProperties;
+import RequirementSourceData.RequirementSource;
+import RequirementSourceData.Scope;
 
 public class RMFSettingPage extends WizardPage implements Listener {
-	
+
 	private Text fileURIText;
 
 	private Button browseFileBtn;
@@ -75,7 +75,7 @@ public class RMFSettingPage extends WizardPage implements Listener {
 	private Button btnReferenceImport;
 
 	private Button btnCopyImport;
-	
+
 	private IDataModelManager dataManager = ZigguratInject.make(IDataModelManager.class);
 
 	private Combo cScope;
@@ -83,7 +83,7 @@ public class RMFSettingPage extends WizardPage implements Listener {
 	private Combo cDataModel;
 
 	private Collection<Scope> inputScope = new ArrayList<Scope>();
-	
+
 
 	/**
 	 * @param title
@@ -133,41 +133,43 @@ public class RMFSettingPage extends WizardPage implements Listener {
 		browseFileBtn = new Button(compositeContainer, SWT.NONE);
 		browseFileBtn.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		browseFileBtn.setText("Browse");
-		
+
 		Label lblSeparator = new Label(compositeContainer, SWT.SEPARATOR | SWT.HORIZONTAL);
 		lblSeparator.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1));
-		
+
 		SashForm sashForm = new SashForm(compositeContainer, SWT.NONE);
-		sashForm.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,3,1));
-		
+		sashForm.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1));
+
 		Label lblDataModel = new Label(compositeContainer, SWT.NONE);
 		lblDataModel.setText("Data Model :");
-		
+
 		cvDataModel = new ComboViewer(compositeContainer);
 		cDataModel = cvDataModel.getCombo();
 		cDataModel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		cvDataModel.setContentProvider(ArrayContentProvider.getInstance());
 		cvDataModel.setLabelProvider(new LabelProvider() {
+
 			@Override
 			public String getText(Object element) {
 				if(element instanceof IDataModel) {
 					return ((IDataModel)element).getName();
-					
+
 				}
 				return super.getText(element);
 			}
 		});
 		cvDataModel.setInput(dataManager.getAllDataModels());
-		
+
 		Label lblScope = new Label(compositeContainer, SWT.NONE);
 		lblScope.setText("Scope :");
-		
+
 		cvScope = new ComboViewer(compositeContainer);
 		cScope = cvScope.getCombo();
 		cScope.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		cScope.setEnabled(false);
 		cvScope.setContentProvider(ArrayContentProvider.getInstance());
 		cvScope.setLabelProvider(new LabelProvider() {
+
 			@Override
 			public String getText(Object element) {
 				if(element instanceof Scope) {
@@ -177,29 +179,29 @@ public class RMFSettingPage extends WizardPage implements Listener {
 			}
 		});
 		cvScope.setInput(inputScope);
-		
-		
+
+
 		lblSeparator = new Label(compositeContainer, SWT.SEPARATOR | SWT.HORIZONTAL);
 		lblSeparator.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1));
-		
+
 		Label lblMode = new Label(compositeContainer, SWT.None);
 		lblMode.setText("Import Mode :");
-		
+
 		Composite radioBtnComposite = new Composite(compositeContainer, SWT.NONE);
 		radioBtnComposite.setEnabled(false);
 		radioBtnComposite.setLayout(new GridLayout());
 		radioBtnComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
-		
+
 		btnCopyImport = new Button(radioBtnComposite, SWT.RADIO);
 		btnCopyImport.setText("Copy");
 		btnCopyImport.setSelection(true);
-		
+
 		btnReferenceImport = new Button(radioBtnComposite, SWT.RADIO);
 		btnReferenceImport.setText("Reference");
-		
+
 		lblSeparator = new Label(compositeContainer, SWT.SEPARATOR | SWT.HORIZONTAL);
 		lblSeparator.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1));
-		
+
 		btnSkipMapping = new Button(compositeContainer, SWT.CHECK);
 
 		Label lblSkipMapping = new Label(compositeContainer, SWT.NONE);
@@ -211,15 +213,16 @@ public class RMFSettingPage extends WizardPage implements Listener {
 		init();
 		initDataBindings();
 	}
-	
-	
+
+
 	protected void hookListeners() {
-		
-//		fileURIText.addListener(SWT.Modify, this);
-//		btnSkipMapping.addListener(SWT.Selection, this);
-		
+
+		//		fileURIText.addListener(SWT.Modify, this);
+		//		btnSkipMapping.addListener(SWT.Selection, this);
+
 		browseFileBtn.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				ResourceDialog dialog = new ResourceDialog(getShell(), "Select ReqIF file", SWT.NONE);
 				int res = dialog.open();
@@ -231,9 +234,9 @@ public class RMFSettingPage extends WizardPage implements Listener {
 				}
 			}
 		});
-		
+
 		cvDataModel.addSelectionChangedListener(new ISelectionChangedListener() {
-			
+
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				inputScope.clear();
@@ -245,28 +248,28 @@ public class RMFSettingPage extends WizardPage implements Listener {
 						cScope.setEnabled(true);
 						inputScope.addAll(((IDataModel)obj).getScopes());
 					}
-					
+
 				}
 				cvScope.refresh();
 			}
 		});
 	}
-	
-	
+
+
 	@Override
 	public boolean isPageComplete() {
 		StringBuffer error = new StringBuffer();
 		boolean result = true;
-		if( bean.getUri() == null || bean.getUri().isEmpty()) {
+		if(bean.getUri() == null || bean.getUri().isEmpty()) {
 			error.append("Choose a ReqIF File.\n");
 			result = false;
 		}
-		
+
 		if(bean.getDataPackage() == null) {
 			error.append("Choose a Data Model\n");
 			result = false;
 		}
-		
+
 		if(bean.getScope() == null) {
 			error.append("Choose a Scope\n");
 			result = false;
@@ -278,7 +281,7 @@ public class RMFSettingPage extends WizardPage implements Listener {
 		}
 		return result;
 	}
-	
+
 
 	public boolean preFinish(RequirementSource repository) {
 		return true;
@@ -292,31 +295,31 @@ public class RMFSettingPage extends WizardPage implements Listener {
 			}
 		}
 	}
-	
+
 	@Override
 	public void handleEvent(Event event) {
 		getWizard().getContainer().updateButtons();
 	}
-	
+
 	public RMFSettingPageBean getBean() {
 		return bean;
 	}
-	
+
 	public static class RMFSettingPageBean {
-		
+
 		private String uri = "";
-		
+
 		private IDataModel dataPackage;
-		
+
 		private Scope scope;
-		
+
 		private Boolean isCopy = true;
-		
+
 		private boolean skipMapping = false;
 
 		private Listener listener;
-		
-		
+
+
 		public RMFSettingPageBean(Listener listener) {
 			this.listener = listener;
 		}
@@ -324,12 +327,12 @@ public class RMFSettingPage extends WizardPage implements Listener {
 		public String getUri() {
 			return uri;
 		}
-		
+
 		public void setUri(String uri) {
 			this.uri = uri;
 			listener.handleEvent(new Event());
 		}
-		
+
 		public boolean getSkipMapping() {
 			return skipMapping;
 		}
@@ -365,6 +368,7 @@ public class RMFSettingPage extends WizardPage implements Listener {
 			listener.handleEvent(new Event());
 		}
 	}
+
 	protected DataBindingContext initDataBindings() {
 		DataBindingContext bindingContext = new DataBindingContext();
 		//

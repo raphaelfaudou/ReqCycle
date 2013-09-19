@@ -62,7 +62,7 @@ import org.eclipse.ui.part.DrillDownAdapter;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import DataModel.RequirementSource;
+import RequirementSourceData.RequirementSource;
 
 /**
  * The view for connected requirement resources

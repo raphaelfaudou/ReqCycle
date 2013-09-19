@@ -42,10 +42,10 @@ import org.eclipse.reqcycle.repository.data.types.IRequirementType;
 import org.eclipse.reqcycle.repository.data.util.RepositoryConstants;
 import org.eclipse.rmf.reqif10.SpecType;
 
-import DataModel.DataModelFactory;
-import DataModel.RequirementSource;
-import DataModel.Scope;
 import MappingModel.ElementMapping;
+import RequirementSourceData.RequirementSource;
+import RequirementSourceData.RequirementSourceDataFactory;
+import RequirementSourceData.Scope;
 
 
 public class RMFConnector extends Wizard implements IConnectorWizard {
@@ -88,7 +88,7 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 					requirementSource = initSource;
 					scope = dataTypeManage.getAnalysisScope();
 				} else {
-					requirementSource = DataModelFactory.eINSTANCE.createRequirementSource();
+					requirementSource = RequirementSourceDataFactory.eINSTANCE.createRequirementSource();
 					if(settingPageBean != null) {
 						scope = settingPageBean.getScope();
 						model = settingPageBean.getDataPackage();

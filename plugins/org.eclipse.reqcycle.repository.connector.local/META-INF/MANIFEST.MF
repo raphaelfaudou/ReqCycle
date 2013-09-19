@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.eclipse.reqcycle.repository.connector.local;singleton:=true
+Bundle-SymbolicName: org.eclipse.reqcycle.repository.data.editor;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.reqcycle.repository.connector.local.Activator
@@ -22,4 +22,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.expressions,
  org.eclipse.reqcycle.core
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: RequirementSourceData.presentation
 Bundle-ActivationPolicy: lazy

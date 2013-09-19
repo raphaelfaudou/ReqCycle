@@ -15,7 +15,7 @@ package org.eclipse.reqcycle.repository.data.types;
 
 import java.util.Collection;
 
-import DataModel.Scope;
+import RequirementSourceData.Scope;
 
 /**
  * The Interface DataModel.

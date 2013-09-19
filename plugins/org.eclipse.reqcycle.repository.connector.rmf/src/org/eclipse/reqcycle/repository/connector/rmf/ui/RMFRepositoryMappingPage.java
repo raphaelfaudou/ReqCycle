@@ -45,10 +45,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
-import DataModel.RequirementSource;
 import MappingModel.AttributeMapping;
 import MappingModel.ElementMapping;
 import MappingModel.MappingModelFactory;
+import RequirementSourceData.RequirementSource;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;

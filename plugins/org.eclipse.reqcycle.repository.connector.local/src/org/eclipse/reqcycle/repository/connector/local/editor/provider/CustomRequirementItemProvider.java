@@ -13,10 +13,17 @@
  *****************************************************************************/
 package org.eclipse.reqcycle.repository.connector.local.editor.provider;
 
-import org.eclipse.emf.common.notify.AdapterFactory;
+import java.util.Collection;
 
-import DataModel.Requirement;
-import DataModel.provider.RequirementItemProvider;
+import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.reqcycle.repository.data.IDataModelManager;
+import org.eclipse.reqcycle.repository.data.types.IRequirementType;
+import org.eclipse.ziggurat.inject.ZigguratInject;
+
+import RequirementSourceData.Requirement;
+import RequirementSourceData.RequirementSourceDataFactory;
+import RequirementSourceData.RequirementSourceDataPackage;
+import RequirementSourceData.provider.RequirementItemProvider;
 
 
 /**
@@ -24,8 +31,10 @@ import DataModel.provider.RequirementItemProvider;
  */
 public class CustomRequirementItemProvider extends RequirementItemProvider {
 
+	IDataModelManager manager = ZigguratInject.make(IDataModelManager.class);
+
 	/**
-	 * Instantiates a new custom requirement item provider.
+	 * Instantiates a new custom requirement section item provider.
 	 * 
 	 * @param adapterFactory
 	 *        the adapter factory
@@ -54,6 +63,16 @@ public class CustomRequirementItemProvider extends RequirementItemProvider {
 			text += " ]";
 		}
 
-		return "Simple Requirement " + text;
+		return "Requirement " + text;
+	}
+
+	@Override
+	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
+		//FIXME : Use element Data Model to get possible children
+		//Gets Dynamic Data Model possible children
+		for(IRequirementType type : manager.getAllRequirementTypes()) {
+			newChildDescriptors.add(createChildParameter(RequirementSourceDataPackage.Literals.SECTION__CHILDREN, type.createInstance()));
+		}
+		newChildDescriptors.add(createChildParameter(RequirementSourceDataPackage.Literals.SECTION__CHILDREN, RequirementSourceDataFactory.eINSTANCE.createSection()));
 	}
 }

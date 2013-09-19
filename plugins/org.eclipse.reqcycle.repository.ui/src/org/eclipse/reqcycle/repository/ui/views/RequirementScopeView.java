@@ -54,8 +54,8 @@ import org.eclipse.ui.part.PluginTransfer;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import DataModel.Contained;
-import DataModel.Scope;
+import RequirementSourceData.AbstractElement;
+import RequirementSourceData.Scope;
 
 public class RequirementScopeView extends ViewPart {
 
@@ -66,13 +66,13 @@ public class RequirementScopeView extends ViewPart {
 	private Collection<Scope> scopes = new ArrayList<Scope>();
 
 	private Collection<IDataModel> dataModels = new ArrayList<IDataModel>();
-	
+
 	/** Selected Scope */
 	private Scope scope;
-	
+
 	private IDataModel dataModel;
 
-	private Collection<Contained> requirements = new ArrayList<Contained>();
+	private Collection<AbstractElement> requirements = new ArrayList<AbstractElement>();
 
 	/** Requirement Viewer */
 	private TreeViewer viewer;
@@ -83,7 +83,7 @@ public class RequirementScopeView extends ViewPart {
 	private ComboViewer cvDataModel;
 
 	/** refresh view button */
-//	private Button refreshBtn;
+	//	private Button refreshBtn;
 
 	protected Action newInstanceAction;
 
@@ -96,8 +96,8 @@ public class RequirementScopeView extends ViewPart {
 	public void createPartControl(Composite parent) {
 
 		initInputs();
-		
-		
+
+
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new GridLayout(2, false));
 
@@ -114,19 +114,19 @@ public class RequirementScopeView extends ViewPart {
 
 			@Override
 			public String getText(Object element) {
-				if (element instanceof IDataModel) {
-					return ((IDataModel) element).getName();
+				if(element instanceof IDataModel) {
+					return ((IDataModel)element).getName();
 				}
 				return "";
 			}
 		});
 
 		cvDataModel.setInput(dataManager.getAllDataModels());
-		
-//		refreshBtn = new Button(composite, SWT.PUSH);
-//		refreshBtn.setImage(Activator.getImageDescriptor("icons/refresh.gif").createImage());
-//		
-//		refreshBtn.setToolTipText("Refresh View");
+
+		//		refreshBtn = new Button(composite, SWT.PUSH);
+		//		refreshBtn.setImage(Activator.getImageDescriptor("icons/refresh.gif").createImage());
+		//		
+		//		refreshBtn.setToolTipText("Refresh View");
 
 		Label lblScope = new Label(composite, SWT.NONE);
 		lblScope.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -141,8 +141,8 @@ public class RequirementScopeView extends ViewPart {
 
 			@Override
 			public String getText(Object element) {
-				if (element instanceof Scope) {
-					return ((Scope) element).getName();
+				if(element instanceof Scope) {
+					return ((Scope)element).getName();
 				}
 				return "";
 			}
@@ -165,14 +165,14 @@ public class RequirementScopeView extends ViewPart {
 
 			@Override
 			public boolean hasChildren(Object element) {
-//				if (element instanceof Contained) {
-//					 EList<EAttribute> eAllAttributes = ((Contained) element).eClass().getEAllAttributes();
-//					for (EAttribute eAttribute : eAllAttributes) {
-//						if	(((Contained) element).eGet(eAttribute, true) != null) {
-//							return true;
-//						}
-//					}
-//				}
+				//				if (element instanceof AbstractElement) {
+				//					 EList<EAttribute> eAllAttributes = ((AbstractElement) element).eClass().getEAllAttributes();
+				//					for (EAttribute eAttribute : eAllAttributes) {
+				//						if	(((AbstractElement) element).eGet(eAttribute, true) != null) {
+				//							return true;
+				//						}
+				//					}
+				//				}
 				return false;
 			}
 
@@ -188,13 +188,13 @@ public class RequirementScopeView extends ViewPart {
 
 			@Override
 			public Object[] getChildren(Object parentElement) {
-//				Collection<Object> result = new ArrayList<Object>();
-//				if (parentElement instanceof Contained) {
-//					EList<EAttribute> eAllAttributes = ((Contained) parentElement).eClass().getEAllAttributes();
-//					for (EAttribute eAttribute : eAllAttributes) {
-//						value = ((Contained) parentElement).eGet(eAttribute, true);
-//					}
-//				}
+				//				Collection<Object> result = new ArrayList<Object>();
+				//				if (parentElement instanceof AbstractElement) {
+				//					EList<EAttribute> eAllAttributes = ((AbstractElement) parentElement).eClass().getEAllAttributes();
+				//					for (EAttribute eAttribute : eAllAttributes) {
+				//						value = ((AbstractElement) parentElement).eGet(eAttribute, true);
+				//					}
+				//				}
 				return null;
 			}
 		});
@@ -229,17 +229,17 @@ public class RequirementScopeView extends ViewPart {
 	}
 
 	private void hookListeners() {
-		
+
 		cvDataModel.addSelectionChangedListener(new ISelectionChangedListener() {
-			
+
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				ISelection selection = event.getSelection();
-				if (selection instanceof IStructuredSelection) {
-					Object firstElement = ((IStructuredSelection) selection).getFirstElement();
-					if (firstElement instanceof IDataModel) {
-						IDataModel selectedDataModel = (IDataModel) firstElement;
-						if (selectedDataModel != dataModel) {
+				if(selection instanceof IStructuredSelection) {
+					Object firstElement = ((IStructuredSelection)selection).getFirstElement();
+					if(firstElement instanceof IDataModel) {
+						IDataModel selectedDataModel = (IDataModel)firstElement;
+						if(selectedDataModel != dataModel) {
 							dataModel = selectedDataModel;
 							scope = null;
 							setScopes(dataModel.getScopes());
@@ -248,7 +248,7 @@ public class RequirementScopeView extends ViewPart {
 				}
 			}
 		});
-		
+
 		cvScope.addSelectionChangedListener(new ISelectionChangedListener() {
 
 			@Override
@@ -258,7 +258,7 @@ public class RequirementScopeView extends ViewPart {
 					Object element = ((IStructuredSelection)selection).getFirstElement();
 					if(element instanceof Scope) {
 						Scope selectedScope = (Scope)element;
-						if (selectedScope != scope) {
+						if(selectedScope != scope) {
 							scope = selectedScope;
 							setRequirements(scope.getRequirements());
 						}
@@ -267,23 +267,23 @@ public class RequirementScopeView extends ViewPart {
 			}
 		});
 
-//		refreshBtn.addSelectionListener(new SelectionAdapter() {
-//
-//			@Override
-//			public void widgetSelected(SelectionEvent e) {
-//				if(viewer != null) {
-//					refresh();
-//				}
-//			}
-//		});
+		//		refreshBtn.addSelectionListener(new SelectionAdapter() {
+		//
+		//			@Override
+		//			public void widgetSelected(SelectionEvent e) {
+		//				if(viewer != null) {
+		//					refresh();
+		//				}
+		//			}
+		//		});
 	}
 
 	protected void refresh() {
 		setDataModels(dataManager.getAllDataModels());
-		if (dataModel != null) {
+		if(dataModel != null) {
 			setScopes(dataModel.getScopes());
 		}
-		if (scope != null) {
+		if(scope != null) {
 			setRequirements(scope.getRequirements());
 		}
 	}
@@ -291,18 +291,18 @@ public class RequirementScopeView extends ViewPart {
 	private void setDataModels(Collection<IDataModel> allDataModels) {
 		dataModels.clear();
 		dataModels.addAll(allDataModels);
-		if (cvDataModel != null) {
+		if(cvDataModel != null) {
 			cvDataModel.refresh();
-			if (dataModel != null) {
+			if(dataModel != null) {
 				cvDataModel.setSelection(new StructuredSelection(dataModel));
 			}
 		}
 	}
 
-	protected void setRequirements(EList<Contained> requirements) {
+	protected void setRequirements(EList<AbstractElement> requirements) {
 		this.requirements.clear();
 		this.requirements.addAll(scope.getRequirements());
-		if (viewer != null) {
+		if(viewer != null) {
 			viewer.refresh();
 		}
 	}
@@ -310,9 +310,9 @@ public class RequirementScopeView extends ViewPart {
 	protected void setScopes(Collection<Scope> scopes) {
 		this.scopes.clear();
 		this.scopes.addAll(scopes);
-		if (cvScope != null) {
+		if(cvScope != null) {
 			cvScope.refresh();
-			if (scope != null) {
+			if(scope != null) {
 				cvScope.setSelection(new StructuredSelection(scopes));
 			}
 		}
@@ -353,7 +353,7 @@ public class RequirementScopeView extends ViewPart {
 			}
 		};
 		refreshAction.setImageDescriptor(Activator.getImageDescriptor("icons/refresh.gif"));
-		
+
 		newInstanceAction = new Action("New Instance") {
 
 			@Override
@@ -384,5 +384,5 @@ public class RequirementScopeView extends ViewPart {
 		return view;
 
 	}
-	
+
 }

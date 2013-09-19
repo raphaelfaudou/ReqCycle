@@ -3,7 +3,7 @@ package org.eclipse.reqcycle.repository.connector.local;
 import org.eclipse.core.expressions.PropertyTester;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
-import DataModel.RequirementSource;
+import RequirementSourceData.RequirementSource;
 
 
 public class EditRequirementsPropertyTester extends PropertyTester {

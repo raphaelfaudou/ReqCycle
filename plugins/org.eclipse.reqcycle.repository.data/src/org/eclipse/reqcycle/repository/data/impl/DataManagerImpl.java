@@ -41,9 +41,10 @@ import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.IDataTopics;
 import org.eclipse.ziggurat.configuration.IConfigurationManager;
 
-import DataModel.DataModelFactory;
-import DataModel.RequirementSource;
-import DataModel.Section;
+import RequirementSourceData.AbstractElement;
+import RequirementSourceData.RequirementSource;
+import RequirementSourceData.RequirementSourceDataFactory;
+import RequirementSourceData.Section;
 import RequirementSourcesConf.RequirementSources;
 import RequirementSourcesConf.RequirementSourcesConfFactory;
 
@@ -216,7 +217,7 @@ public class DataManagerImpl implements IDataManager {
 
 	@Override
 	public RequirementSource createRequirementSource(String name, String connectorId) {
-		RequirementSource source = DataModelFactory.eINSTANCE.createRequirementSource();
+		RequirementSource source = RequirementSourceDataFactory.eINSTANCE.createRequirementSource();
 		source.setName(name);
 		source.setConnectorId(connectorId);
 		return source;
@@ -224,7 +225,7 @@ public class DataManagerImpl implements IDataManager {
 
 	@Override
 	public Section createSection(String id, String name, String uri) {
-		Section section = DataModelFactory.eINSTANCE.createSection();
+		Section section = RequirementSourceDataFactory.eINSTANCE.createSection();
 		section.setId(id);
 		section.setName(name);
 		section.setUri(uri);
@@ -232,14 +233,14 @@ public class DataManagerImpl implements IDataManager {
 	}
 
 	@Override
-	public void addAttribute(DataModel.Contained contained, org.eclipse.reqcycle.repository.data.types.IAttribute attribute, Object value) {
+	public void addAttribute(AbstractElement element, org.eclipse.reqcycle.repository.data.types.IAttribute attribute, Object value) {
 		EAttribute eAttribute = null;
 		if(attribute instanceof IAdaptable) {
 			eAttribute = (EAttribute)((IAdaptable)attribute).getAdapter(EAttribute.class);
 		}
 		//FIXME : raise exception when eAttribute is null (must not happen)
 		if(eAttribute != null) {
-			contained.eSet(eAttribute, value);
+			element.eSet(eAttribute, value);
 		}
 	};
 

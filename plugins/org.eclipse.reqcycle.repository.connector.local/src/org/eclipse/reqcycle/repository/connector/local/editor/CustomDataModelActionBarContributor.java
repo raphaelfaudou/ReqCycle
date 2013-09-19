@@ -20,15 +20,15 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.reqcycle.repository.connector.local.editor.util.CustomDataModelEditorUtil;
 
-import DataModel.RequirementSource;
-import DataModel.presentation.DataModelActionBarContributor;
+import RequirementSourceData.RequirementSource;
+import RequirementSourceData.presentation.RequirementSourceDataActionBarContributor;
 import RequirementSourcesConf.RequirementSources;
 
 
 /**
  * The Class RequirementsActionBarContributor.
  */
-public class CustomDataModelActionBarContributor extends DataModelActionBarContributor {
+public class CustomDataModelActionBarContributor extends RequirementSourceDataActionBarContributor {
 
 	@Override
 	protected Collection<IAction> generateCreateChildActions(Collection<?> descriptors, ISelection selection) {

@@ -28,12 +28,12 @@ import org.eclipse.reqcycle.repository.data.types.IAttributeType;
 import org.eclipse.reqcycle.repository.data.types.internal.AttributeTypeImpl;
 import org.eclipse.swt.graphics.Image;
 
-import DataModel.Contained;
-import DataModel.RequirementSource;
-import DataModel.Scope;
-import DataModel.Section;
 import MappingModel.AttributeMapping;
 import MappingModel.ElementMapping;
+import RequirementSourceData.AbstractElement;
+import RequirementSourceData.RequirementSource;
+import RequirementSourceData.Scope;
+import RequirementSourceData.Section;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
@@ -107,7 +107,7 @@ public class DataUtil {
 	};
 
 
-	public static String getInformation(Contained object) {
+	public static String getInformation(AbstractElement object) {
 		String result = "";
 
 		EList<EStructuralFeature> structuralFeatures = object.eClass().getEStructuralFeatures();
@@ -169,12 +169,12 @@ public class DataUtil {
 		return null;
 	}
 
-	public static Collection<Contained> getAllContainedElements(EList<Contained> containedElements) {
-		Collection<Contained> result = new ArrayList<Contained>();
-		result.addAll(containedElements);
-		for(Contained contained : containedElements) {
-			if(contained instanceof Section) {
-				result.addAll(getAllContainedElements(((Section)contained).getChildren()));
+	public static Collection<AbstractElement> getAllContainedElements(EList<AbstractElement> elements) {
+		Collection<AbstractElement> result = new ArrayList<AbstractElement>();
+		result.addAll(elements);
+		for(AbstractElement element : elements) {
+			if(element instanceof Section) {
+				result.addAll(getAllContainedElements(((Section)element).getChildren()));
 			}
 		}
 		return result;
@@ -203,7 +203,7 @@ public class DataUtil {
 							if(arg0 instanceof EClass) {
 								EList<EClass> superTypes = ((EClass)arg0).getEAllSuperTypes();
 								for(EClassifier superType : superTypes) {
-									if("Contained".equals(superType.getName())) {
+									if("AbstractElement".equals(superType.getName())) {
 										return true;
 									}
 								}

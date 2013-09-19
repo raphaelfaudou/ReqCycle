@@ -20,10 +20,10 @@ import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.types.IRequirementType;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import DataModel.DataModelFactory;
-import DataModel.DataModelPackage;
-import DataModel.Section;
-import DataModel.provider.SectionItemProvider;
+import RequirementSourceData.RequirementSourceDataFactory;
+import RequirementSourceData.RequirementSourceDataPackage;
+import RequirementSourceData.Section;
+import RequirementSourceData.provider.SectionItemProvider;
 
 
 /**
@@ -71,9 +71,9 @@ public class CustomSectionItemProvider extends SectionItemProvider {
 		//FIXME : Use element Data Model to get possible children
 		//Gets Dynamic Data Model possible children
 		for(IRequirementType type : manager.getAllRequirementTypes()) {
-			newChildDescriptors.add(createChildParameter(DataModelPackage.Literals.SECTION__CHILDREN, type.createInstance()));
+			newChildDescriptors.add(createChildParameter(RequirementSourceDataPackage.Literals.SECTION__CHILDREN, type.createInstance()));
 		}
-		newChildDescriptors.add(createChildParameter(DataModelPackage.Literals.SECTION__CHILDREN, DataModelFactory.eINSTANCE.createSection()));
+		newChildDescriptors.add(createChildParameter(RequirementSourceDataPackage.Literals.SECTION__CHILDREN, RequirementSourceDataFactory.eINSTANCE.createSection()));
 	}
 
 }

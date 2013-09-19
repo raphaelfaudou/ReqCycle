@@ -14,7 +14,7 @@ import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import DataModel.RequirementSource;
+import RequirementSourceData.RequirementSource;
 
 
 public class EditRequirementsHandler extends AbstractHandler {

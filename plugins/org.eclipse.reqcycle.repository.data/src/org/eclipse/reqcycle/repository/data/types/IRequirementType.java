@@ -15,7 +15,7 @@ package org.eclipse.reqcycle.repository.data.types;
 
 import java.util.Collection;
 
-import DataModel.RequirementSection;
+import RequirementSourceData.Requirement;
 
 /**
  * The Interface RequirementType.
@@ -49,5 +49,5 @@ public interface IRequirementType {
 	 * 
 	 * @return requirement element
 	 */
-	public RequirementSection createInstance();
+	public Requirement createInstance();
 }

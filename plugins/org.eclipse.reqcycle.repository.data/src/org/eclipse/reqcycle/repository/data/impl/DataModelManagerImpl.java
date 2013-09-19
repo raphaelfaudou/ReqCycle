@@ -46,8 +46,8 @@ import org.eclipse.reqcycle.repository.data.types.internal.EnumeratorImpl;
 import org.eclipse.reqcycle.repository.data.types.internal.RequirementTypeImpl;
 import org.eclipse.ziggurat.configuration.IConfigurationManager;
 
-import DataModel.DataModelFactory;
-import DataModel.Scope;
+import RequirementSourceData.RequirementSourceDataFactory;
+import RequirementSourceData.Scope;
 
 @Singleton
 public class DataModelManagerImpl implements IDataModelManager {
@@ -227,7 +227,7 @@ public class DataModelManagerImpl implements IDataModelManager {
 
 	@Override
 	public Scope createScope(String name) {
-		Scope scope = DataModelFactory.eINSTANCE.createScope();
+		Scope scope = RequirementSourceDataFactory.eINSTANCE.createScope();
 		scope.setName(name);
 		return scope;
 	}

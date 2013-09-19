@@ -22,10 +22,10 @@ import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.types.IRequirementType;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import DataModel.DataModelFactory;
-import DataModel.DataModelPackage;
-import DataModel.RequirementSource;
-import DataModel.provider.RequirementSourceItemProvider;
+import RequirementSourceData.RequirementSource;
+import RequirementSourceData.RequirementSourceDataFactory;
+import RequirementSourceData.RequirementSourceDataPackage;
+import RequirementSourceData.provider.RequirementSourceItemProvider;
 
 
 /**
@@ -49,7 +49,7 @@ public class CustomRequirementSourceItemProvider extends RequirementSourceItemPr
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if(childrenFeatures == null) {
 			childrenFeatures = new ArrayList<EStructuralFeature>();
-			childrenFeatures.add(DataModelPackage.Literals.REQUIREMENT_SOURCE__REQUIREMENTS);
+			childrenFeatures.add(RequirementSourceDataPackage.Literals.REQUIREMENT_SOURCE__REQUIREMENTS);
 		}
 		return childrenFeatures;
 	}
@@ -76,9 +76,9 @@ public class CustomRequirementSourceItemProvider extends RequirementSourceItemPr
 		//FIXME : Use element Data Model to get possible children
 		//Gets Dynamic Data Model possible children
 		for(IRequirementType type : manager.getAllRequirementTypes()) {
-			newChildDescriptors.add(createChildParameter(DataModelPackage.Literals.REQUIREMENT_SOURCE__REQUIREMENTS, type.createInstance()));
+			newChildDescriptors.add(createChildParameter(RequirementSourceDataPackage.Literals.REQUIREMENT_SOURCE__REQUIREMENTS, type.createInstance()));
 		}
-		newChildDescriptors.add(createChildParameter(DataModelPackage.Literals.REQUIREMENT_SOURCE__REQUIREMENTS, DataModelFactory.eINSTANCE.createSection()));
+		newChildDescriptors.add(createChildParameter(RequirementSourceDataPackage.Literals.REQUIREMENT_SOURCE__REQUIREMENTS, RequirementSourceDataFactory.eINSTANCE.createSection()));
 	}
 
 }

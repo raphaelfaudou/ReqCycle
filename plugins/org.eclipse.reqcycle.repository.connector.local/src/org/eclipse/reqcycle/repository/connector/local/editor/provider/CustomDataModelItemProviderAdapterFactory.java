@@ -18,10 +18,10 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 
-import DataModel.provider.DataModelItemProviderAdapterFactory;
+import RequirementSourceData.provider.RequirementSourceDataItemProviderAdapterFactory;
 
 
-public class CustomDataModelItemProviderAdapterFactory extends DataModelItemProviderAdapterFactory {
+public class CustomDataModelItemProviderAdapterFactory extends RequirementSourceDataItemProviderAdapterFactory {
 
 	/**
 	 * Instantiates a new custom data model item provider adapter factory.
@@ -32,12 +32,12 @@ public class CustomDataModelItemProviderAdapterFactory extends DataModelItemProv
 	}
 
 	@Override
-	public Adapter createRequirementAdapter() {
-		if(requirementItemProvider == null) {
+	public Adapter createSimpleRequirementAdapter() {
+		if(simpleRequirementItemProvider == null) {
 			//Use Custom Requirement Item Provider
-			requirementItemProvider = new CustomRequirementItemProvider(this);
+			simpleRequirementItemProvider = new CustomSimpleRequirementItemProvider(this);
 		};
-		return requirementItemProvider;
+		return simpleRequirementItemProvider;
 	}
 
 	@Override
@@ -59,12 +59,12 @@ public class CustomDataModelItemProviderAdapterFactory extends DataModelItemProv
 	}
 
 	@Override
-	public Adapter createRequirementSectionAdapter() {
-		if(requirementSectionItemProvider == null) {
+	public Adapter createRequirementAdapter() {
+		if(requirementItemProvider == null) {
 			//Use Custom Requirement Section Item Provider
-			requirementSectionItemProvider = new CustomRequirementSectionItemProvider(this);
+			requirementItemProvider = new CustomRequirementItemProvider(this);
 		}
-		return requirementSectionItemProvider;
+		return requirementItemProvider;
 	}
 
 	@Override

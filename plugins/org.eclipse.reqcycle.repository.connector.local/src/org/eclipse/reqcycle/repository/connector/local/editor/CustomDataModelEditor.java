@@ -50,21 +50,21 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import DataModel.RequirementSource;
-import DataModel.presentation.DataModelEditor;
-import DataModel.presentation.DataModelEditorPlugin;
+import RequirementSourceData.RequirementSource;
+import RequirementSourceData.presentation.RequirementSourceDataEditor;
+import RequirementSourceData.presentation.RequirementSourceDataEditorPlugin;
 
 
 /**
  * The Class RequirementSourceEditor.
  */
-public class CustomDataModelEditor extends DataModelEditor {
+public class CustomDataModelEditor extends RequirementSourceDataEditor {
 
 	//FIXME : Use manager or local connector to retrieve this ID
 	public final static String LOCAL_CONNECTOR_ID = "org.eclipse.reqcycle.repository.connector.local.connectorCore";
 
 	/** The Constant EDITOR ID. */
-	public static final String EDITOR_ID = "DataModel.presentation.DataModelEditorID";
+	public static final String EDITOR_ID = "RequirementSourceData.presentation.RequirementSourceDataEditorID";
 
 	/** The input Object uri. */
 	protected URI inputURI;
@@ -294,7 +294,7 @@ public class CustomDataModelEditor extends DataModelEditor {
 	 * @return the corresponding string
 	 */
 	protected String getString(String key) {
-		return DataModelEditorPlugin.INSTANCE.getString(key);
+		return RequirementSourceDataEditorPlugin.INSTANCE.getString(key);
 	}
 
 	@Override

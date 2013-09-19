@@ -23,7 +23,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.reqcycle.repository.data.IDataManager;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import DataModel.RequirementSource;
+import RequirementSourceData.RequirementSource;
 
 public class RequirementSourceContentProvider implements ITreeContentProvider, IStructuredContentProvider {
 
@@ -31,12 +31,15 @@ public class RequirementSourceContentProvider implements ITreeContentProvider, I
 	private @Inject
 	IDataManager requirementSourceManager = ZigguratInject.make(IDataManager.class);
 
+	@Override
 	public void inputChanged(Viewer v, Object oldInput, Object newInput) {
 	}
 
+	@Override
 	public void dispose() {
 	}
 
+	@Override
 	public Object[] getElements(Object parent) {
 		if(parent instanceof Set<?>) {
 			return ((Set<?>)parent).toArray();
@@ -44,15 +47,18 @@ public class RequirementSourceContentProvider implements ITreeContentProvider, I
 		return getChildren(parent);
 	}
 
+	@Override
 	public Object getParent(Object child) {
 		return null;
 	}
 
+	@Override
 	public Object[] getChildren(Object parent) {
 		Set<RequirementSource> repositories = requirementSourceManager.getRequirementSources((String)parent);
 		return repositories.toArray();
 	}
 
+	@Override
 	public boolean hasChildren(Object parent) {
 
 		if(parent instanceof String) {

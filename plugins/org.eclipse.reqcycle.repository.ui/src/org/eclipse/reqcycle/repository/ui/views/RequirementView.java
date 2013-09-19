@@ -62,12 +62,12 @@ import org.eclipse.ui.part.PluginTransfer;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import DataModel.RequirementSource;
+import RequirementSourceData.RequirementSource;
 
 public class RequirementView extends ViewPart implements Listener {
 
-	
-	/** View ID	 */
+
+	/** View ID */
 	public static final String VIEW_ID = "org.eclipse.reqcycle.repository.ui.views.requirements";
 
 	ILogger logger = ZigguratInject.make(ILogger.class);
@@ -84,7 +84,7 @@ public class RequirementView extends ViewPart implements Listener {
 	protected Collection<RequirementSource> sources = Collections.emptyList();
 
 	protected Collection<DummyInput> input = new ArrayList<DummyInput>();
-	
+
 	protected Action newInstanceAction;
 
 	protected DrillDownAdapter drillDownAdapter;
@@ -122,7 +122,7 @@ public class RequirementView extends ViewPart implements Listener {
 		});
 
 		getViewer().setInput(input);
-		
+
 		drillDownAdapter = new DrillDownAdapter(viewer);
 
 		int dndOperations = DND.DROP_COPY | DND.DROP_MOVE;
@@ -141,7 +141,7 @@ public class RequirementView extends ViewPart implements Listener {
 		contributeToActionBars();
 		hookListeners();
 	}
-	
+
 	/**
 	 * Create The context menu
 	 */
@@ -150,13 +150,14 @@ public class RequirementView extends ViewPart implements Listener {
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
 
+			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				fillContextMenu(manager);
 			}
 		});
 		Menu menu = menuMgr.createContextMenu(viewer.getControl());
 		viewer.getControl().setMenu(menu);
-		
+
 		getSite().registerContextMenu(menuMgr, selectionProvider != null ? selectionProvider : viewer);
 	}
 
@@ -202,11 +203,11 @@ public class RequirementView extends ViewPart implements Listener {
 			public void removePostSelectionChangedListener(ISelectionChangedListener listener) {
 				((IPostSelectionProvider)viewer).removePostSelectionChangedListener(listener);
 			}
-			
+
 		};
 		getSite().setSelectionProvider(selectionProvider);
 	}
-	
+
 	/**
 	 * Fills the context menu
 	 * 
