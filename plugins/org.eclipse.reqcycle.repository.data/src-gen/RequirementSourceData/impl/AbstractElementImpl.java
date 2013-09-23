@@ -4,7 +4,7 @@ package RequirementSourceData.impl;
 
 import RequirementSourceData.AbstractElement;
 import RequirementSourceData.RequirementSourceDataPackage;
-import ScopesConf.Scope;
+import ScopeConf.Scope;
 import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;

@@ -1,6 +1,6 @@
 /**
  */
-package ScopesConf;
+package ScopeConf;
 
 import org.eclipse.emf.common.util.EList;
 
@@ -14,18 +14,18 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link ScopesConf.Scopes#getScopes <em>Scopes</em>}</li>
+ *   <li>{@link ScopeConf.Scopes#getScopes <em>Scopes</em>}</li>
  * </ul>
  * </p>
  *
- * @see ScopesConf.ScopesConfPackage#getScopes()
+ * @see ScopeConf.ScopeConfPackage#getScopes()
  * @model
  * @generated
  */
 public interface Scopes extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Scopes</b></em>' containment reference list.
-	 * The list contents are of type {@link ScopesConf.Scope}.
+	 * The list contents are of type {@link ScopeConf.Scope}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Scopes</em>' containment reference list isn't clear,
@@ -33,7 +33,7 @@ public interface Scopes extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Scopes</em>' containment reference list.
-	 * @see ScopesConf.ScopesConfPackage#getScopes_Scopes()
+	 * @see ScopeConf.ScopeConfPackage#getScopes_Scopes()
 	 * @model containment="true"
 	 * @generated
 	 */

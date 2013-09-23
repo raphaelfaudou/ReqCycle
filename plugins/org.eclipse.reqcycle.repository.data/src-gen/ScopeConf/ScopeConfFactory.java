@@ -1,6 +1,6 @@
 /**
  */
-package ScopesConf;
+package ScopeConf;
 
 import org.eclipse.emf.ecore.EFactory;
 
@@ -9,17 +9,17 @@ import org.eclipse.emf.ecore.EFactory;
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
- * @see ScopesConf.ScopesConfPackage
+ * @see ScopeConf.ScopeConfPackage
  * @generated
  */
-public interface ScopesConfFactory extends EFactory {
+public interface ScopeConfFactory extends EFactory {
 	/**
 	 * The singleton instance of the factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	ScopesConfFactory eINSTANCE = ScopesConf.impl.ScopesConfFactoryImpl.init();
+	ScopeConfFactory eINSTANCE = ScopeConf.impl.ScopeConfFactoryImpl.init();
 
 	/**
 	 * Returns a new object of class '<em>Scopes</em>'.
@@ -46,6 +46,6 @@ public interface ScopesConfFactory extends EFactory {
 	 * @return the package supported by this factory.
 	 * @generated
 	 */
-	ScopesConfPackage getScopesConfPackage();
+	ScopeConfPackage getScopeConfPackage();
 
-} //ScopesConfFactory
+} //ScopeConfFactory

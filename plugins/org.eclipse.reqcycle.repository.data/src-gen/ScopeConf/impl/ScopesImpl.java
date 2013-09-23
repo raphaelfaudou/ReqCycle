@@ -1,10 +1,10 @@
 /**
  */
-package ScopesConf.impl;
+package ScopeConf.impl;
 
-import ScopesConf.Scope;
-import ScopesConf.Scopes;
-import ScopesConf.ScopesConfPackage;
+import ScopeConf.Scope;
+import ScopeConf.Scopes;
+import ScopeConf.ScopeConfPackage;
 
 import java.util.Collection;
 
@@ -27,7 +27,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link ScopesConf.impl.ScopesImpl#getScopes <em>Scopes</em>}</li>
+ *   <li>{@link ScopeConf.impl.ScopesImpl#getScopes <em>Scopes</em>}</li>
  * </ul>
  * </p>
  *
@@ -60,7 +60,7 @@ public class ScopesImpl extends MinimalEObjectImpl.Container implements Scopes {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return ScopesConfPackage.Literals.SCOPES;
+		return ScopeConfPackage.Literals.SCOPES;
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class ScopesImpl extends MinimalEObjectImpl.Container implements Scopes {
 	 */
 	public EList<Scope> getScopes() {
 		if (scopes == null) {
-			scopes = new EObjectContainmentEList<Scope>(Scope.class, this, ScopesConfPackage.SCOPES__SCOPES);
+			scopes = new EObjectContainmentEList<Scope>(Scope.class, this, ScopeConfPackage.SCOPES__SCOPES);
 		}
 		return scopes;
 	}
@@ -83,7 +83,7 @@ public class ScopesImpl extends MinimalEObjectImpl.Container implements Scopes {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ScopesConfPackage.SCOPES__SCOPES:
+			case ScopeConfPackage.SCOPES__SCOPES:
 				return ((InternalEList<?>)getScopes()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -97,7 +97,7 @@ public class ScopesImpl extends MinimalEObjectImpl.Container implements Scopes {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ScopesConfPackage.SCOPES__SCOPES:
+			case ScopeConfPackage.SCOPES__SCOPES:
 				return getScopes();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -112,7 +112,7 @@ public class ScopesImpl extends MinimalEObjectImpl.Container implements Scopes {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ScopesConfPackage.SCOPES__SCOPES:
+			case ScopeConfPackage.SCOPES__SCOPES:
 				getScopes().clear();
 				getScopes().addAll((Collection<? extends Scope>)newValue);
 				return;
@@ -128,7 +128,7 @@ public class ScopesImpl extends MinimalEObjectImpl.Container implements Scopes {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ScopesConfPackage.SCOPES__SCOPES:
+			case ScopeConfPackage.SCOPES__SCOPES:
 				getScopes().clear();
 				return;
 		}
@@ -143,7 +143,7 @@ public class ScopesImpl extends MinimalEObjectImpl.Container implements Scopes {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ScopesConfPackage.SCOPES__SCOPES:
+			case ScopeConfPackage.SCOPES__SCOPES:
 				return scopes != null && !scopes.isEmpty();
 		}
 		return super.eIsSet(featureID);

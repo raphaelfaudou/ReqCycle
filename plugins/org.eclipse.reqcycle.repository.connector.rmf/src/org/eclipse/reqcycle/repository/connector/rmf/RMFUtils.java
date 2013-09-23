@@ -57,7 +57,7 @@ import RequirementSourceData.AbstractElement;
 import RequirementSourceData.Requirement;
 import RequirementSourceData.RequirementSource;
 import RequirementSourceData.Section;
-import ScopesConf.Scope;
+import ScopeConf.Scope;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;

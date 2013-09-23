@@ -1,8 +1,8 @@
 /**
  */
-package ScopesConf.impl;
+package ScopeConf.impl;
 
-import ScopesConf.*;
+import ScopeConf.*;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -18,24 +18,24 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
  * <!-- end-user-doc -->
  * @generated
  */
-public class ScopesConfFactoryImpl extends EFactoryImpl implements ScopesConfFactory {
+public class ScopeConfFactoryImpl extends EFactoryImpl implements ScopeConfFactory {
 	/**
 	 * Creates the default factory implementation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static ScopesConfFactory init() {
+	public static ScopeConfFactory init() {
 		try {
-			ScopesConfFactory theScopesConfFactory = (ScopesConfFactory)EPackage.Registry.INSTANCE.getEFactory(ScopesConfPackage.eNS_URI);
-			if (theScopesConfFactory != null) {
-				return theScopesConfFactory;
+			ScopeConfFactory theScopeConfFactory = (ScopeConfFactory)EPackage.Registry.INSTANCE.getEFactory(ScopeConfPackage.eNS_URI);
+			if (theScopeConfFactory != null) {
+				return theScopeConfFactory;
 			}
 		}
 		catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
-		return new ScopesConfFactoryImpl();
+		return new ScopeConfFactoryImpl();
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class ScopesConfFactoryImpl extends EFactoryImpl implements ScopesConfFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ScopesConfFactoryImpl() {
+	public ScopeConfFactoryImpl() {
 		super();
 	}
 
@@ -56,8 +56,8 @@ public class ScopesConfFactoryImpl extends EFactoryImpl implements ScopesConfFac
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case ScopesConfPackage.SCOPES: return createScopes();
-			case ScopesConfPackage.SCOPE: return createScope();
+			case ScopeConfPackage.SCOPES: return createScopes();
+			case ScopeConfPackage.SCOPE: return createScope();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -88,8 +88,8 @@ public class ScopesConfFactoryImpl extends EFactoryImpl implements ScopesConfFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ScopesConfPackage getScopesConfPackage() {
-		return (ScopesConfPackage)getEPackage();
+	public ScopeConfPackage getScopeConfPackage() {
+		return (ScopeConfPackage)getEPackage();
 	}
 
 	/**
@@ -99,8 +99,8 @@ public class ScopesConfFactoryImpl extends EFactoryImpl implements ScopesConfFac
 	 * @generated
 	 */
 	@Deprecated
-	public static ScopesConfPackage getPackage() {
-		return ScopesConfPackage.eINSTANCE;
+	public static ScopeConfPackage getPackage() {
+		return ScopeConfPackage.eINSTANCE;
 	}
 
-} //ScopesConfFactoryImpl
+} //ScopeConfFactoryImpl

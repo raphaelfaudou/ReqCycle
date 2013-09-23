@@ -38,7 +38,7 @@ import org.eclipse.ziggurat.ocl.OCLEvaluator;
 import org.eclipse.ziggurat.ocl.ZigguratOCLPlugin;
 
 import RequirementSourceData.RequirementSourceDataFactory;
-import ScopesConf.Scope;
+import ScopeConf.Scope;
 import RequirementSourceData.RequirementSource;
 import MappingModel.MappingElement;
 import RequirementSourceData.AbstractElement;

@@ -1,6 +1,6 @@
 /**
  */
-package ScopesConf;
+package ScopeConf;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -19,18 +19,18 @@ import org.eclipse.emf.ecore.EReference;
  *   <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
- * @see ScopesConf.ScopesConfFactory
+ * @see ScopeConf.ScopeConfFactory
  * @model kind="package"
  * @generated
  */
-public interface ScopesConfPackage extends EPackage {
+public interface ScopeConfPackage extends EPackage {
 	/**
 	 * The package name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNAME = "ScopesConf";
+	String eNAME = "ScopeConf";
 
 	/**
 	 * The package namespace URI.
@@ -38,7 +38,7 @@ public interface ScopesConfPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://www.eclipse.org/ReqCycle/ScopesConf";
+	String eNS_URI = "http://www.eclipse.org/ReqCycle/ScopeConf";
 
 	/**
 	 * The package namespace name.
@@ -46,7 +46,7 @@ public interface ScopesConfPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_PREFIX = "ScopesConf";
+	String eNS_PREFIX = "ScopeConf";
 
 	/**
 	 * The singleton instance of the package.
@@ -54,14 +54,14 @@ public interface ScopesConfPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	ScopesConfPackage eINSTANCE = ScopesConf.impl.ScopesConfPackageImpl.init();
+	ScopeConfPackage eINSTANCE = ScopeConf.impl.ScopeConfPackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link ScopesConf.impl.ScopesImpl <em>Scopes</em>}' class.
+	 * The meta object id for the '{@link ScopeConf.impl.ScopesImpl <em>Scopes</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see ScopesConf.impl.ScopesImpl
-	 * @see ScopesConf.impl.ScopesConfPackageImpl#getScopes()
+	 * @see ScopeConf.impl.ScopesImpl
+	 * @see ScopeConf.impl.ScopeConfPackageImpl#getScopes()
 	 * @generated
 	 */
 	int SCOPES = 0;
@@ -94,11 +94,11 @@ public interface ScopesConfPackage extends EPackage {
 	int SCOPES_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link ScopesConf.impl.ScopeImpl <em>Scope</em>}' class.
+	 * The meta object id for the '{@link ScopeConf.impl.ScopeImpl <em>Scope</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see ScopesConf.impl.ScopeImpl
-	 * @see ScopesConf.impl.ScopesConfPackageImpl#getScope()
+	 * @see ScopeConf.impl.ScopeImpl
+	 * @see ScopeConf.impl.ScopeConfPackageImpl#getScope()
 	 * @generated
 	 */
 	int SCOPE = 1;
@@ -141,53 +141,53 @@ public interface ScopesConfPackage extends EPackage {
 
 
 	/**
-	 * Returns the meta object for class '{@link ScopesConf.Scopes <em>Scopes</em>}'.
+	 * Returns the meta object for class '{@link ScopeConf.Scopes <em>Scopes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Scopes</em>'.
-	 * @see ScopesConf.Scopes
+	 * @see ScopeConf.Scopes
 	 * @generated
 	 */
 	EClass getScopes();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link ScopesConf.Scopes#getScopes <em>Scopes</em>}'.
+	 * Returns the meta object for the containment reference list '{@link ScopeConf.Scopes#getScopes <em>Scopes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Scopes</em>'.
-	 * @see ScopesConf.Scopes#getScopes()
+	 * @see ScopeConf.Scopes#getScopes()
 	 * @see #getScopes()
 	 * @generated
 	 */
 	EReference getScopes_Scopes();
 
 	/**
-	 * Returns the meta object for class '{@link ScopesConf.Scope <em>Scope</em>}'.
+	 * Returns the meta object for class '{@link ScopeConf.Scope <em>Scope</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Scope</em>'.
-	 * @see ScopesConf.Scope
+	 * @see ScopeConf.Scope
 	 * @generated
 	 */
 	EClass getScope();
 
 	/**
-	 * Returns the meta object for the attribute '{@link ScopesConf.Scope#getName <em>Name</em>}'.
+	 * Returns the meta object for the attribute '{@link ScopeConf.Scope#getName <em>Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see ScopesConf.Scope#getName()
+	 * @see ScopeConf.Scope#getName()
 	 * @see #getScope()
 	 * @generated
 	 */
 	EAttribute getScope_Name();
 
 	/**
-	 * Returns the meta object for the reference list '{@link ScopesConf.Scope#getRequirements <em>Requirements</em>}'.
+	 * Returns the meta object for the reference list '{@link ScopeConf.Scope#getRequirements <em>Requirements</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Requirements</em>'.
-	 * @see ScopesConf.Scope#getRequirements()
+	 * @see ScopeConf.Scope#getRequirements()
 	 * @see #getScope()
 	 * @generated
 	 */
@@ -200,7 +200,7 @@ public interface ScopesConfPackage extends EPackage {
 	 * @return the factory that creates the instances of the model.
 	 * @generated
 	 */
-	ScopesConfFactory getScopesConfFactory();
+	ScopeConfFactory getScopeConfFactory();
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -217,11 +217,11 @@ public interface ScopesConfPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link ScopesConf.impl.ScopesImpl <em>Scopes</em>}' class.
+		 * The meta object literal for the '{@link ScopeConf.impl.ScopesImpl <em>Scopes</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see ScopesConf.impl.ScopesImpl
-		 * @see ScopesConf.impl.ScopesConfPackageImpl#getScopes()
+		 * @see ScopeConf.impl.ScopesImpl
+		 * @see ScopeConf.impl.ScopeConfPackageImpl#getScopes()
 		 * @generated
 		 */
 		EClass SCOPES = eINSTANCE.getScopes();
@@ -235,11 +235,11 @@ public interface ScopesConfPackage extends EPackage {
 		EReference SCOPES__SCOPES = eINSTANCE.getScopes_Scopes();
 
 		/**
-		 * The meta object literal for the '{@link ScopesConf.impl.ScopeImpl <em>Scope</em>}' class.
+		 * The meta object literal for the '{@link ScopeConf.impl.ScopeImpl <em>Scope</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see ScopesConf.impl.ScopeImpl
-		 * @see ScopesConf.impl.ScopesConfPackageImpl#getScope()
+		 * @see ScopeConf.impl.ScopeImpl
+		 * @see ScopeConf.impl.ScopeConfPackageImpl#getScope()
 		 * @generated
 		 */
 		EClass SCOPE = eINSTANCE.getScope();
@@ -262,4 +262,4 @@ public interface ScopesConfPackage extends EPackage {
 
 	}
 
-} //ScopesConfPackage
+} //ScopeConfPackage

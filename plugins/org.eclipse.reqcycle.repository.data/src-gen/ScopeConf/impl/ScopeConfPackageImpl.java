@@ -1,14 +1,14 @@
 /**
  */
-package ScopesConf.impl;
+package ScopeConf.impl;
 
 import RequirementSourceData.RequirementSourceDataPackage;
 
 import RequirementSourceData.impl.RequirementSourceDataPackageImpl;
-import ScopesConf.Scope;
-import ScopesConf.Scopes;
-import ScopesConf.ScopesConfFactory;
-import ScopesConf.ScopesConfPackage;
+import ScopeConf.Scope;
+import ScopeConf.Scopes;
+import ScopeConf.ScopeConfFactory;
+import ScopeConf.ScopeConfPackage;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -23,7 +23,7 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
  * <!-- end-user-doc -->
  * @generated
  */
-public class ScopesConfPackageImpl extends EPackageImpl implements ScopesConfPackage {
+public class ScopeConfPackageImpl extends EPackageImpl implements ScopeConfPackage {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -49,12 +49,12 @@ public class ScopesConfPackageImpl extends EPackageImpl implements ScopesConfPac
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
-	 * @see ScopesConf.ScopesConfPackage#eNS_URI
+	 * @see ScopeConf.ScopeConfPackage#eNS_URI
 	 * @see #init()
 	 * @generated
 	 */
-	private ScopesConfPackageImpl() {
-		super(eNS_URI, ScopesConfFactory.eINSTANCE);
+	private ScopeConfPackageImpl() {
+		super(eNS_URI, ScopeConfFactory.eINSTANCE);
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class ScopesConfPackageImpl extends EPackageImpl implements ScopesConfPac
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
 	 * 
-	 * <p>This method is used to initialize {@link ScopesConfPackage#eINSTANCE} when that field is accessed.
+	 * <p>This method is used to initialize {@link ScopeConfPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -76,11 +76,11 @@ public class ScopesConfPackageImpl extends EPackageImpl implements ScopesConfPac
 	 * @see #initializePackageContents()
 	 * @generated
 	 */
-	public static ScopesConfPackage init() {
-		if (isInited) return (ScopesConfPackage)EPackage.Registry.INSTANCE.getEPackage(ScopesConfPackage.eNS_URI);
+	public static ScopeConfPackage init() {
+		if (isInited) return (ScopeConfPackage)EPackage.Registry.INSTANCE.getEPackage(ScopeConfPackage.eNS_URI);
 
 		// Obtain or create and register package
-		ScopesConfPackageImpl theScopesConfPackage = (ScopesConfPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ScopesConfPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ScopesConfPackageImpl());
+		ScopeConfPackageImpl theScopeConfPackage = (ScopeConfPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ScopeConfPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ScopeConfPackageImpl());
 
 		isInited = true;
 
@@ -88,20 +88,20 @@ public class ScopesConfPackageImpl extends EPackageImpl implements ScopesConfPac
 		RequirementSourceDataPackageImpl theRequirementSourceDataPackage = (RequirementSourceDataPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(RequirementSourceDataPackage.eNS_URI) instanceof RequirementSourceDataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(RequirementSourceDataPackage.eNS_URI) : RequirementSourceDataPackage.eINSTANCE);
 
 		// Create package meta-data objects
-		theScopesConfPackage.createPackageContents();
+		theScopeConfPackage.createPackageContents();
 		theRequirementSourceDataPackage.createPackageContents();
 
 		// Initialize created meta-data
-		theScopesConfPackage.initializePackageContents();
+		theScopeConfPackage.initializePackageContents();
 		theRequirementSourceDataPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
-		theScopesConfPackage.freeze();
+		theScopeConfPackage.freeze();
 
   
 		// Update the registry and return the package
-		EPackage.Registry.INSTANCE.put(ScopesConfPackage.eNS_URI, theScopesConfPackage);
-		return theScopesConfPackage;
+		EPackage.Registry.INSTANCE.put(ScopeConfPackage.eNS_URI, theScopeConfPackage);
+		return theScopeConfPackage;
 	}
 
 	/**
@@ -154,8 +154,8 @@ public class ScopesConfPackageImpl extends EPackageImpl implements ScopesConfPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ScopesConfFactory getScopesConfFactory() {
-		return (ScopesConfFactory)getEFactoryInstance();
+	public ScopeConfFactory getScopeConfFactory() {
+		return (ScopeConfFactory)getEFactoryInstance();
 	}
 
 	/**
@@ -223,10 +223,10 @@ public class ScopesConfPackageImpl extends EPackageImpl implements ScopesConfPac
 
 		initEClass(scopeEClass, Scope.class, "Scope", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getScope_Name(), ecorePackage.getEString(), "name", null, 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getScope_Requirements(), theRequirementSourceDataPackage.getAbstractElement(), theRequirementSourceDataPackage.getAbstractElement_Scopes(), "requirements", null, 0, -1, Scope.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEReference(getScope_Requirements(), theRequirementSourceDataPackage.getAbstractElement(), null, "requirements", null, 0, -1, Scope.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);
 	}
 
-} //ScopesConfPackageImpl
+} //ScopeConfPackageImpl

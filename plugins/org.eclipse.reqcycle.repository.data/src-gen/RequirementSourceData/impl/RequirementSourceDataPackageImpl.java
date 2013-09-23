@@ -16,8 +16,8 @@ import RequirementSourceData.RequirementSourceDataFactory;
 import RequirementSourceData.RequirementSourceDataPackage;
 import RequirementSourceData.Section;
 import RequirementSourceData.SimpleRequirement;
-import ScopesConf.ScopesConfPackage;
-import ScopesConf.impl.ScopesConfPackageImpl;
+import ScopeConf.ScopeConfPackage;
+import ScopeConf.impl.ScopeConfPackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -107,15 +107,15 @@ public class RequirementSourceDataPackageImpl extends EPackageImpl implements Re
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		ScopesConfPackageImpl theScopesConfPackage = (ScopesConfPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ScopesConfPackage.eNS_URI) instanceof ScopesConfPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ScopesConfPackage.eNS_URI) : ScopesConfPackage.eINSTANCE);
+		ScopeConfPackageImpl theScopeConfPackage = (ScopeConfPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ScopeConfPackage.eNS_URI) instanceof ScopeConfPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ScopeConfPackage.eNS_URI) : ScopeConfPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theRequirementSourceDataPackage.createPackageContents();
-		theScopesConfPackage.createPackageContents();
+		theScopeConfPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theRequirementSourceDataPackage.initializePackageContents();
-		theScopesConfPackage.initializePackageContents();
+		theScopeConfPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theRequirementSourceDataPackage.freeze();
@@ -352,7 +352,7 @@ public class RequirementSourceDataPackageImpl extends EPackageImpl implements Re
 		// Obtain other dependent packages
 		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 		MappingModelPackage theMappingModelPackage = (MappingModelPackage)EPackage.Registry.INSTANCE.getEPackage(MappingModelPackage.eNS_URI);
-		ScopesConfPackage theScopesConfPackage = (ScopesConfPackage)EPackage.Registry.INSTANCE.getEPackage(ScopesConfPackage.eNS_URI);
+		ScopeConfPackage theScopeConfPackage = (ScopeConfPackage)EPackage.Registry.INSTANCE.getEPackage(ScopeConfPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -376,7 +376,7 @@ public class RequirementSourceDataPackageImpl extends EPackageImpl implements Re
 		initEAttribute(getAbstractElement_Id(), ecorePackage.getEString(), "id", null, 0, 1, AbstractElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAbstractElement_Name(), ecorePackage.getEString(), "name", null, 0, 1, AbstractElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAbstractElement_Uri(), ecorePackage.getEString(), "uri", null, 0, 1, AbstractElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAbstractElement_Scopes(), theScopesConfPackage.getScope(), null, "scopes", null, 0, -1, AbstractElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAbstractElement_Scopes(), theScopeConfPackage.getScope(), null, "scopes", null, 0, -1, AbstractElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(sectionEClass, Section.class, "Section", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSection_Children(), this.getAbstractElement(), null, "children", null, 0, -1, Section.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

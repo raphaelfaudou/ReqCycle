@@ -1,8 +1,8 @@
 /**
  */
-package ScopesConf.util;
+package ScopeConf.util;
 
-import ScopesConf.*;
+import ScopeConf.*;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -16,17 +16,17 @@ import org.eclipse.emf.ecore.EObject;
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see ScopesConf.ScopesConfPackage
+ * @see ScopeConf.ScopeConfPackage
  * @generated
  */
-public class ScopesConfAdapterFactory extends AdapterFactoryImpl {
+public class ScopeConfAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * The cached model package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static ScopesConfPackage modelPackage;
+	protected static ScopeConfPackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
@@ -34,9 +34,9 @@ public class ScopesConfAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ScopesConfAdapterFactory() {
+	public ScopeConfAdapterFactory() {
 		if (modelPackage == null) {
-			modelPackage = ScopesConfPackage.eINSTANCE;
+			modelPackage = ScopeConfPackage.eINSTANCE;
 		}
 	}
 
@@ -65,8 +65,8 @@ public class ScopesConfAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ScopesConfSwitch<Adapter> modelSwitch =
-		new ScopesConfSwitch<Adapter>() {
+	protected ScopeConfSwitch<Adapter> modelSwitch =
+		new ScopeConfSwitch<Adapter>() {
 			@Override
 			public Adapter caseScopes(Scopes object) {
 				return createScopesAdapter();
@@ -96,13 +96,13 @@ public class ScopesConfAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link ScopesConf.Scopes <em>Scopes</em>}'.
+	 * Creates a new adapter for an object of class '{@link ScopeConf.Scopes <em>Scopes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see ScopesConf.Scopes
+	 * @see ScopeConf.Scopes
 	 * @generated
 	 */
 	public Adapter createScopesAdapter() {
@@ -110,13 +110,13 @@ public class ScopesConfAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link ScopesConf.Scope <em>Scope</em>}'.
+	 * Creates a new adapter for an object of class '{@link ScopeConf.Scope <em>Scope</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see ScopesConf.Scope
+	 * @see ScopeConf.Scope
 	 * @generated
 	 */
 	public Adapter createScopeAdapter() {
@@ -135,4 +135,4 @@ public class ScopesConfAdapterFactory extends AdapterFactoryImpl {
 		return null;
 	}
 
-} //ScopesConfAdapterFactory
+} //ScopeConfAdapterFactory

@@ -46,8 +46,8 @@ import org.eclipse.reqcycle.repository.data.types.internal.EnumeratorImpl;
 import org.eclipse.reqcycle.repository.data.types.internal.RequirementTypeImpl;
 import org.eclipse.ziggurat.configuration.IConfigurationManager;
 
-import ScopesConf.Scope;
-import ScopesConf.ScopesConfFactory;
+import ScopeConf.Scope;
+import ScopeConf.ScopeConfFactory;
 
 @Singleton
 public class DataModelManagerImpl implements IDataModelManager {
@@ -227,7 +227,7 @@ public class DataModelManagerImpl implements IDataModelManager {
 
 	@Override
 	public Scope createScope(String name) {
-		Scope scope = ScopesConfFactory.eINSTANCE.createScope();
+		Scope scope = ScopeConfFactory.eINSTANCE.createScope();
 		scope.setName(name);
 		return scope;
 	}

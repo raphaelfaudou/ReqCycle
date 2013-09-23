@@ -30,7 +30,7 @@ import org.eclipse.reqcycle.repository.data.types.IDataModel;
 import org.eclipse.reqcycle.repository.data.types.IEnumerationType;
 import org.eclipse.reqcycle.repository.data.types.IRequirementType;
 
-import ScopesConf.Scope;
+import ScopeConf.Scope;
 
 /**
  * The Class DataModelImpl.

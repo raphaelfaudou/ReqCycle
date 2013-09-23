@@ -41,7 +41,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Table;
 
-import ScopesConf.Scope;
+import ScopeConf.Scope;
 
 public class ScopesPreferencePage extends DataModelsPreferencePage {
 

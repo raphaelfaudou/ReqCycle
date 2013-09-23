@@ -1,6 +1,6 @@
 /**
  */
-package ScopesConf.impl;
+package ScopeConf.impl;
 
 import java.util.Collection;
 
@@ -19,8 +19,8 @@ import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 
 import RequirementSourceData.AbstractElement;
 import RequirementSourceData.RequirementSourceDataPackage;
-import ScopesConf.Scope;
-import ScopesConf.ScopesConfPackage;
+import ScopeConf.Scope;
+import ScopeConf.ScopeConfPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -29,8 +29,8 @@ import ScopesConf.ScopesConfPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link ScopesConf.impl.ScopeImpl#getName <em>Name</em>}</li>
- *   <li>{@link ScopesConf.impl.ScopeImpl#getRequirements <em>Requirements</em>}</li>
+ *   <li>{@link ScopeConf.impl.ScopeImpl#getName <em>Name</em>}</li>
+ *   <li>{@link ScopeConf.impl.ScopeImpl#getRequirements <em>Requirements</em>}</li>
  * </ul>
  * </p>
  *
@@ -74,7 +74,7 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return ScopesConfPackage.Literals.SCOPE;
+		return ScopeConfPackage.Literals.SCOPE;
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ScopesConfPackage.SCOPE__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET, ScopeConfPackage.SCOPE__NAME, oldName, name));
 	}
 
 	/**
@@ -162,9 +162,9 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ScopesConfPackage.SCOPE__NAME:
+			case ScopeConfPackage.SCOPE__NAME:
 				return getName();
-			case ScopesConfPackage.SCOPE__REQUIREMENTS:
+			case ScopeConfPackage.SCOPE__REQUIREMENTS:
 				return getRequirements();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -178,7 +178,7 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ScopesConfPackage.SCOPE__NAME:
+			case ScopeConfPackage.SCOPE__NAME:
 				setName((String)newValue);
 				return;
 		}
@@ -193,7 +193,7 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ScopesConfPackage.SCOPE__NAME:
+			case ScopeConfPackage.SCOPE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
 		}
@@ -208,9 +208,9 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ScopesConfPackage.SCOPE__NAME:
+			case ScopeConfPackage.SCOPE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case ScopesConfPackage.SCOPE__REQUIREMENTS:
+			case ScopeConfPackage.SCOPE__REQUIREMENTS:
 				return isSetRequirements();
 		}
 		return super.eIsSet(featureID);

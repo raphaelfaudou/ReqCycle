@@ -1,8 +1,8 @@
 /**
  */
-package ScopesConf.util;
+package ScopeConf.util;
 
-import ScopesConf.*;
+import ScopeConf.*;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -19,17 +19,17 @@ import org.eclipse.emf.ecore.util.Switch;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see ScopesConf.ScopesConfPackage
+ * @see ScopeConf.ScopeConfPackage
  * @generated
  */
-public class ScopesConfSwitch<T> extends Switch<T> {
+public class ScopeConfSwitch<T> extends Switch<T> {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static ScopesConfPackage modelPackage;
+	protected static ScopeConfPackage modelPackage;
 
 	/**
 	 * Creates an instance of the switch.
@@ -37,9 +37,9 @@ public class ScopesConfSwitch<T> extends Switch<T> {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ScopesConfSwitch() {
+	public ScopeConfSwitch() {
 		if (modelPackage == null) {
-			modelPackage = ScopesConfPackage.eINSTANCE;
+			modelPackage = ScopeConfPackage.eINSTANCE;
 		}
 	}
 
@@ -66,13 +66,13 @@ public class ScopesConfSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case ScopesConfPackage.SCOPES: {
+			case ScopeConfPackage.SCOPES: {
 				Scopes scopes = (Scopes)theEObject;
 				T result = caseScopes(scopes);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ScopesConfPackage.SCOPE: {
+			case ScopeConfPackage.SCOPE: {
 				Scope scope = (Scope)theEObject;
 				T result = caseScope(scope);
 				if (result == null) result = defaultCase(theEObject);
@@ -128,4 +128,4 @@ public class ScopesConfSwitch<T> extends Switch<T> {
 		return null;
 	}
 
-} //ScopesConfSwitch
+} //ScopeConfSwitch

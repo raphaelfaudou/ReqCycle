@@ -44,8 +44,8 @@ Export-Package: MappingModel,
  org.eclipse.reqcycle.repository.data.types,
  org.eclipse.reqcycle.repository.data.types.internal;x-internal:=true,
  org.eclipse.reqcycle.repository.data.util,
- ScopesConf,
- ScopesConf.impl,
- ScopesConf.util
+ ScopeConf,
+ ScopeConf.impl,
+ ScopeConf.util
 Bundle-ActivationPolicy: lazy
 Import-Package: javax.inject;version="1.0.0"
