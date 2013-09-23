@@ -43,10 +43,10 @@ import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.IDataTopics;
 import org.eclipse.ziggurat.configuration.IConfigurationManager;
 
+import RequirementSourceConf.RequirementSource;
 import RequirementSourceConf.RequirementSourceConfFactory;
 import RequirementSourceConf.RequirementSources;
 import RequirementSourceData.AbstractElement;
-import RequirementSourceData.RequirementSource;
 import RequirementSourceData.RequirementSourceDataFactory;
 import RequirementSourceData.Section;
 
@@ -218,10 +218,15 @@ public class DataManagerImpl implements IDataManager {
 
 	@Override
 	public RequirementSource createRequirementSource(String name, String connectorId) {
-		RequirementSource source = RequirementSourceDataFactory.eINSTANCE.createRequirementSource();
+		RequirementSource source = RequirementSourceConfFactory.eINSTANCE.createRequirementSource();;
 		source.setName(name);
 		source.setConnectorId(connectorId);
 		return source;
+	}
+
+	@Override
+	public RequirementSource createRequirementSource() {
+		return RequirementSourceConfFactory.eINSTANCE.createRequirementSource();
 	}
 
 	@Override

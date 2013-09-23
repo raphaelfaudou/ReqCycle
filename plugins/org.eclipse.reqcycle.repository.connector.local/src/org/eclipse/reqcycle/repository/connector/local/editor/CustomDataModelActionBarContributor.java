@@ -20,7 +20,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.reqcycle.repository.connector.local.editor.util.CustomDataModelEditorUtil;
 
-import RequirementSourceData.RequirementSource;
+import RequirementSourceConf.RequirementSource;
 import RequirementSourceData.presentation.RequirementSourceDataActionBarContributor;
 import RequirementSourceConf.RequirementSources;
 

@@ -19,8 +19,8 @@ import java.util.Set;
 
 import org.eclipse.reqcycle.repository.data.types.IAttribute;
 
+import RequirementSourceConf.RequirementSource;
 import RequirementSourceData.AbstractElement;
-import RequirementSourceData.RequirementSource;
 import RequirementSourceData.Section;
 
 
@@ -36,6 +36,13 @@ public interface IDataManager {
 	 * @return the requirement source
 	 */
 	public RequirementSource createRequirementSource(String name, String connectorId);
+
+	/**
+	 * Creates an empty requirement source.
+	 * 
+	 * @return the requirement source
+	 */
+	public RequirementSource createRequirementSource();
 
 	/**
 	 * Adds a newly created repository to repositories list

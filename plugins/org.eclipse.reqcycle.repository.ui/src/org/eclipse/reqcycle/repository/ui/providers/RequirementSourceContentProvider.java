@@ -23,7 +23,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.reqcycle.repository.data.IDataManager;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import RequirementSourceData.RequirementSource;
+import RequirementSourceConf.RequirementSource;
 
 public class RequirementSourceContentProvider implements ITreeContentProvider, IStructuredContentProvider {
 

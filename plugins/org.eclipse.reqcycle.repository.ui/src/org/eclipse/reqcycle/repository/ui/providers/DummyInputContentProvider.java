@@ -12,7 +12,7 @@ import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.reqcycle.predicates.core.api.IPredicate;
 
 import RequirementSourceData.AbstractElement;
-import RequirementSourceData.RequirementSource;
+import RequirementSourceConf.RequirementSource;
 import RequirementSourceData.Section;
 import RequirementSourceData.SimpleRequirement;
 

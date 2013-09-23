@@ -28,7 +28,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
-import RequirementSourceData.RequirementSource;
+import RequirementSourceConf.RequirementSource;
 
 public class SelectRequirementSourcesAction extends Action {
 

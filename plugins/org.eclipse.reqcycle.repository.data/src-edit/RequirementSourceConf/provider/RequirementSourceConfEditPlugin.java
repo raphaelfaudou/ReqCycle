@@ -1,18 +1,22 @@
 /**
  */
-package RequirementSourceData.provider;
+package RequirementSourceConf.provider;
 
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.provider.EcoreEditPlugin;
+
+import MappingModel.provider.MappingModelEditPlugin;
+import RequirementSourceData.provider.RequirementSourceDataEditPlugin;
 
 /**
- * This is the central singleton for the RequirementSourceData edit plugin.
+ * This is the central singleton for the RequirementSourceConf edit plugin.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * 
  * @generated
  */
-public final class RequirementSourceDataEditPlugin extends EMFPlugin {
+public final class RequirementSourceConfEditPlugin extends EMFPlugin {
 
 	/**
 	 * Keep track of the singleton.
@@ -21,7 +25,7 @@ public final class RequirementSourceDataEditPlugin extends EMFPlugin {
 	 * 
 	 * @generated
 	 */
-	public static final RequirementSourceDataEditPlugin INSTANCE = new RequirementSourceDataEditPlugin();
+	public static final RequirementSourceConfEditPlugin INSTANCE = new RequirementSourceConfEditPlugin();
 
 	/**
 	 * Keep track of the singleton.
@@ -35,13 +39,13 @@ public final class RequirementSourceDataEditPlugin extends EMFPlugin {
 	/**
 	 * Create the instance.
 	 * <!-- begin-user-doc -->
-	 * Remove Scope Conf Edit
+	 * Remove Scope Conf Edit plugin
 	 * <!-- end-user-doc -->
 	 * 
 	 * @generated not
 	 */
-	public RequirementSourceDataEditPlugin() {
-		super(new ResourceLocator[]{});
+	public RequirementSourceConfEditPlugin() {
+		super(new ResourceLocator[]{ EcoreEditPlugin.INSTANCE, MappingModelEditPlugin.INSTANCE, RequirementSourceDataEditPlugin.INSTANCE, });
 	}
 
 	/**

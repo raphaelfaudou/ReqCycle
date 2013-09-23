@@ -29,7 +29,7 @@ import org.eclipse.reqcycle.repository.ui.Messages;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import RequirementSourceData.RequirementSource;
+import RequirementSourceConf.RequirementSource;
 
 public class RequirementSourceLabelProvider extends LabelProvider {
 

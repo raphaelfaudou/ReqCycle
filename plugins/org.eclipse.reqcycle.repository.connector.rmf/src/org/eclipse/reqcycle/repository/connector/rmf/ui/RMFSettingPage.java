@@ -53,7 +53,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import RequirementSourceData.RequirementSource;
+import RequirementSourceConf.RequirementSource;
 import ScopeConf.Scope;
 
 public class RMFSettingPage extends WizardPage implements Listener {

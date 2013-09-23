@@ -5,8 +5,6 @@ package RequirementSourceConf;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
-import RequirementSourceData.RequirementSource;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Requirement Sources</b></em>'.
@@ -27,7 +25,7 @@ public interface RequirementSources extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Requirement Sources</b></em>' containment reference list.
-	 * The list contents are of type {@link RequirementSourceData.RequirementSource}.
+	 * The list contents are of type {@link RequirementSourceConf.RequirementSource}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Requirement Sources</em>' containment reference list isn't clear, there really should be more of a description

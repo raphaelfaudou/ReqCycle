@@ -2,14 +2,15 @@
  */
 package RequirementSourceData.util;
 
-import RequirementSourceData.*;
-
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
+import RequirementSourceData.AbstractElement;
+import RequirementSourceData.Requirement;
+import RequirementSourceData.RequirementSourceDataPackage;
+import RequirementSourceData.Section;
+import RequirementSourceData.SimpleRequirement;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public class RequirementSourceDataAdapterFactory extends AdapterFactoryImpl {
+
 	/**
 	 * The cached model package.
 	 * <!-- begin-user-doc -->
@@ -65,12 +67,7 @@ public class RequirementSourceDataAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected RequirementSourceDataSwitch<Adapter> modelSwitch =
-		new RequirementSourceDataSwitch<Adapter>() {
-			@Override
-			public Adapter caseRequirementSource(RequirementSource object) {
-				return createRequirementSourceAdapter();
-			}
+	protected RequirementSourceDataSwitch<Adapter> modelSwitch = new RequirementSourceDataSwitch<Adapter>() {
 			@Override
 			public Adapter caseAbstractElement(AbstractElement object) {
 				return createAbstractElementAdapter();
@@ -106,20 +103,6 @@ public class RequirementSourceDataAdapterFactory extends AdapterFactoryImpl {
 		return modelSwitch.doSwitch((EObject)target);
 	}
 
-
-	/**
-	 * Creates a new adapter for an object of class '{@link RequirementSourceData.RequirementSource <em>Requirement Source</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see RequirementSourceData.RequirementSource
-	 * @generated
-	 */
-	public Adapter createRequirementSourceAdapter() {
-		return null;
-	}
 
 	/**
 	 * Creates a new adapter for an object of class '{@link RequirementSourceData.AbstractElement <em>Abstract Element</em>}'.

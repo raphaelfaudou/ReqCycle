@@ -33,7 +33,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import RequirementSourceData.RequirementSource;
+import RequirementSourceConf.RequirementSource;
 
 public class NewRequirementSourceWizard extends Wizard implements IWorkbenchWizard {
 

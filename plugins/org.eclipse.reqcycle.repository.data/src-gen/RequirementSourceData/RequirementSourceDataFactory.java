@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EFactory;
  * @generated
  */
 public interface RequirementSourceDataFactory extends EFactory {
+
 	/**
 	 * The singleton instance of the factory.
 	 * <!-- begin-user-doc -->
@@ -20,15 +21,6 @@ public interface RequirementSourceDataFactory extends EFactory {
 	 * @generated
 	 */
 	RequirementSourceDataFactory eINSTANCE = RequirementSourceData.impl.RequirementSourceDataFactoryImpl.init();
-
-	/**
-	 * Returns a new object of class '<em>Requirement Source</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Requirement Source</em>'.
-	 * @generated
-	 */
-	RequirementSource createRequirementSource();
 
 	/**
 	 * Returns a new object of class '<em>Section</em>'.

@@ -20,7 +20,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 
 import RequirementSourceData.AbstractElement;
-import RequirementSourceData.RequirementSource;
+import RequirementSourceConf.RequirementSource;
 
 public class RequirementLabelProvider extends LabelProvider {
 

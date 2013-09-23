@@ -39,7 +39,7 @@ import org.eclipse.ziggurat.ocl.ZigguratOCLPlugin;
 
 import RequirementSourceData.RequirementSourceDataFactory;
 import ScopeConf.Scope;
-import RequirementSourceData.RequirementSource;
+import RequirementSourceConf.RequirementSource;
 import MappingModel.MappingElement;
 import RequirementSourceData.AbstractElement;
 import RequirementSourceData.Requirement;
@@ -76,8 +76,7 @@ public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 				if (OCLConnector.this.requirementSource != null) {
 					result = OCLConnector.this.requirementSource;
 				} else {
-					result = RequirementSourceDataFactory.eINSTANCE
-							.createRequirementSource();
+					result = dataManager.createRequirementSource();
 				}
 
 				result.setProperty(RepositoryConstants.PROPERTY_URL,

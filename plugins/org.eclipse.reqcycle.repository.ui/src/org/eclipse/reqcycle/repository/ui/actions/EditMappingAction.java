@@ -36,7 +36,7 @@ import org.eclipse.reqcycle.repository.data.IDataManager;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.swt.widgets.Display;
 
-import RequirementSourceData.RequirementSource;
+import RequirementSourceConf.RequirementSource;
 
 /**
  * Action to change the requirementSourceMapping mapping

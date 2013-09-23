@@ -31,7 +31,7 @@ import org.eclipse.swt.graphics.Image;
 import MappingModel.MappingAttribute;
 import MappingModel.MappingElement;
 import RequirementSourceData.AbstractElement;
-import RequirementSourceData.RequirementSource;
+import RequirementSourceConf.RequirementSource;
 import RequirementSourceData.Section;
 import ScopeConf.Scope;
 

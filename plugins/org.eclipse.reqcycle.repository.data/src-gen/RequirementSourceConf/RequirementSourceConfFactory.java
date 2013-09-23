@@ -31,6 +31,15 @@ public interface RequirementSourceConfFactory extends EFactory {
 	RequirementSources createRequirementSources();
 
 	/**
+	 * Returns a new object of class '<em>Requirement Source</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Requirement Source</em>'.
+	 * @generated
+	 */
+	RequirementSource createRequirementSource();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

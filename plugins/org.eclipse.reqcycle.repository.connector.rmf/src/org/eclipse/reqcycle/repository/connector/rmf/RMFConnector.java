@@ -36,6 +36,7 @@ import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFRepositoryMappingPage
 import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFSettingPage;
 import org.eclipse.reqcycle.repository.connector.rmf.ui.RMFSettingPage.RMFSettingPageBean;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
+import org.eclipse.reqcycle.repository.data.IDataManager;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.types.IDataModel;
 import org.eclipse.reqcycle.repository.data.types.IRequirementType;
@@ -43,31 +44,33 @@ import org.eclipse.reqcycle.repository.data.util.RepositoryConstants;
 import org.eclipse.rmf.reqif10.SpecType;
 
 import MappingModel.MappingElement;
-import RequirementSourceData.RequirementSource;
-import RequirementSourceData.RequirementSourceDataFactory;
+import RequirementSourceConf.RequirementSource;
 import ScopeConf.Scope;
 
 
 public class RMFConnector extends Wizard implements IConnectorWizard {
 
 	/** Page containing mapping information */
-	private RMFRepositoryMappingPage mappingPage;
+	protected RMFRepositoryMappingPage mappingPage;
 
 	/** Page containing the ReqIF file and skip mapping check box */
-	private RMFSettingPage settingPage;
+	protected RMFSettingPage settingPage;
 
-	private Collection mapping;
+	protected Collection mapping;
 
-	private RequirementSource initSource;
+	protected RequirementSource initSource;
 
-	private RMFSettingPageBean settingPageBean;
+	protected RMFSettingPageBean settingPageBean;
 
-	private boolean edition = false;
+	protected boolean edition = false;
 
 	@Inject
-	private IDataModelManager dataTypeManage;
+	IDataModelManager dataTypeManage;
 
-	private URI initFileUri;
+	@Inject
+	IDataManager dataManager;
+
+	protected URI initFileUri;
 
 	public RMFConnector() {
 	}
@@ -88,7 +91,7 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 					requirementSource = initSource;
 					scope = dataTypeManage.getAnalysisScope();
 				} else {
-					requirementSource = RequirementSourceDataFactory.eINSTANCE.createRequirementSource();
+					requirementSource = dataManager.createRequirementSource();
 					if(settingPageBean != null) {
 						scope = settingPageBean.getScope();
 						model = settingPageBean.getDataPackage();

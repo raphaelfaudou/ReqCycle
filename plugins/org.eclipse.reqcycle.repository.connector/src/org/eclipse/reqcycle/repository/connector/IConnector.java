@@ -14,7 +14,7 @@ package org.eclipse.reqcycle.repository.connector;
 
 import java.util.concurrent.Callable;
 
-import RequirementSourceData.RequirementSource;
+import RequirementSourceConf.RequirementSource;
 
 /**
  *

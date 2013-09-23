@@ -26,7 +26,7 @@ import org.eclipse.ui.actions.CompoundContributionItem;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import RequirementSourceData.AbstractElement;
-import RequirementSourceData.RequirementSource;
+import RequirementSourceConf.RequirementSource;
 import RequirementSourceData.RequirementSourceDataPackage;
 import RequirementSourceData.Section;
 

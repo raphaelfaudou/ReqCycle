@@ -57,79 +57,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	RequirementSourceDataPackage eINSTANCE = RequirementSourceData.impl.RequirementSourceDataPackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link RequirementSourceData.impl.RequirementSourceImpl <em>Requirement Source</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see RequirementSourceData.impl.RequirementSourceImpl
-	 * @see RequirementSourceData.impl.RequirementSourceDataPackageImpl#getRequirementSource()
-	 * @generated
-	 */
-	int REQUIREMENT_SOURCE = 0;
-
-	/**
-	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REQUIREMENT_SOURCE__REQUIREMENTS = 0;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REQUIREMENT_SOURCE__NAME = 1;
-
-	/**
-	 * The feature id for the '<em><b>Properties</b></em>' map.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REQUIREMENT_SOURCE__PROPERTIES = 2;
-
-	/**
-	 * The feature id for the '<em><b>Connector Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REQUIREMENT_SOURCE__CONNECTOR_ID = 3;
-
-	/**
-	 * The feature id for the '<em><b>Mappings</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REQUIREMENT_SOURCE__MAPPINGS = 4;
-
-	/**
-	 * The number of structural features of the '<em>Requirement Source</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REQUIREMENT_SOURCE_FEATURE_COUNT = 5;
-
-	/**
-	 * The number of operations of the '<em>Requirement Source</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REQUIREMENT_SOURCE_OPERATION_COUNT = 0;
-
-	/**
 	 * The meta object id for the '{@link RequirementSourceData.impl.AbstractElementImpl <em>Abstract Element</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -137,7 +64,7 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * @see RequirementSourceData.impl.RequirementSourceDataPackageImpl#getAbstractElement()
 	 * @generated
 	 */
-	int ABSTRACT_ELEMENT = 1;
+	int ABSTRACT_ELEMENT = 0;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -201,7 +128,7 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * @see RequirementSourceData.impl.RequirementSourceDataPackageImpl#getSection()
 	 * @generated
 	 */
-	int SECTION = 2;
+	int SECTION = 1;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -274,7 +201,7 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * @see RequirementSourceData.impl.RequirementSourceDataPackageImpl#getSimpleRequirement()
 	 * @generated
 	 */
-	int SIMPLE_REQUIREMENT = 3;
+	int SIMPLE_REQUIREMENT = 2;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -338,7 +265,7 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * @see RequirementSourceData.impl.RequirementSourceDataPackageImpl#getRequirement()
 	 * @generated
 	 */
-	int REQUIREMENT = 4;
+	int REQUIREMENT = 3;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -402,71 +329,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * @ordered
 	 */
 	int REQUIREMENT_OPERATION_COUNT = SIMPLE_REQUIREMENT_OPERATION_COUNT + 0;
-
-	/**
-	 * Returns the meta object for class '{@link RequirementSourceData.RequirementSource <em>Requirement Source</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Requirement Source</em>'.
-	 * @see RequirementSourceData.RequirementSource
-	 * @generated
-	 */
-	EClass getRequirementSource();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link RequirementSourceData.RequirementSource#getRequirements <em>Requirements</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Requirements</em>'.
-	 * @see RequirementSourceData.RequirementSource#getRequirements()
-	 * @see #getRequirementSource()
-	 * @generated
-	 */
-	EReference getRequirementSource_Requirements();
-
-	/**
-	 * Returns the meta object for the attribute '{@link RequirementSourceData.RequirementSource#getName <em>Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see RequirementSourceData.RequirementSource#getName()
-	 * @see #getRequirementSource()
-	 * @generated
-	 */
-	EAttribute getRequirementSource_Name();
-
-	/**
-	 * Returns the meta object for the map '{@link RequirementSourceData.RequirementSource#getProperties <em>Properties</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the map '<em>Properties</em>'.
-	 * @see RequirementSourceData.RequirementSource#getProperties()
-	 * @see #getRequirementSource()
-	 * @generated
-	 */
-	EReference getRequirementSource_Properties();
-
-	/**
-	 * Returns the meta object for the attribute '{@link RequirementSourceData.RequirementSource#getConnectorId <em>Connector Id</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Connector Id</em>'.
-	 * @see RequirementSourceData.RequirementSource#getConnectorId()
-	 * @see #getRequirementSource()
-	 * @generated
-	 */
-	EAttribute getRequirementSource_ConnectorId();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link RequirementSourceData.RequirementSource#getMappings <em>Mappings</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Mappings</em>'.
-	 * @see RequirementSourceData.RequirementSource#getMappings()
-	 * @see #getRequirementSource()
-	 * @generated
-	 */
-	EReference getRequirementSource_Mappings();
 
 	/**
 	 * Returns the meta object for class '{@link RequirementSourceData.AbstractElement <em>Abstract Element</em>}'.
@@ -586,56 +448,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * @generated
 	 */
 	interface Literals {
-		/**
-		 * The meta object literal for the '{@link RequirementSourceData.impl.RequirementSourceImpl <em>Requirement Source</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see RequirementSourceData.impl.RequirementSourceImpl
-		 * @see RequirementSourceData.impl.RequirementSourceDataPackageImpl#getRequirementSource()
-		 * @generated
-		 */
-		EClass REQUIREMENT_SOURCE = eINSTANCE.getRequirementSource();
-
-		/**
-		 * The meta object literal for the '<em><b>Requirements</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference REQUIREMENT_SOURCE__REQUIREMENTS = eINSTANCE.getRequirementSource_Requirements();
-
-		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute REQUIREMENT_SOURCE__NAME = eINSTANCE.getRequirementSource_Name();
-
-		/**
-		 * The meta object literal for the '<em><b>Properties</b></em>' map feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference REQUIREMENT_SOURCE__PROPERTIES = eINSTANCE.getRequirementSource_Properties();
-
-		/**
-		 * The meta object literal for the '<em><b>Connector Id</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute REQUIREMENT_SOURCE__CONNECTOR_ID = eINSTANCE.getRequirementSource_ConnectorId();
-
-		/**
-		 * The meta object literal for the '<em><b>Mappings</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference REQUIREMENT_SOURCE__MAPPINGS = eINSTANCE.getRequirementSource_Mappings();
-
 		/**
 		 * The meta object literal for the '{@link RequirementSourceData.impl.AbstractElementImpl <em>Abstract Element</em>}' class.
 		 * <!-- begin-user-doc -->

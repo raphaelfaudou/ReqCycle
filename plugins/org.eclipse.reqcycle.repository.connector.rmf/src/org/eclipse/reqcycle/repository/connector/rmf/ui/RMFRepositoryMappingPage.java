@@ -48,7 +48,7 @@ import org.eclipse.swt.widgets.Listener;
 import MappingModel.MappingAttribute;
 import MappingModel.MappingElement;
 import MappingModel.MappingModelFactory;
-import RequirementSourceData.RequirementSource;
+import RequirementSourceConf.RequirementSource;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;

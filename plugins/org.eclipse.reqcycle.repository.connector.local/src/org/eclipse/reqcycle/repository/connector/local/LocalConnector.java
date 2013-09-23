@@ -2,14 +2,19 @@ package org.eclipse.reqcycle.repository.connector.local;
 
 import java.util.concurrent.Callable;
 
-import org.eclipse.reqcycle.repository.connector.IConnector;
+import javax.inject.Inject;
 
-import RequirementSourceData.RequirementSource;
-import RequirementSourceData.RequirementSourceDataFactory;
+import org.eclipse.reqcycle.repository.connector.IConnector;
+import org.eclipse.reqcycle.repository.data.IDataManager;
+
+import RequirementSourceConf.RequirementSource;
 
 public class LocalConnector implements IConnector {
 
 	public final static String LOCAL_CONNECTOR_ID = "org.eclipse.reqcycle.repository.connector.local.connectorCore";
+
+	@Inject
+	IDataManager manager;
 
 	public LocalConnector() {
 	}
@@ -24,7 +29,7 @@ public class LocalConnector implements IConnector {
 
 			@Override
 			public RequirementSource call() throws Exception {
-				return RequirementSourceDataFactory.eINSTANCE.createRequirementSource();
+				return manager.createRequirementSource();
 			}
 		};
 	}

@@ -14,22 +14,11 @@
 package org.eclipse.reqcycle.repository.connector.local.editor.provider;
 
 import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.impl.EPackageImpl;
-import org.eclipse.reqcycle.repository.data.IDataModelManager;
 
 import RequirementSourceData.provider.RequirementSourceDataItemProviderAdapterFactory;
 
 
 public class CustomDataModelItemProviderAdapterFactory extends RequirementSourceDataItemProviderAdapterFactory {
-
-	/**
-	 * Instantiates a new custom data model item provider adapter factory.
-	 */
-	public CustomDataModelItemProviderAdapterFactory() {
-		super();
-		supportedTypes.add(EPackageImpl.class);
-	}
 
 	@Override
 	public Adapter createSimpleRequirementAdapter() {
@@ -38,15 +27,6 @@ public class CustomDataModelItemProviderAdapterFactory extends RequirementSource
 			simpleRequirementItemProvider = new CustomSimpleRequirementItemProvider(this);
 		};
 		return simpleRequirementItemProvider;
-	}
-
-	@Override
-	public Adapter createRequirementSourceAdapter() {
-		if(requirementSourceItemProvider == null) {
-			//Use Custom Requirement Source Item Provider
-			requirementSourceItemProvider = new CustomRequirementSourceItemProvider(this);
-		}
-		return requirementSourceItemProvider;
 	}
 
 	@Override
@@ -69,8 +49,7 @@ public class CustomDataModelItemProviderAdapterFactory extends RequirementSource
 
 	@Override
 	public boolean isFactoryForType(Object type) {
-		// Check the meta model NS_URI to support elements created with the Dynamic Data Model
-		return (type instanceof EPackage && ((EPackage)type).getNsURI().contains(IDataModelManager.MODEL_NS_URI)) || super.isFactoryForType(type);
+		return super.isFactoryForType(type);
 	}
 
 }

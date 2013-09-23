@@ -2,15 +2,16 @@
  */
 package RequirementSourceData.impl;
 
-import RequirementSourceData.*;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import RequirementSourceData.Requirement;
+import RequirementSourceData.RequirementSourceDataFactory;
+import RequirementSourceData.RequirementSourceDataPackage;
+import RequirementSourceData.Section;
+import RequirementSourceData.SimpleRequirement;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,6 +20,7 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
  * @generated
  */
 public class RequirementSourceDataFactoryImpl extends EFactoryImpl implements RequirementSourceDataFactory {
+
 	/**
 	 * Creates the default factory implementation.
 	 * <!-- begin-user-doc -->
@@ -56,7 +58,6 @@ public class RequirementSourceDataFactoryImpl extends EFactoryImpl implements Re
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case RequirementSourceDataPackage.REQUIREMENT_SOURCE: return createRequirementSource();
 			case RequirementSourceDataPackage.SECTION: return createSection();
 			case RequirementSourceDataPackage.SIMPLE_REQUIREMENT: return createSimpleRequirement();
 			case RequirementSourceDataPackage.REQUIREMENT: return createRequirement();
@@ -70,16 +71,7 @@ public class RequirementSourceDataFactoryImpl extends EFactoryImpl implements Re
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RequirementSource createRequirementSource() {
-		RequirementSourceImpl requirementSource = new RequirementSourceImpl();
-		return requirementSource;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+	@Override
 	public Section createSection() {
 		SectionImpl section = new SectionImpl();
 		return section;
@@ -90,6 +82,7 @@ public class RequirementSourceDataFactoryImpl extends EFactoryImpl implements Re
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SimpleRequirement createSimpleRequirement() {
 		SimpleRequirementImpl simpleRequirement = new SimpleRequirementImpl();
 		return simpleRequirement;
@@ -100,6 +93,7 @@ public class RequirementSourceDataFactoryImpl extends EFactoryImpl implements Re
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Requirement createRequirement() {
 		RequirementImpl requirement = new RequirementImpl();
 		return requirement;
@@ -110,6 +104,7 @@ public class RequirementSourceDataFactoryImpl extends EFactoryImpl implements Re
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RequirementSourceDataPackage getRequirementSourceDataPackage() {
 		return (RequirementSourceDataPackage)getEPackage();
 	}

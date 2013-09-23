@@ -6,12 +6,9 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-import MappingModel.MappingModelPackage;
 import RequirementSourceData.AbstractElement;
 import RequirementSourceData.Requirement;
-import RequirementSourceData.RequirementSource;
 import RequirementSourceData.RequirementSourceDataFactory;
 import RequirementSourceData.RequirementSourceDataPackage;
 import RequirementSourceData.Section;
@@ -26,13 +23,6 @@ import ScopeConf.impl.ScopeConfPackageImpl;
  * @generated
  */
 public class RequirementSourceDataPackageImpl extends EPackageImpl implements RequirementSourceDataPackage {
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass requirementSourceEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -124,66 +114,6 @@ public class RequirementSourceDataPackageImpl extends EPackageImpl implements Re
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(RequirementSourceDataPackage.eNS_URI, theRequirementSourceDataPackage);
 		return theRequirementSourceDataPackage;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EClass getRequirementSource() {
-		return requirementSourceEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EReference getRequirementSource_Requirements() {
-		return (EReference)requirementSourceEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EAttribute getRequirementSource_Name() {
-		return (EAttribute)requirementSourceEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EReference getRequirementSource_Properties() {
-		return (EReference)requirementSourceEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EAttribute getRequirementSource_ConnectorId() {
-		return (EAttribute)requirementSourceEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EReference getRequirementSource_Mappings() {
-		return (EReference)requirementSourceEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -305,13 +235,6 @@ public class RequirementSourceDataPackageImpl extends EPackageImpl implements Re
 		isCreated = true;
 
 		// Create classes and their features
-		requirementSourceEClass = createEClass(REQUIREMENT_SOURCE);
-		createEReference(requirementSourceEClass, REQUIREMENT_SOURCE__REQUIREMENTS);
-		createEAttribute(requirementSourceEClass, REQUIREMENT_SOURCE__NAME);
-		createEReference(requirementSourceEClass, REQUIREMENT_SOURCE__PROPERTIES);
-		createEAttribute(requirementSourceEClass, REQUIREMENT_SOURCE__CONNECTOR_ID);
-		createEReference(requirementSourceEClass, REQUIREMENT_SOURCE__MAPPINGS);
-
 		abstractElementEClass = createEClass(ABSTRACT_ELEMENT);
 		createEAttribute(abstractElementEClass, ABSTRACT_ELEMENT__ID);
 		createEAttribute(abstractElementEClass, ABSTRACT_ELEMENT__NAME);
@@ -350,8 +273,6 @@ public class RequirementSourceDataPackageImpl extends EPackageImpl implements Re
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
-		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
-		MappingModelPackage theMappingModelPackage = (MappingModelPackage)EPackage.Registry.INSTANCE.getEPackage(MappingModelPackage.eNS_URI);
 		ScopeConfPackage theScopeConfPackage = (ScopeConfPackage)EPackage.Registry.INSTANCE.getEPackage(ScopeConfPackage.eNS_URI);
 
 		// Create type parameters
@@ -365,13 +286,6 @@ public class RequirementSourceDataPackageImpl extends EPackageImpl implements Re
 		requirementEClass.getESuperTypes().add(this.getSection());
 
 		// Initialize classes, features, and operations; add parameters
-		initEClass(requirementSourceEClass, RequirementSource.class, "RequirementSource", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getRequirementSource_Requirements(), this.getAbstractElement(), null, "requirements", null, 0, -1, RequirementSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getRequirementSource_Name(), ecorePackage.getEString(), "name", null, 0, 1, RequirementSource.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-		initEReference(getRequirementSource_Properties(), theEcorePackage.getEStringToStringMapEntry(), null, "properties", null, 0, -1, RequirementSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getRequirementSource_ConnectorId(), ecorePackage.getEString(), "connectorId", null, 0, 1, RequirementSource.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-		initEReference(getRequirementSource_Mappings(), theMappingModelPackage.getMappingElement(), null, "mappings", null, 0, -1, RequirementSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
 		initEClass(abstractElementEClass, AbstractElement.class, "AbstractElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAbstractElement_Id(), ecorePackage.getEString(), "id", null, 0, 1, AbstractElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAbstractElement_Name(), ecorePackage.getEString(), "name", null, 0, 1, AbstractElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

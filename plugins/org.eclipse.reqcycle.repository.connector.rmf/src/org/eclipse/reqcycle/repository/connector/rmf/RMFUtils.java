@@ -55,7 +55,7 @@ import MappingModel.MappingAttribute;
 import MappingModel.MappingElement;
 import RequirementSourceData.AbstractElement;
 import RequirementSourceData.Requirement;
-import RequirementSourceData.RequirementSource;
+import RequirementSourceConf.RequirementSource;
 import RequirementSourceData.Section;
 import ScopeConf.Scope;
 

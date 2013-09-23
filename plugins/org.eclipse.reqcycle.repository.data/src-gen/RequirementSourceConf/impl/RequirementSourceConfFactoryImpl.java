@@ -2,6 +2,7 @@
  */
 package RequirementSourceConf.impl;
 
+import RequirementSourceConf.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -56,6 +57,7 @@ public class RequirementSourceConfFactoryImpl extends EFactoryImpl implements Re
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case RequirementSourceConfPackage.REQUIREMENT_SOURCES: return createRequirementSources();
+			case RequirementSourceConfPackage.REQUIREMENT_SOURCE: return createRequirementSource();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -69,6 +71,16 @@ public class RequirementSourceConfFactoryImpl extends EFactoryImpl implements Re
 	public RequirementSources createRequirementSources() {
 		RequirementSourcesImpl requirementSources = new RequirementSourcesImpl();
 		return requirementSources;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RequirementSource createRequirementSource() {
+		RequirementSourceImpl requirementSource = new RequirementSourceImpl();
+		return requirementSource;
 	}
 
 	/**

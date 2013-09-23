@@ -26,13 +26,11 @@ import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.ui.ViewerPane;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
-import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTreeEditor;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
@@ -41,6 +39,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.connector.local.editor.provider.CustomDataModelItemProviderAdapterFactory;
+import org.eclipse.reqcycle.repository.connector.local.editor.provider.RequirementSourceItemProviderAdapterFactory;
 import org.eclipse.reqcycle.repository.data.IDataManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -57,7 +56,7 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import RequirementSourceData.RequirementSource;
+import RequirementSourceConf.RequirementSource;
 import RequirementSourceData.presentation.RequirementSourceDataEditor;
 import RequirementSourceData.presentation.RequirementSourceDataEditorPlugin;
 
@@ -124,6 +123,7 @@ public class CustomDataModelEditor extends RequirementSourceDataEditor {
 		ZigguratInject.inject(this);
 		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		adapterFactory.addAdapterFactory(new CustomDataModelItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new RequirementSourceItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 
 		// Create the command stack that will notify this editor as commands are executed.

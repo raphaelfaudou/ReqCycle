@@ -2,6 +2,7 @@
  */
 package RequirementSourceConf.util;
 
+import RequirementSourceConf.*;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
@@ -71,6 +72,12 @@ public class RequirementSourceConfSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case RequirementSourceConfPackage.REQUIREMENT_SOURCE: {
+				RequirementSource requirementSource = (RequirementSource)theEObject;
+				T result = caseRequirementSource(requirementSource);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -87,6 +94,21 @@ public class RequirementSourceConfSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseRequirementSources(RequirementSources object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Requirement Source</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Requirement Source</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRequirementSource(RequirementSource object) {
 		return null;
 	}
 

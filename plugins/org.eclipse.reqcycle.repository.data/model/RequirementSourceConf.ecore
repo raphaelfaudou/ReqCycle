@@ -4,6 +4,19 @@
     nsPrefix="RequirementSourceConf">
   <eClassifiers xsi:type="ecore:EClass" name="RequirementSources">
     <eStructuralFeatures xsi:type="ecore:EReference" name="requirementSources" upperBound="-1"
-        eType="ecore:EClass RequirementSourceData.ecore#//RequirementSource" containment="true"/>
+        eType="#//RequirementSource" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RequirementSource">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requirements" upperBound="-1"
+        eType="ecore:EClass RequirementSourceData.ecore#//AbstractElement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EStringToStringMapEntry"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="connectorId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mappings" upperBound="-1"
+        eType="ecore:EClass MappingModel.ecore#//MappingElement" containment="true"/>
   </eClassifiers>
 </ecore:EPackage>

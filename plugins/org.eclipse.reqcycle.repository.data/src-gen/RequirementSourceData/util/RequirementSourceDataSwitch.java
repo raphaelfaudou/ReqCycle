@@ -2,18 +2,19 @@
  */
 package RequirementSourceData.util;
 
-import RequirementSourceData.*;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
+import RequirementSourceData.AbstractElement;
+import RequirementSourceData.Requirement;
+import RequirementSourceData.RequirementSourceDataPackage;
+import RequirementSourceData.Section;
+import RequirementSourceData.SimpleRequirement;
 
 /**
  * <!-- begin-user-doc -->
  * The <b>Switch</b> for the model's inheritance hierarchy.
- * It supports the call {@link #doSwitch(EObject) doSwitch(object)}
- * to invoke the <code>caseXXX</code> method for each class of the model,
+ * It supports the call {@link #doSwitch(EObject) doSwitch(object)} to invoke the <code>caseXXX</code> method for each class of the model,
  * starting with the actual class of the object
  * and proceeding up the inheritance hierarchy
  * until a non-null result is returned,
@@ -23,6 +24,7 @@ import org.eclipse.emf.ecore.util.Switch;
  * @generated
  */
 public class RequirementSourceDataSwitch<T> extends Switch<T> {
+
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
@@ -66,12 +68,6 @@ public class RequirementSourceDataSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case RequirementSourceDataPackage.REQUIREMENT_SOURCE: {
-				RequirementSource requirementSource = (RequirementSource)theEObject;
-				T result = caseRequirementSource(requirementSource);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case RequirementSourceDataPackage.ABSTRACT_ELEMENT: {
 				AbstractElement abstractElement = (AbstractElement)theEObject;
 				T result = caseAbstractElement(abstractElement);
@@ -105,20 +101,6 @@ public class RequirementSourceDataSwitch<T> extends Switch<T> {
 		}
 	}
 
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Requirement Source</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Requirement Source</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseRequirementSource(RequirementSource object) {
-		return null;
-	}
 
 	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Abstract Element</em>'.

@@ -2,6 +2,7 @@
  */
 package RequirementSourceConf;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -94,6 +95,80 @@ public interface RequirementSourceConfPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link RequirementSourceConf.impl.RequirementSourceImpl <em>Requirement Source</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see RequirementSourceConf.impl.RequirementSourceImpl
+	 * @see RequirementSourceConf.impl.RequirementSourceConfPackageImpl#getRequirementSource()
+	 * @generated
+	 */
+	int REQUIREMENT_SOURCE = 1;
+
+	/**
+	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT_SOURCE__REQUIREMENTS = 0;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT_SOURCE__NAME = 1;
+
+	/**
+	 * The feature id for the '<em><b>Properties</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT_SOURCE__PROPERTIES = 2;
+
+	/**
+	 * The feature id for the '<em><b>Connector Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT_SOURCE__CONNECTOR_ID = 3;
+
+	/**
+	 * The feature id for the '<em><b>Mappings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT_SOURCE__MAPPINGS = 4;
+
+	/**
+	 * The number of structural features of the '<em>Requirement Source</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT_SOURCE_FEATURE_COUNT = 5;
+
+	/**
+	 * The number of operations of the '<em>Requirement Source</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT_SOURCE_OPERATION_COUNT = 0;
+
+
+	/**
 	 * Returns the meta object for class '{@link RequirementSourceConf.RequirementSources <em>Requirement Sources</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -113,6 +188,71 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getRequirementSources_RequirementSources();
+
+	/**
+	 * Returns the meta object for class '{@link RequirementSourceConf.RequirementSource <em>Requirement Source</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Requirement Source</em>'.
+	 * @see RequirementSourceConf.RequirementSource
+	 * @generated
+	 */
+	EClass getRequirementSource();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link RequirementSourceConf.RequirementSource#getRequirements <em>Requirements</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Requirements</em>'.
+	 * @see RequirementSourceConf.RequirementSource#getRequirements()
+	 * @see #getRequirementSource()
+	 * @generated
+	 */
+	EReference getRequirementSource_Requirements();
+
+	/**
+	 * Returns the meta object for the attribute '{@link RequirementSourceConf.RequirementSource#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see RequirementSourceConf.RequirementSource#getName()
+	 * @see #getRequirementSource()
+	 * @generated
+	 */
+	EAttribute getRequirementSource_Name();
+
+	/**
+	 * Returns the meta object for the map '{@link RequirementSourceConf.RequirementSource#getProperties <em>Properties</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the map '<em>Properties</em>'.
+	 * @see RequirementSourceConf.RequirementSource#getProperties()
+	 * @see #getRequirementSource()
+	 * @generated
+	 */
+	EReference getRequirementSource_Properties();
+
+	/**
+	 * Returns the meta object for the attribute '{@link RequirementSourceConf.RequirementSource#getConnectorId <em>Connector Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Connector Id</em>'.
+	 * @see RequirementSourceConf.RequirementSource#getConnectorId()
+	 * @see #getRequirementSource()
+	 * @generated
+	 */
+	EAttribute getRequirementSource_ConnectorId();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link RequirementSourceConf.RequirementSource#getMappings <em>Mappings</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Mappings</em>'.
+	 * @see RequirementSourceConf.RequirementSource#getMappings()
+	 * @see #getRequirementSource()
+	 * @generated
+	 */
+	EReference getRequirementSource_Mappings();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -154,6 +294,56 @@ public interface RequirementSourceConfPackage extends EPackage {
 		 * @generated
 		 */
 		EReference REQUIREMENT_SOURCES__REQUIREMENT_SOURCES = eINSTANCE.getRequirementSources_RequirementSources();
+
+		/**
+		 * The meta object literal for the '{@link RequirementSourceConf.impl.RequirementSourceImpl <em>Requirement Source</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see RequirementSourceConf.impl.RequirementSourceImpl
+		 * @see RequirementSourceConf.impl.RequirementSourceConfPackageImpl#getRequirementSource()
+		 * @generated
+		 */
+		EClass REQUIREMENT_SOURCE = eINSTANCE.getRequirementSource();
+
+		/**
+		 * The meta object literal for the '<em><b>Requirements</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REQUIREMENT_SOURCE__REQUIREMENTS = eINSTANCE.getRequirementSource_Requirements();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REQUIREMENT_SOURCE__NAME = eINSTANCE.getRequirementSource_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Properties</b></em>' map feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REQUIREMENT_SOURCE__PROPERTIES = eINSTANCE.getRequirementSource_Properties();
+
+		/**
+		 * The meta object literal for the '<em><b>Connector Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REQUIREMENT_SOURCE__CONNECTOR_ID = eINSTANCE.getRequirementSource_ConnectorId();
+
+		/**
+		 * The meta object literal for the '<em><b>Mappings</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REQUIREMENT_SOURCE__MAPPINGS = eINSTANCE.getRequirementSource_Mappings();
 
 	}
 
