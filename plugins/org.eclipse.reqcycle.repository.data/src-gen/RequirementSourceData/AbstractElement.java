@@ -2,6 +2,7 @@
  */
 package RequirementSourceData;
 
+import ScopesConf.Scope;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EObject;
@@ -106,7 +107,7 @@ public interface AbstractElement extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Scopes</b></em>' reference list.
-	 * The list contents are of type {@link RequirementSourceData.Scope}.
+	 * The list contents are of type {@link ScopesConf.Scope}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Scopes</em>' reference list isn't clear,

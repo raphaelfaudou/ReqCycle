@@ -16,6 +16,9 @@ package org.eclipse.reqcycle.repository.connector.local.editor;
 import java.util.EventObject;
 import java.util.Iterator;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
@@ -23,10 +26,13 @@ import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.ui.ViewerPane;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
+import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTreeEditor;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
@@ -35,6 +41,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.connector.local.editor.provider.CustomDataModelItemProviderAdapterFactory;
+import org.eclipse.reqcycle.repository.data.IDataManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.ControlAdapter;
@@ -69,12 +76,16 @@ public class CustomDataModelEditor extends RequirementSourceDataEditor {
 	/** The input Object uri. */
 	protected URI inputURI;
 
-	/** The resource set. */
-	static ResourceSet rs = ZigguratInject.make(ResourceSet.class);
-
+	@Inject
+	@Named("confResourceSet")
+	ResourceSet rs;
 
 	/** The logger. */
-	static ILogger logger = ZigguratInject.make(ILogger.class);
+	@Inject
+	ILogger logger;
+
+	@Inject
+	IDataManager dataManager;
 
 	/**
 	 * Open Requirement editor.
@@ -89,8 +100,12 @@ public class CustomDataModelEditor extends RequirementSourceDataEditor {
 			IDE.openEditor(page, editorInput, EDITOR_ID);
 		} catch (PartInitException e) {
 			e.printStackTrace();
-			logger.log(e.getStatus());
 		}
+	}
+
+
+	public CustomDataModelEditor() {
+		super();
 	}
 
 	/**
@@ -106,6 +121,7 @@ public class CustomDataModelEditor extends RequirementSourceDataEditor {
 
 	@Override
 	protected void initializeEditingDomain() {
+		ZigguratInject.inject(this);
 		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		adapterFactory.addAdapterFactory(new CustomDataModelItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
@@ -147,6 +163,7 @@ public class CustomDataModelEditor extends RequirementSourceDataEditor {
 
 		// Create the editing domain with a special command stack initialized with ReqCycle ResourceSet.
 		//
+
 		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, rs);
 	}
 
@@ -240,6 +257,7 @@ public class CustomDataModelEditor extends RequirementSourceDataEditor {
 		});
 	}
 
+
 	/**
 	 * Creates the viewer filters.
 	 * 
@@ -280,11 +298,17 @@ public class CustomDataModelEditor extends RequirementSourceDataEditor {
 	protected Object getInput() {
 		//FIXME : return the Object corresponding to the fragment
 		if(inputURI != null) {
-			return editingDomain.getResourceSet().getResource(inputURI, true);
+			return editingDomain.getResourceSet().getResource(inputURI.trimFragment(), true);
 		}
 		return editingDomain.getResourceSet().getResources();
 	}
 
+
+	@Override
+	public EditingDomain getEditingDomain() {
+		// TODO Auto-generated method stub
+		return super.getEditingDomain();
+	}
 
 	/**
 	 * Looks up a string in the plugin's plugin.properties file..
@@ -301,6 +325,5 @@ public class CustomDataModelEditor extends RequirementSourceDataEditor {
 	protected void setPartName(String partName) {
 		super.setPartName("Requirements Editor");
 	}
-
 
 }

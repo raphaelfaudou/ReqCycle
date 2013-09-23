@@ -55,7 +55,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import RequirementSourceData.AbstractElement;
-import RequirementSourceData.Scope;
+import ScopesConf.Scope;
 
 public class RequirementScopeView extends ViewPart {
 

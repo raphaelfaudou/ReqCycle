@@ -120,4 +120,33 @@
                org.eclipse.emf.edit.provider.IItemLabelProvider
                org.eclipse.emf.edit.provider.IItemPropertySource"/>
    </extension>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated Scopes -->
+      <package
+            uri="http://www.eclipse.org/ReqCycle/Scopes"
+            class="Scopes.ScopesPackage"
+            genModel="model/Scopes.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated ScopesConf -->
+      <package
+            uri="http://www.eclipse.org/ReqCycle/ScopesConf"
+            class="ScopesConf.ScopesConfPackage"
+            genModel="model/ScopesConf.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+      <!-- @generated ScopesConf -->
+      <factory
+            uri="http://www.eclipse.org/ReqCycle/ScopesConf"
+            class="ScopesConf.provider.ScopesConfItemProviderAdapterFactory"
+            supportedTypes=
+              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+               org.eclipse.emf.edit.provider.ITreeItemContentProvider
+               org.eclipse.emf.edit.provider.IItemLabelProvider
+               org.eclipse.emf.edit.provider.IItemPropertySource"/>
+   </extension>
+
 </plugin>

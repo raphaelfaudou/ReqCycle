@@ -22,7 +22,6 @@ import RequirementSourceData.SimpleRequirement;
  * This is the item provider adapter for a {@link RequirementSourceData.SimpleRequirement} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
- * 
  * @generated
  */
 public class SimpleRequirementItemProvider extends AbstractElementItemProvider implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
@@ -31,7 +30,6 @@ public class SimpleRequirementItemProvider extends AbstractElementItemProvider i
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public SimpleRequirementItemProvider(AdapterFactory adapterFactory) {
@@ -42,12 +40,11 @@ public class SimpleRequirementItemProvider extends AbstractElementItemProvider i
 	 * This returns the property descriptors for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
-		if(itemPropertyDescriptors == null) {
+		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
 		}
@@ -58,7 +55,6 @@ public class SimpleRequirementItemProvider extends AbstractElementItemProvider i
 	 * This returns SimpleRequirement.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -87,7 +83,6 @@ public class SimpleRequirementItemProvider extends AbstractElementItemProvider i
 	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -101,7 +96,6 @@ public class SimpleRequirementItemProvider extends AbstractElementItemProvider i
 	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override

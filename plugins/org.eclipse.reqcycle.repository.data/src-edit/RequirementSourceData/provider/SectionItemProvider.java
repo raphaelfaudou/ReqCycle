@@ -25,7 +25,6 @@ import RequirementSourceData.Section;
  * This is the item provider adapter for a {@link RequirementSourceData.Section} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
- * 
  * @generated
  */
 public class SectionItemProvider extends AbstractElementItemProvider implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
@@ -34,7 +33,6 @@ public class SectionItemProvider extends AbstractElementItemProvider implements 
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public SectionItemProvider(AdapterFactory adapterFactory) {
@@ -45,12 +43,11 @@ public class SectionItemProvider extends AbstractElementItemProvider implements 
 	 * This returns the property descriptors for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
-		if(itemPropertyDescriptors == null) {
+		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
 		}
@@ -63,12 +60,11 @@ public class SectionItemProvider extends AbstractElementItemProvider implements 
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
-		if(childrenFeatures == null) {
+		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(RequirementSourceDataPackage.Literals.SECTION__CHILDREN);
 		}
@@ -78,7 +74,6 @@ public class SectionItemProvider extends AbstractElementItemProvider implements 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -93,7 +88,6 @@ public class SectionItemProvider extends AbstractElementItemProvider implements 
 	 * This returns Section.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -105,13 +99,14 @@ public class SectionItemProvider extends AbstractElementItemProvider implements 
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
 		String label = ((Section)object).getName();
-		return label == null || label.length() == 0 ? getString("_UI_Section_type") : getString("_UI_Section_type") + " " + label;
+		return label == null || label.length() == 0 ?
+			getString("_UI_Section_type") :
+			getString("_UI_Section_type") + " " + label;
 	}
 
 	/**
@@ -119,17 +114,16 @@ public class SectionItemProvider extends AbstractElementItemProvider implements 
 	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch(notification.getFeatureID(Section.class)) {
-		case RequirementSourceDataPackage.SECTION__CHILDREN:
-			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
-			return;
+		switch (notification.getFeatureID(Section.class)) {
+			case RequirementSourceDataPackage.SECTION__CHILDREN:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+				return;
 		}
 		super.notifyChanged(notification);
 	}
@@ -139,18 +133,26 @@ public class SectionItemProvider extends AbstractElementItemProvider implements 
 	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add(createChildParameter(RequirementSourceDataPackage.Literals.SECTION__CHILDREN, RequirementSourceDataFactory.eINSTANCE.createSection()));
+		newChildDescriptors.add
+			(createChildParameter
+				(RequirementSourceDataPackage.Literals.SECTION__CHILDREN,
+				 RequirementSourceDataFactory.eINSTANCE.createSection()));
 
-		newChildDescriptors.add(createChildParameter(RequirementSourceDataPackage.Literals.SECTION__CHILDREN, RequirementSourceDataFactory.eINSTANCE.createSimpleRequirement()));
+		newChildDescriptors.add
+			(createChildParameter
+				(RequirementSourceDataPackage.Literals.SECTION__CHILDREN,
+				 RequirementSourceDataFactory.eINSTANCE.createSimpleRequirement()));
 
-		newChildDescriptors.add(createChildParameter(RequirementSourceDataPackage.Literals.SECTION__CHILDREN, RequirementSourceDataFactory.eINSTANCE.createRequirement()));
+		newChildDescriptors.add
+			(createChildParameter
+				(RequirementSourceDataPackage.Literals.SECTION__CHILDREN,
+				 RequirementSourceDataFactory.eINSTANCE.createRequirement()));
 	}
 
 }

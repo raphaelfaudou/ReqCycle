@@ -60,7 +60,6 @@ public class RequirementSourceDataFactoryImpl extends EFactoryImpl implements Re
 			case RequirementSourceDataPackage.SECTION: return createSection();
 			case RequirementSourceDataPackage.SIMPLE_REQUIREMENT: return createSimpleRequirement();
 			case RequirementSourceDataPackage.REQUIREMENT: return createRequirement();
-			case RequirementSourceDataPackage.SCOPE: return createScope();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -104,16 +103,6 @@ public class RequirementSourceDataFactoryImpl extends EFactoryImpl implements Re
 	public Requirement createRequirement() {
 		RequirementImpl requirement = new RequirementImpl();
 		return requirement;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Scope createScope() {
-		ScopeImpl scope = new ScopeImpl();
-		return scope;
 	}
 
 	/**

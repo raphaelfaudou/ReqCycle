@@ -404,53 +404,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	int REQUIREMENT_OPERATION_COUNT = SIMPLE_REQUIREMENT_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link RequirementSourceData.impl.ScopeImpl <em>Scope</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see RequirementSourceData.impl.ScopeImpl
-	 * @see RequirementSourceData.impl.RequirementSourceDataPackageImpl#getScope()
-	 * @generated
-	 */
-	int SCOPE = 5;
-
-	/**
-	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SCOPE__REQUIREMENTS = 0;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SCOPE__NAME = 1;
-
-	/**
-	 * The number of structural features of the '<em>Scope</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SCOPE_FEATURE_COUNT = 2;
-
-	/**
-	 * The number of operations of the '<em>Scope</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SCOPE_OPERATION_COUNT = 0;
-
-
-	/**
 	 * Returns the meta object for class '{@link RequirementSourceData.RequirementSource <em>Requirement Source</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -611,38 +564,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	EClass getRequirement();
 
 	/**
-	 * Returns the meta object for class '{@link RequirementSourceData.Scope <em>Scope</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Scope</em>'.
-	 * @see RequirementSourceData.Scope
-	 * @generated
-	 */
-	EClass getScope();
-
-	/**
-	 * Returns the meta object for the reference list '{@link RequirementSourceData.Scope#getRequirements <em>Requirements</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Requirements</em>'.
-	 * @see RequirementSourceData.Scope#getRequirements()
-	 * @see #getScope()
-	 * @generated
-	 */
-	EReference getScope_Requirements();
-
-	/**
-	 * Returns the meta object for the attribute '{@link RequirementSourceData.Scope#getName <em>Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see RequirementSourceData.Scope#getName()
-	 * @see #getScope()
-	 * @generated
-	 */
-	EAttribute getScope_Name();
-
-	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -794,32 +715,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 		 * @generated
 		 */
 		EClass REQUIREMENT = eINSTANCE.getRequirement();
-
-		/**
-		 * The meta object literal for the '{@link RequirementSourceData.impl.ScopeImpl <em>Scope</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see RequirementSourceData.impl.ScopeImpl
-		 * @see RequirementSourceData.impl.RequirementSourceDataPackageImpl#getScope()
-		 * @generated
-		 */
-		EClass SCOPE = eINSTANCE.getScope();
-
-		/**
-		 * The meta object literal for the '<em><b>Requirements</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SCOPE__REQUIREMENTS = eINSTANCE.getScope_Requirements();
-
-		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute SCOPE__NAME = eINSTANCE.getScope_Name();
 
 	}
 

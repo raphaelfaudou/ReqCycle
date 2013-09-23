@@ -29,7 +29,9 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.core.services.events.IEventBroker;
+import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -41,12 +43,12 @@ import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.IDataTopics;
 import org.eclipse.ziggurat.configuration.IConfigurationManager;
 
+import RequirementSourceConf.RequirementSourceConfFactory;
+import RequirementSourceConf.RequirementSources;
 import RequirementSourceData.AbstractElement;
 import RequirementSourceData.RequirementSource;
 import RequirementSourceData.RequirementSourceDataFactory;
 import RequirementSourceData.Section;
-import RequirementSourceConf.RequirementSources;
-import RequirementSourceConf.RequirementSourceConfFactory;
 
 @Singleton
 public class DataManagerImpl implements IDataManager {
@@ -61,11 +63,10 @@ public class DataManagerImpl implements IDataManager {
 
 	public static final String ID = "org.eclipse.reqcycle.repositories";
 
-	@Inject
-	@Named("confResourceSet")
+	//	@Inject
+	//	@Named("confResourceSet")
 	private ResourceSet rs;
 
-	@Inject
 	IDataModelManager dataManager;
 
 	@Inject
@@ -80,9 +81,9 @@ public class DataManagerImpl implements IDataManager {
 	 */
 	@Inject
 	DataManagerImpl(@Named("confResourceSet") ResourceSet rs, IConfigurationManager confManager, IDataModelManager dataManager) {
-		this.rs = rs;
 		this.confManager = confManager;
 		this.dataManager = dataManager;
+		this.rs = rs;
 
 		EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, ID, rs, true);
 
@@ -243,5 +244,17 @@ public class DataManagerImpl implements IDataManager {
 			element.eSet(eAttribute, value);
 		}
 	};
+
+	@Inject
+	@Optional
+	void reactOnElementAddition(@UIEventTopic(IDataTopics.UPDATE_SOURCE) RequirementSource object) {
+
+		if(object == null) {
+			return;
+		}
+
+		System.out.println(object);
+
+	}
 
 }

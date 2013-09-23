@@ -14,7 +14,7 @@ import org.eclipse.reqcycle.uri.model.ReachableObject;
 import org.eclipse.reqcycle.uri.visitors.IVisitor;
 
 import RequirementSourceData.AbstractElement;
-import RequirementSourceData.Scope;
+import ScopesConf.Scope;
 
 
 public class ReqcycleTypeChecker implements IInjectedTypeChecker {

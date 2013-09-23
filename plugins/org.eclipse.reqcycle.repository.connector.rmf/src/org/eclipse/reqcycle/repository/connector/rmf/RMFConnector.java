@@ -45,7 +45,7 @@ import org.eclipse.rmf.reqif10.SpecType;
 import MappingModel.MappingElement;
 import RequirementSourceData.RequirementSource;
 import RequirementSourceData.RequirementSourceDataFactory;
-import RequirementSourceData.Scope;
+import ScopesConf.Scope;
 
 
 public class RMFConnector extends Wizard implements IConnectorWizard {

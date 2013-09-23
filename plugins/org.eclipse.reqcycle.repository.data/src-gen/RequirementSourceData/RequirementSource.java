@@ -16,18 +16,18 @@ import MappingModel.MappingElement;
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Requirement Source</b></em>'.
  * <!-- end-user-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link RequirementSourceData.RequirementSource#getRequirements <em>Requirements</em>}</li>
- * <li>{@link RequirementSourceData.RequirementSource#getName <em>Name</em>}</li>
- * <li>{@link RequirementSourceData.RequirementSource#getProperties <em>Properties</em>}</li>
- * <li>{@link RequirementSourceData.RequirementSource#getConnectorId <em>Connector Id</em>}</li>
- * <li>{@link RequirementSourceData.RequirementSource#getMappings <em>Mappings</em>}</li>
+ *   <li>{@link RequirementSourceData.RequirementSource#getRequirements <em>Requirements</em>}</li>
+ *   <li>{@link RequirementSourceData.RequirementSource#getName <em>Name</em>}</li>
+ *   <li>{@link RequirementSourceData.RequirementSource#getProperties <em>Properties</em>}</li>
+ *   <li>{@link RequirementSourceData.RequirementSource#getConnectorId <em>Connector Id</em>}</li>
+ *   <li>{@link RequirementSourceData.RequirementSource#getMappings <em>Mappings</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see RequirementSourceData.RequirementSourceDataPackage#getRequirementSource()
  * @model
  * @generated
@@ -42,7 +42,6 @@ public interface RequirementSource extends EObject {
 	 * If the meaning of the '<em>Requirements</em>' containment reference list isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Requirements</em>' containment reference list.
 	 * @see RequirementSourceData.RequirementSourceDataPackage#getRequirementSource_Requirements()
 	 * @model containment="true"
@@ -57,7 +56,6 @@ public interface RequirementSource extends EObject {
 	 * If the meaning of the '<em>Name</em>' attribute isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
 	 * @see RequirementSourceData.RequirementSourceDataPackage#getRequirementSource_Name()
@@ -70,9 +68,7 @@ public interface RequirementSource extends EObject {
 	 * Sets the value of the '{@link RequirementSourceData.RequirementSource#getName <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *        the new value of the '<em>Name</em>' attribute.
+	 * @param value the new value of the '<em>Name</em>' attribute.
 	 * @see #getName()
 	 * @generated
 	 */
@@ -87,7 +83,6 @@ public interface RequirementSource extends EObject {
 	 * If the meaning of the '<em>Properties</em>' map isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Properties</em>' map.
 	 * @see RequirementSourceData.RequirementSourceDataPackage#getRequirementSource_Properties()
 	 * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>"
@@ -102,7 +97,6 @@ public interface RequirementSource extends EObject {
 	 * If the meaning of the '<em>Connector Id</em>' attribute isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Connector Id</em>' attribute.
 	 * @see #setConnectorId(String)
 	 * @see RequirementSourceData.RequirementSourceDataPackage#getRequirementSource_ConnectorId()
@@ -115,9 +109,7 @@ public interface RequirementSource extends EObject {
 	 * Sets the value of the '{@link RequirementSourceData.RequirementSource#getConnectorId <em>Connector Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *        the new value of the '<em>Connector Id</em>' attribute.
+	 * @param value the new value of the '<em>Connector Id</em>' attribute.
 	 * @see #getConnectorId()
 	 * @generated
 	 */
@@ -125,13 +117,12 @@ public interface RequirementSource extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Mappings</b></em>' containment reference list.
-	 * The list contents are of type {@link MappingModel.ElementMapping}.
+	 * The list contents are of type {@link MappingModel.MappingElement}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Mappings</em>' containment reference list isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Mappings</em>' containment reference list.
 	 * @see RequirementSourceData.RequirementSourceDataPackage#getRequirementSource_Mappings()
 	 * @model containment="true"

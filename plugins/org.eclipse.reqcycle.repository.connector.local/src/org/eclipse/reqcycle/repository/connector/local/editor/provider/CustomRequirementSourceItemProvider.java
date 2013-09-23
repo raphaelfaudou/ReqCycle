@@ -25,6 +25,7 @@ import org.eclipse.ziggurat.inject.ZigguratInject;
 import RequirementSourceData.RequirementSource;
 import RequirementSourceData.RequirementSourceDataFactory;
 import RequirementSourceData.RequirementSourceDataPackage;
+import RequirementSourceData.Section;
 import RequirementSourceData.provider.RequirementSourceItemProvider;
 
 
@@ -78,7 +79,9 @@ public class CustomRequirementSourceItemProvider extends RequirementSourceItemPr
 		for(IRequirementType type : manager.getAllRequirementTypes()) {
 			newChildDescriptors.add(createChildParameter(RequirementSourceDataPackage.Literals.REQUIREMENT_SOURCE__REQUIREMENTS, type.createInstance()));
 		}
-		newChildDescriptors.add(createChildParameter(RequirementSourceDataPackage.Literals.REQUIREMENT_SOURCE__REQUIREMENTS, RequirementSourceDataFactory.eINSTANCE.createSection()));
+		Section section = RequirementSourceDataFactory.eINSTANCE.createSection();
+		section.setId("");
+		newChildDescriptors.add(createChildParameter(RequirementSourceDataPackage.Literals.REQUIREMENT_SOURCE__REQUIREMENTS, section));
 	}
 
 }

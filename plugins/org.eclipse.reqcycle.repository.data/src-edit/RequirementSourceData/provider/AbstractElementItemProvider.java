@@ -28,7 +28,6 @@ import RequirementSourceData.RequirementSourceDataPackage;
  * This is the item provider adapter for a {@link RequirementSourceData.AbstractElement} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
- * 
  * @generated
  */
 public class AbstractElementItemProvider extends ItemProviderAdapter implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
@@ -37,7 +36,6 @@ public class AbstractElementItemProvider extends ItemProviderAdapter implements 
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public AbstractElementItemProvider(AdapterFactory adapterFactory) {
@@ -48,12 +46,11 @@ public class AbstractElementItemProvider extends ItemProviderAdapter implements 
 	 * This returns the property descriptors for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
-		if(itemPropertyDescriptors == null) {
+		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
 			addIdPropertyDescriptor(object);
@@ -68,44 +65,88 @@ public class AbstractElementItemProvider extends ItemProviderAdapter implements 
 	 * This adds a property descriptor for the Id feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected void addIdPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(), getResourceLocator(), getString("_UI_AbstractElement_id_feature"), getString("_UI_PropertyDescriptor_description", "_UI_AbstractElement_id_feature", "_UI_AbstractElement_type"), RequirementSourceDataPackage.Literals.ABSTRACT_ELEMENT__ID, true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AbstractElement_id_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AbstractElement_id_feature", "_UI_AbstractElement_type"),
+				 RequirementSourceDataPackage.Literals.ABSTRACT_ELEMENT__ID,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
 	 * This adds a property descriptor for the Name feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected void addNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(), getResourceLocator(), getString("_UI_AbstractElement_name_feature"), getString("_UI_PropertyDescriptor_description", "_UI_AbstractElement_name_feature", "_UI_AbstractElement_type"), RequirementSourceDataPackage.Literals.ABSTRACT_ELEMENT__NAME, true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AbstractElement_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AbstractElement_name_feature", "_UI_AbstractElement_type"),
+				 RequirementSourceDataPackage.Literals.ABSTRACT_ELEMENT__NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
 	 * This adds a property descriptor for the Uri feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected void addUriPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(), getResourceLocator(), getString("_UI_AbstractElement_uri_feature"), getString("_UI_PropertyDescriptor_description", "_UI_AbstractElement_uri_feature", "_UI_AbstractElement_type"), RequirementSourceDataPackage.Literals.ABSTRACT_ELEMENT__URI, true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AbstractElement_uri_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AbstractElement_uri_feature", "_UI_AbstractElement_type"),
+				 RequirementSourceDataPackage.Literals.ABSTRACT_ELEMENT__URI,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
 	 * This adds a property descriptor for the Scopes feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected void addScopesPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(), getResourceLocator(), getString("_UI_AbstractElement_scopes_feature"), getString("_UI_PropertyDescriptor_description", "_UI_AbstractElement_scopes_feature", "_UI_AbstractElement_type"), RequirementSourceDataPackage.Literals.ABSTRACT_ELEMENT__SCOPES, true, false, true, null, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AbstractElement_scopes_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AbstractElement_scopes_feature", "_UI_AbstractElement_type"),
+				 RequirementSourceDataPackage.Literals.ABSTRACT_ELEMENT__SCOPES,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 
 	/**
@@ -129,19 +170,18 @@ public class AbstractElementItemProvider extends ItemProviderAdapter implements 
 	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch(notification.getFeatureID(AbstractElement.class)) {
-		case RequirementSourceDataPackage.ABSTRACT_ELEMENT__ID:
-		case RequirementSourceDataPackage.ABSTRACT_ELEMENT__NAME:
-		case RequirementSourceDataPackage.ABSTRACT_ELEMENT__URI:
-			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-			return;
+		switch (notification.getFeatureID(AbstractElement.class)) {
+			case RequirementSourceDataPackage.ABSTRACT_ELEMENT__ID:
+			case RequirementSourceDataPackage.ABSTRACT_ELEMENT__NAME:
+			case RequirementSourceDataPackage.ABSTRACT_ELEMENT__URI:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
 		}
 		super.notifyChanged(notification);
 	}
@@ -151,7 +191,6 @@ public class AbstractElementItemProvider extends ItemProviderAdapter implements 
 	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -163,7 +202,6 @@ public class AbstractElementItemProvider extends ItemProviderAdapter implements 
 	 * Return the resource locator for this item provider's resources.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override

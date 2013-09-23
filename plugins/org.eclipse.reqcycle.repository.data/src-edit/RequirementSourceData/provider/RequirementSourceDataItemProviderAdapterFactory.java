@@ -164,29 +164,6 @@ public class RequirementSourceDataItemProviderAdapterFactory extends Requirement
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link RequirementSourceData.Scope} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected ScopeItemProvider scopeItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link RequirementSourceData.Scope}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createScopeAdapter() {
-		if (scopeItemProvider == null) {
-			scopeItemProvider = new ScopeItemProvider(this);
-		}
-
-		return scopeItemProvider;
-	}
-
-	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -289,7 +266,6 @@ public class RequirementSourceDataItemProviderAdapterFactory extends Requirement
 		if (sectionItemProvider != null) sectionItemProvider.dispose();
 		if (simpleRequirementItemProvider != null) simpleRequirementItemProvider.dispose();
 		if (requirementItemProvider != null) requirementItemProvider.dispose();
-		if (scopeItemProvider != null) scopeItemProvider.dispose();
 	}
 
 }

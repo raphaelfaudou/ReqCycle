@@ -25,7 +25,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ziggurat.configuration,
  org.eclipse.ziggurat.inject,
  org.eclipse.e4.core.services,
- org.eclipse.ui.ide
+ org.eclipse.ui.ide,
+ org.eclipse.e4.ui.di
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: MappingModel,
  MappingModel.impl,
@@ -42,6 +43,9 @@ Export-Package: MappingModel,
  org.eclipse.reqcycle.repository.data.impl,
  org.eclipse.reqcycle.repository.data.types,
  org.eclipse.reqcycle.repository.data.types.internal;x-internal:=true,
- org.eclipse.reqcycle.repository.data.util
+ org.eclipse.reqcycle.repository.data.util,
+ ScopesConf,
+ ScopesConf.impl,
+ ScopesConf.util
 Bundle-ActivationPolicy: lazy
 Import-Package: javax.inject;version="1.0.0"

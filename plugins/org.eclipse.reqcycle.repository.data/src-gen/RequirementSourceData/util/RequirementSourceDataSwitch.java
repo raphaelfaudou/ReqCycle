@@ -101,12 +101,6 @@ public class RequirementSourceDataSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case RequirementSourceDataPackage.SCOPE: {
-				Scope scope = (Scope)theEObject;
-				T result = caseScope(scope);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -183,21 +177,6 @@ public class RequirementSourceDataSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseRequirement(Requirement object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Scope</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Scope</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseScope(Scope object) {
 		return null;
 	}
 

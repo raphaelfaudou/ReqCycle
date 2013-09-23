@@ -23,7 +23,7 @@ import org.eclipse.reqcycle.repository.data.types.IEnumerationType;
 import org.eclipse.reqcycle.repository.data.types.IEnumerator;
 import org.eclipse.reqcycle.repository.data.types.IRequirementType;
 
-import RequirementSourceData.Scope;
+import ScopesConf.Scope;
 
 /**
  * The Interface IDataModelManager.

@@ -1,6 +1,6 @@
 /**
  */
-package RequirementSourceData.impl;
+package ScopesConf.impl;
 
 import java.util.Collection;
 
@@ -19,7 +19,8 @@ import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 
 import RequirementSourceData.AbstractElement;
 import RequirementSourceData.RequirementSourceDataPackage;
-import RequirementSourceData.Scope;
+import ScopesConf.Scope;
+import ScopesConf.ScopesConfPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -28,11 +29,11 @@ import RequirementSourceData.Scope;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link RequirementSourceData.impl.ScopeImpl#getRequirements <em>Requirements</em>}</li>
- * <li>{@link RequirementSourceData.impl.ScopeImpl#getName <em>Name</em>}</li>
+ *   <li>{@link ScopesConf.impl.ScopeImpl#getName <em>Name</em>}</li>
+ *   <li>{@link ScopesConf.impl.ScopeImpl#getRequirements <em>Requirements</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
@@ -41,7 +42,6 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -52,7 +52,6 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -62,7 +61,6 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected ScopeImpl() {
@@ -72,12 +70,34 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return RequirementSourceDataPackage.Literals.SCOPE;
+		return ScopesConfPackage.Literals.SCOPE;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setName(String newName) {
+		String oldName = name;
+		name = newName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ScopesConfPackage.SCOPE__NAME, oldName, name));
 	}
 
 	/**
@@ -122,11 +142,12 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 	}
 
 
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated not
 	 */
 	@Override
 	public boolean isSetRequirements() {
@@ -136,41 +157,15 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	@Override
-	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if(eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, RequirementSourceDataPackage.SCOPE__NAME, oldName, name));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch(featureID) {
-		case RequirementSourceDataPackage.SCOPE__REQUIREMENTS:
-			return getRequirements();
-		case RequirementSourceDataPackage.SCOPE__NAME:
-			return getName();
+		switch (featureID) {
+			case ScopesConfPackage.SCOPE__NAME:
+				return getName();
+			case ScopesConfPackage.SCOPE__REQUIREMENTS:
+				return getRequirements();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -178,15 +173,14 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch(featureID) {
-		case RequirementSourceDataPackage.SCOPE__NAME:
-			setName((String)newValue);
-			return;
+		switch (featureID) {
+			case ScopesConfPackage.SCOPE__NAME:
+				setName((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -194,15 +188,14 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		switch(featureID) {
-		case RequirementSourceDataPackage.SCOPE__NAME:
-			setName(NAME_EDEFAULT);
-			return;
+		switch (featureID) {
+			case ScopesConfPackage.SCOPE__NAME:
+				setName(NAME_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -210,16 +203,15 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch(featureID) {
-		case RequirementSourceDataPackage.SCOPE__REQUIREMENTS:
-			return isSetRequirements();
-		case RequirementSourceDataPackage.SCOPE__NAME:
-			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+		switch (featureID) {
+			case ScopesConfPackage.SCOPE__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case ScopesConfPackage.SCOPE__REQUIREMENTS:
+				return isSetRequirements();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -227,13 +219,11 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if(eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");

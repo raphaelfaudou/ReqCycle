@@ -10,22 +10,21 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.URIHandlerImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.ziggurat.configuration.IConfigurationManager;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 @Singleton
 public class ConfResourceSet extends ResourceSetImpl {
-	
-	
-	
-	@Inject
-	IConfigurationManager confManager = ZigguratInject.make(IConfigurationManager.class);
 
-	public ConfResourceSet() {
+	IConfigurationManager confManager;
+
+	@Inject
+	public ConfResourceSet(IConfigurationManager confManager) {
+		this.confManager = confManager;
 		getResourceFactoryRegistry().getExtensionToFactoryMap().put(confManager.getConfigurationResourceExtension(), new Resource.Factory() {
 
 			@Override
 			public Resource createResource(URI uri) {
 				XMIResourceImpl result = new XMIResourceImpl(uri) {
+
 					@Override
 					protected boolean useUUIDs() {
 						return true;
@@ -41,5 +40,5 @@ public class ConfResourceSet extends ResourceSetImpl {
 
 		});
 	}
-	
+
 }

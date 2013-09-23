@@ -57,7 +57,7 @@ import org.eclipse.ui.model.BaseWorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import RequirementSourceData.Scope;
+import ScopesConf.Scope;
 
 import com.google.common.collect.Lists;
 
