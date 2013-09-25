@@ -32,6 +32,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.ui.di.UIEventTopic;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -85,10 +86,15 @@ public class DataManagerImpl implements IDataManager {
 		this.dataManager = dataManager;
 		this.rs = rs;
 
-		EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, ID, rs, true);
+		Collection<EObject> conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, ID, rs, true);
 
-		if(conf instanceof RequirementSources) {
-			sources = (RequirementSources)conf;
+		EObject element = null;
+		if(conf != null && !conf.isEmpty()) {
+			element = conf.iterator().next();
+		}
+
+		if(element instanceof RequirementSources) {
+			sources = (RequirementSources)element;
 			Collection<RequirementSource> RequirementSources = sources.getRequirementSources();
 			for(RequirementSource requirementSourceRepository : RequirementSources) {
 				String connectorId = requirementSourceRepository.getConnectorId();
@@ -151,6 +157,10 @@ public class DataManagerImpl implements IDataManager {
 
 	@Override
 	public void save() throws IOException {
+		for(RequirementSource source : sources.getRequirementSources()) {
+			EList<AbstractElement> reqs = source.getRequirements();
+			confManager.saveConfiguration(reqs, null, null, ID + "." + source.getName(), rs);
+		}
 		confManager.saveConfiguration(sources, null, null, ID, rs);
 	}
 
@@ -236,6 +246,14 @@ public class DataManagerImpl implements IDataManager {
 		section.setName(name);
 		section.setUri(uri);
 		return section;
+	}
+
+	@Override
+	public void addElementToSection(Section section, AbstractElement element) {
+	}
+
+	@Override
+	public void addElementToSource(RequirementSource source, AbstractElement element) {
 	}
 
 	@Override

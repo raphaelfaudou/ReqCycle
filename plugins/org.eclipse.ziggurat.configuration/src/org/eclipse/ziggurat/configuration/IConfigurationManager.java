@@ -49,7 +49,7 @@ public interface IConfigurationManager {
 	 * @param id
 	 * @return the configuration or null if not found
 	 */
-	EObject getConfiguration(IResource context, Scope scope, String id, boolean reload);
+	Collection<EObject> getConfiguration(IResource context, Scope scope, String id, boolean reload);
 
 	/**
 	 * Retrieve a configuration EObject using the provided resource set to load the corresponding configuration resource.
@@ -63,7 +63,7 @@ public interface IConfigurationManager {
 	 * @param resourceSet
 	 * @return the configuration or null if not found
 	 */
-	EObject getConfiguration(IResource context, Scope scope, String id, ResourceSet resourceSet, boolean reload);
+	Collection<EObject> getConfiguration(IResource context, Scope scope, String id, ResourceSet resourceSet, boolean reload);
 
 	/**
 	 * Save an EObject as a configuration.

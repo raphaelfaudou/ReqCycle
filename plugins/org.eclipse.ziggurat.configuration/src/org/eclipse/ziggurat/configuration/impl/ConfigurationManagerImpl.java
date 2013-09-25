@@ -90,8 +90,7 @@ public class ConfigurationManagerImpl implements IConfigurationManager {
 		}
 	}
 	
-
-	public EObject getConfiguration(IResource context, Scope scope, String id, ResourceSet resourceSet, boolean reload) {
+	public Collection<EObject> getConfiguration(IResource context, Scope scope, String id, ResourceSet resourceSet, boolean reload) {
 		URI confFileUri = getConfigurationFileUri(context, scope, id);
 		if(resourceSet instanceof RestrictedResourceSet) {
 			((RestrictedResourceSet)resourceSet).addAuthorizedUri(confFileUri);
@@ -106,7 +105,7 @@ public class ConfigurationManagerImpl implements IConfigurationManager {
 			Resource r = resourceSet.getResource(confFileUri, true);
 
 			if(r != null && !r.getContents().isEmpty()) {
-				return r.getContents().get(0);
+				return r.getContents();
 			}
 		} catch (Throwable e) {
 			//DO NOTHING
@@ -124,7 +123,7 @@ public class ConfigurationManagerImpl implements IConfigurationManager {
 		saveConfiguration(conf, context, scope, id, rs);
 	}
 
-	public EObject getConfiguration(IResource context, Scope scope, String id, boolean reload) {
+	public Collection<EObject> getConfiguration(IResource context, Scope scope, String id, boolean reload) {
 		return getConfiguration(context, scope, id, rs, reload);
 	}
 
@@ -198,7 +197,12 @@ public class ConfigurationManagerImpl implements IConfigurationManager {
 	}
 
 	public Map<String, Object> getSimpleConfiguration(IResource context, Scope scope, String id, boolean reload) {
-		EObject confEObj = getConfiguration(context, scope, id, reload);
+		EObject confEObj = null;
+		
+		Collection<EObject> conf = getConfiguration(context, scope, id, reload);
+		if(conf != null && !conf.isEmpty()) {
+			confEObj = conf.iterator().next();
+		}
 
 		if(confEObj == null) {
 			return null;
