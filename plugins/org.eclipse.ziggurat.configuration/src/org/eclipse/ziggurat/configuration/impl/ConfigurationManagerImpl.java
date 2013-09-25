@@ -59,6 +59,10 @@ public class ConfigurationManagerImpl implements IConfigurationManager {
 
 
 	public void saveConfiguration(EObject conf, IResource context, Scope scope, String id, ResourceSet resourceSet) throws IOException {
+		saveConfiguration(Collections.singleton(conf), context, scope, id, resourceSet);
+	}
+	
+	public void saveConfiguration(Collection<? extends EObject> conf, IResource context, Scope scope, String id, ResourceSet resourceSet) throws IOException {
 		if(context == null && Scope.PROJECT.equals(scope)) {
 			throw new IOException("Context should not be null when using project scope");
 		}
@@ -77,7 +81,7 @@ public class ConfigurationManagerImpl implements IConfigurationManager {
 		}
 
 		r.getContents().clear();
-		r.getContents().add(conf);
+		r.getContents().addAll(conf);
 
 		if(r instanceof EMFConfResource) {
 			((EMFConfResource)r).manualSave(SAVE_OPTIONS);
@@ -85,6 +89,7 @@ public class ConfigurationManagerImpl implements IConfigurationManager {
 			r.save(SAVE_OPTIONS);
 		}
 	}
+	
 
 	public EObject getConfiguration(IResource context, Scope scope, String id, ResourceSet resourceSet, boolean reload) {
 		URI confFileUri = getConfigurationFileUri(context, scope, id);
