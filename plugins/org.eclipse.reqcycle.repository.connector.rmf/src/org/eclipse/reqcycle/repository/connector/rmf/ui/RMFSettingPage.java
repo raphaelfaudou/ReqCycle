@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.PojoProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
@@ -76,7 +78,8 @@ public class RMFSettingPage extends WizardPage implements Listener {
 
 	private Button btnCopyImport;
 
-	private IDataModelManager dataManager = ZigguratInject.make(IDataModelManager.class);
+	@Inject
+	IDataModelManager dataManager;
 
 	private Combo cScope;
 
@@ -97,6 +100,7 @@ public class RMFSettingPage extends WizardPage implements Listener {
 		setTitle(title);
 		setDescription(description);
 		this.bean = new RMFSettingPageBean(this);
+		ZigguratInject.inject(this);
 	}
 
 	/**
@@ -246,9 +250,8 @@ public class RMFSettingPage extends WizardPage implements Listener {
 					Object obj = ((IStructuredSelection)selection).getFirstElement();
 					if(obj instanceof IDataModel) {
 						cScope.setEnabled(true);
-						inputScope.addAll(((IDataModel)obj).getScopes());
+						inputScope.addAll(dataManager.getScopes((IDataModel)obj));
 					}
-
 				}
 				cvScope.refresh();
 			}
