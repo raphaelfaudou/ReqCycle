@@ -89,7 +89,7 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 
 				if(edition) {
 					requirementSource = initSource;
-					scope = dataTypeManage.getAnalysisScope();
+					//FIXME : Diff with existing and then merge
 				} else {
 					requirementSource = dataManager.createRequirementSource();
 					if(settingPageBean != null) {
