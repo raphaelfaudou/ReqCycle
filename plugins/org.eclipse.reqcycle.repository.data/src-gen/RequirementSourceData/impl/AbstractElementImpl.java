@@ -11,7 +11,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-import org.eclipse.emf.ecore.util.EObjectEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -189,7 +189,7 @@ public abstract class AbstractElementImpl extends MinimalEObjectImpl.Container i
 	 */
 	public EList<Scope> getScopes() {
 		if (scopes == null) {
-			scopes = new EObjectEList<Scope>(Scope.class, this, RequirementSourceDataPackage.ABSTRACT_ELEMENT__SCOPES);
+			scopes = new EObjectResolvingEList<Scope>(Scope.class, this, RequirementSourceDataPackage.ABSTRACT_ELEMENT__SCOPES);
 		}
 		return scopes;
 	}

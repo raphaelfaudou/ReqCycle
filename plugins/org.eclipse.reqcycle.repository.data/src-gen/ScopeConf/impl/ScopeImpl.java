@@ -31,6 +31,7 @@ import ScopeConf.ScopeConfPackage;
  * <ul>
  *   <li>{@link ScopeConf.impl.ScopeImpl#getName <em>Name</em>}</li>
  *   <li>{@link ScopeConf.impl.ScopeImpl#getRequirements <em>Requirements</em>}</li>
+ *   <li>{@link ScopeConf.impl.ScopeImpl#getDataModelURI <em>Data Model URI</em>}</li>
  * </ul>
  * </p>
  *
@@ -57,6 +58,26 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getDataModelURI() <em>Data Model URI</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDataModelURI()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String DATA_MODEL_URI_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getDataModelURI() <em>Data Model URI</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDataModelURI()
+	 * @generated
+	 * @ordered
+	 */
+	protected String dataModelURI = DATA_MODEL_URI_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -111,6 +132,17 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 		return (EList<AbstractElement>)getOppositeObjs(RequirementSourceDataPackage.Literals.ABSTRACT_ELEMENT__SCOPES);
 	}
 
+	//	/**
+	//	 * <!-- begin-user-doc -->
+	//	 * <!-- end-user-doc -->
+	//	 * 
+	//	 * @generated not
+	//	 */
+	//	@Override
+	//	public EList<AbstractElement> getRequirements() {
+	//		return (EList<AbstractElement>)getOppositeObjs(RequirementSourceDataPackage.Literals.ABSTRACT_ELEMENT__SCOPES);
+	//	}
+
 	public EList<? extends EObject> getOppositeObjs(EReference oppositeRef) {
 
 		ECrossReferenceAdapter c = ECrossReferenceAdapter.getCrossReferenceAdapter(this);
@@ -160,12 +192,37 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 	 * @generated
 	 */
 	@Override
+	public String getDataModelURI() {
+		return dataModelURI;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setDataModelURI(String newDataModelURI) {
+		String oldDataModelURI = dataModelURI;
+		dataModelURI = newDataModelURI;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ScopeConfPackage.SCOPE__DATA_MODEL_URI, oldDataModelURI, dataModelURI));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ScopeConfPackage.SCOPE__NAME:
 				return getName();
 			case ScopeConfPackage.SCOPE__REQUIREMENTS:
 				return getRequirements();
+			case ScopeConfPackage.SCOPE__DATA_MODEL_URI:
+				return getDataModelURI();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -181,6 +238,9 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 			case ScopeConfPackage.SCOPE__NAME:
 				setName((String)newValue);
 				return;
+			case ScopeConfPackage.SCOPE__DATA_MODEL_URI:
+				setDataModelURI((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -195,6 +255,9 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 		switch (featureID) {
 			case ScopeConfPackage.SCOPE__NAME:
 				setName(NAME_EDEFAULT);
+				return;
+			case ScopeConfPackage.SCOPE__DATA_MODEL_URI:
+				setDataModelURI(DATA_MODEL_URI_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -212,6 +275,8 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case ScopeConfPackage.SCOPE__REQUIREMENTS:
 				return isSetRequirements();
+			case ScopeConfPackage.SCOPE__DATA_MODEL_URI:
+				return DATA_MODEL_URI_EDEFAULT == null ? dataModelURI != null : !DATA_MODEL_URI_EDEFAULT.equals(dataModelURI);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -228,6 +293,8 @@ public class ScopeImpl extends MinimalEObjectImpl.Container implements Scope {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
 		result.append(name);
+		result.append(", DataModelURI: ");
+		result.append(dataModelURI);
 		result.append(')');
 		return result.toString();
 	}

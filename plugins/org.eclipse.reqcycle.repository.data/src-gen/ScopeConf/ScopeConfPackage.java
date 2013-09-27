@@ -122,13 +122,22 @@ public interface ScopeConfPackage extends EPackage {
 	int SCOPE__REQUIREMENTS = 1;
 
 	/**
+	 * The feature id for the '<em><b>Data Model URI</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCOPE__DATA_MODEL_URI = 2;
+
+	/**
 	 * The number of structural features of the '<em>Scope</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCOPE_FEATURE_COUNT = 2;
+	int SCOPE_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>Scope</em>' class.
@@ -192,6 +201,17 @@ public interface ScopeConfPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getScope_Requirements();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ScopeConf.Scope#getDataModelURI <em>Data Model URI</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Data Model URI</em>'.
+	 * @see ScopeConf.Scope#getDataModelURI()
+	 * @see #getScope()
+	 * @generated
+	 */
+	EAttribute getScope_DataModelURI();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -259,6 +279,14 @@ public interface ScopeConfPackage extends EPackage {
 		 * @generated
 		 */
 		EReference SCOPE__REQUIREMENTS = eINSTANCE.getScope_Requirements();
+
+		/**
+		 * The meta object literal for the '<em><b>Data Model URI</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SCOPE__DATA_MODEL_URI = eINSTANCE.getScope_DataModelURI();
 
 	}
 

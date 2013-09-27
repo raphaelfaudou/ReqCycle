@@ -9,7 +9,7 @@
       <eAnnotations source="hidden"/>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="scopes" upperBound="-1"
-        eType="ecore:EClass ScopeConf.ecore#//Scope" resolveProxies="false"/>
+        eType="ecore:EClass ScopeConf.ecore#//Scope"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Section" eSuperTypes="#//AbstractElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"

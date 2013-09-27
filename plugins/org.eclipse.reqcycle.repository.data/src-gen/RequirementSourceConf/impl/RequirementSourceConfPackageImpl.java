@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import RequirementSourceData.RequirementSourceDataPackage;
+import ScopeConf.ScopeConfPackage;
 import org.eclipse.emf.ecore.EAttribute;
 import RequirementSourceConf.RequirementSources;
 import RequirementSourceConf.RequirementSourceConfFactory;
@@ -81,6 +82,9 @@ public class RequirementSourceConfPackageImpl extends EPackageImpl implements Re
 		RequirementSourceConfPackageImpl theRequirementSourceConfPackage = (RequirementSourceConfPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof RequirementSourceConfPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new RequirementSourceConfPackageImpl());
 
 		isInited = true;
+
+		// Initialize simple dependencies
+		MappingModelPackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
 		theRequirementSourceConfPackage.createPackageContents();
@@ -176,6 +180,24 @@ public class RequirementSourceConfPackageImpl extends EPackageImpl implements Re
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getRequirementSource_DataModelURI() {
+		return (EAttribute)requirementSourceEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRequirementSource_DefaultScope() {
+		return (EReference)requirementSourceEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public RequirementSourceConfFactory getRequirementSourceConfFactory() {
 		return (RequirementSourceConfFactory)getEFactoryInstance();
@@ -209,6 +231,8 @@ public class RequirementSourceConfPackageImpl extends EPackageImpl implements Re
 		createEReference(requirementSourceEClass, REQUIREMENT_SOURCE__PROPERTIES);
 		createEAttribute(requirementSourceEClass, REQUIREMENT_SOURCE__CONNECTOR_ID);
 		createEReference(requirementSourceEClass, REQUIREMENT_SOURCE__MAPPINGS);
+		createEAttribute(requirementSourceEClass, REQUIREMENT_SOURCE__DATA_MODEL_URI);
+		createEReference(requirementSourceEClass, REQUIREMENT_SOURCE__DEFAULT_SCOPE);
 	}
 
 	/**
@@ -238,6 +262,7 @@ public class RequirementSourceConfPackageImpl extends EPackageImpl implements Re
 		RequirementSourceDataPackage theRequirementSourceDataPackage = (RequirementSourceDataPackage)EPackage.Registry.INSTANCE.getEPackage(RequirementSourceDataPackage.eNS_URI);
 		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 		MappingModelPackage theMappingModelPackage = (MappingModelPackage)EPackage.Registry.INSTANCE.getEPackage(MappingModelPackage.eNS_URI);
+		ScopeConfPackage theScopeConfPackage = (ScopeConfPackage)EPackage.Registry.INSTANCE.getEPackage(ScopeConfPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -250,11 +275,13 @@ public class RequirementSourceConfPackageImpl extends EPackageImpl implements Re
 		initEReference(getRequirementSources_RequirementSources(), this.getRequirementSource(), null, "requirementSources", null, 0, -1, RequirementSources.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(requirementSourceEClass, RequirementSource.class, "RequirementSource", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getRequirementSource_Requirements(), theRequirementSourceDataPackage.getAbstractElement(), null, "requirements", null, 0, -1, RequirementSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRequirementSource_Requirements(), theRequirementSourceDataPackage.getAbstractElement(), null, "requirements", null, 0, -1, RequirementSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRequirementSource_Name(), ecorePackage.getEString(), "name", null, 0, 1, RequirementSource.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getRequirementSource_Properties(), theEcorePackage.getEStringToStringMapEntry(), null, "properties", null, 0, -1, RequirementSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRequirementSource_ConnectorId(), ecorePackage.getEString(), "connectorId", null, 0, 1, RequirementSource.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getRequirementSource_Mappings(), theMappingModelPackage.getMappingElement(), null, "mappings", null, 0, -1, RequirementSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRequirementSource_DataModelURI(), ecorePackage.getEString(), "DataModelURI", null, 0, 1, RequirementSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRequirementSource_DefaultScope(), theScopeConfPackage.getScope(), null, "DefaultScope", null, 0, 1, RequirementSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

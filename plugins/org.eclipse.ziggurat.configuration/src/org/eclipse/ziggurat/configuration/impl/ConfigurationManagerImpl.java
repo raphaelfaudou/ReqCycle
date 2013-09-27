@@ -165,7 +165,7 @@ public class ConfigurationManagerImpl implements IConfigurationManager {
 		return false;
 	}
 
-	protected URI getConfigurationFileUri(IResource context, Scope scope, String id) {
+	public URI getConfigurationFileUri(IResource context, Scope scope, String id) {
 		return getConfigurationFileUri(context, scope, id, CONF_RESOURCE_EXTENSION);
 	}
 

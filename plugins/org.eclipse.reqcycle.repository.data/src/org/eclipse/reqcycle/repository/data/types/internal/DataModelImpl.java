@@ -22,7 +22,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EFactory;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
@@ -95,15 +94,6 @@ public class DataModelImpl implements IDataModel, IAdaptable {
 
 		for(EPackage subPackage : ePackage.getESubpackages()) {
 			subPackages.add(new DataModelImpl(subPackage));
-		}
-
-		EAnnotation scopeEAnnotation = ePackage.getEAnnotation("SCOPES");
-		if(scopeEAnnotation != null) {
-			for(EObject content : scopeEAnnotation.getContents()) {
-				if(content instanceof Scope) {
-					scopes.add((Scope)content);
-				}
-			}
 		}
 	}
 
@@ -368,6 +358,11 @@ public class DataModelImpl implements IDataModel, IAdaptable {
 			return ePackage;
 		}
 		return null;
+	}
+
+	@Override
+	public String getDataModelURI() {
+		return ePackage.getNsURI();
 	}
 
 }

@@ -105,7 +105,7 @@ public class ScopesPreferencePage extends DataModelsPreferencePage {
 					if(obj instanceof IDataModel) {
 						selectedModel = (IDataModel)obj;
 						btnAddScope.setEnabled(true);
-						inputScopes.addAll(selectedModel.getScopes());
+						inputScopes.addAll(dataModelManager.getScopes(selectedModel));
 					}
 
 				}
@@ -121,7 +121,7 @@ public class ScopesPreferencePage extends DataModelsPreferencePage {
 				NameDialog dialog = new NameDialog(e.display.getActiveShell(), "Add Scope");
 				if(dialog.open() == Window.OK) {
 					String name = dialog.getName();
-					Scope scope = dataModelManager.createScope(name);
+					Scope scope = dataModelManager.createScope(name, selectedModel);
 					dataModelManager.addScopes(selectedModel, scope);
 					inputScopes.add(scope);
 					tvScopes.setInput(inputScopes);

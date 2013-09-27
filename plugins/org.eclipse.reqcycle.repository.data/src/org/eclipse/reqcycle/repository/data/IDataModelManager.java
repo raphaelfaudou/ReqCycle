@@ -62,13 +62,15 @@ public interface IDataModelManager {
 	public IDataModel createDataModel(String name);
 
 	/**
-	 * Creates the scope.
+	 * Creates a scope.
 	 * 
 	 * @param name
 	 *        the scope name
+	 * @param dataModel
+	 *        the scope data model
 	 * @return the scope
 	 */
-	public Scope createScope(String name);
+	public Scope createScope(String name, IDataModel dataModel);
 
 	/**
 	 * Adds the requirement types to a Data Model.
@@ -140,13 +142,24 @@ public interface IDataModelManager {
 	public Collection<IEnumerationType> getAllEnumerationTypes();
 
 	/**
-	 * Gets the scopes.
+	 * Gets the scope.
 	 * 
 	 * @param name
 	 *        the scope name
-	 * @return the scopes with the given name
+	 * @param dataModel
+	 *        the scope data model
+	 * @return the scope with the given name
 	 */
-	public Collection<Scope> getScopes(String name);
+	public Scope getScope(String name, IDataModel dataModel);
+
+	/**
+	 * Gets the scopes.
+	 * 
+	 * @param dataModel
+	 *        the scopes data model
+	 * @return the scopes
+	 */
+	public Collection<Scope> getScopes(IDataModel dataModel);
 
 	/**
 	 * Gets all scopes.
@@ -221,12 +234,5 @@ public interface IDataModelManager {
 	 * @return the data model containing the given scope
 	 */
 	public IDataModel getDataModel(Scope s);
-
-	/**
-	 * Gets the analysis scope.
-	 * 
-	 * @return the analysis scope
-	 */
-	public Scope getAnalysisScope();
 
 }

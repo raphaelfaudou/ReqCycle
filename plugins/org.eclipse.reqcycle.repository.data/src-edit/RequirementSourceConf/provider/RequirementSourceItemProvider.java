@@ -62,6 +62,8 @@ public class RequirementSourceItemProvider extends ItemProviderAdapter implement
 
 			addNamePropertyDescriptor(object);
 			addConnectorIdPropertyDescriptor(object);
+			addDataModelURIPropertyDescriptor(object);
+			addDefaultScopePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -86,6 +88,28 @@ public class RequirementSourceItemProvider extends ItemProviderAdapter implement
 	 */
 	protected void addConnectorIdPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(), getResourceLocator(), getString("_UI_RequirementSource_connectorId_feature"), getString("_UI_PropertyDescriptor_description", "_UI_RequirementSource_connectorId_feature", "_UI_RequirementSource_type"), RequirementSourceConfPackage.Literals.REQUIREMENT_SOURCE__CONNECTOR_ID, true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Data Model URI feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected void addDataModelURIPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(), getResourceLocator(), getString("_UI_RequirementSource_DataModelURI_feature"), getString("_UI_PropertyDescriptor_description", "_UI_RequirementSource_DataModelURI_feature", "_UI_RequirementSource_type"), RequirementSourceConfPackage.Literals.REQUIREMENT_SOURCE__DATA_MODEL_URI, true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Default Scope feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected void addDefaultScopePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(), getResourceLocator(), getString("_UI_RequirementSource_DefaultScope_feature"), getString("_UI_PropertyDescriptor_description", "_UI_RequirementSource_DefaultScope_feature", "_UI_RequirementSource_type"), RequirementSourceConfPackage.Literals.REQUIREMENT_SOURCE__DEFAULT_SCOPE, true, false, true, null, null, null));
 	}
 
 	/**
@@ -139,7 +163,7 @@ public class RequirementSourceItemProvider extends ItemProviderAdapter implement
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated not
 	 */
 	@Override
 	public String getText(Object object) {
@@ -166,6 +190,7 @@ public class RequirementSourceItemProvider extends ItemProviderAdapter implement
 		switch(notification.getFeatureID(RequirementSource.class)) {
 		case RequirementSourceConfPackage.REQUIREMENT_SOURCE__NAME:
 		case RequirementSourceConfPackage.REQUIREMENT_SOURCE__CONNECTOR_ID:
+		case RequirementSourceConfPackage.REQUIREMENT_SOURCE__DATA_MODEL_URI:
 			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 			return;
 		case RequirementSourceConfPackage.REQUIREMENT_SOURCE__REQUIREMENTS:

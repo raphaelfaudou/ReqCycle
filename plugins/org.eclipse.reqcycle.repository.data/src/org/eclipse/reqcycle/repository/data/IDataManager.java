@@ -72,6 +72,10 @@ public interface IDataManager {
 	 */
 	public Section createSection(String id, String name, String uri);
 
+	public void addElementToSource(RequirementSource source, AbstractElement element);
+
+	public void addElementToSection(Section section, AbstractElement element);
+
 	/**
 	 * Gets an existing repository
 	 * 

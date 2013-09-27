@@ -154,6 +154,15 @@ public class ScopeConfPackageImpl extends EPackageImpl implements ScopeConfPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getScope_DataModelURI() {
+		return (EAttribute)scopeEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ScopeConfFactory getScopeConfFactory() {
 		return (ScopeConfFactory)getEFactoryInstance();
 	}
@@ -183,6 +192,7 @@ public class ScopeConfPackageImpl extends EPackageImpl implements ScopeConfPacka
 		scopeEClass = createEClass(SCOPE);
 		createEAttribute(scopeEClass, SCOPE__NAME);
 		createEReference(scopeEClass, SCOPE__REQUIREMENTS);
+		createEAttribute(scopeEClass, SCOPE__DATA_MODEL_URI);
 	}
 
 	/**
@@ -224,6 +234,7 @@ public class ScopeConfPackageImpl extends EPackageImpl implements ScopeConfPacka
 		initEClass(scopeEClass, Scope.class, "Scope", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getScope_Name(), ecorePackage.getEString(), "name", null, 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getScope_Requirements(), theRequirementSourceDataPackage.getAbstractElement(), null, "requirements", null, 0, -1, Scope.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEAttribute(getScope_DataModelURI(), ecorePackage.getEString(), "DataModelURI", null, 0, 1, Scope.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

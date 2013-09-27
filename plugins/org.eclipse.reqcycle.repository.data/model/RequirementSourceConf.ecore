@@ -8,7 +8,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RequirementSource">
     <eStructuralFeatures xsi:type="ecore:EReference" name="requirements" upperBound="-1"
-        eType="ecore:EClass RequirementSourceData.ecore#//AbstractElement" containment="true"/>
+        eType="ecore:EClass RequirementSourceData.ecore#//AbstractElement"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         volatile="true" transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
@@ -18,5 +18,7 @@
         volatile="true" transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="mappings" upperBound="-1"
         eType="ecore:EClass MappingModel.ecore#//MappingElement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DataModelURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DefaultScope" eType="ecore:EClass ScopeConf.ecore#//Scope"/>
   </eClassifiers>
 </ecore:EPackage>

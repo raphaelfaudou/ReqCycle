@@ -17,7 +17,11 @@ package org.eclipse.reqcycle.repository.ui.views;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
@@ -63,6 +67,10 @@ public class RequirementScopeView extends ViewPart {
 
 	private IDataModelManager dataManager = ZigguratInject.make(IDataModelManager.class);
 
+	@Inject
+	@Named("confResourceSet")
+	ResourceSet rs;
+
 	private Collection<Scope> scopes = new ArrayList<Scope>();
 
 	private Collection<IDataModel> dataModels = new ArrayList<IDataModel>();
@@ -90,6 +98,7 @@ public class RequirementScopeView extends ViewPart {
 	private Action refreshAction;
 
 	public RequirementScopeView() {
+		ZigguratInject.inject(this);
 	}
 
 	@Override
@@ -242,7 +251,7 @@ public class RequirementScopeView extends ViewPart {
 						if(selectedDataModel != dataModel) {
 							dataModel = selectedDataModel;
 							scope = null;
-							setScopes(dataModel.getScopes());
+							setScopes(dataManager.getScopes(dataModel));
 						}
 					}
 				}
@@ -280,17 +289,24 @@ public class RequirementScopeView extends ViewPart {
 
 	protected void refresh() {
 		setDataModels(dataManager.getAllDataModels());
+		refreshDataModelSelection();
+		setScopes(dataModel);
+		setRequirements(scope != null ? scope.getRequirements() : null);
+
+	}
+
+	protected void setScopes(IDataModel dataModel) {
 		if(dataModel != null) {
-			setScopes(dataModel.getScopes());
-		}
-		if(scope != null) {
-			setRequirements(scope.getRequirements());
+			setScopes(dataManager.getScopes(dataModel));
 		}
 	}
 
-	private void setDataModels(Collection<IDataModel> allDataModels) {
+	protected void setDataModels(Collection<IDataModel> allDataModels) {
 		dataModels.clear();
 		dataModels.addAll(allDataModels);
+	}
+
+	protected void refreshDataModelSelection() {
 		if(cvDataModel != null) {
 			cvDataModel.refresh();
 			if(dataModel != null) {
@@ -301,7 +317,9 @@ public class RequirementScopeView extends ViewPart {
 
 	protected void setRequirements(EList<AbstractElement> requirements) {
 		this.requirements.clear();
-		this.requirements.addAll(scope.getRequirements());
+		if(requirements != null) {
+			this.requirements.addAll(requirements);
+		}
 		if(viewer != null) {
 			viewer.refresh();
 		}

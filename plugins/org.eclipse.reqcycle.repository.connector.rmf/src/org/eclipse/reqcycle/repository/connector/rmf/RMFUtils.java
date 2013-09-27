@@ -53,9 +53,9 @@ import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import MappingModel.MappingAttribute;
 import MappingModel.MappingElement;
+import RequirementSourceConf.RequirementSource;
 import RequirementSourceData.AbstractElement;
 import RequirementSourceData.Requirement;
-import RequirementSourceConf.RequirementSource;
 import RequirementSourceData.Section;
 import ScopeConf.Scope;
 
@@ -226,7 +226,6 @@ public class RMFUtils {
 		AbstractElement createdObject = null;
 		if(elementMapping != null) {
 			try {
-				//FIXME : use IRequirementType in the mapping dialog
 				IRequirementType type = new RequirementTypeImpl(elementMapping.getTargetElement());
 				createdObject = type.createInstance();
 				createdObject.setId(id);

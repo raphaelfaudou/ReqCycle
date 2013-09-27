@@ -101,4 +101,11 @@ public interface IDataModel {
 	 */
 	public Collection<Scope> getScopes();
 
+	/**
+	 * Gets the data model uri.
+	 * 
+	 * @return the data model uri
+	 */
+	public String getDataModelURI();
+
 }

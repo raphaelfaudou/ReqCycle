@@ -48,6 +48,10 @@ import org.eclipse.ziggurat.configuration.IConfigurationManager;
 
 import ScopeConf.Scope;
 import ScopeConf.ScopeConfFactory;
+import ScopeConf.Scopes;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 
 @Singleton
 public class DataModelManagerImpl implements IDataModelManager {
@@ -62,9 +66,13 @@ public class DataModelManagerImpl implements IDataModelManager {
 	/** Configuration ID */
 	final static String CONF_ID = "org.eclipse.reqcycle.data.dataTypes";
 
+	final static String SCOPES_CONF_ID = "org.eclipse.reqcycle.data.scopes";
+
 	@Inject
 	@Named("confResourceSet")
 	protected ResourceSet rs;
+
+	protected Scopes scopes;
 
 	/**
 	 * Constructor
@@ -75,27 +83,42 @@ public class DataModelManagerImpl implements IDataModelManager {
 		this.confManager = confManager;
 
 		initTypes();
+		initScopes();
+	}
+
+	protected void initScopes() {
+		Collection<EObject> conf = confManager.getConfiguration(null, null, SCOPES_CONF_ID, rs, true);
+		EObject element = null;
+		if(conf != null && !conf.isEmpty()) {
+			element = conf.iterator().next();
+		}
+		if(element instanceof Scopes) {
+			scopes = ((Scopes)element);
+		} else {
+			scopes = ScopeConfFactory.eINSTANCE.createScopes();
+			saveScopes();
+		}
 	}
 
 	protected void initTypes() {
-
-		EObject conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, CONF_ID, rs, true);
-		if(conf instanceof EPackage) {
-			dataModel = new DataModelImpl((EPackage)conf);
+		Collection<EObject> conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, CONF_ID, rs, true);
+		EObject element = null;
+		if(conf != null && !conf.isEmpty()) {
+			element = conf.iterator().next();
+		}
+		EPackage ePackage;
+		if(element instanceof EPackage) {
+			ePackage = (EPackage)element;
+			dataModel = new DataModelImpl(ePackage);
 		} else {
-			EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
+			ePackage = EcoreFactory.eINSTANCE.createEPackage();
 			ePackage.setName("DataModels");
 			ePackage.setNsPrefix("DataModels");
 			ePackage.setNsURI(MODEL_NS_URI);
 			dataModel = new DataModelImpl(ePackage);
-			save();
+			saveDataModels();
 		}
-
-		registerModel(dataModel);
-
-		for(IDataModel model : ((DataModelImpl)dataModel).getSubDataModels()) {
-			registerModel(model);
-		}
+		registerDataModels(ePackage);
 	}
 
 	@Override
@@ -105,19 +128,32 @@ public class DataModelManagerImpl implements IDataModelManager {
 
 	@Override
 	public void save() {
+		saveDataModels();
+		saveScopes();
+	}
+
+	protected void saveScopes() {
+		try {
+			confManager.saveConfiguration(scopes, null, null, SCOPES_CONF_ID, rs);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	protected void saveDataModels() {
 		try {
 			EPackage ePackage = null;
-
 			if(dataModel instanceof IAdaptable) {
 				ePackage = (EPackage)((IAdaptable)dataModel).getAdapter(EPackage.class);
 			}
-
 			confManager.saveConfiguration(ePackage, null, IConfigurationManager.Scope.WORKSPACE, CONF_ID, rs);
+			registerDataModels(ePackage);
 		} catch (IOException e) {
 			// FIXME : use logger
 			e.printStackTrace();
 		}
 	}
+
 
 	@Override
 	public IDataModel createDataModel(String name) {
@@ -131,18 +167,13 @@ public class DataModelManagerImpl implements IDataModelManager {
 		if(p == null) {
 			return;
 		}
-		registerModel(p);
 		((DataModelImpl)dataModel).addDataModel(p);
 	}
 
-	protected void registerModel(IDataModel dataModel) {
-		EPackage ePackage = null;
-		if(dataModel instanceof IAdaptable) {
-			ePackage = (EPackage)((IAdaptable)dataModel).getAdapter(EPackage.class);
-		}
-
-		if(ePackage != null && ePackage.getNsURI() != null) {
-			Registry.INSTANCE.put(ePackage.getNsURI(), ePackage);
+	protected void registerDataModels(EPackage ePackage) {
+		Registry.INSTANCE.put(ePackage.getNsURI(), ePackage);
+		for(EPackage p : ePackage.getESubpackages()) {
+			Registry.INSTANCE.put(ePackage.getNsURI(), p);
 		}
 	}
 
@@ -226,26 +257,37 @@ public class DataModelManagerImpl implements IDataModelManager {
 	}
 
 	@Override
-	public Scope createScope(String name) {
+	public Scope createScope(String name, IDataModel dataModel) {
 		Scope scope = ScopeConfFactory.eINSTANCE.createScope();
 		scope.setName(name);
+		scope.setDataModelURI(dataModel.getDataModelURI());
 		return scope;
 	}
 
 	@Override
 	public void addScopes(IDataModel dataModel, Scope... scopes) {
 		for(Scope scope : scopes) {
-			dataModel.addScope(scope);
+			this.scopes.getScopes().add(scope);
 		}
 	}
 
 	@Override
 	public Collection<Scope> getAllScopes() {
-		Collection<Scope> scopes = new ArrayList<Scope>();
-		for(IDataModel dataModel : getAllDataModels()) {
-			scopes.addAll(dataModel.getScopes());
-		}
-		return scopes;
+		return scopes.getScopes();
+	}
+
+	@Override
+	public Collection<Scope> getScopes(final IDataModel dataModel) {
+		return Collections2.filter(scopes.getScopes(), new Predicate<Scope>() {
+
+			@Override
+			public boolean apply(Scope arg0) {
+				if(arg0.getDataModelURI().equals(dataModel.getDataModelURI())) {
+					return true;
+				}
+				return false;
+			}
+		});
 	}
 
 	@Override
@@ -263,28 +305,17 @@ public class DataModelManagerImpl implements IDataModelManager {
 	}
 
 	@Override
-	public Collection<Scope> getScopes(String name) {
-		ArrayList<Scope> scopes = new ArrayList<Scope>();
-		for(IDataModel p : getAllDataModels()) {
-			scopes.add(p.getScope(name));
+	public Scope getScope(String name, IDataModel dataModel) {
+		for(Scope s : scopes.getScopes()) {
+			if(s.getDataModelURI().equals(dataModel.getDataModelURI()) && s.getName().equals(name)) {
+				return s;
+			}
 		}
-		return scopes;
-	}
-
-	@Override
-	public Scope getAnalysisScope() {
-		Scope scope = dataModel.getScope("Analysis");
-		if(scope == null) {
-			scope = createScope("Analysis");
-			dataModel.addScope(scope);
-			save();
-		}
-		return scope;
+		return null;
 	}
 
 	@Override
 	public Collection<IDataModel> getDataModel(URI uri) {
-
 		Collection<IDataModel> dataModels = new ArrayList<IDataModel>();
 		Resource resource = rs.getResource(uri, true);
 		EList<EObject> content = resource.getContents();
@@ -300,9 +331,7 @@ public class DataModelManagerImpl implements IDataModelManager {
 				}
 			}
 		}
-
 		resource.unload();
-
 		return dataModels;
 	}
 

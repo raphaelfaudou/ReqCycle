@@ -19,8 +19,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 
-import RequirementSourceData.AbstractElement;
 import RequirementSourceConf.RequirementSource;
+import RequirementSourceData.AbstractElement;
 
 public class RequirementLabelProvider extends LabelProvider {
 
@@ -34,7 +34,7 @@ public class RequirementLabelProvider extends LabelProvider {
 	public String getText(Object element) {
 
 		if(element instanceof RequirementSource) {
-			return ((RequirementSource)element).getRepositoryLabel() + " (" + ((RequirementSource)element).getRepositoryUri() + " )";
+			return ((RequirementSource)element).getName() + " (" + ((RequirementSource)element).getRepositoryUri() + " )";
 		}
 
 		if(element instanceof AbstractElement) {

@@ -105,7 +105,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	int REQUIREMENT_SOURCE = 1;
 
 	/**
-	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -150,13 +150,31 @@ public interface RequirementSourceConfPackage extends EPackage {
 	int REQUIREMENT_SOURCE__MAPPINGS = 4;
 
 	/**
+	 * The feature id for the '<em><b>Data Model URI</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT_SOURCE__DATA_MODEL_URI = 5;
+
+	/**
+	 * The feature id for the '<em><b>Default Scope</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT_SOURCE__DEFAULT_SCOPE = 6;
+
+	/**
 	 * The number of structural features of the '<em>Requirement Source</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT_SOURCE_FEATURE_COUNT = 5;
+	int REQUIREMENT_SOURCE_FEATURE_COUNT = 7;
 
 	/**
 	 * The number of operations of the '<em>Requirement Source</em>' class.
@@ -200,10 +218,10 @@ public interface RequirementSourceConfPackage extends EPackage {
 	EClass getRequirementSource();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link RequirementSourceConf.RequirementSource#getRequirements <em>Requirements</em>}'.
+	 * Returns the meta object for the reference list '{@link RequirementSourceConf.RequirementSource#getRequirements <em>Requirements</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Requirements</em>'.
+	 * @return the meta object for the reference list '<em>Requirements</em>'.
 	 * @see RequirementSourceConf.RequirementSource#getRequirements()
 	 * @see #getRequirementSource()
 	 * @generated
@@ -253,6 +271,28 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getRequirementSource_Mappings();
+
+	/**
+	 * Returns the meta object for the attribute '{@link RequirementSourceConf.RequirementSource#getDataModelURI <em>Data Model URI</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Data Model URI</em>'.
+	 * @see RequirementSourceConf.RequirementSource#getDataModelURI()
+	 * @see #getRequirementSource()
+	 * @generated
+	 */
+	EAttribute getRequirementSource_DataModelURI();
+
+	/**
+	 * Returns the meta object for the reference '{@link RequirementSourceConf.RequirementSource#getDefaultScope <em>Default Scope</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Default Scope</em>'.
+	 * @see RequirementSourceConf.RequirementSource#getDefaultScope()
+	 * @see #getRequirementSource()
+	 * @generated
+	 */
+	EReference getRequirementSource_DefaultScope();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -306,7 +346,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 		EClass REQUIREMENT_SOURCE = eINSTANCE.getRequirementSource();
 
 		/**
-		 * The meta object literal for the '<em><b>Requirements</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Requirements</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -344,6 +384,22 @@ public interface RequirementSourceConfPackage extends EPackage {
 		 * @generated
 		 */
 		EReference REQUIREMENT_SOURCE__MAPPINGS = eINSTANCE.getRequirementSource_Mappings();
+
+		/**
+		 * The meta object literal for the '<em><b>Data Model URI</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REQUIREMENT_SOURCE__DATA_MODEL_URI = eINSTANCE.getRequirementSource_DataModelURI();
+
+		/**
+		 * The meta object literal for the '<em><b>Default Scope</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REQUIREMENT_SOURCE__DEFAULT_SCOPE = eINSTANCE.getRequirementSource_DefaultScope();
 
 	}
 

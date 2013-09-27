@@ -4,7 +4,7 @@
     editDirectory="/org.eclipse.reqcycle.repository.data/src-edit" modelPluginID="org.eclipse.reqcycle.repository.data"
     modelName="ScopeConf" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
-    editPluginID="org.eclipse.reqcycle.repository.data" usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore MappingModel.genmodel#//MappingModel RequirementSourceData.genmodel#//RequirementSourceData"
+    editPluginID="org.eclipse.reqcycle.repository.data" usedGenPackages="RequirementSourceData.genmodel#//RequirementSourceData"
     operationReflection="true" importOrganizing="true">
   <foreignModel>ScopeConf.ecore</foreignModel>
   <genPackages prefix="ScopeConf" disposableProviderFactory="true" ecorePackage="ScopeConf.ecore#/">
@@ -14,6 +14,7 @@
     <genClasses ecoreClass="ScopeConf.ecore#//Scope">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ScopeConf.ecore#//Scope/name"/>
       <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference ScopeConf.ecore#//Scope/requirements"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ScopeConf.ecore#//Scope/DataModelURI"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

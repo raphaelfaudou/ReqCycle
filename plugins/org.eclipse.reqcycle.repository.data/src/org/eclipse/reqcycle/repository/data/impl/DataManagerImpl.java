@@ -33,8 +33,10 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.reqcycle.core.ILogger;
@@ -43,6 +45,7 @@ import org.eclipse.reqcycle.repository.data.IDataManager;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.IDataTopics;
 import org.eclipse.ziggurat.configuration.IConfigurationManager;
+import org.eclipse.ziggurat.configuration.impl.ConfigurationManagerImpl;
 
 import RequirementSourceConf.RequirementSource;
 import RequirementSourceConf.RequirementSourceConfFactory;
@@ -143,6 +146,15 @@ public class DataManagerImpl implements IDataManager {
 		if(repositories != null) {
 			repositories.remove(repository);
 			sources.removeRequirementSource(repository);
+			URI configurationFileUri = ((ConfigurationManagerImpl)confManager).getConfigurationFileUri(null, null, ID + "." + repository.getName());
+			Resource resource = rs.getResource(configurationFileUri, true);
+			if(resource != null) {
+				try {
+					resource.delete(Collections.emptyMap());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 			repository.getRequirements().clear();
 			EcoreUtil.delete(repository, true);
 			try {
@@ -169,6 +181,7 @@ public class DataManagerImpl implements IDataManager {
 		Set<RequirementSource> repositories = repositoryMap.get(connectorId);
 		for(RequirementSource reqSource : repositories) {
 			sources.removeRequirementSource(reqSource);
+			reqSource.getRequirements().clear();
 			notifyChange(IDataTopics.REMOVE_REQUIREMENT, reqSource);
 		}
 		try {

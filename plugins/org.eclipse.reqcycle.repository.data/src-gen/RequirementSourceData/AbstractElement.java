@@ -116,7 +116,7 @@ public interface AbstractElement extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Scopes</em>' reference list.
 	 * @see RequirementSourceData.RequirementSourceDataPackage#getAbstractElement_Scopes()
-	 * @model resolveProxies="false"
+	 * @model
 	 * @generated
 	 */
 	EList<Scope> getScopes();

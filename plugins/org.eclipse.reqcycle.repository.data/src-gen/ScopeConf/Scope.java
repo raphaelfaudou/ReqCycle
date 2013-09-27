@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link ScopeConf.Scope#getName <em>Name</em>}</li>
  *   <li>{@link ScopeConf.Scope#getRequirements <em>Requirements</em>}</li>
+ *   <li>{@link ScopeConf.Scope#getDataModelURI <em>Data Model URI</em>}</li>
  * </ul>
  * </p>
  *
@@ -78,5 +79,31 @@ public interface Scope extends EObject {
 	 * @generated
 	 */
 	boolean isSetRequirements();
+
+	/**
+	 * Returns the value of the '<em><b>Data Model URI</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Data Model URI</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Data Model URI</em>' attribute.
+	 * @see #setDataModelURI(String)
+	 * @see ScopeConf.ScopeConfPackage#getScope_DataModelURI()
+	 * @model
+	 * @generated
+	 */
+	String getDataModelURI();
+
+	/**
+	 * Sets the value of the '{@link ScopeConf.Scope#getDataModelURI <em>Data Model URI</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Data Model URI</em>' attribute.
+	 * @see #getDataModelURI()
+	 * @generated
+	 */
+	void setDataModelURI(String value);
 
 } // Scope
