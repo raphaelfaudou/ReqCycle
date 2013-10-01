@@ -28,6 +28,7 @@ import org.eclipse.emf.common.ui.ViewerPane;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain.EditingDomainProvider;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTreeEditor;
@@ -65,6 +66,12 @@ import RequirementSourceData.presentation.RequirementSourceDataEditorPlugin;
  */
 public class CustomDataModelEditor extends RequirementSourceDataEditor {
 
+	@Override
+	public void dispose() {
+		rs.eAdapters().remove(editingDomainAdapter);
+		super.dispose();
+	}
+
 	//FIXME : Use manager or local connector to retrieve this ID
 	public final static String LOCAL_CONNECTOR_ID = "org.eclipse.reqcycle.repository.connector.local.connectorCore";
 
@@ -84,6 +91,8 @@ public class CustomDataModelEditor extends RequirementSourceDataEditor {
 
 	@Inject
 	IDataManager dataManager;
+
+	EditingDomainProvider editingDomainAdapter;
 
 	/**
 	 * Open Requirement editor.
@@ -164,6 +173,8 @@ public class CustomDataModelEditor extends RequirementSourceDataEditor {
 		//
 
 		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, rs);
+		editingDomainAdapter = new AdapterFactoryEditingDomain.EditingDomainProvider(editingDomain);
+		rs.eAdapters().add(editingDomainAdapter);
 	}
 
 	@Override

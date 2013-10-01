@@ -14,10 +14,16 @@
 package org.eclipse.reqcycle.repository.connector.local.editor.provider;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.types.IRequirementType;
 import org.eclipse.ziggurat.inject.ZigguratInject;
@@ -68,6 +74,26 @@ public class CustomRequirementItemProvider extends RequirementItemProvider {
 		}
 
 		return "Requirement " + text;
+	}
+
+	@Override
+	public void setPropertyValue(Object object, String property, Object value) {
+		// TODO Auto-generated method stub
+		super.setPropertyValue(object, property, value);
+	}
+
+	@Override
+	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
+		if(itemPropertyDescriptors == null) {
+			super.getPropertyDescriptors(object);
+			if(object instanceof Requirement) {
+				EList<EStructuralFeature> features = ((Requirement)object).eClass().getEStructuralFeatures();
+				for(EStructuralFeature eStructuralFeature : features) {
+					itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(), getResourceLocator(), eStructuralFeature.getName(), "", eStructuralFeature, true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+				}
+			}
+		}
+		return itemPropertyDescriptors;
 	}
 
 	@Override
