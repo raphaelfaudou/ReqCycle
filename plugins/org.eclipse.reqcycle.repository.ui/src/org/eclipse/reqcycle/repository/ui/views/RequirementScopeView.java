@@ -65,7 +65,8 @@ public class RequirementScopeView extends ViewPart {
 
 	private static final String VIEW_ID = "org.eclipse.reqcycle.repository.ui.views.requirement.scope";
 
-	private IDataModelManager dataManager = ZigguratInject.make(IDataModelManager.class);
+	@Inject
+	IDataModelManager dataManager;
 
 	@Inject
 	@Named("confResourceSet")

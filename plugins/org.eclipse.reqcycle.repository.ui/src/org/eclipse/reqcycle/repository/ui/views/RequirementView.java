@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+import javax.inject.Inject;
+
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.action.Action;
@@ -70,7 +72,8 @@ public class RequirementView extends ViewPart implements Listener {
 	/** View ID */
 	public static final String VIEW_ID = "org.eclipse.reqcycle.repository.ui.views.requirements";
 
-	ILogger logger = ZigguratInject.make(ILogger.class);
+	@Inject
+	ILogger logger;
 
 	/** Requirement repositories TreeViewer */
 	protected TreeViewer viewer;
@@ -92,6 +95,8 @@ public class RequirementView extends ViewPart implements Listener {
 	protected ISelectionProvider selectionProvider;
 
 	public RequirementView() {
+		super();
+		ZigguratInject.inject(this);
 	}
 
 	@Override
