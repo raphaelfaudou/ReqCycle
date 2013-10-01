@@ -25,7 +25,9 @@ import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.ui.ViewerPane;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain.EditingDomainProvider;
@@ -65,12 +67,6 @@ import RequirementSourceData.presentation.RequirementSourceDataEditorPlugin;
  * The Class RequirementSourceEditor.
  */
 public class CustomDataModelEditor extends RequirementSourceDataEditor {
-
-	@Override
-	public void dispose() {
-		rs.eAdapters().remove(editingDomainAdapter);
-		super.dispose();
-	}
 
 	//FIXME : Use manager or local connector to retrieve this ID
 	public final static String LOCAL_CONNECTOR_ID = "org.eclipse.reqcycle.repository.connector.local.connectorCore";
@@ -327,6 +323,20 @@ public class CustomDataModelEditor extends RequirementSourceDataEditor {
 	@Override
 	protected void setPartName(String partName) {
 		super.setPartName("Requirements Editor");
+	}
+
+	@Override
+	public void dispose() {
+		rs.eAdapters().remove(editingDomainAdapter);
+		super.dispose();
+	}
+
+	@Override
+	public Diagnostic analyzeResourceProblems(Resource resource, Exception exception) {
+		if(inputURI.trimFragment().equals(resource.getURI())) {
+			return super.analyzeResourceProblems(resource, exception);
+		}
+		return Diagnostic.OK_INSTANCE;
 	}
 
 }
