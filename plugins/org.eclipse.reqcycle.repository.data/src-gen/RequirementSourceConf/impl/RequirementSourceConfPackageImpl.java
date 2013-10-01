@@ -135,7 +135,7 @@ public class RequirementSourceConfPackageImpl extends EPackageImpl implements Re
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRequirementSource_Requirements() {
+	public EReference getRequirementSource_Contents() {
 		return (EReference)requirementSourceEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -226,7 +226,7 @@ public class RequirementSourceConfPackageImpl extends EPackageImpl implements Re
 		createEReference(requirementSourcesEClass, REQUIREMENT_SOURCES__REQUIREMENT_SOURCES);
 
 		requirementSourceEClass = createEClass(REQUIREMENT_SOURCE);
-		createEReference(requirementSourceEClass, REQUIREMENT_SOURCE__REQUIREMENTS);
+		createEReference(requirementSourceEClass, REQUIREMENT_SOURCE__CONTENTS);
 		createEAttribute(requirementSourceEClass, REQUIREMENT_SOURCE__NAME);
 		createEReference(requirementSourceEClass, REQUIREMENT_SOURCE__PROPERTIES);
 		createEAttribute(requirementSourceEClass, REQUIREMENT_SOURCE__CONNECTOR_ID);
@@ -275,7 +275,7 @@ public class RequirementSourceConfPackageImpl extends EPackageImpl implements Re
 		initEReference(getRequirementSources_RequirementSources(), this.getRequirementSource(), null, "requirementSources", null, 0, -1, RequirementSources.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(requirementSourceEClass, RequirementSource.class, "RequirementSource", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getRequirementSource_Requirements(), theRequirementSourceDataPackage.getAbstractElement(), null, "requirements", null, 0, -1, RequirementSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRequirementSource_Contents(), theRequirementSourceDataPackage.getRequirementsContainer(), null, "contents", null, 1, 1, RequirementSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRequirementSource_Name(), ecorePackage.getEString(), "name", null, 0, 1, RequirementSource.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getRequirementSource_Properties(), theEcorePackage.getEStringToStringMapEntry(), null, "properties", null, 0, -1, RequirementSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRequirementSource_ConnectorId(), ecorePackage.getEString(), "connectorId", null, 0, 1, RequirementSource.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);

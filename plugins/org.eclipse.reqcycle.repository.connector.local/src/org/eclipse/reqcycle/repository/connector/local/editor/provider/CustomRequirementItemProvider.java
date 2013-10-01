@@ -15,6 +15,8 @@ package org.eclipse.reqcycle.repository.connector.local.editor.provider;
 
 import java.util.Collection;
 
+import javax.inject.Inject;
+
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.types.IRequirementType;
@@ -31,7 +33,8 @@ import RequirementSourceData.provider.RequirementItemProvider;
  */
 public class CustomRequirementItemProvider extends RequirementItemProvider {
 
-	IDataModelManager manager = ZigguratInject.make(IDataModelManager.class);
+	@Inject
+	IDataModelManager manager;
 
 	/**
 	 * Instantiates a new custom requirement section item provider.
@@ -41,6 +44,7 @@ public class CustomRequirementItemProvider extends RequirementItemProvider {
 	 */
 	public CustomRequirementItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
+		ZigguratInject.inject(this);
 	}
 
 	@Override

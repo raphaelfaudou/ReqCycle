@@ -105,13 +105,13 @@ public interface RequirementSourceConfPackage extends EPackage {
 	int REQUIREMENT_SOURCE = 1;
 
 	/**
-	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
+	 * The feature id for the '<em><b>Contents</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT_SOURCE__REQUIREMENTS = 0;
+	int REQUIREMENT_SOURCE__CONTENTS = 0;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -218,15 +218,15 @@ public interface RequirementSourceConfPackage extends EPackage {
 	EClass getRequirementSource();
 
 	/**
-	 * Returns the meta object for the reference list '{@link RequirementSourceConf.RequirementSource#getRequirements <em>Requirements</em>}'.
+	 * Returns the meta object for the reference '{@link RequirementSourceConf.RequirementSource#getContents <em>Contents</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Requirements</em>'.
-	 * @see RequirementSourceConf.RequirementSource#getRequirements()
+	 * @return the meta object for the reference '<em>Contents</em>'.
+	 * @see RequirementSourceConf.RequirementSource#getContents()
 	 * @see #getRequirementSource()
 	 * @generated
 	 */
-	EReference getRequirementSource_Requirements();
+	EReference getRequirementSource_Contents();
 
 	/**
 	 * Returns the meta object for the attribute '{@link RequirementSourceConf.RequirementSource#getName <em>Name</em>}'.
@@ -346,12 +346,12 @@ public interface RequirementSourceConfPackage extends EPackage {
 		EClass REQUIREMENT_SOURCE = eINSTANCE.getRequirementSource();
 
 		/**
-		 * The meta object literal for the '<em><b>Requirements</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Contents</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference REQUIREMENT_SOURCE__REQUIREMENTS = eINSTANCE.getRequirementSource_Requirements();
+		EReference REQUIREMENT_SOURCE__CONTENTS = eINSTANCE.getRequirementSource_Contents();
 
 		/**
 		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.

@@ -21,6 +21,15 @@ import RequirementSourceData.provider.RequirementSourceDataItemProviderAdapterFa
 public class CustomDataModelItemProviderAdapterFactory extends RequirementSourceDataItemProviderAdapterFactory {
 
 	@Override
+	public Adapter createRequirementsContainerAdapter() {
+		if(requirementsContainerItemProvider == null) {
+			//Use Custom Requirements Container item provider
+			requirementsContainerItemProvider = new CustomRequirementsContainerItemProvider(this);
+		}
+		return requirementsContainerItemProvider;
+	}
+
+	@Override
 	public Adapter createSimpleRequirementAdapter() {
 		if(simpleRequirementItemProvider == null) {
 			//Use Custom Requirement Item Provider

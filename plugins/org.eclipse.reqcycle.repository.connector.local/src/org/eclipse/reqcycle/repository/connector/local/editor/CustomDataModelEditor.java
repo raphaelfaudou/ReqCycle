@@ -28,7 +28,6 @@ import org.eclipse.emf.common.ui.ViewerPane;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
-import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTreeEditor;
@@ -213,7 +212,7 @@ public class CustomDataModelEditor extends RequirementSourceDataEditor {
 				selectionViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
 				selectionViewer.setInput(getInput());
 				//Filter other requirement sources if there is any
-				selectionViewer.setFilters(createViewerFilters());
+				//				selectionViewer.setFilters(createViewerFilters());
 
 				new AdapterFactoryTreeEditor(selectionViewer.getTree(), adapterFactory);
 
@@ -301,13 +300,6 @@ public class CustomDataModelEditor extends RequirementSourceDataEditor {
 			return editingDomain.getResourceSet().getResource(inputURI.trimFragment(), true);
 		}
 		return editingDomain.getResourceSet().getResources();
-	}
-
-
-	@Override
-	public EditingDomain getEditingDomain() {
-		// TODO Auto-generated method stub
-		return super.getEditingDomain();
 	}
 
 	/**

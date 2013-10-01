@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -25,8 +27,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.CompoundContributionItem;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
-import RequirementSourceData.AbstractElement;
 import RequirementSourceConf.RequirementSource;
+import RequirementSourceData.AbstractElement;
 import RequirementSourceData.RequirementSourceDataPackage;
 import RequirementSourceData.Section;
 
@@ -36,11 +38,19 @@ import com.google.common.collect.Sets;
 
 public class ReqCycleContributionItem extends CompoundContributionItem {
 
-	static IDataModelManager dataManager = ZigguratInject.make(IDataModelManager.class);
+	@Inject
+	IDataModelManager dataModelManager;
 
-	IDataManager reqManager = ZigguratInject.make(IDataManager.class);
+	@Inject
+	IDataManager dataManager;
 
 	protected EObject selectedElement;
+
+
+	public ReqCycleContributionItem() {
+		super();
+		ZigguratInject.inject(this);
+	}
 
 	@Override
 	protected IContributionItem[] getContributionItems() {
@@ -87,14 +97,14 @@ public class ReqCycleContributionItem extends CompoundContributionItem {
 
 
 									if(selectedElement instanceof RequirementSource) {
-										((RequirementSource)selectedElement).getRequirements().add(element);
+										dataManager.addElementsToSource((RequirementSource)selectedElement, element);
 									}
 
 									if(selectedElement instanceof Section) {
-										((Section)selectedElement).getChildren().add(element);
+										dataManager.addElementsToSection((Section)selectedElement, element);
 									}
 
-									reqManager.notifyChange(IDataTopics.NEW_ELEMENT, element);
+									dataManager.notifyChange(IDataTopics.NEW_ELEMENT, element);
 
 									// FIXME : set element scope
 
@@ -129,7 +139,7 @@ public class ReqCycleContributionItem extends CompoundContributionItem {
 		Set<EClass> classes = new HashSet<EClass>();
 
 		//Gets Requirement Types EClasses
-		Collection<IRequirementType> dataTypes = dataManager.getAllRequirementTypes();
+		Collection<IRequirementType> dataTypes = dataModelManager.getAllRequirementTypes();
 		classes.addAll(Collections2.transform(dataTypes, new Function<IRequirementType, EClass>() {
 
 			@Override

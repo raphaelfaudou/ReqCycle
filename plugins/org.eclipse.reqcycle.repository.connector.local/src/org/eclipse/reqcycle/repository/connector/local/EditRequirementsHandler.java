@@ -1,5 +1,7 @@
 package org.eclipse.reqcycle.repository.connector.local;
 
+import javax.inject.Inject;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -9,15 +11,27 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.reqcycle.repository.connector.local.editor.CustomDataModelEditor;
+import org.eclipse.reqcycle.repository.data.impl.DataManagerImpl;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.eclipse.ziggurat.configuration.IConfigurationManager;
+import org.eclipse.ziggurat.configuration.impl.ConfigurationManagerImpl;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import RequirementSourceConf.RequirementSource;
 
 
 public class EditRequirementsHandler extends AbstractHandler {
+
+	@Inject
+	IConfigurationManager confManager;
+
+
+	public EditRequirementsHandler() {
+		ZigguratInject.inject(this);
+	}
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -38,7 +52,8 @@ public class EditRequirementsHandler extends AbstractHandler {
 				String connectorId = requirementSource.getConnectorId();
 				if(LocalConnector.LOCAL_CONNECTOR_ID.equals(connectorId)) {
 					Resource eResource = requirementSource.eResource();
-					URI uri = eResource.getURI().appendFragment(eResource.getURIFragment(requirementSource));
+					URI uri = ((ConfigurationManagerImpl)confManager).getConfigurationFileUri(null, null, DataManagerImpl.ID + "." + requirementSource.getName());
+					uri = uri.appendFragment(eResource.getURIFragment(requirementSource));
 					CustomDataModelEditor.openEditor(uri);
 				} else {
 					MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Open Requiement Editor", "Can't Edit this Requirement Source. Only Local Requirement Source can be edited.");
@@ -49,5 +64,4 @@ public class EditRequirementsHandler extends AbstractHandler {
 
 		return null;
 	}
-
 }

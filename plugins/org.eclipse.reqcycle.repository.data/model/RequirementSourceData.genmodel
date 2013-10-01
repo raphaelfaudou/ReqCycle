@@ -5,7 +5,7 @@
     modelPluginID="org.eclipse.reqcycle.repository.data" modelName="RequirementSourceData"
     rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" testsDirectory=""
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
-    editorPluginID="org.eclipse.reqcycle.repository.data.editor" usedGenPackages="ScopeConf.genmodel#//ScopeConf"
+    editorPluginID="org.eclipse.reqcycle.repository.connector.local" usedGenPackages="ScopeConf.genmodel#//ScopeConf"
     classNamePattern="" operationReflection="true" importOrganizing="true">
   <foreignModel>RequirementSourceData.ecore</foreignModel>
   <genPackages prefix="RequirementSourceData" disposableProviderFactory="true" ecorePackage="RequirementSourceData.ecore#/">
@@ -20,5 +20,8 @@
     </genClasses>
     <genClasses ecoreClass="RequirementSourceData.ecore#//SimpleRequirement"/>
     <genClasses ecoreClass="RequirementSourceData.ecore#//Requirement"/>
+    <genClasses ecoreClass="RequirementSourceData.ecore#//RequirementsContainer">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RequirementSourceData.ecore#//RequirementsContainer/requirements"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

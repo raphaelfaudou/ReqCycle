@@ -13,9 +13,10 @@
  *****************************************************************************/
 package org.eclipse.reqcycle.repository.data.ui.preference.pages;
 
+import javax.inject.Inject;
+
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.preference.PreferencePage;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
@@ -43,8 +44,8 @@ import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class DataModelsPreferencePage extends PreferencePage implements IWorkbenchPreferencePage, Listener {
 
-	//TODO : Use e4 Injection instead of make method
-	IDataModelManager dataModelManager = ZigguratInject.make(IDataModelManager.class);
+	@Inject
+	IDataModelManager dataModelManager;
 
 	/** Models table viewer */
 	protected TableViewer tvModels;
@@ -58,7 +59,8 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 	/** Edit Model Button */
 	protected Button btnEditModel;
 
-	protected IDataModelUiManager viewerManager = ZigguratInject.make(IDataModelUiManager.class);
+	@Inject
+	protected IDataModelUiManager viewerManager;
 
 	private Button btnDeleteModel;
 
@@ -68,15 +70,17 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 	 * @wbp.parser.constructor
 	 */
 	public DataModelsPreferencePage() {
+		super();
+		ZigguratInject.inject(this);
 	}
 
-	public DataModelsPreferencePage(String title) {
-		super(title);
-	}
-
-	public DataModelsPreferencePage(String title, ImageDescriptor image) {
-		super(title, image);
-	}
+	//	public DataModelsPreferencePage(String title) {
+	//		super(title);
+	//	}
+	//
+	//	public DataModelsPreferencePage(String title, ImageDescriptor image) {
+	//		super(title, image);
+	//	}
 
 	@Override
 	protected void performDefaults() {

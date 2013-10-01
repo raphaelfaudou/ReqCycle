@@ -50,7 +50,7 @@ public class CustomRequirementSourceItemProvider extends RequirementSourceItemPr
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if(childrenFeatures == null) {
 			childrenFeatures = new ArrayList<EStructuralFeature>();
-			childrenFeatures.add(RequirementSourceConfPackage.Literals.REQUIREMENT_SOURCE__REQUIREMENTS);
+			childrenFeatures.add(RequirementSourceConfPackage.Literals.REQUIREMENT_SOURCE__CONTENTS);
 		}
 		return childrenFeatures;
 	}
@@ -77,11 +77,11 @@ public class CustomRequirementSourceItemProvider extends RequirementSourceItemPr
 		//FIXME : Use element Data Model to get possible children
 		//Gets Dynamic Data Model possible children
 		for(IRequirementType type : manager.getAllRequirementTypes()) {
-			newChildDescriptors.add(createChildParameter(RequirementSourceConfPackage.Literals.REQUIREMENT_SOURCE__REQUIREMENTS, type.createInstance()));
+			newChildDescriptors.add(createChildParameter(RequirementSourceConfPackage.Literals.REQUIREMENT_SOURCE__CONTENTS, type.createInstance()));
 		}
 		Section section = RequirementSourceDataFactory.eINSTANCE.createSection();
 		section.setId("");
-		newChildDescriptors.add(createChildParameter(RequirementSourceConfPackage.Literals.REQUIREMENT_SOURCE__REQUIREMENTS, section));
+		newChildDescriptors.add(createChildParameter(RequirementSourceConfPackage.Literals.REQUIREMENT_SOURCE__CONTENTS, section));
 	}
 
 }

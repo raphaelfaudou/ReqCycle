@@ -17,4 +17,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SimpleRequirement" eSuperTypes="#//AbstractElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Requirement" eSuperTypes="#//SimpleRequirement #//Section"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RequirementsContainer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requirements" upperBound="-1"
+        eType="#//AbstractElement" containment="true"/>
+  </eClassifiers>
 </ecore:EPackage>

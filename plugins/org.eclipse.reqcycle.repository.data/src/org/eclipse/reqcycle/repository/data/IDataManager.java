@@ -21,6 +21,7 @@ import org.eclipse.reqcycle.repository.data.types.IAttribute;
 
 import RequirementSourceConf.RequirementSource;
 import RequirementSourceData.AbstractElement;
+import RequirementSourceData.Requirement;
 import RequirementSourceData.Section;
 
 
@@ -71,10 +72,6 @@ public interface IDataManager {
 	 * @return the section
 	 */
 	public Section createSection(String id, String name, String uri);
-
-	public void addElementToSource(RequirementSource source, AbstractElement element);
-
-	public void addElementToSection(Section section, AbstractElement element);
 
 	/**
 	 * Gets an existing repository
@@ -147,5 +144,39 @@ public interface IDataManager {
 	 *        the value to set
 	 */
 	public void addAttribute(AbstractElement element, IAttribute attribute, Object value);
+
+	/**
+	 * Adds the elements to the requirement source.
+	 * 
+	 * @param source
+	 *        the requirement source
+	 * @param elements
+	 *        the elements to add
+	 * @return true, if successful
+	 */
+	public boolean addElementsToSource(RequirementSource source, AbstractElement... elements);
+
+
+	/**
+	 * Adds an element to a section.
+	 * 
+	 * @param section
+	 *        the section
+	 * @param element
+	 *        the element to add
+	 * @return true, if successful
+	 */
+	public boolean addElementsToSection(Section section, AbstractElement... element);
+
+	/**
+	 * Adds an element to a requirement.
+	 * 
+	 * @param requirement
+	 *        the requirement
+	 * @param element
+	 *        the element to add
+	 * @return true, if successful
+	 */
+	public boolean addElementsToRequirement(Requirement requirement, AbstractElement... element);
 
 }

@@ -12,7 +12,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RequirementSourceConf.ecore#//RequirementSources/requirementSources"/>
     </genClasses>
     <genClasses ecoreClass="RequirementSourceConf.ecore#//RequirementSource">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RequirementSourceConf.ecore#//RequirementSource/requirements"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RequirementSourceConf.ecore#//RequirementSource/contents"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RequirementSourceConf.ecore#//RequirementSource/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RequirementSourceConf.ecore#//RequirementSource/properties"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RequirementSourceConf.ecore#//RequirementSource/connectorId"/>

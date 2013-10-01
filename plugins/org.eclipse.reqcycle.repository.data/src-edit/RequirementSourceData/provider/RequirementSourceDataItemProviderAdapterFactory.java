@@ -141,6 +141,29 @@ public class RequirementSourceDataItemProviderAdapterFactory extends Requirement
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link RequirementSourceData.RequirementsContainer} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected RequirementsContainerItemProvider requirementsContainerItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link RequirementSourceData.RequirementsContainer}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createRequirementsContainerAdapter() {
+		if (requirementsContainerItemProvider == null) {
+			requirementsContainerItemProvider = new RequirementsContainerItemProvider(this);
+		}
+
+		return requirementsContainerItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -248,6 +271,7 @@ public class RequirementSourceDataItemProviderAdapterFactory extends Requirement
 		if (sectionItemProvider != null) sectionItemProvider.dispose();
 		if (simpleRequirementItemProvider != null) simpleRequirementItemProvider.dispose();
 		if (requirementItemProvider != null) requirementItemProvider.dispose();
+		if (requirementsContainerItemProvider != null) requirementsContainerItemProvider.dispose();
 	}
 
 }

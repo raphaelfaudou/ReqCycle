@@ -11,6 +11,7 @@ import RequirementSourceData.AbstractElement;
 import RequirementSourceData.Requirement;
 import RequirementSourceData.RequirementSourceDataFactory;
 import RequirementSourceData.RequirementSourceDataPackage;
+import RequirementSourceData.RequirementsContainer;
 import RequirementSourceData.Section;
 import RequirementSourceData.SimpleRequirement;
 import ScopeConf.ScopeConfPackage;
@@ -51,6 +52,13 @@ public class RequirementSourceDataPackageImpl extends EPackageImpl implements Re
 	 * @generated
 	 */
 	private EClass requirementEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass requirementsContainerEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -211,6 +219,24 @@ public class RequirementSourceDataPackageImpl extends EPackageImpl implements Re
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getRequirementsContainer() {
+		return requirementsContainerEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRequirementsContainer_Requirements() {
+		return (EReference)requirementsContainerEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public RequirementSourceDataFactory getRequirementSourceDataFactory() {
 		return (RequirementSourceDataFactory)getEFactoryInstance();
@@ -247,6 +273,9 @@ public class RequirementSourceDataPackageImpl extends EPackageImpl implements Re
 		simpleRequirementEClass = createEClass(SIMPLE_REQUIREMENT);
 
 		requirementEClass = createEClass(REQUIREMENT);
+
+		requirementsContainerEClass = createEClass(REQUIREMENTS_CONTAINER);
+		createEReference(requirementsContainerEClass, REQUIREMENTS_CONTAINER__REQUIREMENTS);
 	}
 
 	/**
@@ -298,6 +327,9 @@ public class RequirementSourceDataPackageImpl extends EPackageImpl implements Re
 		initEClass(simpleRequirementEClass, SimpleRequirement.class, "SimpleRequirement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(requirementEClass, Requirement.class, "Requirement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(requirementsContainerEClass, RequirementsContainer.class, "RequirementsContainer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getRequirementsContainer_Requirements(), this.getAbstractElement(), null, "requirements", null, 0, -1, RequirementsContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

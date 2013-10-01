@@ -29,7 +29,8 @@ public class LocalConnector implements IConnector {
 
 			@Override
 			public RequirementSource call() throws Exception {
-				return manager.createRequirementSource();
+				RequirementSource source = manager.createRequirementSource();
+				return source;
 			}
 		};
 	}

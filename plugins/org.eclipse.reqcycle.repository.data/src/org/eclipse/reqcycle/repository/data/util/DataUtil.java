@@ -30,8 +30,8 @@ import org.eclipse.swt.graphics.Image;
 
 import MappingModel.MappingAttribute;
 import MappingModel.MappingElement;
-import RequirementSourceData.AbstractElement;
 import RequirementSourceConf.RequirementSource;
+import RequirementSourceData.AbstractElement;
 import RequirementSourceData.Section;
 import ScopeConf.Scope;
 

@@ -129,13 +129,14 @@ public class RMFUtils {
 					//						section = creator.createSection(id, name, ReqIF10Util.getSpecType(specification).getIdentifier());
 
 					if(section != null) {
-						requirementSource.getRequirements().add(section);
+						dataManager.addElementsToSource(requirementSource, section);
+						//						requirementSource.getContents().getRequirements().add(section);
 						//						addAttributes(elementMapping, specification.getValues(), section);
 					}
 
 					if(children != null && !children.isEmpty()) {
 						if(section instanceof Section) {
-							((Section)section).getChildren().addAll(children);
+							dataManager.addElementsToSection((Section)section, children.toArray(new AbstractElement[children.size()]));
 						} else if(section != null) {
 							logger.error("Specification is not mapped with a Section typed element, children can be missed");
 						}
@@ -176,7 +177,7 @@ public class RMFUtils {
 			if(createdObject != null) {
 				if(children != null && !children.isEmpty()) {
 					if(createdObject instanceof Section) {
-						((Section)createdObject).getChildren().addAll(children);
+						dataManager.addElementsToSection((Section)createdObject, children.toArray(new AbstractElement[children.size()]));
 					} else {
 						logger.error("The element " + createdObject.getId() + " is not a Section Type, his children will be missed");
 					}

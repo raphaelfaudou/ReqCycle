@@ -2,6 +2,7 @@
  */
 package RequirementSourceData.impl;
 
+import RequirementSourceData.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -61,6 +62,7 @@ public class RequirementSourceDataFactoryImpl extends EFactoryImpl implements Re
 			case RequirementSourceDataPackage.SECTION: return createSection();
 			case RequirementSourceDataPackage.SIMPLE_REQUIREMENT: return createSimpleRequirement();
 			case RequirementSourceDataPackage.REQUIREMENT: return createRequirement();
+			case RequirementSourceDataPackage.REQUIREMENTS_CONTAINER: return createRequirementsContainer();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -97,6 +99,16 @@ public class RequirementSourceDataFactoryImpl extends EFactoryImpl implements Re
 	public Requirement createRequirement() {
 		RequirementImpl requirement = new RequirementImpl();
 		return requirement;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RequirementsContainer createRequirementsContainer() {
+		RequirementsContainerImpl requirementsContainer = new RequirementsContainerImpl();
+		return requirementsContainer;
 	}
 
 	/**

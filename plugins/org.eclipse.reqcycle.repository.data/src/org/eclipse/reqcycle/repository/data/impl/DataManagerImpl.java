@@ -14,6 +14,7 @@
 package org.eclipse.reqcycle.repository.data.impl;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,10 +30,7 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.core.services.events.IEventBroker;
-import org.eclipse.e4.ui.di.UIEventTopic;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
@@ -51,7 +49,9 @@ import RequirementSourceConf.RequirementSource;
 import RequirementSourceConf.RequirementSourceConfFactory;
 import RequirementSourceConf.RequirementSources;
 import RequirementSourceData.AbstractElement;
+import RequirementSourceData.Requirement;
 import RequirementSourceData.RequirementSourceDataFactory;
+import RequirementSourceData.RequirementsContainer;
 import RequirementSourceData.Section;
 
 @Singleton
@@ -147,15 +147,18 @@ public class DataManagerImpl implements IDataManager {
 			repositories.remove(repository);
 			sources.removeRequirementSource(repository);
 			URI configurationFileUri = ((ConfigurationManagerImpl)confManager).getConfigurationFileUri(null, null, ID + "." + repository.getName());
-			Resource resource = rs.getResource(configurationFileUri, true);
+			Resource resource = rs.getResource(configurationFileUri, false);
 			if(resource != null) {
 				try {
+					if(resource.isLoaded()) {
+						resource.unload();
+					}
 					resource.delete(Collections.emptyMap());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-			repository.getRequirements().clear();
+			repository.clearContent();
 			EcoreUtil.delete(repository, true);
 			try {
 				save();
@@ -169,11 +172,37 @@ public class DataManagerImpl implements IDataManager {
 
 	@Override
 	public void save() throws IOException {
-		for(RequirementSource source : sources.getRequirementSources()) {
-			EList<AbstractElement> reqs = source.getRequirements();
-			confManager.saveConfiguration(reqs, null, null, ID + "." + source.getName(), rs);
-		}
+		saveContents();
+		saveSources();
+	}
+
+	protected void saveSources() throws IOException {
 		confManager.saveConfiguration(sources, null, null, ID, rs);
+	}
+
+	protected void saveContents() throws IOException {
+		for(RequirementSource source : sources.getRequirementSources()) {
+			RequirementsContainer requirementsContainer = source.getContents();
+			//If requirement container is Set, save it
+			if(requirementsContainer != null) {
+				confManager.saveConfiguration(requirementsContainer, null, null, ID + "." + source.getName(), rs);
+			} else {
+				//If the requirement container isn't set (null), remove it the corresponding resource if it exist.
+				URI configurationFileUri = ((ConfigurationManagerImpl)confManager).getConfigurationFileUri(null, null, ID + "." + source.getName());
+				Resource resource = rs.getResource(configurationFileUri, false);
+				if(resource != null) {
+					try {
+						if(resource.isLoaded()) {
+							resource.unload();
+						}
+						resource.delete(Collections.emptyMap());
+					} catch (IOException e) {
+						//FIXME : use logger
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -181,7 +210,7 @@ public class DataManagerImpl implements IDataManager {
 		Set<RequirementSource> repositories = repositoryMap.get(connectorId);
 		for(RequirementSource reqSource : repositories) {
 			sources.removeRequirementSource(reqSource);
-			reqSource.getRequirements().clear();
+			reqSource.clearContent();
 			notifyChange(IDataTopics.REMOVE_REQUIREMENT, reqSource);
 		}
 		try {
@@ -249,7 +278,10 @@ public class DataManagerImpl implements IDataManager {
 
 	@Override
 	public RequirementSource createRequirementSource() {
-		return RequirementSourceConfFactory.eINSTANCE.createRequirementSource();
+		RequirementSource source = RequirementSourceConfFactory.eINSTANCE.createRequirementSource();
+		RequirementsContainer rc = RequirementSourceDataFactory.eINSTANCE.createRequirementsContainer();
+		source.setContents(rc);
+		return source;
 	}
 
 	@Override
@@ -262,11 +294,25 @@ public class DataManagerImpl implements IDataManager {
 	}
 
 	@Override
-	public void addElementToSection(Section section, AbstractElement element) {
+	public boolean addElementsToSection(Section section, AbstractElement... element) {
+		return section.getChildren().addAll(Arrays.asList(element));
 	}
 
 	@Override
-	public void addElementToSource(RequirementSource source, AbstractElement element) {
+	public boolean addElementsToSource(RequirementSource source, AbstractElement... elements) {
+		RequirementsContainer contents = source.getContents();
+		if(contents != null) {
+			return contents.getRequirements().addAll(Arrays.asList(elements));
+		} else {
+			contents = RequirementSourceDataFactory.eINSTANCE.createRequirementsContainer();
+			source.setContents(contents);
+			return contents.getRequirements().addAll(Arrays.asList(elements));
+		}
+	}
+
+	@Override
+	public boolean addElementsToRequirement(Requirement requirement, AbstractElement... element) {
+		return requirement.getChildren().addAll(Arrays.asList(element));
 	}
 
 	@Override
@@ -280,17 +326,4 @@ public class DataManagerImpl implements IDataManager {
 			element.eSet(eAttribute, value);
 		}
 	};
-
-	@Inject
-	@Optional
-	void reactOnElementAddition(@UIEventTopic(IDataTopics.UPDATE_SOURCE) RequirementSource object) {
-
-		if(object == null) {
-			return;
-		}
-
-		System.out.println(object);
-
-	}
-
 }

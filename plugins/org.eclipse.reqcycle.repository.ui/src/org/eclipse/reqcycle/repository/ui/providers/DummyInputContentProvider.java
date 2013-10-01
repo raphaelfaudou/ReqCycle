@@ -11,8 +11,8 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.reqcycle.predicates.core.api.IPredicate;
 
-import RequirementSourceData.AbstractElement;
 import RequirementSourceConf.RequirementSource;
+import RequirementSourceData.AbstractElement;
 import RequirementSourceData.Section;
 import RequirementSourceData.SimpleRequirement;
 

@@ -331,6 +331,43 @@ public interface RequirementSourceDataPackage extends EPackage {
 	int REQUIREMENT_OPERATION_COUNT = SIMPLE_REQUIREMENT_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link RequirementSourceData.impl.RequirementsContainerImpl <em>Requirements Container</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see RequirementSourceData.impl.RequirementsContainerImpl
+	 * @see RequirementSourceData.impl.RequirementSourceDataPackageImpl#getRequirementsContainer()
+	 * @generated
+	 */
+	int REQUIREMENTS_CONTAINER = 4;
+
+	/**
+	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENTS_CONTAINER__REQUIREMENTS = 0;
+
+	/**
+	 * The number of structural features of the '<em>Requirements Container</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENTS_CONTAINER_FEATURE_COUNT = 1;
+
+	/**
+	 * The number of operations of the '<em>Requirements Container</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENTS_CONTAINER_OPERATION_COUNT = 0;
+
+	/**
 	 * Returns the meta object for class '{@link RequirementSourceData.AbstractElement <em>Abstract Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -424,6 +461,27 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getRequirement();
+
+	/**
+	 * Returns the meta object for class '{@link RequirementSourceData.RequirementsContainer <em>Requirements Container</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Requirements Container</em>'.
+	 * @see RequirementSourceData.RequirementsContainer
+	 * @generated
+	 */
+	EClass getRequirementsContainer();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link RequirementSourceData.RequirementsContainer#getRequirements <em>Requirements</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Requirements</em>'.
+	 * @see RequirementSourceData.RequirementsContainer#getRequirements()
+	 * @see #getRequirementsContainer()
+	 * @generated
+	 */
+	EReference getRequirementsContainer_Requirements();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -527,6 +585,24 @@ public interface RequirementSourceDataPackage extends EPackage {
 		 * @generated
 		 */
 		EClass REQUIREMENT = eINSTANCE.getRequirement();
+
+		/**
+		 * The meta object literal for the '{@link RequirementSourceData.impl.RequirementsContainerImpl <em>Requirements Container</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see RequirementSourceData.impl.RequirementsContainerImpl
+		 * @see RequirementSourceData.impl.RequirementSourceDataPackageImpl#getRequirementsContainer()
+		 * @generated
+		 */
+		EClass REQUIREMENTS_CONTAINER = eINSTANCE.getRequirementsContainer();
+
+		/**
+		 * The meta object literal for the '<em><b>Requirements</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REQUIREMENTS_CONTAINER__REQUIREMENTS = eINSTANCE.getRequirementsContainer_Requirements();
 
 	}
 

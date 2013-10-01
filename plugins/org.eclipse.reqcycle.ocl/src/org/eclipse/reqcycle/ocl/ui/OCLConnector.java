@@ -37,12 +37,11 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ziggurat.ocl.OCLEvaluator;
 import org.eclipse.ziggurat.ocl.ZigguratOCLPlugin;
 
-import RequirementSourceData.RequirementSourceDataFactory;
-import ScopeConf.Scope;
-import RequirementSourceConf.RequirementSource;
 import MappingModel.MappingElement;
+import RequirementSourceConf.RequirementSource;
 import RequirementSourceData.AbstractElement;
 import RequirementSourceData.Requirement;
+import ScopeConf.Scope;
 
 import com.google.common.collect.Iterables;
 
@@ -89,7 +88,7 @@ public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 
 	protected void fillRequirements(RequirementSource requirementSource)
 			throws Exception {
-		requirementSource.getRequirements().clear();
+		requirementSource.clearContent();
 		Collection<MappingElement> mapping = requirementSource.getMappings();
 		ResourceSet resourceSet = new ResourceSetImpl();
 
@@ -103,7 +102,6 @@ public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 		TreeIterator<EObject> contents = resource.getAllContents();
 		Collection<IRequirementType> requirementTypes = bean.getDataPackage()
 				.getRequirementTypes();
-		;
 		while (contents.hasNext()) {
 			EObject eObject = contents.next();
 			for (IRequirementType reqType : requirementTypes) {
@@ -111,7 +109,7 @@ public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 						reqType)) {
 					AbstractElement requirement = createRequirement(evaluator,
 							mapping, eObject, reqType);
-					requirementSource.getRequirements().add(requirement);
+					dataManager.addElementsToSource(requirementSource, requirement);
 				}
 			}
 		}

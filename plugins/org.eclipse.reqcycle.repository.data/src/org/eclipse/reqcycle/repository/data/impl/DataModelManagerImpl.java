@@ -173,7 +173,7 @@ public class DataModelManagerImpl implements IDataModelManager {
 	protected void registerDataModels(EPackage ePackage) {
 		Registry.INSTANCE.put(ePackage.getNsURI(), ePackage);
 		for(EPackage p : ePackage.getESubpackages()) {
-			Registry.INSTANCE.put(ePackage.getNsURI(), p);
+			Registry.INSTANCE.put(p.getNsURI(), p);
 		}
 	}
 
