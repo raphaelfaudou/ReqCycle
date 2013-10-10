@@ -18,7 +18,7 @@ import org.eclipse.ziggurat.collect.exceptions.CollectionAbortedException;
 public class DepthCollector<T> extends AbstractCollector<T> {
 
 
-	public DepthCollector(T startingElement, Picker<T>... pickers) {
+	public DepthCollector(T startingElement, Iterable<? extends Picker<T>> pickers) {
 		super(startingElement, pickers);
 	}
 

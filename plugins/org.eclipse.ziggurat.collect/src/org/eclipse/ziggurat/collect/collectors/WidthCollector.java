@@ -21,14 +21,24 @@ import com.google.common.collect.Iterables;
 
 public class WidthCollector<T> extends AbstractCollector<T> {
 
-
-	public WidthCollector(T startingElement, Picker<T>... pickers) {
+	protected Iterable<T> startingElements; 
+	
+	public WidthCollector(T startingElement, Iterable<? extends Picker<T>> pickers) {
 		super(startingElement, pickers);
 	}
 
+	public WidthCollector(Iterable<T> startingElements,Iterable<? extends Picker<T>> pickers) {
+		super(null, pickers);
+		this.startingElements = startingElements;
+	}
 
 	public void collect(ResultHandler<T> handler) throws CollectionAbortedException {
-		collectWidthWise(handler, start);
+		if (start != null && startingElements == null){
+			collectWidthWise(handler, start);
+		}
+		if (start == null && startingElements != null){
+			collectWidthWise(handler, startingElements);
+		}
 	}
 
 	/**
@@ -41,7 +51,20 @@ public class WidthCollector<T> extends AbstractCollector<T> {
 	 * @throws CollectionAbortedException
 	 */
 	protected void collectWidthWise(ResultHandler<T> handler, T element) throws CollectionAbortedException {
-		Iterable<T> currentLayer = Collections.singletonList(element);
+		Iterable<T> singleton = Collections.singletonList(element);
+		collectWidthWise(handler, singleton);
+	}
+	
+	/**
+	 * Width wise collection.
+	 * 
+	 * @param handler
+	 *        the handler that processes each element.
+	 * @param element
+	 *        : the current layer from which the collection is performed.
+	 * @throws CollectionAbortedException
+	 */
+	protected void collectWidthWise(ResultHandler<T> handler, Iterable<T> currentLayer) throws CollectionAbortedException {
 		Iterable<T> nextLayer = Collections.emptyList();
 		while(currentLayer != null && !Iterables.isEmpty(currentLayer)) {
 			for(T currentElement : currentLayer) {
@@ -65,5 +88,4 @@ public class WidthCollector<T> extends AbstractCollector<T> {
 			nextLayer = Collections.emptyList();
 		}
 	}
-
 }

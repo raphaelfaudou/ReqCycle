@@ -10,8 +10,6 @@
  ******************************************************************************/
 package org.eclipse.ziggurat.collect.collectors;
 
-import java.util.Arrays;
-
 import org.eclipse.ziggurat.collect.Collector;
 import org.eclipse.ziggurat.collect.Picker;
 
@@ -29,18 +27,18 @@ public abstract class AbstractCollector<T> implements Collector<T> {
 	/**
 	 * Pickers, referenced in an attribute.
 	 */
-	protected Iterable<Picker<T>> pickers;
+	protected Iterable<? extends Picker<T>> pickers;
 
-	public AbstractCollector(T startingElement, Picker<T>... pickers) {
+	public AbstractCollector(T startingElement, Iterable<? extends Picker<T>> pickers) {
 		this.start = startingElement;
-		this.pickers = Arrays.asList(pickers);
+		this.pickers = pickers;
 	}
 
 	public Object getStartingElement() {
 		return this.start;
 	}
 
-	public Iterable<Picker<T>> getPickers() {
+	public Iterable<?extends Picker<T>> getPickers() {
 		return pickers;
 	}
 
