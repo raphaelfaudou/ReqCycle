@@ -11,10 +11,6 @@
  *  Anass RADOUANI (AtoS) anass.radouani@atos.net - Initial API and implementation
  *
  *****************************************************************************/
-
-/**
- * 
- */
 package org.eclipse.reqcycle.repository.ui.wizard;
 
 import java.util.concurrent.Callable;

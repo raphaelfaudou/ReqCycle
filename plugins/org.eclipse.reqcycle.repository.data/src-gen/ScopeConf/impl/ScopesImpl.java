@@ -27,17 +27,19 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link ScopeConf.impl.ScopesImpl#getScopes <em>Scopes</em>}</li>
+ * <li>{@link ScopeConf.impl.ScopesImpl#getScopes <em>Scopes</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class ScopesImpl extends MinimalEObjectImpl.Container implements Scopes {
+
 	/**
 	 * The cached value of the '{@link #getScopes() <em>Scopes</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @see #getScopes()
 	 * @generated
 	 * @ordered
@@ -47,6 +49,7 @@ public class ScopesImpl extends MinimalEObjectImpl.Container implements Scopes {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected ScopesImpl() {
@@ -56,6 +59,7 @@ public class ScopesImpl extends MinimalEObjectImpl.Container implements Scopes {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -66,10 +70,11 @@ public class ScopesImpl extends MinimalEObjectImpl.Container implements Scopes {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EList<Scope> getScopes() {
-		if (scopes == null) {
+		if(scopes == null) {
 			scopes = new EObjectContainmentEList<Scope>(Scope.class, this, ScopeConfPackage.SCOPES__SCOPES);
 		}
 		return scopes;
@@ -78,13 +83,14 @@ public class ScopesImpl extends MinimalEObjectImpl.Container implements Scopes {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case ScopeConfPackage.SCOPES__SCOPES:
-				return ((InternalEList<?>)getScopes()).basicRemove(otherEnd, msgs);
+		switch(featureID) {
+		case ScopeConfPackage.SCOPES__SCOPES:
+			return ((InternalEList<?>)getScopes()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -92,13 +98,14 @@ public class ScopesImpl extends MinimalEObjectImpl.Container implements Scopes {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case ScopeConfPackage.SCOPES__SCOPES:
-				return getScopes();
+		switch(featureID) {
+		case ScopeConfPackage.SCOPES__SCOPES:
+			return getScopes();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -106,16 +113,17 @@ public class ScopesImpl extends MinimalEObjectImpl.Container implements Scopes {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case ScopeConfPackage.SCOPES__SCOPES:
-				getScopes().clear();
-				getScopes().addAll((Collection<? extends Scope>)newValue);
-				return;
+		switch(featureID) {
+		case ScopeConfPackage.SCOPES__SCOPES:
+			getScopes().clear();
+			getScopes().addAll((Collection<? extends Scope>)newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -123,14 +131,15 @@ public class ScopesImpl extends MinimalEObjectImpl.Container implements Scopes {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID) {
-			case ScopeConfPackage.SCOPES__SCOPES:
-				getScopes().clear();
-				return;
+		switch(featureID) {
+		case ScopeConfPackage.SCOPES__SCOPES:
+			getScopes().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -138,13 +147,14 @@ public class ScopesImpl extends MinimalEObjectImpl.Container implements Scopes {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case ScopeConfPackage.SCOPES__SCOPES:
-				return scopes != null && !scopes.isEmpty();
+		switch(featureID) {
+		case ScopeConfPackage.SCOPES__SCOPES:
+			return scopes != null && !scopes.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

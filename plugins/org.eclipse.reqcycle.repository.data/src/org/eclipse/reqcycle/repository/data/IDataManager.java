@@ -17,11 +17,13 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.reqcycle.repository.data.types.IAttribute;
 
 import RequirementSourceConf.RequirementSource;
 import RequirementSourceData.AbstractElement;
 import RequirementSourceData.Requirement;
+import RequirementSourceData.RequirementsContainer;
 import RequirementSourceData.Section;
 
 
@@ -46,6 +48,13 @@ public interface IDataManager {
 	public RequirementSource createRequirementSource();
 
 	/**
+	 * Creates an empty requirements Container.
+	 * 
+	 * @return the requirements container
+	 */
+	public RequirementsContainer createRequirementsContainer(URI uri);
+
+	/**
 	 * Adds a newly created repository to repositories list
 	 * 
 	 * @param requirementSource
@@ -58,7 +67,7 @@ public interface IDataManager {
 	 * 
 	 * @param requirementSource
 	 */
-	public void removeRequirementSource(final RequirementSource requirementSource);
+	public void removeRequirementSource(final RequirementSource requirementSource, boolean removeFromWS);
 
 	/**
 	 * Creates a section.
@@ -98,7 +107,7 @@ public interface IDataManager {
 	 * 
 	 * @return Repositories collection
 	 */
-	public Set<RequirementSource> getRequirementSource();
+	public Set<RequirementSource> getRequirementSources();
 
 	/**
 	 * Gets Connector id to repositories map
@@ -178,5 +187,4 @@ public interface IDataManager {
 	 * @return true, if successful
 	 */
 	public boolean addElementsToRequirement(Requirement requirement, AbstractElement... element);
-
 }

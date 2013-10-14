@@ -17,12 +17,15 @@ import MappingModel.MappingModelPackage;
  * <!-- begin-user-doc -->
  * An implementation of the model <b>Package</b>.
  * <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class MappingModelPackageImpl extends EPackageImpl implements MappingModelPackage {
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass mappingElementEClass = null;
@@ -30,20 +33,19 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass mappingAttributeEClass = null;
 
 	/**
-	 * Creates an instance of the model <b>Package</b>, registered with
-	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
+	 * Creates an instance of the model <b>Package</b>, registered with {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the
+	 * package
 	 * package URI value.
-	 * <p>Note: the correct way to create the package is via the static
-	 * factory method {@link #init init()}, which also performs
-	 * initialization of the package, or returns the registered package,
-	 * if one already exists.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <p>
+	 * Note: the correct way to create the package is via the static factory method {@link #init init()}, which also performs initialization of the
+	 * package, or returns the registered package, if one already exists. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
 	 * @see MappingModel.MappingModelPackage#eNS_URI
 	 * @see #init()
@@ -56,6 +58,7 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private static boolean isInited = false;
@@ -63,17 +66,18 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
 	 * 
-	 * <p>This method is used to initialize {@link MappingModelPackage#eINSTANCE} when that field is accessed.
-	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <p>
+	 * This method is used to initialize {@link MappingModelPackage#eINSTANCE} when that field is accessed. Clients should not invoke it directly.
+	 * Instead, they should simply access that field to obtain the package. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #eNS_URI
 	 * @see #createPackageContents()
 	 * @see #initializePackageContents()
 	 * @generated
 	 */
 	public static MappingModelPackage init() {
-		if (isInited) return (MappingModelPackage)EPackage.Registry.INSTANCE.getEPackage(MappingModelPackage.eNS_URI);
+		if(isInited)
+			return (MappingModelPackage)EPackage.Registry.INSTANCE.getEPackage(MappingModelPackage.eNS_URI);
 
 		// Obtain or create and register package
 		MappingModelPackageImpl theMappingModelPackage = (MappingModelPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof MappingModelPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new MappingModelPackageImpl());
@@ -92,7 +96,7 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 		// Mark meta-data to indicate it can't be changed
 		theMappingModelPackage.freeze();
 
-  
+
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(MappingModelPackage.eNS_URI, theMappingModelPackage);
 		return theMappingModelPackage;
@@ -101,6 +105,7 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EClass getMappingElement() {
@@ -110,6 +115,7 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EAttribute getMappingElement_Description() {
@@ -119,6 +125,7 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EReference getMappingElement_TargetElement() {
@@ -128,6 +135,7 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EReference getMappingElement_Attributes() {
@@ -137,6 +145,7 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EAttribute getMappingElement_SourceQualifier() {
@@ -146,6 +155,7 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EClass getMappingAttribute() {
@@ -155,6 +165,7 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EReference getMappingAttribute_TargetAttribute() {
@@ -164,6 +175,7 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EAttribute getMappingAttribute_Description() {
@@ -173,6 +185,7 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EAttribute getMappingAttribute_SourceId() {
@@ -182,6 +195,7 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public MappingModelFactory getMappingModelFactory() {
@@ -191,19 +205,22 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private boolean isCreated = false;
 
 	/**
-	 * Creates the meta-model objects for the package.  This method is
+	 * Creates the meta-model objects for the package. This method is
 	 * guarded to have no affect on any invocation but its first.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void createPackageContents() {
-		if (isCreated) return;
+		if(isCreated)
+			return;
 		isCreated = true;
 
 		// Create classes and their features
@@ -222,19 +239,22 @@ public class MappingModelPackageImpl extends EPackageImpl implements MappingMode
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private boolean isInitialized = false;
 
 	/**
-	 * Complete the initialization of the package and its meta-model.  This
+	 * Complete the initialization of the package and its meta-model. This
 	 * method is guarded to have no affect on any invocation but its first.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void initializePackageContents() {
-		if (isInitialized) return;
+		if(isInitialized)
+			return;
 		isInitialized = true;
 
 		// Initialize package

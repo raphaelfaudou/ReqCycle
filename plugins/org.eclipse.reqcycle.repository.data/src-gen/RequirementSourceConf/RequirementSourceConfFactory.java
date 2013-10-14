@@ -9,14 +9,17 @@ import org.eclipse.emf.ecore.EFactory;
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
+ * 
  * @see RequirementSourceConf.RequirementSourceConfPackage
  * @generated
  */
 public interface RequirementSourceConfFactory extends EFactory {
+
 	/**
 	 * The singleton instance of the factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	RequirementSourceConfFactory eINSTANCE = RequirementSourceConf.impl.RequirementSourceConfFactoryImpl.init();
@@ -25,6 +28,7 @@ public interface RequirementSourceConfFactory extends EFactory {
 	 * Returns a new object of class '<em>Requirement Sources</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return a new object of class '<em>Requirement Sources</em>'.
 	 * @generated
 	 */
@@ -34,6 +38,7 @@ public interface RequirementSourceConfFactory extends EFactory {
 	 * Returns a new object of class '<em>Requirement Source</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return a new object of class '<em>Requirement Source</em>'.
 	 * @generated
 	 */
@@ -43,6 +48,7 @@ public interface RequirementSourceConfFactory extends EFactory {
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the package supported by this factory.
 	 * @generated
 	 */

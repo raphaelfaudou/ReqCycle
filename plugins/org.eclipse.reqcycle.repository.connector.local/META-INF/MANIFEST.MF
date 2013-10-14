@@ -21,7 +21,14 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.workbench,
  org.eclipse.core.expressions,
  org.eclipse.reqcycle.core,
- org.eclipse.ziggurat.configuration
+ org.eclipse.ziggurat.configuration,
+ org.eclipse.core.databinding,
+ org.eclipse.core.databinding.beans,
+ org.eclipse.core.databinding.observable,
+ org.eclipse.core.databinding.property,
+ org.eclipse.jface.databinding,
+ com.ibm.icu,
+ org.eclipse.reqcycle.repository.connector.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: RequirementSourceData.presentation
 Bundle-ActivationPolicy: lazy

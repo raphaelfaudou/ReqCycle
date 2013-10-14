@@ -12,22 +12,25 @@ import org.eclipse.emf.ecore.EReference;
  * The <b>Package</b> for the model.
  * It contains accessors for the meta objects to represent
  * <ul>
- *   <li>each class,</li>
- *   <li>each feature of each class,</li>
- *   <li>each operation of each class,</li>
- *   <li>each enum,</li>
- *   <li>and each data type</li>
+ * <li>each class,</li>
+ * <li>each feature of each class,</li>
+ * <li>each operation of each class,</li>
+ * <li>each enum,</li>
+ * <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
+ * 
  * @see MappingModel.MappingModelFactory
  * @model kind="package"
  * @generated
  */
 public interface MappingModelPackage extends EPackage {
+
 	/**
 	 * The package name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	String eNAME = "MappingModel";
@@ -36,6 +39,7 @@ public interface MappingModelPackage extends EPackage {
 	 * The package namespace URI.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	String eNS_URI = "http://www.eclipse.org/ReqCycle/MappingModel";
@@ -44,6 +48,7 @@ public interface MappingModelPackage extends EPackage {
 	 * The package namespace name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	String eNS_PREFIX = "MappingModel";
@@ -52,6 +57,7 @@ public interface MappingModelPackage extends EPackage {
 	 * The singleton instance of the package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	MappingModelPackage eINSTANCE = MappingModel.impl.MappingModelPackageImpl.init();
@@ -60,6 +66,7 @@ public interface MappingModelPackage extends EPackage {
 	 * The meta object id for the '{@link MappingModel.impl.MappingElementImpl <em>Mapping Element</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @see MappingModel.impl.MappingElementImpl
 	 * @see MappingModel.impl.MappingModelPackageImpl#getMappingElement()
 	 * @generated
@@ -70,6 +77,7 @@ public interface MappingModelPackage extends EPackage {
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -79,6 +87,7 @@ public interface MappingModelPackage extends EPackage {
 	 * The feature id for the '<em><b>Target Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -88,6 +97,7 @@ public interface MappingModelPackage extends EPackage {
 	 * The feature id for the '<em><b>Attributes</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -97,6 +107,7 @@ public interface MappingModelPackage extends EPackage {
 	 * The feature id for the '<em><b>Source Qualifier</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -106,6 +117,7 @@ public interface MappingModelPackage extends EPackage {
 	 * The number of structural features of the '<em>Mapping Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -115,6 +127,7 @@ public interface MappingModelPackage extends EPackage {
 	 * The number of operations of the '<em>Mapping Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -124,6 +137,7 @@ public interface MappingModelPackage extends EPackage {
 	 * The meta object id for the '{@link MappingModel.impl.MappingAttributeImpl <em>Mapping Attribute</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @see MappingModel.impl.MappingAttributeImpl
 	 * @see MappingModel.impl.MappingModelPackageImpl#getMappingAttribute()
 	 * @generated
@@ -134,6 +148,7 @@ public interface MappingModelPackage extends EPackage {
 	 * The feature id for the '<em><b>Target Attribute</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -143,6 +158,7 @@ public interface MappingModelPackage extends EPackage {
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -152,6 +168,7 @@ public interface MappingModelPackage extends EPackage {
 	 * The feature id for the '<em><b>Source Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -161,6 +178,7 @@ public interface MappingModelPackage extends EPackage {
 	 * The number of structural features of the '<em>Mapping Attribute</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -170,6 +188,7 @@ public interface MappingModelPackage extends EPackage {
 	 * The number of operations of the '<em>Mapping Attribute</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -180,6 +199,7 @@ public interface MappingModelPackage extends EPackage {
 	 * Returns the meta object for class '{@link MappingModel.MappingElement <em>Mapping Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for class '<em>Mapping Element</em>'.
 	 * @see MappingModel.MappingElement
 	 * @generated
@@ -190,6 +210,7 @@ public interface MappingModelPackage extends EPackage {
 	 * Returns the meta object for the attribute '{@link MappingModel.MappingElement#getDescription <em>Description</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the attribute '<em>Description</em>'.
 	 * @see MappingModel.MappingElement#getDescription()
 	 * @see #getMappingElement()
@@ -201,6 +222,7 @@ public interface MappingModelPackage extends EPackage {
 	 * Returns the meta object for the reference '{@link MappingModel.MappingElement#getTargetElement <em>Target Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the reference '<em>Target Element</em>'.
 	 * @see MappingModel.MappingElement#getTargetElement()
 	 * @see #getMappingElement()
@@ -212,6 +234,7 @@ public interface MappingModelPackage extends EPackage {
 	 * Returns the meta object for the containment reference list '{@link MappingModel.MappingElement#getAttributes <em>Attributes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the containment reference list '<em>Attributes</em>'.
 	 * @see MappingModel.MappingElement#getAttributes()
 	 * @see #getMappingElement()
@@ -223,6 +246,7 @@ public interface MappingModelPackage extends EPackage {
 	 * Returns the meta object for the attribute '{@link MappingModel.MappingElement#getSourceQualifier <em>Source Qualifier</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the attribute '<em>Source Qualifier</em>'.
 	 * @see MappingModel.MappingElement#getSourceQualifier()
 	 * @see #getMappingElement()
@@ -234,6 +258,7 @@ public interface MappingModelPackage extends EPackage {
 	 * Returns the meta object for class '{@link MappingModel.MappingAttribute <em>Mapping Attribute</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for class '<em>Mapping Attribute</em>'.
 	 * @see MappingModel.MappingAttribute
 	 * @generated
@@ -244,6 +269,7 @@ public interface MappingModelPackage extends EPackage {
 	 * Returns the meta object for the reference '{@link MappingModel.MappingAttribute#getTargetAttribute <em>Target Attribute</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the reference '<em>Target Attribute</em>'.
 	 * @see MappingModel.MappingAttribute#getTargetAttribute()
 	 * @see #getMappingAttribute()
@@ -255,6 +281,7 @@ public interface MappingModelPackage extends EPackage {
 	 * Returns the meta object for the attribute '{@link MappingModel.MappingAttribute#getDescription <em>Description</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the attribute '<em>Description</em>'.
 	 * @see MappingModel.MappingAttribute#getDescription()
 	 * @see #getMappingAttribute()
@@ -266,6 +293,7 @@ public interface MappingModelPackage extends EPackage {
 	 * Returns the meta object for the attribute '{@link MappingModel.MappingAttribute#getSourceId <em>Source Id</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the attribute '<em>Source Id</em>'.
 	 * @see MappingModel.MappingAttribute#getSourceId()
 	 * @see #getMappingAttribute()
@@ -277,6 +305,7 @@ public interface MappingModelPackage extends EPackage {
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the factory that creates the instances of the model.
 	 * @generated
 	 */
@@ -286,20 +315,23 @@ public interface MappingModelPackage extends EPackage {
 	 * <!-- begin-user-doc -->
 	 * Defines literals for the meta objects that represent
 	 * <ul>
-	 *   <li>each class,</li>
-	 *   <li>each feature of each class,</li>
-	 *   <li>each operation of each class,</li>
-	 *   <li>each enum,</li>
-	 *   <li>and each data type</li>
+	 * <li>each class,</li>
+	 * <li>each feature of each class,</li>
+	 * <li>each operation of each class,</li>
+	 * <li>each enum,</li>
+	 * <li>and each data type</li>
 	 * </ul>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	interface Literals {
+
 		/**
 		 * The meta object literal for the '{@link MappingModel.impl.MappingElementImpl <em>Mapping Element</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * 
 		 * @see MappingModel.impl.MappingElementImpl
 		 * @see MappingModel.impl.MappingModelPackageImpl#getMappingElement()
 		 * @generated
@@ -310,6 +342,7 @@ public interface MappingModelPackage extends EPackage {
 		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		EAttribute MAPPING_ELEMENT__DESCRIPTION = eINSTANCE.getMappingElement_Description();
@@ -318,6 +351,7 @@ public interface MappingModelPackage extends EPackage {
 		 * The meta object literal for the '<em><b>Target Element</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		EReference MAPPING_ELEMENT__TARGET_ELEMENT = eINSTANCE.getMappingElement_TargetElement();
@@ -326,6 +360,7 @@ public interface MappingModelPackage extends EPackage {
 		 * The meta object literal for the '<em><b>Attributes</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		EReference MAPPING_ELEMENT__ATTRIBUTES = eINSTANCE.getMappingElement_Attributes();
@@ -334,6 +369,7 @@ public interface MappingModelPackage extends EPackage {
 		 * The meta object literal for the '<em><b>Source Qualifier</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		EAttribute MAPPING_ELEMENT__SOURCE_QUALIFIER = eINSTANCE.getMappingElement_SourceQualifier();
@@ -342,6 +378,7 @@ public interface MappingModelPackage extends EPackage {
 		 * The meta object literal for the '{@link MappingModel.impl.MappingAttributeImpl <em>Mapping Attribute</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * 
 		 * @see MappingModel.impl.MappingAttributeImpl
 		 * @see MappingModel.impl.MappingModelPackageImpl#getMappingAttribute()
 		 * @generated
@@ -352,6 +389,7 @@ public interface MappingModelPackage extends EPackage {
 		 * The meta object literal for the '<em><b>Target Attribute</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		EReference MAPPING_ATTRIBUTE__TARGET_ATTRIBUTE = eINSTANCE.getMappingAttribute_TargetAttribute();
@@ -360,6 +398,7 @@ public interface MappingModelPackage extends EPackage {
 		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		EAttribute MAPPING_ATTRIBUTE__DESCRIPTION = eINSTANCE.getMappingAttribute_Description();
@@ -368,6 +407,7 @@ public interface MappingModelPackage extends EPackage {
 		 * The meta object literal for the '<em><b>Source Id</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		EAttribute MAPPING_ATTRIBUTE__SOURCE_ID = eINSTANCE.getMappingAttribute_SourceId();

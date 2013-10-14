@@ -13,13 +13,15 @@ import org.eclipse.emf.ecore.EClass;
  * <!-- end-user-doc -->
  * <p>
  * </p>
- *
+ * 
  * @generated
  */
 public class SimpleRequirementImpl extends AbstractElementImpl implements SimpleRequirement {
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected SimpleRequirementImpl() {
@@ -29,6 +31,7 @@ public class SimpleRequirementImpl extends AbstractElementImpl implements Simple
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override

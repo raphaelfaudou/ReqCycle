@@ -19,6 +19,8 @@ import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.core.ui.Activator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -51,7 +53,7 @@ public class ReqCyclePreferencePage extends PreferencePage implements IWorkbench
 	protected Button btnImport;
 
 	protected Button btnExport;
-	
+
 	@Inject
 	IEventBroker broker;
 
@@ -62,15 +64,18 @@ public class ReqCyclePreferencePage extends PreferencePage implements IWorkbench
 	 * @wbp.parser.constructor
 	 */
 	public ReqCyclePreferencePage() {
+		super();
 		ZigguratInject.inject(this);
 	}
 
 	public ReqCyclePreferencePage(String title) {
 		super(title);
+		ZigguratInject.inject(this);
 	}
 
 	public ReqCyclePreferencePage(String title, ImageDescriptor image) {
 		super(title, image);
+		ZigguratInject.inject(this);
 	}
 
 	@Override
@@ -132,8 +137,8 @@ public class ReqCyclePreferencePage extends PreferencePage implements IWorkbench
 	protected void hookListeners() {
 	}
 
-	
-	
+
+
 	protected void close() {
 		IPreferencePageContainer container = getContainer();
 		if(container instanceof PreferenceDialog) {
@@ -146,7 +151,7 @@ public class ReqCyclePreferencePage extends PreferencePage implements IWorkbench
 		btnAdd.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
 		btnAdd.setToolTipText("Add");
 		btnAdd.setImage(Activator.getImageDescriptor("/icons/add.gif").createImage());
-		btnAdd.setEnabled(false);
+		btnAdd.setEnabled(true);
 
 		btnRemove = new Button(btnComposite, SWT.PUSH);
 		btnRemove.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
@@ -179,6 +184,6 @@ public class ReqCyclePreferencePage extends PreferencePage implements IWorkbench
 		btnExport.setEnabled(false);
 	}
 
-	
-	
+
+
 }

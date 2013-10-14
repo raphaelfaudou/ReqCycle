@@ -9,14 +9,14 @@ import org.eclipse.emf.ecore.EObject;
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Requirement Sources</b></em>'.
  * <!-- end-user-doc -->
- *
+ * 
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link RequirementSourceConf.RequirementSources#getRequirementSources <em>Requirement Sources</em>}</li>
+ * <li>{@link RequirementSourceConf.RequirementSources#getRequirementSources <em>Requirement Sources</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @see RequirementSourceConf.RequirementSourceConfPackage#getRequirementSources()
  * @model
  * @generated
@@ -32,6 +32,7 @@ public interface RequirementSources extends EObject {
 	 * here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Requirement Sources</em>' containment reference list.
 	 * @see RequirementSourceConf.RequirementSourceConfPackage#getRequirementSources_RequirementSources()
 	 * @model containment="true"

@@ -30,20 +30,16 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
  * This is the item provider adapter for a {@link RequirementSourceData.RequirementsContainer} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
+ * 
  * @generated
  */
-public class RequirementsContainerItemProvider
-	extends ItemProviderAdapter
-	implements
-		IEditingDomainItemProvider,
-		IStructuredItemContentProvider,
-		ITreeItemContentProvider,
-		IItemLabelProvider,
-		IItemPropertySource {
+public class RequirementsContainerItemProvider extends ItemProviderAdapter implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
+
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public RequirementsContainerItemProvider(AdapterFactory adapterFactory) {
@@ -54,11 +50,12 @@ public class RequirementsContainerItemProvider
 	 * This returns the property descriptors for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
-		if (itemPropertyDescriptors == null) {
+		if(itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
 		}
@@ -71,11 +68,12 @@ public class RequirementsContainerItemProvider
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
-		if (childrenFeatures == null) {
+		if(childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(RequirementSourceDataPackage.Literals.REQUIREMENTS_CONTAINER__REQUIREMENTS);
 		}
@@ -85,6 +83,7 @@ public class RequirementsContainerItemProvider
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -99,6 +98,7 @@ public class RequirementsContainerItemProvider
 	 * This returns RequirementsContainer.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -110,6 +110,7 @@ public class RequirementsContainerItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -122,16 +123,17 @@ public class RequirementsContainerItemProvider
 	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(RequirementsContainer.class)) {
-			case RequirementSourceDataPackage.REQUIREMENTS_CONTAINER__REQUIREMENTS:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
-				return;
+		switch(notification.getFeatureID(RequirementsContainer.class)) {
+		case RequirementSourceDataPackage.REQUIREMENTS_CONTAINER__REQUIREMENTS:
+			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+			return;
 		}
 		super.notifyChanged(notification);
 	}
@@ -141,32 +143,25 @@ public class RequirementsContainerItemProvider
 	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add
-			(createChildParameter
-				(RequirementSourceDataPackage.Literals.REQUIREMENTS_CONTAINER__REQUIREMENTS,
-				 RequirementSourceDataFactory.eINSTANCE.createSection()));
+		newChildDescriptors.add(createChildParameter(RequirementSourceDataPackage.Literals.REQUIREMENTS_CONTAINER__REQUIREMENTS, RequirementSourceDataFactory.eINSTANCE.createSection()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(RequirementSourceDataPackage.Literals.REQUIREMENTS_CONTAINER__REQUIREMENTS,
-				 RequirementSourceDataFactory.eINSTANCE.createSimpleRequirement()));
+		newChildDescriptors.add(createChildParameter(RequirementSourceDataPackage.Literals.REQUIREMENTS_CONTAINER__REQUIREMENTS, RequirementSourceDataFactory.eINSTANCE.createSimpleRequirement()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(RequirementSourceDataPackage.Literals.REQUIREMENTS_CONTAINER__REQUIREMENTS,
-				 RequirementSourceDataFactory.eINSTANCE.createRequirement()));
+		newChildDescriptors.add(createChildParameter(RequirementSourceDataPackage.Literals.REQUIREMENTS_CONTAINER__REQUIREMENTS, RequirementSourceDataFactory.eINSTANCE.createRequirement()));
 	}
 
 	/**
 	 * Return the resource locator for this item provider's resources.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override

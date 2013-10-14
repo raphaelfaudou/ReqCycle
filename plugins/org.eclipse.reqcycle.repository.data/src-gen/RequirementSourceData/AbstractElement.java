@@ -11,30 +11,31 @@ import org.eclipse.emf.ecore.EObject;
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Abstract Element</b></em>'.
  * <!-- end-user-doc -->
- *
+ * 
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link RequirementSourceData.AbstractElement#getId <em>Id</em>}</li>
- *   <li>{@link RequirementSourceData.AbstractElement#getName <em>Name</em>}</li>
- *   <li>{@link RequirementSourceData.AbstractElement#getUri <em>Uri</em>}</li>
- *   <li>{@link RequirementSourceData.AbstractElement#getScopes <em>Scopes</em>}</li>
+ * <li>{@link RequirementSourceData.AbstractElement#getId <em>Id</em>}</li>
+ * <li>{@link RequirementSourceData.AbstractElement#getName <em>Name</em>}</li>
+ * <li>{@link RequirementSourceData.AbstractElement#getUri <em>Uri</em>}</li>
+ * <li>{@link RequirementSourceData.AbstractElement#getScopes <em>Scopes</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @see RequirementSourceData.RequirementSourceDataPackage#getAbstractElement()
  * @model abstract="true"
  * @generated
  */
 public interface AbstractElement extends EObject {
+
 	/**
 	 * Returns the value of the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Id</em>' attribute isn't clear,
-	 * there really should be more of a description here...
+	 * If the meaning of the '<em>Id</em>' attribute isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Id</em>' attribute.
 	 * @see #setId(String)
 	 * @see RequirementSourceData.RequirementSourceDataPackage#getAbstractElement_Id()
@@ -47,7 +48,9 @@ public interface AbstractElement extends EObject {
 	 * Sets the value of the '{@link RequirementSourceData.AbstractElement#getId <em>Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Id</em>' attribute.
+	 * 
+	 * @param value
+	 *        the new value of the '<em>Id</em>' attribute.
 	 * @see #getId()
 	 * @generated
 	 */
@@ -57,10 +60,10 @@ public interface AbstractElement extends EObject {
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
+	 * If the meaning of the '<em>Name</em>' attribute isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
 	 * @see RequirementSourceData.RequirementSourceDataPackage#getAbstractElement_Name()
@@ -73,7 +76,9 @@ public interface AbstractElement extends EObject {
 	 * Sets the value of the '{@link RequirementSourceData.AbstractElement#getName <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Name</em>' attribute.
+	 * 
+	 * @param value
+	 *        the new value of the '<em>Name</em>' attribute.
 	 * @see #getName()
 	 * @generated
 	 */
@@ -83,10 +88,10 @@ public interface AbstractElement extends EObject {
 	 * Returns the value of the '<em><b>Uri</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Uri</em>' attribute isn't clear,
-	 * there really should be more of a description here...
+	 * If the meaning of the '<em>Uri</em>' attribute isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Uri</em>' attribute.
 	 * @see #setUri(String)
 	 * @see RequirementSourceData.RequirementSourceDataPackage#getAbstractElement_Uri()
@@ -99,7 +104,9 @@ public interface AbstractElement extends EObject {
 	 * Sets the value of the '{@link RequirementSourceData.AbstractElement#getUri <em>Uri</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Uri</em>' attribute.
+	 * 
+	 * @param value
+	 *        the new value of the '<em>Uri</em>' attribute.
 	 * @see #getUri()
 	 * @generated
 	 */
@@ -110,10 +117,10 @@ public interface AbstractElement extends EObject {
 	 * The list contents are of type {@link ScopeConf.Scope}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Scopes</em>' reference list isn't clear,
-	 * there really should be more of a description here...
+	 * If the meaning of the '<em>Scopes</em>' reference list isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Scopes</em>' reference list.
 	 * @see RequirementSourceData.RequirementSourceDataPackage#getAbstractElement_Scopes()
 	 * @model

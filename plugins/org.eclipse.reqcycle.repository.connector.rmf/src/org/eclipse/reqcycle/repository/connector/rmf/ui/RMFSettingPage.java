@@ -26,6 +26,7 @@ import javax.inject.Inject;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.PojoProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.ui.dialogs.ResourceDialog;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
@@ -37,6 +38,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.types.IDataModel;
@@ -53,6 +55,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import RequirementSourceConf.RequirementSource;
@@ -87,6 +90,10 @@ public class RMFSettingPage extends WizardPage implements Listener {
 
 	private Collection<Scope> inputScope = new ArrayList<Scope>();
 
+	private Text txtFile;
+
+	private Button btnBrowseCopyFile;
+
 
 	/**
 	 * @param title
@@ -97,10 +104,10 @@ public class RMFSettingPage extends WizardPage implements Listener {
 	 */
 	public RMFSettingPage(String title, String description) {
 		super(title);
+		ZigguratInject.inject(this);
 		setTitle(title);
 		setDescription(description);
 		this.bean = new RMFSettingPageBean(this);
-		ZigguratInject.inject(this);
 	}
 
 	/**
@@ -157,7 +164,6 @@ public class RMFSettingPage extends WizardPage implements Listener {
 			public String getText(Object element) {
 				if(element instanceof IDataModel) {
 					return ((IDataModel)element).getName();
-
 				}
 				return super.getText(element);
 			}
@@ -192,16 +198,32 @@ public class RMFSettingPage extends WizardPage implements Listener {
 		lblMode.setText("Import Mode :");
 
 		Composite radioBtnComposite = new Composite(compositeContainer, SWT.NONE);
-		radioBtnComposite.setEnabled(false);
-		radioBtnComposite.setLayout(new GridLayout());
+		radioBtnComposite.setLayout(new GridLayout(2, false));
 		radioBtnComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 
 		btnCopyImport = new Button(radioBtnComposite, SWT.RADIO);
 		btnCopyImport.setText("Copy");
 		btnCopyImport.setSelection(true);
 
+		Composite compositeCopy = new Composite(radioBtnComposite, SWT.NONE);
+		compositeCopy.setLayout(new GridLayout(3, false));
+		compositeCopy.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+
+		Label lblCopyFile = new Label(compositeCopy, SWT.NONE);
+		lblCopyFile.setText("Destination File :");
+
+		txtFile = new Text(compositeCopy, SWT.BORDER);
+		txtFile.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		//		txtFile.setEditable(false);
+		txtFile.setEnabled(false);
+
+		btnBrowseCopyFile = new Button(compositeCopy, SWT.NONE);
+		btnBrowseCopyFile.setText("Browse");
+
 		btnReferenceImport = new Button(radioBtnComposite, SWT.RADIO);
 		btnReferenceImport.setText("Reference");
+		btnReferenceImport.setEnabled(false);
+		new Label(radioBtnComposite, SWT.NONE);
 
 		lblSeparator = new Label(compositeContainer, SWT.SEPARATOR | SWT.HORIZONTAL);
 		lblSeparator.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1));
@@ -256,6 +278,21 @@ public class RMFSettingPage extends WizardPage implements Listener {
 				cvScope.refresh();
 			}
 		});
+
+		btnBrowseCopyFile.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				SaveAsDialog dialog = new SaveAsDialog(getShell());
+				if(Window.OK == dialog.open()) {
+					IPath result = dialog.getResult();
+					if(!"reqcycle".equals(result.getFileExtension())) {
+						result = result.addFileExtension("reqcycle");
+					}
+					txtFile.setText(result.toString());
+				}
+			}
+		});
 	}
 
 
@@ -277,11 +314,18 @@ public class RMFSettingPage extends WizardPage implements Listener {
 			error.append("Choose a Scope\n");
 			result = false;
 		}
+
+		if(bean.getIsCopy() && (bean.getDestinationPath() == null || bean.getDestinationPath().isEmpty())) {
+			error.append("Choose a destination file for a Copy Import Mode");
+			result = false;
+		}
+
 		if(!result) {
 			setErrorMessage(error.toString());
 		} else {
 			setErrorMessage(null);
 		}
+
 		return result;
 	}
 
@@ -319,6 +363,8 @@ public class RMFSettingPage extends WizardPage implements Listener {
 		private Boolean isCopy = true;
 
 		private boolean skipMapping = false;
+
+		private String destinationPath;
 
 		private Listener listener;
 
@@ -370,6 +416,15 @@ public class RMFSettingPage extends WizardPage implements Listener {
 			this.isCopy = isCopy;
 			listener.handleEvent(new Event());
 		}
+
+		public String getDestinationPath() {
+			return destinationPath;
+		}
+
+		public void setDestinationPath(String destinationPath) {
+			this.destinationPath = destinationPath;
+			listener.handleEvent(new Event());
+		}
 	}
 
 	protected DataBindingContext initDataBindings() {
@@ -394,6 +449,10 @@ public class RMFSettingPage extends WizardPage implements Listener {
 		IObservableValue observeSingleSelectionCvScope = ViewerProperties.singleSelection().observe(cvScope);
 		IObservableValue scopeBeanObserveValue = PojoProperties.value("scope").observe(bean);
 		bindingContext.bindValue(observeSingleSelectionCvScope, scopeBeanObserveValue, null, null);
+		//
+		IObservableValue observeTextTxtFileObserveWidget = WidgetProperties.text(SWT.Modify).observe(txtFile);
+		IObservableValue modelPathBeanObserveValue = PojoProperties.value("destinationPath").observe(bean);
+		bindingContext.bindValue(observeTextTxtFileObserveWidget, modelPathBeanObserveValue, null, null);
 		//
 		return bindingContext;
 	}

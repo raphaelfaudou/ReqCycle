@@ -29,6 +29,7 @@ import RequirementSourceData.util.RequirementSourceDataAdapterFactory;
  * Note that most of the adapters are shared among multiple instances.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class RequirementSourceDataItemProviderAdapterFactory extends RequirementSourceDataAdapterFactory implements ComposeableAdapterFactory, IChangeNotifier, IDisposable {
@@ -37,6 +38,7 @@ public class RequirementSourceDataItemProviderAdapterFactory extends Requirement
 	 * This keeps track of the root adapter factory that delegates to this adapter factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected ComposedAdapterFactory parentAdapterFactory;
@@ -45,6 +47,7 @@ public class RequirementSourceDataItemProviderAdapterFactory extends Requirement
 	 * This is used to implement {@link org.eclipse.emf.edit.provider.IChangeNotifier}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected IChangeNotifier changeNotifier = new ChangeNotifier();
@@ -53,6 +56,7 @@ public class RequirementSourceDataItemProviderAdapterFactory extends Requirement
 	 * This keeps track of all the supported types checked by {@link #isFactoryForType isFactoryForType}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected Collection<Object> supportedTypes = new ArrayList<Object>();
@@ -61,6 +65,7 @@ public class RequirementSourceDataItemProviderAdapterFactory extends Requirement
 	 * This constructs an instance.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public RequirementSourceDataItemProviderAdapterFactory() {
@@ -75,6 +80,7 @@ public class RequirementSourceDataItemProviderAdapterFactory extends Requirement
 	 * This keeps track of the one adapter used for all {@link RequirementSourceData.Section} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected SectionItemProvider sectionItemProvider;
@@ -83,11 +89,12 @@ public class RequirementSourceDataItemProviderAdapterFactory extends Requirement
 	 * This creates an adapter for a {@link RequirementSourceData.Section}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public Adapter createSectionAdapter() {
-		if (sectionItemProvider == null) {
+		if(sectionItemProvider == null) {
 			sectionItemProvider = new SectionItemProvider(this);
 		}
 
@@ -98,6 +105,7 @@ public class RequirementSourceDataItemProviderAdapterFactory extends Requirement
 	 * This keeps track of the one adapter used for all {@link RequirementSourceData.SimpleRequirement} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected SimpleRequirementItemProvider simpleRequirementItemProvider;
@@ -106,11 +114,12 @@ public class RequirementSourceDataItemProviderAdapterFactory extends Requirement
 	 * This creates an adapter for a {@link RequirementSourceData.SimpleRequirement}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public Adapter createSimpleRequirementAdapter() {
-		if (simpleRequirementItemProvider == null) {
+		if(simpleRequirementItemProvider == null) {
 			simpleRequirementItemProvider = new SimpleRequirementItemProvider(this);
 		}
 
@@ -121,6 +130,7 @@ public class RequirementSourceDataItemProviderAdapterFactory extends Requirement
 	 * This keeps track of the one adapter used for all {@link RequirementSourceData.Requirement} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected RequirementItemProvider requirementItemProvider;
@@ -129,11 +139,12 @@ public class RequirementSourceDataItemProviderAdapterFactory extends Requirement
 	 * This creates an adapter for a {@link RequirementSourceData.Requirement}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public Adapter createRequirementAdapter() {
-		if (requirementItemProvider == null) {
+		if(requirementItemProvider == null) {
 			requirementItemProvider = new RequirementItemProvider(this);
 		}
 
@@ -144,6 +155,7 @@ public class RequirementSourceDataItemProviderAdapterFactory extends Requirement
 	 * This keeps track of the one adapter used for all {@link RequirementSourceData.RequirementsContainer} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected RequirementsContainerItemProvider requirementsContainerItemProvider;
@@ -152,11 +164,12 @@ public class RequirementSourceDataItemProviderAdapterFactory extends Requirement
 	 * This creates an adapter for a {@link RequirementSourceData.RequirementsContainer}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public Adapter createRequirementsContainerAdapter() {
-		if (requirementsContainerItemProvider == null) {
+		if(requirementsContainerItemProvider == null) {
 			requirementsContainerItemProvider = new RequirementsContainerItemProvider(this);
 		}
 
@@ -167,6 +180,7 @@ public class RequirementSourceDataItemProviderAdapterFactory extends Requirement
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -178,6 +192,7 @@ public class RequirementSourceDataItemProviderAdapterFactory extends Requirement
 	 * This sets the composed adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -188,6 +203,7 @@ public class RequirementSourceDataItemProviderAdapterFactory extends Requirement
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -199,6 +215,7 @@ public class RequirementSourceDataItemProviderAdapterFactory extends Requirement
 	 * This implementation substitutes the factory itself as the key for the adapter.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -209,13 +226,14 @@ public class RequirementSourceDataItemProviderAdapterFactory extends Requirement
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public Object adapt(Object object, Object type) {
-		if (isFactoryForType(type)) {
+		if(isFactoryForType(type)) {
 			Object adapter = super.adapt(object, type);
-			if (!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter))) {
+			if(!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter))) {
 				return adapter;
 			}
 		}
@@ -227,6 +245,7 @@ public class RequirementSourceDataItemProviderAdapterFactory extends Requirement
 	 * This adds a listener.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -238,6 +257,7 @@ public class RequirementSourceDataItemProviderAdapterFactory extends Requirement
 	 * This removes a listener.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -249,29 +269,35 @@ public class RequirementSourceDataItemProviderAdapterFactory extends Requirement
 	 * This delegates to {@link #changeNotifier} and to {@link #parentAdapterFactory}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void fireNotifyChanged(Notification notification) {
 		changeNotifier.fireNotifyChanged(notification);
 
-		if (parentAdapterFactory != null) {
+		if(parentAdapterFactory != null) {
 			parentAdapterFactory.fireNotifyChanged(notification);
 		}
 	}
 
 	/**
-	 * This disposes all of the item providers created by this factory. 
+	 * This disposes all of the item providers created by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void dispose() {
-		if (sectionItemProvider != null) sectionItemProvider.dispose();
-		if (simpleRequirementItemProvider != null) simpleRequirementItemProvider.dispose();
-		if (requirementItemProvider != null) requirementItemProvider.dispose();
-		if (requirementsContainerItemProvider != null) requirementsContainerItemProvider.dispose();
+		if(sectionItemProvider != null)
+			sectionItemProvider.dispose();
+		if(simpleRequirementItemProvider != null)
+			simpleRequirementItemProvider.dispose();
+		if(requirementItemProvider != null)
+			requirementItemProvider.dispose();
+		if(requirementsContainerItemProvider != null)
+			requirementsContainerItemProvider.dispose();
 	}
 
 }

@@ -40,13 +40,13 @@ import org.eclipse.reqcycle.repository.data.IDataManager;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.types.IDataModel;
 import org.eclipse.reqcycle.repository.data.types.IRequirementType;
-import org.eclipse.reqcycle.repository.data.util.RepositoryConstants;
+import org.eclipse.reqcycle.repository.data.util.IRequirementSourceProperties;
 import org.eclipse.rmf.reqif10.SpecType;
 
 import MappingModel.MappingElement;
 import RequirementSourceConf.RequirementSource;
+import RequirementSourceData.RequirementsContainer;
 import ScopeConf.Scope;
-
 
 public class RMFConnector extends Wizard implements IConnectorWizard {
 
@@ -86,26 +86,35 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 				RequirementSource requirementSource;
 				Scope scope = null;
 				IDataModel model = null;
+				String requirementsResourcePath = null;
 
 				if(edition) {
 					requirementSource = initSource;
-					//FIXME : Diff with existing and then merge
+					// FIXME : Diff with existing and then merge
 				} else {
 					requirementSource = dataManager.createRequirementSource();
 					if(settingPageBean != null) {
 						scope = settingPageBean.getScope();
 						model = settingPageBean.getDataPackage();
+						requirementsResourcePath = settingPageBean.getDestinationPath();
 						requirementSource.setProperty("DataModel_NAME", model.getName());
 						requirementSource.setProperty("SCOPE_NAME", scope.getName());
-						requirementSource.setProperty(RepositoryConstants.PROPERTY_URL, settingPageBean.getUri());
+						requirementSource.setProperty(IRequirementSourceProperties.PROPERTY_URI, settingPageBean.getUri());
+						Boolean isCopy = settingPageBean.getIsCopy();
+						if(isCopy && requirementsResourcePath != null && !requirementsResourcePath.isEmpty()) {
+							RequirementsContainer rc = dataManager.createRequirementsContainer(URI.createPlatformResourceURI(requirementsResourcePath, true));
+							requirementSource.setContents(rc);
+						}
+						requirementSource.setProperty(IRequirementSourceProperties.IS_LOCAL, isCopy.toString());
 					}
 				}
 
 				if(((settingPageBean != null && !settingPageBean.getSkipMapping()) || edition) && mapping != null && !mapping.isEmpty()) {
-					//it's an edition or a creation without skipping the mapping
+					// it's an edition or a creation without skipping the
+					// mapping
 					requirementSource.getMappings().clear();
 					requirementSource.getMappings().addAll(mapping);
-					//					requirementSource.getRequirements().clear();
+					// requirementSource.getRequirements().clear();
 					RMFUtils.fillRequirements(requirementSource, new NullProgressMonitor(), scope);
 				}
 
@@ -116,7 +125,8 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 
 	@Override
 	public void addPages() {
-		// if the wizard is initialized with a requirement source (requirement source edition)
+		// if the wizard is initialized with a requirement source (requirement
+		// source edition)
 		// then the mapping page is added instead of settingPage
 		if(edition) {
 			ResourceSet rs = new ResourceSetImpl();
@@ -132,13 +142,14 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 		}
 	}
 
-
 	@Override
 	public IWizardPage getNextPage(IWizardPage page) {
 		if(page instanceof RMFSettingPage) {
 			ResourceSet rs = new ResourceSetImpl();
 			final Collection<SpecType> specTypes = RMFUtils.getReqIFTypes(rs, settingPageBean.getUri());
-			//			final Collection<EClassifier> eClassifiers = DataUtil.getTargetEPackage(rs, "org.eclipse.reqcycle.repository.data/model/CustomDataModel.ecore");
+			// final Collection<EClassifier> eClassifiers =
+			// DataUtil.getTargetEPackage(rs,
+			// "org.eclipse.reqcycle.repository.data/model/CustomDataModel.ecore");
 			Collection<IRequirementType> eClassifiers = settingPageBean.getDataPackage().getRequirementTypes();
 			mappingPage = createMappingPage(specTypes, eClassifiers, mapping);
 			mappingPage.setWizard(this);
@@ -202,11 +213,9 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 		};
 	}
 
-
-
 	@Override
 	public boolean performFinish() {
-		//TODO : use mapping bean
+		// FIXME : use mapping bean
 		if(((settingPageBean != null && !settingPageBean.getSkipMapping()) || edition) && mappingPage != null) {
 			mapping = mappingPage.getResult();
 		}
@@ -214,10 +223,9 @@ public class RMFConnector extends Wizard implements IConnectorWizard {
 		return true;
 	}
 
-
 	@Override
 	public boolean canFinish() {
-		//TODO : refactor using beans
+		// TODO : refactor using beans
 		if(settingPage != null && settingPage.isPageComplete() && settingPageBean != null) {
 			if(settingPageBean.getSkipMapping()) {
 				return true;

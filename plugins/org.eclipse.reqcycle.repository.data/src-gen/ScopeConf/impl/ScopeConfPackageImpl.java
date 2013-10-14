@@ -21,12 +21,15 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
  * <!-- begin-user-doc -->
  * An implementation of the model <b>Package</b>.
  * <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class ScopeConfPackageImpl extends EPackageImpl implements ScopeConfPackage {
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass scopesEClass = null;
@@ -34,20 +37,19 @@ public class ScopeConfPackageImpl extends EPackageImpl implements ScopeConfPacka
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass scopeEClass = null;
 
 	/**
-	 * Creates an instance of the model <b>Package</b>, registered with
-	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
+	 * Creates an instance of the model <b>Package</b>, registered with {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the
+	 * package
 	 * package URI value.
-	 * <p>Note: the correct way to create the package is via the static
-	 * factory method {@link #init init()}, which also performs
-	 * initialization of the package, or returns the registered package,
-	 * if one already exists.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <p>
+	 * Note: the correct way to create the package is via the static factory method {@link #init init()}, which also performs initialization of the
+	 * package, or returns the registered package, if one already exists. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
 	 * @see ScopeConf.ScopeConfPackage#eNS_URI
 	 * @see #init()
@@ -60,6 +62,7 @@ public class ScopeConfPackageImpl extends EPackageImpl implements ScopeConfPacka
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private static boolean isInited = false;
@@ -67,17 +70,18 @@ public class ScopeConfPackageImpl extends EPackageImpl implements ScopeConfPacka
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
 	 * 
-	 * <p>This method is used to initialize {@link ScopeConfPackage#eINSTANCE} when that field is accessed.
-	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <p>
+	 * This method is used to initialize {@link ScopeConfPackage#eINSTANCE} when that field is accessed. Clients should not invoke it directly.
+	 * Instead, they should simply access that field to obtain the package. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #eNS_URI
 	 * @see #createPackageContents()
 	 * @see #initializePackageContents()
 	 * @generated
 	 */
 	public static ScopeConfPackage init() {
-		if (isInited) return (ScopeConfPackage)EPackage.Registry.INSTANCE.getEPackage(ScopeConfPackage.eNS_URI);
+		if(isInited)
+			return (ScopeConfPackage)EPackage.Registry.INSTANCE.getEPackage(ScopeConfPackage.eNS_URI);
 
 		// Obtain or create and register package
 		ScopeConfPackageImpl theScopeConfPackage = (ScopeConfPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ScopeConfPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ScopeConfPackageImpl());
@@ -98,7 +102,7 @@ public class ScopeConfPackageImpl extends EPackageImpl implements ScopeConfPacka
 		// Mark meta-data to indicate it can't be changed
 		theScopeConfPackage.freeze();
 
-  
+
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(ScopeConfPackage.eNS_URI, theScopeConfPackage);
 		return theScopeConfPackage;
@@ -107,6 +111,7 @@ public class ScopeConfPackageImpl extends EPackageImpl implements ScopeConfPacka
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EClass getScopes() {
@@ -116,6 +121,7 @@ public class ScopeConfPackageImpl extends EPackageImpl implements ScopeConfPacka
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EReference getScopes_Scopes() {
@@ -125,6 +131,7 @@ public class ScopeConfPackageImpl extends EPackageImpl implements ScopeConfPacka
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EClass getScope() {
@@ -134,6 +141,7 @@ public class ScopeConfPackageImpl extends EPackageImpl implements ScopeConfPacka
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EAttribute getScope_Name() {
@@ -143,6 +151,7 @@ public class ScopeConfPackageImpl extends EPackageImpl implements ScopeConfPacka
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EReference getScope_Requirements() {
@@ -152,6 +161,7 @@ public class ScopeConfPackageImpl extends EPackageImpl implements ScopeConfPacka
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EAttribute getScope_DataModelURI() {
@@ -161,6 +171,7 @@ public class ScopeConfPackageImpl extends EPackageImpl implements ScopeConfPacka
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public ScopeConfFactory getScopeConfFactory() {
@@ -170,19 +181,22 @@ public class ScopeConfPackageImpl extends EPackageImpl implements ScopeConfPacka
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private boolean isCreated = false;
 
 	/**
-	 * Creates the meta-model objects for the package.  This method is
+	 * Creates the meta-model objects for the package. This method is
 	 * guarded to have no affect on any invocation but its first.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void createPackageContents() {
-		if (isCreated) return;
+		if(isCreated)
+			return;
 		isCreated = true;
 
 		// Create classes and their features
@@ -198,19 +212,22 @@ public class ScopeConfPackageImpl extends EPackageImpl implements ScopeConfPacka
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private boolean isInitialized = false;
 
 	/**
-	 * Complete the initialization of the package and its meta-model.  This
+	 * Complete the initialization of the package and its meta-model. This
 	 * method is guarded to have no affect on any invocation but its first.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void initializePackageContents() {
-		if (isInitialized) return;
+		if(isInitialized)
+			return;
 		isInitialized = true;
 
 		// Initialize package

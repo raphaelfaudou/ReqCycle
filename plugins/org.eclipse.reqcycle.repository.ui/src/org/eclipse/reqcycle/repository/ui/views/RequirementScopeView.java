@@ -270,8 +270,8 @@ public class RequirementScopeView extends ViewPart {
 						Scope selectedScope = (Scope)element;
 						if(selectedScope != scope) {
 							scope = selectedScope;
-							setRequirements(scope.getRequirements());
 						}
+						setRequirements(scope.getRequirements());
 					}
 				}
 			}

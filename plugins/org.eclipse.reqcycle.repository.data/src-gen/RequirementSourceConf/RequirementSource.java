@@ -7,6 +7,7 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
@@ -50,7 +51,7 @@ public interface RequirementSource extends EObject {
 	 * @return the value of the '<em>Contents</em>' reference.
 	 * @see #setContents(RequirementsContainer)
 	 * @see RequirementSourceConf.RequirementSourceConfPackage#getRequirementSource_Contents()
-	 * @model required="true"
+	 * @model
 	 * @generated
 	 */
 	RequirementsContainer getContents();
@@ -237,5 +238,7 @@ public interface RequirementSource extends EObject {
 	boolean contains(AbstractElement abstractElement);
 
 	void clearContent();
+
+	void setRequirementsResourceURI(URI uri);
 
 } // RequirementSource

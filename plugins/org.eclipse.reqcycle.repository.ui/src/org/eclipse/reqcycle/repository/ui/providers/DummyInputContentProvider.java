@@ -71,7 +71,9 @@ public class DummyInputContentProvider extends AdapterFactoryContentProvider {
 					IPredicate predicate = dummyObject.getPredicate();
 					DummyObject dObj = new DummyObject(predicate, eObj);
 					if(dObj.getEobj() instanceof Section && !(dObj.getEobj() instanceof SimpleRequirement)) {
-						return dObj; // do not use predicate filter for sections which are not requirements
+						return dObj; // do not use predicate filter for
+										// sections which are not
+										// requirements
 					}
 					if(predicate != null) {
 						return predicate.match(eObj) ? dObj : null;
@@ -102,7 +104,14 @@ public class DummyInputContentProvider extends AdapterFactoryContentProvider {
 		if(object instanceof DummyInput) {
 			return true;
 		} else if(object instanceof DummyObject) {
-			return super.hasChildren(((DummyObject)object).getEobj());
+			EObject eobj = ((DummyObject)object).getEobj();
+			if(eobj instanceof RequirementSource) {
+				return !((RequirementSource)eobj).getRequirements().isEmpty();
+			}
+			if(eobj instanceof Section) {
+				return !((Section)eobj).getChildren().isEmpty();
+			}
+			return false;
 		}
 		return super.hasChildren(object);
 	}

@@ -18,6 +18,7 @@ import RequirementSourceData.SimpleRequirement;
  * <!-- begin-user-doc -->
  * An implementation of the model <b>Factory</b>.
  * <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class RequirementSourceDataFactoryImpl extends EFactoryImpl implements RequirementSourceDataFactory {
@@ -26,16 +27,16 @@ public class RequirementSourceDataFactoryImpl extends EFactoryImpl implements Re
 	 * Creates the default factory implementation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public static RequirementSourceDataFactory init() {
 		try {
 			RequirementSourceDataFactory theRequirementSourceDataFactory = (RequirementSourceDataFactory)EPackage.Registry.INSTANCE.getEFactory(RequirementSourceDataPackage.eNS_URI);
-			if (theRequirementSourceDataFactory != null) {
+			if(theRequirementSourceDataFactory != null) {
 				return theRequirementSourceDataFactory;
 			}
-		}
-		catch (Exception exception) {
+		} catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new RequirementSourceDataFactoryImpl();
@@ -45,6 +46,7 @@ public class RequirementSourceDataFactoryImpl extends EFactoryImpl implements Re
 	 * Creates an instance of the factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public RequirementSourceDataFactoryImpl() {
@@ -54,23 +56,29 @@ public class RequirementSourceDataFactoryImpl extends EFactoryImpl implements Re
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID()) {
-			case RequirementSourceDataPackage.SECTION: return createSection();
-			case RequirementSourceDataPackage.SIMPLE_REQUIREMENT: return createSimpleRequirement();
-			case RequirementSourceDataPackage.REQUIREMENT: return createRequirement();
-			case RequirementSourceDataPackage.REQUIREMENTS_CONTAINER: return createRequirementsContainer();
-			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+		switch(eClass.getClassifierID()) {
+		case RequirementSourceDataPackage.SECTION:
+			return createSection();
+		case RequirementSourceDataPackage.SIMPLE_REQUIREMENT:
+			return createSimpleRequirement();
+		case RequirementSourceDataPackage.REQUIREMENT:
+			return createRequirement();
+		case RequirementSourceDataPackage.REQUIREMENTS_CONTAINER:
+			return createRequirementsContainer();
+		default:
+			throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -82,6 +90,7 @@ public class RequirementSourceDataFactoryImpl extends EFactoryImpl implements Re
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -93,6 +102,7 @@ public class RequirementSourceDataFactoryImpl extends EFactoryImpl implements Re
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -104,6 +114,7 @@ public class RequirementSourceDataFactoryImpl extends EFactoryImpl implements Re
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public RequirementsContainer createRequirementsContainer() {
@@ -114,6 +125,7 @@ public class RequirementSourceDataFactoryImpl extends EFactoryImpl implements Re
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -124,6 +136,7 @@ public class RequirementSourceDataFactoryImpl extends EFactoryImpl implements Re
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @deprecated
 	 * @generated
 	 */

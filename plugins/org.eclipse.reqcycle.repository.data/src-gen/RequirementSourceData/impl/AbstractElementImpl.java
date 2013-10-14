@@ -20,20 +20,22 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link RequirementSourceData.impl.AbstractElementImpl#getId <em>Id</em>}</li>
- *   <li>{@link RequirementSourceData.impl.AbstractElementImpl#getName <em>Name</em>}</li>
- *   <li>{@link RequirementSourceData.impl.AbstractElementImpl#getUri <em>Uri</em>}</li>
- *   <li>{@link RequirementSourceData.impl.AbstractElementImpl#getScopes <em>Scopes</em>}</li>
+ * <li>{@link RequirementSourceData.impl.AbstractElementImpl#getId <em>Id</em>}</li>
+ * <li>{@link RequirementSourceData.impl.AbstractElementImpl#getName <em>Name</em>}</li>
+ * <li>{@link RequirementSourceData.impl.AbstractElementImpl#getUri <em>Uri</em>}</li>
+ * <li>{@link RequirementSourceData.impl.AbstractElementImpl#getScopes <em>Scopes</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public abstract class AbstractElementImpl extends MinimalEObjectImpl.Container implements AbstractElement {
+
 	/**
 	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @see #getId()
 	 * @generated
 	 * @ordered
@@ -44,6 +46,7 @@ public abstract class AbstractElementImpl extends MinimalEObjectImpl.Container i
 	 * The cached value of the '{@link #getId() <em>Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @see #getId()
 	 * @generated
 	 * @ordered
@@ -54,6 +57,7 @@ public abstract class AbstractElementImpl extends MinimalEObjectImpl.Container i
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -64,6 +68,7 @@ public abstract class AbstractElementImpl extends MinimalEObjectImpl.Container i
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -74,6 +79,7 @@ public abstract class AbstractElementImpl extends MinimalEObjectImpl.Container i
 	 * The default value of the '{@link #getUri() <em>Uri</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @see #getUri()
 	 * @generated
 	 * @ordered
@@ -84,6 +90,7 @@ public abstract class AbstractElementImpl extends MinimalEObjectImpl.Container i
 	 * The cached value of the '{@link #getUri() <em>Uri</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @see #getUri()
 	 * @generated
 	 * @ordered
@@ -94,6 +101,7 @@ public abstract class AbstractElementImpl extends MinimalEObjectImpl.Container i
 	 * The cached value of the '{@link #getScopes() <em>Scopes</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @see #getScopes()
 	 * @generated
 	 * @ordered
@@ -103,6 +111,7 @@ public abstract class AbstractElementImpl extends MinimalEObjectImpl.Container i
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected AbstractElementImpl() {
@@ -112,6 +121,7 @@ public abstract class AbstractElementImpl extends MinimalEObjectImpl.Container i
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -122,6 +132,7 @@ public abstract class AbstractElementImpl extends MinimalEObjectImpl.Container i
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String getId() {
@@ -131,18 +142,20 @@ public abstract class AbstractElementImpl extends MinimalEObjectImpl.Container i
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setId(String newId) {
 		String oldId = id;
 		id = newId;
-		if (eNotificationRequired())
+		if(eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, RequirementSourceDataPackage.ABSTRACT_ELEMENT__ID, oldId, id));
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String getName() {
@@ -152,18 +165,20 @@ public abstract class AbstractElementImpl extends MinimalEObjectImpl.Container i
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
-		if (eNotificationRequired())
+		if(eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, RequirementSourceDataPackage.ABSTRACT_ELEMENT__NAME, oldName, name));
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String getUri() {
@@ -173,22 +188,24 @@ public abstract class AbstractElementImpl extends MinimalEObjectImpl.Container i
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setUri(String newUri) {
 		String oldUri = uri;
 		uri = newUri;
-		if (eNotificationRequired())
+		if(eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, RequirementSourceDataPackage.ABSTRACT_ELEMENT__URI, oldUri, uri));
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EList<Scope> getScopes() {
-		if (scopes == null) {
+		if(scopes == null) {
 			scopes = new EObjectResolvingEList<Scope>(Scope.class, this, RequirementSourceDataPackage.ABSTRACT_ELEMENT__SCOPES);
 		}
 		return scopes;
@@ -197,19 +214,20 @@ public abstract class AbstractElementImpl extends MinimalEObjectImpl.Container i
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case RequirementSourceDataPackage.ABSTRACT_ELEMENT__ID:
-				return getId();
-			case RequirementSourceDataPackage.ABSTRACT_ELEMENT__NAME:
-				return getName();
-			case RequirementSourceDataPackage.ABSTRACT_ELEMENT__URI:
-				return getUri();
-			case RequirementSourceDataPackage.ABSTRACT_ELEMENT__SCOPES:
-				return getScopes();
+		switch(featureID) {
+		case RequirementSourceDataPackage.ABSTRACT_ELEMENT__ID:
+			return getId();
+		case RequirementSourceDataPackage.ABSTRACT_ELEMENT__NAME:
+			return getName();
+		case RequirementSourceDataPackage.ABSTRACT_ELEMENT__URI:
+			return getUri();
+		case RequirementSourceDataPackage.ABSTRACT_ELEMENT__SCOPES:
+			return getScopes();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -217,25 +235,26 @@ public abstract class AbstractElementImpl extends MinimalEObjectImpl.Container i
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case RequirementSourceDataPackage.ABSTRACT_ELEMENT__ID:
-				setId((String)newValue);
-				return;
-			case RequirementSourceDataPackage.ABSTRACT_ELEMENT__NAME:
-				setName((String)newValue);
-				return;
-			case RequirementSourceDataPackage.ABSTRACT_ELEMENT__URI:
-				setUri((String)newValue);
-				return;
-			case RequirementSourceDataPackage.ABSTRACT_ELEMENT__SCOPES:
-				getScopes().clear();
-				getScopes().addAll((Collection<? extends Scope>)newValue);
-				return;
+		switch(featureID) {
+		case RequirementSourceDataPackage.ABSTRACT_ELEMENT__ID:
+			setId((String)newValue);
+			return;
+		case RequirementSourceDataPackage.ABSTRACT_ELEMENT__NAME:
+			setName((String)newValue);
+			return;
+		case RequirementSourceDataPackage.ABSTRACT_ELEMENT__URI:
+			setUri((String)newValue);
+			return;
+		case RequirementSourceDataPackage.ABSTRACT_ELEMENT__SCOPES:
+			getScopes().clear();
+			getScopes().addAll((Collection<? extends Scope>)newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -243,23 +262,24 @@ public abstract class AbstractElementImpl extends MinimalEObjectImpl.Container i
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID) {
-			case RequirementSourceDataPackage.ABSTRACT_ELEMENT__ID:
-				setId(ID_EDEFAULT);
-				return;
-			case RequirementSourceDataPackage.ABSTRACT_ELEMENT__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case RequirementSourceDataPackage.ABSTRACT_ELEMENT__URI:
-				setUri(URI_EDEFAULT);
-				return;
-			case RequirementSourceDataPackage.ABSTRACT_ELEMENT__SCOPES:
-				getScopes().clear();
-				return;
+		switch(featureID) {
+		case RequirementSourceDataPackage.ABSTRACT_ELEMENT__ID:
+			setId(ID_EDEFAULT);
+			return;
+		case RequirementSourceDataPackage.ABSTRACT_ELEMENT__NAME:
+			setName(NAME_EDEFAULT);
+			return;
+		case RequirementSourceDataPackage.ABSTRACT_ELEMENT__URI:
+			setUri(URI_EDEFAULT);
+			return;
+		case RequirementSourceDataPackage.ABSTRACT_ELEMENT__SCOPES:
+			getScopes().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -267,19 +287,20 @@ public abstract class AbstractElementImpl extends MinimalEObjectImpl.Container i
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case RequirementSourceDataPackage.ABSTRACT_ELEMENT__ID:
-				return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
-			case RequirementSourceDataPackage.ABSTRACT_ELEMENT__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case RequirementSourceDataPackage.ABSTRACT_ELEMENT__URI:
-				return URI_EDEFAULT == null ? uri != null : !URI_EDEFAULT.equals(uri);
-			case RequirementSourceDataPackage.ABSTRACT_ELEMENT__SCOPES:
-				return scopes != null && !scopes.isEmpty();
+		switch(featureID) {
+		case RequirementSourceDataPackage.ABSTRACT_ELEMENT__ID:
+			return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
+		case RequirementSourceDataPackage.ABSTRACT_ELEMENT__NAME:
+			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+		case RequirementSourceDataPackage.ABSTRACT_ELEMENT__URI:
+			return URI_EDEFAULT == null ? uri != null : !URI_EDEFAULT.equals(uri);
+		case RequirementSourceDataPackage.ABSTRACT_ELEMENT__SCOPES:
+			return scopes != null && !scopes.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -287,11 +308,13 @@ public abstract class AbstractElementImpl extends MinimalEObjectImpl.Container i
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if(eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (id: ");

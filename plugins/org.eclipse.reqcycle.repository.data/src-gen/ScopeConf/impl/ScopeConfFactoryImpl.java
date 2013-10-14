@@ -16,23 +16,25 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
  * <!-- begin-user-doc -->
  * An implementation of the model <b>Factory</b>.
  * <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class ScopeConfFactoryImpl extends EFactoryImpl implements ScopeConfFactory {
+
 	/**
 	 * Creates the default factory implementation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public static ScopeConfFactory init() {
 		try {
 			ScopeConfFactory theScopeConfFactory = (ScopeConfFactory)EPackage.Registry.INSTANCE.getEFactory(ScopeConfPackage.eNS_URI);
-			if (theScopeConfFactory != null) {
+			if(theScopeConfFactory != null) {
 				return theScopeConfFactory;
 			}
-		}
-		catch (Exception exception) {
+		} catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new ScopeConfFactoryImpl();
@@ -42,6 +44,7 @@ public class ScopeConfFactoryImpl extends EFactoryImpl implements ScopeConfFacto
 	 * Creates an instance of the factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public ScopeConfFactoryImpl() {
@@ -51,21 +54,25 @@ public class ScopeConfFactoryImpl extends EFactoryImpl implements ScopeConfFacto
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID()) {
-			case ScopeConfPackage.SCOPES: return createScopes();
-			case ScopeConfPackage.SCOPE: return createScope();
-			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+		switch(eClass.getClassifierID()) {
+		case ScopeConfPackage.SCOPES:
+			return createScopes();
+		case ScopeConfPackage.SCOPE:
+			return createScope();
+		default:
+			throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Scopes createScopes() {
@@ -76,6 +83,7 @@ public class ScopeConfFactoryImpl extends EFactoryImpl implements ScopeConfFacto
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Scope createScope() {
@@ -86,6 +94,7 @@ public class ScopeConfFactoryImpl extends EFactoryImpl implements ScopeConfFacto
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public ScopeConfPackage getScopeConfPackage() {
@@ -95,6 +104,7 @@ public class ScopeConfFactoryImpl extends EFactoryImpl implements ScopeConfFacto
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @deprecated
 	 * @generated
 	 */

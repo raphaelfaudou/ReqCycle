@@ -58,7 +58,7 @@ public class SelectRequirementSourcesAction extends Action {
 	}
 
 	protected Collection<RequirementSource> openRequirementSourceChooser(Collection<RequirementSource> initialSelection) {
-		Set<RequirementSource> repositories = requirementSourceManager.getRequirementSource();
+		Set<RequirementSource> repositories = requirementSourceManager.getRequirementSources();
 
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		CheckBoxInputDialog dialog = new CheckBoxInputDialog(Display.getDefault().getActiveShell(), "Requirement filtering", "Select Requirement Sources to filter", repositories, null, (Collection)initialSelection);

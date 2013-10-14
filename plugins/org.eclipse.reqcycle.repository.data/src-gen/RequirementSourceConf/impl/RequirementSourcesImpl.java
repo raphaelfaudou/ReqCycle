@@ -25,10 +25,10 @@ import RequirementSourceConf.RequirementSources;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link RequirementSourceConf.impl.RequirementSourcesImpl#getRequirementSources <em>Requirement Sources</em>}</li>
+ * <li>{@link RequirementSourceConf.impl.RequirementSourcesImpl#getRequirementSources <em>Requirement Sources</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class RequirementSourcesImpl extends MinimalEObjectImpl.Container implements RequirementSources {
@@ -37,6 +37,7 @@ public class RequirementSourcesImpl extends MinimalEObjectImpl.Container impleme
 	 * The cached value of the '{@link #getRequirementSources() <em>Requirement Sources</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @see #getRequirementSources()
 	 * @generated
 	 * @ordered
@@ -46,6 +47,7 @@ public class RequirementSourcesImpl extends MinimalEObjectImpl.Container impleme
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected RequirementSourcesImpl() {
@@ -55,6 +57,7 @@ public class RequirementSourcesImpl extends MinimalEObjectImpl.Container impleme
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -65,11 +68,12 @@ public class RequirementSourcesImpl extends MinimalEObjectImpl.Container impleme
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<RequirementSource> getRequirementSources() {
-		if (requirementSources == null) {
+		if(requirementSources == null) {
 			requirementSources = new EObjectContainmentEList<RequirementSource>(RequirementSource.class, this, RequirementSourceConfPackage.REQUIREMENT_SOURCES__REQUIREMENT_SOURCES);
 		}
 		return requirementSources;
@@ -78,13 +82,14 @@ public class RequirementSourcesImpl extends MinimalEObjectImpl.Container impleme
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case RequirementSourceConfPackage.REQUIREMENT_SOURCES__REQUIREMENT_SOURCES:
-				return ((InternalEList<?>)getRequirementSources()).basicRemove(otherEnd, msgs);
+		switch(featureID) {
+		case RequirementSourceConfPackage.REQUIREMENT_SOURCES__REQUIREMENT_SOURCES:
+			return ((InternalEList<?>)getRequirementSources()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -92,13 +97,14 @@ public class RequirementSourcesImpl extends MinimalEObjectImpl.Container impleme
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case RequirementSourceConfPackage.REQUIREMENT_SOURCES__REQUIREMENT_SOURCES:
-				return getRequirementSources();
+		switch(featureID) {
+		case RequirementSourceConfPackage.REQUIREMENT_SOURCES__REQUIREMENT_SOURCES:
+			return getRequirementSources();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -106,16 +112,17 @@ public class RequirementSourcesImpl extends MinimalEObjectImpl.Container impleme
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case RequirementSourceConfPackage.REQUIREMENT_SOURCES__REQUIREMENT_SOURCES:
-				getRequirementSources().clear();
-				getRequirementSources().addAll((Collection<? extends RequirementSource>)newValue);
-				return;
+		switch(featureID) {
+		case RequirementSourceConfPackage.REQUIREMENT_SOURCES__REQUIREMENT_SOURCES:
+			getRequirementSources().clear();
+			getRequirementSources().addAll((Collection<? extends RequirementSource>)newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -123,14 +130,15 @@ public class RequirementSourcesImpl extends MinimalEObjectImpl.Container impleme
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID) {
-			case RequirementSourceConfPackage.REQUIREMENT_SOURCES__REQUIREMENT_SOURCES:
-				getRequirementSources().clear();
-				return;
+		switch(featureID) {
+		case RequirementSourceConfPackage.REQUIREMENT_SOURCES__REQUIREMENT_SOURCES:
+			getRequirementSources().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -138,13 +146,14 @@ public class RequirementSourcesImpl extends MinimalEObjectImpl.Container impleme
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case RequirementSourceConfPackage.REQUIREMENT_SOURCES__REQUIREMENT_SOURCES:
-				return requirementSources != null && !requirementSources.isEmpty();
+		switch(featureID) {
+		case RequirementSourceConfPackage.REQUIREMENT_SOURCES__REQUIREMENT_SOURCES:
+			return requirementSources != null && !requirementSources.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

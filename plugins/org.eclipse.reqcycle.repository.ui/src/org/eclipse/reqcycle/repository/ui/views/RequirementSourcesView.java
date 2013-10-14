@@ -40,14 +40,15 @@ import org.eclipse.reqcycle.repository.connector.IConnectorManager;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
 import org.eclipse.reqcycle.repository.data.IDataManager;
 import org.eclipse.reqcycle.repository.data.IDataTopics;
+import org.eclipse.reqcycle.repository.data.util.IRequirementSourceProperties;
 import org.eclipse.reqcycle.repository.ui.Activator;
 import org.eclipse.reqcycle.repository.ui.Messages;
 import org.eclipse.reqcycle.repository.ui.actions.AddRequirementSourceAction;
 import org.eclipse.reqcycle.repository.ui.actions.DeleteRequirementSourceAction;
 import org.eclipse.reqcycle.repository.ui.actions.EditMappingAction;
-import org.eclipse.reqcycle.repository.ui.actions.OpenFilteredRequirementViewAction;
+import org.eclipse.reqcycle.repository.ui.actions.OpenRequirementViewAction;
 import org.eclipse.reqcycle.repository.ui.actions.RefreshViewAction;
-import org.eclipse.reqcycle.repository.ui.actions.SynchronizeRequirementSourceActionStub;
+import org.eclipse.reqcycle.repository.ui.actions.SynchronizeRequirementSourceAction;
 import org.eclipse.reqcycle.repository.ui.providers.RequirementSourceContentProvider;
 import org.eclipse.reqcycle.repository.ui.providers.RequirementSourceLabelProvider;
 import org.eclipse.swt.SWT;
@@ -100,7 +101,7 @@ public class RequirementSourcesView extends ViewPart {
 	//	private OpenPredicatesEditorAction openPredicatesEditorAction;
 
 	/** Open Predicates View Action */
-	private OpenFilteredRequirementViewAction openPredicatesViewAction;
+	private OpenRequirementViewAction openRequirementViewAction;
 
 	/** Add location icon */
 	private static final String ICON_ADD_LOCATION = Messages.ADD_RESOURCE_ICON;
@@ -131,6 +132,7 @@ public class RequirementSourcesView extends ViewPart {
 		//		connectorManager = ZigguratInject.make(IConnectorManager.class);
 		//		logger = ZigguratInject.make(ILogger.class);
 		//		requirementSourceManager = ZigguratInject.make(IDataManager.class);
+		super();
 		ZigguratInject.inject(this);
 	}
 
@@ -232,6 +234,14 @@ public class RequirementSourcesView extends ViewPart {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				ISelection selection = event.getSelection();
+				if(selection instanceof IStructuredSelection) {
+					Object element = ((IStructuredSelection)selection).getFirstElement();
+					if(element instanceof RequirementSource) {
+						RequirementSource source = (RequirementSource)element;
+						synchResourceAction.setEnabled(Boolean.parseBoolean(source.getProperty(IRequirementSourceProperties.IS_LOCAL)));
+					}
+
+				}
 				refreshButton(selection);
 			}
 		});
@@ -274,10 +284,10 @@ public class RequirementSourcesView extends ViewPart {
 		manager.add(addRepoAction);
 		manager.add(new Separator());
 		manager.add(deleteRequirementSourceAction);
+		//		manager.add(new Separator());
+		//		manager.add(synchResourceAction);
 		manager.add(new Separator());
-		manager.add(synchResourceAction);
-		manager.add(new Separator());
-		manager.add(openPredicatesViewAction);
+		manager.add(openRequirementViewAction);
 	}
 
 	/**
@@ -291,7 +301,7 @@ public class RequirementSourcesView extends ViewPart {
 		manager.add(deleteRequirementSourceAction);
 		manager.add(synchResourceAction);
 		manager.add(editMappingAction);
-		manager.add(openPredicatesViewAction);
+		manager.add(openRequirementViewAction);
 		manager.add(new Separator());
 		drillDownAdapter.addNavigationActions(manager);
 		// Other plug-ins can contribute there actions here
@@ -307,7 +317,7 @@ public class RequirementSourcesView extends ViewPart {
 	private void fillLocalToolBar(IToolBarManager manager) {
 		manager.add(addRepoAction);
 		manager.add(deleteRequirementSourceAction);
-		manager.add(synchResourceAction);
+		//		manager.add(synchResourceAction);
 		manager.add(refreshViewAction);
 		manager.add(new Separator());
 		drillDownAdapter.addNavigationActions(manager);
@@ -336,12 +346,12 @@ public class RequirementSourcesView extends ViewPart {
 		//		openPredicatesEditorAction.setToolTipText("Open Predicates Editor");
 		//		openPredicatesEditorAction.setImageDescriptor(Activator.getImageDescriptor(ICON_OPEN)); // TODO: replace icon
 
-		openPredicatesViewAction = new OpenFilteredRequirementViewAction(viewer);
-		openPredicatesViewAction.setText("Open Filtered Requirements View");
-		openPredicatesViewAction.setToolTipText("Open Filtered Requirements View");
-		openPredicatesViewAction.setImageDescriptor(Activator.getImageDescriptor(ICON_OPEN)); // TODO: replace icon
+		openRequirementViewAction = new OpenRequirementViewAction(viewer);
+		openRequirementViewAction.setText("Open Requirements View");
+		openRequirementViewAction.setToolTipText("Open Requirements View");
+		openRequirementViewAction.setImageDescriptor(Activator.getImageDescriptor(ICON_OPEN)); // TODO: replace icon
 
-		synchResourceAction = new SynchronizeRequirementSourceActionStub(viewer);
+		synchResourceAction = new SynchronizeRequirementSourceAction(viewer);
 		ZigguratInject.inject(synchResourceAction);
 		synchResourceAction.setText(Messages.SYNC_RESOURCE_TEXT);
 		synchResourceAction.setToolTipText("Synchronization not available");//Messages.SYNC_RESOURCE_TEXT);

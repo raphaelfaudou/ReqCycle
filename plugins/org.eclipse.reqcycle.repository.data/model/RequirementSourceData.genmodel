@@ -8,7 +8,8 @@
     editorPluginID="org.eclipse.reqcycle.repository.connector.local" usedGenPackages="ScopeConf.genmodel#//ScopeConf"
     classNamePattern="" operationReflection="true" importOrganizing="true">
   <foreignModel>RequirementSourceData.ecore</foreignModel>
-  <genPackages prefix="RequirementSourceData" disposableProviderFactory="true" ecorePackage="RequirementSourceData.ecore#/">
+  <genPackages prefix="RequirementSourceData" resource="XMI" disposableProviderFactory="true"
+      ecorePackage="RequirementSourceData.ecore#/">
     <genClasses image="false" ecoreClass="RequirementSourceData.ecore#//AbstractElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RequirementSourceData.ecore#//AbstractElement/id"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RequirementSourceData.ecore#//AbstractElement/name"/>

@@ -16,23 +16,25 @@ import RequirementSourceConf.RequirementSourceConfPackage;
  * <!-- begin-user-doc -->
  * An implementation of the model <b>Factory</b>.
  * <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class RequirementSourceConfFactoryImpl extends EFactoryImpl implements RequirementSourceConfFactory {
+
 	/**
 	 * Creates the default factory implementation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public static RequirementSourceConfFactory init() {
 		try {
 			RequirementSourceConfFactory theRequirementSourceConfFactory = (RequirementSourceConfFactory)EPackage.Registry.INSTANCE.getEFactory(RequirementSourceConfPackage.eNS_URI);
-			if (theRequirementSourceConfFactory != null) {
+			if(theRequirementSourceConfFactory != null) {
 				return theRequirementSourceConfFactory;
 			}
-		}
-		catch (Exception exception) {
+		} catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new RequirementSourceConfFactoryImpl();
@@ -42,6 +44,7 @@ public class RequirementSourceConfFactoryImpl extends EFactoryImpl implements Re
 	 * Creates an instance of the factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public RequirementSourceConfFactoryImpl() {
@@ -51,21 +54,25 @@ public class RequirementSourceConfFactoryImpl extends EFactoryImpl implements Re
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID()) {
-			case RequirementSourceConfPackage.REQUIREMENT_SOURCES: return createRequirementSources();
-			case RequirementSourceConfPackage.REQUIREMENT_SOURCE: return createRequirementSource();
-			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+		switch(eClass.getClassifierID()) {
+		case RequirementSourceConfPackage.REQUIREMENT_SOURCES:
+			return createRequirementSources();
+		case RequirementSourceConfPackage.REQUIREMENT_SOURCE:
+			return createRequirementSource();
+		default:
+			throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public RequirementSources createRequirementSources() {
@@ -76,6 +83,7 @@ public class RequirementSourceConfFactoryImpl extends EFactoryImpl implements Re
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public RequirementSource createRequirementSource() {
@@ -86,6 +94,7 @@ public class RequirementSourceConfFactoryImpl extends EFactoryImpl implements Re
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public RequirementSourceConfPackage getRequirementSourceConfPackage() {
@@ -95,6 +104,7 @@ public class RequirementSourceConfFactoryImpl extends EFactoryImpl implements Re
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @deprecated
 	 * @generated
 	 */

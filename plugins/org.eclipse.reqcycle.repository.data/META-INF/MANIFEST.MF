@@ -26,7 +26,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ziggurat.inject,
  org.eclipse.e4.core.services,
  org.eclipse.ui.ide,
- org.eclipse.e4.ui.di
+ org.eclipse.e4.ui.di,
+ org.eclipse.team.svn.core,
+ org.eclipse.emf.workspace;bundle-version="1.5.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: MappingModel,
  MappingModel.impl,

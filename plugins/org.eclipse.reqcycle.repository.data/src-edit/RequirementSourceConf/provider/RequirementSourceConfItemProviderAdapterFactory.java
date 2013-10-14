@@ -30,13 +30,16 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
  * Note that most of the adapters are shared among multiple instances.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class RequirementSourceConfItemProviderAdapterFactory extends RequirementSourceConfAdapterFactory implements ComposeableAdapterFactory, IChangeNotifier, IDisposable {
+
 	/**
 	 * This keeps track of the root adapter factory that delegates to this adapter factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected ComposedAdapterFactory parentAdapterFactory;
@@ -45,6 +48,7 @@ public class RequirementSourceConfItemProviderAdapterFactory extends Requirement
 	 * This is used to implement {@link org.eclipse.emf.edit.provider.IChangeNotifier}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected IChangeNotifier changeNotifier = new ChangeNotifier();
@@ -53,6 +57,7 @@ public class RequirementSourceConfItemProviderAdapterFactory extends Requirement
 	 * This keeps track of all the supported types checked by {@link #isFactoryForType isFactoryForType}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected Collection<Object> supportedTypes = new ArrayList<Object>();
@@ -61,6 +66,7 @@ public class RequirementSourceConfItemProviderAdapterFactory extends Requirement
 	 * This constructs an instance.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public RequirementSourceConfItemProviderAdapterFactory() {
@@ -75,6 +81,7 @@ public class RequirementSourceConfItemProviderAdapterFactory extends Requirement
 	 * This keeps track of the one adapter used for all {@link RequirementSourceConf.RequirementSources} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected RequirementSourcesItemProvider requirementSourcesItemProvider;
@@ -83,11 +90,12 @@ public class RequirementSourceConfItemProviderAdapterFactory extends Requirement
 	 * This creates an adapter for a {@link RequirementSourceConf.RequirementSources}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public Adapter createRequirementSourcesAdapter() {
-		if (requirementSourcesItemProvider == null) {
+		if(requirementSourcesItemProvider == null) {
 			requirementSourcesItemProvider = new RequirementSourcesItemProvider(this);
 		}
 
@@ -98,6 +106,7 @@ public class RequirementSourceConfItemProviderAdapterFactory extends Requirement
 	 * This keeps track of the one adapter used for all {@link RequirementSourceConf.RequirementSource} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected RequirementSourceItemProvider requirementSourceItemProvider;
@@ -106,11 +115,12 @@ public class RequirementSourceConfItemProviderAdapterFactory extends Requirement
 	 * This creates an adapter for a {@link RequirementSourceConf.RequirementSource}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public Adapter createRequirementSourceAdapter() {
-		if (requirementSourceItemProvider == null) {
+		if(requirementSourceItemProvider == null) {
 			requirementSourceItemProvider = new RequirementSourceItemProvider(this);
 		}
 
@@ -121,6 +131,7 @@ public class RequirementSourceConfItemProviderAdapterFactory extends Requirement
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public ComposeableAdapterFactory getRootAdapterFactory() {
@@ -131,6 +142,7 @@ public class RequirementSourceConfItemProviderAdapterFactory extends Requirement
 	 * This sets the composed adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setParentAdapterFactory(ComposedAdapterFactory parentAdapterFactory) {
@@ -140,6 +152,7 @@ public class RequirementSourceConfItemProviderAdapterFactory extends Requirement
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -151,6 +164,7 @@ public class RequirementSourceConfItemProviderAdapterFactory extends Requirement
 	 * This implementation substitutes the factory itself as the key for the adapter.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -161,13 +175,14 @@ public class RequirementSourceConfItemProviderAdapterFactory extends Requirement
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public Object adapt(Object object, Object type) {
-		if (isFactoryForType(type)) {
+		if(isFactoryForType(type)) {
 			Object adapter = super.adapt(object, type);
-			if (!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter))) {
+			if(!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter))) {
 				return adapter;
 			}
 		}
@@ -179,6 +194,7 @@ public class RequirementSourceConfItemProviderAdapterFactory extends Requirement
 	 * This adds a listener.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void addListener(INotifyChangedListener notifyChangedListener) {
@@ -189,6 +205,7 @@ public class RequirementSourceConfItemProviderAdapterFactory extends Requirement
 	 * This removes a listener.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void removeListener(INotifyChangedListener notifyChangedListener) {
@@ -199,25 +216,29 @@ public class RequirementSourceConfItemProviderAdapterFactory extends Requirement
 	 * This delegates to {@link #changeNotifier} and to {@link #parentAdapterFactory}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void fireNotifyChanged(Notification notification) {
 		changeNotifier.fireNotifyChanged(notification);
 
-		if (parentAdapterFactory != null) {
+		if(parentAdapterFactory != null) {
 			parentAdapterFactory.fireNotifyChanged(notification);
 		}
 	}
 
 	/**
-	 * This disposes all of the item providers created by this factory. 
+	 * This disposes all of the item providers created by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void dispose() {
-		if (requirementSourcesItemProvider != null) requirementSourcesItemProvider.dispose();
-		if (requirementSourceItemProvider != null) requirementSourceItemProvider.dispose();
+		if(requirementSourcesItemProvider != null)
+			requirementSourcesItemProvider.dispose();
+		if(requirementSourceItemProvider != null)
+			requirementSourceItemProvider.dispose();
 	}
 
 }

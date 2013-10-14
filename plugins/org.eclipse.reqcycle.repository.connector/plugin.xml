@@ -28,7 +28,7 @@
    <extension point="org.eclipse.emf.ecore.extension_parser">
       <!-- @generated RequirementSourceConf -->
       <parser
-            type="RequirementSourceConf"
+            type="data"
             class="RequirementSourceConf.util.RequirementSourceConfResourceFactoryImpl"/>
    </extension>
 

@@ -27,15 +27,20 @@ import org.eclipse.swt.widgets.Table;
 public class DataModelUiManager implements IDataModelUiManager {
 
 	protected Listener listener;
+
 	protected Collection<IDataModel> inputModels;
+
 	protected Button btnAddModel;
+
 	protected Button btnEditModel;
+
 	protected Collection<Listener> listeners = new ArrayList<Listener>();
+
 	protected Collection<TableViewer> viewers = new ArrayList<TableViewer>();
-	
+
 	@Inject
 	IDataModelManager dataModelManager;
-	
+
 	@Inject
 	public DataModelUiManager(IDataModelManager dataModelManager) {
 		this.dataModelManager = dataModelManager;
@@ -46,8 +51,8 @@ public class DataModelUiManager implements IDataModelUiManager {
 		inputModels = new ArrayList<IDataModel>();
 		inputModels.addAll(dataModelManager.getAllDataModels());
 	}
-	
-	
+
+
 	public TableViewer createDataModelTableViewer(Composite parent, TableColumnLayout packagesTVLayout) {
 
 		//Table Viewer
@@ -75,16 +80,16 @@ public class DataModelUiManager implements IDataModelUiManager {
 		tvModels.setInput(inputModels);
 
 		viewers.add(tvModels);
-		
+
 		return tvModels;
 	}
-	
+
 
 
 	public void addListener(Listener listener) {
 		listeners.add(listener);
 	}
-	
+
 	public void removeListener(Listener listener) {
 		listeners.remove(listener);
 	}

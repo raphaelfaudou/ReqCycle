@@ -14,6 +14,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -22,12 +23,13 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EStringToStringMapEntryImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.reqcycle.repository.data.util.DataUtil;
-import org.eclipse.reqcycle.repository.data.util.RepositoryConstants;
+import org.eclipse.reqcycle.repository.data.util.IRequirementSourceProperties;
 
 import MappingModel.MappingElement;
 import RequirementSourceConf.RequirementSource;
@@ -175,7 +177,7 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * 
-	 * @generated not
+	 * @generated
 	 */
 	@Override
 	public RequirementsContainer getContents() {
@@ -222,7 +224,7 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
 	 */
 	@Override
 	public String getName() {
-		String label = getProperties().get(RepositoryConstants.PROPERTY_LABEL);
+		String label = getProperties().get(IRequirementSourceProperties.PROPERTY_LABEL);
 		return label != null ? label : "No Label";
 	}
 
@@ -234,7 +236,7 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
 	 */
 	@Override
 	public void setName(String newName) {
-		getProperties().put(RepositoryConstants.PROPERTY_LABEL, newName);
+		getProperties().put(IRequirementSourceProperties.PROPERTY_LABEL, newName);
 	}
 
 	/**
@@ -259,8 +261,8 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
 	 */
 	@Override
 	public String getConnectorId() {
-		String type = getProperties().get(RepositoryConstants.PROPERTY_CONNECTOR_ID);
-		return type != null ? type : RepositoryConstants.TYPE_UNKNOWN;
+		String type = getProperties().get(IRequirementSourceProperties.PROPERTY_CONNECTOR_ID);
+		return type != null ? type : IRequirementSourceProperties.TYPE_UNKNOWN;
 	}
 
 	/**
@@ -271,7 +273,7 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
 	 */
 	@Override
 	public void setConnectorId(String newConnectorId) {
-		getProperties().put(RepositoryConstants.PROPERTY_CONNECTOR_ID, newConnectorId);
+		getProperties().put(IRequirementSourceProperties.PROPERTY_CONNECTOR_ID, newConnectorId);
 	}
 
 	/**
@@ -507,11 +509,9 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
 	@Override
 	public void setProperty(String property, String newValue) {
 		String oldValue = getProperties().get(property);
-
 		if((oldValue != null && oldValue.equals(newValue)) || (oldValue == null && newValue != null)) {
 			properties.put(property, newValue);
 			notifyChangeListeners(property, oldValue, newValue);
-
 		}
 	}
 
@@ -524,7 +524,7 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
 
 	@Override
 	public String getRepositoryUri() {
-		return getProperty(RepositoryConstants.PROPERTY_URL);
+		return getProperty(IRequirementSourceProperties.PROPERTY_URI);
 	}
 
 	@Override
@@ -614,5 +614,16 @@ public class RequirementSourceImpl extends MinimalEObjectImpl.Container implemen
 			return;
 		}
 		contents.getRequirements().clear();
+	}
+
+	@Override
+	public void setRequirementsResourceURI(URI uri) {
+		RequirementsContainer contents = getContents();
+		Resource eResource = contents.eResource();
+		if(eResource != null) {
+			eResource.setURI(uri);
+		} else {
+			this.eResource().getResourceSet();
+		}
 	}
 } //RequirementSourceImpl

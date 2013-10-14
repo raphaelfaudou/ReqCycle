@@ -24,6 +24,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -51,6 +52,7 @@ import com.google.common.collect.Maps;
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class ConfigurationManagerImpl implements IConfigurationManager {
 
+	
 	protected static final Map<?, ?> SAVE_OPTIONS = Collections.singletonMap(XMIResource.OPTION_SCHEMA_LOCATION, true);
 
 	public static final String CONF_RESOURCE_EXTENSION = "emfconf";
@@ -182,14 +184,16 @@ public class ConfigurationManagerImpl implements IConfigurationManager {
 		}
 
 		if(confFilePath == null && (scope == null || Scope.WORKSPACE.equals(scope))) {
-			confFilePath = Activator.getDefault().getStateLocation().append("/" + id + "." + extension);
+			IPath stateLocation = new Path("platform:/meta/" + Activator.PLUGIN_ID);
+			confFilePath = stateLocation.append("/" + id + "." + extension);
 		}
-
+		
 		if(confFilePath.getDevice() == null) {
 			return URI.createPlatformResourceURI(confFilePath.toOSString(), true);
 		} else {
-			return URI.createFileURI(confFilePath.toOSString());
+			return URI.createURI(confFilePath.toString());
 		}
+		
 	}
 
 	public String getConfigurationResourceExtension() {

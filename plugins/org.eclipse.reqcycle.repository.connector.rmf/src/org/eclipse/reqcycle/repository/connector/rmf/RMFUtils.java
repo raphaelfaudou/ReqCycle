@@ -62,7 +62,6 @@ import ScopeConf.Scope;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 
-
 public class RMFUtils {
 
 	static ILogger logger = ZigguratInject.make(ILogger.class);
@@ -80,7 +79,8 @@ public class RMFUtils {
 			if(content instanceof ReqIF) {
 				ReqIFContent coreContent = ((ReqIF)content).getCoreContent();
 				EList<SpecType> specTypes = coreContent.getSpecTypes();
-				//Gets SpecObjectTypes, specification elements are automatically transformed in sections
+				// Gets SpecObjectTypes, specification elements are
+				// automatically transformed in sections
 				return Collections2.filter(specTypes, new Predicate<SpecType>() {
 
 					@Override
@@ -119,19 +119,25 @@ public class RMFUtils {
 					EList<SpecHierarchy> specHierarchies = specification.getChildren();
 					Collection<AbstractElement> children = createChildren(specHierarchies, mapping, scope);
 
-					//					ElementMapping elementMapping = DataUtil.getElementMapping(mapping, specification.getType().getIdentifier());
+					// ElementMapping elementMapping =
+					// DataUtil.getElementMapping(mapping,
+					// specification.getType().getIdentifier());
 
-					String id = specification.getLongName();//getID(elementMapping, specification);
-					String name = specification.getDesc();//getName(elementMapping, specification);
+					String id = specification.getLongName();// getID(elementMapping,
+															// specification);
+					String name = specification.getDesc();// getName(elementMapping,
+															// specification);
 
 					AbstractElement section = null;
 					section = dataManager.createSection(id, name, ReqIF10Util.getSpecType(specification).getIdentifier());
-					//						section = creator.createSection(id, name, ReqIF10Util.getSpecType(specification).getIdentifier());
+					// section = creator.createSection(id, name,
+					// ReqIF10Util.getSpecType(specification).getIdentifier());
 
 					if(section != null) {
 						dataManager.addElementsToSource(requirementSource, section);
-						//						requirementSource.getContents().getRequirements().add(section);
-						//						addAttributes(elementMapping, specification.getValues(), section);
+						// requirementSource.getContents().getRequirements().add(section);
+						// addAttributes(elementMapping,
+						// specification.getValues(), section);
 					}
 
 					if(children != null && !children.isEmpty()) {
@@ -170,7 +176,9 @@ public class RMFUtils {
 				}
 
 			} else {
-				//					createdObject = creator.createSection(specHierarchy.getLongName(), specHierarchy.getDesc(), specHierarchy.getIdentifier());
+				// createdObject =
+				// creator.createSection(specHierarchy.getLongName(),
+				// specHierarchy.getDesc(), specHierarchy.getIdentifier());
 				createdObject = dataManager.createSection(specHierarchy.getLongName(), specHierarchy.getDesc(), specHierarchy.getIdentifier());
 			}
 
@@ -241,7 +249,6 @@ public class RMFUtils {
 		return createdObject;
 	}
 
-
 	protected static void addAttributes(MappingElement elementMapping, Collection<AttributeValue> values, AbstractElement element) {
 		for(AttributeValue attributeValue : values) {
 
@@ -261,12 +268,14 @@ public class RMFUtils {
 
 							EEnumLiteral enumLiteral = ((EEnum)targetAttribute.getEAttributeType()).getEEnumLiteral(name);
 							element.eSet(attributeMapping.getTargetAttribute(), enumLiteral);
-							//							creator.addAttribute(attributeMapping, element, enumLiteral);
+							// creator.addAttribute(attributeMapping, element,
+							// enumLiteral);
 						}
 					}
 				}
 				element.eSet(attributeMapping.getTargetAttribute(), ReqIF10Util.getTheValue(attributeValue));
-				//				creator.addAttribute(attributeMapping, element, ReqIF10Util.getTheValue(attributeValue));
+				// creator.addAttribute(attributeMapping, element,
+				// ReqIF10Util.getTheValue(attributeValue));
 			} catch (Exception e) {
 				logger.error("Can't add the attribute " + ReqIF10Util.getAttributeDefinition(attributeValue).getIdentifier() + " to the element " + element.getName());
 			}

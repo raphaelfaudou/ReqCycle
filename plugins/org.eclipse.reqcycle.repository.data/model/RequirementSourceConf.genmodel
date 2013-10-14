@@ -7,7 +7,8 @@
     usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore MappingModel.genmodel#//MappingModel RequirementSourceData.genmodel#//RequirementSourceData ScopeConf.genmodel#//ScopeConf"
     operationReflection="true" importOrganizing="true">
   <foreignModel>RequirementSourceConf.ecore</foreignModel>
-  <genPackages prefix="RequirementSourceConf" disposableProviderFactory="true" ecorePackage="RequirementSourceConf.ecore#/">
+  <genPackages prefix="RequirementSourceConf" resource="XMI" disposableProviderFactory="true"
+      ecorePackage="RequirementSourceConf.ecore#/">
     <genClasses ecoreClass="RequirementSourceConf.ecore#//RequirementSources">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RequirementSourceConf.ecore#//RequirementSources/requirementSources"/>
     </genClasses>

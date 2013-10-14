@@ -12,22 +12,25 @@ import org.eclipse.emf.ecore.EReference;
  * The <b>Package</b> for the model.
  * It contains accessors for the meta objects to represent
  * <ul>
- *   <li>each class,</li>
- *   <li>each feature of each class,</li>
- *   <li>each operation of each class,</li>
- *   <li>each enum,</li>
- *   <li>and each data type</li>
+ * <li>each class,</li>
+ * <li>each feature of each class,</li>
+ * <li>each operation of each class,</li>
+ * <li>each enum,</li>
+ * <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
+ * 
  * @see RequirementSourceConf.RequirementSourceConfFactory
  * @model kind="package"
  * @generated
  */
 public interface RequirementSourceConfPackage extends EPackage {
+
 	/**
 	 * The package name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	String eNAME = "RequirementSourceConf";
@@ -36,6 +39,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * The package namespace URI.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	String eNS_URI = "http://www.eclipse.org/ReqCycle/RequirementSourceConf";
@@ -44,6 +48,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * The package namespace name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	String eNS_PREFIX = "RequirementSourceConf";
@@ -52,6 +57,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * The singleton instance of the package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	RequirementSourceConfPackage eINSTANCE = RequirementSourceConf.impl.RequirementSourceConfPackageImpl.init();
@@ -60,6 +66,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * The meta object id for the '{@link RequirementSourceConf.impl.RequirementSourcesImpl <em>Requirement Sources</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @see RequirementSourceConf.impl.RequirementSourcesImpl
 	 * @see RequirementSourceConf.impl.RequirementSourceConfPackageImpl#getRequirementSources()
 	 * @generated
@@ -70,6 +77,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * The feature id for the '<em><b>Requirement Sources</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -79,6 +87,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * The number of structural features of the '<em>Requirement Sources</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -88,6 +97,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * The number of operations of the '<em>Requirement Sources</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -98,6 +108,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * The meta object id for the '{@link RequirementSourceConf.impl.RequirementSourceImpl <em>Requirement Source</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @see RequirementSourceConf.impl.RequirementSourceImpl
 	 * @see RequirementSourceConf.impl.RequirementSourceConfPackageImpl#getRequirementSource()
 	 * @generated
@@ -108,6 +119,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * The feature id for the '<em><b>Contents</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -117,6 +129,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -126,6 +139,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * The feature id for the '<em><b>Properties</b></em>' map.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -135,6 +149,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * The feature id for the '<em><b>Connector Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -144,6 +159,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * The feature id for the '<em><b>Mappings</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -153,6 +169,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * The feature id for the '<em><b>Data Model URI</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -162,6 +179,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * The feature id for the '<em><b>Default Scope</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -171,6 +189,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * The number of structural features of the '<em>Requirement Source</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -180,6 +199,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * The number of operations of the '<em>Requirement Source</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -190,6 +210,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * Returns the meta object for class '{@link RequirementSourceConf.RequirementSources <em>Requirement Sources</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for class '<em>Requirement Sources</em>'.
 	 * @see RequirementSourceConf.RequirementSources
 	 * @generated
@@ -197,9 +218,11 @@ public interface RequirementSourceConfPackage extends EPackage {
 	EClass getRequirementSources();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link RequirementSourceConf.RequirementSources#getRequirementSources <em>Requirement Sources</em>}'.
+	 * Returns the meta object for the containment reference list '{@link RequirementSourceConf.RequirementSources#getRequirementSources
+	 * <em>Requirement Sources</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the containment reference list '<em>Requirement Sources</em>'.
 	 * @see RequirementSourceConf.RequirementSources#getRequirementSources()
 	 * @see #getRequirementSources()
@@ -211,6 +234,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * Returns the meta object for class '{@link RequirementSourceConf.RequirementSource <em>Requirement Source</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for class '<em>Requirement Source</em>'.
 	 * @see RequirementSourceConf.RequirementSource
 	 * @generated
@@ -221,6 +245,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * Returns the meta object for the reference '{@link RequirementSourceConf.RequirementSource#getContents <em>Contents</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the reference '<em>Contents</em>'.
 	 * @see RequirementSourceConf.RequirementSource#getContents()
 	 * @see #getRequirementSource()
@@ -232,6 +257,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * Returns the meta object for the attribute '{@link RequirementSourceConf.RequirementSource#getName <em>Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the attribute '<em>Name</em>'.
 	 * @see RequirementSourceConf.RequirementSource#getName()
 	 * @see #getRequirementSource()
@@ -243,6 +269,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * Returns the meta object for the map '{@link RequirementSourceConf.RequirementSource#getProperties <em>Properties</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the map '<em>Properties</em>'.
 	 * @see RequirementSourceConf.RequirementSource#getProperties()
 	 * @see #getRequirementSource()
@@ -254,6 +281,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * Returns the meta object for the attribute '{@link RequirementSourceConf.RequirementSource#getConnectorId <em>Connector Id</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the attribute '<em>Connector Id</em>'.
 	 * @see RequirementSourceConf.RequirementSource#getConnectorId()
 	 * @see #getRequirementSource()
@@ -265,6 +293,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * Returns the meta object for the containment reference list '{@link RequirementSourceConf.RequirementSource#getMappings <em>Mappings</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the containment reference list '<em>Mappings</em>'.
 	 * @see RequirementSourceConf.RequirementSource#getMappings()
 	 * @see #getRequirementSource()
@@ -276,6 +305,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * Returns the meta object for the attribute '{@link RequirementSourceConf.RequirementSource#getDataModelURI <em>Data Model URI</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the attribute '<em>Data Model URI</em>'.
 	 * @see RequirementSourceConf.RequirementSource#getDataModelURI()
 	 * @see #getRequirementSource()
@@ -287,6 +317,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * Returns the meta object for the reference '{@link RequirementSourceConf.RequirementSource#getDefaultScope <em>Default Scope</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the reference '<em>Default Scope</em>'.
 	 * @see RequirementSourceConf.RequirementSource#getDefaultScope()
 	 * @see #getRequirementSource()
@@ -298,6 +329,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the factory that creates the instances of the model.
 	 * @generated
 	 */
@@ -307,20 +339,23 @@ public interface RequirementSourceConfPackage extends EPackage {
 	 * <!-- begin-user-doc -->
 	 * Defines literals for the meta objects that represent
 	 * <ul>
-	 *   <li>each class,</li>
-	 *   <li>each feature of each class,</li>
-	 *   <li>each operation of each class,</li>
-	 *   <li>each enum,</li>
-	 *   <li>and each data type</li>
+	 * <li>each class,</li>
+	 * <li>each feature of each class,</li>
+	 * <li>each operation of each class,</li>
+	 * <li>each enum,</li>
+	 * <li>and each data type</li>
 	 * </ul>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	interface Literals {
+
 		/**
 		 * The meta object literal for the '{@link RequirementSourceConf.impl.RequirementSourcesImpl <em>Requirement Sources</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * 
 		 * @see RequirementSourceConf.impl.RequirementSourcesImpl
 		 * @see RequirementSourceConf.impl.RequirementSourceConfPackageImpl#getRequirementSources()
 		 * @generated
@@ -331,6 +366,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 		 * The meta object literal for the '<em><b>Requirement Sources</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		EReference REQUIREMENT_SOURCES__REQUIREMENT_SOURCES = eINSTANCE.getRequirementSources_RequirementSources();
@@ -339,6 +375,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 		 * The meta object literal for the '{@link RequirementSourceConf.impl.RequirementSourceImpl <em>Requirement Source</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * 
 		 * @see RequirementSourceConf.impl.RequirementSourceImpl
 		 * @see RequirementSourceConf.impl.RequirementSourceConfPackageImpl#getRequirementSource()
 		 * @generated
@@ -349,6 +386,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 		 * The meta object literal for the '<em><b>Contents</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		EReference REQUIREMENT_SOURCE__CONTENTS = eINSTANCE.getRequirementSource_Contents();
@@ -357,6 +395,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		EAttribute REQUIREMENT_SOURCE__NAME = eINSTANCE.getRequirementSource_Name();
@@ -365,6 +404,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 		 * The meta object literal for the '<em><b>Properties</b></em>' map feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		EReference REQUIREMENT_SOURCE__PROPERTIES = eINSTANCE.getRequirementSource_Properties();
@@ -373,6 +413,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 		 * The meta object literal for the '<em><b>Connector Id</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		EAttribute REQUIREMENT_SOURCE__CONNECTOR_ID = eINSTANCE.getRequirementSource_ConnectorId();
@@ -381,6 +422,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 		 * The meta object literal for the '<em><b>Mappings</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		EReference REQUIREMENT_SOURCE__MAPPINGS = eINSTANCE.getRequirementSource_Mappings();
@@ -389,6 +431,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 		 * The meta object literal for the '<em><b>Data Model URI</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		EAttribute REQUIREMENT_SOURCE__DATA_MODEL_URI = eINSTANCE.getRequirementSource_DataModelURI();
@@ -397,6 +440,7 @@ public interface RequirementSourceConfPackage extends EPackage {
 		 * The meta object literal for the '<em><b>Default Scope</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		EReference REQUIREMENT_SOURCE__DEFAULT_SCOPE = eINSTANCE.getRequirementSource_DefaultScope();

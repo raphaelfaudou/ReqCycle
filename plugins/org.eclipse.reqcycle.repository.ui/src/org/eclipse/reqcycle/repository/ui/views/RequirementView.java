@@ -256,7 +256,7 @@ public class RequirementView extends ViewPart implements Listener {
 	 * @param predicates
 	 *        - The collection of predicates to use for filtering the same input.
 	 */
-	public static void openNewFilteredRequirementView(final Collection<RequirementSource> sources, final Collection<IPredicate> predicates) {
+	public static void openNewRequirementView(final Collection<RequirementSource> sources, final Collection<IPredicate> predicates) {
 
 		if(!sources.isEmpty()) {
 

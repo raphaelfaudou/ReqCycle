@@ -30,6 +30,10 @@ public class EMFConfResourceFactory implements Resource.Factory {
 			return true;
 		}
 
+		
+		public EMFConfResource() {
+		}
+		
 		public EMFConfResource(URI uri) {
 			super(uri);
 		}
