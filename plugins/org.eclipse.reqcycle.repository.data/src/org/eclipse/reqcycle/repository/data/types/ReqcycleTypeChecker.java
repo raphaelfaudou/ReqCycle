@@ -60,7 +60,6 @@ public class ReqcycleTypeChecker implements IInjectedTypeChecker {
 
 		@Override
 		public boolean visit(Object o, IAdaptable adaptable) {
-			//FIXME : Scope can't be resolved, fixe this after fixing scope bug
 			found = o instanceof AbstractElement;
 			if(o instanceof AbstractElement && requirementScope != null && dataModel != null) {
 				AbstractElement type = (AbstractElement)o;
