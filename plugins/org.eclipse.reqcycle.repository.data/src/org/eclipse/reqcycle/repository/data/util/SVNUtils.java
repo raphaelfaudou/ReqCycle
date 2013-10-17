@@ -20,8 +20,11 @@ import java.io.PipedOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -29,7 +32,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.reqcycle.repository.data.IDataManager;
+import org.eclipse.reqcycle.traceability.model.Link;
+import org.eclipse.reqcycle.traceability.storage.IStorageProvider;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.team.svn.core.connector.ISVNConnector;
 import org.eclipse.team.svn.core.connector.ISVNConnector.Depth;
 import org.eclipse.team.svn.core.connector.SVNChangeStatus;
@@ -48,16 +55,23 @@ import RequirementSourceData.AbstractElement;
 import RequirementSourceData.RequirementsContainer;
 import RequirementSourceData.Section;
 
+/**
+ * The Class SVNUtils
+ * FIXME : Replace by two svn plugin, one for traceability and the other for requirements
+ */
 public class SVNUtils {
 
 	/** The svn connector factory. */
-	protected static ISVNConnectorFactory svnConnectorFactory = CoreExtensionsManager.instance().getSVNConnectorFactory();
+	static ISVNConnectorFactory svnConnectorFactory = CoreExtensionsManager.instance().getSVNConnectorFactory();
 
 	/** The data manager. */
 	static IDataManager dataManager = ZigguratInject.make(IDataManager.class);
 
+	/** The storage provider. */
+	static IStorageProvider provider = ZigguratInject.make(IStorageProvider.class);
+
 	/**
-	 * Commit.
+	 * Commits
 	 * 
 	 * @param path
 	 *        the element to commit path
@@ -67,7 +81,7 @@ public class SVNUtils {
 	 *        the commit depth
 	 * @param options
 	 *        the commit options
-	 * @return long[]
+	 * @return long[] commit result
 	 * @throws SVNConnectorException
 	 *         the SVN connector exception
 	 */
@@ -78,7 +92,7 @@ public class SVNUtils {
 	}
 
 	/**
-	 * Gets the SVN info.
+	 * Gets the resource SVN info.
 	 * 
 	 * @param resource
 	 *        the resource
@@ -142,25 +156,23 @@ public class SVNUtils {
 	 * 
 	 * @param source
 	 *        the requirement source to synchronize
+	 * @return the long[]
 	 * @throws SVNConnectorException
+	 *         the sVN connector exception
 	 * @throws IOException
-	 * @throws UnconnectedException
-	 *         the unconnected exception
-	 * @throws Exception
-	 *         the exception
+	 *         Signals that an I/O exception has occurred.
 	 */
 	public static long[] synchronizeSVNSource(RequirementSource source) throws SVNConnectorException, IOException {
-		// get requirements resource
 		Resource mainResource = source.getContents().eResource();
 		if(mainResource == null) {
-			// FIXME : Exception
+			// TODO : Exception
 			return null;
 		}
 		ResourceSet rs = mainResource.getResourceSet();
 
 		SVNChangeStatus svnInfo = SVNUtils.getSVNInfo(WorkspaceSynchronizer.getFile(mainResource));
 		if(svnInfo == null) {
-			//FIXME : Exception
+			//TODO : Exception
 			return null;
 		}
 
@@ -171,12 +183,16 @@ public class SVNUtils {
 		RequirementsContainer hRC = getFirstReqContainer(hResource);
 
 		Resource resource = wRC.eResource();
-		Collection<AbstractElement> difference = retrieveNewElement(resource, hRC.getRequirements());
+		Collection<AbstractElement> difference = getNewElement(resource, hRC.getRequirements());
 
-		moveElementToSource(mainResource, difference);
+		if(difference != null && !difference.isEmpty()) {
+			moveElementToSource(mainResource, difference);
+			dataManager.save();
+			MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Traceability", difference.size() + " links has been added from svn");
+		}
 
-		dataManager.save();
 		IFile file = WorkspaceSynchronizer.getFile(mainResource);
+
 		return commit(file.getLocationURI().getPath(), "ReqCycle Commit", Depth.infinityOrFiles(false), ISVNConnector.Options.FORCE);
 	}
 
@@ -207,7 +223,7 @@ public class SVNUtils {
 	}
 
 	/**
-	 * Gets the element not contained in the resource
+	 * Gets the element not contained in the resource.
 	 * 
 	 * @param resource
 	 *        the resource
@@ -215,7 +231,7 @@ public class SVNUtils {
 	 *        the elements
 	 * @return elements not found in the resource
 	 */
-	protected static Collection<AbstractElement> retrieveNewElement(Resource resource, Collection<AbstractElement> elements) {
+	protected static Collection<AbstractElement> getNewElement(Resource resource, Collection<AbstractElement> elements) {
 		Collection<AbstractElement> result = new ArrayList<AbstractElement>();
 		for(AbstractElement abstractElement : elements) {
 			Resource r = abstractElement.eResource();
@@ -223,7 +239,7 @@ public class SVNUtils {
 			if(resource.getEObject(fragment) == null) {
 				result.add(abstractElement);
 			} else if(abstractElement instanceof Section) {
-				result.addAll(retrieveNewElement(resource, ((Section)abstractElement).getChildren()));
+				result.addAll(getNewElement(resource, ((Section)abstractElement).getChildren()));
 			}
 		}
 		return result;
@@ -271,4 +287,93 @@ public class SVNUtils {
 		return resource;
 	}
 
+	/**
+	 * Synchronize svn traceability.
+	 * 
+	 * @param source
+	 *        the source
+	 * @return the long[]
+	 * @throws IOException
+	 *         Signals that an I/O exception has occurred.
+	 * @throws SVNConnectorException
+	 *         the sVN connector exception
+	 */
+	public static long[] synchronizeSVNTraceability(RequirementSource source) throws IOException, SVNConnectorException {
+
+		Resource resource = source.getContents().eResource();
+		if(resource == null) {
+			//TODO Exception
+			return null;
+		}
+
+		IFile file = WorkspaceSynchronizer.getFile(resource);
+		IProject project = file.getProject();
+
+		TraceabilitySynchronizer t = new TraceabilitySynchronizer(project);
+		ZigguratInject.inject(t);
+
+		IFile rdfFile = t.getFile();
+
+		if(rdfFile == null) {
+			//TODO Exception
+			return null;
+		}
+
+		Iterable<Link> links = t.getTraceabilityLinks(project);
+		SVNChangeStatus info = getSVNInfo(rdfFile);
+
+		if(info == null) {
+			//TODO : Exception
+			//Not shared
+			return null;
+		}
+
+		final InputStream inputStreamHead = SVNUtils.getInputStreamFromSVNFileUrl(info.path, SVNRevision.HEAD);
+		Iterable<Link> svnLinks = t.getTraceabilityLinks(inputStreamHead);
+
+		Collection<Link> newLinks = getNewLinks(links, svnLinks);
+
+
+		if(newLinks != null && !newLinks.isEmpty()) {
+			t.addNewLinks(rdfFile, newLinks);
+			MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Traceability", newLinks.size() + " links has been added from svn");
+		}
+
+		return commit(rdfFile.getLocationURI().getPath(), "Traceability Commit", Depth.infinityOrFiles(false), ISVNConnector.Options.FORCE);
+
+	}
+
+	/**
+	 * Gets the new links.
+	 * 
+	 * @param links
+	 *        the links
+	 * @param svnLinks
+	 *        the svn links
+	 * @return the new links
+	 */
+	private static Collection<Link> getNewLinks(Iterable<Link> links, Iterable<Link> svnLinks) {
+
+		Map<String, Link> idToLinks = new HashMap<String, Link>();
+		Collection<Link> newLinks = new ArrayList<Link>();
+
+		for(Link link : links) {
+			String schemeSpecificPart = link.getId().getSchemeSpecificPart();
+			if(!idToLinks.containsKey(schemeSpecificPart)) {
+				idToLinks.put(schemeSpecificPart, link);
+			} else {
+				//FIXME : Exception
+			}
+		}
+
+		for(Link link : svnLinks) {
+			String schemeSpecificPart = link.getId().getSchemeSpecificPart();
+			if(!idToLinks.containsKey(schemeSpecificPart)) {
+				newLinks.add(link);
+			}
+		}
+
+		return newLinks;
+
+	}
 }

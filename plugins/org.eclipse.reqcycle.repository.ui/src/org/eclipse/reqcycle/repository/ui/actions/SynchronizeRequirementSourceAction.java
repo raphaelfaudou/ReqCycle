@@ -60,20 +60,38 @@ public class SynchronizeRequirementSourceAction extends Action {
 				RequirementSource source = (RequirementSource)element;
 				if(Boolean.parseBoolean(source.getProperty(IRequirementSourceProperties.IS_LOCAL))) {
 
-					long[] result = null;
-
 					try {
-						result = SVNUtils.synchronizeSVNSource(source);
+						long[] resultReqs = null;
+						resultReqs = SVNUtils.synchronizeSVNSource(source);
+
+						if(resultReqs != null && resultReqs.length > 0 && resultReqs[0] != SVNRevision.INVALID_REVISION_NUMBER) {
+							MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Requirement Source", "Synchronize Requirement Source finished without errors.");
+						} else if(resultReqs != null && resultReqs.length == 0) {
+							MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Requirement Source", "Nothing to Commit.");
+						} else {
+							MessageDialog.openError(Display.getDefault().getActiveShell(), "Synchronize Requirement Source", "Error while syncing the Requirement Source.");
+							return;
+						}
+
+						if(!MessageDialog.openQuestion(Display.getDefault().getActiveShell(), "Synchronize Traceability", "Would you like to synchronize project traceability?")) {
+							return;
+						}
+
+						long[] resultTracea = null;
+						resultTracea = SVNUtils.synchronizeSVNTraceability(source);
+
+						if(resultTracea != null && resultTracea.length > 0 && resultTracea[0] != SVNRevision.INVALID_REVISION_NUMBER) {
+							MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Traceability", "Synchronize Traceability finished without errors");
+						} else if(resultTracea != null && resultTracea.length == 0) {
+							MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Traceability", "Nothing to Commit.");
+						} else {
+							MessageDialog.openError(Display.getDefault().getActiveShell(), "Synchronize Traceability", "Error while syncing the Requirement Source.");
+							return;
+						}
+
 					} catch (Exception e) {
 						//FIXME : Use logger
 						e.printStackTrace();
-					}
-					if(result != null && result.length > 0 && result[0] != SVNRevision.INVALID_REVISION_NUMBER) {
-						MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Requirement Source", "Synchronize finished without errors.");
-					} else if(result != null && result.length == 0) {
-						MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Requirement Source", "Nothing to Commit.");
-					} else {
-						MessageDialog.openError(Display.getDefault().getActiveShell(), "Synchronize Requirement Source", "Error while syncing the Requirement Source.");
 					}
 				}
 			}

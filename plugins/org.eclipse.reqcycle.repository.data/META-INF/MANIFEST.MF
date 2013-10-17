@@ -28,7 +28,13 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide,
  org.eclipse.e4.ui.di,
  org.eclipse.team.svn.core,
- org.eclipse.emf.workspace;bundle-version="1.5.1"
+ org.eclipse.emf.workspace;bundle-version="1.5.1",
+ org.eclipse.reqcycle.traceability,
+ org.eclipse.reqcycle.traceability.storage,
+ org.eclipse.reqcycle.traceability.storage.blueprints,
+ org.eclipse.reqcycle.sesame,
+ org.eclipse.emf.common.ui,
+ org.eclipse.emf.edit.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: MappingModel,
  MappingModel.impl,
