@@ -13,7 +13,7 @@ import java.util.Set;
 import javax.inject.Inject;
 
 import org.eclipse.reqcycle.traceability.model.TType;
-import org.eclipse.reqcycle.traceability.storage.blueprints.graph.ISpecificGraphProvider;
+import org.eclipse.reqcycle.traceability.storage.blueprints.graph.IBusinessOperationProvider;
 import org.eclipse.reqcycle.traceability.utils.SerializationUtils;
 import org.eclipse.reqcycle.uri.IReachableCreator;
 import org.eclipse.reqcycle.uri.model.Reachable;
@@ -30,7 +30,7 @@ import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Iterables.transform;
 
 public class SailBusinessOperations implements
-		ISpecificGraphProvider.IBusinessOperations {
+		IBusinessOperationProvider.IBusinessOperations {
 	private static final String PatternSplitter = "_=@=_";
 	private static final String KIND = "http://kind";
 	// EDGES

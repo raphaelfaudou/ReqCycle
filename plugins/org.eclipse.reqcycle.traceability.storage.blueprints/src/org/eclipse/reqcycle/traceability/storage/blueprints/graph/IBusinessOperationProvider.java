@@ -9,7 +9,7 @@ import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
 
-public interface ISpecificGraphProvider extends IGraphProvider {
+public interface IBusinessOperationProvider {
 	IBusinessOperations getBusinessOperation();
 
 	interface IBusinessOperations {
