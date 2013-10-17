@@ -114,11 +114,11 @@ public class DataUtil {
 		if(object.getId() != null && !object.getId().isEmpty()) {
 			result += " id : " + object.getId() + " ";
 		}
-		if(object.getName() != null && !object.getName().isEmpty()) {
+		if(object.getText() != null && !object.getText().isEmpty()) {
 			if(!result.isEmpty()) {
 				result += " | ";
 			}
-			result += " name : " + object.getName() + " ";
+			result += " name : " + object.getText() + " ";
 		}
 
 		for(EStructuralFeature eStructuralFeature : structuralFeatures) {

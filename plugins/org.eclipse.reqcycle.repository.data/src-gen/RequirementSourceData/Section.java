@@ -8,14 +8,14 @@ import org.eclipse.emf.common.util.EList;
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Section</b></em>'.
  * <!-- end-user-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link RequirementSourceData.Section#getChildren <em>Children</em>}</li>
+ *   <li>{@link RequirementSourceData.Section#getChildren <em>Children</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see RequirementSourceData.RequirementSourceDataPackage#getSection()
  * @model
  * @generated
@@ -30,7 +30,6 @@ public interface Section extends AbstractElement {
 	 * If the meaning of the '<em>Children</em>' containment reference list isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Children</em>' containment reference list.
 	 * @see RequirementSourceData.RequirementSourceDataPackage#getSection_Children()
 	 * @model containment="true"

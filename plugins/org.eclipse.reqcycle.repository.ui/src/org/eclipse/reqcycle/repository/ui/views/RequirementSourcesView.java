@@ -281,13 +281,13 @@ public class RequirementSourcesView extends ViewPart {
 	 *        the menu manager
 	 */
 	private void fillLocalPullDown(IMenuManager manager) {
-		manager.add(addRepoAction);
-		manager.add(new Separator());
-		manager.add(deleteRequirementSourceAction);
+		//		manager.add(addRepoAction);
+		//		manager.add(new Separator());
+		//		manager.add(deleteRequirementSourceAction);
 		//		manager.add(new Separator());
 		//		manager.add(synchResourceAction);
-		manager.add(new Separator());
-		manager.add(openRequirementViewAction);
+		//		manager.add(new Separator());
+		//		manager.add(openRequirementViewAction);
 	}
 
 	/**
@@ -297,15 +297,15 @@ public class RequirementSourcesView extends ViewPart {
 	 *        the context menu manager
 	 */
 	private void fillContextMenu(IMenuManager manager) {
-		manager.add(addRepoAction);
-		manager.add(deleteRequirementSourceAction);
+		//		manager.add(addRepoAction);
+		//		manager.add(deleteRequirementSourceAction);
+		manager.add(new Separator(IWorkbenchActionConstants.NEW_EXT));
 		manager.add(synchResourceAction);
-		manager.add(editMappingAction);
+		//		manager.add(editMappingAction);
 		manager.add(openRequirementViewAction);
 		manager.add(new Separator());
-		drillDownAdapter.addNavigationActions(manager);
+		//		drillDownAdapter.addNavigationActions(manager);
 		// Other plug-ins can contribute there actions here
-		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
 	/**
@@ -319,8 +319,8 @@ public class RequirementSourcesView extends ViewPart {
 		manager.add(deleteRequirementSourceAction);
 		//		manager.add(synchResourceAction);
 		manager.add(refreshViewAction);
-		manager.add(new Separator());
-		drillDownAdapter.addNavigationActions(manager);
+		//		manager.add(new Separator());
+		//		drillDownAdapter.addNavigationActions(manager);
 	}
 
 	/**

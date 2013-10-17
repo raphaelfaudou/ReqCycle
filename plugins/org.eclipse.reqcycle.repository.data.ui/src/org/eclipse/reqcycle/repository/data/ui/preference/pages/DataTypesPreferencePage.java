@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
@@ -100,6 +101,8 @@ public class DataTypesPreferencePage extends DataModelsPreferencePage {
 	private Button btnDeleteAttribute;
 
 	private Button btnDeleteType;
+
+	private Boolean dirty = false;
 
 
 	public DataTypesPreferencePage() {
@@ -356,7 +359,7 @@ public class DataTypesPreferencePage extends DataModelsPreferencePage {
 
 					inputTypes.add(element);
 					tvTypes.refresh();
-
+					dirty = true;
 				}
 			}
 		});
@@ -407,10 +410,22 @@ public class DataTypesPreferencePage extends DataModelsPreferencePage {
 				if(attribute != null) {
 					inputAttributes.add(attribute);
 					tvAttributes.refresh();
+					dirty = true;
 				}
 
 			}
 
 		});
+	}
+
+	@Override
+	public boolean performOk() {
+		boolean result = super.performOk();
+		if(dirty) {
+			MessageDialog.openWarning(getShell(), "Eclipse Restart", "Please relaunch Eclipse to use newly added Requirements types and attributes");
+			dirty = false;
+		}
+
+		return result;
 	}
 }

@@ -19,7 +19,6 @@ import org.eclipse.emf.ecore.EReference;
  * <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
- * 
  * @see RequirementSourceData.RequirementSourceDataFactory
  * @model kind="package"
  * @generated
@@ -30,7 +29,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The package name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	String eNAME = "RequirementSourceData";
@@ -39,7 +37,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The package namespace URI.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	String eNS_URI = "http://www.eclipse.org/ReqCycle/RequirementSourceData";
@@ -48,7 +45,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The package namespace name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	String eNS_PREFIX = "RequirementSourceData";
@@ -57,7 +53,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The singleton instance of the package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	RequirementSourceDataPackage eINSTANCE = RequirementSourceData.impl.RequirementSourceDataPackageImpl.init();
@@ -66,7 +61,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The meta object id for the '{@link RequirementSourceData.impl.AbstractElementImpl <em>Abstract Element</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see RequirementSourceData.impl.AbstractElementImpl
 	 * @see RequirementSourceData.impl.RequirementSourceDataPackageImpl#getAbstractElement()
 	 * @generated
@@ -77,27 +71,24 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int ABSTRACT_ELEMENT__ID = 0;
 
 	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Text</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_ELEMENT__NAME = 1;
+	int ABSTRACT_ELEMENT__TEXT = 1;
 
 	/**
 	 * The feature id for the '<em><b>Uri</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -107,7 +98,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The feature id for the '<em><b>Scopes</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -117,7 +107,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The number of structural features of the '<em>Abstract Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -127,7 +116,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The number of operations of the '<em>Abstract Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -137,7 +125,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The meta object id for the '{@link RequirementSourceData.impl.SectionImpl <em>Section</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see RequirementSourceData.impl.SectionImpl
 	 * @see RequirementSourceData.impl.RequirementSourceDataPackageImpl#getSection()
 	 * @generated
@@ -148,27 +135,24 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int SECTION__ID = ABSTRACT_ELEMENT__ID;
 
 	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Text</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int SECTION__NAME = ABSTRACT_ELEMENT__NAME;
+	int SECTION__TEXT = ABSTRACT_ELEMENT__TEXT;
 
 	/**
 	 * The feature id for the '<em><b>Uri</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -178,7 +162,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The feature id for the '<em><b>Scopes</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -188,7 +171,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -198,7 +180,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The number of structural features of the '<em>Section</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -208,7 +189,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The number of operations of the '<em>Section</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -218,7 +198,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The meta object id for the '{@link RequirementSourceData.impl.SimpleRequirementImpl <em>Simple Requirement</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see RequirementSourceData.impl.SimpleRequirementImpl
 	 * @see RequirementSourceData.impl.RequirementSourceDataPackageImpl#getSimpleRequirement()
 	 * @generated
@@ -229,27 +208,24 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int SIMPLE_REQUIREMENT__ID = ABSTRACT_ELEMENT__ID;
 
 	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Text</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int SIMPLE_REQUIREMENT__NAME = ABSTRACT_ELEMENT__NAME;
+	int SIMPLE_REQUIREMENT__TEXT = ABSTRACT_ELEMENT__TEXT;
 
 	/**
 	 * The feature id for the '<em><b>Uri</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -259,7 +235,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The feature id for the '<em><b>Scopes</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -269,7 +244,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The number of structural features of the '<em>Simple Requirement</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -279,7 +253,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The number of operations of the '<em>Simple Requirement</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -289,7 +262,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The meta object id for the '{@link RequirementSourceData.impl.RequirementImpl <em>Requirement</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see RequirementSourceData.impl.RequirementImpl
 	 * @see RequirementSourceData.impl.RequirementSourceDataPackageImpl#getRequirement()
 	 * @generated
@@ -300,27 +272,24 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int REQUIREMENT__ID = SIMPLE_REQUIREMENT__ID;
 
 	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Text</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT__NAME = SIMPLE_REQUIREMENT__NAME;
+	int REQUIREMENT__TEXT = SIMPLE_REQUIREMENT__TEXT;
 
 	/**
 	 * The feature id for the '<em><b>Uri</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -330,7 +299,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The feature id for the '<em><b>Scopes</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -340,7 +308,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -350,7 +317,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The number of structural features of the '<em>Requirement</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -360,7 +326,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The number of operations of the '<em>Requirement</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -370,7 +335,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The meta object id for the '{@link RequirementSourceData.impl.RequirementsContainerImpl <em>Requirements Container</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see RequirementSourceData.impl.RequirementsContainerImpl
 	 * @see RequirementSourceData.impl.RequirementSourceDataPackageImpl#getRequirementsContainer()
 	 * @generated
@@ -381,7 +345,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -391,7 +354,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The number of structural features of the '<em>Requirements Container</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -401,7 +363,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * The number of operations of the '<em>Requirements Container</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -411,7 +372,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * Returns the meta object for class '{@link RequirementSourceData.AbstractElement <em>Abstract Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for class '<em>Abstract Element</em>'.
 	 * @see RequirementSourceData.AbstractElement
 	 * @generated
@@ -422,7 +382,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * Returns the meta object for the attribute '{@link RequirementSourceData.AbstractElement#getId <em>Id</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the attribute '<em>Id</em>'.
 	 * @see RequirementSourceData.AbstractElement#getId()
 	 * @see #getAbstractElement()
@@ -431,22 +390,20 @@ public interface RequirementSourceDataPackage extends EPackage {
 	EAttribute getAbstractElement_Id();
 
 	/**
-	 * Returns the meta object for the attribute '{@link RequirementSourceData.AbstractElement#getName <em>Name</em>}'.
+	 * Returns the meta object for the attribute '{@link RequirementSourceData.AbstractElement#getText <em>Text</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see RequirementSourceData.AbstractElement#getName()
+	 * @return the meta object for the attribute '<em>Text</em>'.
+	 * @see RequirementSourceData.AbstractElement#getText()
 	 * @see #getAbstractElement()
 	 * @generated
 	 */
-	EAttribute getAbstractElement_Name();
+	EAttribute getAbstractElement_Text();
 
 	/**
 	 * Returns the meta object for the attribute '{@link RequirementSourceData.AbstractElement#getUri <em>Uri</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the attribute '<em>Uri</em>'.
 	 * @see RequirementSourceData.AbstractElement#getUri()
 	 * @see #getAbstractElement()
@@ -458,7 +415,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * Returns the meta object for the reference list '{@link RequirementSourceData.AbstractElement#getScopes <em>Scopes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the reference list '<em>Scopes</em>'.
 	 * @see RequirementSourceData.AbstractElement#getScopes()
 	 * @see #getAbstractElement()
@@ -470,7 +426,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * Returns the meta object for class '{@link RequirementSourceData.Section <em>Section</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for class '<em>Section</em>'.
 	 * @see RequirementSourceData.Section
 	 * @generated
@@ -481,7 +436,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * Returns the meta object for the containment reference list '{@link RequirementSourceData.Section#getChildren <em>Children</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the containment reference list '<em>Children</em>'.
 	 * @see RequirementSourceData.Section#getChildren()
 	 * @see #getSection()
@@ -493,7 +447,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * Returns the meta object for class '{@link RequirementSourceData.SimpleRequirement <em>Simple Requirement</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for class '<em>Simple Requirement</em>'.
 	 * @see RequirementSourceData.SimpleRequirement
 	 * @generated
@@ -504,7 +457,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * Returns the meta object for class '{@link RequirementSourceData.Requirement <em>Requirement</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for class '<em>Requirement</em>'.
 	 * @see RequirementSourceData.Requirement
 	 * @generated
@@ -515,7 +467,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * Returns the meta object for class '{@link RequirementSourceData.RequirementsContainer <em>Requirements Container</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for class '<em>Requirements Container</em>'.
 	 * @see RequirementSourceData.RequirementsContainer
 	 * @generated
@@ -523,11 +474,9 @@ public interface RequirementSourceDataPackage extends EPackage {
 	EClass getRequirementsContainer();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link RequirementSourceData.RequirementsContainer#getRequirements
-	 * <em>Requirements</em>}'.
+	 * Returns the meta object for the containment reference list '{@link RequirementSourceData.RequirementsContainer#getRequirements <em>Requirements</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the containment reference list '<em>Requirements</em>'.
 	 * @see RequirementSourceData.RequirementsContainer#getRequirements()
 	 * @see #getRequirementsContainer()
@@ -539,7 +488,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the factory that creates the instances of the model.
 	 * @generated
 	 */
@@ -556,7 +504,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 	 * <li>and each data type</li>
 	 * </ul>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	interface Literals {
@@ -565,7 +512,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 		 * The meta object literal for the '{@link RequirementSourceData.impl.AbstractElementImpl <em>Abstract Element</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * 
 		 * @see RequirementSourceData.impl.AbstractElementImpl
 		 * @see RequirementSourceData.impl.RequirementSourceDataPackageImpl#getAbstractElement()
 		 * @generated
@@ -576,25 +522,22 @@ public interface RequirementSourceDataPackage extends EPackage {
 		 * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * 
 		 * @generated
 		 */
 		EAttribute ABSTRACT_ELEMENT__ID = eINSTANCE.getAbstractElement_Id();
 
 		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Text</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * 
 		 * @generated
 		 */
-		EAttribute ABSTRACT_ELEMENT__NAME = eINSTANCE.getAbstractElement_Name();
+		EAttribute ABSTRACT_ELEMENT__TEXT = eINSTANCE.getAbstractElement_Text();
 
 		/**
 		 * The meta object literal for the '<em><b>Uri</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * 
 		 * @generated
 		 */
 		EAttribute ABSTRACT_ELEMENT__URI = eINSTANCE.getAbstractElement_Uri();
@@ -603,7 +546,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 		 * The meta object literal for the '<em><b>Scopes</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * 
 		 * @generated
 		 */
 		EReference ABSTRACT_ELEMENT__SCOPES = eINSTANCE.getAbstractElement_Scopes();
@@ -612,7 +554,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 		 * The meta object literal for the '{@link RequirementSourceData.impl.SectionImpl <em>Section</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * 
 		 * @see RequirementSourceData.impl.SectionImpl
 		 * @see RequirementSourceData.impl.RequirementSourceDataPackageImpl#getSection()
 		 * @generated
@@ -623,7 +564,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 		 * The meta object literal for the '<em><b>Children</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * 
 		 * @generated
 		 */
 		EReference SECTION__CHILDREN = eINSTANCE.getSection_Children();
@@ -632,7 +572,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 		 * The meta object literal for the '{@link RequirementSourceData.impl.SimpleRequirementImpl <em>Simple Requirement</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * 
 		 * @see RequirementSourceData.impl.SimpleRequirementImpl
 		 * @see RequirementSourceData.impl.RequirementSourceDataPackageImpl#getSimpleRequirement()
 		 * @generated
@@ -643,7 +582,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 		 * The meta object literal for the '{@link RequirementSourceData.impl.RequirementImpl <em>Requirement</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * 
 		 * @see RequirementSourceData.impl.RequirementImpl
 		 * @see RequirementSourceData.impl.RequirementSourceDataPackageImpl#getRequirement()
 		 * @generated
@@ -654,7 +592,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 		 * The meta object literal for the '{@link RequirementSourceData.impl.RequirementsContainerImpl <em>Requirements Container</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * 
 		 * @see RequirementSourceData.impl.RequirementsContainerImpl
 		 * @see RequirementSourceData.impl.RequirementSourceDataPackageImpl#getRequirementsContainer()
 		 * @generated
@@ -665,7 +602,6 @@ public interface RequirementSourceDataPackage extends EPackage {
 		 * The meta object literal for the '<em><b>Requirements</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * 
 		 * @generated
 		 */
 		EReference REQUIREMENTS_CONTAINER__REQUIREMENTS = eINSTANCE.getRequirementsContainer_Requirements();

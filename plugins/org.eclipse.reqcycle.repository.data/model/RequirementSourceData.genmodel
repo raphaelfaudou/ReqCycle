@@ -12,7 +12,7 @@
       ecorePackage="RequirementSourceData.ecore#/">
     <genClasses image="false" ecoreClass="RequirementSourceData.ecore#//AbstractElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RequirementSourceData.ecore#//AbstractElement/id"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RequirementSourceData.ecore#//AbstractElement/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RequirementSourceData.ecore#//AbstractElement/text"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RequirementSourceData.ecore#//AbstractElement/uri"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RequirementSourceData.ecore#//AbstractElement/scopes"/>
     </genClasses>

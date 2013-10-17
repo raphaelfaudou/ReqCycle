@@ -311,7 +311,7 @@ public class DataManagerImpl implements IDataManager {
 	public Section createSection(String id, String name, String uri) {
 		Section section = RequirementSourceDataFactory.eINSTANCE.createSection();
 		section.setId(id);
-		section.setName(name);
+		section.setText(name);
 		section.setUri(uri);
 		return section;
 	}

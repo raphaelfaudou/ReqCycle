@@ -5,6 +5,8 @@ package RequirementSourceData;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
+import RequirementSourceConf.RequirementSource;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Requirements Container</b></em>'.
@@ -38,5 +40,7 @@ public interface RequirementsContainer extends EObject {
 	 * @generated
 	 */
 	EList<AbstractElement> getRequirements();
+
+	RequirementSource getRequirementSource();
 
 } // RequirementsContainer

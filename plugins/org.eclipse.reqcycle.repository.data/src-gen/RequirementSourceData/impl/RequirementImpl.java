@@ -26,10 +26,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link RequirementSourceData.impl.RequirementImpl#getChildren <em>Children</em>}</li>
+ *   <li>{@link RequirementSourceData.impl.RequirementImpl#getChildren <em>Children</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class RequirementImpl extends SimpleRequirementImpl implements Requirement {
@@ -38,7 +38,6 @@ public class RequirementImpl extends SimpleRequirementImpl implements Requiremen
 	 * The cached value of the '{@link #getChildren() <em>Children</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #getChildren()
 	 * @generated
 	 * @ordered
@@ -48,7 +47,6 @@ public class RequirementImpl extends SimpleRequirementImpl implements Requiremen
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected RequirementImpl() {
@@ -58,7 +56,6 @@ public class RequirementImpl extends SimpleRequirementImpl implements Requiremen
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -69,11 +66,10 @@ public class RequirementImpl extends SimpleRequirementImpl implements Requiremen
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList<AbstractElement> getChildren() {
-		if(children == null) {
+		if (children == null) {
 			children = new EObjectContainmentEList<AbstractElement>(AbstractElement.class, this, RequirementSourceDataPackage.REQUIREMENT__CHILDREN);
 		}
 		return children;
@@ -82,14 +78,13 @@ public class RequirementImpl extends SimpleRequirementImpl implements Requiremen
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch(featureID) {
-		case RequirementSourceDataPackage.REQUIREMENT__CHILDREN:
-			return ((InternalEList<?>)getChildren()).basicRemove(otherEnd, msgs);
+		switch (featureID) {
+			case RequirementSourceDataPackage.REQUIREMENT__CHILDREN:
+				return ((InternalEList<?>)getChildren()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -97,14 +92,13 @@ public class RequirementImpl extends SimpleRequirementImpl implements Requiremen
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch(featureID) {
-		case RequirementSourceDataPackage.REQUIREMENT__CHILDREN:
-			return getChildren();
+		switch (featureID) {
+			case RequirementSourceDataPackage.REQUIREMENT__CHILDREN:
+				return getChildren();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -112,17 +106,16 @@ public class RequirementImpl extends SimpleRequirementImpl implements Requiremen
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch(featureID) {
-		case RequirementSourceDataPackage.REQUIREMENT__CHILDREN:
-			getChildren().clear();
-			getChildren().addAll((Collection<? extends AbstractElement>)newValue);
-			return;
+		switch (featureID) {
+			case RequirementSourceDataPackage.REQUIREMENT__CHILDREN:
+				getChildren().clear();
+				getChildren().addAll((Collection<? extends AbstractElement>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -130,15 +123,14 @@ public class RequirementImpl extends SimpleRequirementImpl implements Requiremen
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		switch(featureID) {
-		case RequirementSourceDataPackage.REQUIREMENT__CHILDREN:
-			getChildren().clear();
-			return;
+		switch (featureID) {
+			case RequirementSourceDataPackage.REQUIREMENT__CHILDREN:
+				getChildren().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -146,14 +138,13 @@ public class RequirementImpl extends SimpleRequirementImpl implements Requiremen
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch(featureID) {
-		case RequirementSourceDataPackage.REQUIREMENT__CHILDREN:
-			return children != null && !children.isEmpty();
+		switch (featureID) {
+			case RequirementSourceDataPackage.REQUIREMENT__CHILDREN:
+				return children != null && !children.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -161,17 +152,14 @@ public class RequirementImpl extends SimpleRequirementImpl implements Requiremen
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if(baseClass == Section.class) {
-			switch(derivedFeatureID) {
-			case RequirementSourceDataPackage.REQUIREMENT__CHILDREN:
-				return RequirementSourceDataPackage.SECTION__CHILDREN;
-			default:
-				return -1;
+		if (baseClass == Section.class) {
+			switch (derivedFeatureID) {
+				case RequirementSourceDataPackage.REQUIREMENT__CHILDREN: return RequirementSourceDataPackage.SECTION__CHILDREN;
+				default: return -1;
 			}
 		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
@@ -180,17 +168,14 @@ public class RequirementImpl extends SimpleRequirementImpl implements Requiremen
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if(baseClass == Section.class) {
-			switch(baseFeatureID) {
-			case RequirementSourceDataPackage.SECTION__CHILDREN:
-				return RequirementSourceDataPackage.REQUIREMENT__CHILDREN;
-			default:
-				return -1;
+		if (baseClass == Section.class) {
+			switch (baseFeatureID) {
+				case RequirementSourceDataPackage.SECTION__CHILDREN: return RequirementSourceDataPackage.REQUIREMENT__CHILDREN;
+				default: return -1;
 			}
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);

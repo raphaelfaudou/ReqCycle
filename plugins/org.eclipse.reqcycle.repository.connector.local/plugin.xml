@@ -27,7 +27,7 @@
       <extension
          point="org.eclipse.ui.menus">
       <menuContribution
-            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+            locationURI="popup:org.eclipse.ui.popup.any?after=new.ext">
          <command
                commandId="org.eclipse.reqcycle.repository.connector.local.editRequirements.command"
                id="org.eclipse.reqcycle.repository.connector.local.editRequirements"
@@ -44,8 +44,7 @@
          </command>
       </menuContribution>
       <menuContribution
-            allPopups="false"
-            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+            locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu?after=additions">
          <command
                commandId="org.eclipse.reqcycle.repository.connector.local.useSource"
                id="org.eclipse.reqcycle.repository.connector.local.useSource"

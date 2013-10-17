@@ -2,17 +2,28 @@
  */
 package RequirementSourceData.impl;
 
+import java.util.Collection;
+
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature.Setting;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
+
+import RequirementSourceConf.RequirementSource;
+import RequirementSourceConf.RequirementSourceConfPackage;
 import RequirementSourceData.AbstractElement;
 import RequirementSourceData.RequirementSourceDataPackage;
 import RequirementSourceData.RequirementsContainer;
-import java.util.Collection;
-import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -67,6 +78,7 @@ public class RequirementsContainerImpl extends MinimalEObjectImpl.Container impl
 	 * 
 	 * @generated
 	 */
+	@Override
 	public EList<AbstractElement> getRequirements() {
 		if(requirements == null) {
 			requirements = new EObjectContainmentEList<AbstractElement>(AbstractElement.class, this, RequirementSourceDataPackage.REQUIREMENTS_CONTAINER__REQUIREMENTS);
@@ -153,4 +165,44 @@ public class RequirementsContainerImpl extends MinimalEObjectImpl.Container impl
 		return super.eIsSet(featureID);
 	}
 
+	@Override
+	public RequirementSource getRequirementSource() {
+		EList<? extends EObject> result = getOppositeObjs(RequirementSourceConfPackage.Literals.REQUIREMENT_SOURCE__CONTENTS);
+		if(result.size() > 0) {
+			return (RequirementSource)result.get(0);
+		}
+		return null;
+	}
+
+
+	public EList<? extends EObject> getOppositeObjs(EReference oppositeRef) {
+
+		ECrossReferenceAdapter c = ECrossReferenceAdapter.getCrossReferenceAdapter(this);
+		if(c == null) {
+			c = new ECrossReferenceAdapter();
+		}
+
+		if(c.getTarget() == null) {
+			Resource r = this.eResource();
+			if(r != null) {
+				ResourceSet rs = r.getResourceSet();
+				if(rs != null) {
+					c.setTarget(rs);
+				} else {
+					c.setTarget(r);
+				}
+			} else {
+				c.setTarget(this);
+			}
+		}
+
+		EList<EObject> res = new BasicEList<EObject>();
+		Collection<Setting> settings = c.getInverseReferences(this, true);
+		for(Setting s : settings) {
+			if(oppositeRef.equals(s.getEStructuralFeature())) {
+				res.add(s.getEObject());
+			}
+		}
+		return res;
+	}
 } //RequirementsContainerImpl

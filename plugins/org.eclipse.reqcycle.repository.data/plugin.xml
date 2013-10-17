@@ -121,6 +121,13 @@
             genModel="model/RequirementSourceData.genmodel"/>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated RequirementSourceData -->
+      <parser
+            type="requirementsourcedata"
+            class="RequirementSourceData.util.RequirementSourceDataResourceFactoryImpl"/>
+   </extension>
+
    <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
       <!-- @generated RequirementSourceData -->
       <factory

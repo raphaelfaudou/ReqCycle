@@ -36,24 +36,24 @@ public class CustomSimpleRequirementItemProvider extends SimpleRequirementItemPr
 
 	@Override
 	public String getText(Object object) {
-		String text = "";
+		String result = "";
 
 		String id = ((SimpleRequirement)object).getId();
-		String name = ((SimpleRequirement)object).getName();
+		String text = ((SimpleRequirement)object).getText();
 
 		if(id != null && !id.isEmpty()) {
-			text += "[ id : " + id;
+			result += "[ id : " + id;
 		}
 
-		if(name != null && !name.isEmpty()) {
-			text += text.isEmpty() ? "[ " : " | ";
-			text += "name : " + name;
+		if(text != null && !text.isEmpty()) {
+			result += result.isEmpty() ? "[ " : " | ";
+			result += "name : " + text;
 		}
 
-		if(!text.isEmpty()) {
-			text += " ]";
+		if(!result.isEmpty()) {
+			result += " ]";
 		}
 
-		return "Simple Requirement " + text;
+		return "Simple Requirement " + result;
 	}
 }

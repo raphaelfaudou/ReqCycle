@@ -1,42 +1,52 @@
 /**
  */
-package RequirementSourceData.provider;
+package ScopeConf.provider;
 
+
+import ScopeConf.ScopeConfFactory;
+import ScopeConf.ScopeConfPackage;
+import ScopeConf.Scopes;
 
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+
+import org.eclipse.emf.common.util.ResourceLocator;
+
 import org.eclipse.emf.ecore.EStructuralFeature;
+
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.eclipse.reqcycle.repository.data.util.DataUtil;
-
-import RequirementSourceData.Requirement;
-import RequirementSourceData.RequirementSourceDataFactory;
-import RequirementSourceData.RequirementSourceDataPackage;
 
 /**
- * This is the item provider adapter for a {@link RequirementSourceData.Requirement} object.
+ * This is the item provider adapter for a {@link ScopeConf.Scopes} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class RequirementItemProvider extends SimpleRequirementItemProvider implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
-
+public class ScopesItemProvider
+	extends ItemProviderAdapter
+	implements
+		IEditingDomainItemProvider,
+		IStructuredItemContentProvider,
+		ITreeItemContentProvider,
+		IItemLabelProvider,
+		IItemPropertySource {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RequirementItemProvider(AdapterFactory adapterFactory) {
+	public ScopesItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -67,7 +77,7 @@ public class RequirementItemProvider extends SimpleRequirementItemProvider imple
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(RequirementSourceDataPackage.Literals.SECTION__CHILDREN);
+			childrenFeatures.add(ScopeConfPackage.Literals.SCOPES__SCOPES);
 		}
 		return childrenFeatures;
 	}
@@ -86,30 +96,25 @@ public class RequirementItemProvider extends SimpleRequirementItemProvider imple
 	}
 
 	/**
-	 * This returns Requirement.gif.
+	 * This returns Scopes.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Requirement"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Scopes"));
 	}
 
 	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
-	 * @generated not
+	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		return DataUtil.getInformation((Requirement)object);
-		//		String label = ((Requirement)object).getName();
-		//		return label == null || label.length() == 0 ?
-		//			getString("_UI_Requirement_type") :
-		//			getString("_UI_Requirement_type") + " " + label;
+		return getString("_UI_Scopes_type");
 	}
 
 	/**
@@ -123,8 +128,8 @@ public class RequirementItemProvider extends SimpleRequirementItemProvider imple
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(Requirement.class)) {
-			case RequirementSourceDataPackage.REQUIREMENT__CHILDREN:
+		switch (notification.getFeatureID(Scopes.class)) {
+			case ScopeConfPackage.SCOPES__SCOPES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -144,18 +149,19 @@ public class RequirementItemProvider extends SimpleRequirementItemProvider imple
 
 		newChildDescriptors.add
 			(createChildParameter
-				(RequirementSourceDataPackage.Literals.SECTION__CHILDREN,
-				 RequirementSourceDataFactory.eINSTANCE.createSection()));
+				(ScopeConfPackage.Literals.SCOPES__SCOPES,
+				 ScopeConfFactory.eINSTANCE.createScope()));
+	}
 
-		newChildDescriptors.add
-			(createChildParameter
-				(RequirementSourceDataPackage.Literals.SECTION__CHILDREN,
-				 RequirementSourceDataFactory.eINSTANCE.createSimpleRequirement()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(RequirementSourceDataPackage.Literals.SECTION__CHILDREN,
-				 RequirementSourceDataFactory.eINSTANCE.createRequirement()));
+	/**
+	 * Return the resource locator for this item provider's resources.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public ResourceLocator getResourceLocator() {
+		return ScopeConfEditPlugin.INSTANCE;
 	}
 
 }

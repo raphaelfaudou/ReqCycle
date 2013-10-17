@@ -28,7 +28,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.databinding.property,
  org.eclipse.jface.databinding,
  com.ibm.icu,
- org.eclipse.reqcycle.repository.connector.ui
+ org.eclipse.reqcycle.repository.connector.ui,
+ org.eclipse.emf.transaction;bundle-version="1.4.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: RequirementSourceData.presentation
 Bundle-ActivationPolicy: lazy

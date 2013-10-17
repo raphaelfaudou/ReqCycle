@@ -38,9 +38,9 @@ public class RequirementLabelProvider extends LabelProvider {
 		}
 
 		if(element instanceof AbstractElement) {
-			String name = ((AbstractElement)element).getName();
+			String name = ((AbstractElement)element).getText();
 			EList<EStructuralFeature> structuralFeatures = ((AbstractElement)element).eClass().getEStructuralFeatures();
-			String attr = " [ id : " + ((AbstractElement)element).getId() + " ]" + "[ name : " + ((AbstractElement)element).getName() + " ]";
+			String attr = " [ id : " + ((AbstractElement)element).getId() + " ]" + "[ text : " + ((AbstractElement)element).getText() + " ]";
 
 			for(EStructuralFeature eStructuralFeature : structuralFeatures) {
 				attr += "[ " + eStructuralFeature.getName() + " : " + ((AbstractElement)element).eGet(eStructuralFeature) + "]";

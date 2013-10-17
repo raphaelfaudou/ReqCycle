@@ -3,9 +3,13 @@
 package RequirementSourceData.presentation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.ui.action.CreateChildAction;
@@ -30,6 +34,10 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
+
+import RequirementSourceData.Requirement;
+import RequirementSourceData.RequirementSourceDataPackage;
+import ScopeConf.Scope;
 
 /**
  * This is the action bar contributor for the RequirementSourceData model editor.
@@ -303,6 +311,29 @@ public class RequirementSourceDataActionBarContributor extends EditingDomainActi
 		Collection<IAction> actions = new ArrayList<IAction>();
 		if(descriptors != null) {
 			for(Object descriptor : descriptors) {
+				if(descriptor instanceof CommandParameter && ((CommandParameter)descriptor).getValue() instanceof Requirement) {
+					actions.add(new CreateChildAction(activeEditorPart, selection, descriptor) {
+
+						@Override
+						protected Command createActionCommand(EditingDomain editingDomain, Collection<?> collection) {
+							Command createCommand = super.createActionCommand(editingDomain, collection);
+							Collection<Scope> scopes = getScope(collection);
+							CustomSetCommand addCommand = new CustomSetCommand(editingDomain, createCommand.getResult(), RequirementSourceDataPackage.Literals.ABSTRACT_ELEMENT__SCOPES, scopes);
+							CompoundCommand cc = new CompoundCommand(Arrays.asList(createCommand, addCommand));
+							return cc;
+						}
+
+						private Collection<Scope> getScope(Collection<?> collection) {
+							if(collection.size() > 0) {
+								Object req = collection.iterator().next();
+								if(req instanceof Requirement) {
+									return ((Requirement)req).getScopes();
+								}
+							}
+							return null;
+						}
+					});
+				}
 				actions.add(new CreateChildAction(activeEditorPart, selection, descriptor));
 			}
 		}

@@ -45,25 +45,25 @@ public class CustomSectionItemProvider extends SectionItemProvider {
 
 	@Override
 	public String getText(Object object) {
-		String text = "";
+		String result = "";
 
 		String id = ((Section)object).getId();
-		String name = ((Section)object).getName();
+		String text = ((Section)object).getText();
 
 		if(id != null && !id.isEmpty()) {
-			text += "[ id : " + id;
+			result += "[ id : " + id;
 		}
 
-		if(name != null && !name.isEmpty()) {
-			text += text.isEmpty() ? "[ " : " | ";
-			text += "name : " + name;
+		if(text != null && !text.isEmpty()) {
+			result += result.isEmpty() ? "[ " : " | ";
+			result += "text : " + text;
 		}
 
-		if(!text.isEmpty()) {
-			text += " ]";
+		if(!result.isEmpty()) {
+			result += " ]";
 		}
 
-		return "Section " + text;
+		return "Section " + result;
 	}
 
 	@Override

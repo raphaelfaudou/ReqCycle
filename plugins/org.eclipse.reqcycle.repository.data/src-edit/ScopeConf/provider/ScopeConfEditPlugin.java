@@ -1,25 +1,27 @@
 /**
  */
-package RequirementSourceData.provider;
+package ScopeConf.provider;
+
+import RequirementSourceData.provider.RequirementSourceDataEditPlugin;
 
 import org.eclipse.emf.common.EMFPlugin;
+
 import org.eclipse.emf.common.util.ResourceLocator;
 
 /**
- * This is the central singleton for the RequirementSourceData edit plugin.
+ * This is the central singleton for the ScopeConf edit plugin.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public final class RequirementSourceDataEditPlugin extends EMFPlugin {
-
+public final class ScopeConfEditPlugin extends EMFPlugin {
 	/**
 	 * Keep track of the singleton.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final RequirementSourceDataEditPlugin INSTANCE = new RequirementSourceDataEditPlugin();
+	public static final ScopeConfEditPlugin INSTANCE = new ScopeConfEditPlugin();
 
 	/**
 	 * Keep track of the singleton.
@@ -32,13 +34,14 @@ public final class RequirementSourceDataEditPlugin extends EMFPlugin {
 	/**
 	 * Create the instance.
 	 * <!-- begin-user-doc -->
-	 * Remove Scope Conf Edit
 	 * <!-- end-user-doc -->
-	 * 
-	 * @generated not
+	 * @generated
 	 */
-	public RequirementSourceDataEditPlugin() {
-		super(new ResourceLocator[]{});
+	public ScopeConfEditPlugin() {
+		super
+		  (new ResourceLocator [] {
+		     RequirementSourceDataEditPlugin.INSTANCE,
+		   });
 	}
 
 	/**
@@ -71,7 +74,6 @@ public final class RequirementSourceDataEditPlugin extends EMFPlugin {
 	 * @generated
 	 */
 	public static class Implementation extends EclipsePlugin {
-
 		/**
 		 * Creates an instance.
 		 * <!-- begin-user-doc -->

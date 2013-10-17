@@ -203,7 +203,7 @@ public class RMFUtils {
 	private static String getName(MappingElement elementMapping, SpecElementWithAttributes element) {
 		EList<MappingAttribute> attributes = elementMapping.getAttributes();
 		for(MappingAttribute attribute : attributes) {
-			if("name".equalsIgnoreCase(attribute.getTargetAttribute().getName())) {
+			if("text".equalsIgnoreCase(attribute.getTargetAttribute().getName())) {
 				String sourceId = attribute.getSourceId();
 				for(AttributeValue value : element.getValues()) {
 					if(sourceId.equals(ReqIF10Util.getAttributeDefinition(value).getIdentifier())) {
@@ -238,7 +238,7 @@ public class RMFUtils {
 				IRequirementType type = new RequirementTypeImpl(elementMapping.getTargetElement());
 				createdObject = type.createInstance();
 				createdObject.setId(id);
-				createdObject.setName(name);
+				createdObject.setText(name);
 				createdObject.setUri(id);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -254,7 +254,7 @@ public class RMFUtils {
 
 			MappingAttribute attributeMapping = DataUtil.getAttributeMapping(elementMapping, ReqIF10Util.getAttributeDefinition(attributeValue).getIdentifier());
 
-			if(attributeMapping == null || "id".equalsIgnoreCase(attributeMapping.getTargetAttribute().getName()) || "name".equalsIgnoreCase(attributeMapping.getTargetAttribute().getName())) {
+			if(attributeMapping == null || "id".equalsIgnoreCase(attributeMapping.getTargetAttribute().getName()) || "text".equalsIgnoreCase(attributeMapping.getTargetAttribute().getName())) {
 
 				continue;
 			}
@@ -277,7 +277,7 @@ public class RMFUtils {
 				// creator.addAttribute(attributeMapping, element,
 				// ReqIF10Util.getTheValue(attributeValue));
 			} catch (Exception e) {
-				logger.error("Can't add the attribute " + ReqIF10Util.getAttributeDefinition(attributeValue).getIdentifier() + " to the element " + element.getName());
+				logger.error("Can't add the attribute " + ReqIF10Util.getAttributeDefinition(attributeValue).getIdentifier() + " to the element " + element.getText());
 			}
 		}
 	}
