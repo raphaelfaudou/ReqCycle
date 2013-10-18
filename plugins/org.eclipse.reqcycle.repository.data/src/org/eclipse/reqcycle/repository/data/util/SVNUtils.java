@@ -26,7 +26,6 @@ import java.util.Map;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -40,6 +39,7 @@ import org.eclipse.reqcycle.traceability.storage.IStorageProvider;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.team.svn.core.connector.ISVNConnector;
 import org.eclipse.team.svn.core.connector.ISVNConnector.Depth;
+import org.eclipse.team.svn.core.connector.ISVNProgressMonitor;
 import org.eclipse.team.svn.core.connector.SVNChangeStatus;
 import org.eclipse.team.svn.core.connector.SVNConnectorException;
 import org.eclipse.team.svn.core.connector.SVNEntryReference;
@@ -47,13 +47,8 @@ import org.eclipse.team.svn.core.connector.SVNEntryRevisionReference;
 import org.eclipse.team.svn.core.connector.SVNRevision;
 import org.eclipse.team.svn.core.extension.CoreExtensionsManager;
 import org.eclipse.team.svn.core.extension.factory.ISVNConnectorFactory;
-import org.eclipse.team.svn.core.operation.CompositeOperation;
-import org.eclipse.team.svn.core.operation.IActionOperation;
 import org.eclipse.team.svn.core.operation.SVNNullProgressMonitor;
-import org.eclipse.team.svn.core.operation.local.CommitOperation;
-import org.eclipse.team.svn.core.operation.local.MarkAsMergedOperation;
 import org.eclipse.team.svn.core.utility.SVNUtility;
-import org.eclipse.team.svn.ui.SVNUIMessages;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import RequirementSourceConf.RequirementSource;
@@ -188,16 +183,27 @@ public class SVNUtils {
 		RequirementsContainer wRC = getFirstReqContainer(wResource);
 		RequirementsContainer hRC = getFirstReqContainer(hResource);
 
-		Resource resource = wRC.eResource();
-		Collection<AbstractElement> difference = getNewElement(resource, hRC.getRequirements());
+		Resource resource = hRC.eResource();
+		//get new element 
+		Collection<AbstractElement> difference = getNewElement(resource, wRC.getRequirements());
+
+		Resource wresource = wRC.eResource();
+		Collection<AbstractElement> differenceFromSVN = getNewElement(wresource, hRC.getRequirements());
+
+		IFile file = WorkspaceSynchronizer.getFile(mainResource);
+
+		revert(file.getLocationURI().getPath(), Depth.infinityOrFiles(false), null, new SVNNullProgressMonitor());
+		update(new String[]{ file.getLocationURI().getPath() }, SVNRevision.HEAD, Depth.infinityOrFiles(false), ISVNConnector.Options.NONE, new SVNNullProgressMonitor());
+
+		mainResource.unload();
+
+		mainResource.load(null);
 
 		if(difference != null && !difference.isEmpty()) {
 			moveElementToSource(mainResource, difference);
 			dataManager.save();
-			MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Traceability", difference.size() + " links has been added from svn");
+			MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Requirement Source", differenceFromSVN.size() + " elements has been added");
 		}
-
-		IFile file = WorkspaceSynchronizer.getFile(mainResource);
 
 		return commit(file.getLocationURI().getPath(), "ReqCycle Commit", Depth.infinityOrFiles(false), ISVNConnector.Options.FORCE);
 	}
@@ -337,32 +343,32 @@ public class SVNUtils {
 		final InputStream inputStreamHead = SVNUtils.getInputStreamFromSVNFileUrl(info.path, SVNRevision.HEAD);
 		Iterable<Link> svnLinks = t.getTraceabilityLinks(inputStreamHead);
 
-		Collection<Link> newLinks = getNewLinks(links, svnLinks);
+		//Links from "links" variable unfound in "svnLinks"
+		Collection<Link> newLinks = getNewLinks(svnLinks, links);
+		Collection<Link> svnNewLinks = getNewLinks(links, svnLinks);
+
+		revert(rdfFile.getLocationURI().getPath(), Depth.infinityOrFiles(false), null, new SVNNullProgressMonitor());
+		update(new String[]{ rdfFile.getLocationURI().getPath() }, SVNRevision.HEAD, Depth.infinityOrFiles(false), ISVNConnector.Options.NONE, new SVNNullProgressMonitor());
 
 
 		if(newLinks != null && !newLinks.isEmpty()) {
 			t.addNewLinks(rdfFile, newLinks);
-			MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Traceability", newLinks.size() + " links has been added from svn");
+			MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Traceability", svnNewLinks.size() + " links has been added");
 		}
-		long[] result;
-		try {
-			result = commit(rdfFile.getLocationURI().getPath(), "Traceability Commit", Depth.infinityOrFiles(false), ISVNConnector.Options.FORCE);
-		} catch (SVNConnectorException e) {
-			if(e.getMessage().contains("out of date")) {
-				CompositeOperation op = new CompositeOperation("Operation_UOverrideAndCommit", SVNUIMessages.class);
-				MarkAsMergedOperation mergeOp = new MarkAsMergedOperation(new IResource[]{ rdfFile }, true, "", false);
-				op.add(mergeOp);
-				CommitOperation mainOp = new CommitOperation(mergeOp, "", true, false);
-				IActionOperation[] dependsOn = new IActionOperation[]{ mergeOp };
-				op.add(mainOp, dependsOn);
-				op.run(new NullProgressMonitor());
-				result = null;
-			} else {
-				throw e;
-			}
-		}
+		return commit(rdfFile.getLocationURI().getPath(), "Traceability Commit", Depth.infinityOrFiles(false), ISVNConnector.Options.NONE);
+	}
+
+	public static void revert(String path, int depth, String[] changelistNames, ISVNProgressMonitor monitor) throws SVNConnectorException {
+		ISVNConnector svnConnector = svnConnectorFactory.newInstance();
+		svnConnector.revert(path, depth, changelistNames, monitor);
+	}
+
+	public static long[] update(String[] path, SVNRevision revision, int depth, long options, ISVNProgressMonitor monitor) throws SVNConnectorException {
+		ISVNConnector svnConnector = svnConnectorFactory.newInstance();
+		long[] result = svnConnector.update(path, revision, depth, options, monitor);
 		return result;
 	}
+
 
 	/**
 	 * Gets the new links.

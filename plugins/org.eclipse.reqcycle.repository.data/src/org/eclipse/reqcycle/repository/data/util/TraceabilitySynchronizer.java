@@ -136,15 +136,15 @@ public class TraceabilitySynchronizer {
 		ZigguratInject.inject(provider);
 		ITraceabilityStorage storage = provider.getStorage(uri);
 		for(Link link : newLinks) {
-			Reachable[] targets = link.getTargets().toArray(new Reachable[link.getTargets().size()]);
-			Set<Reachable> sources = link.getSources();
-			Reachable source = null;
-			if(sources.size() > 0) {
-				source = sources.iterator().next();
+			Set<Reachable> targets = link.getTargets();
+			Reachable[] sources = link.getSources().toArray(new Reachable[link.getSources().size()]);
+			Reachable target = null;
+			if(targets.size() > 0) {
+				target = targets.iterator().next();
 			}
 			Function<Object, Reachable> obj2RO = URIFunctions.newObject2ReachableFunction();
 			Reachable resourceReachable = obj2RO.apply(rdfFile);
-			storage.addOrUpdateUpwardRelationShip(link.getKind(), link.getId(), resourceReachable, source, targets);
+			storage.addOrUpdateUpwardRelationShip(link.getKind(), link.getId(), resourceReachable, target, sources);
 		}
 		storage.save();
 	}

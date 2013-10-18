@@ -107,15 +107,9 @@ public class CustomRequirementItemProvider extends RequirementItemProvider {
 		//Gets Dynamic Data Model possible children
 
 		Scope scope = getScope(object);
-		if(object instanceof AbstractElement && ((AbstractElement)object).getScopes().isEmpty()) {
-			((AbstractElement)object).getScopes().add(scope);
-		}
 
 		for(IRequirementType type : manager.getAllRequirementTypes()) {
 			Requirement instance = type.createInstance();
-			if(object instanceof AbstractElement) {
-				instance.getScopes().addAll(((AbstractElement)object).getScopes());
-			}
 			instance.getScopes().add(scope);
 			newChildDescriptors.add(createChildParameter(RequirementSourceDataPackage.Literals.SECTION__CHILDREN, instance));
 		}

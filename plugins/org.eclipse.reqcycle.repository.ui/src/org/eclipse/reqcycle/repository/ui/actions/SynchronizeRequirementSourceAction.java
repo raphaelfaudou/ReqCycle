@@ -69,7 +69,7 @@ public class SynchronizeRequirementSourceAction extends Action {
 						} else if(resultReqs != null && resultReqs.length == 0) {
 							MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Requirement Source", "Nothing to Commit.");
 						} else {
-							MessageDialog.openError(Display.getDefault().getActiveShell(), "Synchronize Requirement Source", "Error while syncing the Requirement Source.");
+							MessageDialog.openError(Display.getDefault().getActiveShell(), "Synchronize Requirement Source", "Commit error.");
 							return;
 						}
 
@@ -85,13 +85,16 @@ public class SynchronizeRequirementSourceAction extends Action {
 						} else if(resultTracea != null && resultTracea.length == 0) {
 							MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Traceability", "Nothing to Commit.");
 						} else {
-							MessageDialog.openError(Display.getDefault().getActiveShell(), "Synchronize Traceability", "Error while syncing the traceability.");
+							MessageDialog.openError(Display.getDefault().getActiveShell(), "Synchronize Traceability", "Commit error.");
 							return;
 						}
 
 					} catch (Exception e) {
 						//FIXME : Use logger
 						e.printStackTrace();
+						logger.trace(e.getMessage());
+						MessageDialog.openError(Display.getDefault().getActiveShell(), "ReqCycle Synchronize", "Error while syncing.");
+						return;
 					}
 				}
 			}
