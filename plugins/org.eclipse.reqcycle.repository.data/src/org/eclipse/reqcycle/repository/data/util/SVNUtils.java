@@ -26,6 +26,7 @@ import java.util.Map;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -46,8 +47,13 @@ import org.eclipse.team.svn.core.connector.SVNEntryRevisionReference;
 import org.eclipse.team.svn.core.connector.SVNRevision;
 import org.eclipse.team.svn.core.extension.CoreExtensionsManager;
 import org.eclipse.team.svn.core.extension.factory.ISVNConnectorFactory;
+import org.eclipse.team.svn.core.operation.CompositeOperation;
+import org.eclipse.team.svn.core.operation.IActionOperation;
 import org.eclipse.team.svn.core.operation.SVNNullProgressMonitor;
+import org.eclipse.team.svn.core.operation.local.CommitOperation;
+import org.eclipse.team.svn.core.operation.local.MarkAsMergedOperation;
 import org.eclipse.team.svn.core.utility.SVNUtility;
+import org.eclipse.team.svn.ui.SVNUIMessages;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import RequirementSourceConf.RequirementSource;
@@ -338,9 +344,24 @@ public class SVNUtils {
 			t.addNewLinks(rdfFile, newLinks);
 			MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Traceability", newLinks.size() + " links has been added from svn");
 		}
-
-		return commit(rdfFile.getLocationURI().getPath(), "Traceability Commit", Depth.infinityOrFiles(false), ISVNConnector.Options.FORCE);
-
+		long[] result;
+		try {
+			result = commit(rdfFile.getLocationURI().getPath(), "Traceability Commit", Depth.infinityOrFiles(false), ISVNConnector.Options.FORCE);
+		} catch (SVNConnectorException e) {
+			if(e.getMessage().contains("out of date")) {
+				CompositeOperation op = new CompositeOperation("Operation_UOverrideAndCommit", SVNUIMessages.class);
+				MarkAsMergedOperation mergeOp = new MarkAsMergedOperation(new IResource[]{ rdfFile }, true, "", false);
+				op.add(mergeOp);
+				CommitOperation mainOp = new CommitOperation(mergeOp, "", true, false);
+				IActionOperation[] dependsOn = new IActionOperation[]{ mergeOp };
+				op.add(mainOp, dependsOn);
+				op.run(new NullProgressMonitor());
+				result = null;
+			} else {
+				throw e;
+			}
+		}
+		return result;
 	}
 
 	/**
@@ -358,7 +379,7 @@ public class SVNUtils {
 		Collection<Link> newLinks = new ArrayList<Link>();
 
 		for(Link link : links) {
-			String schemeSpecificPart = link.getId().getSchemeSpecificPart();
+			String schemeSpecificPart = link.getId().getFragment();
 			if(!idToLinks.containsKey(schemeSpecificPart)) {
 				idToLinks.put(schemeSpecificPart, link);
 			} else {
@@ -367,7 +388,7 @@ public class SVNUtils {
 		}
 
 		for(Link link : svnLinks) {
-			String schemeSpecificPart = link.getId().getSchemeSpecificPart();
+			String schemeSpecificPart = link.getId().getFragment();
 			if(!idToLinks.containsKey(schemeSpecificPart)) {
 				newLinks.add(link);
 			}

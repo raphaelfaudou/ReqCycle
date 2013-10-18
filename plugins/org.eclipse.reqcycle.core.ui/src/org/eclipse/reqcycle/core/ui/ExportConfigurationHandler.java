@@ -26,6 +26,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
@@ -55,6 +56,7 @@ public class ExportConfigurationHandler extends AbstractHandler {
 			IPath confFilePath = org.eclipse.ziggurat.configuration.Activator.getDefault().getStateLocation();
 			URI folderURI = URI.createURI(confFilePath.toOSString());
 			createZipFromFiles(folderURI, uri);
+			MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Export ReqCycle Configuration", "Export finished.");
 		}
 	}
 

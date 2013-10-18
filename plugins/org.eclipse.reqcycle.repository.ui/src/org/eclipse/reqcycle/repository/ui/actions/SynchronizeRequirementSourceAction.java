@@ -85,7 +85,7 @@ public class SynchronizeRequirementSourceAction extends Action {
 						} else if(resultTracea != null && resultTracea.length == 0) {
 							MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Traceability", "Nothing to Commit.");
 						} else {
-							MessageDialog.openError(Display.getDefault().getActiveShell(), "Synchronize Traceability", "Error while syncing the Requirement Source.");
+							MessageDialog.openError(Display.getDefault().getActiveShell(), "Synchronize Traceability", "Error while syncing the traceability.");
 							return;
 						}
 
