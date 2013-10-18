@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.eclipse.reqcycle.feature_1.0.0.201310171730.jar" id="org.eclipse.reqcycle.feature" version="1.0.0.201310171730"/>
-   <feature url="features/org.eclipse.ziggurat.feature_0.0.1.201310171730.jar" id="org.eclipse.ziggurat.feature" version="0.0.1.201310171730"/>
-   <feature url="features/org.topcased.iterators.feature_1.0.0.201310171730.jar" id="org.topcased.iterators.feature" version="1.0.0.201310171730"/>
+   <feature url="features/org.eclipse.reqcycle.feature_1.0.0.201310181739.jar" id="org.eclipse.reqcycle.feature" version="1.0.0.201310181739"/>
+   <feature url="features/org.eclipse.ziggurat.feature_0.0.1.201310181739.jar" id="org.eclipse.ziggurat.feature" version="0.0.1.201310181739"/>
+   <feature url="features/org.topcased.iterators.feature_1.0.0.201310181739.jar" id="org.topcased.iterators.feature" version="1.0.0.201310181739"/>
 </site>
