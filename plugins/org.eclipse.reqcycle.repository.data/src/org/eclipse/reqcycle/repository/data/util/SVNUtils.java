@@ -202,7 +202,7 @@ public class SVNUtils {
 		if(difference != null && !difference.isEmpty()) {
 			moveElementToSource(mainResource, difference);
 			dataManager.save();
-			MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Requirement Source", differenceFromSVN.size() + " elements has been added");
+			MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Requirement Source", differenceFromSVN.size() + difference.size() + " elements have been synchronized\n" + differenceFromSVN.size() + " imported\n" + difference.size() + " exported");
 		}
 
 		return commit(file.getLocationURI().getPath(), "ReqCycle Commit", Depth.infinityOrFiles(false), ISVNConnector.Options.FORCE);
@@ -353,7 +353,7 @@ public class SVNUtils {
 
 		if(newLinks != null && !newLinks.isEmpty()) {
 			t.addNewLinks(rdfFile, newLinks);
-			MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Traceability", svnNewLinks.size() + " links has been added");
+			MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Traceability", svnNewLinks.size() + newLinks.size() + " links have been synchronized\n" + svnNewLinks.size() + " imported\n" + newLinks.size() + " exported");
 		}
 		return commit(rdfFile.getLocationURI().getPath(), "Traceability Commit", Depth.infinityOrFiles(false), ISVNConnector.Options.NONE);
 	}
