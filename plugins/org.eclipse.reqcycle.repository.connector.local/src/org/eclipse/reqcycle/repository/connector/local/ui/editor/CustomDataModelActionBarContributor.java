@@ -21,26 +21,34 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.reqcycle.repository.connector.local.ui.editor.util.CustomDataModelEditorUtil;
 
 import RequirementSourceConf.RequirementSource;
-import RequirementSourceData.presentation.RequirementSourceDataActionBarContributor;
 import RequirementSourceConf.RequirementSources;
-
+import RequirementSourceData.presentation.RequirementSourceDataActionBarContributor;
 
 /**
  * The Class RequirementsActionBarContributor.
  */
-public class CustomDataModelActionBarContributor extends RequirementSourceDataActionBarContributor {
+public class CustomDataModelActionBarContributor extends
+		RequirementSourceDataActionBarContributor {
 
 	@Override
-	protected Collection<IAction> generateCreateChildActions(Collection<?> descriptors, ISelection selection) {
-		if(CustomDataModelEditorUtil.isInstance(selection, RequirementSources.class)) {
+	protected Collection<IAction> generateCreateChildActions(
+			Collection<?> descriptors, ISelection selection) {
+		if (CustomDataModelEditorUtil.isInstance(selection,
+				RequirementSources.class)) {
 			return Collections.emptyList();
 		}
-		return super.generateCreateChildActions(descriptors, selection);
+		Collection<IAction> result = super.generateCreateChildActions(
+				descriptors, selection);
+		return result;
 	}
 
 	@Override
-	protected Collection<IAction> generateCreateSiblingActions(Collection<?> descriptors, ISelection selection) {
-		if(CustomDataModelEditorUtil.isInstance(selection, RequirementSources.class) || CustomDataModelEditorUtil.isInstance(selection, RequirementSource.class)) {
+	protected Collection<IAction> generateCreateSiblingActions(
+			Collection<?> descriptors, ISelection selection) {
+		if (CustomDataModelEditorUtil.isInstance(selection,
+				RequirementSources.class)
+				|| CustomDataModelEditorUtil.isInstance(selection,
+						RequirementSource.class)) {
 			return Collections.emptyList();
 		}
 		return super.generateCreateSiblingActions(descriptors, selection);

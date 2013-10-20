@@ -13,6 +13,7 @@
  *****************************************************************************/
 package org.eclipse.reqcycle.repository.connector.local.ui.editor.provider;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -38,7 +39,6 @@ import RequirementSourceData.RequirementsContainer;
 import RequirementSourceData.provider.RequirementItemProvider;
 import ScopeConf.Scope;
 
-
 /**
  * The Class CustomRequirementItemProvider.
  */
@@ -47,11 +47,13 @@ public class CustomRequirementItemProvider extends RequirementItemProvider {
 	@Inject
 	IDataModelManager manager;
 
+	protected Collection<IItemPropertyDescriptor> customItemPropertyDescriptors;
+
 	/**
 	 * Instantiates a new custom requirement section item provider.
 	 * 
 	 * @param adapterFactory
-	 *        the adapter factory
+	 *            the adapter factory
 	 */
 	public CustomRequirementItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
@@ -62,19 +64,19 @@ public class CustomRequirementItemProvider extends RequirementItemProvider {
 	public String getText(Object object) {
 		String result = "";
 
-		String id = ((Requirement)object).getId();
-		String text = ((Requirement)object).getText();
+		String id = ((Requirement) object).getId();
+		String text = ((Requirement) object).getText();
 
-		if(id != null && !id.isEmpty()) {
+		if (id != null && !id.isEmpty()) {
 			result += "[ id : " + id;
 		}
 
-		if(text != null && !text.isEmpty()) {
+		if (text != null && !text.isEmpty()) {
 			result += result.isEmpty() ? "[ " : " | ";
 			result += "text : " + text;
 		}
 
-		if(!result.isEmpty()) {
+		if (!result.isEmpty()) {
 			result += " ]";
 		}
 
@@ -89,37 +91,49 @@ public class CustomRequirementItemProvider extends RequirementItemProvider {
 
 	@Override
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
-		if(itemPropertyDescriptors == null) {
-			super.getPropertyDescriptors(object);
-			if(object instanceof Requirement) {
-				EList<EStructuralFeature> features = ((Requirement)object).eClass().getEStructuralFeatures();
-				for(EStructuralFeature eStructuralFeature : features) {
-					itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(), getResourceLocator(), eStructuralFeature.getName(), "", eStructuralFeature, true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
-				}
-			}
+		super.getPropertyDescriptors(object);
+		// if(itemPropertyDescriptors == null) {
+		customItemPropertyDescriptors = new ArrayList<IItemPropertyDescriptor>();
+		EList<EStructuralFeature> features = ((Requirement) object).eClass()
+				.getEStructuralFeatures();
+		for (EStructuralFeature eStructuralFeature : features) {
+			customItemPropertyDescriptors.add(createItemPropertyDescriptor(
+					((ComposeableAdapterFactory) adapterFactory)
+							.getRootAdapterFactory(), getResourceLocator(),
+					eStructuralFeature.getName(), "", eStructuralFeature, true,
+					false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+					null, null));
 		}
+		itemPropertyDescriptors.addAll(customItemPropertyDescriptors);
 		return itemPropertyDescriptors;
+		// }
+		// return itemPropertyDescriptors;
 	}
 
 	@Override
-	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
-		//FIXME : Use element Data Model to get possible children
-		//Gets Dynamic Data Model possible children
+	protected void collectNewChildDescriptors(
+			Collection<Object> newChildDescriptors, Object object) {
+		// FIXME : Use element Data Model to get possible children
+		// Gets Dynamic Data Model possible children
 
 		Scope scope = getScope(object);
 
-		for(IRequirementType type : manager.getAllRequirementTypes()) {
+		for (IRequirementType type : manager.getAllRequirementTypes()) {
 			Requirement instance = type.createInstance();
 			instance.getScopes().add(scope);
-			newChildDescriptors.add(createChildParameter(RequirementSourceDataPackage.Literals.SECTION__CHILDREN, instance));
+			newChildDescriptors.add(createChildParameter(
+					RequirementSourceDataPackage.Literals.SECTION__CHILDREN,
+					instance));
 		}
-		newChildDescriptors.add(createChildParameter(RequirementSourceDataPackage.Literals.SECTION__CHILDREN, RequirementSourceDataFactory.eINSTANCE.createSection()));
+		newChildDescriptors.add(createChildParameter(
+				RequirementSourceDataPackage.Literals.SECTION__CHILDREN,
+				RequirementSourceDataFactory.eINSTANCE.createSection()));
 	}
 
 	private Scope getScope(Object object) {
-		if(object instanceof AbstractElement) {
-			RequirementsContainer rc = getRequirementContainer((AbstractElement)object);
-			if(rc == null) {
+		if (object instanceof AbstractElement) {
+			RequirementsContainer rc = getRequirementContainer((AbstractElement) object);
+			if (rc == null) {
 				return null;
 			}
 			RequirementSource source = rc.getRequirementSource();
@@ -130,12 +144,12 @@ public class CustomRequirementItemProvider extends RequirementItemProvider {
 
 	private RequirementsContainer getRequirementContainer(AbstractElement object) {
 		EObject container = object.eContainer();
-		if(container instanceof RequirementsContainer) {
-			return (RequirementsContainer)container;
+		if (container instanceof RequirementsContainer) {
+			return (RequirementsContainer) container;
 		}
 
-		if(container instanceof AbstractElement) {
-			return getRequirementContainer((AbstractElement)container);
+		if (container instanceof AbstractElement) {
+			return getRequirementContainer((AbstractElement) container);
 		}
 
 		return null;
