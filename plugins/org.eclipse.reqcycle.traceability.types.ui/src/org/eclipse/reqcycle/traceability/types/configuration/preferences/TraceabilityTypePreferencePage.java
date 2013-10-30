@@ -44,6 +44,7 @@ public class TraceabilityTypePreferencePage extends AbstractPreferencePage {
 			IStructuredSelection selec = (IStructuredSelection) treeViewer
 					.getSelection();
 			Object firstElement = selec.getFirstElement();
+			doLoad();
 			if (firstElement == null) {
 				createConfiguration();
 			} else if (firstElement instanceof Relation) {

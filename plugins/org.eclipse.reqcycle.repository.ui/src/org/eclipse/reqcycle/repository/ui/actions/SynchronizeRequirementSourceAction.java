@@ -86,7 +86,8 @@ public class SynchronizeRequirementSourceAction extends Action {
 						}
 
 						if(!isTraceabilityAvailable(source)) {
-							MessageDialog.openError(Display.getDefault().getActiveShell(), "Synchronize Traceability", "Can't find traceability file. The traceability file must be at the same project as the Requirement Source file.");
+							MessageDialog.openError(Display.getDefault().getActiveShell(), "Synchronize Traceability", "Can't find traceability file. The traceability file must be in the same project as the Requirement Source file.");
+							return;
 						}
 
 						long[] resultTracea = null;
