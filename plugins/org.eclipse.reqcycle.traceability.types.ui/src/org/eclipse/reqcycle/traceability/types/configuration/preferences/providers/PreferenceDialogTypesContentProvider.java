@@ -82,6 +82,8 @@ public class PreferenceDialogTypesContentProvider extends
 	}
 
 	public void setTypeConfigContainer(TypeConfigContainer container) {
-		this.container = container;
+		if(container != null) {
+			this.container = container;
+		}
 	}
 }
