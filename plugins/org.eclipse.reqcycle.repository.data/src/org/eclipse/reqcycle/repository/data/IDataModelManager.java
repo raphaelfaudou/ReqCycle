@@ -226,13 +226,4 @@ public interface IDataModelManager {
 	 */
 	public IAttribute createAttribute(String name, IEnumerationType type);
 
-	/**
-	 * Gets the data model.
-	 * 
-	 * @param s
-	 *        the scope
-	 * @return the data model containing the given scope
-	 */
-	public IDataModel getDataModel(Scope s);
-
 }

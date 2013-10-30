@@ -1,8 +1,12 @@
 package org.eclipse.reqcycle.repository.data.types;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.reqcycle.emf.types.EMFTypeChecker;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.types.IInjectedTypeChecker;
@@ -30,6 +34,10 @@ public class ReqcycleTypeChecker implements IInjectedTypeChecker {
 
 	@Inject
 	IDataModelManager dataModelManager;
+
+	@Inject
+	@Named("confResourceSet")
+	ResourceSet rs;
 
 	@Override
 	public boolean apply(Reachable reachable) {
@@ -60,16 +68,25 @@ public class ReqcycleTypeChecker implements IInjectedTypeChecker {
 
 		@Override
 		public boolean visit(Object o, IAdaptable adaptable) {
-			found = o instanceof AbstractElement;
+			found = false;
 			if(o instanceof AbstractElement && requirementScope != null && dataModel != null) {
 				AbstractElement type = (AbstractElement)o;
 				for(Scope s : type.getScopes()) {
-					if(requirementScope.equalsIgnoreCase(s.eClass().getName()) && dataModelManager.getDataModel(s).equals(dataModelManager.getDataModel(dataModel))) {
+					if(s.eIsProxy()) {
+						EObject newObj = EcoreUtil.resolve(s, rs);
+						if(newObj instanceof Scope) {
+							s = (Scope)newObj;
+						}
+					}
+					if(requirementScope.equalsIgnoreCase(s.getName()) && s.getDataModelURI().equals(dataModelManager.getDataModel(dataModel).getDataModelURI())) {
 						found = true;
 						return true;
 					}
 				}
 			}
+			//			else if(requirementScope == null || dataModel == null) {
+			//				return o instanceof AbstractElement;
+			//			}
 			return found;
 		}
 

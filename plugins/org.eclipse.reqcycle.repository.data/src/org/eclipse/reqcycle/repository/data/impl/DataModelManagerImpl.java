@@ -25,7 +25,6 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
@@ -288,20 +287,6 @@ public class DataModelManagerImpl implements IDataModelManager {
 				return false;
 			}
 		});
-	}
-
-	@Override
-	public IDataModel getDataModel(Scope scope) {
-		EObject container = scope.eContainer();
-		if(container instanceof EAnnotation) {
-			EAnnotation annotation = (EAnnotation)container;
-			container = annotation.eContainer();
-			if(container instanceof EPackage) {
-				EPackage p = (EPackage)container;
-				return getDataModel(p.getName());
-			}
-		}
-		return null;
 	}
 
 	@Override
