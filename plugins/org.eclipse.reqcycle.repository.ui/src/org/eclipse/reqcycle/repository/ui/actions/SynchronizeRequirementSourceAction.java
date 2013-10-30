@@ -13,8 +13,15 @@
  *****************************************************************************/
 package org.eclipse.reqcycle.repository.ui.actions;
 
+import java.io.IOException;
+
 import javax.inject.Inject;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
@@ -24,6 +31,7 @@ import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.data.util.IRequirementSourceProperties;
 import org.eclipse.reqcycle.repository.data.util.SVNUtils;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.team.svn.core.connector.SVNConnectorException;
 import org.eclipse.team.svn.core.connector.SVNRevision;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
@@ -77,6 +85,10 @@ public class SynchronizeRequirementSourceAction extends Action {
 							return;
 						}
 
+						if(!isTraceabilityAvailable(source)) {
+							MessageDialog.openError(Display.getDefault().getActiveShell(), "Synchronize Traceability", "Can't find traceability file. The traceability file must be at the same project as the Requirement Source file.");
+						}
+
 						long[] resultTracea = null;
 						resultTracea = SVNUtils.synchronizeSVNTraceability(source);
 
@@ -89,16 +101,31 @@ public class SynchronizeRequirementSourceAction extends Action {
 							return;
 						}
 
-					} catch (Exception e) {
+					} catch (SVNConnectorException e) {
 						//FIXME : Use logger
 						e.printStackTrace();
 						logger.trace(e.getMessage());
-						MessageDialog.openError(Display.getDefault().getActiveShell(), "ReqCycle Synchronize", "Error while syncing.");
+						MessageDialog.openError(Display.getDefault().getActiveShell(), "ReqCycle Synchronize", "SVN Error while syncing.\n" + e.getMessage());
+						return;
+					} catch (IOException e) {
+						//FIXME : Use logger
+						e.printStackTrace();
+						logger.trace(e.getMessage());
+						MessageDialog.openError(Display.getDefault().getActiveShell(), "ReqCycle Synchronize", "Error while syncing.\n" + e.getMessage());
 						return;
 					}
 				}
 			}
 		}
+	}
+
+	private boolean isTraceabilityAvailable(RequirementSource source) {
+		Resource resource = source.getContents().eResource();
+		IFile file = WorkspaceSynchronizer.getFile(resource);
+		IProject project = file.getProject();
+
+		IFile fileTracea = project.getFile(new Path("./.traceability.rdf"));
+		return fileTracea.exists();
 	}
 
 }

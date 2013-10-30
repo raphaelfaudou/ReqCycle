@@ -111,18 +111,16 @@ public class SVNUtils {
 	 * @param revision
 	 *        the svn revision
 	 * @return the input stream from svn file url
+	 * @throws SVNConnectorException
 	 */
-	public static InputStream getInputStreamFromSVNFileUrl(String SVNFileUrl, SVNRevision revision) {
+	public static InputStream getInputStreamFromSVNFileUrl(String SVNFileUrl, SVNRevision revision) throws SVNConnectorException {
 		final SVNEntryRevisionReference reference = new SVNEntryRevisionReference(new SVNEntryReference(SVNFileUrl), revision);
 
 		final ISVNConnector connector = svnConnectorFactory.newInstance();
 
 		boolean referenceAvailable = true;
-		try {
-			SVNUtility.info(connector, reference, ISVNConnector.Depth.EMPTY, new SVNNullProgressMonitor());
-		} catch (SVNConnectorException e) {
-			referenceAvailable = false;
-		}
+
+		SVNUtility.info(connector, reference, ISVNConnector.Depth.EMPTY, new SVNNullProgressMonitor());
 
 		if(referenceAvailable) {
 			PipedInputStream in = new PipedInputStream(10240);
@@ -167,14 +165,14 @@ public class SVNUtils {
 		Resource mainResource = source.getContents().eResource();
 		if(mainResource == null) {
 			// TODO : Exception
-			return null;
+			throw new IOException("Resource not found");
 		}
 		ResourceSet rs = mainResource.getResourceSet();
 
-		SVNChangeStatus svnInfo = SVNUtils.getSVNInfo(WorkspaceSynchronizer.getFile(mainResource));
+		IFile file = WorkspaceSynchronizer.getFile(mainResource);
+		SVNChangeStatus svnInfo = SVNUtils.getSVNInfo(file);
 		if(svnInfo == null) {
-			//TODO : Exception
-			return null;
+			throw new SVNConnectorException(file.getLocation() + " must be shared.");
 		}
 
 		Resource wResource = getSVNRevisionResource(svnInfo, SVNRevision.WORKING, rs);
@@ -189,8 +187,6 @@ public class SVNUtils {
 
 		Resource wresource = wRC.eResource();
 		Collection<AbstractElement> differenceFromSVN = getNewElement(wresource, hRC.getRequirements());
-
-		IFile file = WorkspaceSynchronizer.getFile(mainResource);
 
 		revert(file.getLocationURI().getPath(), Depth.infinityOrFiles(false), null, new SVNNullProgressMonitor());
 		update(new String[]{ file.getLocationURI().getPath() }, SVNRevision.HEAD, Depth.infinityOrFiles(false), ISVNConnector.Options.NONE, new SVNNullProgressMonitor());
@@ -288,8 +284,9 @@ public class SVNUtils {
 	 * @return the SVN revision resource
 	 * @throws IOException
 	 *         Signals that an I/O exception has occurred.
+	 * @throws SVNConnectorException
 	 */
-	public static Resource getSVNRevisionResource(SVNChangeStatus svnChangeStatus, SVNRevision svnRevision, ResourceSet rs) throws IOException {
+	public static Resource getSVNRevisionResource(SVNChangeStatus svnChangeStatus, SVNRevision svnRevision, ResourceSet rs) throws IOException, SVNConnectorException {
 		InputStream inputStreamWorking = SVNUtils.getInputStreamFromSVNFileUrl(svnChangeStatus.path, svnRevision);
 		if(inputStreamWorking == null) {
 			return null;
@@ -315,7 +312,7 @@ public class SVNUtils {
 		Resource resource = source.getContents().eResource();
 		if(resource == null) {
 			//TODO Exception
-			return null;
+			throw new IOException("Resource not found.");
 		}
 
 		IFile file = WorkspaceSynchronizer.getFile(resource);
@@ -327,8 +324,7 @@ public class SVNUtils {
 		IFile rdfFile = t.getFile();
 
 		if(rdfFile == null) {
-			//TODO Exception
-			return null;
+			throw new IOException("Traceability file not found. The traceability file must be at the same project as the Requirement Source file.");
 		}
 
 		Iterable<Link> links = t.getTraceabilityLinks(project);
@@ -337,7 +333,7 @@ public class SVNUtils {
 		if(info == null) {
 			//TODO : Exception
 			//Not shared
-			return null;
+			throw new SVNConnectorException(rdfFile.getLocation() + " must be shared.");
 		}
 
 		final InputStream inputStreamHead = SVNUtils.getInputStreamFromSVNFileUrl(info.path, SVNRevision.HEAD);
