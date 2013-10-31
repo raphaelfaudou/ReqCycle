@@ -32,6 +32,9 @@ public class ReqcycleTypeChecker implements IInjectedTypeChecker {
 	@InjectValue
 	String requirementScope;
 
+	@InjectValue
+	String dataType;
+
 	@Inject
 	IDataModelManager dataModelManager;
 
@@ -69,24 +72,38 @@ public class ReqcycleTypeChecker implements IInjectedTypeChecker {
 		@Override
 		public boolean visit(Object o, IAdaptable adaptable) {
 			found = false;
-			if(o instanceof AbstractElement && requirementScope != null && dataModel != null) {
+			if(o instanceof AbstractElement) {
 				AbstractElement type = (AbstractElement)o;
-				for(Scope s : type.getScopes()) {
-					if(s.eIsProxy()) {
-						EObject newObj = EcoreUtil.resolve(s, rs);
-						if(newObj instanceof Scope) {
-							s = (Scope)newObj;
+				found = true;
+
+				if(dataModel != null) {
+
+					if(!type.eClass().getEPackage().getName().equals(dataModel)) {
+						found = false;
+					}
+
+					if(found && requirementScope != null) {
+						found = false;
+						for(Scope s : type.getScopes()) {
+							if(s.eIsProxy()) {
+								EObject newObj = EcoreUtil.resolve(s, rs);
+								if(newObj instanceof Scope) {
+									s = (Scope)newObj;
+								}
+							}
+							if(requirementScope.equals(s.getName())) {
+								found = true;
+							}
 						}
 					}
-					if(requirementScope.equalsIgnoreCase(s.getName()) && s.getDataModelURI().equals(dataModelManager.getDataModel(dataModel).getDataModelURI())) {
-						found = true;
-						return true;
+
+					if(found && dataType != null) {
+						found = false;
+						String className = type.eClass().getName();
+						found = className.equals(dataType);
 					}
 				}
 			}
-			//			else if(requirementScope == null || dataModel == null) {
-			//				return o instanceof AbstractElement;
-			//			}
 			return found;
 		}
 
