@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.reqcycle.ocl.ui;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -218,7 +219,8 @@ public class SettingPage extends WizardPage {
 					Object obj = ((IStructuredSelection)selection).getFirstElement();
 					if(obj instanceof IDataModel) {
 						cScope.setEnabled(true);
-						inputScope.addAll(((IDataModel)obj).getScopes());
+						Collection<Scope> scopes = dataManager.getScopes((IDataModel)obj);
+						inputScope.addAll(scopes);
 					}
 
 				}
