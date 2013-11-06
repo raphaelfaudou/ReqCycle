@@ -38,7 +38,8 @@ import org.eclipse.ziggurat.inject.ZigguratInject;
 import RequirementSourceConf.RequirementSource;
 
 /**
- * Action to Synchronize a Requirement Resource
+ * Example of Action to Synchronize a Requirement Resource
+ * FIXME : use a synchronize module in a different plugin and remove this one
  */
 public class SynchronizeRequirementSourceAction extends Action {
 
@@ -81,27 +82,31 @@ public class SynchronizeRequirementSourceAction extends Action {
 							return;
 						}
 
-						if(!MessageDialog.openQuestion(Display.getDefault().getActiveShell(), "Synchronize Traceability", "Would you like to synchronize project traceability?")) {
-							return;
-						}
-
-						if(!isTraceabilityAvailable(source)) {
-							MessageDialog.openError(Display.getDefault().getActiveShell(), "Synchronize Traceability", "Can't find traceability file. The traceability file must be in the same project as the Requirement Source file.");
-							return;
-						}
-
-						long[] resultTracea = null;
-						resultTracea = SVNUtils.synchronizeSVNTraceability(source);
-
-						if(resultTracea != null && resultTracea.length > 0 && resultTracea[0] != SVNRevision.INVALID_REVISION_NUMBER) {
-							MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Traceability", "Synchronize Traceability finished without errors");
-						} else if(resultTracea != null && resultTracea.length == 0) {
-							MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Traceability", "Nothing to Commit.");
-						} else {
-							MessageDialog.openError(Display.getDefault().getActiveShell(), "Synchronize Traceability", "Commit error.");
-							return;
-						}
-
+						/*
+						 * if(!MessageDialog.openQuestion(Display.getDefault().getActiveShell(), "Synchronize Traceability",
+						 * "Would you like to synchronize project traceability?")) {
+						 * return;
+						 * }
+						 * 
+						 * if(!isTraceabilityAvailable(source)) {
+						 * MessageDialog.openError(Display.getDefault().getActiveShell(), "Synchronize Traceability",
+						 * "Can't find traceability file. The traceability file must be in the same project as the Requirement Source file.");
+						 * return;
+						 * }
+						 * 
+						 * long[] resultTracea = null;
+						 * resultTracea = SVNUtils.synchronizeSVNTraceability(source);
+						 * 
+						 * if(resultTracea != null && resultTracea.length > 0 && resultTracea[0] != SVNRevision.INVALID_REVISION_NUMBER) {
+						 * MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Traceability",
+						 * "Synchronize Traceability finished without errors");
+						 * } else if(resultTracea != null && resultTracea.length == 0) {
+						 * MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Traceability", "Nothing to Commit.");
+						 * } else {
+						 * MessageDialog.openError(Display.getDefault().getActiveShell(), "Synchronize Traceability", "Commit error.");
+						 * return;
+						 * }
+						 */
 					} catch (SVNConnectorException e) {
 						//FIXME : Use logger
 						e.printStackTrace();
