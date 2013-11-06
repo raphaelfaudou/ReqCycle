@@ -166,8 +166,12 @@ public class DataModelManagerImpl implements IDataModelManager {
 		if(p == null) {
 			return;
 		}
+		if(getDataModel(p.getName()) != null) {
+			throw new RuntimeException("A data model with the same name already exists.");
+		}
 		((DataModelImpl)dataModel).addDataModel(p);
 	}
+
 
 	protected void registerDataModels(EPackage ePackage) {
 		Registry.INSTANCE.put(ePackage.getNsURI(), ePackage);

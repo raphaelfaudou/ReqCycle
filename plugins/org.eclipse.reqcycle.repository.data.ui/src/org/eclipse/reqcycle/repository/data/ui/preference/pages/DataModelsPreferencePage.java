@@ -15,6 +15,7 @@ package org.eclipse.reqcycle.repository.data.ui.preference.pages;
 
 import javax.inject.Inject;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.viewers.TableViewer;
@@ -186,7 +187,19 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				NameDialog dialog = new NameDialog(e.display.getActiveShell(), "Add Data Model");
+				NameDialog dialog = new NameDialog(e.display.getActiveShell(), "Add Data Model") {
+
+					@Override
+					protected void okPressed() {
+						String name = getName();
+						//FIXME : use exception mecanism instead of using message dialog.
+						if(dataModelManager.getDataModel(name) != null) {
+							MessageDialog.openError(getShell(), "Add Data Model", "A Data Model with the same name already exists. Please choose a differente one.");
+							return;
+						}
+						super.okPressed();
+					}
+				};
 				if(dialog.open() == Window.OK) {
 					String name = dialog.getName();
 					viewerManager.addDataModels(dataModelManager.createDataModel(name));
