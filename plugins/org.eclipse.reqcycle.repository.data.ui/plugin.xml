@@ -34,6 +34,11 @@
     <handler
           class="org.eclipse.reqcycle.repository.data.ui.handlers.InitCustomDataHandler"
           commandId="org.eclipse.reqcycle.repository.data.ui.commands.initCustomData">
+       <enabledWhen>
+          <equals
+                value="false">
+          </equals>
+       </enabledWhen>
     </handler>
  </extension>
  <extension

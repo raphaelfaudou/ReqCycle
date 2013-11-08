@@ -24,7 +24,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -184,14 +183,9 @@ public class ConfigurationManagerImpl implements IConfigurationManager {
 		}
 
 		if(confFilePath == null && (scope == null || Scope.WORKSPACE.equals(scope))) {
-			IPath stateLocation = new Path("platform:/meta/" + Activator.PLUGIN_ID);
-			confFilePath = stateLocation.append("/" + id + "." + extension);
-		}
-		
-		if(confFilePath.getDevice() == null) {
-			return URI.createPlatformResourceURI(confFilePath.toOSString(), true);
+			return URI.createURI("platform:/meta/" + Activator.PLUGIN_ID + "/" + id + "." + extension);
 		} else {
-			return URI.createURI(confFilePath.toString());
+			return URI.createPlatformResourceURI(confFilePath.toOSString(), true);
 		}
 		
 	}

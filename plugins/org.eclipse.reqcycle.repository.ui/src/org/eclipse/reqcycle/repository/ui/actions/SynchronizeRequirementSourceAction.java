@@ -13,8 +13,6 @@
  *****************************************************************************/
 package org.eclipse.reqcycle.repository.ui.actions;
 
-import java.io.IOException;
-
 import javax.inject.Inject;
 
 import org.eclipse.core.resources.IFile;
@@ -23,16 +21,11 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.data.util.IRequirementSourceProperties;
-import org.eclipse.reqcycle.repository.data.util.SVNUtils;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.team.svn.core.connector.SVNConnectorException;
-import org.eclipse.team.svn.core.connector.SVNRevision;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import RequirementSourceConf.RequirementSource;
@@ -69,57 +62,57 @@ public class SynchronizeRequirementSourceAction extends Action {
 				RequirementSource source = (RequirementSource)element;
 				if(Boolean.parseBoolean(source.getProperty(IRequirementSourceProperties.IS_LOCAL))) {
 
-					try {
-						long[] resultReqs = null;
-						resultReqs = SVNUtils.synchronizeSVNSource(source);
-
-						if(resultReqs != null && resultReqs.length > 0 && resultReqs[0] != SVNRevision.INVALID_REVISION_NUMBER) {
-							MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Requirement Source", "Synchronize Requirement Source finished without errors.");
-						} else if(resultReqs != null && resultReqs.length == 0) {
-							MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Requirement Source", "Nothing to Commit.");
-						} else {
-							MessageDialog.openError(Display.getDefault().getActiveShell(), "Synchronize Requirement Source", "Commit error.");
-							return;
-						}
-
-						/*
-						 * if(!MessageDialog.openQuestion(Display.getDefault().getActiveShell(), "Synchronize Traceability",
-						 * "Would you like to synchronize project traceability?")) {
-						 * return;
-						 * }
-						 * 
-						 * if(!isTraceabilityAvailable(source)) {
-						 * MessageDialog.openError(Display.getDefault().getActiveShell(), "Synchronize Traceability",
-						 * "Can't find traceability file. The traceability file must be in the same project as the Requirement Source file.");
-						 * return;
-						 * }
-						 * 
-						 * long[] resultTracea = null;
-						 * resultTracea = SVNUtils.synchronizeSVNTraceability(source);
-						 * 
-						 * if(resultTracea != null && resultTracea.length > 0 && resultTracea[0] != SVNRevision.INVALID_REVISION_NUMBER) {
-						 * MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Traceability",
-						 * "Synchronize Traceability finished without errors");
-						 * } else if(resultTracea != null && resultTracea.length == 0) {
-						 * MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Traceability", "Nothing to Commit.");
-						 * } else {
-						 * MessageDialog.openError(Display.getDefault().getActiveShell(), "Synchronize Traceability", "Commit error.");
-						 * return;
-						 * }
-						 */
-					} catch (SVNConnectorException e) {
-						//FIXME : Use logger
-						e.printStackTrace();
-						logger.trace(e.getMessage());
-						MessageDialog.openError(Display.getDefault().getActiveShell(), "ReqCycle Synchronize", "SVN Error while syncing.\n" + e.getMessage());
-						return;
-					} catch (IOException e) {
-						//FIXME : Use logger
-						e.printStackTrace();
-						logger.trace(e.getMessage());
-						MessageDialog.openError(Display.getDefault().getActiveShell(), "ReqCycle Synchronize", "Error while syncing.\n" + e.getMessage());
-						return;
-					}
+					//					try {
+					//						long[] resultReqs = null;
+					//						resultReqs = SVNUtils.synchronizeSVNSource(source);
+					//
+					//						if(resultReqs != null && resultReqs.length > 0 && resultReqs[0] != SVNRevision.INVALID_REVISION_NUMBER) {
+					//							MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Requirement Source", "Synchronize Requirement Source finished without errors.");
+					//						} else if(resultReqs != null && resultReqs.length == 0) {
+					//							MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Requirement Source", "Nothing to Commit.");
+					//						} else {
+					//							MessageDialog.openError(Display.getDefault().getActiveShell(), "Synchronize Requirement Source", "Commit error.");
+					//							return;
+					//						}
+					//
+					//						
+					//						 if(!MessageDialog.openQuestion(Display.getDefault().getActiveShell(), "Synchronize Traceability",
+					//						  "Would you like to synchronize project traceability?")) {
+					//						  return;
+					//						  }
+					//						  
+					//						  if(!isTraceabilityAvailable(source)) {
+					//						  MessageDialog.openError(Display.getDefault().getActiveShell(), "Synchronize Traceability",
+					//						  "Can't find traceability file. The traceability file must be in the same project as the Requirement Source file.");
+					//						  return;
+					//						  }
+					//						  
+					//						  long[] resultTracea = null;
+					//						  resultTracea = SVNUtils.synchronizeSVNTraceability(source);
+					//						  
+					//						  if(resultTracea != null && resultTracea.length > 0 && resultTracea[0] != SVNRevision.INVALID_REVISION_NUMBER) {
+					//						  MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Traceability",
+					//						  "Synchronize Traceability finished without errors");
+					//						  } else if(resultTracea != null && resultTracea.length == 0) {
+					//						  MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Synchronize Traceability", "Nothing to Commit.");
+					//						  } else {
+					//						  MessageDialog.openError(Display.getDefault().getActiveShell(), "Synchronize Traceability", "Commit error.");
+					//						  return;
+					//						  }
+					//						 
+					//					} catch (SVNConnectorException e) {
+					//						//FIXME : Use logger
+					//						e.printStackTrace();
+					//						logger.trace(e.getMessage());
+					//						MessageDialog.openError(Display.getDefault().getActiveShell(), "ReqCycle Synchronize", "SVN Error while syncing.\n" + e.getMessage());
+					//						return;
+					//					} catch (IOException e) {
+					//						//FIXME : Use logger
+					//						e.printStackTrace();
+					//						logger.trace(e.getMessage());
+					//						MessageDialog.openError(Display.getDefault().getActiveShell(), "ReqCycle Synchronize", "Error while syncing.\n" + e.getMessage());
+					//						return;
+					//					}
 				}
 			}
 		}

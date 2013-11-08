@@ -13,16 +13,25 @@
  *****************************************************************************/
 package org.eclipse.reqcycle.repository.data.ui.preference.pages;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.inject.Inject;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.preference.PreferencePage;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.window.Window;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
+import org.eclipse.reqcycle.repository.data.types.IDataModel;
 import org.eclipse.reqcycle.repository.data.ui.Activator;
-import org.eclipse.reqcycle.repository.data.ui.IDataModelUiManager;
 import org.eclipse.reqcycle.repository.data.ui.dialog.NameDialog;
 import org.eclipse.reqcycle.repository.data.ui.preference.PreferenceUiUtil;
 import org.eclipse.swt.SWT;
@@ -60,12 +69,10 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 	/** Edit Model Button */
 	protected Button btnEditModel;
 
-	@Inject
-	protected IDataModelUiManager viewerManager;
+	protected Button btnDeleteModel;
 
-	private Button btnDeleteModel;
+	protected Collection<IDataModel> inputModels;
 
-	//	private Button btnImportModel;
 
 	/**
 	 * @wbp.parser.constructor
@@ -74,14 +81,6 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 		super();
 		ZigguratInject.inject(this);
 	}
-
-	//	public DataModelsPreferencePage(String title) {
-	//		super(title);
-	//	}
-	//
-	//	public DataModelsPreferencePage(String title, ImageDescriptor image) {
-	//		super(title, image);
-	//	}
 
 	@Override
 	protected void performDefaults() {
@@ -104,12 +103,6 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 		dataModelManager.save();
 		return super.performOk();
 	}
-
-	//	@Override
-	//	public void applyData(Object data) {
-	//		dataModelManager.save();
-	//		viewerManager.notifyListeners(new Event());
-	//	}
 
 	@Override
 	public boolean performCancel() {
@@ -157,8 +150,7 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 		TableColumnLayout packagesTVLayout = new TableColumnLayout();
 		viewerComposite.setLayout(packagesTVLayout);
 
-		viewerManager.addListener(this);
-		tvModels = viewerManager.createDataModelTableViewer(viewerComposite, packagesTVLayout);
+		tvModels = createDataModelTableViewer(viewerComposite, packagesTVLayout);
 		tModels = tvModels.getTable();
 
 		Composite btnComposite = new Composite(parent, SWT.None);
@@ -171,12 +163,49 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 		btnEditModel.setEnabled(false);
 
 		btnDeleteModel = PreferenceUiUtil.createButton(btnComposite, "Delete Data Model", Activator.getImageDescriptor("/icons/delete.gif").createImage());
-		btnDeleteModel.setEnabled(false);
+		//		btnDeleteModel.setEnabled(false);
 
-		//		btnImportModel = PreferenceUiUtil.createButton(btnComposite, "Import Data Model", Activator.getImageDescriptor("/icons/edit.png").createImage());
-		//		btnImportModel.setEnabled(true);
 	}
 
+	public TableViewer createDataModelTableViewer(Composite parent, TableColumnLayout packagesTVLayout) {
+
+		//Table Viewer
+		TableViewer tvModels = new TableViewer(parent);
+		tvModels.setContentProvider(ArrayContentProvider.getInstance());
+		Table tModels = tvModels.getTable();
+		tModels.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		tModels.setLinesVisible(true);
+
+		//Columns
+		TableViewerColumn tvcModelsNames = PreferenceUiUtil.createTableViewerColumn(tvModels, "Name", SWT.None);
+		tvcModelsNames.setLabelProvider(new ColumnLabelProvider() {
+
+			@Override
+			public String getText(Object element) {
+				if(element instanceof IDataModel) {
+					return ((IDataModel)element).getName();
+				}
+				return super.getText(element);
+			}
+		});
+		packagesTVLayout.setColumnData(tvcModelsNames.getColumn(), new ColumnWeightData(20, 100, true));
+
+		initInput(dataModelManager);
+		tvModels.setInput(inputModels);
+
+		return tvModels;
+	}
+
+	private void initInput(IDataModelManager dataModelManager) {
+		inputModels = new ArrayList<IDataModel>();
+		inputModels.addAll(dataModelManager.getAllDataModels());
+	}
+
+	public void addDataModels(IDataModel... models) {
+		for(IDataModel model : models) {
+			inputModels.add(model);
+		}
+	}
 
 	/**
 	 * Add Listeners
@@ -202,85 +231,41 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 				};
 				if(dialog.open() == Window.OK) {
 					String name = dialog.getName();
-					viewerManager.addDataModels(dataModelManager.createDataModel(name));
+					addDataModels(dataModelManager.createDataModel(name));
 					tvModels.refresh();
 				}
 			}
 		});
 
+		btnDeleteModel.addSelectionListener(new SelectionAdapter() {
 
-		//		btnImportModel.addSelectionListener(new SelectionAdapter() {
-		//
-		//			@Override
-		//			public void widgetSelected(SelectionEvent e) {
-		//				ResourceDialog dialog = new ResourceDialog(getShell(), "Select Data Model file", SWT.NONE);
-		//				int res = dialog.open();
-		//				if(res == ResourceDialog.OK) {
-		//					List<URI> uris = dialog.getURIs();
-		//					if(!uris.isEmpty() && uris.size() > 0) {
-		//						URI uri = uris.get(0);
-		//
-		//						Collection<IDataModel> models = dataModelManager.getDataModel(uri);
-		//
-		//						Collection<IDataModel> conflictingDataModels = Collections2.filter(models, new Predicate<IDataModel>() {
-		//
-		//							@Override
-		//							public boolean apply(IDataModel arg0) {
-		//								if(dataModelManager.getDataModel(arg0.getName()) != null) {
-		//									return true;
-		//								}
-		//								return false;
-		//							}
-		//						});
-		//
-		//						Collection<IDataModel> importableDataModels = Collections2.filter(models, new Predicate<IDataModel>() {
-		//
-		//							@Override
-		//							public boolean apply(IDataModel arg0) {
-		//								if(dataModelManager.getDataModel(arg0.getName()) == null) {
-		//									return true;
-		//								}
-		//								return false;
-		//							}
-		//						});
-		//
-		//						String errorMessage = "";
-		//
-		//						if(!conflictingDataModels.isEmpty()) {
-		//							errorMessage = "The following Data Models already exists :\n";
-		//							for(IDataModel iDataModel : conflictingDataModels) {
-		//								errorMessage += "- " + iDataModel.getName() + "\n";
-		//							}
-		//							errorMessage += "\n";
-		//						}
-		//
-		//						String importMessage = "Import :\n";
-		//
-		//						if(!importableDataModels.isEmpty()) {
-		//							for(IDataModel iDataModel : importableDataModels) {
-		//								importMessage += "- " + iDataModel.getName() + "\n";
-		//							}
-		//						} else {
-		//							importMessage += "None\n";
-		//						}
-		//
-		//
-		//						String message = errorMessage + importMessage + "\n" + "Would you like to continue ?";
-		//
-		//						if(MessageDialog.openQuestion(Display.getDefault().getActiveShell(), "Import Data Models", message)) {
-		//							for(IDataModel iDataModel : importableDataModels) {
-		//								dataModelManager.addDataModel(iDataModel);
-		//								viewerManager.addDataModels(iDataModel);
-		//							}
-		//							tvModels.refresh();
-		//						}
-		//
-		//					}
-		//				}
-		//			}
-		//
-		//		});
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ISelection selection = tvModels.getSelection();
+				if(selection instanceof IStructuredSelection) {
+					Object firstElement = ((IStructuredSelection)selection).getFirstElement();
+					if(firstElement instanceof IDataModel) {
+						IDataModel dataModel = (IDataModel)firstElement;
+						if(!isEmpty(dataModel)) {
+							if(!MessageDialog.openQuestion(getShell(), "Delete Data Model", "The Data Model your are trying to remove is not empty. Would you like to continue ?")) {
+								return;
+							}
+						}
+						isUsed(dataModel);
+					}
 
+				}
+			}
+		});
+
+	}
+
+	protected boolean isEmpty(IDataModel dataModel) {
+		return dataModelManager.isEmpty(dataModel);
+	}
+
+	protected Boolean isUsed(IDataModel dataModel) {
+		return dataModelManager.isUsed(dataModel);
 	}
 
 	@Override
@@ -288,12 +273,6 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 		if(tvModels != null) {
 			tvModels.refresh();
 		}
-	}
-
-	@Override
-	public void dispose() {
-		viewerManager.removeListener(this);
-		super.dispose();
 	}
 
 	@Override

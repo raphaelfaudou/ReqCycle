@@ -187,4 +187,7 @@ public interface IDataManager {
 	 * @return true, if successful
 	 */
 	public boolean addElementsToRequirement(Requirement requirement, AbstractElement... element);
+
+	public void load();
+
 }

@@ -362,6 +362,7 @@ public class RequirementView extends ViewPart implements Listener {
 		selectPredicatesFilterAction.setToolTipText("Select predicates to use for filtering");
 		selectPredicatesFilterAction.setImageDescriptor(Activator.getImageDescriptor("/icons/editFilterList.png"));
 		selectPredicatesFilterAction.addListener(this);
+		selectPredicatesFilterAction.setEnabled(false);
 
 		selectRequirementSourcesAction = new SelectRequirementSourcesAction();
 		ZigguratInject.inject(selectRequirementSourcesAction);

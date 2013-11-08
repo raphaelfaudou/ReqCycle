@@ -205,7 +205,7 @@ public interface IDataModelManager {
 	public IEnumerator createEnumerator(String name);
 
 	/**
-	 * Creates attribute
+	 * Creates attribute.
 	 * 
 	 * @param name
 	 *        the attribute name
@@ -225,5 +225,16 @@ public interface IDataModelManager {
 	 * @return the attribute
 	 */
 	public IAttribute createAttribute(String name, IEnumerationType type);
+
+	/**
+	 * Checks if the given data model is used.
+	 * 
+	 * @param dataModel
+	 *        the data model
+	 * @return true id its used
+	 */
+	public boolean isUsed(IDataModel dataModel);
+
+	public boolean isEmpty(IDataModel dataModel);
 
 }

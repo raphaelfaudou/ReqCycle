@@ -40,7 +40,6 @@ import org.eclipse.reqcycle.repository.connector.IConnectorManager;
 import org.eclipse.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
 import org.eclipse.reqcycle.repository.data.IDataManager;
 import org.eclipse.reqcycle.repository.data.IDataTopics;
-import org.eclipse.reqcycle.repository.data.util.IRequirementSourceProperties;
 import org.eclipse.reqcycle.repository.ui.Activator;
 import org.eclipse.reqcycle.repository.ui.Messages;
 import org.eclipse.reqcycle.repository.ui.actions.AddRequirementSourceAction;
@@ -59,7 +58,6 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchActionConstants;
-import org.eclipse.ui.part.DrillDownAdapter;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
@@ -92,7 +90,7 @@ public class RequirementSourcesView extends ViewPart {
 	private Action refreshViewAction;
 
 	/** Navigation bar adapter for the tree viewer */
-	private DrillDownAdapter drillDownAdapter;
+	//	private DrillDownAdapter drillDownAdapter;
 
 	/** Synchronize Resource Stub Action */
 	private Action synchResourceAction;
@@ -150,7 +148,7 @@ public class RequirementSourcesView extends ViewPart {
 			}
 		};
 
-		drillDownAdapter = new DrillDownAdapter(viewer);
+		//		drillDownAdapter = new DrillDownAdapter(viewer);
 		viewer.setContentProvider(new RequirementSourceContentProvider());
 		viewer.setLabelProvider(new RequirementSourceLabelProvider());
 		viewer.setInput(requirementSourceManager.getRepositoryMap().keySet());
@@ -238,7 +236,7 @@ public class RequirementSourcesView extends ViewPart {
 					Object element = ((IStructuredSelection)selection).getFirstElement();
 					if(element instanceof RequirementSource) {
 						RequirementSource source = (RequirementSource)element;
-						synchResourceAction.setEnabled(Boolean.parseBoolean(source.getProperty(IRequirementSourceProperties.IS_LOCAL)));
+						//						synchResourceAction.setEnabled(Boolean.parseBoolean(source.getProperty(IRequirementSourceProperties.IS_LOCAL)));
 					}
 
 				}

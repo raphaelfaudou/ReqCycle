@@ -31,6 +31,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.e4.core.services.events.IEventBroker;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
@@ -42,7 +43,6 @@ import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.reqcycle.core.ILogger;
 import org.eclipse.reqcycle.repository.data.Activator;
 import org.eclipse.reqcycle.repository.data.IDataManager;
-import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.IDataTopics;
 import org.eclipse.ziggurat.configuration.IConfigurationManager;
 import org.eclipse.ziggurat.configuration.impl.ConfigurationManagerImpl;
@@ -56,6 +56,7 @@ import RequirementSourceData.Requirement;
 import RequirementSourceData.RequirementSourceDataFactory;
 import RequirementSourceData.RequirementsContainer;
 import RequirementSourceData.Section;
+import ScopeConf.Scope;
 
 @Singleton
 public class DataManagerImpl implements IDataManager {
@@ -76,8 +77,6 @@ public class DataManagerImpl implements IDataManager {
 	// @Named("confResourceSet")
 	private ResourceSet rs;
 
-	IDataModelManager dataManager;
-
 	@Inject
 	IEventBroker broker;
 
@@ -88,9 +87,8 @@ public class DataManagerImpl implements IDataManager {
 	 * Constructor
 	 */
 	@Inject
-	DataManagerImpl(@Named("confResourceSet") ResourceSet rs, IConfigurationManager confManager, IDataModelManager dataManager) {
+	DataManagerImpl(@Named("confResourceSet") ResourceSet rs, IConfigurationManager confManager) {
 		this.confManager = confManager;
-		this.dataManager = dataManager;
 		this.rs = rs;
 
 		Collection<EObject> conf = confManager.getConfiguration(null, IConfigurationManager.Scope.WORKSPACE, ID, rs, true);
@@ -354,6 +352,43 @@ public class DataManagerImpl implements IDataManager {
 		Resource resource = rs.createResource(uri);
 		resource.getContents().add(requirementsContainer);
 		return requirementsContainer;
-	};
+	}
+
+	@Override
+	public void load() {
+		for(RequirementSource requirementSource : sources.getRequirementSources()) {
+			if(requirementSource.eIsProxy()) {
+				EObject newObj = EcoreUtil.resolve(requirementSource, rs);
+				if(newObj instanceof RequirementSource) {
+					requirementSource = (RequirementSource)newObj;
+				}
+			}
+			loadContents(requirementSource.getRequirements());
+		}
+	}
+
+	private void loadContents(EList<AbstractElement> requirements) {
+		for(AbstractElement abstractElement : requirements) {
+			if(abstractElement.eIsProxy()) {
+				EObject newObj = EcoreUtil.resolve(abstractElement, rs);
+				if(newObj instanceof AbstractElement) {
+					abstractElement = (AbstractElement)newObj;
+				}
+			}
+			if(abstractElement != null && abstractElement.getScopes() != null && !abstractElement.getScopes().isEmpty()) {
+				for(Scope scope : abstractElement.getScopes()) {
+					if(scope.eIsProxy()) {
+						EObject newObj = EcoreUtil.resolve(scope, rs);
+						if(newObj instanceof Scope) {
+							scope = (Scope)newObj;
+						}
+					}
+				}
+			}
+			if(abstractElement instanceof Requirement) {
+				loadContents(((Requirement)abstractElement).getChildren());
+			}
+		}
+	}
 
 }
