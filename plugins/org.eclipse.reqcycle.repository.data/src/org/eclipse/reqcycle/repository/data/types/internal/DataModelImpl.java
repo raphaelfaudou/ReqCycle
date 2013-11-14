@@ -13,6 +13,7 @@
  *****************************************************************************/
 package org.eclipse.reqcycle.repository.data.types.internal;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -24,6 +25,7 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.types.IDataModel;
 import org.eclipse.reqcycle.repository.data.types.IEnumerationType;
@@ -34,7 +36,12 @@ import ScopeConf.Scope;
 /**
  * The Class DataModelImpl.
  */
-public class DataModelImpl implements IDataModel, IAdaptable {
+public class DataModelImpl extends EObjectImpl implements IDataModel, IAdaptable, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5429363855199806777L;
 
 	/** The ePackage. */
 	protected EPackage ePackage;
@@ -86,7 +93,7 @@ public class DataModelImpl implements IDataModel, IAdaptable {
 
 		for(EClassifier classifier : ePackage.getEClassifiers()) {
 			if(classifier instanceof EClass) {
-				requirementTypes.add(new RequirementTypeImpl((EClass)classifier));
+				requirementTypes.add(new RequirementTypeImpl((EClass)classifier, this));
 			} else if(classifier instanceof EEnum) {
 				enumerationTypes.add(new EnumerationTypeImpl((EEnum)classifier));
 			}

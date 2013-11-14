@@ -350,7 +350,7 @@ public class DataTypesPreferencePage extends DataModelsPreferencePage {
 					Object element;
 
 					if(isReq) {
-						element = dataModelManager.createRequirementType(name);
+						element = dataModelManager.createRequirementType(name, selectedModel);
 						selectedModel.addRequirementType((IRequirementType)element);
 					} else {
 						element = dataModelManager.createEnumerationType(name);

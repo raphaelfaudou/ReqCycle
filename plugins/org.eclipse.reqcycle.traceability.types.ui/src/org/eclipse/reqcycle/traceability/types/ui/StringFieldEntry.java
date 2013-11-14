@@ -1,9 +1,9 @@
 package org.eclipse.reqcycle.traceability.types.ui;
 
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.reqcycle.traceability.types.configuration.preferences.validators.RegexPredicate;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.Entry;
 import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeconfigurationFactory;
-import org.eclipse.reqcycle.types.IType;
 import org.eclipse.reqcycle.types.IType.FieldDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -11,7 +11,6 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
 
@@ -23,6 +22,7 @@ public class StringFieldEntry implements IEntryCompositeProvider {
 
 	private static final String AN_ENTRY = "entry";
 	private static final String A_PREDICATE = "predicate";
+	private static LabelProvider labelProvider = new LabelProvider();
 	
 	private Text text_1;
 
@@ -34,10 +34,6 @@ public class StringFieldEntry implements IEntryCompositeProvider {
 	
 	protected Entry createContent(Composite composite, FieldDescriptor fieldDescriptor) {
 		
-		Label lblNewLabel = new Label(composite, SWT.NONE);
-		lblNewLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-		lblNewLabel.setText(getName(fieldDescriptor) + " :");
 		text_1 = new Text(composite, SWT.BORDER);
 		text_1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1,
 				1));
@@ -58,8 +54,7 @@ public class StringFieldEntry implements IEntryCompositeProvider {
 					Text text = (Text) w;
 					text.setBackground(Display.getDefault().getSystemColor(
 							SWT.COLOR_WHITE));
-					Predicate<String> p = (Predicate<String>) text
-							.getData(A_PREDICATE);
+					Predicate<String> p = (Predicate<String>) text.getData(A_PREDICATE);
 					Entry currentEntry = (Entry) text.getData(AN_ENTRY);
 					String value = text.getText();
 					if (value.length() != 0) {
@@ -90,23 +85,6 @@ public class StringFieldEntry implements IEntryCompositeProvider {
 		} else {
 			return Predicates.alwaysFalse();
 		}
-	}
-	
-	protected String getName(IType.FieldDescriptor d) {
-		StringBuilder builder = new StringBuilder();
-		char[] inChar = d.name.toCharArray();
-		String currentWord = "";
-		for (char c : inChar) {
-			if (Character.isUpperCase(c)) {
-				builder.append(currentWord).append(" ");
-				currentWord = "";
-				currentWord += Character.toLowerCase(c);
-			} else {
-				currentWord += c;
-			}
-		}
-		builder.append(currentWord);
-		return builder.toString();
 	}
 	
 }

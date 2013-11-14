@@ -167,6 +167,11 @@
                org.eclipse.emf.edit.provider.ITreeItemContentProvider
                org.eclipse.emf.edit.provider.IItemLabelProvider
                org.eclipse.emf.edit.provider.IItemPropertySource"/>
+      <factory
+            class="org.eclipse.reqcycle.repository.data.DataModelAdapterFactory"
+            uri="http://www.eclipse.org/emf/2002/Ecore"
+            supportedTypes=
+              "org.eclipse.emf.edit.provider.IItemLabelProvider"/>
    </extension>
    <extension
          point="org.eclipse.emf.ecore.extension_parser">
@@ -174,6 +179,45 @@
             class="org.eclipse.ziggurat.configuration.impl.EMFConfResourceFactory"
             type="reqcycle">
       </parser>
+   </extension>
+   <extension
+         point="org.eclipse.reqcycle.traceability.types.ui.typeEntry">
+      <type
+            class="org.eclipse.reqcycle.repository.data.types.IDataModel"
+            entry="org.eclipse.reqcycle.repository.data.DataModelEntryProvider">
+      </type>
+      <type
+            class="org.eclipse.reqcycle.repository.data.types.IRequirementType"
+            entry="org.eclipse.reqcycle.repository.data.RequirementTypeEntryProvider">
+      </type>
+      <type
+            class="ScopeConf.Scope"
+            entry="org.eclipse.reqcycle.repository.data.ScopeEntryProvider">
+      </type>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.eclipse.reqcycle.repository.data.types.IDataModel"
+            class="org.eclipse.reqcycle.repository.data.util.DataTypesAdapterFactory">
+         <adapter
+               type="java.lang.String">
+         </adapter>
+      </factory>
+      <factory
+            adaptableType="ScopeConf.Scope"
+            class="org.eclipse.reqcycle.repository.data.util.DataTypesAdapterFactory">
+         <adapter
+               type="java.lang.String">
+         </adapter>
+      </factory>
+      <factory
+            adaptableType="org.eclipse.reqcycle.repository.data.types.IRequirementType"
+            class="org.eclipse.reqcycle.repository.data.util.DataTypesAdapterFactory">
+         <adapter
+               type="java.lang.String">
+         </adapter>
+      </factory>
    </extension>
 
 </plugin>

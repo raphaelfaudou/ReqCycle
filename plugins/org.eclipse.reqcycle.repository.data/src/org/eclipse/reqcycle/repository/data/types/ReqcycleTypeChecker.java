@@ -26,14 +26,14 @@ public class ReqcycleTypeChecker implements IInjectedTypeChecker {
 	@Inject
 	IReachableManager manager;
 
-	@InjectValue
+	@InjectValueName(type = IDataModel.class)
 	String dataModel;
 
-	@InjectValue
+	@InjectValueName(type = Scope.class)
 	String requirementScope;
 
-	@InjectValue
-	String dataType;
+	@InjectValueName(type = IRequirementType.class)
+	String requirementType;
 
 	@Inject
 	IDataModelManager dataModelManager;
@@ -97,10 +97,10 @@ public class ReqcycleTypeChecker implements IInjectedTypeChecker {
 						}
 					}
 
-					if(found && dataType != null) {
+					if(found && requirementType != null) {
 						found = false;
 						String className = type.eClass().getName();
-						found = className.equals(dataType);
+						found = className.equals(requirementType);
 					}
 				}
 			}

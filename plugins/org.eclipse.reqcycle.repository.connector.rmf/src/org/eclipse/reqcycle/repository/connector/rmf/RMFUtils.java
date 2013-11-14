@@ -235,7 +235,7 @@ public class RMFUtils {
 		AbstractElement createdObject = null;
 		if(elementMapping != null) {
 			try {
-				IRequirementType type = new RequirementTypeImpl(elementMapping.getTargetElement());
+				IRequirementType type = new RequirementTypeImpl(elementMapping.getTargetElement(), null);
 				createdObject = type.createInstance();
 				createdObject.setId(id);
 				createdObject.setText(name);

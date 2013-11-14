@@ -12,6 +12,7 @@ import org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.T
 import org.eclipse.reqcycle.traceability.types.ui.ExtensionPointReader;
 import org.eclipse.reqcycle.traceability.types.ui.IEntryCompositeProvider;
 import org.eclipse.reqcycle.types.IType;
+import org.eclipse.reqcycle.types.IType.FieldDescriptor;
 import org.eclipse.reqcycle.types.ITypesManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -115,14 +116,36 @@ public class NewCustomTypeDialog extends TitleAreaDialog {
 		for (IType.FieldDescriptor d : injectedJavaType.getDescriptors()) {
 			IEntryCompositeProvider entryProvider = epr.getEntryCompositeProvider(d);
 			if(entryProvider != null) {
+				createLabel(composite, d);
 				Entry entry = entryProvider.createEntryComposite(composite, SWT.NONE, d);
 				newCustomType.getEntries().add(entry);
 			}
 		}
-
 	}
 
+	private void createLabel(Composite composite, FieldDescriptor d) {
+		Label lblNewLabel = new Label(composite, SWT.NONE);
+		lblNewLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblNewLabel.setText(getName(d) + " :");
+	}
 
+	protected String getName(IType.FieldDescriptor d) {
+		StringBuilder builder = new StringBuilder();
+		char[] inChar = d.name.toCharArray();
+		String currentWord = "";
+		for (char c : inChar) {
+			if (Character.isUpperCase(c)) {
+				builder.append(currentWord).append(" ");
+				currentWord = "";
+				currentWord += Character.toLowerCase(c);
+			} else {
+				currentWord += c;
+			}
+		}
+		builder.append(currentWord);
+		return builder.toString();
+	}
+	
 	@Override
 	protected void buttonPressed(int buttonId) {
 		super.buttonPressed(buttonId);

@@ -51,6 +51,7 @@ import org.eclipse.reqcycle.repository.data.types.internal.RequirementTypeImpl;
 import org.eclipse.ziggurat.configuration.IConfigurationManager;
 
 import RequirementSourceConf.RequirementSource;
+import RequirementSourceData.AbstractElement;
 import ScopeConf.Scope;
 import ScopeConf.ScopeConfFactory;
 import ScopeConf.Scopes;
@@ -236,8 +237,8 @@ public class DataModelManagerImpl implements IDataModelManager {
 	}
 
 	@Override
-	public IRequirementType createRequirementType(String name) {
-		IRequirementType element = new RequirementTypeImpl(name);
+	public IRequirementType createRequirementType(String name, IDataModel dataModel) {
+		IRequirementType element = new RequirementTypeImpl(name, dataModel);
 		return element;
 	}
 
@@ -330,7 +331,6 @@ public class DataModelManagerImpl implements IDataModelManager {
 				}
 			}
 		}
-		resource.unload();
 		return dataModels;
 	}
 
@@ -382,6 +382,28 @@ public class DataModelManagerImpl implements IDataModelManager {
 	@Override
 	public boolean isEmpty(IDataModel dataModel) {
 		return dataModel.getEnumerationTypes().isEmpty() && dataModel.getRequirementTypes().isEmpty() && dataModel.getScopes().isEmpty();
+	}
+
+	@Override
+	public IRequirementType getType(AbstractElement ae) {
+		EClass eClass = ae.eClass();
+		ECrossReferenceAdapter c = ECrossReferenceAdapter.getCrossReferenceAdapter(eClass);
+
+		if(c == null) {
+			c = new ECrossReferenceAdapter();
+		}
+
+		c.setTarget(rs);
+
+		Collection<Setting> settings = c.getInverseReferences(eClass);
+		for(Setting setting : settings) {
+			EObject eo = setting.getEObject();
+			if(eo instanceof IRequirementType) {
+				return ((IRequirementType)eo);
+			}
+		}
+
+		return null;
 	}
 
 }

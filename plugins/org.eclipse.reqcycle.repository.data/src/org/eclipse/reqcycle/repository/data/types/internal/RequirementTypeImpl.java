@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.reqcycle.repository.data.types.IAttribute;
+import org.eclipse.reqcycle.repository.data.types.IDataModel;
 import org.eclipse.reqcycle.repository.data.types.IRequirementType;
 
 import RequirementSourceData.Requirement;
@@ -34,20 +35,24 @@ public class RequirementTypeImpl implements IRequirementType, IAdaptable {
 
 	protected Collection<IAttribute> attributes = new ArrayList<IAttribute>();
 
-	public RequirementTypeImpl(String name) {
+	private IDataModel dataModel;
+
+	public RequirementTypeImpl(String name, IDataModel dataModel) {
 		eClass = EcoreFactory.eINSTANCE.createEClass();
 		eClass.setName(name);
 		eClass.getESuperTypes().add(RequirementSourceDataPackage.Literals.REQUIREMENT);
 		for(EAttribute eAttribute : eClass.getEAllAttributes()) {
 			attributes.add(new AttributeImpl(eAttribute));
 		}
+		this.dataModel = dataModel;
 	}
 
-	public RequirementTypeImpl(EClass eClass) {
+	public RequirementTypeImpl(EClass eClass, IDataModel dataModel) {
 		this.eClass = eClass;
 		for(EAttribute attribute : eClass.getEAllAttributes()) {
 			attributes.add(new AttributeImpl(attribute));
 		}
+		this.dataModel = dataModel;
 	}
 
 	@Override
@@ -99,6 +104,11 @@ public class RequirementTypeImpl implements IRequirementType, IAdaptable {
 			return eClass;
 		}
 		return null;
+	}
+
+	@Override
+	public IDataModel getDataModel() {
+		return dataModel;
 	}
 
 }

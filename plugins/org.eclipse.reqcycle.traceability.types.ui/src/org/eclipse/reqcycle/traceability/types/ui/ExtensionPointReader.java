@@ -10,13 +10,8 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.InvalidRegistryObjectException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.reqcycle.types.IType.FieldDescriptor;
+import org.eclipse.reqcycle.types.IType.FieldURIDescriptor;
 
-/**
- * Reads all the ttypes extensions
- * 
- * @author tfaure
- * 
- */
 public class ExtensionPointReader {
 
 	private static final String PLUGIN_ID = "org.eclipse.reqcycle.traceability.types.ui";
@@ -51,14 +46,27 @@ public class ExtensionPointReader {
 	
 	
 	public IEntryCompositeProvider getEntryCompositeProvider(FieldDescriptor d) {
+		if(d instanceof FieldURIDescriptor) {
+			return getEntryCompositeProvider(((FieldURIDescriptor)d).realType);
+		} else {
+			return getEntryCompositeProvider(d.type);
+		}
+	}
+	
+	public IEntryCompositeProvider getEntryCompositeProvider(Class<?> c) {
+		if (map.containsKey(c)) {
+			return map.get(c);
+		}
+		
 		Set<Class<?>> keys = map.keySet();
 		for(Class<?> key : keys) {
-			if(key == d.type) {
+			if(key.equals(c)) {
 				return map.get(key);
 			}
 		}
+		
 		return null;
+		
 	}
-	
 
 }

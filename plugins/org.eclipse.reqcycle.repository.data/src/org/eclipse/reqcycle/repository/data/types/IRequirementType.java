@@ -50,4 +50,6 @@ public interface IRequirementType {
 	 * @return requirement element
 	 */
 	public Requirement createInstance();
+
+	public IDataModel getDataModel();
 }

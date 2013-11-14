@@ -23,6 +23,7 @@ import org.eclipse.reqcycle.repository.data.types.IEnumerationType;
 import org.eclipse.reqcycle.repository.data.types.IEnumerator;
 import org.eclipse.reqcycle.repository.data.types.IRequirementType;
 
+import RequirementSourceData.AbstractElement;
 import ScopeConf.Scope;
 
 /**
@@ -182,9 +183,10 @@ public interface IDataModelManager {
 	 * 
 	 * @param name
 	 *        the requirement type name
+	 * @param selectedModel
 	 * @return the requirement type
 	 */
-	public IRequirementType createRequirementType(String name);
+	public IRequirementType createRequirementType(String name, IDataModel selectedModel);
 
 	/**
 	 * Creates the enumeration type.
@@ -236,5 +238,7 @@ public interface IDataModelManager {
 	public boolean isUsed(IDataModel dataModel);
 
 	public boolean isEmpty(IDataModel dataModel);
+
+	public IRequirementType getType(AbstractElement ae);
 
 }
