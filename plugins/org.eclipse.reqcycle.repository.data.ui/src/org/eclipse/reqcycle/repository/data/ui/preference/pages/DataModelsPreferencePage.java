@@ -207,6 +207,12 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 		}
 	}
 
+	public void removeDataModels(IDataModel... models) {
+		for(IDataModel model : models) {
+			inputModels.remove(model);
+		}
+	}
+
 	/**
 	 * Add Listeners
 	 */
@@ -251,7 +257,14 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 								return;
 							}
 						}
-						isUsed(dataModel);
+						if(isUsed(dataModel)) {
+							MessageDialog.openError(getShell(), "Delete Data Model", "The Data Model your are trying to remove is used. Can't delete used Data Models");
+							return;
+						} else {
+							removeDataModels(dataModel);
+							dataModelManager.removeDataModel(dataModel);
+							tvModels.refresh();
+						}
 					}
 
 				}
@@ -265,7 +278,7 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 	}
 
 	protected Boolean isUsed(IDataModel dataModel) {
-		return dataModelManager.isUsed(dataModel);
+		return dataModelManager.isDataModelUsed(dataModel);
 	}
 
 	@Override

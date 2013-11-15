@@ -3,7 +3,6 @@ package org.eclipse.reqcycle.repository.data.util;
 import java.util.Collection;
 
 import org.eclipse.core.runtime.IAdapterFactory;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.types.IDataModel;
 import org.eclipse.reqcycle.repository.data.types.IRequirementType;
@@ -33,7 +32,7 @@ public class DataTypesAdapterFactory implements IAdapterFactory {
 				Scope scope = (Scope)adaptableObject;
 				String dataModelURI = scope.getDataModelURI();
 				IDataModelManager dataModelManager = ZigguratInject.make(IDataModelManager.class);
-				Collection<IDataModel> dataModels = dataModelManager.getDataModel(URI.createURI(dataModelURI));
+				Collection<IDataModel> dataModels = dataModelManager.getDataModelByURI(dataModelURI);
 				IDataModel dataModel = null;
 				if(dataModels.size() > 0) {
 					dataModel = dataModels.iterator().next();

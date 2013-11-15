@@ -78,7 +78,8 @@ public class ReqcycleTypeChecker implements IInjectedTypeChecker {
 
 				if(dataModel != null) {
 
-					if(!type.eClass().getEPackage().getName().equals(dataModel)) {
+					String dataModelName = type.eClass().getEPackage().getName();
+					if(!dataModelName.equals(dataModel)) {
 						found = false;
 					}
 
@@ -91,8 +92,10 @@ public class ReqcycleTypeChecker implements IInjectedTypeChecker {
 									s = (Scope)newObj;
 								}
 							}
-							if(requirementScope.equals(s.getName())) {
-								found = true;
+							if(requirementScope.contains(":")) {
+								found = requirementScope.equals(dataModelName + "::" + s.getName());
+							} else {
+								found = requirementScope.equals(s.getName());
 							}
 						}
 					}
@@ -100,7 +103,11 @@ public class ReqcycleTypeChecker implements IInjectedTypeChecker {
 					if(found && requirementType != null) {
 						found = false;
 						String className = type.eClass().getName();
-						found = className.equals(requirementType);
+						if(requirementType.contains(":")) {
+							found = requirementType.equals(dataModelName + "::" + className);
+						} else {
+							found = className.equals(requirementType);
+						}
 					}
 				}
 			}

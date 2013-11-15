@@ -28,7 +28,9 @@ import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import ScopeConf.Scope;
 
-
+/*
+ * FIXME : remove entry (Traceability element)
+ */
 public class EntryUtil {
 
 	static IDataModelManager dataModelManager = ZigguratInject.make(IDataModelManager.class);
@@ -45,7 +47,7 @@ public class EntryUtil {
 		final ComboViewer comboViewer = new ComboViewer(composite);
 		Combo combo = comboViewer.getCombo();
 		combo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		comboViewer.setLabelProvider(new LabelProvider() {
+		final LabelProvider labelProvider = new LabelProvider() {
 
 			@Override
 			public String getText(Object element) {
@@ -57,7 +59,8 @@ public class EntryUtil {
 				}
 				return super.getText(element);
 			}
-		});
+		};
+		comboViewer.setLabelProvider(labelProvider);
 		comboViewer.setContentProvider(new ArrayContentProvider());
 		comboViewer.setInput(input);
 
@@ -71,12 +74,8 @@ public class EntryUtil {
 				ISelection selection = event.getSelection();
 				if(selection instanceof IStructuredSelection) {
 					Object firstElement = ((IStructuredSelection)selection).getFirstElement();
-					if(firstElement instanceof IDataModel) {
-						entry.setValue(((IDataModel)firstElement).getName());
-					} else if(firstElement instanceof IRequirementType) {
-						entry.setValue(((IRequirementType)firstElement).getName());
-					} else if(firstElement instanceof Scope) {
-						entry.setValue(((Scope)firstElement).getName());
+					if(firstElement instanceof IDataModel || firstElement instanceof IRequirementType || firstElement instanceof Scope) {
+						entry.setValue(labelProvider.getText(firstElement));
 					} else {
 						entry.setValue(null);
 					}

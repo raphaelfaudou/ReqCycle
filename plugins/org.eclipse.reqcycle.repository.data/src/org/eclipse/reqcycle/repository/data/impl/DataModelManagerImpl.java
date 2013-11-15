@@ -15,6 +15,7 @@ package org.eclipse.reqcycle.repository.data.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 
@@ -25,16 +26,15 @@ import javax.inject.Singleton;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.reqcycle.repository.data.IDataManager;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.types.IAttribute;
@@ -52,11 +52,14 @@ import org.eclipse.ziggurat.configuration.IConfigurationManager;
 
 import RequirementSourceConf.RequirementSource;
 import RequirementSourceData.AbstractElement;
+import RequirementSourceData.Requirement;
 import ScopeConf.Scope;
 import ScopeConf.ScopeConfFactory;
 import ScopeConf.Scopes;
 
+import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 
 @Singleton
@@ -181,6 +184,19 @@ public class DataModelManagerImpl implements IDataModelManager {
 			throw new RuntimeException("A data model with the same name already exists.");
 		}
 		((DataModelImpl)dataModel).addDataModel(p);
+	}
+
+	@Override
+	public void removeDataModel(IDataModel p) {
+		if(p == null) {
+			return;
+		}
+		((DataModelImpl)dataModel).removeDataModel(p);
+		getScopes(dataModel);
+	}
+
+	public void removeScope(Scope... scopes) {
+		this.scopes.getScopes().removeAll(Arrays.asList(scopes));
 	}
 
 
@@ -315,69 +331,92 @@ public class DataModelManagerImpl implements IDataModelManager {
 	}
 
 	@Override
-	public Collection<IDataModel> getDataModel(URI uri) {
+	public Collection<IDataModel> getDataModelByURI(String uri) {
 		Collection<IDataModel> dataModels = new ArrayList<IDataModel>();
-		Resource resource = rs.getResource(uri, true);
-		EList<EObject> content = resource.getContents();
-		for(EObject eObject : content) {
-			if(eObject instanceof EPackage) {
-				EList<EPackage> eSubpackages = ((EPackage)eObject).getESubpackages();
-				if(eSubpackages != null && !eSubpackages.isEmpty()) {
-					for(EPackage ePackage : eSubpackages) {
-						dataModels.add(new DataModelImpl(ePackage));
-					}
-				} else {
-					dataModels.add(new DataModelImpl((EPackage)eObject));
-				}
+		Collection<IDataModel> subDataModels = ((DataModelImpl)dataModel).getSubDataModels();
+		for(IDataModel dataModel : subDataModels) {
+			if(uri.equals(dataModel.getDataModelURI())) {
+				dataModels.add(dataModel);
 			}
 		}
 		return dataModels;
 	}
 
-	@Override
-	public boolean isUsed(IDataModel dataModel) {
-		dataManager.load();
-		String dataModelURI = dataModel.getDataModelURI();
-		Set<RequirementSource> sources = dataManager.getRequirementSources();
-		for(RequirementSource requirementSource : sources) {
-			if(dataModelURI.equals(requirementSource.getDataModelURI())) {
-				//				return true;
-			}
-		}
-		for(IRequirementType type : dataModel.getRequirementTypes()) {
-			EClass eClass = null;
-			if(type instanceof IAdaptable) {
-
-				eClass = (EClass)((IAdaptable)type).getAdapter(EClass.class);
-				ECrossReferenceAdapter c = ECrossReferenceAdapter.getCrossReferenceAdapter(eClass);
-				if(c == null) {
-					c = new ECrossReferenceAdapter();
-				}
-				c.setTarget(rs);
-
-				Collection<Setting> settings = c.getInverseReferences(eClass, true);
-				for(Setting s : settings) {
-					System.out.println(s);
+	private boolean isRequirementTypesUsed(Collection<EClass> types) {
+		for(RequirementSource requirementSource : dataManager.getRequirementSources()) {
+			if(requirementSource.eIsProxy()) {
+				EObject newObj = EcoreUtil.resolve(requirementSource, rs);
+				if(newObj instanceof RequirementSource) {
+					requirementSource = (RequirementSource)newObj;
 				}
 			}
+			return isRequirementTypesUsed(requirementSource.getRequirements(), types);
 		}
+		return false;
+	}
 
-		for(Scope scope : dataModel.getScopes()) {
-
-			ECrossReferenceAdapter c = ECrossReferenceAdapter.getCrossReferenceAdapter(scope);
-			if(c == null) {
-				c = new ECrossReferenceAdapter();
+	private boolean isRequirementTypesUsed(EList<AbstractElement> requirements, Collection<EClass> types) {
+		for(AbstractElement abstractElement : requirements) {
+			if(abstractElement.eIsProxy()) {
+				EObject newObj = EcoreUtil.resolve(abstractElement, rs);
+				if(newObj instanceof AbstractElement) {
+					abstractElement = (AbstractElement)newObj;
+				}
 			}
-			c.setTarget(rs);
-
-			Collection<Setting> settings = c.getInverseReferences(scope, true);
-			for(Setting s : settings) {
-				System.out.println(s);
+			if(types.contains(abstractElement.eClass())) {
+				return true;
+			}
+			if(abstractElement != null && abstractElement.getScopes() != null && !abstractElement.getScopes().isEmpty()) {
+				for(Scope scope : abstractElement.getScopes()) {
+					if(scope.eIsProxy()) {
+						EObject newObj = EcoreUtil.resolve(scope, rs);
+						if(newObj instanceof Scope) {
+							scope = (Scope)newObj;
+						}
+					}
+				}
+			}
+			if(abstractElement instanceof Requirement) {
+				return isRequirementTypesUsed(((Requirement)abstractElement).getChildren(), types);
 			}
 		}
 		return false;
 	}
 
+	@Override
+	public boolean isDataModelUsed(IDataModel dataModel) {
+		Collection<IRequirementType> reqTypes = dataModel.getRequirementTypes();
+		Collection<EClass> types = Collections2.transform(reqTypes, new Function<IRequirementType, EClass>() {
+
+			@Override
+			public EClass apply(IRequirementType arg0) {
+				EClass eclass = null;
+				if(arg0 instanceof IAdaptable) {
+					eclass = (EClass)((IAdaptable)arg0).getAdapter(EClass.class);
+				}
+				return eclass;
+			};
+		});
+
+		if(isRequirementTypesUsed(Collections2.filter(types, Predicates.notNull()))) {
+			return true;
+		}
+		String dataModelURI = dataModel.getDataModelURI();
+		Set<RequirementSource> sources = dataManager.getRequirementSources();
+		for(RequirementSource requirementSource : sources) {
+			if(dataModelURI.equals(requirementSource.getDataModelURI())) {
+				return true;
+			}
+		}
+
+		for(Scope scope : getScopes(dataModel)) {
+			EList<AbstractElement> reqs = scope.getRequirements();
+			if(reqs != null && !reqs.isEmpty()) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	@Override
 	public boolean isEmpty(IDataModel dataModel) {

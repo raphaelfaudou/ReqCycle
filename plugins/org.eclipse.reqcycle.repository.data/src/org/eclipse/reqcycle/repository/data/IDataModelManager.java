@@ -15,7 +15,6 @@ package org.eclipse.reqcycle.repository.data;
 
 import java.util.Collection;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.reqcycle.repository.data.types.IAttribute;
 import org.eclipse.reqcycle.repository.data.types.IAttributeType;
 import org.eclipse.reqcycle.repository.data.types.IDataModel;
@@ -119,7 +118,7 @@ public interface IDataModelManager {
 	 *        the data model URI
 	 * @return data models
 	 */
-	public Collection<IDataModel> getDataModel(URI uri);
+	public Collection<IDataModel> getDataModelByURI(String uri);
 
 	/**
 	 * Gets all data models.
@@ -235,10 +234,12 @@ public interface IDataModelManager {
 	 *        the data model
 	 * @return true id its used
 	 */
-	public boolean isUsed(IDataModel dataModel);
+	public boolean isDataModelUsed(IDataModel dataModel);
 
 	public boolean isEmpty(IDataModel dataModel);
 
 	public IRequirementType getType(AbstractElement ae);
+
+	void removeDataModel(IDataModel p);
 
 }

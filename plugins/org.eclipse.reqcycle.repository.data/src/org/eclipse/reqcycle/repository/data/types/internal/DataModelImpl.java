@@ -13,7 +13,6 @@
  *****************************************************************************/
 package org.eclipse.reqcycle.repository.data.types.internal;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -25,7 +24,7 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.reqcycle.repository.data.IDataModelManager;
 import org.eclipse.reqcycle.repository.data.types.IDataModel;
 import org.eclipse.reqcycle.repository.data.types.IEnumerationType;
@@ -36,12 +35,7 @@ import ScopeConf.Scope;
 /**
  * The Class DataModelImpl.
  */
-public class DataModelImpl extends EObjectImpl implements IDataModel, IAdaptable, Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5429363855199806777L;
+public class DataModelImpl implements IDataModel, IAdaptable {
 
 	/** The ePackage. */
 	protected EPackage ePackage;
@@ -299,7 +293,10 @@ public class DataModelImpl extends EObjectImpl implements IDataModel, IAdaptable
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.reqcycle.repository.data.types.IDataModel#addScope(DataModel.Scope)
+	 * 
+	 * @Deprecated Use IDataModelManager to add data models scopes
 	 */
+	@Deprecated
 	@Override
 	public void addScope(Scope scope) {
 
@@ -317,7 +314,10 @@ public class DataModelImpl extends EObjectImpl implements IDataModel, IAdaptable
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.reqcycle.repository.data.types.IDataModel#getScope(java.lang.String)
+	 * 
+	 * @Deprecated Use IDataModelManager to retrieve data models scopes
 	 */
+	@Deprecated
 	@Override
 	public Scope getScope(String name) {
 		for(Scope scope : scopes) {
@@ -332,7 +332,10 @@ public class DataModelImpl extends EObjectImpl implements IDataModel, IAdaptable
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.reqcycle.repository.data.types.IDataModel#getScopes()
+	 * 
+	 * @Deprecated Use IDataModelManager to retrieve data models scopes
 	 */
+	@Deprecated
 	@Override
 	public Collection<Scope> getScopes() {
 		return scopes;
@@ -370,6 +373,22 @@ public class DataModelImpl extends EObjectImpl implements IDataModel, IAdaptable
 	@Override
 	public String getDataModelURI() {
 		return ePackage.getNsURI();
+	}
+
+	public void removeDataModel(IDataModel p) {
+		requirementTypes.removeAll(p.getRequirementTypes());
+		enumerationTypes.removeAll(p.getEnumerationTypes());
+		subPackages.remove(p);
+
+		EPackage ePackage = null;
+		if(p instanceof IAdaptable) {
+			ePackage = (EPackage)((IAdaptable)p).getAdapter(EPackage.class);
+		}
+		if(ePackage != null) {
+			this.ePackage.getESubpackages().remove(ePackage);
+		}
+		EcoreUtil.remove(ePackage);
+
 	}
 
 }

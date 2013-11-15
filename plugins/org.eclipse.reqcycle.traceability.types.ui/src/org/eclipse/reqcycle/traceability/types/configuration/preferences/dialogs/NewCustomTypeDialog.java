@@ -45,6 +45,7 @@ public class NewCustomTypeDialog extends TitleAreaDialog {
 	 */
 	public NewCustomTypeDialog(Shell parentShell, Type injected) {
 		super(parentShell);
+		setShellStyle(SWT.DIALOG_TRIM | SWT.RESIZE);
 		newCustomType = TypeconfigurationFactory.eINSTANCE.createCustomType();
 		newCustomType.setSuperType(injected);
 	}
