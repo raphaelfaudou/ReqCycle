@@ -15,6 +15,7 @@ package org.eclipse.reqcycle.repository.data.ui.preference.pages;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import javax.inject.Inject;
 
@@ -290,6 +291,25 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 
 	@Override
 	public void init(IWorkbench workbench) {
+	}
+
+	@Override
+	public void setVisible(boolean visible) {
+		if(visible && tvModels != null && inputModels != null) {
+			Collection<IDataModel> dataModels = dataModelManager.getAllDataModels();
+			Iterator<IDataModel> iter = inputModels.iterator();
+			Collection<IDataModel> toRemove = new ArrayList<IDataModel>();
+			while(iter.hasNext()) {
+				IDataModel dataModel = iter.next();
+				if(!dataModels.contains(dataModel)) {
+					toRemove.add(dataModel);
+				}
+			}
+
+			removeDataModels(toRemove.toArray(new IDataModel[toRemove.size()]));
+			tvModels.refresh();
+		}
+		super.setVisible(visible);
 	}
 
 }
