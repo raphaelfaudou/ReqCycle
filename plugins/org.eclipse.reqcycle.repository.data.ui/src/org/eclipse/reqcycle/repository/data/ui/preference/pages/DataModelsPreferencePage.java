@@ -253,12 +253,12 @@ public class DataModelsPreferencePage extends PreferencePage implements IWorkben
 					if(firstElement instanceof IDataModel) {
 						IDataModel dataModel = (IDataModel)firstElement;
 						if(!isEmpty(dataModel)) {
-							if(!MessageDialog.openQuestion(getShell(), "Delete Data Model", "The Data Model your are trying to remove is not empty. Would you like to continue ?")) {
+							if(!MessageDialog.openQuestion(getShell(), "Delete Data Model", "The Data Model you are trying to remove is not empty. Would you like to continue ?")) {
 								return;
 							}
 						}
 						if(isUsed(dataModel)) {
-							MessageDialog.openError(getShell(), "Delete Data Model", "The Data Model your are trying to remove is used. Can't delete used Data Models");
+							MessageDialog.openError(getShell(), "Delete Data Model", "The Data Model you are trying to remove is used. Used Data Models can't be deleted");
 							return;
 						} else {
 							removeDataModels(dataModel);
