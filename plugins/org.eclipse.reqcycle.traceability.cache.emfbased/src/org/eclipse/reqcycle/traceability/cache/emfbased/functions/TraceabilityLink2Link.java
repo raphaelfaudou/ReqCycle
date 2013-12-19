@@ -2,6 +2,7 @@ package org.eclipse.reqcycle.traceability.cache.emfbased.functions;
 
 import org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.TraceabilityLink;
 import org.eclipse.reqcycle.traceability.model.Link;
+import org.eclipse.reqcycle.traceability.model.TType;
 import org.eclipse.reqcycle.uri.model.Reachable;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
@@ -18,7 +19,8 @@ public class TraceabilityLink2Link implements Function<TraceabilityLink, Link> {
 				traceableElement2Traceable);
 		Iterable<Reachable> targets = Iterables.transform(arg0.getTargets(),
 				traceableElement2Traceable);
-		Link link = new Link(arg0.getLabel(), sources, targets);
+		//-RFU- Link link = new Link(arg0.getLabel(), sources, targets);
+		Link link = new Link(new Reachable ("RFU ID"), new TType("RFU",arg0.getLabel()), sources, targets);
 		return link;
 	}
 

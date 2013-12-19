@@ -54,14 +54,24 @@ public class ExtenderManager {
 	 */
 	public Iterable<IReachableExtender> getExtenders(URI uri,
 			Object originalObject) {
-		Pair pair = new Pair();
+		final Pair pair = new Pair();
 		pair.uri = uri;
 		pair.originalObject = originalObject;
-		try {
-			return cache.get(pair);
-		} catch (ExecutionException e) {
+		
+		// -RFU-try {
+			//return cache.get(pair,Lists.newArrayList());
+		
+			return cache.get(pair, 	Iterables.filter(allRegistered,
+					new Predicate<IReachableExtender>() {
+				public boolean apply(IReachableExtender ext) {
+					return ext.handles(pair.uri,
+							pair.originalObject);
+				}
+			})
+);
+		/* -RFU- } catch (ExecutionException e) {
 			return Lists.newArrayList();
-		}
+		}*/
 	}
 
 	private class Pair {

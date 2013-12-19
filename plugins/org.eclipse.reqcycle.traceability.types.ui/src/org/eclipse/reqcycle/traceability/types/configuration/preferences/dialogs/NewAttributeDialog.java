@@ -153,7 +153,8 @@ public class NewAttributeDialog extends TitleAreaDialog {
 		registeredComposite.setEditable(false);
 		setNewOne();
 		
-		recursiveSetEnabled(container, false);
+		// -RFU- recursiveSetEnabled(container, false);
+		recursiveSetEnabled(container, true);
 		
 		return container;
 	}
@@ -179,7 +180,8 @@ public class NewAttributeDialog extends TitleAreaDialog {
 	protected void createButtonsForButtonBar(Composite parent) {
 		Button okButton = createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL,
 				true);
-		okButton.setEnabled(false);
+		// -RFU- okButton.setEnabled(false);
+		okButton.setEnabled(true);
 		createButton(parent, IDialogConstants.CANCEL_ID,
 				IDialogConstants.CANCEL_LABEL, false);
 	}
