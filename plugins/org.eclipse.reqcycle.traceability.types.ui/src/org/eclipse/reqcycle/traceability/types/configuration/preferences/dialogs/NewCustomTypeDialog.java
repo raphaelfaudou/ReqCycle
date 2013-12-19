@@ -116,10 +116,13 @@ public class NewCustomTypeDialog extends TitleAreaDialog {
 	private void createEntries(Composite composite) {
 		for (IType.FieldDescriptor d : injectedJavaType.getDescriptors()) {
 			IEntryCompositeProvider entryProvider = epr.getEntryCompositeProvider(d);
+			
 			if(entryProvider != null) {
 				createLabel(composite, d);
 				Entry entry = entryProvider.createEntryComposite(composite, SWT.NONE, d);
-				newCustomType.getEntries().add(entry);
+				// -RFU- check that entry is not null!
+				if (entry != null) 
+					newCustomType.getEntries().add(entry);
 			}
 		}
 	}

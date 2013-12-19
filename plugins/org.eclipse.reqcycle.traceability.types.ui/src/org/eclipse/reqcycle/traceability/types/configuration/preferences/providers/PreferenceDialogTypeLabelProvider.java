@@ -33,7 +33,7 @@ public class PreferenceDialogTypeLabelProvider extends
 		if (object instanceof Type) {
 			Type type = (Type) object;
 			if (ElementTypeConfigurationPage.isExtensible(type, typesManager)) {
-				text += " (can be extended)";
+				text += " (can be specialized)";
 			}
 
 		} else if (object instanceof TypeConfigContainer) {

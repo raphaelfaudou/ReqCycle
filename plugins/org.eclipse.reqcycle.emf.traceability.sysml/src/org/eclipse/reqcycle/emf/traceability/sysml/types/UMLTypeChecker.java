@@ -98,7 +98,8 @@ public class UMLTypeChecker implements IInjectedTypeChecker {
 		boolean isOK = true;
 		if (stereotypeName != null) {
 			isOK = false;
-			for (Stereotype s : e.getAppliedStereotypes()) {
+			//-RFU- check stereotypes applicable rather than those applied
+			for (Stereotype s : e.getApplicableStereotypes()) {
 				if (stereotypeName.equalsIgnoreCase(s.getName())) {
 					isOK = true;
 					break;

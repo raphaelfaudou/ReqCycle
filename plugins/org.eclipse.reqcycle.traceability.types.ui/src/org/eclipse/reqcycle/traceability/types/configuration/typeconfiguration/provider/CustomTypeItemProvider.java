@@ -139,7 +139,10 @@ public class CustomTypeItemProvider extends TypeItemProvider implements
 				
 				String t = null;
 				Object v = e.getValue();
-				if(v instanceof String) {
+				// -RFU- check that v is not null (can be if no value was defined)
+				if (v == null) {
+					t = "";
+				} else if(v instanceof String) {
 					 t = (String)v;
 				} else if (Platform.getAdapterManager().hasAdapter(v, String.class.getName())) {
 					Object adapter = Platform.getAdapterManager().getAdapter(v, String.class);
