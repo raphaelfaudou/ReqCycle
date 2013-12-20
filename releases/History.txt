@@ -1,0 +1,13 @@
+notes: those releases have been verified against a test plan that cover:
+= creation of data model
+= import of ReqIF requirements
+= creation of traceability links
+= display of extented traceability
+
+There exist some minor bugs but major features work.
+
+release 1220 => 
+= DnD of requirements 
+= provides support of data model scope and types to specialize requirement reachables
+
+release 1105 => starting release
