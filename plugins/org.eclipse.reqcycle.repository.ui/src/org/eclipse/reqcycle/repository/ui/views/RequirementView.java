@@ -16,17 +16,27 @@ package org.eclipse.reqcycle.repository.ui.views;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.IPostSelectionProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -34,7 +44,11 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.reqcycle.commands.CreateRelationCommand;
+import org.eclipse.reqcycle.commands.utils.RelationCommandUtils;
+import org.eclipse.reqcycle.commands.utils.RelationCreationDescriptor;
 import org.eclipse.reqcycle.core.ILogger;
+import org.eclipse.reqcycle.dnd.DNDReqCycle;
 import org.eclipse.reqcycle.dnd.DragRequirementSourceAdapter;
 import org.eclipse.reqcycle.predicates.core.api.IPredicate;
 import org.eclipse.reqcycle.repository.data.util.DataUtil;
@@ -44,14 +58,29 @@ import org.eclipse.reqcycle.repository.ui.actions.SelectRequirementSourcesAction
 import org.eclipse.reqcycle.repository.ui.providers.DummyInputContentProvider;
 import org.eclipse.reqcycle.repository.ui.providers.DummyInputContentProvider.DummyInput;
 import org.eclipse.reqcycle.repository.ui.providers.DummyInputContentProvider.DummyObject;
+import org.eclipse.reqcycle.uri.IReachableManager;
+import org.eclipse.reqcycle.uri.exceptions.IReachableHandlerException;
+import org.eclipse.reqcycle.uri.model.IObjectHandler;
+import org.eclipse.reqcycle.uri.model.Reachable;
+import org.eclipse.reqcycle.uri.model.ReachableObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DropTarget;
+import org.eclipse.swt.dnd.DropTargetAdapter;
+import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewReference;
@@ -61,19 +90,28 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.DrillDownAdapter;
 import org.eclipse.ui.part.PluginTransfer;
+import org.eclipse.ui.part.PluginTransferData;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import RequirementSourceConf.RequirementSource;
 
-public class RequirementView extends ViewPart implements Listener {
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 
+public class RequirementView extends ViewPart implements Listener {
 
 	/** View ID */
 	public static final String VIEW_ID = "org.eclipse.reqcycle.repository.ui.views.requirements";
 
 	@Inject
 	ILogger logger;
+
+	private IReachableManager reachManager = ZigguratInject
+			.make(IReachableManager.class);
+
+	// -RFU-
+	IObjectHandler objectHandler = ZigguratInject.make(IObjectHandler.class);
 
 	/** Requirement repositories TreeViewer */
 	protected TreeViewer viewer;
@@ -102,29 +140,36 @@ public class RequirementView extends ViewPart implements Listener {
 	@Override
 	public void createPartControl(Composite parent) {
 		this.viewer = new TreeViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL);
-		final ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-		final DummyInputContentProvider dummyInputContentProvider = new DummyInputContentProvider(adapterFactory);
+		// -RFU- add drop target to allow DnD of requirements on requirements
+		createDropTarget(viewer.getTree());
+		final ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(
+				ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+		final DummyInputContentProvider dummyInputContentProvider = new DummyInputContentProvider(
+				adapterFactory);
 		getViewer().setContentProvider(dummyInputContentProvider);
-		getViewer().setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory) {
+		getViewer().setLabelProvider(
+				new AdapterFactoryLabelProvider(adapterFactory) {
 
-			@Override
-			public String getText(Object element) {
-				if(element instanceof DummyInput) {
-					return ((DummyInput)element).getDisplayName();
-				} else if(element instanceof DummyObject) {
-					return super.getText(((DummyObject)element).getEobj());
-				}
-				return DataUtil.getLabel(element);
-			}
+					@Override
+					public String getText(Object element) {
+						if (element instanceof DummyInput) {
+							return ((DummyInput) element).getDisplayName();
+						} else if (element instanceof DummyObject) {
+							return super.getText(((DummyObject) element)
+									.getEobj());
+						}
+						return DataUtil.getLabel(element);
+					}
 
-			@Override
-			public Image getImage(Object object) {
-				if(object instanceof DummyObject) {
-					return super.getImage(((DummyObject)object).getEobj());
-				}
-				return super.getImage(object);
-			}
-		});
+					@Override
+					public Image getImage(Object object) {
+						if (object instanceof DummyObject) {
+							return super.getImage(((DummyObject) object)
+									.getEobj());
+						}
+						return super.getImage(object);
+					}
+				});
 
 		getViewer().setInput(input);
 
@@ -133,9 +178,10 @@ public class RequirementView extends ViewPart implements Listener {
 		int dndOperations = DND.DROP_COPY | DND.DROP_MOVE;
 
 		Transfer[] transfers;
-		transfers = new Transfer[]{ PluginTransfer.getInstance() };
+		transfers = new Transfer[] { PluginTransfer.getInstance() };
 
-		DragRequirementSourceAdapter listener = new DragRequirementSourceAdapter(getViewer());
+		DragRequirementSourceAdapter listener = new DragRequirementSourceAdapter(
+				getViewer());
 		ZigguratInject.inject(listener);
 		getViewer().addDragSupport(dndOperations, transfers, listener);
 		getViewSite().setSelectionProvider(getViewer());
@@ -145,6 +191,181 @@ public class RequirementView extends ViewPart implements Listener {
 		hookContextMenu();
 		contributeToActionBars();
 		hookListeners();
+	}
+
+	private void createDropTarget(Control control) {
+		final DropTarget target = new DropTarget(control, DND.DROP_DEFAULT
+				| DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK);
+		target.setTransfer(new Transfer[] {
+				LocalSelectionTransfer.getTransfer(),
+				PluginTransfer.getInstance() });
+		target.addDropListener(new DropTargetAdapter() {
+
+			@Override
+			public void dragEnter(DropTargetEvent event) {
+				super.dragEnter(event);
+				Widget widget = event.widget;
+				if (widget instanceof DropTarget) {
+					DropTarget drop = (DropTarget) widget;
+
+				}
+				/*
+				 * for (int i = 0; i < event.dataTypes.length; i++) { if
+				 * (LocalSelectionTransfer.getTransfer().isSupportedType(
+				 * event.dataTypes[i])) { event.currentDataType =
+				 * event.dataTypes[i]; break; } }
+				 */
+			}
+
+			@Override
+			public void drop(DropTargetEvent event) {
+				super.drop(event);
+
+				List<Reachable> reachables = new ArrayList<Reachable>();
+				if (PluginTransfer.getInstance().isSupportedType(
+						event.currentDataType)) {
+					PluginTransferData ptd = (PluginTransferData) event.data;
+					reachables = DNDReqCycle.getReachables(ptd.getData());
+
+				}
+
+				// -RFU-
+				Reachable targetReachable = null;
+				IFile file = null;
+				Widget widget = event.item;
+				if (widget instanceof TreeItem) {
+					TreeItem item = (TreeItem) widget;
+					DummyObject dummy = (DummyObject) item.getData();
+
+					// DummyInputContentProvider cp =
+					// getViewer().getContentProvider().
+
+					EObject targetEObj = getEObject(dummy);
+					file = WorkspaceSynchronizer.getFile(targetEObj.eResource());
+					if (file != null) {
+						if (objectHandler.handlesObject(targetEObj)) {
+							targetReachable = objectHandler.getFromObject(
+									targetEObj).getReachable(targetEObj);
+						}
+					}
+				}
+
+				handleDrop(reachables, targetReachable, file);
+
+				// }
+
+			}
+
+			private boolean isEObject(Object target) {
+				return getEObject(target) != null;
+			}
+
+			private EObject getEObject(Object target) {
+				EObject result = null;
+				if (target instanceof IAdaptable) {
+					IAdaptable adaptable = (IAdaptable) target;
+					result = (EObject) adaptable.getAdapter(EObject.class);
+				}
+				if (result == null) {
+					result = (EObject) Platform.getAdapterManager().getAdapter(
+							target, EObject.class);
+				}
+				if (result == null) {
+					if (result instanceof EObject) {
+						result = (EObject) target;
+					}
+				}
+				return result;
+			}
+
+			protected void handleDrop(List<Reachable> sourceReachables,
+					Reachable targetReachable, IResource res) {
+				final Map<RelationCreationDescriptor, CreateRelationCommand> allCommands = RelationCommandUtils
+						.getAllRelationCommands(sourceReachables,
+								Collections.singletonList(targetReachable), res);
+				Iterable<RelationCreationDescriptor> upstreamToDownstreams = Iterables
+						.filter(allCommands.keySet(),
+								new Predicate<RelationCreationDescriptor>() {
+
+									@Override
+									public boolean apply(
+											RelationCreationDescriptor desc) {
+										return desc.isUpstreamToDownstream();
+									}
+								});
+				Iterable<RelationCreationDescriptor> downstreamToUpstream = Iterables
+						.filter(allCommands.keySet(),
+								new Predicate<RelationCreationDescriptor>() {
+
+									@Override
+									public boolean apply(
+											RelationCreationDescriptor desc) {
+										return desc.isDownstreamToUpstream();
+									}
+								});
+				Menu menu = new Menu(Display.getDefault().getActiveShell());
+				Iterator<RelationCreationDescriptor> iteratorUD = upstreamToDownstreams
+						.iterator();
+				if (iteratorUD.hasNext()) {
+					createMenu(menu, "Up To Down", iteratorUD, allCommands);
+				}
+				Iterator<RelationCreationDescriptor> iteratorDU = downstreamToUpstream
+						.iterator();
+				if (iteratorDU.hasNext()) {
+					createMenu(menu, "Down To Up", iteratorDU, allCommands);
+				}
+				menu.setVisible(true);
+
+			}
+
+			private void createMenu(
+					Menu menu,
+					String string,
+					Iterator<RelationCreationDescriptor> iteratorUD,
+					Map<RelationCreationDescriptor, CreateRelationCommand> allCommands) {
+				MenuItem newItem = new MenuItem(menu, SWT.CASCADE);
+				Menu newMenu = new Menu(menu);
+				newItem.setMenu(newMenu);
+				newItem.setText(string);
+				for (; iteratorUD.hasNext();) {
+					RelationCreationDescriptor desc = iteratorUD.next();
+					MenuItem item = new MenuItem(newMenu, SWT.NONE);
+					final CreateRelationCommand command = allCommands.get(desc);
+					item.setText(desc.getLabel());
+					item.addSelectionListener(new SelectionAdapter() {
+
+						@Override
+						public void widgetSelected(SelectionEvent e) {
+							command.execute();
+						}
+
+					});
+				}
+			}
+
+			@Override
+			public void dragOver(DropTargetEvent event) {
+				super.dragOver(event);
+			}
+
+			@Override
+			public void dropAccept(DropTargetEvent event) {
+				super.dropAccept(event);
+			}
+
+		});
+	}
+
+	public Reachable getReachable(Object o) {
+		try {
+			IObjectHandler handler = reachManager.getHandlerFromObject(o);
+			ReachableObject reachableObject = handler.getFromObject(o);
+			if (reachableObject != null) {
+				return reachableObject.getReachable(o);
+			}
+		} catch (IReachableHandlerException e) {
+		}
+		return null;
 	}
 
 	/**
@@ -163,50 +384,62 @@ public class RequirementView extends ViewPart implements Listener {
 		Menu menu = menuMgr.createContextMenu(viewer.getControl());
 		viewer.getControl().setMenu(menu);
 
-		getSite().registerContextMenu(menuMgr, selectionProvider != null ? selectionProvider : viewer);
+		getSite().registerContextMenu(menuMgr,
+				selectionProvider != null ? selectionProvider : viewer);
 	}
 
 	protected void makeSelectionProvider() {
-		if(viewer == null) {
+		if (viewer == null) {
 			return;
 		}
 		selectionProvider = new IPostSelectionProvider() {
 
 			@Override
-			public void addSelectionChangedListener(ISelectionChangedListener listener) {
-				((IPostSelectionProvider)viewer).addSelectionChangedListener(listener);
+			public void addSelectionChangedListener(
+					ISelectionChangedListener listener) {
+				((IPostSelectionProvider) viewer)
+						.addSelectionChangedListener(listener);
 			}
 
 			@Override
 			public ISelection getSelection() {
-				ISelection selection = ((IPostSelectionProvider)viewer).getSelection();
-				if(selection instanceof IStructuredSelection) {
-					Object element = ((IStructuredSelection)selection).getFirstElement();
-					if(element instanceof DummyObject) {
-						return new StructuredSelection(((DummyObject)element).getEobj());
+				ISelection selection = ((IPostSelectionProvider) viewer)
+						.getSelection();
+				if (selection instanceof IStructuredSelection) {
+					Object element = ((IStructuredSelection) selection)
+							.getFirstElement();
+					if (element instanceof DummyObject) {
+						return new StructuredSelection(
+								((DummyObject) element).getEobj());
 					}
 				}
 				return selection;
 			}
 
 			@Override
-			public void removeSelectionChangedListener(ISelectionChangedListener listener) {
-				((IPostSelectionProvider)viewer).removeSelectionChangedListener(listener);
+			public void removeSelectionChangedListener(
+					ISelectionChangedListener listener) {
+				((IPostSelectionProvider) viewer)
+						.removeSelectionChangedListener(listener);
 			}
 
 			@Override
 			public void setSelection(ISelection selection) {
-				((IPostSelectionProvider)viewer).setSelection(selection);
+				((IPostSelectionProvider) viewer).setSelection(selection);
 			}
 
 			@Override
-			public void addPostSelectionChangedListener(ISelectionChangedListener listener) {
-				((IPostSelectionProvider)viewer).addPostSelectionChangedListener(listener);
+			public void addPostSelectionChangedListener(
+					ISelectionChangedListener listener) {
+				((IPostSelectionProvider) viewer)
+						.addPostSelectionChangedListener(listener);
 			}
 
 			@Override
-			public void removePostSelectionChangedListener(ISelectionChangedListener listener) {
-				((IPostSelectionProvider)viewer).removePostSelectionChangedListener(listener);
+			public void removePostSelectionChangedListener(
+					ISelectionChangedListener listener) {
+				((IPostSelectionProvider) viewer)
+						.removePostSelectionChangedListener(listener);
 			}
 
 		};
@@ -217,7 +450,7 @@ public class RequirementView extends ViewPart implements Listener {
 	 * Fills the context menu
 	 * 
 	 * @param manager
-	 *        the context menu manager
+	 *            the context menu manager
 	 */
 	protected void fillContextMenu(IMenuManager manager) {
 		drillDownAdapter.addNavigationActions(manager);
@@ -231,10 +464,11 @@ public class RequirementView extends ViewPart implements Listener {
 	}
 
 	protected static IViewPart createNewView() {
-		IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		IWorkbenchPage activePage = PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getActivePage();
 		int nbView = 0;
-		for(IViewReference ref : activePage.getViewReferences()) {
-			if(ref.getId().startsWith(VIEW_ID)) {
+		for (IViewReference ref : activePage.getViewReferences()) {
+			if (ref.getId().startsWith(VIEW_ID)) {
 				nbView++;
 			}
 		}
@@ -242,7 +476,8 @@ public class RequirementView extends ViewPart implements Listener {
 		nbView++;
 		IViewPart view = null;
 		try {
-			view = activePage.showView(VIEW_ID, VIEW_ID + "_" + nbView, IWorkbenchPage.VIEW_ACTIVATE);
+			view = activePage.showView(VIEW_ID, VIEW_ID + "_" + nbView,
+					IWorkbenchPage.VIEW_ACTIVATE);
 			// view.
 		} catch (PartInitException e) {
 			e.printStackTrace();
@@ -254,22 +489,27 @@ public class RequirementView extends ViewPart implements Listener {
 	/**
 	 * @param sources
 	 * @param predicates
-	 *        - The collection of predicates to use for filtering the same input.
+	 *            - The collection of predicates to use for filtering the same
+	 *            input.
 	 */
-	public static void openNewRequirementView(final Collection<RequirementSource> sources, final Collection<IPredicate> predicates) {
+	public static void openNewRequirementView(
+			final Collection<RequirementSource> sources,
+			final Collection<IPredicate> predicates) {
 
-		if(!sources.isEmpty()) {
+		if (!sources.isEmpty()) {
 
 			IViewPart view = createNewView();
-			if(view == null) {
+			if (view == null) {
 				return;
 			}
 
-			RequirementView reqView = (RequirementView)view;
+			RequirementView reqView = (RequirementView) view;
 
-			final ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+			final ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(
+					ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 
-			final DummyInputContentProvider dummyInputContentProvider = new DummyInputContentProvider(adapterFactory);
+			final DummyInputContentProvider dummyInputContentProvider = new DummyInputContentProvider(
+					adapterFactory);
 
 			reqView.getViewer().setContentProvider(dummyInputContentProvider);
 
@@ -281,26 +521,26 @@ public class RequirementView extends ViewPart implements Listener {
 	}
 
 	protected void refresh() {
-		if(viewer != null) {
+		if (viewer != null) {
 			viewer.refresh();
 		}
 	}
 
 	public void setSources(Collection<RequirementSource> sources) {
-		if(sources == null) {
+		if (sources == null) {
 			sources = Collections.emptyList();
 		}
 		this.sources = sources;
-		if(selectRequirementSourcesAction != null) {
+		if (selectRequirementSourcesAction != null) {
 			selectRequirementSourcesAction.setInitialSelection(sources);
 		}
 
 		DummyInput dummy;
-		if(input.isEmpty()) {
+		if (input.isEmpty()) {
 			dummy = new DummyInput(sources);
 			input.add(dummy);
 		} else {
-			for(DummyInput d : input) {
+			for (DummyInput d : input) {
 				d.setInput(sources);
 			}
 		}
@@ -315,11 +555,11 @@ public class RequirementView extends ViewPart implements Listener {
 	}
 
 	public void setPredicates(Collection<IPredicate> predicates) {
-		if(predicates == null) {
+		if (predicates == null) {
 			predicates = Collections.emptyList();
 		}
 		this.predicates = predicates;
-		if(selectPredicatesFilterAction != null) {
+		if (selectPredicatesFilterAction != null) {
 			selectPredicatesFilterAction.setInitialSelection(predicates);
 		}
 
@@ -327,7 +567,7 @@ public class RequirementView extends ViewPart implements Listener {
 
 		DummyInput dummy;
 
-		for(IPredicate predicate : predicates) {
+		for (IPredicate predicate : predicates) {
 			dummy = new DummyInput(sources);
 			dummy.setPredicate(predicate);
 			input.add(dummy);
@@ -346,7 +586,7 @@ public class RequirementView extends ViewPart implements Listener {
 	 * Fills the local ToolBar
 	 * 
 	 * @param manager
-	 *        The tool Bar manager
+	 *            The tool Bar manager
 	 */
 	protected void fillLocalToolBar(IToolBarManager manager) {
 		manager.add(selectPredicatesFilterAction);
@@ -359,16 +599,20 @@ public class RequirementView extends ViewPart implements Listener {
 		selectPredicatesFilterAction = new SelectPredicatesFiltersAction();
 		ZigguratInject.inject(selectPredicatesFilterAction);
 		selectPredicatesFilterAction.setText("Select Predicates Filters");
-		selectPredicatesFilterAction.setToolTipText("Select predicates to use for filtering");
-		selectPredicatesFilterAction.setImageDescriptor(Activator.getImageDescriptor("/icons/editFilterList.png"));
+		selectPredicatesFilterAction
+				.setToolTipText("Select predicates to use for filtering");
+		selectPredicatesFilterAction.setImageDescriptor(Activator
+				.getImageDescriptor("/icons/editFilterList.png"));
 		selectPredicatesFilterAction.addListener(this);
 		selectPredicatesFilterAction.setEnabled(false);
 
 		selectRequirementSourcesAction = new SelectRequirementSourcesAction();
 		ZigguratInject.inject(selectRequirementSourcesAction);
 		selectRequirementSourcesAction.setText("Select Requirement Sources");
-		selectRequirementSourcesAction.setToolTipText("Select requirement sources to filter");
-		selectRequirementSourcesAction.setImageDescriptor(Activator.getImageDescriptor("/icons/editRepoList.png"));
+		selectRequirementSourcesAction
+				.setToolTipText("Select requirement sources to filter");
+		selectRequirementSourcesAction.setImageDescriptor(Activator
+				.getImageDescriptor("/icons/editRepoList.png"));
 		selectRequirementSourcesAction.addListener(this);
 
 		newInstanceAction = new Action("New Instance") {
@@ -378,7 +622,8 @@ public class RequirementView extends ViewPart implements Listener {
 				createNewView();
 			}
 		};
-		newInstanceAction.setImageDescriptor(Activator.getImageDescriptor("icons/newView.gif"));
+		newInstanceAction.setImageDescriptor(Activator
+				.getImageDescriptor("icons/newView.gif"));
 	}
 
 	/**
@@ -389,12 +634,14 @@ public class RequirementView extends ViewPart implements Listener {
 
 	@Override
 	public void handleEvent(Event event) {
-		if(event instanceof SelectRequirementSourcesAction.SourcesChangeEvent) {
-			setSources(((SelectRequirementSourcesAction.SourcesChangeEvent)event).getSources());
+		if (event instanceof SelectRequirementSourcesAction.SourcesChangeEvent) {
+			setSources(((SelectRequirementSourcesAction.SourcesChangeEvent) event)
+					.getSources());
 		}
 
-		if(event instanceof SelectPredicatesFiltersAction.PredicatesChangeEvent) {
-			setPredicates(((SelectPredicatesFiltersAction.PredicatesChangeEvent)event).getPredicates());
+		if (event instanceof SelectPredicatesFiltersAction.PredicatesChangeEvent) {
+			setPredicates(((SelectPredicatesFiltersAction.PredicatesChangeEvent) event)
+					.getPredicates());
 		}
 		refresh();
 	}
