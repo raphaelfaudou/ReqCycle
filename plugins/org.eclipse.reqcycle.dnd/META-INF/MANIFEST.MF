@@ -11,7 +11,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.reqcycle.traceability.types,
  org.eclipse.reqcycle.commands,
  org.eclipse.emf.workspace;bundle-version="1.5.1",
- org.eclipse.ziggurat.inject
+ org.eclipse.ziggurat.inject,
+ com.google.guava
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Import-Package: javax.annotation;version="1.0.0",

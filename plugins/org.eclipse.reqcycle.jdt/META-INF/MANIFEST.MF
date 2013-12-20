@@ -13,3 +13,4 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ziggurat.inject
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: com.google.common.base

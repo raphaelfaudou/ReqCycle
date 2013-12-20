@@ -16,6 +16,8 @@ import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 
+
+
 public class ExtensionPointReader {
 	public static final ImageDescriptor DEFAULT_ICON = ImageDescriptor
 			.createFromURL(Activator.getDefault().getBundle()

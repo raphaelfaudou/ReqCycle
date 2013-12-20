@@ -70,11 +70,7 @@ public class TraceableElementPicker implements IPicker {
 					Reachable source = traceableElement2Traceable.apply(elem);
 					Reachable target = traceableElement2Traceable.apply(t);
 					Pair<Link, Reachable> pair = new Pair<Link, Reachable>(
-						/*	-RFU- new Link(l.getLabel(),
-									Collections.singleton(source),
-									Collections.singleton(target)), target);*/
 							new Link(l.getLabel(),
-									l.getLabel(),	
 									Collections.singleton(source),
 									Collections.singleton(target)), target);
 					if (scope.apply(pair)) {

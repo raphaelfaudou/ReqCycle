@@ -146,7 +146,7 @@ public class CacheTraceabilityEngine extends AbstractCachedTraceabilityEngine {
 		return false;
 	}
 
-	//-RFU-@Override
+	@Override
 	public void newUpwardRelation(Reachable container, Reachable source,
 			List<Reachable> targets, TType kind) {
 		Traceable2TraceableElement traceable2TraceableElement = new Traceable2TraceableElement(
@@ -330,8 +330,7 @@ public class CacheTraceabilityEngine extends AbstractCachedTraceabilityEngine {
 			Object o = i.next();
 			if (o instanceof Pair) {
 				Pair<Link, Reachable> pair = (Pair<Link, Reachable>) o;
-			//-RFU-	if (t.apply(pair.getSecond())) {
-				if (t.apply(pair)) {
+				if (t.apply(pair.getSecond())) {
 					current.add(pair);
 					found = true;
 					break;
@@ -344,8 +343,7 @@ public class CacheTraceabilityEngine extends AbstractCachedTraceabilityEngine {
 					}
 				} else {
 					current.add(pair);
-					// -RFU- if (t.apply(pair.getSecond())) {
-					if (t.apply(pair)) {
+					if (t.apply(pair.getSecond())) {
 						found = true;
 						break;
 					}
@@ -360,7 +358,7 @@ public class CacheTraceabilityEngine extends AbstractCachedTraceabilityEngine {
 		return new Traceable2TraceableElement(theModel).apply(source);
 	}
 
-	//-RFU-@Override
+	@Override
 	protected void removeEntriesFor(Reachable traceable) {
 		// TODO don t delete but tag
 		AnalyzedResource a = getResource(traceable);
@@ -388,34 +386,6 @@ public class CacheTraceabilityEngine extends AbstractCachedTraceabilityEngine {
 	@Override
 	public void startBuild(Reachable reachable) {
 		getOrCreateAnalyzedResource(reachable);
-	}
-
-	@Override
-	protected Iterator<Pair<Link, Reachable>> doGetAllTraceability(
-			DIRECTION direction,
-			Predicate<Pair<Link, Reachable>> requestPredicate) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected Iterable<Reachable> getEntriesFor(Reachable reachable) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void newUpwardRelation(Reachable traceaReachable,
-			Reachable container, Reachable source, List<Reachable> targets,
-			TType kind) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void removeTraceabilityLink(Reachable r) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

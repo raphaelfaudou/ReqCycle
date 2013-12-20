@@ -12,11 +12,13 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.reqcycle.traceability.builder;bundle-version="1.0.0",
  org.eclipse.core.resources;bundle-version="3.8.1",
  org.eclipse.ziggurat.inject,
- org.eclipse.reqcycle.traceability.storage.blueprints;bundle-version="1.0.0"
+ org.eclipse.reqcycle.traceability.storage.blueprints;bundle-version="1.0.0",
+ com.google.guava
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: lib/openrdf-sesame-2.6.10-onejar.jar,
  .,
  lib/blueprints-sail-graph-2.3.0.jar
-Import-Package: javax.annotation;version="1.0.0",
+Import-Package: com.google.common.base;version="10.0.1",
+ javax.annotation;version="1.0.0",
  javax.inject;version="1.0.0"
