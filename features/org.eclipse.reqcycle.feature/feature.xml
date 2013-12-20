@@ -5,7 +5,7 @@
       version="1.0.0.qualifier">
 
    <description url="http://www.example.com/description">
-      [Enter Feature Description here.]
+      ReqCycle feature contains requirement management, engineering and traceability
    </description>
 
    <copyright url="http://www.example.com/copyright">
@@ -13,7 +13,7 @@
    </copyright>
 
    <license url="http://www.example.com/license">
-      [Enter License Description here.]
+      Eclipse Public License (EPL)
    </license>
 
    <plugin
@@ -346,6 +346,13 @@
 
    <plugin
          id="org.eclipse.reqcycle.ocl.traceability"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.reqcycle.traceability.types.lifecycle"
          download-size="0"
          install-size="0"
          version="0.0.0"
