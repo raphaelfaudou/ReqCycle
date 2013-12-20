@@ -121,11 +121,11 @@ public class DropRequirementDelegate implements IDropActionDelegate {
 		Menu menu = new Menu(Display.getDefault().getActiveShell());
 		Iterator<RelationCreationDescriptor> iteratorUD = upstreamToDownstreams.iterator();
 		if(iteratorUD.hasNext()) {
-			createMenu(menu, "Upstream To Downstream", iteratorUD, allCommands);
+			createMenu(menu, "Up To Down", iteratorUD, allCommands);
 		}
 		Iterator<RelationCreationDescriptor> iteratorDU = downstreamToUpstream.iterator();
 		if(iteratorDU.hasNext()) {
-			createMenu(menu, "Downstream To Upstream", iteratorDU, allCommands);
+			createMenu(menu, "Down To Up", iteratorDU, allCommands);
 		}
 		menu.setVisible(true);
 
