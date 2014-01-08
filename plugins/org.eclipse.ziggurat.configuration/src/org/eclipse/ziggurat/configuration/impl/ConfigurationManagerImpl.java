@@ -227,7 +227,8 @@ public class ConfigurationManagerImpl implements IConfigurationManager {
 		EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
 		ePackage.setName(CONF_RESOURCE_EXTENSION);
 		ePackage.setNsPrefix(CONF_RESOURCE_EXTENSION);
-		ePackage.setNsURI("http://www.agesys.org/" + CONF_RESOURCE_EXTENSION + "/" + EcoreUtil.generateUUID());
+		//TODO change URI
+		ePackage.setNsURI("http://www.eclipse.org/" + CONF_RESOURCE_EXTENSION + "/" + EcoreUtil.generateUUID());
 
 		EFactory eFactory = EcoreFactory.eINSTANCE.createEFactory();
 		eFactory.setEPackage(ePackage);
