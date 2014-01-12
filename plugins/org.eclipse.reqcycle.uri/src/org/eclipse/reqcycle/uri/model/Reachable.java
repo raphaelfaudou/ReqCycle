@@ -158,12 +158,10 @@ public final class Reachable implements Serializable {
 	}
 
 	public void put(String key, String value) {
-		System.out.println(" put " + value + " for key " + key + " in reachable " + this.toString() + " - " + this.hashCode());
 		getProperties().put(key, value);
 	}
 
 	public void putAll(Map<String, String> map) {
-		System.out.println(" putALL " + this.toString() + " - " + this.hashCode());
 		
 		getProperties().putAll(map);
 	}

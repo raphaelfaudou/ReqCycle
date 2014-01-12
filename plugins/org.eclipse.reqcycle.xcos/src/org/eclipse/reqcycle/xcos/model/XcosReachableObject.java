@@ -28,7 +28,6 @@ public class XcosReachableObject implements ReachableObject {
 	public XcosReachableObject(Reachable t) {
 		
 		this.reachable = t;
-		System.out.println(" reachable " + t );
 		String path = t.trimFragment().toString()
 				.replaceFirst(XcosUtils.PLATFORM, "");
 		file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path));

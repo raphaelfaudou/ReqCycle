@@ -13,10 +13,8 @@ public class TraceabilityUtils {
 	public static String getText(Reachable r) {
 		ILabelProvider provider = getProvider(r);
 		if (provider != null) {
-			System.out.println("found provider " + provider + " for " + r);
 			return provider.getText(r);
 		}
-		System.out.println("could not find provider " + r.toString());
 		return r.toString();
 
 	}

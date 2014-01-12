@@ -54,18 +54,15 @@ public class XcosObjectHandler implements IObjectHandler {
 		
 		// in case this is a file, we must ensure that it is xcos extension.
 		// else we care only of XcosElements.
-		System.out.println("o.class " + object.getClass());
 		
 		if (object instanceof IFile) {
 			IFile file = (IFile) object;
 			if (XcosExtension.equalsIgnoreCase(file.getFileExtension())) {
 				//TODO real handleObject for Xcos
-				System.out.println("o file " + file.getName());
 				return true;
 			}
 		}
 		if (object instanceof Resource) {
-			System.out.println("found resource");
 			return true;
 			
 		}

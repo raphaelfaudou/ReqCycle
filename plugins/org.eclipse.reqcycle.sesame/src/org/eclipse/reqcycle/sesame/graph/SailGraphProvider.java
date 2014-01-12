@@ -144,7 +144,6 @@ public class SailGraphProvider implements IOneFileGraphProvider, IBusinessOperat
 	// graph.commit();
 	// graph.shutdown();
 	// CustomSailGraph graph2 = new CustomSailGraph("d:/test.ttl");
-	// System.out.println(Lists.newArrayList(graph2.getEdges()));
 	// }
 
 	@Override

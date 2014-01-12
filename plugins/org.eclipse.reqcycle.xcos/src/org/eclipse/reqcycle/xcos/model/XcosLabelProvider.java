@@ -30,10 +30,8 @@ public class XcosLabelProvider extends LabelProvider {
 	public String getText(Object element) {
 		if (element instanceof Reachable) {
 			Reachable reach = (Reachable) element;
-			System.out.println("getText : " + reach.getFragment());
-			return reach.getFragment();
+			return "Xcos" + reach.getFragment();
 		}
-		System.out.println("getText not reachable : " + super.getText(element));
 		return super.getText(element);
 	}
 

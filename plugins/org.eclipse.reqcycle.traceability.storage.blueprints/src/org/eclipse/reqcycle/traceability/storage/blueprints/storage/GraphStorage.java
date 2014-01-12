@@ -108,20 +108,16 @@ public class GraphStorage implements ITraceabilityStorage {
 
 	@Override
 	public Reachable getReachable(String uri) {
-		System.out.println(" getReachable uri " + uri);
 		Vertex v = graphUtils.getVertex(graph, uri);
 		if (v != null) {
-			System.out.println(" vertex properties " + v.getPropertyKeys().size());
 			
 			Reachable r;
 			try {
 				r = creator.getReachable(new URI(uri));
 				Map<String, String> properties = graphUtils.getProperties(v);
-				System.out.println(" apply from GraphStorage.getReachable  for reachable " + r);
 				
 				for (String s : properties.keySet()) {
-					System.out.println("put " + s);
-					r.put(s, (String) properties.get(s));
+						r.put(s, (String) properties.get(s));
 				}
 				return r;
 			} catch (URISyntaxException e) {

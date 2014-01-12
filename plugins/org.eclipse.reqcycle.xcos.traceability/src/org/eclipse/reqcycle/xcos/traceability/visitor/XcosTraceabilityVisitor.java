@@ -52,12 +52,10 @@ public class XcosTraceabilityVisitor implements IVisitor {
 	@Override
 	public boolean visit(Object o, IAdaptable adaptable) {
 		IBuilderCallBack callBack = (IBuilderCallBack)adaptable.getAdapter(IBuilderCallBack.class);
-		System.out.println(o);
 		if(o instanceof XcosElement) {
 			XcosElement xce = (XcosElement)o;
 			if( xce instanceof XcosTrace){
 				XcosTrace trace = (XcosTrace) xce;
-				System.out.println("visiting xcos trace " + trace);
 				// do the job: 
 				//  analyse trace and add or update the link in ReqCycle traceability repository
 				
@@ -94,30 +92,13 @@ public class XcosTraceabilityVisitor implements IVisitor {
 			uri = new URI(link.getRef());
 			 target = creator.getReachable(uri);
 			 
-			/* Vertex v = graphUtils.getVertex(graph, uri);
-				if (v != null) {
-					System.out.println(" vertex properties " + v.getPropertyKeys().size());
-					
-					Reachable r;
-					try {
-						r = creator.getReachable(new URI(uri));
-						Map<String, String> properties = graphUtils.getProperties(v);
-						System.out.println(" apply from GraphStorage.getReachable  for reachable " + r);
-						
-						for (String s : properties.keySet()) {
-							System.out.println("put " + s);
-							r.put(s, (String) properties.get(s));
-						}
-						return r;
-					} catch (URISyntaxException e) {
-					}*/
+		
 			
 			
 		} catch (URISyntaxException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		System.out.println("target = "+ target);
 		if (target != null) {
 		
 			//FIXME find good target from trace as Reachable object

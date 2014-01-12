@@ -17,7 +17,6 @@ public class EMFLabelProvider extends LabelProvider {
 
 	@Override
 	public String getText(Object element) {
-		System.out.println(" EMFLabelProvider element: " + element);
 		if (element instanceof Reachable) {
 			Reachable r = (Reachable) element;
 			return EMFEditExtender.getLabel(r);

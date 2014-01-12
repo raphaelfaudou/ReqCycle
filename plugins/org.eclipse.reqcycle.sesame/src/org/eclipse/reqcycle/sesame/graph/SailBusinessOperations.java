@@ -48,11 +48,9 @@ public class SailBusinessOperations implements
 		String id = reachable.toString();
 		Vertex v = graph.getVertex(id);
 		Map<String, String> propertiesFromGraph = getProperties(v);
-		System.out.println("propertiesFrom Graph " + propertiesFromGraph.size());
 		Map<String, String> propertiesFromGraphCopy = new HashMap<String, String>(
 				propertiesFromGraph);
 		Map<String, String> propertiesFromReachable = reachable.getProperties();
-		System.out.println("propertiesFrom Reachable " + propertiesFromGraph.size() + " : "+ reachable);
 		for (String s : propertiesFromReachable.keySet()) {
 			propertiesFromGraphCopy.remove(s);
 		}
@@ -76,7 +74,6 @@ public class SailBusinessOperations implements
 
 	private void addProperty(Graph graph, Vertex v, String propertyName,
 			String propertyValue) {
-		System.out.println(" SailBusiness:add property " + propertyName);
 		graph.addEdge(
 				null,
 				v,
@@ -89,7 +86,6 @@ public class SailBusinessOperations implements
 	}
 
 	private void removeProperties(Graph graph, Vertex v) {
-		System.out.println("sailBusiness::removeProperties");
 		Iterable<Edge> edges = Iterables.filter(v.getEdges(Direction.BOTH),
 				new Predicate<Edge>() {
 					public boolean apply(Edge e) {
@@ -104,7 +100,6 @@ public class SailBusinessOperations implements
 
 	public void addRelation(Graph graph, Vertex source, Vertex target,
 			String relation) {
-		System.out.println("SailBusiness:add relation " + relation);
 		graph.addEdge(null, source, target, relation);
 	}
 
@@ -242,9 +237,7 @@ public class SailBusinessOperations implements
 	@Override
 	public Map<String, String> getProperties(Vertex v) {
 		Map<String, String> map = new HashMap<String, String>();
-		System.out.println(" SailBusiness getProperties ");
 		for (Edge e : v.getEdges(Direction.OUT, EDGE_PROPERTIES)) {
-			System.out.println(" Edge " + e);
 			String[] prop = getProperties(e);
 			if (prop != null) {
 				map.put(prop[0], prop[1]);
@@ -325,9 +318,7 @@ public class SailBusinessOperations implements
 					r = SailBusinessOperations.this.creator
 							.getReachable(new URI((String) v.getId()));
 					Map<String, String> properties = getProperties(v);
-					System.out.println(" apply from SailBusinessOp  for reachable " + r);
 					for (String s : properties.keySet()) {
-						System.out.println("put " + s);
 						r.put(s, (String) properties.get(s));
 					}
 					return r;
@@ -341,7 +332,6 @@ public class SailBusinessOperations implements
 	@Override
 	public void removeUpwardRelationShip(Graph graph, TType kind,
 			Reachable container, Reachable source, Reachable target) {
-		System.out.println("sailbusiness::removeUpwardRelationShip");
 		Vertex sourceVertex = getVertex(graph, source);
 		Vertex targetVertex = getVertex(graph, target);
 		Set<Edge> toDelete = new HashSet<Edge>();
@@ -424,7 +414,6 @@ public class SailBusinessOperations implements
 		Iterable<Edge> edges = traceabilityVertex.getEdges(Direction.OUT,
 				stringForVertexTr);
 		// only one by traceability
-		System.out.println("SailBusiness::set");
 		Edge next = edges.iterator().next();
 		Vertex otherVertex = next.getVertex(Direction.OUT);
 		Set<Edge> toDelete = new HashSet<Edge>();
@@ -435,7 +424,6 @@ public class SailBusinessOperations implements
 			}
 		}
 		// remove the edges
-		System.out.println("remove edges " + toDelete);
 		for (Edge e : toDelete) {
 			graph.removeEdge(e);
 		}
@@ -459,7 +447,6 @@ public class SailBusinessOperations implements
 	@Override
 	public void removeProperty(Graph graph, Vertex vertex, String propertyName) {
 		Edge toDelete = null;
-		System.out.println("Sailbusiness: remove property");
 		for (Edge e : vertex.getEdges(Direction.OUT, EDGE_PROPERTIES)) {
 			String[] prop = getProperties(e);
 			if (prop != null) {

@@ -29,9 +29,7 @@ public class ReachableCreator implements IReachableCreator {
 		t.setQuery(uri.getQuery());
 		t.setFragment(uri.getFragment());
 		t.setPort(uri.getPort());
-		System.out.println("getReachable " + originalObject + " for uri " + uri);
 		for (IReachableExtender ext : manager.getExtenders(uri, originalObject)) {
-			System.out.println(" extender for " + originalObject + " : " + ext);
 			t.putAll(ext.getExtendedProperties(uri, originalObject));
 		}
 		return t;

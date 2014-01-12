@@ -30,7 +30,6 @@ public class XcosIDContributor implements IIDContributor {
 			try {
 				uri = new URI(logicalID);
 				Reachable r = creator.getReachable(uri);
-				System.out.println("reachable from id = " + r);
 				return r;
 			} catch (URISyntaxException e1) {
 				// TODO Auto-generated catch block

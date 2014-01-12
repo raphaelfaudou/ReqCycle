@@ -31,10 +31,7 @@ public class GraphUtils implements IBusinessOperationProvider.IBusinessOperation
 
 	public Vertex getVertex(Graph graph, Reachable reachable) {
 		String id = reachable.toString();
-		System.out.println("getVertex Graph " + graph + " reach " + reachable);
-		System.out.println(" id " + id);
-		System.out.println("reach properties " + reachable.getProperties().size());
-		Vertex v = graph.getVertex(id);
+			Vertex v = graph.getVertex(id);
 		if (v == null) {
 			v = graph.addVertex(id);
 			for (String s : reachable.getProperties().keySet()) {
@@ -48,10 +45,8 @@ public class GraphUtils implements IBusinessOperationProvider.IBusinessOperation
 	}
 
 	public Vertex getVertex(Graph graph, String reachableUri) {
-		System.out.println("getVertex Graph " + graph + " uri  " + reachableUri);
 		
 		Vertex v = graph.getVertex(reachableUri);
-		System.out.println(" propertiy size for  vertex : " + v.getPropertyKeys().size());
 		return v;
 	}
 
@@ -83,9 +78,7 @@ public class GraphUtils implements IBusinessOperationProvider.IBusinessOperation
 	private Vertex addTraceabilityRelation(Graph graph, TType relation,
 			Vertex traceability, Vertex vSource, Vertex vTarget) {
 		setKind(graph, relation, traceability);
-		System.out.println("add edge for source " + vSource);
 		graph.addEdge(null, vSource, traceability, VERTEX_OUTGOING);
-		System.out.println("add edge for target " + vTarget);
 		graph.addEdge(null, traceability, vTarget, TRACE_TARGET);
 		return traceability;
 	}
@@ -151,7 +144,6 @@ public class GraphUtils implements IBusinessOperationProvider.IBusinessOperation
 	@Override
 	public Map<String, String> getProperties(Vertex v) {
 		Map<String, String> map = new HashMap<String, String>();
-		System.out.println("GraphUtils.getProperties " + v.getPropertyKeys().size());
 		for (String s : v.getPropertyKeys()) {
 			Object val = v.getProperty(s);
 			if (val instanceof String) {
@@ -215,7 +207,6 @@ public class GraphUtils implements IBusinessOperationProvider.IBusinessOperation
 
 	public void removeUpwardRelationShip(Graph graph, TType kind,
 			Vertex container, Vertex sourceVertex, Vertex target) {
-		System.out.println("GraphUtils::removeUpward for kind " + kind);
 		Set<Edge> toDelete = new HashSet<Edge>();
 		if (sourceVertex != null) {
 			for (Edge e : sourceVertex.getEdges(Direction.OUT, VERTEX_OUTGOING)) {

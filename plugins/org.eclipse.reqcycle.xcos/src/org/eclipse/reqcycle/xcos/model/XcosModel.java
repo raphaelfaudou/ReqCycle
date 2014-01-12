@@ -36,7 +36,6 @@ public class XcosModel extends XcosElement {
 
 	public XcosModel(String aName, IResource res) {
 		super(aName, res);
-		System.out.println("creating Xcos Model for res " + res);
 		
 		if (res instanceof IFile) {
 				String req ="platform:/resource/Test1/R.reqcycle#_ZlcYUm9EEeONE5235LORwQ";
