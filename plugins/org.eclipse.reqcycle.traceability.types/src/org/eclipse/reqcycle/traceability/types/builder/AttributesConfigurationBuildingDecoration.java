@@ -127,9 +127,12 @@ public class AttributesConfigurationBuildingDecoration extends
 	private Reachable getReachable(Object object) {
 		IObjectHandler handler;
 		try {
+			System.out.println("object " + object);
+			System.out.println("manager " + manager);
 			handler = manager.getHandlerFromObject(object);
 			return handler.getFromObject(object).getReachable(object);
 		} catch (IReachableHandlerException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}

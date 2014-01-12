@@ -14,7 +14,9 @@ public class XcosTTypeProvider implements TTypeProvider{
 
 	
 	private static TType[] TYPES = new XcosTType[] {
-		new XcosTType("IMPLEMENT-REF")
+		new XcosTType("COVERS"),
+		new XcosTType("IMPLEMENTS"),
+		new XcosTType("TRACE")
 		 };
 
 	private static Map<String, TType> MAP = Maps.uniqueIndex(
@@ -28,7 +30,7 @@ public class XcosTTypeProvider implements TTypeProvider{
 	public static TType get(String label) {
 		TType result = MAP.get(label);
 		if (result == null) {
-			result = MAP.get("IMPLEMENT-REF");
+			result = MAP.get("TRACE");
 		}
 		return result;
 	}

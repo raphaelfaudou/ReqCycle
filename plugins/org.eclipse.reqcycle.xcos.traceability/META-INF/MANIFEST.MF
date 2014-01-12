@@ -17,4 +17,5 @@ Bundle-ActivationPolicy: lazy
 Import-Package: javax.inject,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.resource,
+ org.eclipse.reqcycle.emf.types,
  org.eclipse.reqcycle.xcos.model

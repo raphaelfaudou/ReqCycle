@@ -32,6 +32,9 @@ public class StubbedIdContributor implements IIDContributor {
 	@Override
 	public Reachable getReachable(String logicalID) {
 		String[] splitted = logicalID.split("/");
+		
+		
+		// general case
 		IResource container = ResourcesPlugin.getWorkspace().getRoot();
 		Resource resEMF = null;
 		EObject current = null;

@@ -30,6 +30,7 @@ public class EMFEditExtender implements IReachableExtender {
 	public Map<String, String> getExtendedProperties(URI uri,
 			Object originalObject) {
 		Map<String, String> result = new HashMap<String, String>();
+		System.out.println("getExtendedProperties " + uri + " object " + originalObject);
 		if (originalObject instanceof EObject) {
 			EObject eobj = (EObject) originalObject;
 			if (!eobj.eIsProxy()) {
@@ -50,6 +51,7 @@ public class EMFEditExtender implements IReachableExtender {
 	}
 
 	public void putLabel(Map<String, String> result, String label) {
+		System.out.println("put label " + label);
 		result.put(EMF_EDIT_LABEL, label);
 	}
 
@@ -60,8 +62,10 @@ public class EMFEditExtender implements IReachableExtender {
 	}
 
 	public static String getLabel(Reachable r) {
+		System.out.println("get label for r : " + r + " hashcode = " + r.hashCode() );
 		String result = r.get(EMF_EDIT_LABEL);
 		if (result != null && result.length() > 0) {
+			System.out.println(" result : " + result);
 			return result;
 		}
 		return r.toString();

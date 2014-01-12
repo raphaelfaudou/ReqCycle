@@ -23,7 +23,7 @@ public class XcosReachableHandler implements IReachableHandler {
 
 	@Override
 	public boolean handlesReachable(Reachable t) {
-		//TODO handleReachable xcos
+		
 		return t != null && t.getPath() !=null && t.getPath().endsWith(XcosExtension);
 	}
 

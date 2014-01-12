@@ -70,7 +70,7 @@ public class OCLTraceabilityVisitor implements IVisitor {
 	private void go(Resource resource, IBuilderCallBack callback) {
 		TreeIterator<EObject> allContents = resource.getAllContents();
 		while(allContents.hasNext()) {
-			EObject eObject = allContents.next();
+			EObject eObject = allContents.next();	
 			EOperation operation = evaluator.getCompiledOperation("getLinkTypes", eObject); //$NON-NLS-1$
 			if(operation != null) {
 				Object result = evaluator.evaluateOperation(operation, eObject, new Object[0]);

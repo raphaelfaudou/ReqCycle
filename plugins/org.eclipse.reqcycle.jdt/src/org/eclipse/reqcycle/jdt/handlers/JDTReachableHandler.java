@@ -45,6 +45,7 @@ public class JDTReachableHandler implements IReachableHandler, IObjectHandler,
 		return null;
 	}
 
+	@SuppressWarnings("restriction")
 	@Override
 	public boolean handlesObject(Object object) {
 		if (object instanceof IFile) {

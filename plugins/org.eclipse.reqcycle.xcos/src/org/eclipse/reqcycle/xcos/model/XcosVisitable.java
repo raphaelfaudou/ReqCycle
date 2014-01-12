@@ -21,16 +21,19 @@ public class XcosVisitable implements IVisitable, IAdaptable {
 
 	private void doAccept(XcosElement anElement, IVisitor visitor) {
 		visitor.visit(anElement, this);
-		if (anElement instanceof ISuperBlock) {
-			ISuperBlock parent = (ISuperBlock) anElement;
-			try {
-				for (XcosElement x : parent.getChildren()) {
-					doAccept(x, visitor);
-				}
-			} catch (XcosModelException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		if (anElement instanceof XcosModel) {
+			XcosModel parent = (XcosModel) anElement;
+			
+			// we handle all Xcos blocks
+			for (XcosElement x : parent.getBlocks()) {
+				doAccept(x, visitor);
 			}
+			
+			// we handle all Xcos traces to external elements (requirement, SysML element...)
+			for (XcosElement trace : parent.getTraces()) {
+				doAccept(trace, visitor);
+			}
+			
 		}
 	}
 

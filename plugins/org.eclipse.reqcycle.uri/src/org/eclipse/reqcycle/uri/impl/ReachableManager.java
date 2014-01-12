@@ -127,17 +127,21 @@ public class ReachableManager implements IReachableManager {
 	public IObjectHandler getHandlerFromObject(final Object o)
 			throws IReachableHandlerException {
 		if (o == null) {
+			System.out.println(" plantage imminent");
 			throw new IReachableHandlerException();
 		}
 		IObjectHandler get;
 		try {
+			System.out.println("o=" + o);
 			get = cacheObjects.get(o, new Callable<IObjectHandler>() {
 
 				@Override
 				public IObjectHandler call() throws Exception {
 					for (IObjectHandler h : Iterables.filter(handlers,
 						IObjectHandler.class)) {
+						System.out.println("h " + h);
 					if (h.handlesObject(o)) {
+						System.out.println("h that can handle o :" + h);
 						return h;
 					}
 				}
@@ -145,9 +149,12 @@ public class ReachableManager implements IReachableManager {
 				}
 			});
 		} catch (ExecutionException e) {
+			System.out.println("ExecutionException");
+			e.printStackTrace();
 			throw new IReachableHandlerException();
 		}
 		if (get == null) {
+			System.out.println("get = null");
 			throw new IReachableHandlerException();
 		}
 		return get;
