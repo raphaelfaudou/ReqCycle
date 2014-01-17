@@ -23,12 +23,12 @@ public class XcosTTypeProvider implements TTypeProvider{
 			Arrays.asList(TYPES), new Function<TType, String>() {
 				@Override
 				public String apply(TType arg0) {
-					return (((XcosTType) arg0).getLabel());
+					return (((XcosTType) arg0).getMainLabel());
 				}
 			});
 
-	public static TType get(String label) {
-		TType result = MAP.get(label);
+	public static TType get(String mainLabel) {
+		TType result = MAP.get(mainLabel);
 		if (result == null) {
 			result = MAP.get("TRACE");
 		}

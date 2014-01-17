@@ -23,14 +23,23 @@ public class XcosTType extends TType {
 	private static final String ID_PREFIX = "Xcos"; //$NON-NLS-1$
 
 	private static final String underscore = "_"; //$NON-NLS-1$
+	
+	private String mainLabel = "trace";
 
 	public XcosTType(String label) {
-		super(makeId(label), label);
+		super(makeId(label), label + " (Xcos)");
+		mainLabel = label;
 	}
 
 	private static String makeId(String rawId) {
 		return ID_PREFIX + underscore + rawId.replaceAll("\\s+", underscore); //$NON-NLS-1$ 
 	}
+
+	public String getMainLabel() {
+		return mainLabel;
+	}
+
+	
 
 
 	
