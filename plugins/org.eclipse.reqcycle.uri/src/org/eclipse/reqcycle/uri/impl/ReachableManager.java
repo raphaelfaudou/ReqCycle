@@ -145,7 +145,7 @@ public class ReachableManager implements IReachableManager {
 				}
 			});
 		} catch (ExecutionException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			throw new IReachableHandlerException();
 		}
 		if (get == null) {
