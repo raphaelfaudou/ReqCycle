@@ -74,6 +74,10 @@ public class GraphStorage implements ITraceabilityStorage {
 		// currently several traceability links are created and the first one is
 		// returned
 		// in the future, create one traceability link for several targets
+		
+		// want to check whether it is really new link as this method is called very often and for all links on a save
+		boolean newTraceability = true;
+		
 		for (Reachable target : targets) {
 			Vertex traceabilityVertex = graph.getVertex(tracea);
 			if (traceabilityVertex != null) {
@@ -87,6 +91,10 @@ public class GraphStorage implements ITraceabilityStorage {
 						&& kindT != null) {
 					// in this case it is an update of the traceability link the
 					// kind properties are kept
+					// -RFa- we do not want to mention a new element in that case.
+					newTraceability = false;
+					
+					
 					graphUtils.removeUpwardRelationShip(graph, kindT,
 							containerT, sourceT, targetT);
 				}
@@ -95,8 +103,13 @@ public class GraphStorage implements ITraceabilityStorage {
 					source, target, kind);
 			graphUtils.addChildrenRelation(graph,
 					graphUtils.getVertex(graph, container), vertex);
+		} //for
+		
+		// check if it is really a new link
+		if (newTraceability) {
+			
+			provider.notifyChanged(ITraceabilityStorageTopics.NEW, tracea);
 		}
-		provider.notifyChanged(ITraceabilityStorageTopics.NEW, tracea);
 	}
 
 	private Reachable getReachable(Vertex vertex) {

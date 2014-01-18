@@ -57,6 +57,7 @@ public class DelegatedAndDecoratedBuilderCallBack implements IBuilderCallBack {
 		if (keepOriginalLink) {
 			Composite c = getComposite(traceability, resource, source, targets,
 					kind);
+			
 			callBack.newUpwardRelation(c.traceabilityObject, c.resource,
 					c.source, c.targets, c.kind);
 		}

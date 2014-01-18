@@ -10,9 +10,11 @@
  ******************************************************************************/
 package org.eclipse.reqcycle.traceability.table.view;
 
+import java.util.Date;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -45,10 +47,12 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.internal.PartSite;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ziggurat.inject.ZigguratInject;
@@ -58,6 +62,7 @@ import com.google.common.collect.Iterables;
 @SuppressWarnings("restriction")
 public class TraceabilityTableView extends ViewPart {
 
+	private static final Logger LOG = Logger.getLogger(TraceabilityTableView.class.getName());
 	private static final String VIEW_ID = "org.eclipse.reqcycle.traceability.table.partdescriptor.traceability.table"; //$NON-NLS-1$
 
 	@Inject
@@ -270,6 +275,7 @@ public class TraceabilityTableView extends ViewPart {
 		TimerTask tt;
 		
 		public void scheduleRefresh(){
+			//LOG.entering("traceabilityTable","schedule refresh");
 			if(tt != null) {
 				tt.cancel(); //This cancels the timer as well.
 				t.purge();
@@ -280,16 +286,27 @@ public class TraceabilityTableView extends ViewPart {
 				//The timer thread will yield to the display thread to apply the filter.
 				@Override
 				public void run() {
-					Display display = getSite().getShell().getDisplay();
-					display.syncExec(new Runnable() {
-						public void run() {
-							tableControl.refreshViewerData();
-						}
-					});
+					
+					IWorkbenchPartSite site = getSite();
+					if (site != null) {
+						Shell shell = site.getShell();
+						if (shell != null) {
+							Display display = shell.getDisplay();
+						
+							display.syncExec(new Runnable() {
+								public void run() {
+									tableControl.refreshViewerData();
+								}
+							});
+						} //if shell
+					} // if site
+					
 				}
 			};
 
 			t.schedule(tt, 1500);
+			//LOG.exiting("traceabilityTable","schedule refresh");
+			
 			
 		}
 		

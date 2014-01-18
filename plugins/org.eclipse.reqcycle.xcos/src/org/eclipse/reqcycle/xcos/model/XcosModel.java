@@ -40,6 +40,7 @@ public class XcosModel extends XcosElement {
 	public XcosModel(String aName, IResource res) {
 		super(aName, res);
 		
+		System.out.println("creating xcos model element");
 		if (res instanceof IFile) {
 			parseResourceFrom((IFile) res);
 			
@@ -68,13 +69,8 @@ public class XcosModel extends XcosElement {
 		try {
 			aTransformer = tranFactory.newTransformer();
 			
-		
-			try {
-				in = file.getContents();
-			} catch (CoreException e) {
-				
-				e.printStackTrace();
-			}
+			in = file.getContents();
+			
 			
 			final StreamSource src = new StreamSource(in);
 			final DOMResult result = new DOMResult();
@@ -135,7 +131,9 @@ public class XcosModel extends XcosElement {
 		} catch (TransformerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (CoreException e) {
 			
+			e.printStackTrace();	
 		
 		} finally {
 			try {

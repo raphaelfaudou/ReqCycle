@@ -11,6 +11,7 @@
 package org.eclipse.reqcycle.traceability.table.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.concurrent.Callable;
 
@@ -91,6 +92,7 @@ public class TableController {
 
 			@Override
 			public Iterator<Link> iterator() {
+				long start = new Date().getTime();
 				Request request = new Request();
 				CompositeScope scope = new CompositeScope();
 				scope.add(Scopes.getWorkspaceScope());
@@ -107,7 +109,10 @@ public class TableController {
 						}
 					});
 				} catch (EngineException e) {
+					e.printStackTrace();
 				}
+				long duration = new Date().getTime()-start;
+				//System.out.println(" duration getLinks " + duration);
 				return new ArrayList<Link>().iterator();
 			}
 		};
@@ -196,11 +201,21 @@ public class TableController {
 		};
 		Iterable<?> input;
 		try {
+			
 			input = callable.call();
+			
+			
+			
 			Iterable<?> filtered = Iterables.filter(input, filter);
-			viewer.setItemCount(Iterables.size(filtered));
+			long start = new Date().getTime();
+			int count= Iterables.size(filtered);
+			viewer.setItemCount(count);
+			long duration = new Date().getTime()-start;
+			
 			viewer.setInput(filtered);
+			
 			viewer.refresh();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

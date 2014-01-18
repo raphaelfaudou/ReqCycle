@@ -349,6 +349,7 @@ public abstract class AbstractCachedTraceabilityEngine implements
 				&& Iterables.filter(targetsR, Predicates.notNull()).iterator()
 						.hasNext()) {
 			allTraceabilities.remove(traceaReachable);
+		
 			newUpwardRelation(traceaReachable, resourceReachable, sourceR,
 					targetsR, kind);
 		}
