@@ -18,11 +18,11 @@ import org.eclipse.core.databinding.beans.PojoProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.ui.dialogs.WorkspaceResourceDialog;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
@@ -39,16 +39,18 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.ocl.examples.pivot.utilities.BaseResource;
 import org.eclipse.reqcycle.ocl.ReqcycleOCLPlugin;
 import org.eclipse.reqcycle.ocl.ui.OCLConnector.SettingBean;
 import org.eclipse.reqcycle.ocl.utils.OCLUtilities;
+import org.eclipse.reqcycle.repository.data.types.IAttribute;
 import org.eclipse.reqcycle.repository.data.types.IDataModel;
 import org.eclipse.reqcycle.repository.data.types.IEnumerator;
 import org.eclipse.reqcycle.repository.data.types.IRequirementType;
-import org.eclipse.reqcycle.repository.data.types.IAttribute;
 import org.eclipse.swt.SWT;
+import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
@@ -115,6 +117,7 @@ public class OCLPage extends WizardPage implements Listener {
 	private Button browseButton;
 
 	private BaseResource resource;
+	
 
 	@Override
 	public void createControl(Composite parent) {
@@ -134,6 +137,7 @@ public class OCLPage extends WizardPage implements Listener {
 
 		createTypesUi(containerComposite);
 		createAttribuesUi(containerComposite);
+		
 
 		hookListeners();
 		initDataBindings();
@@ -333,6 +337,8 @@ public class OCLPage extends WizardPage implements Listener {
 				}
 			}
 		});
+		
+		
 	}
 
 	protected DataBindingContext initDataBindings() {

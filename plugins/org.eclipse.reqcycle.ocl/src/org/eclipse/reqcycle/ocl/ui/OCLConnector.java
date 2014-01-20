@@ -79,9 +79,8 @@ public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 				} else {
 					result = dataManager.createRequirementSource();
 					
-					// RFU add ReqContainer with URI on project
-					long d = new Date().getTime();
-					RequirementsContainer rc = dataManager.createRequirementsContainer(URI.createPlatformResourceURI("Test1/TOTO"+d+".reqcycle", true));
+					// RFU add ReqContainer based on req source destination file
+					RequirementsContainer rc = dataManager.createRequirementsContainer(URI.createPlatformResourceURI(bean.getDestination(), true));
 					result.setContents(rc);
 				}
 
@@ -147,6 +146,11 @@ public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 		private IDataModel dataPackage;
 
 		private Scope scope;
+		
+		private String destination;
+		
+		//FIXME add listener to change destination file
+		//private Listener listenerDestination;
 
 		public SettingBean() {
 		}
@@ -199,11 +203,23 @@ public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 				}
 			}
 		}
+
+		public String getDestination() {
+			return destination;
+		}
+
+		public void setDestination(String destination) {
+			this.destination = destination;
+			notifyChange();
+		
+		}
 	}
 
 	@Override
 	public boolean canFinish() {
-		return bean != null && bean.getOclUri() != null && bean.getDataPackage() != null && bean.getUri() != null && !bean.getOclUri().isEmpty() && !bean.getUri().isEmpty();
+		return bean != null && bean.getOclUri() != null && bean.getDataPackage() != null && bean.getUri() != null 
+				&& !bean.getOclUri().isEmpty() && !bean.getUri().isEmpty()
+				&& !bean.getDestination().isEmpty();
 	}
 
 	@Override

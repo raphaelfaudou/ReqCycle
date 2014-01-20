@@ -18,6 +18,7 @@ import org.eclipse.core.databinding.beans.PojoProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.ui.dialogs.WorkspaceResourceDialog;
@@ -34,6 +35,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.reqcycle.emf.utils.EMFUtils;
 import org.eclipse.reqcycle.ocl.ReqcycleOCLPlugin;
@@ -54,6 +56,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
+import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.model.BaseWorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ziggurat.inject.ZigguratInject;
@@ -79,6 +82,10 @@ public class SettingPage extends WizardPage {
 	private Combo cDataModel;
 
 	private List<Scope> inputScope = Lists.newArrayList();
+	
+	private Text txtDestination;
+
+	private Button btnBrowseDestination;
 
 	private SettingBean bean;
 
@@ -145,6 +152,17 @@ public class SettingPage extends WizardPage {
 			}
 		});
 		cvScope.setInput(inputScope);
+		
+		// RFa - add detination file to store the source
+		Label lblDestination = new Label(containerComposite, SWT.NONE);
+		lblDestination.setText("Destination File :");
+
+		txtDestination = new Text(containerComposite, SWT.BORDER);
+		txtDestination.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+
+		btnBrowseDestination = new Button(containerComposite, SWT.PUSH);
+		btnBrowseDestination.setText("Browse destination file");
+		btnBrowseDestination.setLayoutData(new GridData());
 
 		hookListeners();
 		initDataBindings();
@@ -153,18 +171,41 @@ public class SettingPage extends WizardPage {
 
 	@Override
 	public boolean isPageComplete() {
+		StringBuffer error = new StringBuffer();
+		boolean result = true;
+
+		if(bean.getDataPackage() == null) {
+			error.append("Choose a Data Model\n");
+			result = false;
+		}
+
+		if(bean.getScope() == null) {
+			error.append("Choose a Scope\n");
+			result = false;
+		}
 		String uriString = bean.getUri();
 		if(uriString != null && !uriString.isEmpty()) {
 			URI uri = URI.createPlatformResourceURI(uriString, true);
 			if(!EMFUtils.isEMF(uri)) {
-				setErrorMessage("Selected .uml file is not an EMF resource");
-				return false;
+				error.append("Selected file is not an EMF resource");
+				result = false;
 			}
-		} else {
-			return false;
+		} 
+
+		if(bean.getDestination() == null || bean.getDestination().isEmpty()) {
+			error.append("Choose a destination file for a Copy Import Mode");
+			result = false;
 		}
-		setErrorMessage(null); 
-		return bean.getDataPackage() != null && bean.getScope() != null;
+		
+
+		if(!result) {
+			setErrorMessage(error.toString());
+		} else {
+			setErrorMessage(null);
+		}
+
+		return result;
+		
 	}
 
 
@@ -246,6 +287,22 @@ public class SettingPage extends WizardPage {
 				}
 			}
 		});
+		
+		// destination file
+		btnBrowseDestination.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				SaveAsDialog dialog = new SaveAsDialog(getShell());
+				if(Window.OK == dialog.open()) {
+					IPath result = dialog.getResult();
+					if(!"reqcycle".equals(result.getFileExtension())) {
+						result = result.addFileExtension("reqcycle");
+					}
+					txtDestination.setText(result.toString());
+				}
+			}
+		});
 	}
 
 	protected DataBindingContext initDataBindings() {
@@ -262,7 +319,12 @@ public class SettingPage extends WizardPage {
 		IObservableValue observeSingleSelectionCvScope = ViewerProperties.singleSelection().observe(cvScope);
 		IObservableValue scopeBeanObserveValue = PojoProperties.value("scope").observe(bean);
 		bindingContext.bindValue(observeSingleSelectionCvScope, scopeBeanObserveValue, null, null);
-		//
+	
+		// destination file
+		IObservableValue observeTextTxtDestinationObserveWidget = WidgetProperties.text(SWT.Modify).observe(txtDestination);
+		IObservableValue destinationBeanObserveValue = PojoProperties.value("destination").observe(bean);
+		bindingContext.bindValue(observeTextTxtDestinationObserveWidget, destinationBeanObserveValue, null, null);
+
 		return bindingContext;
 	}
 

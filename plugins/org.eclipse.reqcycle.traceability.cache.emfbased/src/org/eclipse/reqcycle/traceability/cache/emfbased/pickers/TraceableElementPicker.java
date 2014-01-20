@@ -1,8 +1,11 @@
 package org.eclipse.reqcycle.traceability.cache.emfbased.pickers;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -15,6 +18,8 @@ import org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.T
 import org.eclipse.reqcycle.traceability.engine.ITraceabilityEngine.DIRECTION;
 import org.eclipse.reqcycle.traceability.model.Link;
 import org.eclipse.reqcycle.traceability.model.Pair;
+import org.eclipse.reqcycle.traceability.model.TType;
+import org.eclipse.reqcycle.uri.IReachableCreator;
 import org.eclipse.reqcycle.uri.IReachableManager;
 import org.eclipse.reqcycle.uri.model.Reachable;
 import org.eclipse.ziggurat.inject.ZigguratInject;
@@ -30,6 +35,9 @@ public class TraceableElementPicker implements IPicker {
 	private Predicate<Pair<Link, Reachable>> scope;
 	@Inject
 	IReachableManager manager;
+	
+	@Inject
+	IReachableCreator creator;
 
 	public TraceableElementPicker(DIRECTION d, Model m,
 			Predicate<Pair<Link, Reachable>> scope) {
@@ -69,8 +77,20 @@ public class TraceableElementPicker implements IPicker {
 				for (TraceableElement t : list2) {
 					Reachable source = traceableElement2Traceable.apply(elem);
 					Reachable target = traceableElement2Traceable.apply(t);
+					
+					// RFa - fix link creation
+					URI uri = null;
+					try {
+						uri = new URI(l.getResource().getUri());
+					} catch (URISyntaxException e) {
+						
+						e.printStackTrace();
+					}
+					Reachable r = creator.getReachable(uri);
+					UUID uniqueID = UUID.randomUUID(); 
+					
 					Pair<Link, Reachable> pair = new Pair<Link, Reachable>(
-							new Link(l.getLabel(),
+							new Link(r,new TType(uniqueID.toString(),l.getLabel()),
 									Collections.singleton(source),
 									Collections.singleton(target)), target);
 					if (scope.apply(pair)) {

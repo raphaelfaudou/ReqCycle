@@ -61,6 +61,8 @@ public class CacheTraceabilityEngine extends AbstractCachedTraceabilityEngine {
 	@Inject
 	ILogger logger;
 	private Model theModel;
+	
+	
 
 	@Inject
 	public CacheTraceabilityEngine() {
@@ -147,7 +149,7 @@ public class CacheTraceabilityEngine extends AbstractCachedTraceabilityEngine {
 	}
 
 	@Override
-	public void newUpwardRelation(Reachable container, Reachable source,
+	public void newUpwardRelation(Reachable traceable, Reachable container, Reachable source,
 			List<Reachable> targets, TType kind) {
 		Traceable2TraceableElement traceable2TraceableElement = new Traceable2TraceableElement(
 				theModel);
@@ -318,19 +320,23 @@ public class CacheTraceabilityEngine extends AbstractCachedTraceabilityEngine {
 		return traceableElementPicker;
 	}
 
-	private boolean checkPath(TraceableElement s, StopCondition t,
+	@SuppressWarnings("unchecked")
+	private boolean checkPath(TraceableElement te, StopCondition condition,
 			Iterator<Object> i, ArrayDeque<Pair<Link, Reachable>> result,
 			ArrayDeque<Pair<Link, Reachable>> current) {
 		boolean found = false;
 		TraceableElement2Traceable traceableElement2Traceable = new TraceableElement2Traceable();
 		ZigguratInject.inject(traceableElement2Traceable);
-		Reachable source = traceableElement2Traceable.apply(s);
+		Reachable source = traceableElement2Traceable.apply(te);
 
 		while (i.hasNext()) {
 			Object o = i.next();
 			if (o instanceof Pair) {
+				
 				Pair<Link, Reachable> pair = (Pair<Link, Reachable>) o;
-				if (t.apply(pair.getSecond())) {
+				Reachable secondReachable = pair.getSecond();
+				Pair<Link, Reachable> pair2 = new Pair<Link, Reachable>(pair.getFirst(), secondReachable);
+				if (condition.apply(pair2)) {
 					current.add(pair);
 					found = true;
 					break;
@@ -338,12 +344,12 @@ public class CacheTraceabilityEngine extends AbstractCachedTraceabilityEngine {
 					if (checkPath(
 							new Traceable2TraceableElement(theModel).apply(pair
 									.getFirst().getSources().iterator().next()),
-							t, i, result, current)) {
+							condition, i, result, current)) {
 						result.addAll(current);
 					}
 				} else {
 					current.add(pair);
-					if (t.apply(pair.getSecond())) {
+					if (condition.apply(pair2)) {
 						found = true;
 						break;
 					}
@@ -359,7 +365,7 @@ public class CacheTraceabilityEngine extends AbstractCachedTraceabilityEngine {
 	}
 
 	@Override
-	protected void removeEntriesFor(Reachable traceable) {
+	protected void removeTraceabilityLink(Reachable traceable) {
 		// TODO don t delete but tag
 		AnalyzedResource a = getResource(traceable);
 		if (a != null) {
@@ -387,5 +393,23 @@ public class CacheTraceabilityEngine extends AbstractCachedTraceabilityEngine {
 	public void startBuild(Reachable reachable) {
 		getOrCreateAnalyzedResource(reachable);
 	}
+
+	@Override
+	protected Iterator<Pair<Link, Reachable>> doGetAllTraceability(
+			DIRECTION direction,
+			Predicate<Pair<Link, Reachable>> requestPredicate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected Iterable<Reachable> getEntriesFor(Reachable reachable) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
 
 }
