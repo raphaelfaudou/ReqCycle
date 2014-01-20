@@ -11,6 +11,7 @@
 package org.eclipse.reqcycle.ocl.ui;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
@@ -41,6 +42,7 @@ import MappingModel.MappingElement;
 import RequirementSourceConf.RequirementSource;
 import RequirementSourceData.AbstractElement;
 import RequirementSourceData.Requirement;
+import RequirementSourceData.RequirementsContainer;
 import ScopeConf.Scope;
 
 import com.google.common.collect.Iterables;
@@ -76,6 +78,11 @@ public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 					result = OCLConnector.this.requirementSource;
 				} else {
 					result = dataManager.createRequirementSource();
+					
+					// RFU add ReqContainer with URI on project
+					long d = new Date().getTime();
+					RequirementsContainer rc = dataManager.createRequirementsContainer(URI.createPlatformResourceURI("Test1/TOTO"+d+".reqcycle", true));
+					result.setContents(rc);
 				}
 
 				result.setProperty(IRequirementSourceProperties.PROPERTY_URI, bean.getUri());
@@ -106,6 +113,8 @@ public class OCLConnector extends Wizard implements IConnectorWizard, Listener {
 				}
 			}
 		}
+		
+
 	}
 
 	protected AbstractElement createRequirement(OCLEvaluator evaluator, Collection<MappingElement> mappings, EObject eObject, IRequirementType reqType) throws Exception {

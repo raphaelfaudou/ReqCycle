@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.ui.dialogs.WorkspaceResourceDialog;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
@@ -322,7 +323,10 @@ public class OCLPage extends WizardPage implements Listener {
 					String location = iFile.getFullPath().toOSString();
 					URI oclURI = URI.createPlatformResourceURI(location, true);
 					ResourceSet resourceSet = new ResourceSetImpl();
+					
+					// we can have error in OCL file selection - let it go to user
 					OCLPage.this.resource = OCLUtilities.loadOCLResource(resourceSet, oclURI);
+					
 					tFile.setText(location);
 					tvTypes.refresh();
 					tvAttributes.refresh();

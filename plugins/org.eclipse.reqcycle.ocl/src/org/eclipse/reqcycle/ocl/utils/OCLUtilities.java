@@ -49,15 +49,20 @@ import com.google.common.collect.Lists;
 
 public class OCLUtilities {
 
-	protected static Map<String, String> ecoreToOCLPrimitiveTypes = new HashMap<String, String>();
+	protected static Map<String, String> mapToOCLPrimitives= new HashMap<String, String>();
 	static {
-		ecoreToOCLPrimitiveTypes.put("EString", "String"); //$NON-NLS-1$
-		ecoreToOCLPrimitiveTypes.put("EBoolean", "Boolean"); //$NON-NLS-1$
-		ecoreToOCLPrimitiveTypes.put("EFloat", "Real"); //$NON-NLS-1$
-		ecoreToOCLPrimitiveTypes.put("EInt", "Integer"); //$NON-NLS-1$
+		mapToOCLPrimitives.put("String", "String"); //$NON-NLS-1$
+		mapToOCLPrimitives.put("Boolean", "Boolean"); //$NON-NLS-1$
+		mapToOCLPrimitives.put("boolean", "Boolean"); //$NON-NLS-1$
+		mapToOCLPrimitives.put("Float", "Real"); //$NON-NLS-1$
+		mapToOCLPrimitives.put("int", "Integer"); //$NON-NLS-1$
+		mapToOCLPrimitives.put("long", "Integer"); //$NON-NLS-1$
+		mapToOCLPrimitives.put("Long", "Integer"); //$NON-NLS-1$
+		mapToOCLPrimitives.put("Short", "Integer"); //$NON-NLS-1$
+		
 	}
 
-	public static BaseResource loadOCLResource(ResourceSet resourceSet, URI oclURI) {
+	public static BaseResource loadOCLResource(ResourceSet resourceSet, URI oclURI) throws WrappedException{
 		BaseResource xtextResource = null;
 		CompleteOCLStandaloneSetup.init();
 		try {
@@ -78,6 +83,9 @@ public class OCLUtilities {
 			} else {
 				throw e;
 			}
+		}
+		catch (Throwable t) {
+			t.printStackTrace();
 		}
 		return xtextResource;
 	}
@@ -114,12 +122,14 @@ public class OCLUtilities {
 
 	/**
 	 * Checks whether an OCL resource contains an operation allowing to retrieve a requirement's attribute
-	 * of a given data type. The operation should be named "isX" where "X" is the name
-	 * of the data type.
+	 * of a given data type. The operation should be named "getX" where "X" is the name
+	 * of the attribute.
 	 */
 	public static IStatus isOperationPresent(final IAttribute attribute, BaseResource resource) {
-		String attributeTypeName = attribute.getName();
-		if(ecoreToOCLPrimitiveTypes.get(attributeTypeName) == null) {
+		String attributeTypeName = attribute.getAttributeType().getName();
+		System.out.println("attribute name= "+ attribute.getName());
+		System.out.println("attributeTypeName = "+ attributeTypeName);
+		if( ! mapToOCLPrimitives.containsKey(attributeTypeName)) {
 			return new Status(IStatus.WARNING, ReqcycleOCLPlugin.PLUGIN_ID, "Type " + attributeTypeName + " cannot be used in OCL.");
 		}
 		if(Iterables.size(getMatchingOperations(attribute, resource)) > 0) {
@@ -175,9 +185,9 @@ public class OCLUtilities {
 				}
 				if(operationReturnType instanceof PrimitiveTypeRefCS) {
 					String returnType = ((PrimitiveTypeRefCS)operationReturnType).getName();
-					String attributeTypeName = attribute.getName();
-					String lookupResult = ecoreToOCLPrimitiveTypes.get(attributeTypeName);
-					if(lookupResult == null || !lookupResult.equals(returnType)) {
+					String attributeTypeName = attribute.getAttributeType().getName();
+					String lookupResult = mapToOCLPrimitives.get(attributeTypeName);
+					if(lookupResult == null  || !lookupResult.equals(returnType)) {
 						return false;
 					}
 				}
@@ -195,8 +205,8 @@ public class OCLUtilities {
 
 	public static String getOperationRequiredName(IAttribute attribute) {
 		StringBuilder builder = new StringBuilder("get"); //$NON-NLS-1$
-		String dataTypeName = attribute.getName();
-		builder.append(Character.toUpperCase(dataTypeName.charAt(0))).append(dataTypeName.substring(1));
+		String name = attribute.getName();
+		builder.append(Character.toUpperCase(name.charAt(0))).append(name.substring(1));
 		return builder.toString();
 	}
 
@@ -205,8 +215,8 @@ public class OCLUtilities {
 	}
 
 	public static String getOperationRequiredSignature(IAttribute attribute) {
-		String returnTypeName = attribute.getName();
-		String lookupType = ecoreToOCLPrimitiveTypes.get(returnTypeName);
+		String returnTypeName = attribute.getAttributeType().getName();
+		String lookupType = mapToOCLPrimitives.get(returnTypeName);
 		return getOperationRequiredName(attribute) + "() : " + lookupType; //$NON-NLS-1$
 	}
 

@@ -40,7 +40,6 @@ public class XcosModel extends XcosElement {
 	public XcosModel(String aName, IResource res) {
 		super(aName, res);
 		
-		System.out.println("creating xcos model element");
 		if (res instanceof IFile) {
 			parseResourceFrom((IFile) res);
 			
