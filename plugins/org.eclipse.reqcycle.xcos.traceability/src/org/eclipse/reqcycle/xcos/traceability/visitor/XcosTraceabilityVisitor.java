@@ -13,17 +13,14 @@ package org.eclipse.reqcycle.xcos.traceability.visitor;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 import javax.inject.Inject;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.reqcycle.traceability.builder.ITraceabilityBuilder.IBuilderCallBack;
 import org.eclipse.reqcycle.traceability.model.TType;
-import org.eclipse.reqcycle.uri.ILogicalIDManager;
 import org.eclipse.reqcycle.uri.IReachableCreator;
+import org.eclipse.reqcycle.uri.exceptions.IReachableHandlerException;
 import org.eclipse.reqcycle.uri.model.Reachable;
 import org.eclipse.reqcycle.uri.visitors.IVisitor;
 import org.eclipse.reqcycle.xcos.model.XcosElement;
@@ -101,7 +98,6 @@ public class XcosTraceabilityVisitor implements IVisitor {
 		}
 		if (target != null) {
 		
-			//FIXME find good target from trace as Reachable object
 			callBack.newUpwardRelation(link,  link.getResource(), link.getSource(), Collections.singletonList(target), tType);
 		}
 	}

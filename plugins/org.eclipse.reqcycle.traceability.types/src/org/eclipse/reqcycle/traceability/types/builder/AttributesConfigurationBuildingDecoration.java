@@ -131,7 +131,8 @@ public class AttributesConfigurationBuildingDecoration extends
 			handler = manager.getHandlerFromObject(object);
 			return handler.getFromObject(object).getReachable(object);
 		} catch (IReachableHandlerException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("could not get reachable for " + object);
 		}
 		return null;
 	}
