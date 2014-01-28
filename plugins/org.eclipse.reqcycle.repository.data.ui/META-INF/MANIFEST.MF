@@ -23,4 +23,3 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.databinding
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Bundle-Vendor: %providerName

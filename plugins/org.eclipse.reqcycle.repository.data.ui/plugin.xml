@@ -22,13 +22,13 @@
           name="Data Models Preferences">
     </page>
  </extension>
- <extension
+ <!--extension RFa does not exist any more
        point="org.eclipse.ziggurat.inject.binding">
     <binding
           impl="org.eclipse.reqcycle.repository.data.ui.DataModelUiManager"
           interface="org.eclipse.reqcycle.repository.data.ui.IDataModelUiManager">
     </binding>
- </extension>
+ </extension-->
  <extension
        point="org.eclipse.ui.handlers">
     <handler
