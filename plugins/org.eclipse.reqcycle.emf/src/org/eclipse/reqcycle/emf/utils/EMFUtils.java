@@ -146,4 +146,29 @@ public class EMFUtils {
 						.getExtensionToFactoryMap().containsKey(
 								getExtension(uri.path()));
 	}
+	
+	/**
+	 * Check whether uri can be managed by URI handler. if checkRegistrationExtension is set to true
+	 * check also if extension is registered in EMF registry.
+	 * @param uri
+	 * @param checkRegisteredExtension
+	 * @return
+	 */
+	public static boolean isEMF(URI uri, boolean checkRegisteredExtension) {
+		
+		// if we want to check that EMF extension is registered in EMF registry, use default method
+		if (checkRegisteredExtension) {
+			return isEMF(uri);
+		}
+		//else, just check handler can do that.
+		boolean handles = false;
+		for (URIHandler u : DEFAULT_HANDLERS) {
+			if (u.canHandle(uri)) {
+				handles = true;
+				break;
+			}
+		}
+		return handles;
+				
+	}
 }

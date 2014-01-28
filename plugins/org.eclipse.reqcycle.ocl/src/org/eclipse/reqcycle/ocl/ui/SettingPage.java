@@ -100,7 +100,7 @@ public class SettingPage extends WizardPage {
 		Composite containerComposite = new Composite(parent, SWT.None);
 		containerComposite.setLayout(new GridLayout(3, false));
 		Label fileLabel = new Label(containerComposite, SWT.NONE);
-		fileLabel.setText("UML Model :");
+		fileLabel.setText("EMF Model :");
 
 		tFile = new Text(containerComposite, SWT.BORDER | SWT.READ_ONLY);
 		tFile.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -173,6 +173,23 @@ public class SettingPage extends WizardPage {
 	public boolean isPageComplete() {
 		StringBuffer error = new StringBuffer();
 		boolean result = true;
+		
+		if (bean.getUri().isEmpty()) {
+			error.append("Choose an EMF model \n");
+			result = false;
+		}
+		else {
+			String uriString = bean.getUri();
+		
+			if(uriString != null && !uriString.isEmpty()) {
+				URI uri = URI.createPlatformResourceURI(uriString, true);
+				if(!EMFUtils.isEMF(uri, false)) {
+					error.append("Selected file is not an EMF resource");
+					result = false;
+				}
+			}
+		} 
+
 
 		if(bean.getDataPackage() == null) {
 			error.append("Choose a Data Model\n");
@@ -183,14 +200,6 @@ public class SettingPage extends WizardPage {
 			error.append("Choose a Scope\n");
 			result = false;
 		}
-		String uriString = bean.getUri();
-		if(uriString != null && !uriString.isEmpty()) {
-			URI uri = URI.createPlatformResourceURI(uriString, true);
-			if(!EMFUtils.isEMF(uri)) {
-				error.append("Selected file is not an EMF resource");
-				result = false;
-			}
-		} 
 
 		if(bean.getDestination() == null || bean.getDestination().isEmpty()) {
 			error.append("Choose a destination file for a Copy Import Mode");
@@ -239,11 +248,18 @@ public class SettingPage extends WizardPage {
 		public IStatus validate(Object[] selection) {
 			if(selection.length == 1) {
 				Object o = selection[0];
-				if(o instanceof IFile && "uml".equals(((IFile)o).getFileExtension())) {
-					return Status.OK_STATUS;
+				
+				// RFa we do not want to restrict to UML files
+				//if(o instanceof IFile && "uml".equals(((IFile)o).getFileExtension())) {
+				if (o instanceof IFile) {
+					URI uri = URI.createPlatformResourceURI(((IFile) o).getFullPath().toOSString(), true);
+					System.out.println("uri: "+ uri);
+					if(EMFUtils.isEMF(uri,false)) {
+						return Status.OK_STATUS;
+					}
 				}
 			}
-			return new Status(IStatus.ERROR, ReqcycleOCLPlugin.PLUGIN_ID, "Select a single UML file");
+			return new Status(IStatus.ERROR, ReqcycleOCLPlugin.PLUGIN_ID, "Select a single EMF file");
 		}
 	};
 

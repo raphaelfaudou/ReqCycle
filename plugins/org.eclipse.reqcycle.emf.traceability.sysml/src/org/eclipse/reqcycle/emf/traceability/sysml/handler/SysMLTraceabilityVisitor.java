@@ -40,6 +40,12 @@ public class SysMLTraceabilityVisitor implements IVisitor {
 
 	private void visit(EObject satis, IAdaptable adaptable,
 			Abstraction abstraction) {
+		
+		// -RFa- abstraction might be orphan or incomplete
+		// we must check clients and suppliers.
+		if (abstraction.getClients().isEmpty()) return;
+		if (abstraction.getSuppliers().isEmpty()) return;
+		
 		Object source = abstraction.getClients().get(0);
 		Object target = abstraction.getSuppliers().get(0);
 		TType tType = SysMLTTypeProvider.get(satis.eClass());
