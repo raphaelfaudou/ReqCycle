@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.ziggurat.configuration.impl;
 
-import java.io.FileNotFoundException;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
@@ -33,12 +32,7 @@ public class RestrictedResourceSet extends ResourceSetImpl {
 			loadOnDemand = false;
 		}
 		Resource r = null;
-		try {
-			r =  super.getResource(uri, loadOnDemand);
-		}
-		catch(FileNotFoundException fnfe) {
-			System.out.println("could not find following resource : " + uri);
-		}
+		r =  super.getResource(uri, loadOnDemand);
 		return r;
 	}
 	
