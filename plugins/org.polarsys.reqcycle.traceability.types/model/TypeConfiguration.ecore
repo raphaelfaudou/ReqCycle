@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="typeconfiguration" nsURI="http://www.org.eclipse.reqcycle/typeconfiguration/1.0"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="typeconfiguration" nsURI="http://www.org.polarsys.reqcycle/typeconfiguration/1.0"
     nsPrefix="typeconf">
   <eClassifiers xsi:type="ecore:EClass" name="TypeConfigContainer">
     <eStructuralFeatures xsi:type="ecore:EReference" name="types" upperBound="-1"
@@ -50,8 +50,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="IType" instanceClassName="org.eclipse.reqcycle.types.IType"/>
-  <eClassifiers xsi:type="ecore:EDataType" name="TType" instanceClassName="org.eclipse.reqcycle.traceability.model.TType"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="IType" instanceClassName="org.polarsys.reqcycle.types.IType"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="TType" instanceClassName="org.polarsys.reqcycle.traceability.model.TType"/>
   <eClassifiers xsi:type="ecore:EClass" name="Attribute" abstract="true">
     <eOperations name="getName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eOperations name="getPossibleValues" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -81,6 +81,6 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IPredicateLink" abstract="true">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="predicate" eType="ecore:EClass ../../org.eclipse.reqcycle.predicates.core/model/predicates.ecore#//IPredicate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="predicate" eType="ecore:EClass ../../org.polarsys.reqcycle.predicates.core/model/predicates.ecore#//IPredicate"/>
   </eClassifiers>
 </ecore:EPackage>

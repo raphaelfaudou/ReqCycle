@@ -10,7 +10,7 @@
       <!-- @generated predicatesconf -->
       <package
             uri="http://www.eclipse.org/reqcycle/predicates/persistance/1.0"
-            class="org.eclipse.reqcycle.predicates.persistance.PredicatesConfPackage"
+            class="org.polarsys.reqcycle.predicates.persistance.PredicatesConfPackage"
             genModel="model/predicatesconf.genmodel"/>
    </extension>
 
@@ -18,13 +18,13 @@
       <!-- @generated predicatesconf -->
       <parser
             type="predicatesconf"
-            class="org.eclipse.reqcycle.predicates.persistance.util.PredicatesConfResourceFactoryImpl"/>
+            class="org.polarsys.reqcycle.predicates.persistance.util.PredicatesConfResourceFactoryImpl"/>
    </extension>
    <extension
          point="org.eclipse.ziggurat.inject.binding">
       <binding
-            impl="org.eclipse.reqcycle.predicates.persistance.util.PredicatesConfManager"
-            interface="org.eclipse.reqcycle.predicates.persistance.util.IPredicatesConfManager">
+            impl="org.polarsys.reqcycle.predicates.persistance.util.PredicatesConfManager"
+            interface="org.polarsys.reqcycle.predicates.persistance.util.IPredicatesConfManager">
       </binding>
    </extension>
 </plugin>

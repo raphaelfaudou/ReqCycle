@@ -5,21 +5,21 @@
    <extension
          point="org.eclipse.ziggurat.inject.binding">
       <binding
-            impl="org.eclipse.reqcycle.types.impl.TypesManager"
-            interface="org.eclipse.reqcycle.types.ITypesManager"
+            impl="org.polarsys.reqcycle.types.impl.TypesManager"
+            interface="org.polarsys.reqcycle.types.ITypesManager"
             priority="1">
       </binding>
       <binding
-            impl="org.eclipse.reqcycle.types.impl.CachedTypeChecker"
-            interface="org.eclipse.reqcycle.types.ICachedTypedChecker">
+            impl="org.polarsys.reqcycle.types.impl.CachedTypeChecker"
+            interface="org.polarsys.reqcycle.types.ICachedTypedChecker">
       </binding>
    </extension>
    <extension
-         point="org.eclipse.reqcycle.types.types">
+         point="org.polarsys.reqcycle.types.types">
       <type
-            checker="org.eclipse.reqcycle.types.impl.AnyElementChecker"
+            checker="org.polarsys.reqcycle.types.impl.AnyElementChecker"
             icon="icons/any.gif"
-            id="org.eclipse.reqcycle.types.any"
+            id="org.polarsys.reqcycle.types.any"
             label="Every Reachable element">
       </type>
    </extension>

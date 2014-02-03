@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Ui
 Bundle-SymbolicName: org.polarsys.reqcycle.traceability.builder.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.reqcycle.traceability.builder.ui.Activator
+Bundle-Activator: org.polarsys.reqcycle.traceability.builder.ui.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources;bundle-version="3.8.1",

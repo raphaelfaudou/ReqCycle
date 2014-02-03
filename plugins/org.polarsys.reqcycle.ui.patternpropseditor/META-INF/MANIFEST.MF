@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Pattern Properties Editor
 Bundle-SymbolicName: org.polarsys.reqcycle.ui.patternpropseditor;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.reqcycle.ui.patternpropseditor.PatternPropsEditorPlugin
+Bundle-Activator: org.polarsys.reqcycle.ui.patternpropseditor.PatternPropsEditorPlugin
 Require-Bundle: org.eclipse.core.runtime,
  org.polarsys.reqcycle.ui.eattrpropseditor
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

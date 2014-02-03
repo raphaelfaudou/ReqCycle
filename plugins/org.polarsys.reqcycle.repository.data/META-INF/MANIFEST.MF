@@ -4,11 +4,11 @@ Bundle-SymbolicName: org.polarsys.reqcycle.repository.data;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Localization: plugin
-Bundle-Activator: org.eclipse.reqcycle.repository.data.Activator
+Bundle-Activator: org.polarsys.reqcycle.repository.data.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
- org.eclipse.reqcycle.repository.data;visibility:=reexport,
+ org.polarsys.reqcycle.repository.data;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.eclipse.emf.edit;visibility:=reexport,
  org.eclipse.emf.ecore.edit;visibility:=reexport,
@@ -49,11 +49,11 @@ Export-Package: MappingModel,
  RequirementSourceConf.impl,
  RequirementSourceConf.provider,
  RequirementSourceConf.util,
- org.eclipse.reqcycle.repository.data,
- org.eclipse.reqcycle.repository.data.impl,
- org.eclipse.reqcycle.repository.data.types,
- org.eclipse.reqcycle.repository.data.types.internal;x-internal:=true,
- org.eclipse.reqcycle.repository.data.util,
+ org.polarsys.reqcycle.repository.data,
+ org.polarsys.reqcycle.repository.data.impl,
+ org.polarsys.reqcycle.repository.data.types,
+ org.polarsys.reqcycle.repository.data.types.internal;x-internal:=true,
+ org.polarsys.reqcycle.repository.data.util,
  ScopeConf,
  ScopeConf.impl,
  ScopeConf.provider,

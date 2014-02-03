@@ -615,7 +615,7 @@ public class RequirementSourceDataEditor extends MultiPageEditorPart implements 
 	 */
 	protected void updateProblemIndication() {
 		if(updateProblemIndication) {
-			BasicDiagnostic diagnostic = new BasicDiagnostic(Diagnostic.OK, "org.eclipse.reqcycle.repository.connector.local", 0, null, new Object[]{ editingDomain.getResourceSet() });
+			BasicDiagnostic diagnostic = new BasicDiagnostic(Diagnostic.OK, "org.polarsys.reqcycle.repository.connector.local", 0, null, new Object[]{ editingDomain.getResourceSet() });
 			for(Diagnostic childDiagnostic : resourceToDiagnosticMap.values()) {
 				if(childDiagnostic.getSeverity() != Diagnostic.OK) {
 					diagnostic.add(childDiagnostic);
@@ -988,11 +988,11 @@ public class RequirementSourceDataEditor extends MultiPageEditorPart implements 
 	 */
 	public Diagnostic analyzeResourceProblems(Resource resource, Exception exception) {
 		if(!resource.getErrors().isEmpty() || !resource.getWarnings().isEmpty()) {
-			BasicDiagnostic basicDiagnostic = new BasicDiagnostic(Diagnostic.ERROR, "org.eclipse.reqcycle.repository.connector.local", 0, getString("_UI_CreateModelError_message", resource.getURI()), new Object[]{ exception == null ? (Object)resource : exception });
+			BasicDiagnostic basicDiagnostic = new BasicDiagnostic(Diagnostic.ERROR, "org.polarsys.reqcycle.repository.connector.local", 0, getString("_UI_CreateModelError_message", resource.getURI()), new Object[]{ exception == null ? (Object)resource : exception });
 			basicDiagnostic.merge(EcoreUtil.computeDiagnostic(resource, true));
 			return basicDiagnostic;
 		} else if(exception != null) {
-			return new BasicDiagnostic(Diagnostic.ERROR, "org.eclipse.reqcycle.repository.connector.local", 0, getString("_UI_CreateModelError_message", resource.getURI()), new Object[]{ exception });
+			return new BasicDiagnostic(Diagnostic.ERROR, "org.polarsys.reqcycle.repository.connector.local", 0, getString("_UI_CreateModelError_message", resource.getURI()), new Object[]{ exception });
 		} else {
 			return Diagnostic.OK_INSTANCE;
 		}

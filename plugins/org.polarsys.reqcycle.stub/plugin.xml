@@ -2,9 +2,9 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.reqcycle.uri.idContributors">
+         point="org.polarsys.reqcycle.uri.idContributors">
       <IDContributor
-            instance="org.eclipse.reqcycle.stub.StubbedIdContributor">
+            instance="org.polarsys.reqcycle.stub.StubbedIdContributor">
       </IDContributor>
    </extension>
 

@@ -4,14 +4,14 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: org.polarsys.reqcycle.predicates.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
-Bundle-Activator: org.eclipse.reqcycle.predicates.ui.PredicatesUIPlugin$Implementation
+Bundle-Activator: org.polarsys.reqcycle.predicates.ui.PredicatesUIPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.eclipse.reqcycle.predicates.ui,
- org.eclipse.reqcycle.predicates.ui.presentation,
- org.eclipse.reqcycle.predicates.ui.providers,
- org.eclipse.reqcycle.predicates.ui.util
+Export-Package: org.polarsys.reqcycle.predicates.ui,
+ org.polarsys.reqcycle.predicates.ui.presentation,
+ org.polarsys.reqcycle.predicates.ui.providers,
+ org.polarsys.reqcycle.predicates.ui.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources;visibility:=reexport,
  org.eclipse.emf.edit;visibility:=reexport,

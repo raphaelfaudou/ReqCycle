@@ -10,7 +10,7 @@
       <!-- @generated predicates -->
       <factory
             uri="http://www.eclipse.org/reqcycle/predicates/1.0"
-            class="org.eclipse.reqcycle.predicates.ui.providers.PredicatesItemProviderAdapterFactory"
+            class="org.polarsys.reqcycle.predicates.ui.providers.PredicatesItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider
@@ -26,9 +26,9 @@
             id="org.eclipse.emf.ecore.Wizard.category.ID"
             name="%_UI_Wizard_category"/>
       <wizard
-            id="org.eclipse.reqcycle.predicates.ui.presentation.PredicatesModelWizardID"
+            id="org.polarsys.reqcycle.predicates.ui.presentation.PredicatesModelWizardID"
             name="%_UI_PredicatesModelWizard_label"
-            class="org.eclipse.reqcycle.predicates.ui.presentation.PredicatesModelWizard"
+            class="org.polarsys.reqcycle.predicates.ui.presentation.PredicatesModelWizard"
             category="org.eclipse.emf.ecore.Wizard.category.ID"
             icon="icons/full/obj16/PredicatesModelFile.gif">
          <description>%_UI_PredicatesModelWizard_description</description>
@@ -39,31 +39,31 @@
    <extension point="org.eclipse.ui.editors">
       <!-- @generated predicates -->
       <editor
-            id="org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditorID"
+            id="org.polarsys.reqcycle.predicates.ui.presentation.PredicatesEditorID"
             name="%_UI_PredicatesEditor_label"
             icon="icons/full/obj16/PredicatesModelFile.gif"
             extensions="predicates"
-            class="org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditor"
-            contributorClass="org.eclipse.reqcycle.predicates.ui.presentation.PredicatesActionBarContributor">
+            class="org.polarsys.reqcycle.predicates.ui.presentation.PredicatesEditor"
+            contributorClass="org.polarsys.reqcycle.predicates.ui.presentation.PredicatesActionBarContributor">
       </editor>
    </extension>
 
 <!--    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditor"
-            contributorClass="org.eclipse.reqcycle.predicates.ui.presentation.PredicatesActionBarContributor"
+            class="org.polarsys.reqcycle.predicates.ui.presentation.PredicatesEditor"
+            contributorClass="org.polarsys.reqcycle.predicates.ui.presentation.PredicatesActionBarContributor"
             extensions="predicates"
             icon="icons/full/obj16/PredicatesModelFile.gif"
-            id="org.eclipse.reqcycle.predicates.ui.presentation.PredicatesEditorID"
+            id="org.polarsys.reqcycle.predicates.ui.presentation.PredicatesEditorID"
             name="%_UI_PredicatesEditor_label">
       </editor>
    </extension> -->
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="org.eclipse.reqcycle.predicates.ui.perspectives.PredicatesPerspective"
-            id="org.eclipse.reqcycle.predicates.ui.perspectives.PredicatesPerspective"
+            class="org.polarsys.reqcycle.predicates.ui.perspectives.PredicatesPerspective"
+            id="org.polarsys.reqcycle.predicates.ui.perspectives.PredicatesPerspective"
             name="Predicates">
       </perspective>
    </extension>
@@ -71,9 +71,9 @@
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
-            locationURI="menu:org.eclipse.reqcycle.core.ui.menu">
+            locationURI="menu:org.polarsys.reqcycle.core.ui.menu">
          <separator
-               name="org.eclipse.reqcycle.predicates.ui.menu.start"
+               name="org.polarsys.reqcycle.predicates.ui.menu.start"
                visible="true">
          </separator>
       </menuContribution>
@@ -81,16 +81,16 @@
    <extension
         point="org.eclipse.ui.commands">
      <command
-           categoryId="org.eclipse.reqcycle.core.ui.category"
-           id="org.eclipse.reqcycle.repository.ui.commands.OpenPredicatesEditorCommand"
+           categoryId="org.polarsys.reqcycle.core.ui.category"
+           id="org.polarsys.reqcycle.repository.ui.commands.OpenPredicatesEditorCommand"
            name="Open Predicates Editor">
      </command>
   </extension>
   <extension
         point="org.eclipse.ui.handlers">
      <handler
-           class="org.eclipse.reqcycle.predicates.ui.handlers.OpenPredicatesEditorHandler"
-           commandId="org.eclipse.reqcycle.repository.ui.commands.OpenPredicatesEditorCommand">
+           class="org.polarsys.reqcycle.predicates.ui.handlers.OpenPredicatesEditorHandler"
+           commandId="org.polarsys.reqcycle.repository.ui.commands.OpenPredicatesEditorCommand">
            <enabledWhen>
           <equals
                 value="false">
@@ -101,10 +101,10 @@
   <extension
         point="org.eclipse.ui.menus">
      <menuContribution
-           locationURI="menu:org.eclipse.reqcycle.core.ui.menu?after=org.eclipse.reqcycle.predicates.ui.menu.start">
+           locationURI="menu:org.polarsys.reqcycle.core.ui.menu?after=org.polarsys.reqcycle.predicates.ui.menu.start">
         <command
-              commandId="org.eclipse.reqcycle.repository.ui.commands.OpenPredicatesEditorCommand"
-              id="org.eclipse.reqcycle.repository.ui.menus.openPredicatesEditorCommand"
+              commandId="org.polarsys.reqcycle.repository.ui.commands.OpenPredicatesEditorCommand"
+              id="org.polarsys.reqcycle.repository.ui.menus.openPredicatesEditorCommand"
               mnemonic="S">
         </command>
      </menuContribution>

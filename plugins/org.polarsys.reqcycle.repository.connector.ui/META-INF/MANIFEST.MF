@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Ui
 Bundle-SymbolicName: org.polarsys.reqcycle.repository.connector.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.reqcycle.repository.connector.ui.Activator
+Bundle-Activator: org.polarsys.reqcycle.repository.connector.ui.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.polarsys.reqcycle.repository.connector,
@@ -12,8 +12,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ziggurat.inject
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.eclipse.reqcycle.repository.connector.ui,
- org.eclipse.reqcycle.repository.connector.ui.providers,
- org.eclipse.reqcycle.repository.connector.ui.wizard,
- org.eclipse.reqcycle.repository.connector.ui.wizard.pages
+Export-Package: org.polarsys.reqcycle.repository.connector.ui,
+ org.polarsys.reqcycle.repository.connector.ui.providers,
+ org.polarsys.reqcycle.repository.connector.ui.wizard,
+ org.polarsys.reqcycle.repository.connector.ui.wizard.pages
 Import-Package: javax.inject;version="1.0.0"

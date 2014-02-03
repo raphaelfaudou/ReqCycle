@@ -32,7 +32,7 @@
       <styles xmi:type="notation:FilteringStyle" xmi:id="_p0Zi6-JdEeKfi-BvkPzpYA"/>
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_p0Zi4eJdEeKfi-BvkPzpYA" fontColor="4210752" fontName="Microsoft Sans Serif" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
-    <element xmi:type="ecore:EClass" href="platform:/resource/org.eclipse.reqcycle.predicates.core/model/predicates.ecore#//IPredicate"/>
+    <element xmi:type="ecore:EClass" href="platform:/resource/org.polarsys.reqcycle.predicates.core/model/predicates.ecore#//IPredicate"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_p0Zi4uJdEeKfi-BvkPzpYA" x="30" y="30"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_mnNOIeJdEeKfi-BvkPzpYA"/>

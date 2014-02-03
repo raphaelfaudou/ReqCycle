@@ -2,9 +2,9 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.reqcycle.traceability.types.tattributes">
+         point="org.polarsys.reqcycle.traceability.types.tattributes">
       <tattribute
-            provider="org.eclipse.reqcycle.traceability.types.lifecycle.providers.LifeCycleProvider">
+            provider="org.polarsys.reqcycle.traceability.types.lifecycle.providers.LifeCycleProvider">
       </tattribute>
    </extension>
 

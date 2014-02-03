@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Collections Properties Editor
 Bundle-SymbolicName: org.polarsys.reqcycle.ui.collectionspropseditor;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.reqcycle.ui.collectionspropseditor.CollectionsPropsEditorPlugin
+Bundle-Activator: org.polarsys.reqcycle.ui.collectionspropseditor.CollectionsPropsEditorPlugin
 Require-Bundle: org.eclipse.core.runtime,
  org.polarsys.reqcycle.ui.eattrpropseditor
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

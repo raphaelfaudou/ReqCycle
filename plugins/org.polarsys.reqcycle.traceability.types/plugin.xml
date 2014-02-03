@@ -10,34 +10,34 @@
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
-            uri="http://www.org.eclipse.reqcycle/typeconfiguration/1.0"
-            class="org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.TypeconfigurationPackage"
+            uri="http://www.org.polarsys.reqcycle/typeconfiguration/1.0"
+            class="org.polarsys.reqcycle.traceability.types.configuration.typeconfiguration.TypeconfigurationPackage"
             genModel="model/TypeConfiguration.genmodel"/>
    </extension>
    <extension
          point="org.eclipse.ziggurat.inject.binding">
       <binding
-            impl="org.eclipse.reqcycle.traceability.types.engine.impl.TypedTraceabilityEngine"
-            interface="org.eclipse.reqcycle.traceability.types.engine.ITypedTraceabilityEngine"
+            impl="org.polarsys.reqcycle.traceability.types.engine.impl.TypedTraceabilityEngine"
+            interface="org.polarsys.reqcycle.traceability.types.engine.ITypedTraceabilityEngine"
             priority="1">
       </binding>
       <binding
-            impl="org.eclipse.reqcycle.traceability.types.impl.ConfigurationProvider"
-            interface="org.eclipse.reqcycle.traceability.types.ITypesConfigurationProvider">
+            impl="org.polarsys.reqcycle.traceability.types.impl.ConfigurationProvider"
+            interface="org.polarsys.reqcycle.traceability.types.ITypesConfigurationProvider">
       </binding>
       <binding
-            impl="org.eclipse.reqcycle.traceability.types.impl.TraceTypesManager"
-            interface="org.eclipse.reqcycle.traceability.types.ITraceTypesManager">
+            impl="org.polarsys.reqcycle.traceability.types.impl.TraceTypesManager"
+            interface="org.polarsys.reqcycle.traceability.types.ITraceTypesManager">
       </binding>
       <binding
-            impl="org.eclipse.reqcycle.traceability.types.impl.TraceabilityAttributesManager"
-            interface="org.eclipse.reqcycle.traceability.types.ITraceabilityAttributesManager">
+            impl="org.polarsys.reqcycle.traceability.types.impl.TraceabilityAttributesManager"
+            interface="org.polarsys.reqcycle.traceability.types.ITraceabilityAttributesManager">
       </binding>
    </extension>
    <extension
-         point="org.eclipse.reqcycle.traceability.builder.newUpwardDecoration">
+         point="org.polarsys.reqcycle.traceability.builder.newUpwardDecoration">
       <decoration
-            decorate="org.eclipse.reqcycle.traceability.types.builder.AttributesConfigurationBuildingDecoration">
+            decorate="org.polarsys.reqcycle.traceability.types.builder.AttributesConfigurationBuildingDecoration">
       </decoration>
    </extension>
    

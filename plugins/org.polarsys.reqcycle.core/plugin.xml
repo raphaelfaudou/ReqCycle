@@ -4,8 +4,8 @@
    <extension
          point="org.eclipse.ziggurat.inject.binding">
       <binding
-            impl="org.eclipse.reqcycle.core.impl.Logger"
-            interface="org.eclipse.reqcycle.core.ILogger">
+            impl="org.polarsys.reqcycle.core.impl.Logger"
+            interface="org.polarsys.reqcycle.core.ILogger">
       </binding>
    </extension>
 </plugin>

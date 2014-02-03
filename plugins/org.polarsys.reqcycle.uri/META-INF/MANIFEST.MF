@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Uri
 Bundle-SymbolicName: org.polarsys.reqcycle.uri;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.reqcycle.uri.Activator
+Bundle-Activator: org.polarsys.reqcycle.uri.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources;bundle-version="3.8.1",
@@ -11,13 +11,13 @@ Require-Bundle: org.eclipse.ui,
  com.google.guava
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.eclipse.reqcycle.uri,
- org.eclipse.reqcycle.uri.exceptions,
- org.eclipse.reqcycle.uri.functions,
- org.eclipse.reqcycle.uri.model,
- org.eclipse.reqcycle.uri.services,
- org.eclipse.reqcycle.uri.utils,
- org.eclipse.reqcycle.uri.visitors
+Export-Package: org.polarsys.reqcycle.uri,
+ org.polarsys.reqcycle.uri.exceptions,
+ org.polarsys.reqcycle.uri.functions,
+ org.polarsys.reqcycle.uri.model,
+ org.polarsys.reqcycle.uri.services,
+ org.polarsys.reqcycle.uri.utils,
+ org.polarsys.reqcycle.uri.visitors
 Import-Package: com.google.common.cache;version="10.0.1",
  javax.annotation;version="1.0.0",
  javax.inject;version="1.0.0"

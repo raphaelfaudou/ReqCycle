@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Reqcycle Drag and Drop
 Bundle-SymbolicName: org.polarsys.reqcycle.dnd;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.reqcycle.dnd.Activator
+Bundle-Activator: org.polarsys.reqcycle.dnd.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.polarsys.reqcycle.uri,
@@ -17,4 +17,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Import-Package: javax.annotation;version="1.0.0",
  javax.inject;version="1.0.0"
-Export-Package: org.eclipse.reqcycle.dnd
+Export-Package: org.polarsys.reqcycle.dnd

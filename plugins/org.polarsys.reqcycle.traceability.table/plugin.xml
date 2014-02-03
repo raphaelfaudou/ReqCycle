@@ -5,8 +5,8 @@
          point="org.eclipse.ui.views">
       <view
             allowMultiple="false"
-            class="org.eclipse.reqcycle.traceability.table.view.TraceabilityTableView"
-            id="org.eclipse.reqcycle.traceability.table.partdescriptor.traceability.table"
+            class="org.polarsys.reqcycle.traceability.table.view.TraceabilityTableView"
+            id="org.polarsys.reqcycle.traceability.table.partdescriptor.traceability.table"
             name="Traceability Table"
             restorable="true">
       </view>
@@ -14,8 +14,8 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            defaultHandler="org.eclipse.reqcycle.traceability.table.handlers.DeleteLinkHandler"
-            id="org.eclipse.reqcycle.traceability.table.deleteLinkCommand"
+            defaultHandler="org.polarsys.reqcycle.traceability.table.handlers.DeleteLinkHandler"
+            id="org.polarsys.reqcycle.traceability.table.deleteLinkCommand"
             name="Delete Link Command">
       </command>
    </extension>
@@ -23,9 +23,9 @@
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="true"
-            locationURI="popup:org.eclipse.reqcycle.traceability.table.partdescriptor.traceability.table?after=additions">
+            locationURI="popup:org.polarsys.reqcycle.traceability.table.partdescriptor.traceability.table?after=additions">
          <command
-               commandId="org.eclipse.reqcycle.traceability.table.deleteLinkCommand"
+               commandId="org.polarsys.reqcycle.traceability.table.deleteLinkCommand"
                label="Delete link"
                style="push">
             <visibleWhen

@@ -2,35 +2,35 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.reqcycle.traceability.builder.traceabilityAnalyser">
+         point="org.polarsys.reqcycle.traceability.builder.traceabilityAnalyser">
       <Analyser
             description="analyse UML and SysML files to detect : satisfy, trace, copy, derive, verify, and allocate"
             label="UML and SysML Analyser"
-            visitor="org.eclipse.reqcycle.emf.traceability.sysml.handler.SysMLTraceabilityVisitor">
+            visitor="org.polarsys.reqcycle.emf.traceability.sysml.handler.SysMLTraceabilityVisitor">
       </Analyser>
    </extension>
    <extension
-         point="org.eclipse.reqcycle.types.types">
+         point="org.polarsys.reqcycle.types.types">
       <type
-            checker="org.eclipse.reqcycle.emf.traceability.sysml.types.SysMLTypeChecker"
+            checker="org.polarsys.reqcycle.emf.traceability.sysml.types.SysMLTypeChecker"
             icon="icons/category_sysml.gif"
-            id="org.eclipse.reqcycle.emf.traceability.sysml"
+            id="org.polarsys.reqcycle.emf.traceability.sysml"
             label="SysML Element"
-            subTypeOf="org.eclipse.reqcycle.emf.type">
+            subTypeOf="org.polarsys.reqcycle.emf.type">
       </type>
       <type
-            checker="org.eclipse.reqcycle.emf.traceability.sysml.types.UMLTypeChecker"
+            checker="org.polarsys.reqcycle.emf.traceability.sysml.types.UMLTypeChecker"
             icon="icons/category_uml.gif"
-            id="org.eclipse.reqcycle.emf.traceability.uml"
+            id="org.polarsys.reqcycle.emf.traceability.uml"
             label="UML Element"
-            subTypeOf="org.eclipse.reqcycle.emf.type">
+            subTypeOf="org.polarsys.reqcycle.emf.type">
       </type>
    </extension>
    <extension
-         point="org.eclipse.reqcycle.traceability.types.ttypes">
+         point="org.polarsys.reqcycle.traceability.types.ttypes">
       <ttype
-            provider="org.eclipse.reqcycle.emf.traceability.sysml.types.traceability.SysMLTTypeProvider"
-            theClass="org.eclipse.reqcycle.emf.traceability.sysml.SysMLTType">
+            provider="org.polarsys.reqcycle.emf.traceability.sysml.types.traceability.SysMLTTypeProvider"
+            theClass="org.polarsys.reqcycle.emf.traceability.sysml.SysMLTType">
       </ttype>
    </extension>
 

@@ -5,11 +5,11 @@
          point="org.eclipse.ui.popupMenus">
       <objectContribution
             adaptable="true"
-            id="org.eclipse.reqcycle.traceability.builder.addNature"
+            id="org.polarsys.reqcycle.traceability.builder.addNature"
             objectClass="org.eclipse.core.resources.IProject">
          <action
-               class="org.eclipse.reqcycle.traceability.builder.ui.handlers.AddBuilderAction"
-               id="org.eclipse.reqcycle.traceability.builder.ui.action1"
+               class="org.polarsys.reqcycle.traceability.builder.ui.handlers.AddBuilderAction"
+               id="org.polarsys.reqcycle.traceability.builder.ui.action1"
                label="Add Traceability Builder"
                menubarPath="org.eclipse.ui.projectConfigure/additions">
          </action>
@@ -18,23 +18,23 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            category="org.eclipse.reqcycle.traceability.types.ui.traceabilityPage"
-            class="org.eclipse.reqcycle.traceability.builder.ui.preferences.TraceabilityBuildersPreferencePage"
-            id="org.eclipse.reqcycle.traceability.types.ui.tracabuilders"
+            category="org.polarsys.reqcycle.traceability.types.ui.traceabilityPage"
+            class="org.polarsys.reqcycle.traceability.builder.ui.preferences.TraceabilityBuildersPreferencePage"
+            id="org.polarsys.reqcycle.traceability.types.ui.tracabuilders"
             name="Projects to analyse">
       </page>
       <page
-            category="org.eclipse.reqcycle.traceability.types.ui.traceabilityPage"
-            class="org.eclipse.reqcycle.traceability.builder.ui.preferences.AnalysersPreferencePage"
-            id="org.eclipse.reqcycle.traceability.types.ui.tracabuilders"
+            category="org.polarsys.reqcycle.traceability.types.ui.traceabilityPage"
+            class="org.polarsys.reqcycle.traceability.builder.ui.preferences.AnalysersPreferencePage"
+            id="org.polarsys.reqcycle.traceability.types.ui.tracabuilders"
             name="Analysers">
       </page>
    </extension>
    <extension
          point="org.eclipse.ziggurat.inject.binding">
       <binding
-            impl="org.eclipse.reqcycle.traceability.builder.ui.preferences.PreferenceBasedTraceabilityDisabler"
-            interface="org.eclipse.reqcycle.traceability.builder.ITraceabilityAnalyserDisabler">
+            impl="org.polarsys.reqcycle.traceability.builder.ui.preferences.PreferenceBasedTraceabilityDisabler"
+            interface="org.polarsys.reqcycle.traceability.builder.ITraceabilityAnalyserDisabler">
       </binding>
    </extension>
 	

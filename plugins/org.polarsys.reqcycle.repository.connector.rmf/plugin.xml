@@ -2,11 +2,11 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.reqcycle.repository.connector.connectorCore">
+         point="org.polarsys.reqcycle.repository.connector.connectorCore">
       <connectorCore
-            class="org.eclipse.reqcycle.repository.connector.rmf.RMFConnector"
+            class="org.polarsys.reqcycle.repository.connector.rmf.RMFConnector"
             icon="icons/ReqIF.png"
-            id="org.eclipse.reqcycle.repository.connector.rmf.connectorCore"
+            id="org.polarsys.reqcycle.repository.connector.rmf.connectorCore"
             name="ReqIF">
       </connectorCore>
    </extension>

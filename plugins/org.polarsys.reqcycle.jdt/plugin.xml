@@ -2,27 +2,27 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.reqcycle.uri.reachableHandler">
+         point="org.polarsys.reqcycle.uri.reachableHandler">
       <reachableHandler
-            handler="org.eclipse.reqcycle.jdt.handlers.JDTReachableHandler">
+            handler="org.polarsys.reqcycle.jdt.handlers.JDTReachableHandler">
       </reachableHandler>
       <objectHandler
-            handler="org.eclipse.reqcycle.jdt.handlers.JDTReachableHandler"></objectHandler>
+            handler="org.polarsys.reqcycle.jdt.handlers.JDTReachableHandler"></objectHandler>
    </extension>
    <extension
-         point="org.eclipse.reqcycle.types.types">
+         point="org.polarsys.reqcycle.types.types">
       <type
-            checker="org.eclipse.reqcycle.jdt.handlers.JDTReachableHandler"
+            checker="org.polarsys.reqcycle.jdt.handlers.JDTReachableHandler"
             icon="icons/java.gif"
-            id="org.eclipse.reqcycle.jdt.type"
+            id="org.polarsys.reqcycle.jdt.type"
             label="Java Element">
       </type>
       <type
-            checker="org.eclipse.reqcycle.jdt.types.MethodChecker"
+            checker="org.polarsys.reqcycle.jdt.types.MethodChecker"
             icon="icons/jmeth_obj.gif"
-            id="org.eclipse.reqcycle.jdt.type.method"
+            id="org.polarsys.reqcycle.jdt.type.method"
             label="Java Method"
-            subTypeOf="org.eclipse.reqcycle.jdt.type">
+            subTypeOf="org.polarsys.reqcycle.jdt.type">
       </type>
    </extension>
 

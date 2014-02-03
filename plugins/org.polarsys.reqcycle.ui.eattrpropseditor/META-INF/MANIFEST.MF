@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Eattrpropseditor
 Bundle-SymbolicName: org.polarsys.reqcycle.ui.eattrpropseditor;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.reqcycle.ui.eattrpropseditor.EAttrPropsEditorPlugin
+Bundle-Activator: org.polarsys.reqcycle.ui.eattrpropseditor.EAttrPropsEditorPlugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.swt;bundle-version="3.102.0";visibility:=reexport,
  org.eclipse.emf.ecore;bundle-version="2.9.0";visibility:=reexport,
@@ -11,6 +11,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jface;bundle-version="3.9.0";resolution:=optional;visibility:=reexport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: org.eclipse.reqcycle.ui.eattrpropseditor,
- org.eclipse.reqcycle.ui.eattrpropseditor.api,
- org.eclipse.reqcycle.ui.eattrpropseditor.impl
+Export-Package: org.polarsys.reqcycle.ui.eattrpropseditor,
+ org.polarsys.reqcycle.ui.eattrpropseditor.api,
+ org.polarsys.reqcycle.ui.eattrpropseditor.impl

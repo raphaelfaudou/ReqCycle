@@ -4,8 +4,8 @@
    <extension
          point="org.eclipse.ziggurat.inject.binding">
       <binding
-            impl="org.eclipse.reqcycle.traceability.cache.storagebased.engine.StorageBasedTraceabilityEngine"
-            interface="org.eclipse.reqcycle.traceability.engine.ITraceabilityEngine"
+            impl="org.polarsys.reqcycle.traceability.cache.storagebased.engine.StorageBasedTraceabilityEngine"
+            interface="org.polarsys.reqcycle.traceability.engine.ITraceabilityEngine"
             priority="10000">
       </binding>
    </extension>

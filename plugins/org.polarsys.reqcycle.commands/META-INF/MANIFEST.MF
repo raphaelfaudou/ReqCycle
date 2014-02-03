@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Commands
 Bundle-SymbolicName: org.polarsys.reqcycle.commands
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.reqcycle.commands.Activator
+Bundle-Activator: org.polarsys.reqcycle.commands.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.polarsys.reqcycle.uri,
@@ -17,7 +17,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ziggurat.inject
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: org.eclipse.reqcycle.commands,
- org.eclipse.reqcycle.commands.utils
+Export-Package: org.polarsys.reqcycle.commands,
+ org.polarsys.reqcycle.commands.utils
 Import-Package: javax.annotation;version="1.0.0",
  javax.inject;version="1.0.0"

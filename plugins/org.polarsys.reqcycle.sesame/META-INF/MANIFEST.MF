@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Sesame
 Bundle-SymbolicName: org.polarsys.reqcycle.sesame;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.reqcycle.sesame.Activator
+Bundle-Activator: org.polarsys.reqcycle.sesame.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.polarsys.reqcycle.uri;bundle-version="1.0.0",

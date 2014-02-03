@@ -4,7 +4,7 @@
     <extension
          point="org.eclipse.ui.preferencePages">
 		<page
-            class="org.eclipse.reqcycle.core.ui.preferences.ReqCyclePreferencePage"
+            class="org.polarsys.reqcycle.core.ui.preferences.ReqCyclePreferencePage"
             id="org.eclipse.reqycle.core.ui.pref.reqcycle"
             name="ReqCycle">
       	</page>
@@ -15,16 +15,16 @@
     <menuContribution
             locationURI="menu:org.eclipse.ui.main.menu?after=additions">
       	<menu
-               id="org.eclipse.reqcycle.core.ui.menu"
+               id="org.polarsys.reqcycle.core.ui.menu"
                label="ReqCycle"
                mnemonic="M">
           <command
-                commandId="org.eclipse.reqcycle.core.ui.command.exportConf"
+                commandId="org.polarsys.reqcycle.core.ui.command.exportConf"
                 label="Export Configuration"
                 style="push">
           </command>
           <command
-                commandId="org.eclipse.reqcycle.core.ui.command.initConf"
+                commandId="org.polarsys.reqcycle.core.ui.command.initConf"
                 label="Initialize Configuration"
                 style="push">
           </command>
@@ -33,7 +33,7 @@
 	<menuContribution
             locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
         <toolbar
-              id="org.eclipse.reqcycle.core.ui.toolbar"
+              id="org.polarsys.reqcycle.core.ui.toolbar"
               label="ReqCycle">
 		</toolbar>
 	</menuContribution>
@@ -41,37 +41,37 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="org.eclipse.reqcycle.core.ui.perspective.ReqCyclePerspective"
-            id="org.eclipse.reqcycle.core.ui.ReqCyclePerspective"
+            class="org.polarsys.reqcycle.core.ui.perspective.ReqCyclePerspective"
+            id="org.polarsys.reqcycle.core.ui.ReqCyclePerspective"
             name="ReqCycle">
       </perspective>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
       <category
-            id="org.eclipse.reqcycle.core.ui.category"
+            id="org.polarsys.reqcycle.core.ui.category"
             name="ReqCycle Category">
       </category>
       <command
-            categoryId="org.eclipse.reqcycle.core.ui.category"
-            id="org.eclipse.reqcycle.core.ui.command.exportConf"
+            categoryId="org.polarsys.reqcycle.core.ui.category"
+            id="org.polarsys.reqcycle.core.ui.command.exportConf"
             name="Export Configuration">
       </command>
       <command
-            categoryId="org.eclipse.reqcycle.core.ui.category"
-            id="org.eclipse.reqcycle.core.ui.command.initConf"
+            categoryId="org.polarsys.reqcycle.core.ui.category"
+            id="org.polarsys.reqcycle.core.ui.command.initConf"
             name="Initialize configuration">
       </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            class="org.eclipse.reqcycle.core.ui.ExportConfigurationHandler"
-            commandId="org.eclipse.reqcycle.core.ui.command.exportConf">
+            class="org.polarsys.reqcycle.core.ui.ExportConfigurationHandler"
+            commandId="org.polarsys.reqcycle.core.ui.command.exportConf">
       </handler>
       <handler
-            class="org.eclipse.reqcycle.core.ui.InitializeConfigurationHandler"
-            commandId="org.eclipse.reqcycle.core.ui.command.initConf">
+            class="org.polarsys.reqcycle.core.ui.InitializeConfigurationHandler"
+            commandId="org.polarsys.reqcycle.core.ui.command.initConf">
       </handler>
    </extension>
     

@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Stub
 Bundle-SymbolicName: org.polarsys.reqcycle.stub;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.reqcycle.stub.Activator
+Bundle-Activator: org.polarsys.reqcycle.stub.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.polarsys.reqcycle.emf;bundle-version="1.0.0",

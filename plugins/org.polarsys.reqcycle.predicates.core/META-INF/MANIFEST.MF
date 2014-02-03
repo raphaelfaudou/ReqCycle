@@ -7,10 +7,10 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.eclipse.reqcycle.predicates.core,
- org.eclipse.reqcycle.predicates.core.api,
- org.eclipse.reqcycle.predicates.core.impl,
- org.eclipse.reqcycle.predicates.core.util
+Export-Package: org.polarsys.reqcycle.predicates.core,
+ org.polarsys.reqcycle.predicates.core.api,
+ org.polarsys.reqcycle.predicates.core.impl,
+ org.polarsys.reqcycle.predicates.core.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,

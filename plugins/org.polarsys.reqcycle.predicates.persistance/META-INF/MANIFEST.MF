@@ -7,10 +7,10 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.eclipse.reqcycle.predicates.persistance,
- org.eclipse.reqcycle.predicates.persistance.api,
- org.eclipse.reqcycle.predicates.persistance.impl,
- org.eclipse.reqcycle.predicates.persistance.util
+Export-Package: org.polarsys.reqcycle.predicates.persistance,
+ org.polarsys.reqcycle.predicates.persistance.api,
+ org.polarsys.reqcycle.predicates.persistance.impl,
+ org.polarsys.reqcycle.predicates.persistance.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,

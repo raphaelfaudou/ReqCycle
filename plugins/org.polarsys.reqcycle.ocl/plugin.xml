@@ -2,10 +2,10 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.reqcycle.repository.connector.connectorCore">
+         point="org.polarsys.reqcycle.repository.connector.connectorCore">
       <connectorCore
-            class="org.eclipse.reqcycle.ocl.ui.OCLConnector"
-            id="org.eclipse.reqcycle.ocl.ui.OCLConnector"
+            class="org.polarsys.reqcycle.ocl.ui.OCLConnector"
+            id="org.polarsys.reqcycle.ocl.ui.OCLConnector"
             name="OCL Connector">
       </connectorCore>
    </extension>

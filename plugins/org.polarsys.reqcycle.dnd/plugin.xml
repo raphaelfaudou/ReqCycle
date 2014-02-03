@@ -4,8 +4,8 @@
    <extension
          point="org.eclipse.ui.dropActions">
       <action
-            class="org.eclipse.reqcycle.dnd.DropRequirementDelegate"
-            id="org.eclipse.reqcycle.dnd.DropRequirementDelegate">
+            class="org.polarsys.reqcycle.dnd.DropRequirementDelegate"
+            id="org.polarsys.reqcycle.dnd.DropRequirementDelegate">
       </action>
    </extension>
 

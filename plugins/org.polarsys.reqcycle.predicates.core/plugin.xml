@@ -10,7 +10,7 @@
       <!-- @generated predicates -->
       <package
             uri="http://www.eclipse.org/reqcycle/predicates/1.0"
-            class="org.eclipse.reqcycle.predicates.core.PredicatesPackage"
+            class="org.polarsys.reqcycle.predicates.core.PredicatesPackage"
             genModel="model/predicates.genmodel"/>
    </extension>
 
@@ -18,7 +18,7 @@
       <!-- @generated predicates -->
       <parser
             type="predicates"
-            class="org.eclipse.reqcycle.predicates.core.util.PredicatesResourceFactoryImpl"/>
+            class="org.polarsys.reqcycle.predicates.core.util.PredicatesResourceFactoryImpl"/>
    </extension>
 
 

@@ -2,12 +2,12 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.reqcycle.uri.reachableHandler">
+         point="org.polarsys.reqcycle.uri.reachableHandler">
       <reachableHandler
-            handler="org.eclipse.reqcycle.xcos.handlers.XcosReachableHandler">
+            handler="org.polarsys.reqcycle.xcos.handlers.XcosReachableHandler">
       </reachableHandler>
       <objectHandler
-            handler="org.eclipse.reqcycle.xcos.handlers.XcosObjectHandler">
+            handler="org.polarsys.reqcycle.xcos.handlers.XcosObjectHandler">
       </objectHandler>
    </extension>
 

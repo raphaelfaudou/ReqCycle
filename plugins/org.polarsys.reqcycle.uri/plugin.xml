@@ -7,32 +7,32 @@
    <extension
          point="org.eclipse.ziggurat.inject.binding">
       <binding
-            impl="org.eclipse.reqcycle.uri.impl.ReachableManager"
-            interface="org.eclipse.reqcycle.uri.IReachableManager"
+            impl="org.polarsys.reqcycle.uri.impl.ReachableManager"
+            interface="org.polarsys.reqcycle.uri.IReachableManager"
             priority="100">
       </binding>
       <binding
-            impl="org.eclipse.reqcycle.uri.impl.ReachableCreator"
-            interface="org.eclipse.reqcycle.uri.IReachableCreator"
+            impl="org.polarsys.reqcycle.uri.impl.ReachableCreator"
+            interface="org.polarsys.reqcycle.uri.IReachableCreator"
             priority="100">
       </binding>
       <binding
-            impl="org.eclipse.reqcycle.uri.impl.LogicalIDManager"
-            interface="org.eclipse.reqcycle.uri.ILogicalIDManager">
+            impl="org.polarsys.reqcycle.uri.impl.LogicalIDManager"
+            interface="org.polarsys.reqcycle.uri.ILogicalIDManager">
       </binding>
       <binding
-            impl="org.eclipse.reqcycle.uri.impl.ReachableListenerManager"
-            interface="org.eclipse.reqcycle.uri.IReachableListenerManager"
+            impl="org.polarsys.reqcycle.uri.impl.ReachableListenerManager"
+            interface="org.polarsys.reqcycle.uri.IReachableListenerManager"
             priority="100">
       </binding>
    </extension>
    <extension
-         point="org.eclipse.reqcycle.uri.reachableHandler">
+         point="org.polarsys.reqcycle.uri.reachableHandler">
       <objectHandler
-            handler="org.eclipse.reqcycle.uri.impl.handlers.StandardTypeHandler">
+            handler="org.polarsys.reqcycle.uri.impl.handlers.StandardTypeHandler">
       </objectHandler>
       <reachableHandler
-            handler="org.eclipse.reqcycle.uri.impl.handlers.StandardTypeHandler">
+            handler="org.polarsys.reqcycle.uri.impl.handlers.StandardTypeHandler">
       </reachableHandler>
    </extension>
 

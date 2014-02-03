@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Storagebased
 Bundle-SymbolicName: org.polarsys.reqcycle.traceability.cache.storagebased;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.reqcycle.traceability.cache.storagebased.Activator
+Bundle-Activator: org.polarsys.reqcycle.traceability.cache.storagebased.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.polarsys.reqcycle.traceability.cache;bundle-version="1.0.0",

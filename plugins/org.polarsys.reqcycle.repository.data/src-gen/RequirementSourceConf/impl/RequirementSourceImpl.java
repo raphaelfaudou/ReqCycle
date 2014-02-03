@@ -28,8 +28,8 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.reqcycle.repository.data.util.DataUtil;
-import org.eclipse.reqcycle.repository.data.util.IRequirementSourceProperties;
+import org.polarsys.reqcycle.repository.data.util.DataUtil;
+import org.polarsys.reqcycle.repository.data.util.IRequirementSourceProperties;
 
 import MappingModel.MappingElement;
 import RequirementSourceConf.RequirementSource;

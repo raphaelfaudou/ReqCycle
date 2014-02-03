@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Emf
 Bundle-SymbolicName: org.polarsys.reqcycle.emf.traceability;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.reqcycle.emf.traceability.Activator
+Bundle-Activator: org.polarsys.reqcycle.emf.traceability.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.polarsys.reqcycle.traceability;bundle-version="1.0.0",
@@ -16,5 +16,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ziggurat.inject
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.eclipse.reqcycle.emf.traceability
+Export-Package: org.polarsys.reqcycle.emf.traceability
 Import-Package: javax.inject;version="1.0.0"

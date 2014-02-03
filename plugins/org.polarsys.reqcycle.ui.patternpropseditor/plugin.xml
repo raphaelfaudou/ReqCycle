@@ -2,10 +2,10 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.reqcycle.ui.eattrpropseditor.definition">
+         point="org.polarsys.reqcycle.ui.eattrpropseditor.definition">
       <eAttrPropsEditor
-            class="org.eclipse.reqcycle.ui.patternpropseditor.internal.PatternPropsEditor"
-            id="org.eclipse.reqcycle.ui.patternpropseditor.PatternPropsEditor"
+            class="org.polarsys.reqcycle.ui.patternpropseditor.internal.PatternPropsEditor"
+            id="org.polarsys.reqcycle.ui.patternpropseditor.PatternPropsEditor"
             name="Pattern Properties Editor"
             type="java.util.regex.Pattern">
       </eAttrPropsEditor>

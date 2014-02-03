@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Builder
 Bundle-SymbolicName: org.polarsys.reqcycle.traceability.builder;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.reqcycle.traceability.builder.Activator
+Bundle-Activator: org.polarsys.reqcycle.traceability.builder.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.polarsys.reqcycle.core;bundle-version="1.0.0",
@@ -13,6 +13,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ziggurat.inject
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.eclipse.reqcycle.traceability.builder,
- org.eclipse.reqcycle.traceability.builder.exceptions
+Export-Package: org.polarsys.reqcycle.traceability.builder,
+ org.polarsys.reqcycle.traceability.builder.exceptions
 Import-Package: javax.inject;version="1.0.0"

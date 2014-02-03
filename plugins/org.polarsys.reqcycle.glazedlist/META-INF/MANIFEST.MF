@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Glazedlist
 Bundle-SymbolicName: org.polarsys.reqcycle.glazedlist;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.reqcycle.glazedlist.GlazedlistPlugin
+Bundle-Activator: org.polarsys.reqcycle.glazedlist.GlazedlistPlugin
 Require-Bundle: org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: lib/glazedlists_java15-1.9.0.jar
@@ -43,4 +43,4 @@ Export-Package: ca.odell.glazedlists,
  ca.odell.glazedlists.swing,
  ca.odell.glazedlists.swt,
  ca.odell.glazedlists.util.concurrent,
- org.eclipse.reqcycle.glazedlist
+ org.polarsys.reqcycle.glazedlist

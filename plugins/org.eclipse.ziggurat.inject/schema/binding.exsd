@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.reqcycle.core" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="org.polarsys.reqcycle.core" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.eclipse.reqcycle.core" id="binding" name="binding"/>
+         <meta.schema plugin="org.polarsys.reqcycle.core" id="binding" name="binding"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]

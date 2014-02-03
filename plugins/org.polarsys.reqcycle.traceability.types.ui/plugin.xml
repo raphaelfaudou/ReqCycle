@@ -9,8 +9,8 @@
 
    <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
       <factory
-            uri="http://www.org.eclipse.reqcycle/typeconfiguration/1.0"
-            class="org.eclipse.reqcycle.traceability.types.configuration.typeconfiguration.provider.TypeconfigurationItemProviderAdapterFactory"
+            uri="http://www.org.polarsys.reqcycle/typeconfiguration/1.0"
+            class="org.polarsys.reqcycle.traceability.types.configuration.typeconfiguration.provider.TypeconfigurationItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider
@@ -22,26 +22,26 @@
          point="org.eclipse.ui.preferencePages">
       <page
             category="org.eclipse.reqycle.core.ui.pref.reqcycle"
-            class="org.eclipse.reqcycle.traceability.types.configuration.preferences.ElementTypeConfigurationPage"
-            id="org.eclipse.reqcycle.traceability.types.ui.elementtype"
+            class="org.polarsys.reqcycle.traceability.types.configuration.preferences.ElementTypeConfigurationPage"
+            id="org.polarsys.reqcycle.traceability.types.ui.elementtype"
             name="Reachable Data">
       </page>
       <page
-            category="org.eclipse.reqcycle.traceability.types.ui.traceabilityPage"
-            class="org.eclipse.reqcycle.traceability.types.configuration.preferences.TraceabilityTypePreferencePage"
-            id="org.eclipse.reqcycle.traceability.types.ui.tracatype"
+            category="org.polarsys.reqcycle.traceability.types.ui.traceabilityPage"
+            class="org.polarsys.reqcycle.traceability.types.configuration.preferences.TraceabilityTypePreferencePage"
+            id="org.polarsys.reqcycle.traceability.types.ui.tracatype"
             name="Traceability Types">
       </page>
       <page
             category="org.eclipse.reqycle.core.ui.pref.reqcycle"
             class="org.eclipse.ui.internal.dialogs.EmptyPreferencePage"
-            id="org.eclipse.reqcycle.traceability.types.ui.traceabilityPage"
+            id="org.polarsys.reqcycle.traceability.types.ui.traceabilityPage"
             name="Traceability">
       </page>
       <page
-            category="org.eclipse.reqcycle.traceability.types.ui.tracatype"
-            class="org.eclipse.reqcycle.traceability.types.configuration.preferences.TTypeDecorationPreferencePage"
-            id="org.eclipse.reqcycle.traceability.types.ui.tracatype.decoration"
+            category="org.polarsys.reqcycle.traceability.types.ui.tracatype"
+            class="org.polarsys.reqcycle.traceability.types.configuration.preferences.TTypeDecorationPreferencePage"
+            id="org.polarsys.reqcycle.traceability.types.ui.tracatype.decoration"
             name="Label decoration">
       </page>
    </extension>
@@ -49,9 +49,9 @@
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
-            locationURI="menu:org.eclipse.reqcycle.core.ui.menu?after=additions">
+            locationURI="menu:org.polarsys.reqcycle.core.ui.menu?after=additions">
          <command
-               commandId="org.eclipse.reqcycle.traceability.types.ui.predicateEditor"
+               commandId="org.polarsys.reqcycle.traceability.types.ui.predicateEditor"
                label="Predicate Editor for Traceability Relation"
                style="push">
          </command>
@@ -60,15 +60,15 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            id="org.eclipse.reqcycle.traceability.types.ui.predicateEditor"
+            id="org.polarsys.reqcycle.traceability.types.ui.predicateEditor"
             name="Predicate Editor for Traceability Relation">
       </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            class="org.eclipse.reqcycle.traceability.types.configuration.predicates.PredicateEditorForTraceabilityHandler"
-            commandId="org.eclipse.reqcycle.traceability.types.ui.predicateEditor">
+            class="org.polarsys.reqcycle.traceability.types.configuration.predicates.PredicateEditorForTraceabilityHandler"
+            commandId="org.polarsys.reqcycle.traceability.types.ui.predicateEditor">
             <!--<enabledWhen>
           <equals
                 value="true">
@@ -86,22 +86,22 @@
    <extension
          point="org.eclipse.emf.ecore.protocol_parser">
       <parser
-            class="org.eclipse.reqcycle.traceability.types.configuration.predicates.ReqCycleTraceabilitySchemeFactory"
+            class="org.polarsys.reqcycle.traceability.types.configuration.predicates.ReqCycleTraceabilitySchemeFactory"
             protocolName="reqcyclet">
       </parser>
    </extension>
    <extension
          point="org.eclipse.ziggurat.inject.binding">
       <binding
-            impl="org.eclipse.reqcycle.traceability.types.ui.impl.StylePredicateProvider"
-            interface="org.eclipse.reqcycle.traceability.types.ui.IStylePredicateProvider">
+            impl="org.polarsys.reqcycle.traceability.types.ui.impl.StylePredicateProvider"
+            interface="org.polarsys.reqcycle.traceability.types.ui.IStylePredicateProvider">
       </binding>
    </extension>
    <extension
-         point="org.eclipse.reqcycle.traceability.types.ui.typeEntry">
+         point="org.polarsys.reqcycle.traceability.types.ui.typeEntry">
       <type
             class="java.lang.String"
-            entry="org.eclipse.reqcycle.traceability.types.ui.StringFieldEntry">
+            entry="org.polarsys.reqcycle.traceability.types.ui.StringFieldEntry">
       </type>
    </extension>
 

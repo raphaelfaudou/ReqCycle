@@ -3,10 +3,10 @@ Bundle-ManifestVersion: 2
 Bundle-Name: ReqCycleComponents
 Bundle-SymbolicName: org.polarsys.reqcycle.ui.components
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.reqcycle.ui.components.ReqCycleUIComponentsPlugin
+Bundle-Activator: org.polarsys.reqcycle.ui.components.ReqCycleUIComponentsPlugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jface;bundle-version="3.9.0";visibility:=reexport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: org.eclipse.reqcycle.ui.components,
- org.eclipse.reqcycle.ui.components.dialogs
+Export-Package: org.polarsys.reqcycle.ui.components,
+ org.polarsys.reqcycle.ui.components.dialogs

@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Sysml
 Bundle-SymbolicName: org.polarsys.reqcycle.emf.traceability.sysml;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.reqcycle.emf.traceability.sysml.Activator
+Bundle-Activator: org.polarsys.reqcycle.emf.traceability.sysml.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.polarsys.reqcycle.core;bundle-version="1.0.0",

@@ -2,10 +2,10 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.reqcycle.ui.eattrpropseditor.definition">
+         point="org.polarsys.reqcycle.ui.eattrpropseditor.definition">
       <eAttrPropsEditor
-            class="org.eclipse.reqcycle.ui.enumpropseditor.internal.EnumPropsEditor"
-            id="org.eclipse.reqcycle.ui.enumpropseditor.EnumPropetiesEditor"
+            class="org.polarsys.reqcycle.ui.enumpropseditor.internal.EnumPropsEditor"
+            id="org.polarsys.reqcycle.ui.enumpropseditor.EnumPropetiesEditor"
             name="Enum Properties Editor"
             type="java.lang.Enum">
       </eAttrPropsEditor>

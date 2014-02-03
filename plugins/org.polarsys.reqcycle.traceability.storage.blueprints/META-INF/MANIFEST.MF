@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Blueprints
 Bundle-SymbolicName: org.polarsys.reqcycle.traceability.storage.blueprints;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.reqcycle.traceability.storage.blueprints.Activator
+Bundle-Activator: org.polarsys.reqcycle.traceability.storage.blueprints.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.polarsys.reqcycle.traceability.storage;bundle-version="1.0.0",
@@ -40,9 +40,9 @@ Export-Package: com.tinkerpop.blueprints,
  com.tinkerpop.blueprints.util.wrappers.partition,
  com.tinkerpop.blueprints.util.wrappers.readonly,
  com.tinkerpop.blueprints.util.wrappers.wrapped,
- org.eclipse.reqcycle.traceability.storage.blueprints,
- org.eclipse.reqcycle.traceability.storage.blueprints.graph,
- org.eclipse.reqcycle.traceability.storage.blueprints.storage,
+ org.polarsys.reqcycle.traceability.storage.blueprints,
+ org.polarsys.reqcycle.traceability.storage.blueprints.graph,
+ org.polarsys.reqcycle.traceability.storage.blueprints.storage,
  org.slf4j,
  org.slf4j.helpers,
  org.slf4j.impl,

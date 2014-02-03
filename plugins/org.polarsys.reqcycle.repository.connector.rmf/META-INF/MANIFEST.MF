@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Rmf
 Bundle-SymbolicName: org.polarsys.reqcycle.repository.connector.rmf;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.reqcycle.repository.connector.rmf.Activator
+Bundle-Activator: org.polarsys.reqcycle.repository.connector.rmf.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.polarsys.reqcycle.repository.connector,

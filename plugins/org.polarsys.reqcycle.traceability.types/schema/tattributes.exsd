@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.reqcycle.traceability.types" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="org.polarsys.reqcycle.traceability.types" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.reqcycle.traceability.types" id="tattributes" name="Traceability Attributes"/>
+         <meta.schema plugin="org.polarsys.reqcycle.traceability.types" id="tattributes" name="Traceability Attributes"/>
       </appInfo>
       <documentation>
          [Enter description of this extension point.]
@@ -55,7 +55,7 @@
                   
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn=":org.eclipse.reqcycle.traceability.types.TAttributeProvider"/>
+                  <meta.attribute kind="java" basedOn=":org.polarsys.reqcycle.traceability.types.TAttributeProvider"/>
                </appInfo>
             </annotation>
          </attribute>

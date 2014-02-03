@@ -2,26 +2,26 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.reqcycle.traceability.builder.traceabilityAnalyser">
+         point="org.polarsys.reqcycle.traceability.builder.traceabilityAnalyser">
       <Analyser
             description="analyse traceability in java using annotations"
             label="JDT Analyser"
-            visitor="org.eclipse.reqcycle.jdt.traceability.JDTTraceabilityVisitor">
+            visitor="org.polarsys.reqcycle.jdt.traceability.JDTTraceabilityVisitor">
       </Analyser>
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            category="org.eclipse.reqcycle.traceability.types.ui.traceabilityPage"
-            class="org.eclipse.reqcycle.jdt.traceability.preferences.JDTAnnotationPreferencePage"
-            id="org.eclipse.reqcycle.jdt.traceability.annotation"
+            category="org.polarsys.reqcycle.traceability.types.ui.traceabilityPage"
+            class="org.polarsys.reqcycle.jdt.traceability.preferences.JDTAnnotationPreferencePage"
+            id="org.polarsys.reqcycle.jdt.traceability.annotation"
             name="Java Annotations">
       </page>
    </extension>
    <extension
-         point="org.eclipse.reqcycle.traceability.types.ttypes">
+         point="org.polarsys.reqcycle.traceability.types.ttypes">
       <ttype
-            provider="org.eclipse.reqcycle.jdt.traceability.types.JDTTTypeProvider">
+            provider="org.polarsys.reqcycle.jdt.traceability.types.JDTTTypeProvider">
       </ttype>
    </extension>
 

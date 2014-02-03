@@ -4,13 +4,13 @@
    <extension
          point="org.eclipse.ziggurat.inject.binding">
       <binding
-            impl="org.eclipse.reqcycle.traceability.storage.blueprints.storage.GraphStorageProvider"
-            interface="org.eclipse.reqcycle.traceability.storage.IStorageProvider"
+            impl="org.polarsys.reqcycle.traceability.storage.blueprints.storage.GraphStorageProvider"
+            interface="org.polarsys.reqcycle.traceability.storage.IStorageProvider"
             priority="100">
       </binding>
       <binding
-            impl="org.eclipse.reqcycle.traceability.storage.blueprints.graph.impl.TinkerGraphProvider"
-            interface="org.eclipse.reqcycle.traceability.storage.blueprints.graph.IGraphProvider"
+            impl="org.polarsys.reqcycle.traceability.storage.blueprints.graph.impl.TinkerGraphProvider"
+            interface="org.polarsys.reqcycle.traceability.storage.blueprints.graph.IGraphProvider"
             priority="10">
       </binding>
    </extension>

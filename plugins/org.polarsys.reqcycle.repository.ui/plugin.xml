@@ -5,31 +5,31 @@
          point="org.eclipse.ui.views">
       <view
             allowMultiple="true"
-            category="org.eclipse.reqcycle"
-            class="org.eclipse.reqcycle.repository.ui.views.RequirementSourcesView"
+            category="org.polarsys.reqcycle"
+            class="org.polarsys.reqcycle.repository.ui.views.RequirementSourcesView"
             icon="icons/repositories.gif"
-            id="org.eclipse.reqcycle.repository.ui.views.sources"
+            id="org.polarsys.reqcycle.repository.ui.views.sources"
             name="%view.name">
       </view>
       <category
-            id="org.eclipse.reqcycle"
+            id="org.polarsys.reqcycle"
             name="%category.name">
       </category>
       <view
             allowMultiple="true"
-            category="org.eclipse.reqcycle"
-            class="org.eclipse.reqcycle.repository.ui.views.RequirementView"
+            category="org.polarsys.reqcycle"
+            class="org.polarsys.reqcycle.repository.ui.views.RequirementView"
             icon="icons/open.png"
-            id="org.eclipse.reqcycle.repository.ui.views.requirements"
+            id="org.polarsys.reqcycle.repository.ui.views.requirements"
             name="Requirements"
             restorable="true">
       </view>
       <view
             allowMultiple="true"
-            category="org.eclipse.reqcycle"
-            class="org.eclipse.reqcycle.repository.ui.views.RequirementScopeView"
+            category="org.polarsys.reqcycle"
+            class="org.polarsys.reqcycle.repository.ui.views.RequirementScopeView"
             icon="icons/open.png"
-            id="org.eclipse.reqcycle.repository.ui.views.requirement.scope"
+            id="org.polarsys.reqcycle.repository.ui.views.requirement.scope"
             name="Requirement Scope"
             restorable="true">
       </view>
@@ -37,8 +37,8 @@
   <extension
         point="org.eclipse.ui.importWizards">
      <wizard
-           class="org.eclipse.reqcycle.repository.ui.wizard.NewRequirementSourceWizard"
-           id="org.eclipse.reqcycle.repository.ui.wizard1org.eclipse.reqcycle.repository.NewRequirementSource"
+           class="org.polarsys.reqcycle.repository.ui.wizard.NewRequirementSourceWizard"
+           id="org.polarsys.reqcycle.repository.ui.wizard1org.polarsys.reqcycle.repository.NewRequirementSource"
            name="Create New Requirement Source">
      </wizard>
   </extension>

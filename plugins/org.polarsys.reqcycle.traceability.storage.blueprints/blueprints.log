@@ -16,8 +16,8 @@ sun.misc.ServiceConfigurationError: org.openrdf.rio.RDFParserFactory: Provider n
 	at org.openrdf.repository.base.RepositoryConnectionBase.addInputStreamOrReader(RepositoryConnectionBase.java:391)
 	at org.openrdf.repository.base.RepositoryConnectionBase.add(RepositoryConnectionBase.java:295)
 	at org.openrdf.repository.base.RepositoryConnectionBase.add(RepositoryConnectionBase.java:226)
-	at org.eclipse.reqcycle.traceability.storage.blueprints.graph.impl.SailGraphProvider$CustomSailGraph.<init>(SailGraphProvider.java:47)
-	at org.eclipse.reqcycle.traceability.storage.blueprints.graph.impl.SailGraphProvider.main(SailGraphProvider.java:83)
+	at org.polarsys.reqcycle.traceability.storage.blueprints.graph.impl.SailGraphProvider$CustomSailGraph.<init>(SailGraphProvider.java:47)
+	at org.polarsys.reqcycle.traceability.storage.blueprints.graph.impl.SailGraphProvider.main(SailGraphProvider.java:83)
 2013-05-28 10:37:09,358 [main] ERROR ServiceRegistry - Failed to instantiate service
 sun.misc.ServiceConfigurationError: org.openrdf.rio.RDFParserFactory: Provider net.fortytwo.sesametools.nquads.NQuadsParserFactory not found
 	at sun.misc.Service.fail(Service.java:129)
@@ -32,8 +32,8 @@ sun.misc.ServiceConfigurationError: org.openrdf.rio.RDFParserFactory: Provider n
 	at org.openrdf.repository.base.RepositoryConnectionBase.addInputStreamOrReader(RepositoryConnectionBase.java:391)
 	at org.openrdf.repository.base.RepositoryConnectionBase.add(RepositoryConnectionBase.java:295)
 	at org.openrdf.repository.base.RepositoryConnectionBase.add(RepositoryConnectionBase.java:226)
-	at org.eclipse.reqcycle.traceability.storage.blueprints.graph.impl.SailGraphProvider$CustomSailGraph.<init>(SailGraphProvider.java:48)
-	at org.eclipse.reqcycle.traceability.storage.blueprints.graph.impl.SailGraphProvider.main(SailGraphProvider.java:76)
+	at org.polarsys.reqcycle.traceability.storage.blueprints.graph.impl.SailGraphProvider$CustomSailGraph.<init>(SailGraphProvider.java:48)
+	at org.polarsys.reqcycle.traceability.storage.blueprints.graph.impl.SailGraphProvider.main(SailGraphProvider.java:76)
 2013-05-28 10:37:29,407 [main] WARN SailBase - Closing active connection due to shut down; consider setting the org.openrdf.repository.debug system property
 2013-05-28 10:37:29,413 [main] WARN SailBase - Closing active connection due to shut down; consider setting the org.openrdf.repository.debug system property
 2013-05-28 10:37:29,414 [main] WARN SailBase - Closing active connection due to shut down; consider setting the org.openrdf.repository.debug system property

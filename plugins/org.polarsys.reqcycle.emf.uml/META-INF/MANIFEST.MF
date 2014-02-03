@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Uml
 Bundle-SymbolicName: org.polarsys.reqcycle.emf.uml;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.reqcycle.emf.uml.Activator
+Bundle-Activator: org.polarsys.reqcycle.emf.uml.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.polarsys.reqcycle.uri;bundle-version="1.0.0",

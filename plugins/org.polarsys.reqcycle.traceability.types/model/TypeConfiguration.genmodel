@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.reqcycle.traceability.types/src" editDirectory="/org.eclipse.reqcycle.traceability.types.ui/src"
-    editorDirectory="" modelPluginID="org.eclipse.reqcycle.traceability.types" modelName="TypeConfiguration"
-    editPluginClass="org.eclipse.reqcycle.traceability.types.ui.configuration.typeconfiguration.provider.TypeConfigurationEditPlugin"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.polarsys.reqcycle.traceability.types/src" editDirectory="/org.polarsys.reqcycle.traceability.types.ui/src"
+    editorDirectory="" modelPluginID="org.polarsys.reqcycle.traceability.types" modelName="TypeConfiguration"
+    editPluginClass="org.polarsys.reqcycle.traceability.types.ui.configuration.typeconfiguration.provider.TypeConfigurationEditPlugin"
     editorPluginClass="" testsDirectory="" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="6.0" copyrightFields="false" editPluginID="org.eclipse.reqcycle.traceability.types.ui"
-    editorPluginID="org.eclipse.reqcycle.traceability.types.editor" testsPluginID="org.eclipse.reqcycle.traceability.types.editor"
-    usedGenPackages="../../org.eclipse.reqcycle.predicates.core/model/predicates.genmodel#//predicates">
+    complianceLevel="6.0" copyrightFields="false" editPluginID="org.polarsys.reqcycle.traceability.types.ui"
+    editorPluginID="org.polarsys.reqcycle.traceability.types.editor" testsPluginID="org.polarsys.reqcycle.traceability.types.editor"
+    usedGenPackages="../../org.polarsys.reqcycle.predicates.core/model/predicates.genmodel#//predicates">
   <foreignModel>TypeConfiguration.ecore</foreignModel>
-  <genPackages prefix="Typeconfiguration" basePackage="org.eclipse.reqcycle.traceability.types.configuration"
+  <genPackages prefix="Typeconfiguration" basePackage="org.polarsys.reqcycle.traceability.types.configuration"
       disposableProviderFactory="true" generateExampleClass="false" ecorePackage="TypeConfiguration.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="TypeConfiguration.ecore#//AttributeType">
       <genEnumLiterals ecoreEnumLiteral="TypeConfiguration.ecore#//AttributeType/String"/>

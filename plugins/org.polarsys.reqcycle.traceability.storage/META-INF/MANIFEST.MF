@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Storage
 Bundle-SymbolicName: org.polarsys.reqcycle.traceability.storage;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.reqcycle.traceability.storage.Activator
+Bundle-Activator: org.polarsys.reqcycle.traceability.storage.Activator
 Require-Bundle: org.eclipse.core.runtime,
  org.polarsys.reqcycle.core;bundle-version="1.0.0",
  org.polarsys.reqcycle.traceability;bundle-version="1.0.0",
@@ -11,4 +11,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ziggurat.inject
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.eclipse.reqcycle.traceability.storage
+Export-Package: org.polarsys.reqcycle.traceability.storage

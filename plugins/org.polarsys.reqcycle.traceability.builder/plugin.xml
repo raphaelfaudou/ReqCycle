@@ -6,13 +6,13 @@
    <extension
          point="org.eclipse.ziggurat.inject.binding">
       <binding
-            impl="org.eclipse.reqcycle.traceability.builder.impl.TraceabilityBuilder"
-            interface="org.eclipse.reqcycle.traceability.builder.ITraceabilityBuilder"
+            impl="org.polarsys.reqcycle.traceability.builder.impl.TraceabilityBuilder"
+            interface="org.polarsys.reqcycle.traceability.builder.ITraceabilityBuilder"
             priority="100">
       </binding>
    </extension>
    <extension
-         id="org.eclipse.reqcycle.traceability.builder"
+         id="org.polarsys.reqcycle.traceability.builder"
          point="org.eclipse.core.resources.builders">
       <builder
             callOnEmptyDelta="true"
@@ -20,7 +20,7 @@
             isConfigurable="false"
             supportsConfigurations="false">
          <run
-               class="org.eclipse.reqcycle.traceability.builder.TraceabilityIncrementalProjectBuilder">
+               class="org.polarsys.reqcycle.traceability.builder.TraceabilityIncrementalProjectBuilder">
          </run>
       </builder>
    </extension>

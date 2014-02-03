@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Ui
 Bundle-SymbolicName: org.polarsys.reqcycle.types.ui
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.reqcycle.types.ui.Activator
+Bundle-Activator: org.polarsys.reqcycle.types.ui.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.polarsys.reqcycle.types;bundle-version="1.0.0",
@@ -11,4 +11,4 @@ Require-Bundle: org.eclipse.ui,
  org.polarsys.reqcycle.uri;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.eclipse.reqcycle.types.ui.providers
+Export-Package: org.polarsys.reqcycle.types.ui.providers

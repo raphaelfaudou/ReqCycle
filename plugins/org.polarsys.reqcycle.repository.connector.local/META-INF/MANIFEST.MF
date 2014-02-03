@@ -4,7 +4,7 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: org.polarsys.reqcycle.repository.connector.local;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
-Bundle-Activator: org.eclipse.reqcycle.repository.connector.local.Activator
+Bundle-Activator: org.polarsys.reqcycle.repository.connector.local.Activator
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,

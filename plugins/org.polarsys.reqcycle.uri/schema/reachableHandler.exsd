@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.reqcycle.traceability" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="org.polarsys.reqcycle.traceability" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.eclipse.reqcycle.traceability" id="urihandler" name="Uri Handler"/>
+         <meta.schema plugin="org.polarsys.reqcycle.traceability" id="urihandler" name="Uri Handler"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]
@@ -56,7 +56,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.eclipse.reqcycle.uri.model.IReachableHandler"/>
+                  <meta.attribute kind="java" basedOn=":org.polarsys.reqcycle.uri.model.IReachableHandler"/>
                </appinfo>
             </annotation>
          </attribute>
@@ -78,7 +78,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.eclipse.reqcycle.uri.model.IObjectHandler"/>
+                  <meta.attribute kind="java" basedOn=":org.polarsys.reqcycle.uri.model.IObjectHandler"/>
                </appinfo>
             </annotation>
          </attribute>

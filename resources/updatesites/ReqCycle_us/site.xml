@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.eclipse.reqcycle.feature_1.0.0.201401281921.jar" id="org.eclipse.reqcycle.feature" version="1.0.0.201401281921"/>
+   <feature url="features/org.polarsys.reqcycle.feature_1.0.0.201401281921.jar" id="org.polarsys.reqcycle.feature" version="1.0.0.201401281921"/>
 </site>

@@ -6,27 +6,27 @@
          point="org.eclipse.ui.views">
       <category
             name="ReqCycle Traceability"
-            id="org.eclipse.reqcycle.traceability.ui">
+            id="org.polarsys.reqcycle.traceability.ui">
       </category>
       <view
             allowMultiple="false"
-            category="org.eclipse.reqcycle.traceability.ui"
-            class="org.eclipse.reqcycle.traceability.ui.views.TraceabilityViewer"
+            category="org.polarsys.reqcycle.traceability.ui"
+            class="org.polarsys.reqcycle.traceability.ui.views.TraceabilityViewer"
             icon="icons/path.gif"
-            id="org.eclipse.reqcycle.traceability.ui.views.TraceabilityViewer"
+            id="org.polarsys.reqcycle.traceability.ui.views.TraceabilityViewer"
             name="TraceabilityViewer">
       </view>
       <!--<view
-            class="org.eclipse.reqcycle.traceability.ui.views.TraceabilityViewer"
-            id="org.eclipse.reqcycle.traceability.ui.views.TraceabilityViewer"
+            class="org.polarsys.reqcycle.traceability.ui.views.TraceabilityViewer"
+            id="org.polarsys.reqcycle.traceability.ui.views.TraceabilityViewer"
             name="Traceability">
       </view>-->
    </extension>
    <extension
          point="org.eclipse.ziggurat.inject.binding">
       <binding
-            impl="org.eclipse.reqcycle.traceability.ui.services.impl.LocateService"
-            interface="org.eclipse.reqcycle.traceability.ui.services.ILocateService">
+            impl="org.polarsys.reqcycle.traceability.ui.services.impl.LocateService"
+            interface="org.polarsys.reqcycle.traceability.ui.services.ILocateService">
       </binding>
    </extension>
 

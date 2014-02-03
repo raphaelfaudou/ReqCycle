@@ -5,8 +5,8 @@
    <extension
       point="org.eclipse.ziggurat.inject.binding">
    <binding
-         impl="org.eclipse.reqcycle.repository.connector.impl.ConnectorManager"
-         interface="org.eclipse.reqcycle.repository.connector.IConnectorManager">
+         impl="org.polarsys.reqcycle.repository.connector.impl.ConnectorManager"
+         interface="org.polarsys.reqcycle.repository.connector.IConnectorManager">
    </binding>
 </extension>
    <extension point="org.eclipse.emf.ecore.generated_package">

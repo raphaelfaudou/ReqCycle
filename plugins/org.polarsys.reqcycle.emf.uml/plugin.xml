@@ -2,12 +2,12 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.reqcycle.uri.reachableHandler">
+         point="org.polarsys.reqcycle.uri.reachableHandler">
       <objectHandler
-            handler="org.eclipse.reqcycle.emf.uml.handlers.UMLReachableHandler"
+            handler="org.polarsys.reqcycle.emf.uml.handlers.UMLReachableHandler"
             priority="10"></objectHandler>
       <reachableHandler
-            handler="org.eclipse.reqcycle.emf.uml.handlers.UMLReachableHandler"
+            handler="org.polarsys.reqcycle.emf.uml.handlers.UMLReachableHandler"
             priority="10">
       </reachableHandler>
    </extension>

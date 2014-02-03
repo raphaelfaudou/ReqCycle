@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Ocl
 Bundle-SymbolicName: org.polarsys.reqcycle.ocl;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.reqcycle.ocl.ReqcycleOCLPlugin
+Bundle-Activator: org.polarsys.reqcycle.ocl.ReqcycleOCLPlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.polarsys.reqcycle.repository.data;bundle-version="1.0.0",

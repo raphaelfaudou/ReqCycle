@@ -4,14 +4,14 @@
 <extension
          point="org.eclipse.emf.ecore.extension_parser">
       <parser
-            class="org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.util.CacheTracabilityResourceFactoryImpl"
+            class="org.polarsys.reqcycle.traceability.cache.emfbased.model.CacheTracability.util.CacheTracabilityResourceFactoryImpl"
             type="ctr">
       </parser>
    </extension>
    <extension
          point="org.eclipse.emf.ecore.generated_package">
       <package
-            class="org.eclipse.reqcycle.traceability.cache.emfbased.model.CacheTracability.CacheTracabilityPackage"
+            class="org.polarsys.reqcycle.traceability.cache.emfbased.model.CacheTracability.CacheTracabilityPackage"
             genModel="model/tracability.genmodel"
             uri="http://www.eclipse.org/tracability/1.0">
       </package>
@@ -19,8 +19,8 @@
     <extension
          point="org.eclipse.ziggurat.inject.binding">
       <binding
-            impl="org.eclipse.reqcycle.traceability.cache.emfbased.CacheTraceabilityEngine"
-            interface="org.eclipse.reqcycle.traceability.engine.ITraceabilityEngine"
+            impl="org.polarsys.reqcycle.traceability.cache.emfbased.CacheTraceabilityEngine"
+            interface="org.polarsys.reqcycle.traceability.engine.ITraceabilityEngine"
             priority="10">
       </binding>
    </extension>

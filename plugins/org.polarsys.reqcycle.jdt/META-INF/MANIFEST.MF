@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Cdt
 Bundle-SymbolicName: org.polarsys.reqcycle.jdt;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.reqcycle.jdt.Activator
+Bundle-Activator: org.polarsys.reqcycle.jdt.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.polarsys.reqcycle.uri,
