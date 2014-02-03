@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.eclipse.reqcycle.traceability.types.ui;singleton:=true
+Bundle-SymbolicName: org.polarsys.reqcycle.traceability.types.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.reqcycle.traceability.types.ui.configuration.typeconfiguration.provider.TypeConfigurationEditPlugin$Implementation
@@ -13,20 +13,20 @@ Export-Package: org.eclipse.reqcycle.traceability.types.configuration.preference
  org.eclipse.reqcycle.traceability.types.ui,
  org.eclipse.reqcycle.traceability.types.ui.configuration.typeconfiguration.provider
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.reqcycle.traceability.types;visibility:=reexport,
+ org.polarsys.reqcycle.traceability.types;visibility:=reexport,
  org.eclipse.emf.edit;visibility:=reexport,
- org.eclipse.reqcycle.predicates.core;visibility:=reexport,
+ org.polarsys.reqcycle.predicates.core;visibility:=reexport,
  org.eclipse.ui,
  org.eclipse.core.resources;bundle-version="3.8.1",
- org.eclipse.reqcycle.types;bundle-version="1.0.0",
- org.eclipse.reqcycle.types.ui;bundle-version="1.0.0",
+ org.polarsys.reqcycle.types;bundle-version="1.0.0",
+ org.polarsys.reqcycle.types.ui;bundle-version="1.0.0",
  org.eclipse.emf.edit.ui;bundle-version="2.8.0",
- org.eclipse.reqcycle.traceability;bundle-version="1.0.0",
+ org.polarsys.reqcycle.traceability;bundle-version="1.0.0",
  org.eclipse.e4.core.contexts;bundle-version="1.2.0",
  org.eclipse.ziggurat.inject,
  org.eclipse.jface,
- org.eclipse.reqcycle.predicates.ui;bundle-version="1.0.0",
- org.eclipse.reqcycle.uri;bundle-version="1.0.0",
+ org.polarsys.reqcycle.predicates.ui;bundle-version="1.0.0",
+ org.polarsys.reqcycle.uri;bundle-version="1.0.0",
  org.eclipse.core.databinding,
  org.eclipse.core.databinding.beans,
  org.eclipse.core.databinding.observable,

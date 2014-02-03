@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Emfbased
-Bundle-SymbolicName: org.eclipse.reqcycle.traceability.cache.emfbased;singleton:=true
+Bundle-SymbolicName: org.polarsys.reqcycle.traceability.cache.emfbased;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.eclipse.reqcycle.traceability.cache.emfbased.Activator
 Require-Bundle: org.eclipse.ui,
@@ -14,7 +14,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.cdo;bundle-version="4.1.1",
  org.eclipse.reqcycle.traceability.builder;bundle-version="1.0.0";visibility:=reexport,
  org.topcased.iterators,
- org.eclipse.reqcycle.uri;bundle-version="1.0.0",
+ org.polarsys.reqcycle.uri;bundle-version="1.0.0",
  org.eclipse.reqcycle.traceability.cache;bundle-version="1.0.0",
  org.eclipse.ziggurat.inject;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy

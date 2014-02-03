@@ -1,22 +1,22 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
-Bundle-SymbolicName: org.eclipse.reqcycle.repository.ui;singleton:=true
+Bundle-SymbolicName: org.polarsys.reqcycle.repository.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.eclipse.reqcycle.repository.ui.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.reqcycle.core,
- org.eclipse.reqcycle.repository.data,
- org.eclipse.reqcycle.repository.connector;bundle-version="1.0.0",
- org.eclipse.reqcycle.repository.connector.ui;bundle-version="1.0.0",
- org.eclipse.reqcycle.traceability.types;bundle-version="1.0.0",
- org.eclipse.reqcycle.dnd,
+ org.polarsys.reqcycle.core,
+ org.polarsys.reqcycle.repository.data,
+ org.polarsys.reqcycle.repository.connector;bundle-version="1.0.0",
+ org.polarsys.reqcycle.repository.connector.ui;bundle-version="1.0.0",
+ org.polarsys.reqcycle.traceability.types;bundle-version="1.0.0",
+ org.polarsys.reqcycle.dnd,
  org.eclipse.ziggurat.inject,
  org.eclipse.ui.ide;bundle-version="3.9.0",
  org.eclipse.core.resources;bundle-version="3.8.100",
- org.eclipse.reqcycle.predicates.ui;bundle-version="1.0.0",
- org.eclipse.reqcycle.ui.components;bundle-version="1.0.0",
+ org.polarsys.reqcycle.predicates.ui;bundle-version="1.0.0",
+ org.polarsys.reqcycle.ui.components;bundle-version="1.0.0",
  org.eclipse.core.commands,
  org.eclipse.ui.workbench,
  org.eclipse.jface.text,

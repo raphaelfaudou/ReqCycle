@@ -1,15 +1,15 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Reqcycle Drag and Drop
-Bundle-SymbolicName: org.eclipse.reqcycle.dnd;singleton:=true
+Bundle-SymbolicName: org.polarsys.reqcycle.dnd;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.eclipse.reqcycle.dnd.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.reqcycle.uri,
- org.eclipse.reqcycle.types,
- org.eclipse.reqcycle.traceability.types,
- org.eclipse.reqcycle.commands,
+ org.polarsys.reqcycle.uri,
+ org.polarsys.reqcycle.types,
+ org.polarsys.reqcycle.traceability.types,
+ org.polarsys.reqcycle.commands,
  org.eclipse.emf.workspace;bundle-version="1.5.1",
  org.eclipse.ziggurat.inject,
  com.google.guava

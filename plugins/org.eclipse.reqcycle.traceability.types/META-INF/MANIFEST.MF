@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.eclipse.reqcycle.traceability.types;singleton:=true
+Bundle-SymbolicName: org.polarsys.reqcycle.traceability.types;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
@@ -16,16 +16,16 @@ Export-Package: org.eclipse.reqcycle.traceability.types,
  org.eclipse.reqcycle.traceability.types.scopes
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
- org.eclipse.reqcycle.predicates.core;visibility:=reexport,
+ org.polarsys.reqcycle.predicates.core;visibility:=reexport,
  org.eclipse.ui;bundle-version="3.104.0",
- org.eclipse.reqcycle.traceability;bundle-version="1.0.0",
- org.eclipse.reqcycle.uri;bundle-version="1.0.0",
- org.eclipse.reqcycle.types;bundle-version="1.0.0",
+ org.polarsys.reqcycle.traceability;bundle-version="1.0.0",
+ org.polarsys.reqcycle.uri;bundle-version="1.0.0",
+ org.polarsys.reqcycle.types;bundle-version="1.0.0",
  org.eclipse.core.resources;bundle-version="3.8.1",
  org.eclipse.ziggurat.configuration,
  org.eclipse.ziggurat.inject,
- org.eclipse.reqcycle.traceability.builder,
- org.eclipse.reqcycle.traceability.storage;bundle-version="1.0.0"
+ org.polarsys.reqcycle.traceability.builder,
+ org.polarsys.reqcycle.traceability.storage;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Import-Package: com.google.common.base;version="10.0.1",
  com.google.common.collect;version="11.0.2",

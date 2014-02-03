@@ -1,17 +1,17 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Blueprints
-Bundle-SymbolicName: org.eclipse.reqcycle.traceability.storage.blueprints;singleton:=true
+Bundle-SymbolicName: org.polarsys.reqcycle.traceability.storage.blueprints;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.eclipse.reqcycle.traceability.storage.blueprints.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.reqcycle.traceability.storage;bundle-version="1.0.0",
- org.eclipse.reqcycle.core;bundle-version="1.0.0",
- org.eclipse.reqcycle.uri;bundle-version="1.0.0",
- org.eclipse.reqcycle.traceability;bundle-version="1.0.0",
- org.eclipse.reqcycle.traceability.types.ui;bundle-version="1.0.0",
- org.eclipse.reqcycle.types;bundle-version="1.0.0",
+ org.polarsys.reqcycle.traceability.storage;bundle-version="1.0.0",
+ org.polarsys.reqcycle.core;bundle-version="1.0.0",
+ org.polarsys.reqcycle.uri;bundle-version="1.0.0",
+ org.polarsys.reqcycle.traceability;bundle-version="1.0.0",
+ org.polarsys.reqcycle.traceability.types.ui;bundle-version="1.0.0",
+ org.polarsys.reqcycle.types;bundle-version="1.0.0",
  org.eclipse.ziggurat.inject,
  org.eclipse.e4.core.services
 Bundle-ActivationPolicy: lazy

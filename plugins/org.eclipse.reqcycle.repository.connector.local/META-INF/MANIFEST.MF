@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.eclipse.reqcycle.repository.connector.local;singleton:=true
+Bundle-SymbolicName: org.polarsys.reqcycle.repository.connector.local;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.reqcycle.repository.connector.local.Activator
@@ -10,17 +10,17 @@ Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources;visibility:=reexport,
- org.eclipse.reqcycle.repository.data,
+ org.polarsys.reqcycle.repository.data,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.eclipse.emf.edit.ui;visibility:=reexport,
  org.eclipse.ui.ide;visibility:=reexport,
  org.eclipse.emf.ecore.edit;visibility:=reexport,
- org.eclipse.reqcycle.repository.ui,
- org.eclipse.reqcycle.repository.connector,
+ org.polarsys.reqcycle.repository.ui,
+ org.polarsys.reqcycle.repository.connector,
  org.eclipse.ziggurat.inject,
  org.eclipse.ui.workbench,
  org.eclipse.core.expressions,
- org.eclipse.reqcycle.core,
+ org.polarsys.reqcycle.core,
  org.eclipse.ziggurat.configuration,
  org.eclipse.core.databinding,
  org.eclipse.core.databinding.beans,
@@ -28,7 +28,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.databinding.property,
  org.eclipse.jface.databinding,
  com.ibm.icu,
- org.eclipse.reqcycle.repository.connector.ui,
+ org.polarsys.reqcycle.repository.connector.ui,
  org.eclipse.emf.transaction;bundle-version="1.4.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: RequirementSourceData.presentation

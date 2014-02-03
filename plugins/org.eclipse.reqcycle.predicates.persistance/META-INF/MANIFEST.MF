@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.eclipse.reqcycle.predicates.persistance;singleton:=true
+Bundle-SymbolicName: org.polarsys.reqcycle.predicates.persistance;singleton:=true
 Bundle-Version: 0.1.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
@@ -14,7 +14,7 @@ Export-Package: org.eclipse.reqcycle.predicates.persistance,
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
- org.eclipse.reqcycle.predicates.core;visibility:=reexport,
+ org.polarsys.reqcycle.predicates.core;visibility:=reexport,
  org.eclipse.ziggurat.configuration;bundle-version="1.0.0";visibility:=reexport,
  org.eclipse.core.resources;bundle-version="3.8.100";visibility:=reexport,
  javax.inject,

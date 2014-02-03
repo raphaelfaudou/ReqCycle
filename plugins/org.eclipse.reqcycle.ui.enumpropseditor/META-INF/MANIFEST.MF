@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Enum Properties Editor
-Bundle-SymbolicName: org.eclipse.reqcycle.ui.enumpropseditor;singleton:=true
+Bundle-SymbolicName: org.polarsys.reqcycle.ui.enumpropseditor;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.eclipse.reqcycle.ui.enumpropseditor.EnumPropsEditorPlugin
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.reqcycle.ui.eattrpropseditor
+ org.polarsys.reqcycle.ui.eattrpropseditor
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

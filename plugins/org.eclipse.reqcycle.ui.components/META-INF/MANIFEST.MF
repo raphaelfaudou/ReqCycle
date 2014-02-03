@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ReqCycleComponents
-Bundle-SymbolicName: org.eclipse.reqcycle.ui.components
+Bundle-SymbolicName: org.polarsys.reqcycle.ui.components
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.eclipse.reqcycle.ui.components.ReqCycleUIComponentsPlugin
 Require-Bundle: org.eclipse.core.runtime,

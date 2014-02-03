@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Core
-Bundle-SymbolicName: org.eclipse.reqcycle.core;singleton:=true
+Bundle-SymbolicName: org.polarsys.reqcycle.core;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.eclipse.reqcycle.core.ReqCycle
 Require-Bundle: org.eclipse.ui,

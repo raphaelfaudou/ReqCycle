@@ -1,14 +1,14 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Ocl
-Bundle-SymbolicName: org.eclipse.reqcycle.ocl;singleton:=true
+Bundle-SymbolicName: org.polarsys.reqcycle.ocl;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.eclipse.reqcycle.ocl.ReqcycleOCLPlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.reqcycle.repository.data;bundle-version="1.0.0",
- org.eclipse.reqcycle.repository.connector;bundle-version="1.0.0",
- org.eclipse.reqcycle.repository.connector.ui;bundle-version="1.0.0",
+ org.polarsys.reqcycle.repository.data;bundle-version="1.0.0",
+ org.polarsys.reqcycle.repository.connector;bundle-version="1.0.0",
+ org.polarsys.reqcycle.repository.connector.ui;bundle-version="1.0.0",
  org.eclipse.ziggurat.inject;bundle-version="1.0.0",
  org.eclipse.ziggurat.ocl;bundle-version="0.0.1",
  org.eclipse.core.resources,
@@ -20,7 +20,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ocl.examples.pivot,
  org.eclipse.ocl.examples.xtext.completeocl,
  com.google.guava,
- org.eclipse.reqcycle.emf,
+ org.polarsys.reqcycle.emf,
  org.eclipse.ui.workbench,
  org.eclipse.ui.ide;bundle-version="3.9.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

@@ -1,23 +1,23 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Rmf
-Bundle-SymbolicName: org.eclipse.reqcycle.repository.connector.rmf;singleton:=true
+Bundle-SymbolicName: org.polarsys.reqcycle.repository.connector.rmf;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.eclipse.reqcycle.repository.connector.rmf.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.reqcycle.repository.connector,
- org.eclipse.reqcycle.repository.connector.ui,
+ org.polarsys.reqcycle.repository.connector,
+ org.polarsys.reqcycle.repository.connector.ui,
  org.eclipse.emf.common.ui,
  org.eclipse.emf.common,
- org.eclipse.reqcycle.core,
+ org.polarsys.reqcycle.core,
  org.eclipse.emf.ecore,
  org.eclipse.rmf.reqif10;bundle-version="0.6.1",
  org.eclipse.rmf.reqif10.common;bundle-version="0.6.1",
- org.eclipse.reqcycle.repository.data;bundle-version="1.0.0",
+ org.polarsys.reqcycle.repository.data;bundle-version="1.0.0",
  org.eclipse.core.resources,
  javax.inject,
- org.eclipse.reqcycle.repository.ui;bundle-version="1.0.0",
+ org.polarsys.reqcycle.repository.ui;bundle-version="1.0.0",
  org.eclipse.ziggurat.configuration,
  org.eclipse.ziggurat.inject,
  org.eclipse.core.databinding,
