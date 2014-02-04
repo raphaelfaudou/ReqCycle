@@ -17,8 +17,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
-import com.google.common.collect.Sets;
-
 public class RestrictedResourceSet extends ResourceSetImpl {
 
 	protected Set<URI> authorizedUris = Sets.newHashSet();
