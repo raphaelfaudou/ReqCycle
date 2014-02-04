@@ -33,12 +33,7 @@ public class RestrictedResourceSet extends ResourceSetImpl {
 			loadOnDemand = false;
 		}
 		Resource r = null;
-		try {
-			r =  super.getResource(uri, loadOnDemand);
-		}
-		catch(FileNotFoundException fnfe) {
-			System.out.println("could not find following resource : " + uri);
-		}
+		r =  super.getResource(uri, loadOnDemand);
 		return r;
 	}
 	
