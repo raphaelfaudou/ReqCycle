@@ -1,11 +1,12 @@
 /*******************************************************************************
- * * Copyright (c) 2013 AtoS
+ * * Copyright (c) 2013,2014 AtoS and others
  * * All rights reserved. This program and the accompanying materials
  * * are made available under the terms of the Eclipse Public License v1.0
  * * which accompanies this distribution, and is available at
  * * http://www.eclipse.org/legal/epl-v10.html *
  * * Contributors:
  * * Anass Radouani (AtoS) - initial API and implementation and/or initial documentation
+ * * Raphael Faudou (Samares Engineering) - Fixed some bugs in OCL connector to remove it properly
  *******************************************************************************/
 package org.polarsys.reqcycle.repository.data.impl;
 
@@ -36,13 +37,13 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
+import org.eclipse.ziggurat.configuration.IConfigurationManager;
+import org.eclipse.ziggurat.configuration.impl.ConfigurationManagerImpl;
+import org.eclipse.ziggurat.configuration.impl.EMFConfResourceFactory.EMFConfResource;
 import org.polarsys.reqcycle.core.ILogger;
 import org.polarsys.reqcycle.repository.data.Activator;
 import org.polarsys.reqcycle.repository.data.IDataManager;
 import org.polarsys.reqcycle.repository.data.IDataTopics;
-import org.eclipse.ziggurat.configuration.IConfigurationManager;
-import org.eclipse.ziggurat.configuration.impl.ConfigurationManagerImpl;
-import org.eclipse.ziggurat.configuration.impl.EMFConfResourceFactory.EMFConfResource;
 
 import RequirementSourceConf.RequirementSource;
 import RequirementSourceConf.RequirementSourceConfFactory;

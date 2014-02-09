@@ -1,11 +1,12 @@
 /*******************************************************************************
- * * Copyright (c) 2013 AtoS
+ * * Copyright (c) 2013, 2014 AtoS and others
  * * All rights reserved. This program and the accompanying materials
  * * are made available under the terms of the Eclipse Public License v1.0
  * * which accompanies this distribution, and is available at
  * * http://www.eclipse.org/legal/epl-v10.html *
  * * Contributors:
  * * Anass Radouani (AtoS) - initial API and implementation and/or initial documentation
+ * * Raphael Faudou (Samares Engineering) - Fixed some bugs in OCL connector to manage EMF models
  *******************************************************************************/
 package org.polarsys.reqcycle.repository.ui.wizard;
 
@@ -16,14 +17,14 @@ import javax.inject.Inject;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchWizard;
+import org.eclipse.ziggurat.inject.ZigguratInject;
 import org.polarsys.reqcycle.repository.connector.ConnectorDescriptor;
 import org.polarsys.reqcycle.repository.connector.IConnector;
 import org.polarsys.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
 import org.polarsys.reqcycle.repository.data.IDataManager;
 import org.polarsys.reqcycle.repository.ui.wizard.pages.SelectConnectorPage;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchWizard;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import RequirementSourceConf.RequirementSource;
 
