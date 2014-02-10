@@ -60,7 +60,7 @@ import org.polarsys.reqcycle.utils.ocl.utils.OCLEvaluationUtil;
  */
 public class OCLEvaluatorImpl implements OCLEvaluator {
 
-	private static final String STORAGE_SOURCE = "org.eclipse.ziggurat.ocl.storage"; //$NON-NLS-1$
+	private static final String STORAGE_SOURCE = "org.polarsys.reqcycle.utils.ocl.storage"; //$NON-NLS-1$
 
 	private OCL ocl;
 

@@ -18,7 +18,7 @@ import org.osgi.framework.BundleContext;
 public class ModelNaturePlugin extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.eclipse.ziggurat.modelnature"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "org.polarsys.reqcycle.utils.modelnature"; //$NON-NLS-1$
 
 	// The shared instance
 	private static ModelNaturePlugin plugin;

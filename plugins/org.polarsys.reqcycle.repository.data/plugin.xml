@@ -68,7 +68,7 @@
                org.eclipse.emf.edit.provider.IItemPropertySource"/>
    </extension>
    <extension
-         point="org.eclipse.ziggurat.inject.binding">
+         point="org.polarsys.reqcycle.utils.inject.binding">
       <binding
             impl="org.polarsys.reqcycle.repository.data.impl.DataManagerImpl"
             interface="org.polarsys.reqcycle.repository.data.IDataManager">
@@ -176,7 +176,7 @@
    <extension
          point="org.eclipse.emf.ecore.extension_parser">
       <parser
-            class="org.eclipse.ziggurat.configuration.impl.EMFConfResourceFactory"
+            class="org.polarsys.reqcycle.utils.configuration.impl.EMFConfResourceFactory"
             type="reqcycle">
       </parser>
    </extension>

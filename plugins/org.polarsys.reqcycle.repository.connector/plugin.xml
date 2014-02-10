@@ -3,7 +3,7 @@
 <plugin>
    <extension-point id="connectorCore" name="Connector Core" schema="schema/connectorCore.exsd"/>n
    <extension
-      point="org.eclipse.ziggurat.inject.binding">
+      point="org.polarsys.reqcycle.utils.inject.binding">
    <binding
          impl="org.polarsys.reqcycle.repository.connector.impl.ConnectorManager"
          interface="org.polarsys.reqcycle.repository.connector.IConnectorManager">

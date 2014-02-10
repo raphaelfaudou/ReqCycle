@@ -27,7 +27,7 @@
       </type>
    </extension>
    <extension
-         point="org.eclipse.ziggurat.inject.binding">
+         point="org.polarsys.reqcycle.utils.inject.binding">
       <binding
             impl="org.polarsys.reqcycle.emf.handlers.EMFURIHandler"
             interface="org.polarsys.reqcycle.uri.model.IObjectHandler"

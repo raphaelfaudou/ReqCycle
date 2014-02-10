@@ -31,7 +31,7 @@
       </page>
    </extension>
    <extension
-         point="org.eclipse.ziggurat.inject.binding">
+         point="org.polarsys.reqcycle.utils.inject.binding">
       <binding
             impl="org.polarsys.reqcycle.traceability.builder.ui.preferences.PreferenceBasedTraceabilityDisabler"
             interface="org.polarsys.reqcycle.traceability.builder.ITraceabilityAnalyserDisabler">

@@ -91,7 +91,7 @@
       </parser>
    </extension>
    <extension
-         point="org.eclipse.ziggurat.inject.binding">
+         point="org.polarsys.reqcycle.utils.inject.binding">
       <binding
             impl="org.polarsys.reqcycle.traceability.types.ui.impl.StylePredicateProvider"
             interface="org.polarsys.reqcycle.traceability.types.ui.IStylePredicateProvider">

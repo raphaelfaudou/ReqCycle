@@ -14,7 +14,7 @@ import org.osgi.framework.BundleContext;
 
 public class ZigguratOCLValidationPlugin implements BundleActivator {
 
-	public static final String PLUGIN_ID = "org.eclipse.ziggurat.ocl.validation"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "org.polarsys.reqcycle.utils.ocl.validation"; //$NON-NLS-1$
 	
 	private static BundleContext context;
 

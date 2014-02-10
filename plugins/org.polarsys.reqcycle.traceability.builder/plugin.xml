@@ -4,7 +4,7 @@
    <extension-point id="traceabilityAnalyser" name="Traceability Analyser" schema="schema/traceabilityAnalyser.exsd"/>
    <extension-point id="newUpwardDecoration" name="New Upward Decoration" schema="schema/newUpwardDecoration.exsd"/>
    <extension
-         point="org.eclipse.ziggurat.inject.binding">
+         point="org.polarsys.reqcycle.utils.inject.binding">
       <binding
             impl="org.polarsys.reqcycle.traceability.builder.impl.TraceabilityBuilder"
             interface="org.polarsys.reqcycle.traceability.builder.ITraceabilityBuilder"

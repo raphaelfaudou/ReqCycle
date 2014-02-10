@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.ziggurat.modelnature" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="org.polarsys.reqcycle.utils.modelnature" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.eclipse.ziggurat.modelnature" id="modelnature" name="modelnature"/>
+         <meta.schema plugin="org.polarsys.reqcycle.utils.modelnature" id="modelnature" name="modelnature"/>
       </appinfo>
       <documentation>
          Defines nature that can be attributed to models, allowing some tests to be made by property testers and such.

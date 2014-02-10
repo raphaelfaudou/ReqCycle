@@ -5,7 +5,7 @@
 <extension-point id="reachableExtender" name="Reachable Extender" schema="schema/reachableExtender.exsd"/>
 <extension-point id="idContributors" name="ID Contributors" schema="schema/idContributors.exsd"/>
    <extension
-         point="org.eclipse.ziggurat.inject.binding">
+         point="org.polarsys.reqcycle.utils.inject.binding">
       <binding
             impl="org.polarsys.reqcycle.uri.impl.ReachableManager"
             interface="org.polarsys.reqcycle.uri.IReachableManager"

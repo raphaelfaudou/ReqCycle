@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.eclipse.ziggurat.feature"
+      id="org.polarsys.reqcycle.utils.feature"
       label="Ziggurat Feature"
       version="0.0.1.qualifier">
 
@@ -24,28 +24,28 @@ Arthur Daussy - initial API and implementation
    </license>
 
    <plugin
-         id="org.eclipse.ziggurat.configuration"
+         id="org.polarsys.reqcycle.utils.configuration"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.ziggurat.inject"
+         id="org.polarsys.reqcycle.utils.inject"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.ziggurat.modelnature"
+         id="org.polarsys.reqcycle.utils.modelnature"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.ziggurat.ocl"
+         id="org.polarsys.reqcycle.utils.ocl"
          download-size="0"
          install-size="0"
          version="0.0.0"

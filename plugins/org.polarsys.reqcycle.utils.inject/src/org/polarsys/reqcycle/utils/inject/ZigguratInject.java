@@ -31,7 +31,7 @@ import org.osgi.framework.BundleContext;
 @SuppressWarnings("restriction")
 public class ZigguratInject extends AbstractUIPlugin {
 
-	public static final String PLUGIN_ID = "org.eclipse.ziggurat.inject"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "org.polarsys.reqcycle.utils.inject"; //$NON-NLS-1$
 
 	// The shared instance
 	private static ZigguratInject plugin;

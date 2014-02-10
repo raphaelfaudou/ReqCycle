@@ -15,7 +15,7 @@
             genModel="model/TypeConfiguration.genmodel"/>
    </extension>
    <extension
-         point="org.eclipse.ziggurat.inject.binding">
+         point="org.polarsys.reqcycle.utils.inject.binding">
       <binding
             impl="org.polarsys.reqcycle.traceability.types.engine.impl.TypedTraceabilityEngine"
             interface="org.polarsys.reqcycle.traceability.types.engine.ITypedTraceabilityEngine"
