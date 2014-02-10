@@ -20,7 +20,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.polarsys.reqcycle.uri.Activator;
 import org.polarsys.reqcycle.uri.services.IReachableExtender;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 import com.google.common.base.Function;
 import com.google.common.base.Objects;

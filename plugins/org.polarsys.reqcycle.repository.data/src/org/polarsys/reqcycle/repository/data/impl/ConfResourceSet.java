@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.URIHandlerImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
-import org.eclipse.ziggurat.configuration.IConfigurationManager;
+import org.polarsys.reqcycle.utils.configuration.IConfigurationManager;
 
 @Singleton
 public class ConfResourceSet extends ResourceSetImpl {

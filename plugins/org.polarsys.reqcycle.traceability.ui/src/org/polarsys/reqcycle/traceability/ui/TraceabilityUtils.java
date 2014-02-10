@@ -15,8 +15,8 @@ import org.polarsys.reqcycle.uri.exceptions.IReachableHandlerException;
 import org.polarsys.reqcycle.uri.model.IReachableHandler;
 import org.polarsys.reqcycle.uri.model.Reachable;
 import org.polarsys.reqcycle.uri.model.ReachableObject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class TraceabilityUtils {
 	public static String getText(Reachable r) {

@@ -25,6 +25,7 @@ import org.polarsys.reqcycle.repository.data.types.IRequirementType;
 import org.polarsys.reqcycle.traceability.types.configuration.typeconfiguration.Entry;
 import org.polarsys.reqcycle.traceability.types.configuration.typeconfiguration.TypeconfigurationFactory;
 import org.polarsys.reqcycle.types.IType.FieldDescriptor;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -33,7 +34,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import ScopeConf.Scope;
 

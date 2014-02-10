@@ -18,7 +18,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.polarsys.reqcycle.types.Activator;
 import org.polarsys.reqcycle.types.IType;
 import org.polarsys.reqcycle.types.ITypeChecker;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.osgi.framework.Bundle;
 
 import com.google.common.base.Function;

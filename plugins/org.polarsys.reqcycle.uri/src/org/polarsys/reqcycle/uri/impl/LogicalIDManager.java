@@ -19,7 +19,7 @@ import org.polarsys.reqcycle.uri.Activator;
 import org.polarsys.reqcycle.uri.IIDContributor;
 import org.polarsys.reqcycle.uri.ILogicalIDManager;
 import org.polarsys.reqcycle.uri.model.Reachable;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 public class LogicalIDManager implements ILogicalIDManager {
 	private static String EXT_NAME = "idContributors";

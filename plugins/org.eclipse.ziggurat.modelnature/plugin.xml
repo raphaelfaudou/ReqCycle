@@ -5,14 +5,14 @@
    <extension
          point="org.eclipse.ziggurat.inject.binding">
       <binding
-            impl="org.eclipse.ziggurat.modelnature.internal.DynamicNatureServiceImpl"
-            interface="org.eclipse.ziggurat.modelnature.ModelNatureService"
+            impl="org.polarsys.reqcycle.utils.modelnature.internal.DynamicNatureServiceImpl"
+            interface="org.polarsys.reqcycle.utils.modelnature.ModelNatureService"
             name="Default Model Nature Service"
             priority="100">
       </binding>
       <binding
-            impl="org.eclipse.ziggurat.modelnature.internal.SerializedNatureServiceImpl"
-            interface="org.eclipse.ziggurat.modelnature.ModelNatureService"
+            impl="org.polarsys.reqcycle.utils.modelnature.internal.SerializedNatureServiceImpl"
+            interface="org.polarsys.reqcycle.utils.modelnature.ModelNatureService"
             name="Serialized Nature Service"
             priority="150">
       </binding>

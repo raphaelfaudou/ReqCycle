@@ -23,7 +23,7 @@ import org.polarsys.reqcycle.uri.model.IObjectHandler;
 import org.polarsys.reqcycle.uri.model.IReachableHandler;
 import org.polarsys.reqcycle.uri.model.Reachable;
 import org.polarsys.reqcycle.uri.model.ReachableObject;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.openrdf.rio.RDFWriterRegistry;
 
 import com.tinkerpop.blueprints.Vertex;

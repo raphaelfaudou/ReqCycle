@@ -25,6 +25,9 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.polarsys.reqcycle.traceability.builder.LabelledVisitor;
 import org.polarsys.reqcycle.traceability.builder.ui.Activator;
+import org.polarsys.reqcycle.utils.configuration.IConfigurationManager;
+import org.polarsys.reqcycle.utils.configuration.IConfigurationManager.Scope;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -38,9 +41,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.eclipse.ziggurat.configuration.IConfigurationManager;
-import org.eclipse.ziggurat.configuration.IConfigurationManager.Scope;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class AnalysersPreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage {

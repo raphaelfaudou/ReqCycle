@@ -22,7 +22,7 @@ import org.polarsys.reqcycle.traceability.types.configuration.typeconfiguration.
 import org.polarsys.reqcycle.traceability.types.configuration.typeconfiguration.RelationsPredicatesMapping;
 import org.polarsys.reqcycle.traceability.types.configuration.typeconfiguration.Type;
 import org.polarsys.reqcycle.traceability.types.configuration.typeconfiguration.TypeConfigContainer;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 public class TraceabilityTypePreferencePage extends AbstractPreferencePage {
 	public TraceabilityTypePreferencePage() {

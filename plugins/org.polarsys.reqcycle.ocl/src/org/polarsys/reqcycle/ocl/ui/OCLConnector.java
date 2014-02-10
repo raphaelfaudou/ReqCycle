@@ -34,10 +34,10 @@ import org.polarsys.reqcycle.repository.data.types.IAttribute;
 import org.polarsys.reqcycle.repository.data.types.IDataModel;
 import org.polarsys.reqcycle.repository.data.types.IRequirementType;
 import org.polarsys.reqcycle.repository.data.util.IRequirementSourceProperties;
+import org.polarsys.reqcycle.utils.ocl.OCLEvaluator;
+import org.polarsys.reqcycle.utils.ocl.ZigguratOCLPlugin;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.ziggurat.ocl.OCLEvaluator;
-import org.eclipse.ziggurat.ocl.ZigguratOCLPlugin;
 
 import MappingModel.MappingElement;
 import RequirementSourceConf.RequirementSource;

@@ -31,7 +31,7 @@ import org.polarsys.reqcycle.traceability.types.RelationUtils;
 import org.polarsys.reqcycle.traceability.types.configuration.typeconfiguration.Attribute;
 import org.polarsys.reqcycle.traceability.types.configuration.typeconfiguration.Configuration;
 import org.polarsys.reqcycle.traceability.types.configuration.typeconfiguration.Relation;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 public class ReqCycleDynamicPackage {
 	private static final String PREFIX = "rAttributes";

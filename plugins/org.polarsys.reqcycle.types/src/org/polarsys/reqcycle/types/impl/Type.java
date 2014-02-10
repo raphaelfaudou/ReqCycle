@@ -25,7 +25,7 @@ import org.polarsys.reqcycle.types.IInjectedTypeChecker.InjectValueName;
 import org.polarsys.reqcycle.types.IType;
 import org.polarsys.reqcycle.types.ITypeChecker;
 import org.polarsys.reqcycle.uri.model.Reachable;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;

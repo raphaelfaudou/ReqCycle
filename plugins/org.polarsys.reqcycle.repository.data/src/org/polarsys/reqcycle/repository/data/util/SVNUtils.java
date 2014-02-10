@@ -32,6 +32,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.polarsys.reqcycle.repository.data.IDataManager;
 import org.polarsys.reqcycle.traceability.model.Link;
 import org.polarsys.reqcycle.traceability.storage.IStorageProvider;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.team.svn.core.connector.ISVNConnector;
 import org.eclipse.team.svn.core.connector.ISVNConnector.Depth;
@@ -45,7 +46,6 @@ import org.eclipse.team.svn.core.extension.CoreExtensionsManager;
 import org.eclipse.team.svn.core.extension.factory.ISVNConnectorFactory;
 import org.eclipse.team.svn.core.operation.SVNNullProgressMonitor;
 import org.eclipse.team.svn.core.utility.SVNUtility;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import RequirementSourceConf.RequirementSource;
 import RequirementSourceData.AbstractElement;

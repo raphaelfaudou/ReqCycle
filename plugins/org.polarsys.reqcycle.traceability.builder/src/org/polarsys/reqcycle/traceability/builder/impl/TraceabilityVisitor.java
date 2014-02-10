@@ -17,7 +17,7 @@ import org.polarsys.reqcycle.traceability.builder.ITraceabilityBuilder.IBuilderC
 import org.polarsys.reqcycle.traceability.builder.LabelledVisitor;
 import org.polarsys.reqcycle.uri.visitors.CompositeVisitor;
 import org.polarsys.reqcycle.uri.visitors.IVisitor;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;

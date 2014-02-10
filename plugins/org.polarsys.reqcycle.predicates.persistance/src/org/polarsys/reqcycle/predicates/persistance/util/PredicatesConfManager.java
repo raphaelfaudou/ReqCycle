@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.polarsys.reqcycle.predicates.core.api.IPredicate;
 import org.polarsys.reqcycle.predicates.persistance.PredicatesConfFactory;
 import org.polarsys.reqcycle.predicates.persistance.api.PredicatesConf;
-import org.eclipse.ziggurat.configuration.IConfigurationManager;
+import org.polarsys.reqcycle.utils.configuration.IConfigurationManager;
 
 /**
  * This class is an utility that helps to manage predicates configuration (persistence, removal, and so forth ...)

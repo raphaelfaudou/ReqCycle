@@ -46,6 +46,7 @@ import org.polarsys.reqcycle.repository.ui.actions.RefreshViewAction;
 import org.polarsys.reqcycle.repository.ui.actions.SynchronizeRequirementSourceAction;
 import org.polarsys.reqcycle.repository.ui.providers.RequirementSourceContentProvider;
 import org.polarsys.reqcycle.repository.ui.providers.RequirementSourceLabelProvider;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -55,7 +56,6 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.part.ViewPart;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import RequirementSourceConf.RequirementSource;
 

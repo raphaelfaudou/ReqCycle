@@ -39,6 +39,7 @@ import org.polarsys.reqcycle.traceability.table.providers.TraceabilityLazyConten
 import org.polarsys.reqcycle.traceability.types.ui.IStylePredicateProvider;
 import org.polarsys.reqcycle.traceability.ui.TraceabilityUtils;
 import org.polarsys.reqcycle.uri.model.Reachable;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -55,7 +56,6 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.internal.PartSite;
 import org.eclipse.ui.part.ViewPart;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import com.google.common.collect.Iterables;
 

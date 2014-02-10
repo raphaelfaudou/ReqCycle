@@ -4,15 +4,15 @@
    <extension
          point="org.eclipse.emf.ecore.extension_parser">
       <parser
-            class="org.eclipse.ziggurat.configuration.impl.EMFConfResourceFactory"
+            class="org.polarsys.reqcycle.utils.configuration.impl.EMFConfResourceFactory"
             type="emfconf">
       </parser>
    </extension>
    <extension
          point="org.eclipse.ziggurat.inject.binding">
       <binding
-            impl="org.eclipse.ziggurat.configuration.impl.ConfigurationManagerImpl"
-            interface="org.eclipse.ziggurat.configuration.IConfigurationManager"
+            impl="org.polarsys.reqcycle.utils.configuration.impl.ConfigurationManagerImpl"
+            interface="org.polarsys.reqcycle.utils.configuration.IConfigurationManager"
             priority="0">
       </binding>
    </extension>

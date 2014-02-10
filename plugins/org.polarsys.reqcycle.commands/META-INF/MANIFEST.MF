@@ -14,7 +14,7 @@ Require-Bundle: org.eclipse.ui,
  org.polarsys.reqcycle.traceability;bundle-version="1.0.0",
  org.eclipse.emf.edit,
  org.eclipse.emf.edit.ui,
- org.eclipse.ziggurat.inject
+ org.polarsys.reqcycle.utils.inject
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.polarsys.reqcycle.commands,

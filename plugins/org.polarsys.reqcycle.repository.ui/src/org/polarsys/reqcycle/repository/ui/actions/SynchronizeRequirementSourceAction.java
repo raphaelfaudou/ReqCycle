@@ -22,7 +22,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.polarsys.reqcycle.core.ILogger;
 import org.polarsys.reqcycle.repository.data.util.IRequirementSourceProperties;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 import RequirementSourceConf.RequirementSource;
 

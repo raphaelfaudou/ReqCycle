@@ -9,7 +9,7 @@ Require-Bundle: org.eclipse.ui,
  org.polarsys.reqcycle.repository.connector,
  org.polarsys.reqcycle.core,
  org.polarsys.reqcycle.repository.data;bundle-version="1.0.0",
- org.eclipse.ziggurat.inject
+ org.polarsys.reqcycle.utils.inject
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.polarsys.reqcycle.repository.connector.ui,

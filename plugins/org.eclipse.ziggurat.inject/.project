@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>org.eclipse.ziggurat.inject</name>
+	<name>org.polarsys.reqcycle.utils.inject</name>
 	<comment></comment>
 	<projects>
 	</projects>

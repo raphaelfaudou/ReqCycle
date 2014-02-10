@@ -1,12 +1,12 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ZigguratCollect
-Bundle-SymbolicName: org.eclipse.ziggurat.collect
+Bundle-SymbolicName: org.polarsys.reqcycle.utils.collect
 Bundle-Version: 0.0.1.qualifier
-Bundle-Activator: org.eclipse.ziggurat.collect.ZigguratCollectPlugin
+Bundle-Activator: org.polarsys.reqcycle.utils.collect.ZigguratCollectPlugin
 Require-Bundle: org.eclipse.core.runtime,
  com.google.guava;bundle-version="11.0.2";visibility:=reexport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: org.eclipse.ziggurat.collect,
- org.eclipse.ziggurat.collect.exceptions
+Export-Package: org.polarsys.reqcycle.utils.collect,
+ org.polarsys.reqcycle.utils.collect.exceptions

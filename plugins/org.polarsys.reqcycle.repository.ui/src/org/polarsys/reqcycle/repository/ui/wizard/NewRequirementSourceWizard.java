@@ -19,12 +19,12 @@ import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWizard;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 import org.polarsys.reqcycle.repository.connector.ConnectorDescriptor;
 import org.polarsys.reqcycle.repository.connector.IConnector;
 import org.polarsys.reqcycle.repository.connector.ui.wizard.IConnectorWizard;
 import org.polarsys.reqcycle.repository.data.IDataManager;
 import org.polarsys.reqcycle.repository.ui.wizard.pages.SelectConnectorPage;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 import RequirementSourceConf.RequirementSource;
 

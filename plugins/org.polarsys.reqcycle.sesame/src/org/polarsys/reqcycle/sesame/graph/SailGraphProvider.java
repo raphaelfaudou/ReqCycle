@@ -20,7 +20,7 @@ import java.nio.charset.Charset;
 
 import org.polarsys.reqcycle.traceability.storage.blueprints.graph.IBusinessOperationProvider;
 import org.polarsys.reqcycle.traceability.storage.blueprints.graph.IOneFileGraphProvider;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.openrdf.model.Resource;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.sail.SailRepository;

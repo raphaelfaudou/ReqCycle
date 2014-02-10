@@ -58,6 +58,7 @@ import org.polarsys.reqcycle.uri.exceptions.IReachableHandlerException;
 import org.polarsys.reqcycle.uri.model.IObjectHandler;
 import org.polarsys.reqcycle.uri.model.Reachable;
 import org.polarsys.reqcycle.uri.model.ReachableObject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTarget;
@@ -96,7 +97,6 @@ import org.eclipse.ui.part.PluginTransferData;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.wb.swt.ResourceManager;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class TraceabilityViewer extends ViewPart implements ISelectionListener {
 

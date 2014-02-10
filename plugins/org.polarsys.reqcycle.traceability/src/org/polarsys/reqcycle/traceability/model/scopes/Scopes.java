@@ -18,7 +18,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.polarsys.reqcycle.uri.IReachableManager;
 import org.polarsys.reqcycle.uri.model.Reachable;
 import org.polarsys.reqcycle.uri.utils.ReachableUtils;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 public class Scopes {
 	public static IScope getProjectScope(IResource r) {

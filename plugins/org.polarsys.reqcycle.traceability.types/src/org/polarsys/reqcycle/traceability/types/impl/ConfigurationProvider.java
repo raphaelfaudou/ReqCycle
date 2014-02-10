@@ -32,7 +32,7 @@ import org.polarsys.reqcycle.types.IInjectedTypeProvider;
 import org.polarsys.reqcycle.types.IType;
 import org.polarsys.reqcycle.types.IType.FieldDescriptor;
 import org.polarsys.reqcycle.types.ITypesManager;
-import org.eclipse.ziggurat.configuration.IConfigurationManager;
+import org.polarsys.reqcycle.utils.configuration.IConfigurationManager;
 
 import com.google.common.base.Function;
 import com.google.common.base.Objects;

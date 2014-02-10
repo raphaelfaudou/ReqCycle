@@ -31,7 +31,7 @@ import org.polarsys.reqcycle.traceability.model.TType;
 import org.polarsys.reqcycle.uri.IReachableCreator;
 import org.polarsys.reqcycle.uri.IReachableManager;
 import org.polarsys.reqcycle.uri.model.Reachable;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.topcased.iterators.exceptions.PickerExecutionException;
 import org.topcased.iterators.pickers.IPicker;
 

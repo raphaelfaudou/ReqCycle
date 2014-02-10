@@ -33,6 +33,7 @@ import org.polarsys.reqcycle.repository.data.IDataModelManager;
 import org.polarsys.reqcycle.repository.data.types.IRequirementType;
 import org.polarsys.reqcycle.repository.data.types.internal.RequirementTypeImpl;
 import org.polarsys.reqcycle.repository.data.util.DataUtil;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.eclipse.rmf.reqif10.AttributeValue;
 import org.eclipse.rmf.reqif10.AttributeValueEnumeration;
 import org.eclipse.rmf.reqif10.EnumValue;
@@ -45,7 +46,6 @@ import org.eclipse.rmf.reqif10.SpecObjectType;
 import org.eclipse.rmf.reqif10.SpecType;
 import org.eclipse.rmf.reqif10.Specification;
 import org.eclipse.rmf.reqif10.common.util.ReqIF10Util;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import MappingModel.MappingAttribute;
 import MappingModel.MappingElement;

@@ -16,8 +16,8 @@ import javax.inject.Singleton;
 
 import org.polarsys.reqcycle.traceability.builder.ITraceabilityAnalyserDisabler;
 import org.polarsys.reqcycle.uri.visitors.IVisitor;
-import org.eclipse.ziggurat.configuration.IConfigurationManager;
-import org.eclipse.ziggurat.configuration.IConfigurationManager.Scope;
+import org.polarsys.reqcycle.utils.configuration.IConfigurationManager;
+import org.polarsys.reqcycle.utils.configuration.IConfigurationManager.Scope;
 
 @Singleton
 public class PreferenceBasedTraceabilityDisabler implements

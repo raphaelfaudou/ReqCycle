@@ -17,9 +17,9 @@ import org.polarsys.reqcycle.traceability.model.Link;
 import org.polarsys.reqcycle.traceability.types.ITraceabilityAttributesManager;
 import org.polarsys.reqcycle.traceability.types.ITraceabilityAttributesManager.EditableAttribute;
 import org.polarsys.reqcycle.traceability.ui.views.LinkPropertyDescriptor;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource2;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;

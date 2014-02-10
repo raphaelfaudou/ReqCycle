@@ -22,8 +22,8 @@ import org.polarsys.reqcycle.repository.connector.ui.providers.ConnectorLabelPro
 import org.polarsys.reqcycle.repository.data.util.DataUtil;
 import org.polarsys.reqcycle.repository.ui.Activator;
 import org.polarsys.reqcycle.repository.ui.Messages;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import RequirementSourceConf.RequirementSource;
 

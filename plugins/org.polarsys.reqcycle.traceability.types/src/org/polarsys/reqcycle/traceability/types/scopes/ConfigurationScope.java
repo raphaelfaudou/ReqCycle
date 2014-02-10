@@ -17,8 +17,8 @@ import java.util.Set;
 import org.polarsys.reqcycle.traceability.model.scopes.IScope;
 import org.polarsys.reqcycle.uri.IReachableCreator;
 import org.polarsys.reqcycle.uri.model.Reachable;
-import org.eclipse.ziggurat.configuration.Activator;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.configuration.Activator;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 /**
  * A scope containing files in the configuration area

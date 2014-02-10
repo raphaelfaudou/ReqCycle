@@ -15,7 +15,7 @@ import java.net.URISyntaxException;
 import org.polarsys.reqcycle.uri.IReachableCreator;
 import org.polarsys.reqcycle.uri.IReachableManager;
 import org.polarsys.reqcycle.uri.model.Reachable;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 public class StandardUtils {
 

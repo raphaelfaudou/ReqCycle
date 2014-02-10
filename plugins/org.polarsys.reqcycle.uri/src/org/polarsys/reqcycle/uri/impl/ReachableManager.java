@@ -34,7 +34,7 @@ import org.polarsys.reqcycle.uri.model.IHandler;
 import org.polarsys.reqcycle.uri.model.IObjectHandler;
 import org.polarsys.reqcycle.uri.model.IReachableHandler;
 import org.polarsys.reqcycle.uri.model.Reachable;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;

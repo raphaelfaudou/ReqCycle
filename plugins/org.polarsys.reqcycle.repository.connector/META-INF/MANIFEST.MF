@@ -14,8 +14,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.polarsys.reqcycle.core,
  org.eclipse.core.resources,
  org.eclipse.emf.common,
- org.eclipse.ziggurat.configuration,
- org.eclipse.ziggurat.inject,
+ org.polarsys.reqcycle.utils.configuration,
+ org.polarsys.reqcycle.utils.inject,
  org.polarsys.reqcycle.repository.data
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

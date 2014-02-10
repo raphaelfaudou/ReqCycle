@@ -20,7 +20,6 @@ import javax.inject.Named;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 import org.polarsys.reqcycle.traceability.engine.ITraceabilityEngine.DIRECTION;
 import org.polarsys.reqcycle.traceability.model.Link;
 import org.polarsys.reqcycle.traceability.model.Pair;
@@ -28,6 +27,7 @@ import org.polarsys.reqcycle.traceability.storage.IOneFileStorageProvider;
 import org.polarsys.reqcycle.traceability.storage.ITraceabilityStorage;
 import org.polarsys.reqcycle.uri.functions.URIFunctions;
 import org.polarsys.reqcycle.uri.model.Reachable;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;

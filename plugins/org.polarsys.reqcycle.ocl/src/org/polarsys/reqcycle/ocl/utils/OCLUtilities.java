@@ -40,7 +40,7 @@ import org.eclipse.ocl.examples.xtext.completeocl.completeOCLCST.DefOperationCS;
 import org.polarsys.reqcycle.ocl.ReqcycleOCLPlugin;
 import org.polarsys.reqcycle.repository.data.types.IAttribute;
 import org.polarsys.reqcycle.repository.data.types.IRequirementType;
-import org.eclipse.ziggurat.ocl.OCLEvaluator;
+import org.polarsys.reqcycle.utils.ocl.OCLEvaluator;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;

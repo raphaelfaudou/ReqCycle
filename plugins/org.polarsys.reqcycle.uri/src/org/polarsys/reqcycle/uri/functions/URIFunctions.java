@@ -10,7 +10,7 @@
 package org.polarsys.reqcycle.uri.functions;
 
 import org.polarsys.reqcycle.uri.model.Reachable;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 import com.google.common.base.Function;
 

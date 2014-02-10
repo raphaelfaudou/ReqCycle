@@ -13,7 +13,7 @@ import org.polarsys.reqcycle.traceability.engine.ITraceabilityEngine.DIRECTION;
 import org.polarsys.reqcycle.traceability.model.Filter;
 import org.polarsys.reqcycle.traceability.types.configuration.typeconfiguration.Configuration;
 import org.polarsys.reqcycle.traceability.types.engine.impl.ConfigurationBasedFilter;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 import com.google.common.base.Function;
 

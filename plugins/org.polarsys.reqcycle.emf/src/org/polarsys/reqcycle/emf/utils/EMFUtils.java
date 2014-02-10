@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.polarsys.reqcycle.uri.IReachableCreator;
 import org.polarsys.reqcycle.uri.model.Reachable;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 public class EMFUtils {
 	private static final List<URIHandler> DEFAULT_HANDLERS = URIHandler.DEFAULT_HANDLERS;

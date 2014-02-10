@@ -32,7 +32,7 @@ import org.polarsys.reqcycle.traceability.types.configuration.typeconfiguration.
 import org.polarsys.reqcycle.traceability.types.ui.configuration.typeconfiguration.provider.TypeConfigurationEditPlugin;
 import org.polarsys.reqcycle.types.IType;
 import org.polarsys.reqcycle.types.ITypesManager;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 /**
  * This is the item provider adapter for a {@link org.polarsys.reqcycle.traceability.types.configuration.typeconfiguration.Type} object.

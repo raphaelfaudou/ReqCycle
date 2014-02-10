@@ -15,8 +15,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.polarsys.reqcycle.predicates.core;visibility:=reexport,
- org.eclipse.ziggurat.configuration;bundle-version="1.0.0";visibility:=reexport,
+ org.polarsys.reqcycle.utils.configuration;bundle-version="1.0.0";visibility:=reexport,
  org.eclipse.core.resources;bundle-version="3.8.100";visibility:=reexport,
  javax.inject,
- org.eclipse.ziggurat.inject
+ org.polarsys.reqcycle.utils.inject
 Bundle-ActivationPolicy: lazy

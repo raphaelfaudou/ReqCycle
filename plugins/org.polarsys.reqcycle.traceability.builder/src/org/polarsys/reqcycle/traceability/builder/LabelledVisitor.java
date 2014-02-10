@@ -17,7 +17,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.polarsys.reqcycle.uri.visitors.IVisitor;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.osgi.framework.FrameworkUtil;
 
 public class LabelledVisitor implements IVisitor {

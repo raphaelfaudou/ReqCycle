@@ -13,7 +13,7 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.polarsys.reqcycle.repository.data.IDataModelManager;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.

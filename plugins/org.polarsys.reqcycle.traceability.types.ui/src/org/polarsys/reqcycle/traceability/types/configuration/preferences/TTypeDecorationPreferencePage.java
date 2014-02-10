@@ -34,6 +34,7 @@ import org.polarsys.reqcycle.traceability.types.configuration.typeconfiguration.
 import org.polarsys.reqcycle.traceability.types.configuration.typeconfiguration.RelationsPredicatesMapping;
 import org.polarsys.reqcycle.traceability.types.configuration.typeconfiguration.TypeConfigContainer;
 import org.polarsys.reqcycle.traceability.types.configuration.typeconfiguration.TypeconfigurationFactory;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -49,7 +50,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.wb.swt.ResourceManager;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class TTypeDecorationPreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage {

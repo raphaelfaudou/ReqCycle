@@ -30,7 +30,7 @@ import org.polarsys.reqcycle.traceability.storage.ITraceabilityStorageTopics;
 import org.polarsys.reqcycle.traceability.storage.blueprints.graph.IBusinessOperationProvider;
 import org.polarsys.reqcycle.uri.IReachableCreator;
 import org.polarsys.reqcycle.uri.model.Reachable;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;

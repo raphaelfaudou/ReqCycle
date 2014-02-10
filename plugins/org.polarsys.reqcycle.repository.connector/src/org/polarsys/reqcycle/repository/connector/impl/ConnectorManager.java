@@ -22,9 +22,9 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.polarsys.reqcycle.repository.connector.Activator;
 import org.polarsys.reqcycle.repository.connector.ConnectorDescriptor;
 import org.polarsys.reqcycle.repository.connector.IConnectorManager;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 //import org.polarsys.reqcycle.repository.connector.IRequirementSourceRepository;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 @Singleton
 public class ConnectorManager implements IConnectorManager {

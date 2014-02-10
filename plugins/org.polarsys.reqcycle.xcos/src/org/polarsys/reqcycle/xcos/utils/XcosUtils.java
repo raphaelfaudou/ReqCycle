@@ -18,10 +18,10 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.polarsys.reqcycle.uri.IReachableCreator;
 import org.polarsys.reqcycle.uri.model.ReachableObject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.polarsys.reqcycle.xcos.model.XcosElement;
 import org.polarsys.reqcycle.xcos.model.XcosModel;
 import org.polarsys.reqcycle.xcos.model.XcosReachableObject;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import com.google.common.base.Joiner;
 

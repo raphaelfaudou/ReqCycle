@@ -14,7 +14,7 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.polarsys.reqcycle.repository.data.IDataModelManager;
 import org.polarsys.reqcycle.repository.data.types.IRequirementType;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 import RequirementSourceData.RequirementSourceDataFactory;
 import RequirementSourceData.RequirementSourceDataPackage;

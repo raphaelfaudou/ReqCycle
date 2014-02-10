@@ -11,7 +11,7 @@ Require-Bundle: org.eclipse.ui,
  org.polarsys.reqcycle.traceability.storage;bundle-version="1.0.0",
  org.polarsys.reqcycle.traceability.builder;bundle-version="1.0.0",
  org.eclipse.core.resources;bundle-version="3.8.1",
- org.eclipse.ziggurat.inject,
+ org.polarsys.reqcycle.utils.inject,
  org.polarsys.reqcycle.traceability.storage.blueprints;bundle-version="1.0.0",
  com.google.guava
 Bundle-ActivationPolicy: lazy

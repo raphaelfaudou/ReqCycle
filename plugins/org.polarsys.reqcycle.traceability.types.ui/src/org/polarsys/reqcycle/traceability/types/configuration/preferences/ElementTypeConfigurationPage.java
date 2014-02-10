@@ -25,8 +25,8 @@ import org.polarsys.reqcycle.traceability.types.configuration.typeconfiguration.
 import org.polarsys.reqcycle.traceability.types.configuration.typeconfiguration.TypeConfigContainer;
 import org.polarsys.reqcycle.types.IType;
 import org.polarsys.reqcycle.types.ITypesManager;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class ElementTypeConfigurationPage extends AbstractPreferencePage {
 

@@ -13,7 +13,7 @@ import java.io.File;
 
 import org.polarsys.reqcycle.traceability.storage.blueprints.graph.IBusinessOperationProvider;
 import org.polarsys.reqcycle.traceability.storage.blueprints.graph.IGraphProvider;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.openrdf.sail.nativerdf.NativeStore;
 
 import com.tinkerpop.blueprints.Graph;

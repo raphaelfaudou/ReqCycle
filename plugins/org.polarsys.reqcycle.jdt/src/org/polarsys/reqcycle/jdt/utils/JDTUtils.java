@@ -20,7 +20,7 @@ import org.eclipse.jdt.internal.core.CompilationUnit;
 import org.polarsys.reqcycle.jdt.model.JDTReachableObject;
 import org.polarsys.reqcycle.uri.IReachableCreator;
 import org.polarsys.reqcycle.uri.model.ReachableObject;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 import com.google.common.base.Joiner;
 

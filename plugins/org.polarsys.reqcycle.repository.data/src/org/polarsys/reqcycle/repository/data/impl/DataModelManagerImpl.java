@@ -44,7 +44,7 @@ import org.polarsys.reqcycle.repository.data.types.internal.DataModelImpl;
 import org.polarsys.reqcycle.repository.data.types.internal.EnumerationTypeImpl;
 import org.polarsys.reqcycle.repository.data.types.internal.EnumeratorImpl;
 import org.polarsys.reqcycle.repository.data.types.internal.RequirementTypeImpl;
-import org.eclipse.ziggurat.configuration.IConfigurationManager;
+import org.polarsys.reqcycle.utils.configuration.IConfigurationManager;
 
 import RequirementSourceConf.RequirementSource;
 import RequirementSourceData.AbstractElement;

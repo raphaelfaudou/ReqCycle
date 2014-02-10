@@ -31,9 +31,9 @@ import org.polarsys.reqcycle.ocl.traceability.OCLTraceabilityPlugin;
 import org.polarsys.reqcycle.ocl.traceability.types.OCLVolatileType;
 import org.polarsys.reqcycle.traceability.builder.ITraceabilityBuilder.IBuilderCallBack;
 import org.polarsys.reqcycle.uri.visitors.IVisitor;
+import org.polarsys.reqcycle.utils.ocl.OCLEvaluator;
+import org.polarsys.reqcycle.utils.ocl.ZigguratOCLPlugin;
 import org.eclipse.ui.statushandlers.StatusManager;
-import org.eclipse.ziggurat.ocl.OCLEvaluator;
-import org.eclipse.ziggurat.ocl.ZigguratOCLPlugin;
 
 
 public class OCLTraceabilityVisitor implements IVisitor {

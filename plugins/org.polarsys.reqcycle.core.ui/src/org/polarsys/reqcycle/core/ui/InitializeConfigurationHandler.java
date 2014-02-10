@@ -24,10 +24,10 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.polarsys.reqcycle.core.ILogger;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 
 public class InitializeConfigurationHandler extends AbstractHandler {
@@ -48,7 +48,7 @@ public class InitializeConfigurationHandler extends AbstractHandler {
 			return;
 		}
 		
-		IPath confFilePath = org.eclipse.ziggurat.configuration.Activator.getDefault().getStateLocation();
+		IPath confFilePath = org.polarsys.reqcycle.utils.configuration.Activator.getDefault().getStateLocation();
 		URI folderURI = URI.createURI(confFilePath.toOSString());
 		cleanFolder(folderURI, reqCyclePrefix);
 		
@@ -64,7 +64,7 @@ public class InitializeConfigurationHandler extends AbstractHandler {
 				ZipEntry entry = inputStream.getNextEntry();
 				while(entry != null) {
 					String fileName = entry.getName();
-					File newFile = new File(org.eclipse.ziggurat.configuration.Activator.getDefault().getStateLocation() + File.separator + fileName);
+					File newFile = new File(org.polarsys.reqcycle.utils.configuration.Activator.getDefault().getStateLocation() + File.separator + fileName);
 
 					System.out.println("file unzip : " + newFile.getAbsoluteFile());
 

@@ -19,7 +19,7 @@ import org.polarsys.reqcycle.traceability.storage.ITraceabilityStorage;
 import org.polarsys.reqcycle.traceability.storage.blueprints.graph.IBusinessOperationProvider;
 import org.polarsys.reqcycle.traceability.storage.blueprints.graph.IGraphProvider;
 import org.polarsys.reqcycle.traceability.storage.blueprints.graph.IOneFileGraphProvider;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 public class GraphStorageProvider implements IOneFileStorageProvider {
 

@@ -16,7 +16,7 @@ Require-Bundle: org.eclipse.ui,
  org.topcased.iterators,
  org.polarsys.reqcycle.uri;bundle-version="1.0.0",
  org.polarsys.reqcycle.traceability.cache;bundle-version="1.0.0",
- org.eclipse.ziggurat.inject;bundle-version="1.0.0"
+ org.polarsys.reqcycle.utils.inject;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.polarsys.reqcycle.traceability.cache.emfbased

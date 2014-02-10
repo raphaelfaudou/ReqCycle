@@ -24,7 +24,7 @@ import org.polarsys.reqcycle.traceability.types.configuration.typeconfiguration.
 import org.polarsys.reqcycle.traceability.types.impl.TraceTypesManager;
 import org.polarsys.reqcycle.types.ITypesManager;
 import org.polarsys.reqcycle.uri.model.Reachable;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;

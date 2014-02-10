@@ -13,7 +13,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources;bundle-version="3.8.1",
  org.polarsys.reqcycle.uri;bundle-version="1.0.0",
  org.polarsys.reqcycle.emf;bundle-version="1.0.0";visibility:=reexport,
- org.eclipse.ziggurat.inject
+ org.polarsys.reqcycle.utils.inject
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.polarsys.reqcycle.emf.traceability

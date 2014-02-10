@@ -17,7 +17,7 @@ import org.polarsys.reqcycle.sesame.graph.SailGraphProvider;
 import org.polarsys.reqcycle.uri.model.Reachable;
 import org.polarsys.reqcycle.uri.visitors.IVisitable;
 import org.polarsys.reqcycle.uri.visitors.IVisitor;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.openrdf.rio.RDFWriterRegistry;
 
 import com.tinkerpop.blueprints.Edge;

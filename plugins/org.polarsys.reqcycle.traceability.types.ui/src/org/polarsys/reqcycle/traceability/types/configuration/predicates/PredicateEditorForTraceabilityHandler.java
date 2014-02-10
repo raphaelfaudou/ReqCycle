@@ -20,7 +20,7 @@ import org.polarsys.reqcycle.predicates.core.PredicatesFactory;
 import org.polarsys.reqcycle.predicates.core.api.IPredicate;
 import org.polarsys.reqcycle.predicates.persistance.util.IPredicatesConfManager;
 import org.polarsys.reqcycle.predicates.ui.util.PredicatesUIHelper;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 import com.google.common.collect.Lists;
 

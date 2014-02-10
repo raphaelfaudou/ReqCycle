@@ -32,13 +32,13 @@ import org.polarsys.reqcycle.predicates.ui.dialogs.CheckBoxInputDialog;
 import org.polarsys.reqcycle.predicates.ui.dialogs.ComboInputDialog;
 import org.polarsys.reqcycle.predicates.ui.presentation.PredicatesEditor;
 import org.polarsys.reqcycle.predicates.ui.providers.PredicatesTableLabelProvider;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 /**
  * This class contains common UI utilities related to predicates such as for example : opening a dialog chooser in order

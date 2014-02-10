@@ -30,8 +30,8 @@ import org.eclipse.jface.window.Window;
 import org.polarsys.reqcycle.repository.connector.local.ui.dialog.UseAsSourceDialog;
 import org.polarsys.reqcycle.repository.data.IDataManager;
 import org.polarsys.reqcycle.repository.data.util.IRequirementSourceProperties;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import RequirementSourceConf.RequirementSource;
 import RequirementSourceData.RequirementsContainer;

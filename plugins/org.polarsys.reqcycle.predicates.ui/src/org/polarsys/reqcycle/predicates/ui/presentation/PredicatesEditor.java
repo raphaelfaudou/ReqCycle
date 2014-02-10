@@ -110,6 +110,7 @@ import org.polarsys.reqcycle.predicates.ui.listeners.PredicatesTreeViewerDropAda
 import org.polarsys.reqcycle.predicates.ui.providers.EnhancedPredicatesTreeLabelProvider;
 import org.polarsys.reqcycle.predicates.ui.providers.PredicatesItemProviderAdapterFactory;
 import org.polarsys.reqcycle.predicates.ui.util.PredicatesUIHelper;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.SashForm;
@@ -146,7 +147,6 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 /**
  * This is an example of a Predicates model editor. <!-- begin-user-doc --> <!-- end-user-doc -->

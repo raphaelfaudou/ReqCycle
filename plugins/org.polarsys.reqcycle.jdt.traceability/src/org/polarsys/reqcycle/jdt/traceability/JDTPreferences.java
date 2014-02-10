@@ -15,8 +15,8 @@ import java.util.Map;
 
 import org.polarsys.reqcycle.jdt.traceability.types.JDTType;
 import org.polarsys.reqcycle.traceability.model.TType;
-import org.eclipse.ziggurat.configuration.IConfigurationManager;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.configuration.IConfigurationManager;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 import com.google.common.base.Function;
 import com.google.common.base.Functions;

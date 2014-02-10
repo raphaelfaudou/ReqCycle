@@ -10,8 +10,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.common.ui,
  org.polarsys.reqcycle.core,
  org.eclipse.core.filesystem,
- org.eclipse.ziggurat.configuration,
- org.eclipse.ziggurat.inject,
+ org.polarsys.reqcycle.utils.configuration,
+ org.polarsys.reqcycle.utils.inject,
  javax.inject,
  org.eclipse.e4.core.services
 Bundle-ActivationPolicy: lazy

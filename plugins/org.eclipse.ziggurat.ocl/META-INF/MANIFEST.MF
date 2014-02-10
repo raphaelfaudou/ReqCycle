@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Ocl
-Bundle-SymbolicName: org.eclipse.ziggurat.ocl
+Bundle-SymbolicName: org.polarsys.reqcycle.utils.ocl
 Bundle-Version: 0.0.1.qualifier
-Bundle-Activator: org.eclipse.ziggurat.ocl.ZigguratOCLPlugin
+Bundle-Activator: org.polarsys.reqcycle.utils.ocl.ZigguratOCLPlugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ocl;bundle-version="3.3.0";visibility:=reexport,
  org.eclipse.ocl.ecore;bundle-version="3.3.0",
@@ -11,5 +11,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ocl.examples.xtext.completeocl
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: org.eclipse.ziggurat.ocl,
- org.eclipse.ziggurat.ocl.extensions
+Export-Package: org.polarsys.reqcycle.utils.ocl,
+ org.polarsys.reqcycle.utils.ocl.extensions

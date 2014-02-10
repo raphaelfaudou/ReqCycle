@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ZigguratInject
-Bundle-SymbolicName: org.eclipse.ziggurat.inject;singleton:=true
+Bundle-SymbolicName: org.polarsys.reqcycle.utils.inject;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.eclipse.ziggurat.inject.ZigguratInject
+Bundle-Activator: org.polarsys.reqcycle.utils.inject.ZigguratInject
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.e4.core.di;bundle-version="1.1.0";visibility:=reexport,
@@ -11,6 +11,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.e4.core.services,
  com.google.guava;bundle-version="11.0.1";visibility:=reexport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.eclipse.ziggurat.inject
+Export-Package: org.polarsys.reqcycle.utils.inject
 Bundle-ActivationPolicy: lazy
 Import-Package: javax.inject;version="1.0.0"

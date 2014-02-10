@@ -17,7 +17,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.polarsys.reqcycle.sesame.graph.SailBusinessOperations;
 import org.polarsys.reqcycle.traceability.builder.ITraceabilityBuilder.IBuilderCallBack;
 import org.polarsys.reqcycle.uri.visitors.IVisitor;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;

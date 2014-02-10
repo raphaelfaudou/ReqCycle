@@ -18,7 +18,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.polarsys.reqcycle.traceability.builder.exceptions.BuilderException;
 import org.polarsys.reqcycle.traceability.builder.impl.ResourceDeltaBuilderVisitor;
-import org.eclipse.ziggurat.inject.ZigguratInject;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 
 public class TraceabilityIncrementalProjectBuilder extends
 		IncrementalProjectBuilder {

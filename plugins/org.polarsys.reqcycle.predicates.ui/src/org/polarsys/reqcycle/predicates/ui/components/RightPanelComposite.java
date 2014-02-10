@@ -47,6 +47,7 @@ import org.polarsys.reqcycle.predicates.ui.dialogs.NewPredicateDialog;
 import org.polarsys.reqcycle.predicates.ui.listeners.CustomPredicatesTreeViewerDragAdapter;
 import org.polarsys.reqcycle.predicates.ui.presentation.PredicatesEditor;
 import org.polarsys.reqcycle.predicates.ui.providers.PredicatesTableLabelProvider;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.dnd.DND;
@@ -63,7 +64,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class RightPanelComposite extends Composite {
 

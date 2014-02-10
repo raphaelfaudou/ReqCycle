@@ -37,13 +37,13 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
-import org.eclipse.ziggurat.configuration.IConfigurationManager;
-import org.eclipse.ziggurat.configuration.impl.ConfigurationManagerImpl;
-import org.eclipse.ziggurat.configuration.impl.EMFConfResourceFactory.EMFConfResource;
 import org.polarsys.reqcycle.core.ILogger;
 import org.polarsys.reqcycle.repository.data.Activator;
 import org.polarsys.reqcycle.repository.data.IDataManager;
 import org.polarsys.reqcycle.repository.data.IDataTopics;
+import org.polarsys.reqcycle.utils.configuration.IConfigurationManager;
+import org.polarsys.reqcycle.utils.configuration.impl.ConfigurationManagerImpl;
+import org.polarsys.reqcycle.utils.configuration.impl.EMFConfResourceFactory.EMFConfResource;
 
 import RequirementSourceConf.RequirementSource;
 import RequirementSourceConf.RequirementSourceConfFactory;

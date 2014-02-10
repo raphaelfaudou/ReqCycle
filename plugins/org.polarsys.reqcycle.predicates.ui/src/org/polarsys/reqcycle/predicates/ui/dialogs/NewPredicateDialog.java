@@ -31,6 +31,7 @@ import org.eclipse.jface.window.Window;
 import org.polarsys.reqcycle.predicates.core.api.IPredicate;
 import org.polarsys.reqcycle.predicates.core.util.PredicatesUtil;
 import org.polarsys.reqcycle.predicates.persistance.util.IPredicatesConfManager;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -43,7 +44,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 
 public class NewPredicateDialog extends TitleAreaDialog {

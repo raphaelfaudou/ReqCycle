@@ -30,8 +30,8 @@ import org.polarsys.reqcycle.predicates.persistance.util.IPredicatesConfManager;
 import org.polarsys.reqcycle.predicates.ui.dialogs.IEAttrPredicatesNodeEditorDialog;
 import org.polarsys.reqcycle.predicates.ui.presentation.PredicatesEditor;
 import org.polarsys.reqcycle.ui.eattrpropseditor.api.IEditionResult;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 public class PredicatesTreeDoubleClickListener implements IDoubleClickListener {
 

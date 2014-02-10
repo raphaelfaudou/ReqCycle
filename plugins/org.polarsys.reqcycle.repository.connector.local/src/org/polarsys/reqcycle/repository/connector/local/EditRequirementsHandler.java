@@ -19,12 +19,12 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.polarsys.reqcycle.repository.connector.local.ui.editor.CustomDataModelEditor;
+import org.polarsys.reqcycle.utils.configuration.IConfigurationManager;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipse.ziggurat.configuration.IConfigurationManager;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import RequirementSourceConf.RequirementSource;
 

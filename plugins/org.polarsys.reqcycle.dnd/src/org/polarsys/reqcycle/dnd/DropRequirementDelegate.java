@@ -32,6 +32,7 @@ import org.polarsys.reqcycle.uri.IReachableCreator;
 import org.polarsys.reqcycle.uri.IReachableManager;
 import org.polarsys.reqcycle.uri.model.IObjectHandler;
 import org.polarsys.reqcycle.uri.model.Reachable;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -39,7 +40,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.ui.part.IDropActionDelegate;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;

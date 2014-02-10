@@ -37,6 +37,7 @@ import org.polarsys.reqcycle.repository.data.IDataModelManager;
 import org.polarsys.reqcycle.repository.data.types.IDataModel;
 import org.polarsys.reqcycle.repository.data.util.DataUtil;
 import org.polarsys.reqcycle.repository.ui.Activator;
+import org.polarsys.reqcycle.utils.inject.ZigguratInject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
@@ -52,7 +53,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.PluginTransfer;
 import org.eclipse.ui.part.ViewPart;
-import org.eclipse.ziggurat.inject.ZigguratInject;
 
 import RequirementSourceData.AbstractElement;
 import ScopeConf.Scope;

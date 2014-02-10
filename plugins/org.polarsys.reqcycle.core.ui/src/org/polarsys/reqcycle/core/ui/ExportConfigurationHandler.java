@@ -49,7 +49,7 @@ public class ExportConfigurationHandler extends AbstractHandler {
 		FileDialog dialog = new FileDialog(Display.getDefault().getActiveShell(), SWT.SAVE);
 		String uri = dialog.open();
 		if(uri != null) {
-			IPath confFilePath = org.eclipse.ziggurat.configuration.Activator.getDefault().getStateLocation();
+			IPath confFilePath = org.polarsys.reqcycle.utils.configuration.Activator.getDefault().getStateLocation();
 			URI folderURI = URI.createURI(confFilePath.toOSString());
 			createZipFromFiles(folderURI, uri);
 			MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Export ReqCycle Configuration", "Export finished.");
