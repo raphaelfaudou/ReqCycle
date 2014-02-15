@@ -5,8 +5,7 @@
       version="0.7.0.qualifier">
 
    <description url="http://org.polarsys.reqcycle/description">
-      ReqCycle feature contains requirement management, engineering
-and traceability
+      ReqCycle feature contains requirement management, engineering and traceability
    </description>
 
    <copyright url="http://www.example.com/copyright">
@@ -410,6 +409,13 @@ and traceability
 
    <plugin
          id="org.polarsys.reqcycle.utils.ocl.validation"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.polarsys.reqcycle.utils.iterators"
          download-size="0"
          install-size="0"
          version="0.0.0"
