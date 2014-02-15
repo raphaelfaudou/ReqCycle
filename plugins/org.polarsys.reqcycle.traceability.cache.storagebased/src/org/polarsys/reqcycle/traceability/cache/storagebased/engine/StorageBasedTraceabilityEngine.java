@@ -38,9 +38,9 @@ import org.polarsys.reqcycle.uri.model.IReachableHandler;
 import org.polarsys.reqcycle.uri.model.Reachable;
 import org.polarsys.reqcycle.uri.model.ReachableObject;
 import org.polarsys.reqcycle.utils.inject.ZigguratInject;
-import org.topcased.iterators.exceptions.PickerExecutionException;
-import org.topcased.iterators.factories.IteratorFactory;
-import org.topcased.iterators.pickers.IPicker;
+import org.polarsys.reqcycle.utils.iterators.exceptions.PickerExecutionException;
+import org.polarsys.reqcycle.utils.iterators.factories.IteratorFactory;
+import org.polarsys.reqcycle.utils.iterators.pickers.IPicker;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;

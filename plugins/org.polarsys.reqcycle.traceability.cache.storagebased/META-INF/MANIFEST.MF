@@ -10,8 +10,8 @@ Require-Bundle: org.eclipse.ui,
  org.polarsys.reqcycle.core;bundle-version="1.0.0",
  org.polarsys.reqcycle.uri;bundle-version="1.0.0",
  org.polarsys.reqcycle.traceability.storage;bundle-version="1.0.0",
- org.topcased.iterators;bundle-version="0.0.1",
- org.polarsys.reqcycle.utils.inject
+ org.polarsys.reqcycle.utils.inject,
+ org.polarsys.reqcycle.utils.iterators;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: javax.annotation;version="1.0.0",

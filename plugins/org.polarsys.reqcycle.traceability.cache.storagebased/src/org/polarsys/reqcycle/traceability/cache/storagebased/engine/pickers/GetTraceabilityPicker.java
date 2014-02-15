@@ -14,8 +14,8 @@ import org.polarsys.reqcycle.traceability.model.Link;
 import org.polarsys.reqcycle.traceability.model.Pair;
 import org.polarsys.reqcycle.traceability.storage.ITraceabilityStorage;
 import org.polarsys.reqcycle.uri.model.Reachable;
-import org.topcased.iterators.exceptions.PickerExecutionException;
-import org.topcased.iterators.pickers.IPicker;
+import org.polarsys.reqcycle.utils.iterators.exceptions.PickerExecutionException;
+import org.polarsys.reqcycle.utils.iterators.pickers.IPicker;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
