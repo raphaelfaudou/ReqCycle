@@ -12,6 +12,4 @@ Require-Bundle: org.eclipse.ui,
  org.polarsys.reqcycle.utils.inject
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Import-Package: com.google.common.base,
- org.eclipse.jdt.core
 Export-Package: org.polarsys.reqcycle.xcos.model

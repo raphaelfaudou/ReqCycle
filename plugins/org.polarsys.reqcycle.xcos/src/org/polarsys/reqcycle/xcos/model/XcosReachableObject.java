@@ -14,7 +14,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.polarsys.reqcycle.uri.exceptions.VisitableException;
 import org.polarsys.reqcycle.uri.model.Reachable;
