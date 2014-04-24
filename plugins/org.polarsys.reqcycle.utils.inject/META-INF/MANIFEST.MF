@@ -9,7 +9,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.e4.core.di;bundle-version="1.1.0";visibility:=reexport,
  org.eclipse.e4.core.contexts,
  org.eclipse.e4.core.services,
- com.google.guava;bundle-version="11.0.1";visibility:=reexport
+ com.google.guava;bundle-version="11.0.2";visibility:=reexport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.polarsys.reqcycle.utils.inject
 Bundle-ActivationPolicy: lazy
